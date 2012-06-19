@@ -1,0 +1,28 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetTableName()) {
+    optionals.set(0);
+  }
+  if (struct.isSetStartAndPrefix()) {
+    optionals.set(1);
+  }
+  if (struct.isSetColumns()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetTableName()) {
+    oprot.writeBinary(struct.tableName);
+  }
+  if (struct.isSetStartAndPrefix()) {
+    oprot.writeBinary(struct.startAndPrefix);
+  }
+  if (struct.isSetColumns()) {
+{
+      oprot.writeI32(struct.columns.size());
+      for (      ByteBuffer _iter256 : struct.columns) {
+        oprot.writeBinary(_iter256);
+      }
+    }
+  }
+}

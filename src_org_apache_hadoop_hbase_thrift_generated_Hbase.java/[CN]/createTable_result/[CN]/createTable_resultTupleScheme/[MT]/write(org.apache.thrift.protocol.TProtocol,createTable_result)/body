@@ -1,0 +1,23 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetIo()) {
+    optionals.set(0);
+  }
+  if (struct.isSetIa()) {
+    optionals.set(1);
+  }
+  if (struct.isSetExist()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetIo()) {
+    struct.io.write(oprot);
+  }
+  if (struct.isSetIa()) {
+    struct.ia.write(oprot);
+  }
+  if (struct.isSetExist()) {
+    struct.exist.write(oprot);
+  }
+}

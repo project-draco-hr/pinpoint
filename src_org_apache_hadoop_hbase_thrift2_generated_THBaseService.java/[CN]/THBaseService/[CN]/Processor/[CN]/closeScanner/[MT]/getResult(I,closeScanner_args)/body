@@ -1,0 +1,13 @@
+{
+  closeScanner_result result=new closeScanner_result();
+  try {
+    iface.closeScanner(args.scannerId);
+  }
+ catch (  TIOError io) {
+    result.io=io;
+  }
+catch (  TIllegalArgument ia) {
+    result.ia=ia;
+  }
+  return result;
+}

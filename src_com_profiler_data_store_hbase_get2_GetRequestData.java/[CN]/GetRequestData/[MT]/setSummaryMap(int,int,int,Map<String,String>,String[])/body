@@ -1,0 +1,19 @@
+{
+  for (int loop=0; loop < perColumnDataCount; loop++) {
+    String url=getStringValue(urlPos * perColumnDataCount + loop,columns,keyList);
+    long elapsedTime=getLongValue(elapsedTimePos * perColumnDataCount + loop,columns,keyList);
+    List<Long> elapsedTimeList;
+    if (summaryDataMap.containsKey(url)) {
+      elapsedTimeList=summaryDataMap.get(url);
+    }
+ else {
+      elapsedTimeList=new ArrayList<Long>();
+    }
+    if (elapsedTime < 1000) {
+      int index=(int)elapsedTime / 100;
+      zeroToOne[9 - index]++;
+    }
+    elapsedTimeList.add(elapsedTime);
+    summaryDataMap.put(url,elapsedTimeList);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  List<TRowResult> rowList=client.getRow(HBASE_SERVER_TABLE_BYTE_BUFFER,ByteBuffer.wrap(HBASE_SERVER_ROW_ROW_NAMES));
+  List<ByteBuffer> agentHashCodeList=new ArrayList<ByteBuffer>();
+  for (  TRowResult result : rowList) {
+    Map<ByteBuffer,TCell> agentMap=result.getColumns();
+    Set<ByteBuffer> keySet=agentMap.keySet();
+    for (    ByteBuffer key : keySet) {
+      TCell tempValue=agentMap.get(key);
+      ByteBuffer tempData=tempValue.bufferForValue();
+      agentHashCodeList.add(tempData);
+    }
+  }
+  return agentHashCodeList;
+}

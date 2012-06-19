@@ -1,0 +1,18 @@
+{
+  long startTime=System.nanoTime();
+  long clientConnectionTime=startTime;
+  THBaseService.Client client=null;
+  try {
+    manager=new Thrift2ClientManager();
+    client=manager.getClient();
+    clientConnectionTime=System.nanoTime();
+    log(dataType + " Connection=" + (clientConnectionTime - startTime) / 1000000.0 + "ms.");
+    return client;
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+ finally {
+  }
+}

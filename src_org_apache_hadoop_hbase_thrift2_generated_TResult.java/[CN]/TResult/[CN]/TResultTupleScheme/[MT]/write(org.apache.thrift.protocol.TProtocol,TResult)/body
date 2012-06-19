@@ -1,0 +1,17 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+{
+    oprot.writeI32(struct.columnValues.size());
+    for (    TColumnValue _iter4 : struct.columnValues) {
+      _iter4.write(oprot);
+    }
+  }
+  BitSet optionals=new BitSet();
+  if (struct.isSetRow()) {
+    optionals.set(0);
+  }
+  oprot.writeBitSet(optionals,1);
+  if (struct.isSetRow()) {
+    oprot.writeBinary(struct.row);
+  }
+}

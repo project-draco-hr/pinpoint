@@ -1,0 +1,7 @@
+{
+  Map<ByteBuffer,TCell> map=row.getColumns();
+  String hashCode=new String(row.getRow());
+  ByteBuffer value=Converter.toByteBuffer(key);
+  TCell cell=map.get(value);
+  table.put(Integer.parseInt(hashCode),new String(cell.getValue()));
+}

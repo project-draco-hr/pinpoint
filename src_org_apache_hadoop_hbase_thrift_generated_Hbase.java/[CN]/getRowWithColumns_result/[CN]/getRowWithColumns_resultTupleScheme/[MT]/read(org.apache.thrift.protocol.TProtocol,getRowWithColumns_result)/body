@@ -1,0 +1,22 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(2);
+  if (incoming.get(0)) {
+{
+      org.apache.thrift.protocol.TList _list97=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.success=new ArrayList<TRowResult>(_list97.size);
+      for (int _i98=0; _i98 < _list97.size; ++_i98) {
+        TRowResult _elem99;
+        _elem99=new TRowResult();
+        _elem99.read(iprot);
+        struct.success.add(_elem99);
+      }
+    }
+    struct.setSuccessIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.io=new IOError();
+    struct.io.read(iprot);
+    struct.setIoIsSet(true);
+  }
+}

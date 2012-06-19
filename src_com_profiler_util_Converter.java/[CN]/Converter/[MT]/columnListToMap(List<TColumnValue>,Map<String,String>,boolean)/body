@@ -1,0 +1,14 @@
+{
+  if (columnMap == null) {
+    columnMap=new HashMap<String,String>();
+  }
+  for (  TColumnValue columnValue : columnList) {
+    String qualifierString="";
+    if (!ignoreQualifier) {
+      byte[] qualifier=columnValue.getQualifier();
+      qualifierString=":" + new String(qualifier);
+    }
+    columnMap.put(new String(columnValue.getFamily()) + qualifierString,new String(columnValue.getValue()));
+  }
+  return columnMap;
+}

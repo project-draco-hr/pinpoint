@@ -1,0 +1,77 @@
+{
+  StringBuilder data=new StringBuilder();
+  Hbase.Client client=getClient();
+  if (client != null) {
+    try {
+      GetServerData getServer=new GetServerData();
+      List<ByteBuffer> agentList=getServer.getServerList(client);
+      String rowName=DATE_FORMAT_YMD.format(new Date(dataTime));
+      ByteBuffer rowNameBuffer=Converter.toByteBuffer(rowName);
+      data.append("Data Date:").append(rowName).append(SPACES);
+      for (      ByteBuffer agent : agentList) {
+        String agentHashCode=Converter.toString(agent);
+        agentHashCodeList.add(agentHashCode);
+        agentStringNameList.add(LocalDataManager.getAgentName(client,agentHashCode));
+        data.append("Agent HashCode:").append(agentHashCode).append(NEW_LINE);
+        String jvmTableName=HBASE_JVM_TABLE + "_" + agentHashCode;
+        ByteBuffer jvmTableNameBuffer=ByteBuffer.wrap(jvmTableName.getBytes());
+        long startTime=System.nanoTime();
+        List<TRowResult> jvmDataList=client.getRow(jvmTableNameBuffer,rowNameBuffer);
+        long endTime=System.nanoTime();
+        double getTime=(endTime - startTime) / 1000000.0;
+        log("JVM getDataTime=" + getTime);
+        String tpsTableName=HBASE_TPS_TABLE + "_" + agentHashCode;
+        ByteBuffer tpsTableNameBuffer=ByteBuffer.wrap(tpsTableName.getBytes());
+        startTime=System.nanoTime();
+        List<TRowResult> tpsDataList=client.getRow(tpsTableNameBuffer,rowNameBuffer);
+        endTime=System.nanoTime();
+        getTime=(endTime - startTime) / 1000000.0;
+        log("TPS getDataTime=" + getTime);
+        if (jvmDataList != null && jvmDataList.size() > 0) {
+          TRowResult rowResult=jvmDataList.get(0);
+          int columnSize=rowResult.getColumnsSize();
+          data.append("JVM Data Size:").append(columnSize).append(NEW_LINE);
+          Map<ByteBuffer,TCell> columns=rowResult.getColumns();
+          String keyList[]=getDataKeyList(columnSize,columns);
+          int perColumnDataCount=columnSize / HBASE_JVM_DATA_COUNT;
+          StringBuilder activeThreadCountData=new StringBuilder();
+          StringBuilder heapUsedData=new StringBuilder();
+          StringBuilder processCPUData=new StringBuilder();
+          StringBuilder gc1TimeData=new StringBuilder();
+          StringBuilder gc2TimeData=new StringBuilder();
+          StringBuilder gcCountData=new StringBuilder();
+          appendLineGraphData(0,perColumnDataCount,columns,keyList,activeThreadCountData);
+          appendScatterChartValueGapData(2,perColumnDataCount,columns,keyList,gc1TimeData);
+          appendGCCountData(perColumnDataCount,columns,keyList,gcCountData);
+          appendScatterChartValueGapData(4,perColumnDataCount,columns,keyList,gc2TimeData);
+          appendLineGraphData(6,perColumnDataCount,columns,keyList,heapUsedData);
+          appendLineGraphData(9,perColumnDataCount,columns,keyList,processCPUData);
+          graphDataTable.put(HBASE_JVM_COLUMN_ACTIVE_THREAD_COUNT + agentHashCode,activeThreadCountData);
+          graphDataTable.put(HBASE_JVM_DATA_HEAP + agentHashCode,heapUsedData);
+          graphDataTable.put(HBASE_JVM_COLUMN_PROCESS_CPU_TIME + agentHashCode,processCPUData);
+          graphDataTable.put(HBASE_JVM_COLUMN_GC1_TIME + agentHashCode,gc1TimeData);
+          graphDataTable.put(HBASE_JVM_COLUMN_GC2_TIME + agentHashCode,gc2TimeData);
+          graphDataTable.put(HBASE_JVM_DATA_GC_COUNT + agentHashCode,gcCountData);
+        }
+        if (tpsDataList != null && tpsDataList.size() > 0) {
+          TRowResult tpsRowResult=tpsDataList.get(0);
+          int columnSize=tpsRowResult.getColumnsSize();
+          data.append("TPS Data Size:").append(columnSize).append(NEW_LINE);
+          Map<ByteBuffer,TCell> columns=tpsRowResult.getColumns();
+          String keyList[]=getDataKeyList(columnSize,columns);
+          int perColumnDataCount=columnSize / 2;
+          StringBuilder reqData=new StringBuilder();
+          StringBuilder resData=new StringBuilder();
+          appendLineGraphData(0,perColumnDataCount,columns,keyList,reqData);
+          appendLineGraphData(1,perColumnDataCount,columns,keyList,resData);
+          graphDataTable.put(HBASE_TPS_COLUMN_REQUEST_TPS + agentHashCode,reqData);
+          graphDataTable.put(HBASE_TPS_COLUMN_RESPONSE_TPS + agentHashCode,resData);
+        }
+      }
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+  return data;
+}

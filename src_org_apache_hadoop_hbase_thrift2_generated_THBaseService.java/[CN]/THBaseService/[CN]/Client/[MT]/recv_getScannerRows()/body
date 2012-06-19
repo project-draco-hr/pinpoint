@@ -1,0 +1,14 @@
+{
+  getScannerRows_result result=new getScannerRows_result();
+  receiveBase(result,"getScannerRows");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  if (result.ia != null) {
+    throw result.ia;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"getScannerRows failed: unknown result");
+}

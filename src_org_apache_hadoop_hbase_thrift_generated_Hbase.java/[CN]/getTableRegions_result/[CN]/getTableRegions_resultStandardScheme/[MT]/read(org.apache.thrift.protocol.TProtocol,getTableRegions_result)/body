@@ -1,0 +1,46 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 0:
+      if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+          org.apache.thrift.protocol.TList _list36=iprot.readListBegin();
+          struct.success=new ArrayList<TRegionInfo>(_list36.size);
+          for (int _i37=0; _i37 < _list36.size; ++_i37) {
+            TRegionInfo _elem38;
+            _elem38=new TRegionInfo();
+            _elem38.read(iprot);
+            struct.success.add(_elem38);
+          }
+          iprot.readListEnd();
+        }
+        struct.setSuccessIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 1:
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+    struct.io=new IOError();
+    struct.io.read(iprot);
+    struct.setIoIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

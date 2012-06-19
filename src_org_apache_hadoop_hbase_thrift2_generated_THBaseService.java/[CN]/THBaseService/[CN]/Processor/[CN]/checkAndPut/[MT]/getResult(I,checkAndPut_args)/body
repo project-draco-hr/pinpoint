@@ -1,0 +1,11 @@
+{
+  checkAndPut_result result=new checkAndPut_result();
+  try {
+    result.success=iface.checkAndPut(args.table,args.row,args.family,args.qualifier,args.value,args.put);
+    result.setSuccessIsSet(true);
+  }
+ catch (  TIOError io) {
+    result.io=io;
+  }
+  return result;
+}

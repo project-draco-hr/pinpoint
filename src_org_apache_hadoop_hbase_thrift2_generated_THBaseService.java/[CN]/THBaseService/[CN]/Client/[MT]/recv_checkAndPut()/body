@@ -1,0 +1,11 @@
+{
+  checkAndPut_result result=new checkAndPut_result();
+  receiveBase(result,"checkAndPut");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"checkAndPut failed: unknown result");
+}

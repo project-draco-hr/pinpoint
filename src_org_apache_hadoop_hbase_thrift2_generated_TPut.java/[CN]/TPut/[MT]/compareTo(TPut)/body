@@ -1,0 +1,48 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  TPut typedOther=(TPut)other;
+  lastComparison=Boolean.valueOf(isSetRow()).compareTo(typedOther.isSetRow());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetRow()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.row,typedOther.row);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetColumnValues()).compareTo(typedOther.isSetColumnValues());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetColumnValues()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.columnValues,typedOther.columnValues);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetTimestamp()).compareTo(typedOther.isSetTimestamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTimestamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.timestamp,typedOther.timestamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetWriteToWal()).compareTo(typedOther.isSetWriteToWal());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetWriteToWal()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.writeToWal,typedOther.writeToWal);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

@@ -1,0 +1,25 @@
+{
+  GetServerData getServer=new GetServerData();
+  try {
+    List<TGet> rowNameList=getServer.getServerList(client);
+    List<TResult> serverList=client.getMultiple(HBASE_SERVER_TABLE_BYTE_BUFFER,rowNameList);
+    for (    TResult result : serverList) {
+      Map<String,String> map=Converter.tResultToMap(result,null,true);
+      String serverHashCode=new String(result.getRow());
+      String instanceNameKey=HBASE_SERVER_COLUMN_INSTANCE_NAME;
+      ByteBuffer instanceName=Converter.toByteBuffer(instanceNameKey);
+      String insertData=null;
+      if (map.containsKey(instanceName)) {
+        insertData=map.get(HBASE_SERVER_COLUMN_INSTANCE_NAME);
+      }
+ else {
+        String ipCell=map.get(HBASE_SERVER_COLUMN_IP);
+        String portCell=map.get(HBASE_SERVER_COLUMN_PORTS);
+        insertData=ipCell + "_" + portCell;
+      }
+      agentTable.put(Integer.parseInt(serverHashCode),insertData);
+    }
+  }
+ catch (  Exception e) {
+  }
+}

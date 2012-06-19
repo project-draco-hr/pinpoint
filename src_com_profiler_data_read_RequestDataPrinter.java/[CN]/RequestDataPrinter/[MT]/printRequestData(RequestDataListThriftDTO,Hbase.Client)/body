@@ -1,0 +1,43 @@
+{
+  StringBuilder message=new StringBuilder();
+  List<RequestDataThriftDTO> list=dto.getRequestDataList();
+  if (list != null) {
+    for (    RequestDataThriftDTO tempDataDto : list) {
+      int dataType=tempDataDto.getDataType();
+      String dataTypeString=printDataType(dataType);
+      long dataTime=tempDataDto.getDataTime();
+      String dataTimeString=Converter.toHmsMs(dataTime);
+      int dataHashCode=tempDataDto.getDataHashCode();
+      message.append(dataTimeString).append(" ").append(dataTypeString).append(" ");
+      if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_GET_CONNECTION) {
+        message.append("<B>[").append(LocalDataManager.getDB(client,dataHashCode)).append("]</B> ");
+      }
+ else       if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_QUERY) {
+        message.append("<B>[").append(LocalDataManager.getQuery(client,dataHashCode)).append("]</B> ");
+      }
+      String dataString=tempDataDto.getDataString();
+      if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_PREPARED_STATEMENT_PARAM && dataString != null) {
+        message.append(dataString).append(" ");
+      }
+      int extraInt1=tempDataDto.getExtraInt1();
+      int extraInt2=tempDataDto.getExtraInt2();
+      if (extraInt1 != 0) {
+        if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_FETCH) {
+          message.append("Current Fetch=");
+        }
+        message.append("[").append(extraInt1).append("] ");
+      }
+      if (extraInt2 != 0) {
+        if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_FETCH) {
+          message.append("Total Fetch=");
+        }
+        message.append("[").append(extraInt2).append("] ");
+      }
+      message.append(NEW_LINE);
+      if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_CLOSE_CONNECTION) {
+        message.append("------------------------------").append(NEW_LINE);
+      }
+    }
+  }
+  return message;
+}

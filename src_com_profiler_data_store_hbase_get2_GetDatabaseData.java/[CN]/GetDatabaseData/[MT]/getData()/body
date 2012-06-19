@@ -1,0 +1,21 @@
+{
+  StringBuilder data=new StringBuilder();
+  THBaseService.Client client=getClient();
+  if (client != null) {
+    try {
+      data.append("<H3>DB List</H3>");
+      List<TResult> dbList=getDBList(client);
+      appendList(data,dbList);
+      data.append("<H3>Query List</H3>");
+      List<TResult> queryList=getQueryList(client);
+      appendList(data,queryList);
+    }
+ catch (    TTransportException tte) {
+      System.err.println(tte.getMessage());
+    }
+catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+  return data;
+}

@@ -1,0 +1,14 @@
+{
+  atomicIncrement_result result=new atomicIncrement_result();
+  try {
+    result.success=iface.atomicIncrement(args.tableName,args.row,args.column,args.value);
+    result.setSuccessIsSet(true);
+  }
+ catch (  IOError io) {
+    result.io=io;
+  }
+catch (  IllegalArgument ia) {
+    result.ia=ia;
+  }
+  return result;
+}

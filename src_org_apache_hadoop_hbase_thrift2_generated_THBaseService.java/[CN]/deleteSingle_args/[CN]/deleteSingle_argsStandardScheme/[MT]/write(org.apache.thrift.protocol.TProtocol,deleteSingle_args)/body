@@ -1,0 +1,16 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.table != null) {
+    oprot.writeFieldBegin(TABLE_FIELD_DESC);
+    oprot.writeBinary(struct.table);
+    oprot.writeFieldEnd();
+  }
+  if (struct.deleteSingle != null) {
+    oprot.writeFieldBegin(DELETE_SINGLE_FIELD_DESC);
+    struct.deleteSingle.write(oprot);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

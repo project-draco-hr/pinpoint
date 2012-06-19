@@ -1,0 +1,54 @@
+{
+  try {
+    String urlKey=keyList[perColumnDataCount * indexRequestURL + maxValuePos];
+    String[] keys=seperateFamilyQualifier(urlKey);
+    String key=keys[1];
+    byte[] maxRow=rowResult.getRow();
+    List<TCell> maxDataList=client.get(tableNameBuffer,ByteBuffer.wrap(maxRow),Converter.toByteBuffer(HBASE_REQUEST_COLUMN_REQUEST_DATA + key));
+    if (maxDataList != null && maxDataList.size() > 0) {
+      TCell elapsedTimeCell=columns.get(Converter.toByteBuffer(keyList[perColumnDataCount * indexElapsedTime + maxValuePos]));
+      TCell reqParamsCell=columns.get(Converter.toByteBuffer(keyList[perColumnDataCount * indexRequestParams + maxValuePos]));
+      TCell fromTimeCell=columns.get(Converter.toByteBuffer(keyList[perColumnDataCount * indexRequestTime + maxValuePos]));
+      TCell toTimeCell=columns.get(Converter.toByteBuffer(keyList[perColumnDataCount * indexResponseTime + maxValuePos]));
+      TCell maxData=maxDataList.get(0);
+      byte[] dtoBytes=maxData.getValue();
+      CharSequence agentName=LocalDataManager.getAgentName(client,Integer.parseInt(agentHashCode));
+      TCell urlCell=columns.get(Converter.toByteBuffer(urlKey));
+      String url=new String(urlCell.getValue());
+      byte[] fromTime=fromTimeCell.getValue();
+      byte[] toTime=toTimeCell.getValue();
+      byte[] elapsedTime=elapsedTimeCell.getValue();
+      String reqParams=new String(reqParamsCell.getValue());
+      StringBuilder requestDataString=new StringBuilder();
+      requestDataString.append("Agent Name:");
+      requestDataString.append(agentName);
+      requestDataString.append(NEW_LINE);
+      requestDataString.append("URL:");
+      requestDataString.append(url);
+      requestDataString.append(NEW_LINE);
+      requestDataString.append("Request Params:");
+      requestDataString.append(reqParams);
+      requestDataString.append(NEW_LINE);
+      requestDataString.append("Request Time:");
+      requestDataString.append(Converter.toHmsMs(fromTime));
+      requestDataString.append(NEW_LINE);
+      requestDataString.append("Response Time:");
+      requestDataString.append(Converter.toHmsMs(toTime));
+      requestDataString.append(NEW_LINE);
+      requestDataString.append("Elapsed Time:");
+      requestDataString.append(Converter.toDecimalComma(elapsedTime));
+      requestDataString.append(NEW_LINE);
+      if (dtoBytes.length != 0) {
+        requestDataString.append("<HR>");
+        TDeserializer deserializer=new TDeserializer(new TBinaryProtocol.Factory());
+        RequestDataListThriftDTO dto=new RequestDataListThriftDTO();
+        deserializer.deserialize(dto,dtoBytes);
+        RequestDataPrinter.printRequestData(dto,client);
+      }
+      slowRequestDataList.add(requestDataString);
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

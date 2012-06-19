@@ -1,0 +1,13 @@
+{
+  scannerGetList_result result=new scannerGetList_result();
+  try {
+    result.success=iface.scannerGetList(args.id,args.nbRows);
+  }
+ catch (  IOError io) {
+    result.io=io;
+  }
+catch (  IllegalArgument ia) {
+    result.ia=ia;
+  }
+  return result;
+}

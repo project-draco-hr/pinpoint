@@ -1,0 +1,16 @@
+{
+  List<TGet> gets=new ArrayList<TGet>();
+  TGet rowNamesGet=new TGet();
+  rowNamesGet.setRow(HBASE_SERVER_ROW_ROW_NAMES);
+  gets.add(rowNamesGet);
+  TResult rowResult=client.get(HBASE_SERVER_TABLE_BYTE_BUFFER,rowNamesGet);
+  List<TGet> agentHashCodeList=new ArrayList<TGet>();
+  List<TColumnValue> columnValues=rowResult.getColumnValues();
+  for (  TColumnValue columnValue : columnValues) {
+    byte[] tempValue=columnValue.getValue();
+    TGet tempGet=new TGet();
+    tempGet.setRow(tempValue);
+    agentHashCodeList.add(tempGet);
+  }
+  return agentHashCodeList;
+}

@@ -1,0 +1,32 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  struct.row=iprot.readBinary();
+  struct.setRowIsSet(true);
+  BitSet incoming=iprot.readBitSet(4);
+  if (incoming.get(0)) {
+{
+      org.apache.thrift.protocol.TList _list13=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.columns=new ArrayList<TColumn>(_list13.size);
+      for (int _i14=0; _i14 < _list13.size; ++_i14) {
+        TColumn _elem15;
+        _elem15=new TColumn();
+        _elem15.read(iprot);
+        struct.columns.add(_elem15);
+      }
+    }
+    struct.setColumnsIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.timestamp=iprot.readI64();
+    struct.setTimestampIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.timeRange=new TTimeRange();
+    struct.timeRange.read(iprot);
+    struct.setTimeRangeIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.maxVersions=iprot.readI32();
+    struct.setMaxVersionsIsSet(true);
+  }
+}

@@ -1,0 +1,18 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  deleteTable_args typedOther=(deleteTable_args)other;
+  lastComparison=Boolean.valueOf(isSetTableName()).compareTo(typedOther.isSetTableName());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTableName()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.tableName,typedOther.tableName);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

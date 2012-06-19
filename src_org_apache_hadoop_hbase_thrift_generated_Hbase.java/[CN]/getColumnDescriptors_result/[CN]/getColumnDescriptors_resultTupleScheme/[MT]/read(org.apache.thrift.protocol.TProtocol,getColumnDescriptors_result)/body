@@ -1,0 +1,24 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(2);
+  if (incoming.get(0)) {
+{
+      org.apache.thrift.protocol.TMap _map32=new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING,org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.success=new HashMap<ByteBuffer,ColumnDescriptor>(2 * _map32.size);
+      for (int _i33=0; _i33 < _map32.size; ++_i33) {
+        ByteBuffer _key34;
+        ColumnDescriptor _val35;
+        _key34=iprot.readBinary();
+        _val35=new ColumnDescriptor();
+        _val35.read(iprot);
+        struct.success.put(_key34,_val35);
+      }
+    }
+    struct.setSuccessIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.io=new IOError();
+    struct.io.read(iprot);
+    struct.setIoIsSet(true);
+  }
+}

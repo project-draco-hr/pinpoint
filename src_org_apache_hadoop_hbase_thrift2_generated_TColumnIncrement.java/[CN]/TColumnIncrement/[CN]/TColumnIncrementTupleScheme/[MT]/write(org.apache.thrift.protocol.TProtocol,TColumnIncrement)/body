@@ -1,0 +1,13 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  oprot.writeBinary(struct.family);
+  oprot.writeBinary(struct.qualifier);
+  BitSet optionals=new BitSet();
+  if (struct.isSetAmount()) {
+    optionals.set(0);
+  }
+  oprot.writeBitSet(optionals,1);
+  if (struct.isSetAmount()) {
+    oprot.writeI64(struct.amount);
+  }
+}

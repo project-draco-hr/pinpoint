@@ -1,0 +1,31 @@
+{
+  Set<String> keySet=summaryDataMap.keySet();
+  Percentile percentile=new Percentile();
+  for (  String key : keySet) {
+    StringBuilder data=new StringBuilder();
+    List<Long> elapsedTimeList=summaryDataMap.get(key);
+    int callCount=elapsedTimeList.size();
+    data.append("<TR><TD>").append(key).append("</TD>");
+    data.append("<TD align=right>").append(callCount).append("</TD>");
+    long min=Long.MAX_VALUE;
+    long max=Long.MIN_VALUE;
+    long sum=0;
+    double[] elapsedTimeArray=new double[callCount];
+    for (int loop=0; loop < callCount; loop++) {
+      long elapsedTime=elapsedTimeList.get(loop);
+      sum+=elapsedTime;
+      elapsedTimeArray[loop]=elapsedTime;
+      if (elapsedTime < min)       min=elapsedTime;
+      if (elapsedTime > max) {
+        max=elapsedTime;
+      }
+    }
+    data.append("<TD align=right>").append(min).append("</TD>");
+    data.append("<TD align=right>").append(max).append("</TD>");
+    data.append("<TD align=right>").append(Converter.toDecimalDot(sum / 1000.0)).append("</TD>");
+    data.append("<TD align=right>").append(Converter.toDecimalDot(1.0 * sum / callCount)).append("</TD>");
+    data.append("<TD align=right>").append(Converter.toDecimalDot(percentile.evaluate(elapsedTimeArray,90))).append("</TD>");
+    data.append("</TR>");
+    summaryStatisticsData.put(key,data);
+  }
+}

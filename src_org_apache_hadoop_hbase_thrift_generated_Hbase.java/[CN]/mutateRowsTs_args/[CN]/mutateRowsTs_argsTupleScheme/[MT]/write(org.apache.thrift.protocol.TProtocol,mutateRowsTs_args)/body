@@ -1,0 +1,28 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetTableName()) {
+    optionals.set(0);
+  }
+  if (struct.isSetRowBatches()) {
+    optionals.set(1);
+  }
+  if (struct.isSetTimestamp()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetTableName()) {
+    oprot.writeBinary(struct.tableName);
+  }
+  if (struct.isSetRowBatches()) {
+{
+      oprot.writeI32(struct.rowBatches.size());
+      for (      BatchMutation _iter232 : struct.rowBatches) {
+        _iter232.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
+  }
+}

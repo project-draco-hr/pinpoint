@@ -1,0 +1,22 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.table != null) {
+    oprot.writeFieldBegin(TABLE_FIELD_DESC);
+    oprot.writeBinary(struct.table);
+    oprot.writeFieldEnd();
+  }
+  if (struct.puts != null) {
+    oprot.writeFieldBegin(PUTS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.puts.size()));
+      for (      TPut _iter67 : struct.puts) {
+        _iter67.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

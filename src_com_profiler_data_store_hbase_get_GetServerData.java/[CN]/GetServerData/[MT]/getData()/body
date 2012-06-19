@@ -1,0 +1,89 @@
+{
+  StringBuilder data=new StringBuilder();
+  Hbase.Client client=getClient();
+  if (client != null) {
+    try {
+      List<ByteBuffer> rowNameList=getServerList(client);
+      List<TRowResult> serverList=client.getRows(HBASE_SERVER_TABLE_BYTE_BUFFER,rowNameList);
+      data.append("<Table border=1><TR><TD>");
+      data.append("IP").append("</TD><TD>");
+      data.append("Ports").append("</TD><TD>");
+      data.append("Status").append("</TD><TD>");
+      data.append("EventTime").append("</TD><TD>");
+      data.append("RunningTime").append("</TD><TD>");
+      data.append("instanceName").append("</TD><TD>");
+      data.append("serviceName").append("</TD><TD>");
+      data.append("serviceGroupName").append("</TD></TR>");
+      for (      TRowResult server : serverList) {
+        Map<ByteBuffer,TCell> columnMap=server.getColumns();
+        data.append("<TR><TD>");
+        String serverHashCode=new String(server.getRow());
+        String ipKey=HBASE_SERVER_COLUMN_IP + serverHashCode;
+        String portsKey=HBASE_SERVER_COLUMN_PORTS + serverHashCode;
+        String isRunningKey=HBASE_SERVER_COLUMN_IS_RUNNING + serverHashCode;
+        String serviceNameKey=HBASE_SERVER_COLUMN_SERVICE_NAME + serverHashCode;
+        TCell ipValue=columnMap.get(Converter.toByteBuffer(ipKey));
+        TCell portsValue=columnMap.get(Converter.toByteBuffer(portsKey));
+        TCell isRunningValue=columnMap.get(Converter.toByteBuffer(isRunningKey));
+        if (ipValue != null) {
+          String isRunning=new String(isRunningValue.getValue());
+          data.append(new String(ipValue.getValue())).append("</TD><TD>");
+          data.append(new String(portsValue.getValue())).append("</TD><TD>");
+          if (isRunning.equals("true")) {
+            data.append("Running").append("</TD><TD>");
+          }
+ else {
+            data.append("Down").append("</TD><TD>");
+          }
+          long timestamp=isRunningValue.getTimestamp();
+          data.append(new Date(timestamp)).append("</TD>");
+          if (isRunning.equals("true")) {
+            data.append("<TD>");
+            long current=System.currentTimeMillis();
+            long gap=current - timestamp;
+            long sec=gap / 1000;
+            if (sec < 60) {
+              data.append(sec).append(" sec.");
+            }
+ else             if (sec < 3600) {
+              data.append(sec / 60).append(" min.");
+            }
+ else             if (sec < 86400) {
+              data.append(sec / 3600.0).append(" hour.");
+            }
+ else {
+              data.append(sec / 86400.0).append(" days.");
+            }
+            data.append("</TD>");
+          }
+ else {
+            data.append("<TD align=center>-</TD>");
+          }
+          TCell serviceNameValue=columnMap.get(Converter.toByteBuffer(serviceNameKey));
+          if (serviceNameValue == null) {
+            data.append("<TD colspan=3 align=center>&nbsp;-&nbsp;</TD>");
+          }
+ else {
+            String instanceNameKey=HBASE_SERVER_COLUMN_INSTANCE_NAME + serverHashCode;
+            String serverGroupNameKey=HBASE_SERVER_COLUMN_SERVER_GROUP_NAME + serverHashCode;
+            TCell instanceNameValue=columnMap.get(Converter.toByteBuffer(instanceNameKey));
+            TCell serverGroupNameValue=columnMap.get(Converter.toByteBuffer(serverGroupNameKey));
+            data.append("<TD>");
+            data.append(new String(instanceNameValue.getValue())).append("</TD><TD>");
+            data.append(new String(serviceNameValue.getValue())).append("</TD><TD>");
+            data.append(new String(serverGroupNameValue.getValue())).append("</TD>");
+          }
+        }
+        data.append("</TR>");
+      }
+      data.append("</Table>");
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+ else {
+    data.append("<B><Font color=blue>Hbase.client is null</Font></B>");
+  }
+  return data;
+}

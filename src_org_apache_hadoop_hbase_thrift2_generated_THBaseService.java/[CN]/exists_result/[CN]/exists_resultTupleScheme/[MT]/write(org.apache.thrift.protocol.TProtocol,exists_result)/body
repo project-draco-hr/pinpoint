@@ -1,0 +1,17 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetSuccess()) {
+    optionals.set(0);
+  }
+  if (struct.isSetIo()) {
+    optionals.set(1);
+  }
+  oprot.writeBitSet(optionals,2);
+  if (struct.isSetSuccess()) {
+    oprot.writeBool(struct.success);
+  }
+  if (struct.isSetIo()) {
+    struct.io.write(oprot);
+  }
+}

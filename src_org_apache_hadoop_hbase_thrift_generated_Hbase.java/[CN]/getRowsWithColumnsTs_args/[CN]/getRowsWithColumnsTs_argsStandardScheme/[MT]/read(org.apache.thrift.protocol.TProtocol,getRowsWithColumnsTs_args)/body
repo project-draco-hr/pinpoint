@@ -1,0 +1,71 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.tableName=iprot.readBinary();
+        struct.setTableNameIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+      org.apache.thrift.protocol.TList _list180=iprot.readListBegin();
+      struct.rows=new ArrayList<ByteBuffer>(_list180.size);
+      for (int _i181=0; _i181 < _list180.size; ++_i181) {
+        ByteBuffer _elem182;
+        _elem182=iprot.readBinary();
+        struct.rows.add(_elem182);
+      }
+      iprot.readListEnd();
+    }
+    struct.setRowsIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+  org.apache.thrift.protocol.TList _list183=iprot.readListBegin();
+  struct.columns=new ArrayList<ByteBuffer>(_list183.size);
+  for (int _i184=0; _i184 < _list183.size; ++_i184) {
+    ByteBuffer _elem185;
+    _elem185=iprot.readBinary();
+    struct.columns.add(_elem185);
+  }
+  iprot.readListEnd();
+}
+struct.setColumnsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.timestamp=iprot.readI64();
+struct.setTimestampIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

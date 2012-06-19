@@ -1,0 +1,34 @@
+{
+  if (that == null)   return false;
+  boolean this_present_row=true && this.isSetRow();
+  boolean that_present_row=true && that.isSetRow();
+  if (this_present_row || that_present_row) {
+    if (!(this_present_row && that_present_row))     return false;
+    if (!this.row.equals(that.row))     return false;
+  }
+  boolean this_present_columns=true && this.isSetColumns();
+  boolean that_present_columns=true && that.isSetColumns();
+  if (this_present_columns || that_present_columns) {
+    if (!(this_present_columns && that_present_columns))     return false;
+    if (!this.columns.equals(that.columns))     return false;
+  }
+  boolean this_present_timestamp=true && this.isSetTimestamp();
+  boolean that_present_timestamp=true && that.isSetTimestamp();
+  if (this_present_timestamp || that_present_timestamp) {
+    if (!(this_present_timestamp && that_present_timestamp))     return false;
+    if (this.timestamp != that.timestamp)     return false;
+  }
+  boolean this_present_timeRange=true && this.isSetTimeRange();
+  boolean that_present_timeRange=true && that.isSetTimeRange();
+  if (this_present_timeRange || that_present_timeRange) {
+    if (!(this_present_timeRange && that_present_timeRange))     return false;
+    if (!this.timeRange.equals(that.timeRange))     return false;
+  }
+  boolean this_present_maxVersions=true && this.isSetMaxVersions();
+  boolean that_present_maxVersions=true && that.isSetMaxVersions();
+  if (this_present_maxVersions || that_present_maxVersions) {
+    if (!(this_present_maxVersions && that_present_maxVersions))     return false;
+    if (this.maxVersions != that.maxVersions)     return false;
+  }
+  return true;
+}

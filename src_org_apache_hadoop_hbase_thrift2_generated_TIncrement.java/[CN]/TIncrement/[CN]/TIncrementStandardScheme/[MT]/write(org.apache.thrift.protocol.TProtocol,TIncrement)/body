@@ -1,0 +1,27 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.row != null) {
+    oprot.writeFieldBegin(ROW_FIELD_DESC);
+    oprot.writeBinary(struct.row);
+    oprot.writeFieldEnd();
+  }
+  if (struct.columns != null) {
+    oprot.writeFieldBegin(COLUMNS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.columns.size()));
+      for (      TColumnIncrement _iter35 : struct.columns) {
+        _iter35.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetWriteToWal()) {
+    oprot.writeFieldBegin(WRITE_TO_WAL_FIELD_DESC);
+    oprot.writeBool(struct.writeToWal);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
