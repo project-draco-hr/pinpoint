@@ -1,0 +1,121 @@
+{
+  debug(className);
+  if (className.startsWith("org/apache/catalina")) {
+    String javassistClassName=className.replace('/','.');
+    if (javassistClassName.equals("org.apache.catalina.core.StandardHostValve")) {
+      byte[] result=EntryPointStandardHostValveModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+      if (result != null)       return result;
+    }
+ else     if (javassistClassName.equals("org.apache.catalina.core.StandardService")) {
+      byte[] result=TomcatStandardServiceModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+      if (result != null)       return result;
+    }
+ else     if (javassistClassName.equals("org.apache.catalina.connector.Connector")) {
+      byte[] result=TomcatConnectorModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+      if (result != null)       return result;
+    }
+  }
+  if (TomcatProfilerConfig.JDBC_PROFILE) {
+    if (className.startsWith("com/mysql/jdbc")) {
+      String javassistClassName=className.replace('/','.');
+      if (javassistClassName.equals("com.mysql.jdbc.ConnectionImpl")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MySQLConnectionImplModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("com.mysql.jdbc.StatementImpl")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MySQLStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("com.mysql.jdbc.PreparedStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MySQLPreparedStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("com.mysql.jdbc.ResultSetImpl")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MySQLResultSetModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+    }
+ else     if (className.startsWith("net/sourceforge/jtds/jdbc")) {
+      String javassistClassName=className.replace('/','.');
+      if (javassistClassName.equals("net.sourceforge.jtds.jdbc.ConnectionJDBC2")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MSSQLConnectionModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("net.sourceforge.jtds.jdbc.JtdsStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MSSQLStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("net.sourceforge.jtds.jdbc.JtdsPreparedStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MSSQLPreparedStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("net.sourceforge.jtds.jdbc.JtdsResultSet")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=MSSQLResultSetModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+    }
+ else     if (className.startsWith("org/apache/commons/dbcp")) {
+      String javassistClassName=className.replace('/','.');
+      if (javassistClassName.equals("org.apache.commons.dbcp.BasicDataSource")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=DBCPBasicDataSourceModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("org.apache.commons.dbcp.PoolingDataSource$PoolGuardConnectionWrapper")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=DBCPPoolModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+    }
+ else     if (className.startsWith("cubrid/jdbc")) {
+      String javassistClassName=className.replace('/','.');
+      if (javassistClassName.equals("cubrid.jdbc.driver.CUBRIDStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=CubridStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("cubrid.jdbc.driver.CUBRIDPreparedStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=CubridPreparedStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("cubrid.jdbc.driver.CUBRIDResultSet")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=CubridResultSetModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("cubrid.jdbc.jci.UStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=CubridUStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+    }
+ else     if (className.startsWith("oracle/jdbc")) {
+      String javassistClassName=className.replace('/','.');
+      if (javassistClassName.equals("oracle.jdbc.driver.OraclePreparedStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=OraclePreparedStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("oracle.jdbc.driver.OracleStatement")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=OracleStatementModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+ else       if (javassistClassName.equals("oracle.jdbc.driver.OracleResultSetImpl")) {
+        checkLibrary(javassistClassName,classLoader);
+        byte[] result=OracleResultSetModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+        if (result != null)         return result;
+      }
+    }
+  }
+  return null;
+}

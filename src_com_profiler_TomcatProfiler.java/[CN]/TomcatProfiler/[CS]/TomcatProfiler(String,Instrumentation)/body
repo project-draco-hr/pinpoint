@@ -1,0 +1,13 @@
+{
+  agentArgString=agentArgs;
+  instrumentation=inst;
+  instrumentation.addTransformer(this);
+  classPool=ClassPool.getDefault();
+  try {
+    classPool.appendClassPath(TOMCAT_LIB_PATH + "/lib/servlet-api.jar");
+    classPool.appendClassPath(TOMCAT_LIB_PATH + "/lib/catalina.jar");
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

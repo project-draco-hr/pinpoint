@@ -1,0 +1,11 @@
+{
+  if (isRequestData()) {
+    RequestDataListThriftDTO dto=requestDataThreadLocal.get();
+    dto=checkDTO(dto);
+    List<RequestDataThriftDTO> list=dto.getRequestDataList();
+    checkSqlParamMap(list);
+    RequestDataThriftDTO dataDto=new RequestDataThriftDTO(dataType,System.currentTimeMillis());
+    list.add(dataDto);
+    requestDataThreadLocal.set(dto);
+  }
+}

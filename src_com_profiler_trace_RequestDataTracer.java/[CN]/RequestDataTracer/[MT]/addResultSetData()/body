@@ -1,0 +1,25 @@
+{
+  if (isRequestData()) {
+    Integer fetchCount=fetchCountThreadLocal.get();
+    if (fetchCount != null) {
+      Integer totalFetchCount=totalFetchCountThreadLocal.get();
+      fetchCountThreadLocal.remove();
+      RequestDataListThriftDTO dto=requestDataThreadLocal.get();
+      dto=checkDTO(dto);
+      List<RequestDataThriftDTO> list=dto.getRequestDataList();
+      int listSize=list.size();
+      RequestDataThriftDTO previousDTO=list.get(listSize - 1);
+      if (previousDTO.getDataType() != TomcatProfilerConstant.REQ_DATA_TYPE_DB_FETCH) {
+        RequestDataThriftDTO dataDto=new RequestDataThriftDTO(TomcatProfilerConstant.REQ_DATA_TYPE_DB_FETCH,System.currentTimeMillis());
+        dataDto.setExtraInt1(fetchCount);
+        dataDto.setExtraInt2(totalFetchCount);
+        list.add(dataDto);
+      }
+ else {
+        int previousTotalFetchCount=previousDTO.getExtraInt2();
+        totalFetchCountThreadLocal.set(previousTotalFetchCount);
+      }
+      requestDataThreadLocal.set(dto);
+    }
+  }
+}

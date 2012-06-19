@@ -1,0 +1,12 @@
+{
+  String javassistClassName=className.replace('/','.');
+  if (javassistClassName.startsWith("javax.servlet.") || javassistClassName.startsWith("org.apache.tomcat")) {
+    if (!javassistClassName.startsWith("org.apache.tomcat.util")) {
+      byte[] result=changeCode(javassistClassName,classfileBuffer);
+      if (result != null)       return result;
+    }
+  }
+ else {
+  }
+  return null;
+}

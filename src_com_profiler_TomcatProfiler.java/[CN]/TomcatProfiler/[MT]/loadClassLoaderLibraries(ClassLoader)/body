@@ -1,0 +1,14 @@
+{
+  if (classLoader instanceof URLClassLoader) {
+    URLClassLoader urlClassLoader=(URLClassLoader)classLoader;
+    URL[] urlList=urlClassLoader.getURLs();
+    for (    URL tempURL : urlList) {
+      String filePath=tempURL.getFile();
+      try {
+        classPool.appendClassPath(filePath);
+      }
+ catch (      Exception e) {
+      }
+    }
+  }
+}

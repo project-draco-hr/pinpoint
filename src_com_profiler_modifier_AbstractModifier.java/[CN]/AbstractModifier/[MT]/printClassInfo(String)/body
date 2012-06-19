@@ -1,0 +1,46 @@
+{
+  log("Printing Class Info of [" + className + "]");
+  try {
+    ClassPool pool=ClassPool.getDefault();
+    log("try");
+    String javaassistClassName=className.replace('/','.');
+    log("replace");
+    CtClass cc=pool.get(javaassistClassName);
+    log("ClassName:" + javaassistClassName);
+    CtConstructor[] constructorList=cc.getConstructors();
+    for (    CtConstructor cons : constructorList) {
+      try {
+        String signature=cons.getSignature();
+        System.out.println("Constructor signature:" + signature);
+      }
+ catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+    CtMethod[] methodList=cc.getDeclaredMethods();
+    for (    CtMethod tempMethod : methodList) {
+      try {
+        String methodName=tempMethod.getLongName();
+        log("MethodName:" + methodName);
+        CtClass[] params=tempMethod.getParameterTypes();
+        if (params.length != 0) {
+          int paramsLength=params.length;
+          for (int loop=paramsLength - 1; loop > 0; loop--) {
+            log("Param" + loop + ":"+ params[loop].getName());
+          }
+        }
+ else {
+          log("    No params");
+        }
+        log("ReturnType=" + tempMethod.getReturnType().getName());
+      }
+ catch (      Exception methodException) {
+        log("Exception : " + methodException.getMessage());
+      }
+    }
+  }
+ catch (  Exception e) {
+    log(e.getMessage());
+    e.printStackTrace();
+  }
+}

@@ -1,0 +1,15 @@
+{
+  try {
+    CtClass cc=classPool.get(javassistClassName);
+    CtClass param[]=new CtClass[1];
+    param[0]=classPool.getCtClass("int");
+    CtMethod setPortMethod=cc.getDeclaredMethod("setPort",param);
+    setPortMethod.insertBefore("{" + "com.profiler.dto.AgentInfoDTO.portNumberBuffer.append($1).append(\" \");" + "}");
+    printClassConvertComplete(javassistClassName);
+    return cc.toBytecode();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  return null;
+}

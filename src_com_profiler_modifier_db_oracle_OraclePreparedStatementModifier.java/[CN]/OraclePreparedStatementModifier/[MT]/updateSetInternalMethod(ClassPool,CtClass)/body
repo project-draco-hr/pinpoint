@@ -1,0 +1,8 @@
+{
+  CtClass[] params1=new CtClass[2];
+  params1[0]=classPool.getCtClass("int");
+  params1[1]=classPool.getCtClass("java.lang.String");
+  CtMethod serviceMethod1=cc.getDeclaredMethod("setStringInternal",params1);
+  log("*** Changing setInternal(int,String) method ");
+  serviceMethod1.insertBefore(getSetInternal1MethodBeforeInsertCode());
+}

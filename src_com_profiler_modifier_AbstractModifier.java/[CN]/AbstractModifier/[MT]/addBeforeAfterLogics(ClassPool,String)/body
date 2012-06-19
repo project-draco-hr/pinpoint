@@ -1,0 +1,47 @@
+{
+  try {
+    CtClass cc=classPool.get(javassistClassName);
+    CtMethod[] methods=cc.getDeclaredMethods();
+    for (    CtMethod method : methods) {
+      if (!method.isEmpty()) {
+        String methodName=method.getName();
+        CtClass[] params=method.getParameterTypes();
+        StringBuilder sb=new StringBuilder();
+        if (params.length != 0) {
+          int paramsLength=params.length;
+          for (int loop=paramsLength - 1; loop > 0; loop--) {
+            sb.append(params[loop].getName()).append(",");
+          }
+        }
+        method.insertBefore("{System.out.println(\"*****" + javassistClassName + "."+ methodName+ "("+ sb+ ") is started.\");}");
+        method.insertAfter("{System.out.println(\"*****" + javassistClassName + "."+ methodName+ "("+ sb+ ") is finished.\");}");
+      }
+ else {
+        log(method.getLongName() + " is empty !!!!!");
+      }
+    }
+    CtConstructor[] constructors=cc.getConstructors();
+    for (    CtConstructor constructor : constructors) {
+      if (!constructor.isEmpty()) {
+        CtClass[] params=constructor.getParameterTypes();
+        StringBuilder sb=new StringBuilder();
+        if (params.length != 0) {
+          int paramsLength=params.length;
+          for (int loop=paramsLength - 1; loop > 0; loop--) {
+            sb.append(params[loop].getName()).append(",");
+          }
+        }
+        constructor.insertBefore("{System.out.println(\"*****" + javassistClassName + " Constructor:Param=("+ sb+ ") is started.\");}");
+        constructor.insertAfter("{System.out.println(\"*****" + javassistClassName + " Constructor:Param=("+ sb+ ") is finished.\");}");
+      }
+ else {
+        log(constructor.getLongName() + " is empty !!!!!");
+      }
+    }
+    return cc.toBytecode();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+}

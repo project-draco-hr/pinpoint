@@ -1,0 +1,11 @@
+{
+  CtClass[] params=new CtClass[5];
+  params[0]=classPool.getCtClass("java.lang.String");
+  params[1]=classPool.getCtClass("int");
+  params[2]=classPool.getCtClass("java.util.Properties");
+  params[3]=classPool.getCtClass("java.lang.String");
+  params[4]=classPool.getCtClass("java.lang.String");
+  CtMethod serviceMethod=cc.getDeclaredMethod("getInstance",params);
+  log("*** Changing getInstance method ");
+  serviceMethod.insertAfter(getGetInstanceMethodAfterInsertCode());
+}

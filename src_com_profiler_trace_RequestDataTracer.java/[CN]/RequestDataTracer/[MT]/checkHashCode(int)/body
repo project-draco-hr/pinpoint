@@ -1,0 +1,17 @@
+{
+  if (TomcatProfilerConfig.QUERY_COUNT_OVER_10000) {
+    if (sqlSet.size() > 10000) {
+      Iterator<Integer> iterator=sqlSet.iterator();
+      for (int loop=0; loop < 100; loop++) {
+        sqlSet.remove(iterator.next());
+      }
+    }
+  }
+  if (sqlSet.contains(dataHashCode)) {
+    return true;
+  }
+ else {
+    sqlSet.add(dataHashCode);
+    return false;
+  }
+}

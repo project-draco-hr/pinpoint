@@ -1,0 +1,17 @@
+{
+  AgentInfoDTO.staticPortNumber=AgentInfoDTO.getPortNumberString();
+  String hostIP=null;
+  try {
+    InetAddress thisIp=InetAddress.getLocalHost();
+    hostIP=thisIp.getHostAddress();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    hostIP="127.0.0.1";
+  }
+  AgentInfoDTO.staticHostIP=hostIP;
+  System.out.println("*** TomcatProfiler : HostIP=" + hostIP + " PortNumbers="+ AgentInfoDTO.staticPortNumber);
+  AgentInfoDTO.staticHostHashCode=(hostIP + AgentInfoDTO.staticPortNumber).hashCode();
+  AgentInfoSender sender=new AgentInfoSender(true);
+  sender.start();
+}

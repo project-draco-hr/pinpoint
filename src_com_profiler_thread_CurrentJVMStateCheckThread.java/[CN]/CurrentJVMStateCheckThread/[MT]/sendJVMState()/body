@@ -1,0 +1,11 @@
+{
+  currentDto=new JVMInfoThriftDTO();
+  currentDto.setAgentHashCode(AgentInfoDTO.staticHostHashCode);
+  currentDto.setDataTime(System.currentTimeMillis());
+  getActiveThreadCount();
+  getGCState();
+  getMemoryState();
+  getProcessCPUUsage();
+  JVMDataSender sender=new JVMDataSender(currentDto);
+  sender.send();
+}

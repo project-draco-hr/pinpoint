@@ -1,0 +1,12 @@
+{
+  RequestDataListThriftDTO dataListDto=RequestDataTracer.getRequestDataList();
+  if (dataListDto != null) {
+    RequestDataSender dSender=new RequestDataSender(dataListDto);
+    dSender.send();
+  }
+  RequestTransactionDataSender tSender=new RequestTransactionDataSender(dto);
+  tSender.send();
+  requestSet.remove(requestID.get());
+  RequestDataTracer.removeRequestDataList();
+  RequestDataTracer.removeFetchCount();
+}

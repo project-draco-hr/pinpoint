@@ -1,0 +1,23 @@
+{
+  while (connectToServer()) {
+    try {
+      Thread.sleep(TomcatProfilerConfig.SERVER_CONNECT_RETRY_GAP);
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+  }
+  try {
+    ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
+    AgentInfoDTO dto=new AgentInfoDTO();
+    log(dto.toString());
+    stream.writeObject(dto);
+    stream.close();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  if (requestSocket != null) {
+    closeSocket();
+  }
+}

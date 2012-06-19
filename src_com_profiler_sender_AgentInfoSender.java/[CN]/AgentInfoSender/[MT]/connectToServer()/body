@@ -1,0 +1,15 @@
+{
+  try {
+    requestSocket=new Socket(TomcatProfilerConfig.SERVER_IP,TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT);
+    log("Connected to server ");
+    return false;
+  }
+ catch (  java.net.ConnectException ce) {
+    log("Connect to TomcatProfiler server is failed ***");
+    return true;
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+    return true;
+  }
+}

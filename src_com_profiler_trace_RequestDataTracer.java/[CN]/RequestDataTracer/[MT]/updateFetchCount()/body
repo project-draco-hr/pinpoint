@@ -1,0 +1,12 @@
+{
+  Integer totalFetchCount=totalFetchCountThreadLocal.get();
+  Integer fetchCount=fetchCountThreadLocal.get();
+  if (totalFetchCount == null) {
+    totalFetchCountThreadLocal.set(0);
+  }
+  if (fetchCount == null) {
+    fetchCountThreadLocal.set(0);
+  }
+  totalFetchCountThreadLocal.set(totalFetchCountThreadLocal.get() + 1);
+  fetchCountThreadLocal.set(fetchCountThreadLocal.get() + 1);
+}

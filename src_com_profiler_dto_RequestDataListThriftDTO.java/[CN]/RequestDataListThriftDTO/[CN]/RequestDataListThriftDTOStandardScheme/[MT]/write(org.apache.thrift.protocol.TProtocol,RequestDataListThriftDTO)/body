@@ -1,0 +1,23 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(HOST_HASH_CODE_FIELD_DESC);
+  oprot.writeI32(struct.hostHashCode);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(REQUEST_HASH_CODE_FIELD_DESC);
+  oprot.writeI32(struct.requestHashCode);
+  oprot.writeFieldEnd();
+  if (struct.requestDataList != null) {
+    oprot.writeFieldBegin(REQUEST_DATA_LIST_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.requestDataList.size()));
+      for (      RequestDataThriftDTO _iter3 : struct.requestDataList) {
+        _iter3.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

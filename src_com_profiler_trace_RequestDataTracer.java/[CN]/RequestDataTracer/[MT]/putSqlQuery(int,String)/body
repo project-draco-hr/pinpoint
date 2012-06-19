@@ -1,0 +1,19 @@
+{
+  if (isRequestData()) {
+    RequestDataListThriftDTO dto=requestDataThreadLocal.get();
+    dto=checkDTO(dto);
+    List<RequestDataThriftDTO> list=dto.getRequestDataList();
+    checkSqlParamMap(list);
+    RequestDataThriftDTO dataDto=new RequestDataThriftDTO(dataType,System.currentTimeMillis());
+    int dataHashCode=data.hashCode();
+    dataDto.setDataHashCode(dataHashCode);
+    boolean isAlreadySent=checkHashCode(dataHashCode);
+    if (!isAlreadySent) {
+      if (data != null) {
+        dataDto.setDataString(QueryStringUtil.removeAllMultiSpace(data));
+      }
+    }
+    list.add(dataDto);
+    requestDataThreadLocal.set(dto);
+  }
+}

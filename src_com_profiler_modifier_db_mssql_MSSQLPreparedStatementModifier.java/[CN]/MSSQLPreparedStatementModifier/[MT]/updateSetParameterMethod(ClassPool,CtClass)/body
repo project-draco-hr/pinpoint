@@ -1,0 +1,11 @@
+{
+  CtClass[] params1=new CtClass[5];
+  params1[0]=classPool.getCtClass("int");
+  params1[1]=classPool.getCtClass("java.lang.Object");
+  params1[2]=classPool.getCtClass("int");
+  params1[3]=classPool.getCtClass("int");
+  params1[4]=classPool.getCtClass("int");
+  CtMethod serviceMethod1=cc.getDeclaredMethod("setParameter",params1);
+  log("*** Changing setParameter(int,Object,int,int,int) method ");
+  serviceMethod1.insertBefore(getSetParameterBeforeInsertCode());
+}
