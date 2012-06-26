@@ -1,0 +1,18 @@
+{
+  TDeserializer deserializer=new TDeserializer(new TBinaryProtocol.Factory());
+  RequestThriftDTO dto=new RequestThriftDTO();
+  try {
+    deserializer.deserialize(dto,data);
+    logger.debug(dto);
+    RequestTransactionDataManager manager=new RequestTransactionDataManager();
+    manager.addRequest(dto);
+  }
+ catch (  TTransportException tte) {
+    logger.error(tte.getMessage());
+    System.out.println("Message size=" + data.length);
+    tte.printStackTrace();
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

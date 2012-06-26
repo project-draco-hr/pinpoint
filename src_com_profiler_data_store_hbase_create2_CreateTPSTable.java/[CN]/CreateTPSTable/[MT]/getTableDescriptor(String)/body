@@ -1,0 +1,7 @@
+{
+  HTableDescriptor tableDesc=new HTableDescriptor(tableName);
+  tableDesc.setName(tableName.getBytes());
+  tableDesc.addFamily(new HColumnDescriptor(HBASE_TPS_COLUMN_REQUEST_TPS));
+  tableDesc.addFamily(new HColumnDescriptor(HBASE_TPS_COLUMN_RESPONSE_TPS));
+  return tableDesc;
+}

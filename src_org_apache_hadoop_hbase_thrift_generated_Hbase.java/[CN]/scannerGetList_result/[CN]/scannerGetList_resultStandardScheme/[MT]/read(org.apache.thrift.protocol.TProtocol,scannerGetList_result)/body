@@ -1,0 +1,56 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 0:
+      if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+          org.apache.thrift.protocol.TList _list284=iprot.readListBegin();
+          struct.success=new ArrayList<TRowResult>(_list284.size);
+          for (int _i285=0; _i285 < _list284.size; ++_i285) {
+            TRowResult _elem286;
+            _elem286=new TRowResult();
+            _elem286.read(iprot);
+            struct.success.add(_elem286);
+          }
+          iprot.readListEnd();
+        }
+        struct.setSuccessIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 1:
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+    struct.io=new IOError();
+    struct.io.read(iprot);
+    struct.setIoIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 2:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+struct.ia=new IllegalArgument();
+struct.ia.read(iprot);
+struct.setIaIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

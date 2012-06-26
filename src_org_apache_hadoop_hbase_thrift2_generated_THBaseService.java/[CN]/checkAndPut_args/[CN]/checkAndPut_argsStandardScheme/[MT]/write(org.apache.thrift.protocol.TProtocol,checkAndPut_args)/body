@@ -1,0 +1,36 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.table != null) {
+    oprot.writeFieldBegin(TABLE_FIELD_DESC);
+    oprot.writeBinary(struct.table);
+    oprot.writeFieldEnd();
+  }
+  if (struct.row != null) {
+    oprot.writeFieldBegin(ROW_FIELD_DESC);
+    oprot.writeBinary(struct.row);
+    oprot.writeFieldEnd();
+  }
+  if (struct.family != null) {
+    oprot.writeFieldBegin(FAMILY_FIELD_DESC);
+    oprot.writeBinary(struct.family);
+    oprot.writeFieldEnd();
+  }
+  if (struct.qualifier != null) {
+    oprot.writeFieldBegin(QUALIFIER_FIELD_DESC);
+    oprot.writeBinary(struct.qualifier);
+    oprot.writeFieldEnd();
+  }
+  if (struct.value != null) {
+    oprot.writeFieldBegin(VALUE_FIELD_DESC);
+    oprot.writeBinary(struct.value);
+    oprot.writeFieldEnd();
+  }
+  if (struct.put != null) {
+    oprot.writeFieldBegin(PUT_FIELD_DESC);
+    struct.put.write(oprot);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

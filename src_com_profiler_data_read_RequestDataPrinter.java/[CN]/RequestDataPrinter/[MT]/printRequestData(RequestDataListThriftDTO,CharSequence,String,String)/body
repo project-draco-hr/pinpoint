@@ -1,0 +1,36 @@
+{
+  StringBuilder message=new StringBuilder();
+  message.append(agentName).append(newLine);
+  message.append(url).append(newLine);
+  List<RequestDataThriftDTO> list=dto.getRequestDataList();
+  if (list != null) {
+    for (    RequestDataThriftDTO tempDataDto : list) {
+      int dataType=tempDataDto.getDataType();
+      String dataTypeString=printDataType(dataType);
+      long dataTime=tempDataDto.getDataTime();
+      String dataTimeString=TomcatProfilerReceiverConstant.DATE_FORMAT_HMS_MS.format(new Date(dataTime));
+      int dataHashCode=tempDataDto.getDataHashCode();
+      String dataString=tempDataDto.getDataString();
+      int extraInt1=tempDataDto.getExtraInt1();
+      int extraInt2=tempDataDto.getExtraInt2();
+      message.append(dataTimeString).append(" ").append(dataTypeString).append(" ");
+      if (dataHashCode != 0) {
+        message.append(dataHashCode).append(" ");
+      }
+      if (dataString != null) {
+        message.append(dataString).append(" ");
+      }
+      if (extraInt1 != 0) {
+        message.append(extraInt1).append(" ");
+      }
+      if (extraInt2 != 0) {
+        message.append(extraInt2).append(" ");
+      }
+      message.append(newLine);
+      if (dataType == TomcatProfilerReceiverConstant.REQ_DATA_TYPE_DB_CLOSE_CONNECTION) {
+        message.append("------------------------------").append(newLine);
+      }
+    }
+  }
+  return message;
+}

@@ -1,0 +1,14 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  struct.family=iprot.readBinary();
+  struct.setFamilyIsSet(true);
+  BitSet incoming=iprot.readBitSet(2);
+  if (incoming.get(0)) {
+    struct.qualifier=iprot.readBinary();
+    struct.setQualifierIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.timestamp=iprot.readI64();
+    struct.setTimestampIsSet(true);
+  }
+}

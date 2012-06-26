@@ -1,0 +1,15 @@
+{
+  try {
+    ByteBuffer tableNameBuffer=ByteBuffer.wrap(tableName.getBytes());
+    List<ColumnDescriptor> columnFamilies=getColumnList();
+    ThriftClientManager manager=new ThriftClientManager();
+    Hbase.Client client=manager.getClient();
+    if (!client.isTableEnabled(tableNameBuffer)) {
+      client.createTable(tableNameBuffer,columnFamilies);
+    }
+    manager.close();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

@@ -1,0 +1,28 @@
+{
+  if (that == null)   return false;
+  boolean this_present_row=true && this.isSetRow();
+  boolean that_present_row=true && that.isSetRow();
+  if (this_present_row || that_present_row) {
+    if (!(this_present_row && that_present_row))     return false;
+    if (!this.row.equals(that.row))     return false;
+  }
+  boolean this_present_columnValues=true && this.isSetColumnValues();
+  boolean that_present_columnValues=true && that.isSetColumnValues();
+  if (this_present_columnValues || that_present_columnValues) {
+    if (!(this_present_columnValues && that_present_columnValues))     return false;
+    if (!this.columnValues.equals(that.columnValues))     return false;
+  }
+  boolean this_present_timestamp=true && this.isSetTimestamp();
+  boolean that_present_timestamp=true && that.isSetTimestamp();
+  if (this_present_timestamp || that_present_timestamp) {
+    if (!(this_present_timestamp && that_present_timestamp))     return false;
+    if (this.timestamp != that.timestamp)     return false;
+  }
+  boolean this_present_writeToWal=true && this.isSetWriteToWal();
+  boolean that_present_writeToWal=true && that.isSetWriteToWal();
+  if (this_present_writeToWal || that_present_writeToWal) {
+    if (!(this_present_writeToWal && that_present_writeToWal))     return false;
+    if (this.writeToWal != that.writeToWal)     return false;
+  }
+  return true;
+}

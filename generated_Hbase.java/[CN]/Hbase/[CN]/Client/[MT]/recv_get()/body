@@ -1,0 +1,11 @@
+{
+  get_result result=new get_result();
+  receiveBase(result,"get");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"get failed: unknown result");
+}

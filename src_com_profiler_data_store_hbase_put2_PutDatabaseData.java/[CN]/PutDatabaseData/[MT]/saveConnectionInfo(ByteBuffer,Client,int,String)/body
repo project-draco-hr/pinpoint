@@ -1,0 +1,14 @@
+{
+  String hashCodeString=hashCode + "";
+  ByteBuffer row=ByteBuffer.wrap((hashCodeString).getBytes());
+  TPut connPut=new TPut();
+  connPut.addToColumnValues(getTColumnValue(HBASE_DATABASE_COLUMN_CONNECTION_URL,REQ_DATA_TYPE_DB_GET_CONNECTION + "",url));
+  connPut.setRow(row);
+  TPut rowNamesPut=new TPut();
+  rowNamesPut.addToColumnValues(getTColumnValue(HBASE_DATABASE_COLUMN_DB_ROW_NAMES,hashCodeString,hashCodeString));
+  rowNamesPut.setRow(HBASE_DATABASE_ROW_DB_ROW_NAMES);
+  List<TPut> list=new ArrayList<TPut>();
+  list.add(connPut);
+  list.add(rowNamesPut);
+  client.putMultiple(tableNameBuffer,list);
+}

@@ -1,0 +1,11 @@
+{
+  getRowsWithColumns_result result=new getRowsWithColumns_result();
+  receiveBase(result,"getRowsWithColumns");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"getRowsWithColumns failed: unknown result");
+}

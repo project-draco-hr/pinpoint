@@ -1,0 +1,26 @@
+{
+  Integer[] data=new Integer[2];
+  data[0]=reqPS;
+  data[1]=resPS;
+  List<Integer[]> saveDataList=null;
+  if (agentTPSData.containsKey(agentHashCode)) {
+    List<Integer[]> dataList=agentTPSData.get(agentHashCode);
+    dataList.add(data);
+    if (dataList.size() > 10) {
+      saveDataList=dataList;
+      agentTPSData.put(agentHashCode,new ArrayList<Integer[]>());
+    }
+  }
+ else {
+    List<Integer[]> dataList=new ArrayList<Integer[]>();
+    dataList.add(data);
+    agentTPSData.put(agentHashCode,dataList);
+  }
+  if (saveDataList != null) {
+    if (TomcatProfilerReceiverConfig.USING_HBASE) {
+      String tableName=TomcatProfilerReceiverConstant.HBASE_TPS_TABLE + "_" + agentHashCode;
+      PutTPSData put=new PutTPSData(tableName,saveDataList,lastDataTime);
+      DataPutThreadManager.execute(put);
+    }
+  }
+}

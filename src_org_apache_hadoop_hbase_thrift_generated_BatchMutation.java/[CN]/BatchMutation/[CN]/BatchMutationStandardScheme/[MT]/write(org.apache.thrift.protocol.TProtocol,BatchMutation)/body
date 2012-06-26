@@ -1,0 +1,22 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.row != null) {
+    oprot.writeFieldBegin(ROW_FIELD_DESC);
+    oprot.writeBinary(struct.row);
+    oprot.writeFieldEnd();
+  }
+  if (struct.mutations != null) {
+    oprot.writeFieldBegin(MUTATIONS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.mutations.size()));
+      for (      Mutation _iter3 : struct.mutations) {
+        _iter3.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

@@ -1,0 +1,13 @@
+{
+  mutateRowsTs_result result=new mutateRowsTs_result();
+  try {
+    iface.mutateRowsTs(args.tableName,args.rowBatches,args.timestamp);
+  }
+ catch (  IOError io) {
+    result.io=io;
+  }
+catch (  IllegalArgument ia) {
+    result.ia=ia;
+  }
+  return result;
+}

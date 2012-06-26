@@ -1,0 +1,32 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.tableName != null) {
+    oprot.writeFieldBegin(TABLE_NAME_FIELD_DESC);
+    oprot.writeBinary(struct.tableName);
+    oprot.writeFieldEnd();
+  }
+  if (struct.startRow != null) {
+    oprot.writeFieldBegin(START_ROW_FIELD_DESC);
+    oprot.writeBinary(struct.startRow);
+    oprot.writeFieldEnd();
+  }
+  if (struct.stopRow != null) {
+    oprot.writeFieldBegin(STOP_ROW_FIELD_DESC);
+    oprot.writeBinary(struct.stopRow);
+    oprot.writeFieldEnd();
+  }
+  if (struct.columns != null) {
+    oprot.writeFieldBegin(COLUMNS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.columns.size()));
+      for (      ByteBuffer _iter247 : struct.columns) {
+        oprot.writeBinary(_iter247);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

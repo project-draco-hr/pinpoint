@@ -1,0 +1,33 @@
+{
+  try {
+    initializeSocket();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  if (udpSocket != null) {
+    System.out.println("Waiting for " + threadName);
+    while (true) {
+      byte[] buffer=new byte[dataBufferSize];
+      int bufferLength=buffer.length;
+      try {
+        DatagramPacket packet=new DatagramPacket(buffer,bufferLength);
+        udpSocket.receive(packet);
+        execute(packet);
+      }
+ catch (      RejectedExecutionException ree) {
+        rejectedExecutionCount++;
+        if (rejectedExecutionCount > 1000) {
+          System.out.println("rejectedExecutionCount=1000");
+          rejectedExecutionCount=0;
+        }
+      }
+catch (      Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+ else {
+    System.out.println("There is problem with making UDP Socket connection.");
+  }
+}

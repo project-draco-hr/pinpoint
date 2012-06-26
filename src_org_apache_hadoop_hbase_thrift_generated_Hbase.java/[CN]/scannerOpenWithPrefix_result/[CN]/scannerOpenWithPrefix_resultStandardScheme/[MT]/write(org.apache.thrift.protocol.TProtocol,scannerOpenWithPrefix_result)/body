@@ -1,0 +1,14 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+  oprot.writeI32(struct.success);
+  oprot.writeFieldEnd();
+  if (struct.io != null) {
+    oprot.writeFieldBegin(IO_FIELD_DESC);
+    struct.io.write(oprot);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

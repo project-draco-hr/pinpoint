@@ -1,0 +1,11 @@
+{
+  openScanner_result result=new openScanner_result();
+  receiveBase(result,"openScanner");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"openScanner failed: unknown result");
+}

@@ -1,0 +1,19 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  struct.table=iprot.readBinary();
+  struct.setTableIsSet(true);
+  struct.row=iprot.readBinary();
+  struct.setRowIsSet(true);
+  struct.family=iprot.readBinary();
+  struct.setFamilyIsSet(true);
+  struct.qualifier=iprot.readBinary();
+  struct.setQualifierIsSet(true);
+  struct.deleteSingle=new TDelete();
+  struct.deleteSingle.read(iprot);
+  struct.setDeleteSingleIsSet(true);
+  BitSet incoming=iprot.readBitSet(1);
+  if (incoming.get(0)) {
+    struct.value=iprot.readBinary();
+    struct.setValueIsSet(true);
+  }
+}

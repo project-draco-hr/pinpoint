@@ -1,0 +1,11 @@
+{
+  getVer_result result=new getVer_result();
+  receiveBase(result,"getVer");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"getVer failed: unknown result");
+}

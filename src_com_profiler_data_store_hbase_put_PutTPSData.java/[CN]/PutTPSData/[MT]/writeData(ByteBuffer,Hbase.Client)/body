@@ -1,0 +1,26 @@
+{
+  try {
+    int dataSize=saveDataList.size();
+    long standardTime=lastDataTime - lastDataTime % 1000;
+    long firstTime=standardTime - (dataSize - 1) * 1000;
+    List<BatchMutation> rowBatches=new ArrayList<BatchMutation>(dataSize);
+    for (int loop=0; loop < dataSize; loop++) {
+      long timestamp=firstTime + 1000 * loop;
+      String rowName=TomcatProfilerReceiverConstant.DATE_FORMAT_YMD.format(new Date(timestamp));
+      ByteBuffer row=ByteBuffer.wrap(Bytes.toBytes(rowName));
+      Integer[] tempData=saveDataList.get(loop);
+      List<Mutation> mutations=new ArrayList<Mutation>();
+      mutations.add(getMutation(HBASE_TPS_COLUMN_REQUEST_TPS + timestamp,(tempData[0] + "").getBytes()));
+      mutations.add(getMutation(HBASE_TPS_COLUMN_RESPONSE_TPS + timestamp,(tempData[1] + "").getBytes()));
+      BatchMutation tempBatch=new BatchMutation(row,mutations);
+      rowBatches.add(tempBatch);
+    }
+    client.mutateRowsTs(tableNameBuffer,rowBatches,standardTime);
+  }
+ catch (  IOError ioe) {
+    logger.error("ServerData " + ioe.getMessage());
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

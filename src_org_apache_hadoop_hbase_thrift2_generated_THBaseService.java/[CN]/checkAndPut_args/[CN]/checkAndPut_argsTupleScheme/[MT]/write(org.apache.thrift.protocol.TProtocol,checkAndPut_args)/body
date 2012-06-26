@@ -1,0 +1,16 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  oprot.writeBinary(struct.table);
+  oprot.writeBinary(struct.row);
+  oprot.writeBinary(struct.family);
+  oprot.writeBinary(struct.qualifier);
+  struct.put.write(oprot);
+  BitSet optionals=new BitSet();
+  if (struct.isSetValue()) {
+    optionals.set(0);
+  }
+  oprot.writeBitSet(optionals,1);
+  if (struct.isSetValue()) {
+    oprot.writeBinary(struct.value);
+  }
+}

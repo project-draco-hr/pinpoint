@@ -1,0 +1,49 @@
+{
+  try {
+    RequestThriftDTO tempDto=responseDtoList.get(0);
+    long tempTime=tempDto.getDataTime();
+    long timestamp=tempTime - tempTime % 1000;
+    String time=TomcatProfilerReceiverConstant.DATE_FORMAT_YMD_HM.format(new Date(tempTime));
+    ByteBuffer row=ByteBuffer.wrap(time.getBytes());
+    int listSize=requestDtoList.size();
+    List<TPut> list=new ArrayList<TPut>();
+    for (int loop=0; loop < listSize; loop++) {
+      RequestThriftDTO requestDto=requestDtoList.get(loop);
+      RequestThriftDTO responseDto=responseDtoList.get(loop);
+      long requestHashCode=requestDto.getRequestHashCode();
+      long requestTime=requestDto.getDataTime();
+      long responseTime=responseDto.getDataTime();
+      long elapsedTime=responseTime - requestTime;
+      String url=requestDto.getRequestURL();
+      String clientIP=requestDto.getClientIP();
+      String requestParams=requestDto.getExtraData1();
+      TPut requestPut=new TPut();
+      String requestHashCodeString=requestHashCode + "";
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_REQUEST_TIME,requestHashCodeString,requestTime + ""));
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_RESPONSE_TIME,requestHashCodeString,responseTime + ""));
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_ELAPSED_TIME,requestHashCodeString,elapsedTime + ""));
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_REQUEST_URL,requestHashCodeString,url));
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_CLIENT_IP,requestHashCodeString,clientIP));
+      String saveParams="";
+      if (requestParams != null) {
+        saveParams=requestParams;
+      }
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_REQUEST_PARAMS,requestHashCodeString,saveParams));
+      byte[] tempByteData=null;
+      if ((tempByteData=responseDataByteArrayList.get(loop)) == null) {
+        tempByteData=new String().getBytes();
+      }
+      requestPut.addToColumnValues(getTColumnValue(HBASE_REQUEST_COLUMN_REQUEST_DATA,requestHashCodeString,tempByteData));
+      requestPut.setRow(row);
+      requestPut.setTimestamp(timestamp);
+      list.add(requestPut);
+    }
+    client.putMultiple(tableNameBuffer,list);
+  }
+ catch (  TIOError ioe) {
+    logger.error("PutRequestTransactionData " + ioe.getMessage());
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

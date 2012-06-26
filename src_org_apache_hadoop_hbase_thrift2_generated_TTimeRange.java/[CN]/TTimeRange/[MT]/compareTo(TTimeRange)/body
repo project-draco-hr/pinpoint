@@ -1,0 +1,28 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  TTimeRange typedOther=(TTimeRange)other;
+  lastComparison=Boolean.valueOf(isSetMinStamp()).compareTo(typedOther.isSetMinStamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetMinStamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.minStamp,typedOther.minStamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetMaxStamp()).compareTo(typedOther.isSetMaxStamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetMaxStamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.maxStamp,typedOther.maxStamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

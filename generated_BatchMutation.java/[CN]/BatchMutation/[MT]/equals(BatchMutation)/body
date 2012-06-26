@@ -1,0 +1,16 @@
+{
+  if (that == null)   return false;
+  boolean this_present_row=true && this.isSetRow();
+  boolean that_present_row=true && that.isSetRow();
+  if (this_present_row || that_present_row) {
+    if (!(this_present_row && that_present_row))     return false;
+    if (!this.row.equals(that.row))     return false;
+  }
+  boolean this_present_mutations=true && this.isSetMutations();
+  boolean that_present_mutations=true && that.isSetMutations();
+  if (this_present_mutations || that_present_mutations) {
+    if (!(this_present_mutations && that_present_mutations))     return false;
+    if (!this.mutations.equals(that.mutations))     return false;
+  }
+  return true;
+}

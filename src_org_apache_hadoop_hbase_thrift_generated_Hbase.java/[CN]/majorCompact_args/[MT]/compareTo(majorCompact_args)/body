@@ -1,0 +1,18 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  majorCompact_args typedOther=(majorCompact_args)other;
+  lastComparison=Boolean.valueOf(isSetTableNameOrRegionName()).compareTo(typedOther.isSetTableNameOrRegionName());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTableNameOrRegionName()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.tableNameOrRegionName,typedOther.tableNameOrRegionName);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

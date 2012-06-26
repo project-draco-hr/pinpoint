@@ -1,0 +1,28 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  BatchMutation typedOther=(BatchMutation)other;
+  lastComparison=Boolean.valueOf(isSetRow()).compareTo(typedOther.isSetRow());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetRow()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.row,typedOther.row);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetMutations()).compareTo(typedOther.isSetMutations());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetMutations()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.mutations,typedOther.mutations);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

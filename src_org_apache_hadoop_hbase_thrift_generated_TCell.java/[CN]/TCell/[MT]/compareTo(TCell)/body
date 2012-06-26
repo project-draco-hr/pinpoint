@@ -1,0 +1,28 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  TCell typedOther=(TCell)other;
+  lastComparison=Boolean.valueOf(isSetValue()).compareTo(typedOther.isSetValue());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetValue()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.value,typedOther.value);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetTimestamp()).compareTo(typedOther.isSetTimestamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTimestamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.timestamp,typedOther.timestamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

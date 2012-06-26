@@ -1,0 +1,16 @@
+{
+  RequestThriftDTO dto=null;
+  if (!requestDTOTable.containsKey(hashCode)) {
+    System.out.println("Request data is not arrived yet ! sleep");
+    try {
+      Thread.sleep(10);
+    }
+ catch (    Exception e) {
+    }
+  }
+  if (requestDTOTable.containsKey(hashCode)) {
+    dto=requestDTOTable.get(hashCode);
+    requestDTOTable.remove(hashCode);
+  }
+  return dto;
+}

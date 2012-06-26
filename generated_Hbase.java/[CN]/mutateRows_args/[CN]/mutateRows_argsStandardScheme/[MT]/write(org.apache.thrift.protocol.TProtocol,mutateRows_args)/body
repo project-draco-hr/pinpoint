@@ -1,0 +1,22 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.tableName != null) {
+    oprot.writeFieldBegin(TABLE_NAME_FIELD_DESC);
+    oprot.writeBinary(struct.tableName);
+    oprot.writeFieldEnd();
+  }
+  if (struct.rowBatches != null) {
+    oprot.writeFieldBegin(ROW_BATCHES_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.rowBatches.size()));
+      for (      BatchMutation _iter223 : struct.rowBatches) {
+        _iter223.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

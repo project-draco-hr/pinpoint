@@ -1,0 +1,22 @@
+{
+  if (that == null)   return false;
+  boolean this_present_isDelete=true;
+  boolean that_present_isDelete=true;
+  if (this_present_isDelete || that_present_isDelete) {
+    if (!(this_present_isDelete && that_present_isDelete))     return false;
+    if (this.isDelete != that.isDelete)     return false;
+  }
+  boolean this_present_column=true && this.isSetColumn();
+  boolean that_present_column=true && that.isSetColumn();
+  if (this_present_column || that_present_column) {
+    if (!(this_present_column && that_present_column))     return false;
+    if (!this.column.equals(that.column))     return false;
+  }
+  boolean this_present_value=true && this.isSetValue();
+  boolean that_present_value=true && that.isSetValue();
+  if (this_present_value || that_present_value) {
+    if (!(this_present_value && that_present_value))     return false;
+    if (!this.value.equals(that.value))     return false;
+  }
+  return true;
+}

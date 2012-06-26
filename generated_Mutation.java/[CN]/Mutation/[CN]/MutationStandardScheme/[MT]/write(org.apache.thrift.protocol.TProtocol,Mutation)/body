@@ -1,0 +1,19 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(IS_DELETE_FIELD_DESC);
+  oprot.writeBool(struct.isDelete);
+  oprot.writeFieldEnd();
+  if (struct.column != null) {
+    oprot.writeFieldBegin(COLUMN_FIELD_DESC);
+    oprot.writeBinary(struct.column);
+    oprot.writeFieldEnd();
+  }
+  if (struct.value != null) {
+    oprot.writeFieldBegin(VALUE_FIELD_DESC);
+    oprot.writeBinary(struct.value);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

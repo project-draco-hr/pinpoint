@@ -1,0 +1,22 @@
+{
+  try {
+    int agentHashCode=dto.getHostHashCode();
+    String agentHashCodeString=agentHashCode + "";
+    ByteBuffer row=ByteBuffer.wrap(agentHashCodeString.getBytes());
+    long timestamp=dto.getTimestamp();
+    List<Mutation> mutations=new ArrayList<Mutation>();
+    mutations.add(getMutation(HBASE_SERVER_COLUMN_IP + agentHashCode,dto.getHostIP().getBytes()));
+    mutations.add(getMutation(HBASE_SERVER_COLUMN_PORTS + agentHashCode,dto.getPortNumbers().getBytes()));
+    mutations.add(getMutation(HBASE_SERVER_COLUMN_IS_RUNNING + agentHashCode,(dto.isAlive() + "").getBytes()));
+    client.mutateRowTs(tableNameBuffer,row,mutations,timestamp);
+    List<Mutation> rowNamesMutation=new ArrayList<Mutation>();
+    rowNamesMutation.add(getMutation(HBASE_SERVER_COLUMN_ROW_NAMES + agentHashCodeString,agentHashCodeString.getBytes()));
+    client.mutateRowTs(tableNameBuffer,HBASE_SERVER_ROW_ROW_NAMES,rowNamesMutation,timestamp);
+  }
+ catch (  IOError ioe) {
+    logger.error("ServerData " + ioe.getMessage());
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

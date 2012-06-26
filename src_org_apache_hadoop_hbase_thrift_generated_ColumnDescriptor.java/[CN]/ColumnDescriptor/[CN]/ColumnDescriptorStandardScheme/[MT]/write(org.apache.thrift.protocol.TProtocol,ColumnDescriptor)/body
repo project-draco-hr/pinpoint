@@ -1,0 +1,39 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.name != null) {
+    oprot.writeFieldBegin(NAME_FIELD_DESC);
+    oprot.writeBinary(struct.name);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(MAX_VERSIONS_FIELD_DESC);
+  oprot.writeI32(struct.maxVersions);
+  oprot.writeFieldEnd();
+  if (struct.compression != null) {
+    oprot.writeFieldBegin(COMPRESSION_FIELD_DESC);
+    oprot.writeString(struct.compression);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(IN_MEMORY_FIELD_DESC);
+  oprot.writeBool(struct.inMemory);
+  oprot.writeFieldEnd();
+  if (struct.bloomFilterType != null) {
+    oprot.writeFieldBegin(BLOOM_FILTER_TYPE_FIELD_DESC);
+    oprot.writeString(struct.bloomFilterType);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(BLOOM_FILTER_VECTOR_SIZE_FIELD_DESC);
+  oprot.writeI32(struct.bloomFilterVectorSize);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(BLOOM_FILTER_NB_HASHES_FIELD_DESC);
+  oprot.writeI32(struct.bloomFilterNbHashes);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(BLOCK_CACHE_ENABLED_FIELD_DESC);
+  oprot.writeBool(struct.blockCacheEnabled);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(TIME_TO_LIVE_FIELD_DESC);
+  oprot.writeI32(struct.timeToLive);
+  oprot.writeFieldEnd();
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

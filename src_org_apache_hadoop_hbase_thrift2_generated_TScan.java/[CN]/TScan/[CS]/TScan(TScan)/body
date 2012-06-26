@@ -1,0 +1,24 @@
+{
+  __isset_bit_vector.clear();
+  __isset_bit_vector.or(other.__isset_bit_vector);
+  if (other.isSetStartRow()) {
+    this.startRow=org.apache.thrift.TBaseHelper.copyBinary(other.startRow);
+    ;
+  }
+  if (other.isSetStopRow()) {
+    this.stopRow=org.apache.thrift.TBaseHelper.copyBinary(other.stopRow);
+    ;
+  }
+  if (other.isSetColumns()) {
+    List<TColumn> __this__columns=new ArrayList<TColumn>();
+    for (    TColumn other_element : other.columns) {
+      __this__columns.add(new TColumn(other_element));
+    }
+    this.columns=__this__columns;
+  }
+  this.caching=other.caching;
+  this.maxVersions=other.maxVersions;
+  if (other.isSetTimeRange()) {
+    this.timeRange=new TTimeRange(other.timeRange);
+  }
+}

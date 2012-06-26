@@ -1,0 +1,59 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetName()) {
+    optionals.set(0);
+  }
+  if (struct.isSetMaxVersions()) {
+    optionals.set(1);
+  }
+  if (struct.isSetCompression()) {
+    optionals.set(2);
+  }
+  if (struct.isSetInMemory()) {
+    optionals.set(3);
+  }
+  if (struct.isSetBloomFilterType()) {
+    optionals.set(4);
+  }
+  if (struct.isSetBloomFilterVectorSize()) {
+    optionals.set(5);
+  }
+  if (struct.isSetBloomFilterNbHashes()) {
+    optionals.set(6);
+  }
+  if (struct.isSetBlockCacheEnabled()) {
+    optionals.set(7);
+  }
+  if (struct.isSetTimeToLive()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
+  if (struct.isSetName()) {
+    oprot.writeBinary(struct.name);
+  }
+  if (struct.isSetMaxVersions()) {
+    oprot.writeI32(struct.maxVersions);
+  }
+  if (struct.isSetCompression()) {
+    oprot.writeString(struct.compression);
+  }
+  if (struct.isSetInMemory()) {
+    oprot.writeBool(struct.inMemory);
+  }
+  if (struct.isSetBloomFilterType()) {
+    oprot.writeString(struct.bloomFilterType);
+  }
+  if (struct.isSetBloomFilterVectorSize()) {
+    oprot.writeI32(struct.bloomFilterVectorSize);
+  }
+  if (struct.isSetBloomFilterNbHashes()) {
+    oprot.writeI32(struct.bloomFilterNbHashes);
+  }
+  if (struct.isSetBlockCacheEnabled()) {
+    oprot.writeBool(struct.blockCacheEnabled);
+  }
+  if (struct.isSetTimeToLive()) {
+    oprot.writeI32(struct.timeToLive);
+  }
+}

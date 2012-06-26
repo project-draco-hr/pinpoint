@@ -1,0 +1,19 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.io=new IOError();
+    struct.io.read(iprot);
+    struct.setIoIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.ia=new IllegalArgument();
+    struct.ia.read(iprot);
+    struct.setIaIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.exist=new AlreadyExists();
+    struct.exist.read(iprot);
+    struct.setExistIsSet(true);
+  }
+}

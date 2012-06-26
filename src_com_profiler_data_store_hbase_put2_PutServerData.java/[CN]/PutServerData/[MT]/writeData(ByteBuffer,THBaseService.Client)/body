@@ -1,0 +1,25 @@
+{
+  try {
+    int agentHashCode=dto.getHostHashCode();
+    String agentHashCodeString=agentHashCode + "";
+    TPut serverPut=new TPut();
+    serverPut.addToColumnValues(getTColumnValue(HBASE_SERVER_COLUMN_IP,agentHashCodeString,dto.getHostIP()));
+    serverPut.addToColumnValues(getTColumnValue(HBASE_SERVER_COLUMN_PORTS,agentHashCodeString,dto.getPortNumbers()));
+    serverPut.addToColumnValues(getTColumnValue(HBASE_SERVER_COLUMN_IS_RUNNING,agentHashCodeString,dto.isAlive() + ""));
+    serverPut.setRow(agentHashCodeString.getBytes());
+    TPut rowNamesPut=new TPut();
+    rowNamesPut.addToColumnValues(getTColumnValue(HBASE_SERVER_COLUMN_ROW_NAMES,agentHashCodeString,agentHashCodeString));
+    rowNamesPut.setRow(HBASE_SERVER_ROW_ROW_NAMES);
+    List<TPut> puts=new ArrayList<TPut>();
+    puts.add(serverPut);
+    puts.add(rowNamesPut);
+    client.putMultiple(tableNameBuffer,puts);
+  }
+ catch (  TIOError ioe) {
+    logger.error("ServerData " + ioe.getMessage());
+    System.out.println(ioe.getMessage());
+  }
+catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

@@ -1,0 +1,14 @@
+{
+  scannerGet_result result=new scannerGet_result();
+  receiveBase(result,"scannerGet");
+  if (result.isSetSuccess()) {
+    return result.success;
+  }
+  if (result.io != null) {
+    throw result.io;
+  }
+  if (result.ia != null) {
+    throw result.ia;
+  }
+  throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT,"scannerGet failed: unknown result");
+}

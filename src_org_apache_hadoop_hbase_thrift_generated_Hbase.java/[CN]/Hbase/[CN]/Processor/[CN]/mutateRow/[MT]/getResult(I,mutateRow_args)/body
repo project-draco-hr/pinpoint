@@ -1,0 +1,13 @@
+{
+  mutateRow_result result=new mutateRow_result();
+  try {
+    iface.mutateRow(args.tableName,args.row,args.mutations);
+  }
+ catch (  IOError io) {
+    result.io=io;
+  }
+catch (  IllegalArgument ia) {
+    result.ia=ia;
+  }
+  return result;
+}

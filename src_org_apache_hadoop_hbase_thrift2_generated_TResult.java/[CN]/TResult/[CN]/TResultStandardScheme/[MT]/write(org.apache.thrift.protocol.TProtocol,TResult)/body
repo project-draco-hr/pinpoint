@@ -1,0 +1,24 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.row != null) {
+    if (struct.isSetRow()) {
+      oprot.writeFieldBegin(ROW_FIELD_DESC);
+      oprot.writeBinary(struct.row);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.columnValues != null) {
+    oprot.writeFieldBegin(COLUMN_VALUES_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.columnValues.size()));
+      for (      TColumnValue _iter3 : struct.columnValues) {
+        _iter3.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

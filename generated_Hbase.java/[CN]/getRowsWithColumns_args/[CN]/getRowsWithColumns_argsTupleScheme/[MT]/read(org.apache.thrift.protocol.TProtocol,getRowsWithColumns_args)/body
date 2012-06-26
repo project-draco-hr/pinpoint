@@ -1,0 +1,32 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.tableName=iprot.readBinary();
+    struct.setTableNameIsSet(true);
+  }
+  if (incoming.get(1)) {
+{
+      org.apache.thrift.protocol.TList _list150=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.rows=new ArrayList<ByteBuffer>(_list150.size);
+      for (int _i151=0; _i151 < _list150.size; ++_i151) {
+        ByteBuffer _elem152;
+        _elem152=iprot.readBinary();
+        struct.rows.add(_elem152);
+      }
+    }
+    struct.setRowsIsSet(true);
+  }
+  if (incoming.get(2)) {
+{
+      org.apache.thrift.protocol.TList _list153=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.columns=new ArrayList<ByteBuffer>(_list153.size);
+      for (int _i154=0; _i154 < _list153.size; ++_i154) {
+        ByteBuffer _elem155;
+        _elem155=iprot.readBinary();
+        struct.columns.add(_elem155);
+      }
+    }
+    struct.setColumnsIsSet(true);
+  }
+}

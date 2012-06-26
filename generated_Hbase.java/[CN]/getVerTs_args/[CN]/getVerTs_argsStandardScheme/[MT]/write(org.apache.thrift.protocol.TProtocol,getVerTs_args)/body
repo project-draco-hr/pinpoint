@@ -1,0 +1,27 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.tableName != null) {
+    oprot.writeFieldBegin(TABLE_NAME_FIELD_DESC);
+    oprot.writeBinary(struct.tableName);
+    oprot.writeFieldEnd();
+  }
+  if (struct.row != null) {
+    oprot.writeFieldBegin(ROW_FIELD_DESC);
+    oprot.writeBinary(struct.row);
+    oprot.writeFieldEnd();
+  }
+  if (struct.column != null) {
+    oprot.writeFieldBegin(COLUMN_FIELD_DESC);
+    oprot.writeBinary(struct.column);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(NUM_VERSIONS_FIELD_DESC);
+  oprot.writeI32(struct.numVersions);
+  oprot.writeFieldEnd();
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

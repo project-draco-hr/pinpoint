@@ -1,0 +1,45 @@
+{
+  int requestDataType=dto.getDataType();
+  int agentHashCode=dto.getHostHashCode();
+  long dataTime=dto.getDataTime();
+  String key=getTimeKey(agentHashCode,dataTime);
+  int requestHashCode=dto.getRequestHashCode();
+  if (requestDataType == 1) {
+    requestDTOTable.put(requestHashCode,dto);
+    if (reqPerSecTable.containsKey(key)) {
+      reqPerSecTable.put(key,reqPerSecTable.get(key) + 1);
+    }
+ else {
+      reqPerSecTable.put(key,1);
+    }
+  }
+ else {
+    responseDTOTable.put(requestHashCode,dto);
+synchronized (requestHashCodeListTableLock) {
+      List<Integer> requestHashCodeList=null;
+      if (requestHashCodeListTable.containsKey(key)) {
+        requestHashCodeList=requestHashCodeListTable.get(key);
+      }
+ else {
+        requestHashCodeList=new ArrayList<Integer>();
+      }
+      requestHashCodeList.add(requestHashCode);
+      requestHashCodeListTable.put(key,requestHashCodeList);
+    }
+    if (resPerSecTable.containsKey(key)) {
+      resPerSecTable.put(key,resPerSecTable.get(key) + 1);
+    }
+ else {
+      resPerSecTable.put(key,1);
+    }
+  }
+  if (dto.getDataType() == TomcatProfilerReceiverConstant.DATA_TYPE_REQUEST) {
+    String url=dto.getRequestURL();
+    requestHashCodeTable.put(requestHashCode,url);
+  }
+ else {
+    if (requestHashCodeTable.containsKey(requestHashCode)) {
+      requestHashCodeTable.remove(key);
+    }
+  }
+}

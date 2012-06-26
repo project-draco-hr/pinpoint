@@ -1,0 +1,45 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.tableName=iprot.readBinary();
+        struct.setTableNameIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+      org.apache.thrift.protocol.TList _list44=iprot.readListBegin();
+      struct.columnFamilies=new ArrayList<ColumnDescriptor>(_list44.size);
+      for (int _i45=0; _i45 < _list44.size; ++_i45) {
+        ColumnDescriptor _elem46;
+        _elem46=new ColumnDescriptor();
+        _elem46.read(iprot);
+        struct.columnFamilies.add(_elem46);
+      }
+      iprot.readListEnd();
+    }
+    struct.setColumnFamiliesIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

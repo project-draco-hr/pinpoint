@@ -1,0 +1,16 @@
+{
+  createTable_result result=new createTable_result();
+  try {
+    iface.createTable(args.tableName,args.columnFamilies);
+  }
+ catch (  IOError io) {
+    result.io=io;
+  }
+catch (  IllegalArgument ia) {
+    result.ia=ia;
+  }
+catch (  AlreadyExists exist) {
+    result.exist=exist;
+  }
+  return result;
+}
