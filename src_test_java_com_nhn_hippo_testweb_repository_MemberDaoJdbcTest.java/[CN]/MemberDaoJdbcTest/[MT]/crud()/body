@@ -1,0 +1,13 @@
+{
+  Member member=new Member();
+  member.setId(1);
+  member.setName("whiteship");
+  member.setJoined(new Date());
+  memberDao.add(member);
+  assertThat(memberDao.list().size(),is(1));
+  member.setName("?????");
+  memberDao.update(member);
+  assertThat(memberDao.get(1).getName(),is("?????"));
+  memberDao.delete(1);
+  assertThat(memberDao.list().size(),is(0));
+}
