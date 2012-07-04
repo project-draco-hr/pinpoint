@@ -9,13 +9,13 @@
       setPropertyValues(prop);
     }
  catch (    FileNotFoundException fnfe) {
-      System.out.println("##### " + hippoConfigFileName + " file is not exists. Please check configuration.");
+      logger.error("%s file is not exists. Please check configuration.",hippoConfigFileName);
     }
 catch (    Exception e) {
-      e.printStackTrace();
+      logger.fatal(e.getMessage());
     }
   }
  else {
-    System.out.println("##### hippo.config property is not set. Using default values #####");
+    logger.warn("hippo.config property is not set. Using default values");
   }
 }

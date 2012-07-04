@@ -4,10 +4,13 @@
   instrumentation.addTransformer(this);
   classPool=ClassPool.getDefault();
   try {
-    classPool.appendClassPath(TOMCAT_LIB_PATH + "/lib/servlet-api.jar");
-    classPool.appendClassPath(TOMCAT_LIB_PATH + "/lib/catalina.jar");
+    String catalinaHome=System.getProperty("catalina.home");
+    logger.info("CATALINA_HOME=%s",catalinaHome);
+    logger.info("TEST");
+    classPool.appendClassPath(catalinaHome + "/lib/servlet-api.jar");
+    classPool.appendClassPath(catalinaHome + "/lib/catalina.jar");
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.error(e.getMessage());
   }
 }

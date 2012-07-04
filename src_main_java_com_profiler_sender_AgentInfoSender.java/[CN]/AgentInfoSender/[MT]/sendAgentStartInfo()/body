@@ -10,7 +10,7 @@
   try {
     ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
     AgentInfoDTO dto=new AgentInfoDTO();
-    log(dto.toString());
+    logger.info("send agent startup info. %s",dto.toString());
     stream.writeObject(dto);
     stream.close();
   }
