@@ -2,6 +2,7 @@
   CtClass[] params=new CtClass[1];
   params[0]=classPool.getCtClass("java.lang.String");
   CtMethod serviceMethod=cc.getDeclaredMethod("executeQuery",params);
-  log("*** Changing executeQuery method ");
+  logger.info("Changing executeQuery method");
+  serviceMethod.insertBefore(getExecuteQueryMethodBeforeInsertCode());
   serviceMethod.insertAfter(getExecuteQueryMethodAfterInsertCode());
 }

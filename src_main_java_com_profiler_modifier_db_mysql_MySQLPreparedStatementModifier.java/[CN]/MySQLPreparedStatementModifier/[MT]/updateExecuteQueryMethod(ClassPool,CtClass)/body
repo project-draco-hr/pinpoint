@@ -1,5 +1,6 @@
 {
   CtMethod serviceMethod=cc.getDeclaredMethod("executeQuery",null);
-  log("*** Changing executeQuery method ");
+  logger.info("*** Changing executeQuery method ");
+  serviceMethod.insertBefore(getExecuteQueryMethodBeforeInsertCode());
   serviceMethod.insertAfter(getExecuteQueryMethodAfterInsertCode());
 }

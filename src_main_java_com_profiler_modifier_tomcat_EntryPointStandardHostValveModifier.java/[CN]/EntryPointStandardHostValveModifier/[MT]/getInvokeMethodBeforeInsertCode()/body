@@ -7,6 +7,9 @@
   insertCode.append("String clientIP=tempRequest.getRemoteAddr();");
   insertCode.append(getParameterValues());
   insertCode.append(CLASS_NAME_REQUEST_TRACER).append(".startTransaction(requestURL,clientIP,requestTime,params);");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("System.out.println(\"--- ApplicationFilterChain.doFilter() is started.\");");
+  }
   insertCode.append("}");
   return insertCode.toString();
 }

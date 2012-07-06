@@ -4,11 +4,17 @@
   insertCode.append("StringBuilder params=new StringBuilder();");
   insertCode.append("while(attrs.hasMoreElements()) {");
   insertCode.append("String keyString=attrs.nextElement().toString();");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("System.out.println(keyString+\"=\"+tempRequest.getParameter(keyString));");
+  }
   insertCode.append("Object value=tempRequest.getParameter(keyString);");
   insertCode.append("if(value!=null) {");
   insertCode.append("String valueString=value.toString();");
   insertCode.append("int valueStringLength=valueString.length();");
   insertCode.append("if(valueStringLength>0 && valueStringLength<100) params.append(keyString).append(\"=\").append(valueString).append(\",\");");
   insertCode.append("}}");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("System.out.println(params);");
+  }
   return insertCode;
 }

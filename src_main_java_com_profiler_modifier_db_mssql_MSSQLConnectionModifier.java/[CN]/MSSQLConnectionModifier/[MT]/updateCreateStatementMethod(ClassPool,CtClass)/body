@@ -3,6 +3,7 @@
   params[0]=classPool.getCtClass("int");
   params[1]=classPool.getCtClass("int");
   CtMethod serviceMethod=cc.getDeclaredMethod("createStatement",params);
-  log("*** Changing createStatement method ");
+  logger.info("Changing createStatement method ");
+  serviceMethod.insertBefore(getCreateStatementMethodBeforeInsertCode());
   serviceMethod.insertAfter(getCreateStatementMethodAfterInsertCode());
 }

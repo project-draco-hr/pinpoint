@@ -7,7 +7,7 @@
     params[0]=classPool.getCtClass("org.apache.catalina.connector.Request");
     params[1]=classPool.getCtClass("org.apache.catalina.connector.Response");
     CtMethod serviceMethod=cc.getDeclaredMethod("invoke",params);
-    log("*** Changing invoke method ");
+    logger.info("Changing invoke method");
     serviceMethod.insertBefore(getInvokeMethodBeforeInsertCode());
     serviceMethod.insertAfter(getInvokeMethodAfterInsertCode());
     CtClass exceptionType=classPool.get("java.lang.Throwable");
@@ -17,6 +17,7 @@
     return newClassfileBuffer;
   }
  catch (  Exception e) {
+    logger.error(e.getMessage());
     e.printStackTrace();
   }
   return null;

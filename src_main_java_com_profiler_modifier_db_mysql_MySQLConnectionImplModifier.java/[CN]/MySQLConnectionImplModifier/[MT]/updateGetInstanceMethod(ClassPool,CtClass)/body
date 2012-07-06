@@ -6,6 +6,7 @@
   params[3]=classPool.getCtClass("java.lang.String");
   params[4]=classPool.getCtClass("java.lang.String");
   CtMethod serviceMethod=cc.getDeclaredMethod("getInstance",params);
-  log("*** Changing getInstance method ");
+  logger.info("Changing getInstance method ");
+  serviceMethod.insertBefore(getGetInstanceMethodBeforeInsertCode());
   serviceMethod.insertAfter(getGetInstanceMethodAfterInsertCode());
 }

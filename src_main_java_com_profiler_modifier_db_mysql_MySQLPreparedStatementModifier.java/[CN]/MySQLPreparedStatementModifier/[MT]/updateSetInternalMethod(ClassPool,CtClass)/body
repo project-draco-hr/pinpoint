@@ -3,12 +3,12 @@
   params1[0]=classPool.getCtClass("int");
   params1[1]=classPool.getCtClass("java.lang.String");
   CtMethod serviceMethod1=cc.getDeclaredMethod("setInternal",params1);
-  log("*** Changing setInternal(int,String) method ");
+  logger.info("Changing setInternal(int,String) method ");
   serviceMethod1.insertBefore(getSetInternal1MethodBeforeInsertCode());
   CtClass[] params2=new CtClass[2];
   params2[0]=classPool.getCtClass("int");
   params2[1]=classPool.getCtClass("byte[]");
   CtMethod serviceMethod2=cc.getDeclaredMethod("setInternal",params2);
-  log("*** Changing setInternal(int,byte[]) method ");
+  logger.info("Changing setInternal(int,byte[]) method ");
   serviceMethod2.insertBefore(getSetInternal2MethodBeforeInsertCode());
 }

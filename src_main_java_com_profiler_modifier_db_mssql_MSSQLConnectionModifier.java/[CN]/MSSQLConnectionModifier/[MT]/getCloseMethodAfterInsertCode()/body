@@ -1,6 +1,9 @@
 {
   StringBuilder sb=new StringBuilder();
   sb.append("{");
+  if (logger.isDebugEnabled()) {
+    sb.append("System.out.println(\"-----ConnectionJDBC2.close() method is ended\");");
+  }
   sb.append(TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".put(" + TomcatProfilerConstant.REQ_DATA_TYPE_DB_CLOSE_CONNECTION+ ");");
   sb.append("}");
   return sb.toString();

@@ -2,6 +2,9 @@
   StringBuilder insertCode=new StringBuilder();
   insertCode.append("{");
   insertCode.append(CLASS_NAME_REQUEST_TRACER).append(".endTransaction();");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("System.out.println(\"--- ApplicationFilterChain.doFilter() is ended.\");");
+  }
   insertCode.append("}");
   return insertCode.toString();
 }

@@ -1,5 +1,6 @@
 {
   CtMethod serviceMethod=cc.getDeclaredMethod("createStatement",null);
-  log("*** Changing createStatement method ");
+  logger.info("Changing createStatement method");
+  serviceMethod.insertBefore(getCreateStatementMethodBeforeInsertCode());
   serviceMethod.insertAfter(getCreateStatementMethodAfterInsertCode());
 }

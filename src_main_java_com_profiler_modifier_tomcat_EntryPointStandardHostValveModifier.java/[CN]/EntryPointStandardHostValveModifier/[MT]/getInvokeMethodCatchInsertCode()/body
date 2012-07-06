@@ -1,6 +1,17 @@
 {
   StringBuilder insertCode=new StringBuilder();
+  if (logger.isDebugEnabled()) {
+    insertCode.append("{");
+    insertCode.append("System.out.println(\"------------------------------------------------\");");
+    insertCode.append("System.out.println(\"--- \"+$e.getMessage()+\" is occured !!!\");");
+  }
   insertCode.append(CLASS_NAME_REQUEST_TRACER).append(".exceptionTransaction($e);");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("System.out.println(\"------------------------------------------------\");");
+  }
   insertCode.append("throw $e;");
+  if (logger.isDebugEnabled()) {
+    insertCode.append("}");
+  }
   return insertCode.toString();
 }
