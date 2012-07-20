@@ -1,4 +1,9 @@
 {
+  Modifier findModifier=this.modifierRepository.findModifier(className);
+  if (findModifier != null) {
+    String javassistClassName=className.replace('/','.');
+    return findModifier.modify(classPool,classLoader,javassistClassName,classFileBuffer);
+  }
   if (className.startsWith("org/apache/catalina")) {
     String javassistClassName=className.replace('/','.');
     if (javassistClassName.equals("org.apache.catalina.core.StandardHostValve")) {
@@ -17,7 +22,7 @@
       if (result != null)       return result;
     }
   }
-  if (TomcatProfilerConfig.JDBC_PROFILE) {
+  if (tomcatProfilerConfig.enableJdbcProfile()) {
     if (className.startsWith("com/mysql/jdbc")) {
       String javassistClassName=className.replace('/','.');
       if (javassistClassName.equals("com.mysql.jdbc.ConnectionImpl")) {

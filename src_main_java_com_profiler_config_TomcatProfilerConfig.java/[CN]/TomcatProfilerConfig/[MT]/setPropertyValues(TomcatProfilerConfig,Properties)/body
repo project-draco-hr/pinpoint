@@ -1,47 +1,47 @@
 {
   Object temp=null;
   if ((temp=prop.get("SERVER_IP")) != null) {
-    SERVER_IP=temp.toString();
+    config.SERVER_IP=temp.toString();
     logger.info("SERVER_IP=%s",SERVER_IP);
   }
   if ((temp=prop.get("AGENT_TCP_LISTEN_PORT")) != null) {
-    AGENT_TCP_LISTEN_PORT=Integer.parseInt(temp.toString());
+    config.AGENT_TCP_LISTEN_PORT=Integer.parseInt(temp.toString());
     logger.info("AGENT_TCP_LISTEN_PORT=%d",AGENT_TCP_LISTEN_PORT);
   }
   if ((temp=prop.get("SERVER_TCP_LISTEN_PORT")) != null) {
-    SERVER_TCP_LISTEN_PORT=Integer.parseInt(temp.toString());
+    config.SERVER_TCP_LISTEN_PORT=Integer.parseInt(temp.toString());
     logger.info("SERVER_TCP_LISTEN_PORT=%d",SERVER_TCP_LISTEN_PORT);
   }
   if ((temp=prop.get("REQUEST_TRANSACTION_DATA_LISTEN_PORT")) != null) {
-    REQUEST_TRANSACTION_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
+    config.REQUEST_TRANSACTION_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
     logger.info("REQUEST_TRANSACTION_DATA_LISTEN_PORT=%d",REQUEST_TRANSACTION_DATA_LISTEN_PORT);
   }
   if ((temp=prop.get("REQUEST_DATA_LISTEN_PORT")) != null) {
-    REQUEST_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
+    config.REQUEST_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
     logger.info("REQUEST_DATA_LISTEN_PORT=%d",REQUEST_DATA_LISTEN_PORT);
   }
   if ((temp=prop.get("JVM_DATA_LISTEN_PORT")) != null) {
-    JVM_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
+    config.JVM_DATA_LISTEN_PORT=Integer.parseInt(temp.toString());
     logger.info("JVM_DATA_LISTEN_PORT=%d",JVM_DATA_LISTEN_PORT);
   }
   if ((temp=prop.get("JVM_STAT_GAP")) != null) {
-    JVM_STAT_GAP=Long.parseLong(temp.toString());
+    config.JVM_STAT_GAP=Long.parseLong(temp.toString());
     logger.info("JVM_STAT_GAP=%d",JVM_STAT_GAP);
   }
   if ((temp=prop.get("SERVER_CONNECT_RETRY_GAP")) != null) {
-    SERVER_CONNECT_RETRY_GAP=Long.parseLong(temp.toString());
+    config.SERVER_CONNECT_RETRY_GAP=Long.parseLong(temp.toString());
     logger.info("SERVER_CONNECT_RETRY_GAP=%d",SERVER_CONNECT_RETRY_GAP);
   }
   if ((temp=prop.get("QUERY_COUNT_OVER_10000")) != null) {
-    QUERY_COUNT_OVER_10000=Boolean.parseBoolean(temp.toString());
+    config.QUERY_COUNT_OVER_10000=Boolean.parseBoolean(temp.toString());
     logger.info("QUERY_COUNT_OVER_10000=%s",QUERY_COUNT_OVER_10000);
   }
   if ((temp=prop.get("JDBC_PROFILE")) != null) {
-    JDBC_PROFILE=Boolean.parseBoolean(temp.toString());
-    logger.info("JDBC_PROFILE=%s",JDBC_PROFILE);
+    config.JDBC_PROFILE=Boolean.parseBoolean(temp.toString());
+    logger.info("JDBC_PROFILE=%s",config.JDBC_PROFILE);
   }
   if ((temp=prop.get("LOG_LEVEL")) != null) {
-    LOG_LEVEL=LogLevel.valueOf(temp.toString());
+    config.LOG_LEVEL=LogLevel.valueOf(temp.toString());
     logger.info("LOG_LEVEL=%s",LOG_LEVEL);
   }
   logger.info("configuration loaded successfully.");
