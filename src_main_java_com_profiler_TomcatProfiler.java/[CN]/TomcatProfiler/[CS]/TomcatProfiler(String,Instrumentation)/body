@@ -1,16 +1,6 @@
 {
-  agentArgString=agentArgs;
-  instrumentation=inst;
-  instrumentation.addTransformer(this);
-  classPool=ClassPool.getDefault();
-  try {
-    String catalinaHome=System.getProperty("catalina.home");
-    logger.info("CATALINA_HOME=%s",catalinaHome);
-    logger.info("TEST");
-    classPool.appendClassPath(catalinaHome + "/lib/servlet-api.jar");
-    classPool.appendClassPath(catalinaHome + "/lib/catalina.jar");
-  }
- catch (  Exception e) {
-    logger.error(e.getMessage());
-  }
+  this.agentArgString=agentArgs;
+  this.instrumentation=inst;
+  this.instrumentation.addTransformer(this);
+  this.classPool=createClassPool();
 }
