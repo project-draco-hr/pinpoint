@@ -2,8 +2,10 @@
   ClassPool classPool=new ClassPool(null);
   classPool.appendSystemPath();
   String catalinaHome=System.getProperty("catalina.home");
-  logger.info("CATALINA_HOME=%s",catalinaHome);
-  appendClassPath(classPool,catalinaHome + "/lib/servlet-api.jar");
-  appendClassPath(classPool,catalinaHome + "/lib/catalina.jar");
+  if (catalinaHome != null) {
+    logger.info("CATALINA_HOME=%s",catalinaHome);
+    appendClassPath(classPool,catalinaHome + "/lib/servlet-api.jar");
+    appendClassPath(classPool,catalinaHome + "/lib/catalina.jar");
+  }
   return classPool;
 }
