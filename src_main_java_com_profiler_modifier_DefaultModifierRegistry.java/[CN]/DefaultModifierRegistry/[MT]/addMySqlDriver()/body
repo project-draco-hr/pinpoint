@@ -1,0 +1,11 @@
+{
+  packageIncludeFilters.add("com/mysql/jdbc");
+  Modifier mysqlConnectionImplModifier=new MySQLConnectionImplModifier();
+  registry.put("com/mysql/jdbc/ConnectionImpl",mysqlConnectionImplModifier);
+  Modifier mysqlStatementModifier=new MySQLStatementModifier();
+  registry.put("com/mysql/jdbc/StatementImpl",mysqlStatementModifier);
+  Modifier mysqlPreparedStatementModifier=new MySQLPreparedStatementModifier();
+  registry.put("com/mysql/jdbc/PreparedStatement",mysqlPreparedStatementModifier);
+  Modifier mysqlResultSetModifier=new MySQLResultSetModifier();
+  registry.put("com/mysql/jdbc/ResultSetImpl",mysqlResultSetModifier);
+}

@@ -1,0 +1,8 @@
+{
+  packageIncludeFilters.add("org/apache/commons/dbcp");
+  Map<String,Modifier> registry=this.registry;
+  Modifier dbcpBasicDataSourceModifier=new DBCPBasicDataSourceModifier();
+  registry.put("org/apache/commons/dbcp/BasicDataSource",dbcpBasicDataSourceModifier);
+  Modifier dbcpPoolModifier=new DBCPPoolModifier();
+  registry.put("org/apache/commons/dbcp/PoolingDataSource$PoolGuardConnectionWrapper",dbcpPoolModifier);
+}

@@ -1,0 +1,12 @@
+{
+  packageIncludeFilters.add("cubrid/jdbc");
+  Map<String,Modifier> registry=this.registry;
+  Modifier cubridStatementModifier=new CubridStatementModifier();
+  registry.put("cubrid/jdbc/driver/CUBRIDStatement",cubridStatementModifier);
+  Modifier cubridPreparedStatementModifier=new CubridPreparedStatementModifier();
+  registry.put("cubrid/jdbc/driver/CUBRIDPreparedStatement",cubridPreparedStatementModifier);
+  Modifier cubridResultSetModifier=new CubridResultSetModifier();
+  registry.put("cubrid/jdbc/driver/CUBRIDResultSet",cubridResultSetModifier);
+  Modifier cubridUStatementModifier=new CubridUStatementModifier();
+  registry.put("cubrid/jdbc/jci/UStatement",cubridUStatementModifier);
+}

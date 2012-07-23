@@ -1,0 +1,12 @@
+{
+  packageIncludeFilters.add("net/sourceforge/jtds/jdbc");
+  Map<String,Modifier> registry=this.registry;
+  Modifier mssqlConnectionModifier=new MSSQLConnectionModifier();
+  registry.put("net/sourceforge/jtds/jdbc/ConnectionJDBC2",mssqlConnectionModifier);
+  Modifier mssqlStatementModifier=new MSSQLStatementModifier();
+  registry.put("net/sourceforge/jtds/jdbc/JtdsStatement",mssqlStatementModifier);
+  Modifier mssqlPreparedStatementModifier=new MSSQLPreparedStatementModifier();
+  registry.put("net/sourceforge/jtds/jdbc/JtdsPreparedStatement",mssqlPreparedStatementModifier);
+  Modifier mssqlResultSetModifier=new MSSQLResultSetModifier();
+  registry.put("net/sourceforge/jtds/jdbc/JtdsResultSet",mssqlResultSetModifier);
+}
