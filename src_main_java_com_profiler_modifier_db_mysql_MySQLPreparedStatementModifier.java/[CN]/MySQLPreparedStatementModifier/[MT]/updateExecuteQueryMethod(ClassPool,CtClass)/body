@@ -1,6 +1,4 @@
 {
-  CtMethod serviceMethod=cc.getDeclaredMethod("executeQuery",null);
-  logger.info("*** Changing executeQuery method ");
-  serviceMethod.insertBefore(getExecuteQueryMethodBeforeInsertCode());
-  serviceMethod.insertAfter(getExecuteQueryMethodAfterInsertCode());
+  CtMethod method=cc.getDeclaredMethod("executeQuery",null);
+  method.insertAfter("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".put("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_EXECUTE_QUERY+ "); }");
 }

@@ -5,8 +5,6 @@
   params[2]=classPool.getCtClass("java.util.Properties");
   params[3]=classPool.getCtClass("java.lang.String");
   params[4]=classPool.getCtClass("java.lang.String");
-  CtMethod serviceMethod=cc.getDeclaredMethod("getInstance",params);
-  logger.info("Changing getInstance method ");
-  serviceMethod.insertBefore(getGetInstanceMethodBeforeInsertCode());
-  serviceMethod.insertAfter(getGetInstanceMethodAfterInsertCode());
+  CtMethod method=cc.getDeclaredMethod("getInstance",params);
+  method.insertAfter("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putConnection("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_GET_CONNECTION+ ",$5); }");
 }

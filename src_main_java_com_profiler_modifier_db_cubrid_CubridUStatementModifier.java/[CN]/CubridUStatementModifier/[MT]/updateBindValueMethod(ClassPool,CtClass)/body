@@ -3,7 +3,6 @@
   params1[0]=classPool.getCtClass("int");
   params1[1]=classPool.getCtClass("byte");
   params1[2]=classPool.getCtClass("java.lang.Object");
-  CtMethod serviceMethod1=cc.getDeclaredMethod("bindValue",params1);
-  logger.info("Changing bindValue(int, byte, String) method ");
-  serviceMethod1.insertBefore(getBindValueMethodBeforeInsertCode());
+  CtMethod method=cc.getDeclaredMethod("bindValue",params1);
+  method.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlParam($1,$3); }");
 }

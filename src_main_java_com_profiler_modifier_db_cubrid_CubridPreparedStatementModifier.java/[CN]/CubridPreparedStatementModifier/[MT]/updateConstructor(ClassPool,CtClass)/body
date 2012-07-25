@@ -2,9 +2,13 @@
   CtConstructor[] constructorList=cc.getConstructors();
   for (  CtConstructor constructor : constructorList) {
     CtClass params[]=constructor.getParameterTypes();
-    logger.info("*** Constructor param length=" + params.length);
     if (params.length > 2) {
-      constructor.insertBefore(getConstructorBeforeInsertCode());
+      StringBuilder sb=new StringBuilder();
+      sb.append("{");
+      sb.append("if($2 instanceof cubrid.jdbc.jci.UStatement) { ");
+      sb.append(TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlQuery(" + TomcatProfilerConstant.REQ_DATA_TYPE_DB_QUERY+ ",$2.getQuery());");
+      sb.append("}}");
+      constructor.insertBefore(sb.toString());
     }
   }
 }

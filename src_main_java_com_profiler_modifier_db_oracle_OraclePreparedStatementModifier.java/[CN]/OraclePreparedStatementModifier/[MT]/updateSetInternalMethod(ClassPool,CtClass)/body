@@ -3,6 +3,5 @@
   params1[0]=classPool.getCtClass("int");
   params1[1]=classPool.getCtClass("java.lang.String");
   CtMethod serviceMethod1=cc.getDeclaredMethod("setStringInternal",params1);
-  logger.info("Changing setInternal(int,String) method");
-  serviceMethod1.insertBefore(getSetInternal1MethodBeforeInsertCode());
+  serviceMethod1.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlParam($1,$2); }");
 }

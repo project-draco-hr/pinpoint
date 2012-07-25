@@ -2,7 +2,10 @@
   CtClass[] params=new CtClass[1];
   params[0]=classPool.getCtClass("java.lang.String");
   CtMethod serviceMethod=cc.getDeclaredMethod("executeQuery",params);
-  logger.info("Changing executeQuery method.");
-  serviceMethod.insertBefore(getExecuteQueryMethodBeforeInsertCode());
-  serviceMethod.insertAfter(getExecuteQueryMethodAfterInsertCode());
+  StringBuilder sb=new StringBuilder();
+  sb.append("{");
+  sb.append(TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlQuery(" + TomcatProfilerConstant.REQ_DATA_TYPE_DB_QUERY+ ",$1);");
+  sb.append(TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".put(" + TomcatProfilerConstant.REQ_DATA_TYPE_DB_EXECUTE_QUERY+ ");");
+  sb.append("}");
+  serviceMethod.insertAfter(sb.toString());
 }

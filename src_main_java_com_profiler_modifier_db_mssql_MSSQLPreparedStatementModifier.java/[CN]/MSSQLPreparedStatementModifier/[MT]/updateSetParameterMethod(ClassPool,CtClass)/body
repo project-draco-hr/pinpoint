@@ -5,7 +5,6 @@
   params1[2]=classPool.getCtClass("int");
   params1[3]=classPool.getCtClass("int");
   params1[4]=classPool.getCtClass("int");
-  CtMethod serviceMethod1=cc.getDeclaredMethod("setParameter",params1);
-  logger.info("Changing setParameter(int,Object,int,int,int) method ");
-  serviceMethod1.insertBefore(getSetParameterBeforeInsertCode());
+  CtMethod method=cc.getDeclaredMethod("setParameter",params1);
+  method.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlParam($1,$2);} ");
 }

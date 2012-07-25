@@ -1,6 +1,4 @@
 {
-  CtMethod serviceMethod=cc.getDeclaredMethod("createStatement",null);
-  logger.info("Changing createStatement method");
-  serviceMethod.insertBefore(getCreateStatementMethodBeforeInsertCode());
-  serviceMethod.insertAfter(getCreateStatementMethodAfterInsertCode());
+  CtMethod method=cc.getDeclaredMethod("createStatement",null);
+  method.insertAfter("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".put("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_CREATE_STATEMENT+ "); }");
 }

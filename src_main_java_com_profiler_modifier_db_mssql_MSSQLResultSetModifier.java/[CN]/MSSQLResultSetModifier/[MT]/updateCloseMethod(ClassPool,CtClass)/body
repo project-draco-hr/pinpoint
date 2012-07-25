@@ -1,5 +1,4 @@
 {
   CtMethod serviceMethod1=cc.getDeclaredMethod("close",null);
-  logger.info("Changing close() method");
-  serviceMethod1.insertBefore(getCloseMethodBeforeInsertCode());
+  serviceMethod1.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".addResultSetData(); }");
 }

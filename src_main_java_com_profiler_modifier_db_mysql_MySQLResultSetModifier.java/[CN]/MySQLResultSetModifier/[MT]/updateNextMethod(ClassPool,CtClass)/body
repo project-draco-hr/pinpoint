@@ -1,5 +1,4 @@
 {
-  CtMethod serviceMethod1=cc.getDeclaredMethod("next",null);
-  logger.info("*** Changing next() method");
-  serviceMethod1.insertBefore(getNextMethodBeforeInsertCode());
+  CtMethod method=cc.getDeclaredMethod("next",null);
+  method.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".updateFetchCount(); }");
 }

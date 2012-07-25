@@ -7,14 +7,12 @@
     params[0]=classPool.getCtClass("org.apache.catalina.connector.Request");
     params[1]=classPool.getCtClass("org.apache.catalina.connector.Response");
     CtMethod serviceMethod=cc.getDeclaredMethod("invoke",params);
-    logger.info("Changing invoke method");
     serviceMethod.insertBefore(getInvokeMethodBeforeInsertCode());
     serviceMethod.insertAfter(getInvokeMethodAfterInsertCode());
     CtClass exceptionType=classPool.get("java.lang.Throwable");
     serviceMethod.addCatch(getInvokeMethodCatchInsertCode(),exceptionType);
-    byte[] newClassfileBuffer=cc.toBytecode();
     printClassConvertComplete(javassistClassName);
-    return newClassfileBuffer;
+    return cc.toBytecode();
   }
  catch (  Exception e) {
     logger.error(e.getMessage());
