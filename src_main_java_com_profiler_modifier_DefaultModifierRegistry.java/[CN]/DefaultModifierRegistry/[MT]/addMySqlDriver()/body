@@ -1,10 +1,10 @@
 {
-  Modifier mysqlConnectionImplModifier=new MySQLConnectionImplModifier();
+  Modifier mysqlConnectionImplModifier=new MySQLConnectionImplModifier(classPool);
   registry.put("com/mysql/jdbc/ConnectionImpl",mysqlConnectionImplModifier);
-  Modifier mysqlStatementModifier=new MySQLStatementModifier();
+  Modifier mysqlStatementModifier=new MySQLStatementModifier(classPool);
   registry.put("com/mysql/jdbc/StatementImpl",mysqlStatementModifier);
-  Modifier mysqlPreparedStatementModifier=new MySQLPreparedStatementModifier();
+  Modifier mysqlPreparedStatementModifier=new MySQLPreparedStatementModifier(classPool);
   registry.put("com/mysql/jdbc/PreparedStatement",mysqlPreparedStatementModifier);
-  Modifier mysqlResultSetModifier=new MySQLResultSetModifier();
+  Modifier mysqlResultSetModifier=new MySQLResultSetModifier(classPool);
   registry.put("com/mysql/jdbc/ResultSetImpl",mysqlResultSetModifier);
 }

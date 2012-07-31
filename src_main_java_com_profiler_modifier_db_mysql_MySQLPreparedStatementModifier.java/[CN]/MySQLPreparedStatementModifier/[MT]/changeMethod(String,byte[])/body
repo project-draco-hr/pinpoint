@@ -1,0 +1,15 @@
+{
+  try {
+    CtClass cc=classPool.get(javassistClassName);
+    updateSetInternalMethod(cc);
+    updateExecuteQueryMethod(cc);
+    updateConstructor(cc);
+    printClassConvertComplete(javassistClassName);
+    return cc.toBytecode();
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage());
+    e.printStackTrace();
+  }
+  return null;
+}

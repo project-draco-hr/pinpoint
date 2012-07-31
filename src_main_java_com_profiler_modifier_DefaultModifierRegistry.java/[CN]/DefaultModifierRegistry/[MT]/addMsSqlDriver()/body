@@ -1,11 +1,11 @@
 {
   Map<String,Modifier> registry=this.registry;
-  Modifier mssqlConnectionModifier=new MSSQLConnectionModifier();
+  Modifier mssqlConnectionModifier=new MSSQLConnectionModifier(classPool);
   registry.put("net/sourceforge/jtds/jdbc/ConnectionJDBC2",mssqlConnectionModifier);
-  Modifier mssqlStatementModifier=new MSSQLStatementModifier();
+  Modifier mssqlStatementModifier=new MSSQLStatementModifier(classPool);
   registry.put("net/sourceforge/jtds/jdbc/JtdsStatement",mssqlStatementModifier);
-  Modifier mssqlPreparedStatementModifier=new MSSQLPreparedStatementModifier();
+  Modifier mssqlPreparedStatementModifier=new MSSQLPreparedStatementModifier(classPool);
   registry.put("net/sourceforge/jtds/jdbc/JtdsPreparedStatement",mssqlPreparedStatementModifier);
-  Modifier mssqlResultSetModifier=new MSSQLResultSetModifier();
+  Modifier mssqlResultSetModifier=new MSSQLResultSetModifier(classPool);
   registry.put("net/sourceforge/jtds/jdbc/JtdsResultSet",mssqlResultSetModifier);
 }
