@@ -1,4 +1,7 @@
 {
-  String after=query.trim().replaceAll(" +"," ");
-  return after;
+  if (query == null || query.length() == 0) {
+    return "";
+  }
+  Matcher matcher=MULTI_SPACE_ESCAPE.matcher(query);
+  return matcher.replaceAll(" ");
 }
