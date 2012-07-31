@@ -2,7 +2,7 @@
   TomcatProfilerConfig config=new TomcatProfilerConfig();
   String hippoConfigFileName=System.getProperty("hippo.config");
   if (hippoConfigFileName == null) {
-    logger.warn("hippo.config property is not set. Using default values");
+    logger.info("hippo.config property is not set. Using default values");
     return config;
   }
   try {
@@ -11,10 +11,14 @@
     return config;
   }
  catch (  FileNotFoundException fnfe) {
-    logger.error("%s file is not exists. Please check configuration.",hippoConfigFileName);
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.warning(hippoConfigFileName + " file is not exists. Please check configuration.");
+    }
   }
-catch (  Exception e) {
-    logger.fatal(e.getMessage());
+catch (  IOException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.warning(e.getMessage());
+    }
   }
   return config;
 }

@@ -4,7 +4,7 @@
   insertCode.append("StringBuilder params=new StringBuilder();");
   insertCode.append("while(attrs.hasMoreElements()) {");
   insertCode.append("String keyString=attrs.nextElement().toString();");
-  if (logger.isDebugEnabled()) {
+  if (logger.isLoggable(Level.FINE)) {
     insertCode.append("System.out.println(keyString+\"=\"+tempRequest.getParameter(keyString));");
   }
   insertCode.append("Object value=tempRequest.getParameter(keyString);");
@@ -13,7 +13,7 @@
   insertCode.append("int valueStringLength=valueString.length();");
   insertCode.append("if(valueStringLength>0 && valueStringLength<100) params.append(keyString).append(\"=\").append(valueString).append(\",\");");
   insertCode.append("}}");
-  if (logger.isDebugEnabled()) {
+  if (logger.isLoggable(Level.FINE)) {
     insertCode.append("System.out.println(params);");
   }
   return insertCode;

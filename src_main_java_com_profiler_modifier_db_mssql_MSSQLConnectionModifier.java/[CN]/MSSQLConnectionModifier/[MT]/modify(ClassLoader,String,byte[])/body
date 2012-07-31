@@ -1,5 +1,7 @@
 {
-  logger.info("Modifing. %s",javassistClassName);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + javassistClassName);
+  }
   checkLibrary(classLoader,javassistClassName);
   return changeMethods(javassistClassName,classFileBuffer);
 }

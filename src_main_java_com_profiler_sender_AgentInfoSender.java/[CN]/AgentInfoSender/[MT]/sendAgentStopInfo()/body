@@ -4,13 +4,19 @@
     ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
     AgentInfoDTO dto=new AgentInfoDTO();
     dto.setIsDead();
-    logger.info("send agent stop info. %s",dto.toString());
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("send agent stop info. " + dto.toString());
+    }
     stream.writeObject(dto);
     stream.close();
-    logger.info("Agent Stopped message is sent. %s",dto.toString());
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("Agent Stopped message is sent. " + dto.toString());
+    }
   }
  catch (  Exception e) {
-    logger.error("AgentInfoSender Exception occured : %s",e.getMessage());
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,"AgentInfoSender Exception occured:" + e.getMessage(),e);
+    }
   }
  finally {
     closeSocket();

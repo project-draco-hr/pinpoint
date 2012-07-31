@@ -2,7 +2,7 @@
   StringBuilder insertCode=new StringBuilder();
   insertCode.append("{");
   insertCode.append(CLASS_NAME_REQUEST_TRACER).append(".endTransaction();");
-  if (logger.isDebugEnabled()) {
+  if (logger.isLoggable(Level.FINE)) {
     insertCode.append("System.out.println(\"--- ApplicationFilterChain.doFilter() is ended.\");");
   }
   insertCode.append("}");

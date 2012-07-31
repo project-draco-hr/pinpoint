@@ -10,7 +10,9 @@
   try {
     ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
     AgentInfoDTO dto=new AgentInfoDTO();
-    logger.info("send agent startup info. %s",dto.toString());
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("send agent startup info. " + dto.toString());
+    }
     stream.writeObject(dto);
     stream.close();
   }

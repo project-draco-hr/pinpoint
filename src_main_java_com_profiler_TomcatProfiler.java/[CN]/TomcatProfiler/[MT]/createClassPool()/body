@@ -3,7 +3,9 @@
   classPool.appendSystemPath();
   String catalinaHome=System.getProperty("catalina.home");
   if (catalinaHome != null) {
-    logger.info("CATALINA_HOME=%s",catalinaHome);
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("CATALINA_HOME=" + catalinaHome);
+    }
     appendClassPath(classPool,catalinaHome + "/lib/servlet-api.jar");
     appendClassPath(classPool,catalinaHome + "/lib/catalina.jar");
   }

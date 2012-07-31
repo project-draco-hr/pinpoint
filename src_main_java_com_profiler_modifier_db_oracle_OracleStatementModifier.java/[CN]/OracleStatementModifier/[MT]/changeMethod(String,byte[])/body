@@ -6,7 +6,9 @@
     return cc.toBytecode();
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
   }
   return null;
 }

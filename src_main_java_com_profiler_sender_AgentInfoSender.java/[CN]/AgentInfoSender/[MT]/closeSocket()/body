@@ -4,6 +4,8 @@
     logger.info("TCP RequestSocket is closed");
   }
  catch (  Exception e) {
-    logger.error("closeSocket(). %s",e.getMessage());
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,"closeSocket(). " + e.getMessage(),e);
+    }
   }
 }
