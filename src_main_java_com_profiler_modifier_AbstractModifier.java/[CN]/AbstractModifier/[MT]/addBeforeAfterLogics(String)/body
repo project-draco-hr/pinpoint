@@ -17,7 +17,9 @@
         method.insertAfter("{System.out.println(\"*****" + javassistClassName + "."+ methodName+ "("+ sb+ ") is finished.\");}");
       }
  else {
-        logger.warn(method.getLongName() + " is empty !!!!!");
+        if (logger.isLoggable(Level.WARNING)) {
+          logger.warning(method.getLongName() + " is empty !!!!!");
+        }
       }
     }
     CtConstructor[] constructors=cc.getConstructors();
@@ -35,14 +37,17 @@
         constructor.insertAfter("{System.out.println(\"*****" + javassistClassName + " Constructor:Param=("+ sb+ ") is finished.\");}");
       }
  else {
-        logger.warn(constructor.getLongName() + " is empty !!!!!");
+        if (logger.isLoggable(Level.WARNING)) {
+          logger.warning(constructor.getLongName() + " is empty !!!!!");
+        }
       }
     }
     return cc.toBytecode();
   }
  catch (  Exception e) {
-    logger.error(e.getMessage());
-    e.printStackTrace();
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
     return null;
   }
 }
