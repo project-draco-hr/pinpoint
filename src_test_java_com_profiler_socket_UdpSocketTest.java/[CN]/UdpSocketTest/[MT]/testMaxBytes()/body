@@ -1,0 +1,8 @@
+{
+  byte[] bytes1=new byte[500000];
+  DatagramPacket packet1=new DatagramPacket(bytes1,500000);
+  sender.send(packet1);
+  DatagramPacket r1=new DatagramPacket(new byte[50000],50000);
+  receiver.receive(r1);
+  logger.info(String.valueOf(r1.getLength()));
+}

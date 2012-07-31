@@ -1,0 +1,9 @@
+{
+  int size=65507;
+  byte[] bytes1=new byte[size];
+  DatagramPacket packet1=new DatagramPacket(bytes1,size);
+  sender.send(packet1);
+  DatagramPacket r1=new DatagramPacket(new byte[size],size);
+  receiver.receive(r1);
+  Assert.assertEquals(r1.getLength(),size);
+}
