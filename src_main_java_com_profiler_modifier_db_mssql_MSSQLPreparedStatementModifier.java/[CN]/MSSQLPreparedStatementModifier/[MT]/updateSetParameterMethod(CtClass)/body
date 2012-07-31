@@ -6,5 +6,5 @@
   params1[3]=classPool.getCtClass("int");
   params1[4]=classPool.getCtClass("int");
   CtMethod method=cc.getDeclaredMethod("setParameter",params1);
-  method.insertBefore("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putSqlParam($1,$2);} ");
+  method.insertBefore("{" + DatabaseRequestTracer.FQCN + ".putSqlParam($1,$2);} ");
 }

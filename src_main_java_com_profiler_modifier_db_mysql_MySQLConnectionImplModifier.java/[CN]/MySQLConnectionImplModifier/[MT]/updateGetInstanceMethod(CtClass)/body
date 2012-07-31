@@ -6,5 +6,5 @@
   params[3]=classPool.getCtClass("java.lang.String");
   params[4]=classPool.getCtClass("java.lang.String");
   CtMethod method=cc.getDeclaredMethod("getInstance",params);
-  method.insertAfter("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putConnection("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_GET_CONNECTION+ ",$5); }");
+  method.insertAfter("{" + DatabaseRequestTracer.FQCN + ".putConnection("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_GET_CONNECTION+ ",$5); }");
 }

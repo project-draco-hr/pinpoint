@@ -1,4 +1,4 @@
 {
   CtMethod method=cc.getDeclaredMethod("getConnection",null);
-  method.insertAfter("{" + TomcatProfilerConstant.CLASS_NAME_REQUEST_DATA_TRACER + ".putConnection("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_GET_CONNECTION+ ",$0.getUrl()); }");
+  method.insertAfter("{" + DatabaseRequestTracer.FQCN + ".putConnection("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_GET_CONNECTION+ ",$0.getUrl()); }");
 }

@@ -1,0 +1,44 @@
+{
+  while (true) {
+    DatagramSocket udpSocket=null;
+    try {
+      TBase<?,?> dto=addedQueue.take();
+      TSerializer serializer=new TSerializer(new TBinaryProtocol.Factory());
+      byte[] sendData=serializer.serialize(dto);
+      InetSocketAddress address=null;
+      if (dto instanceof RequestDataListThriftDTO) {
+        address=requestDataAddr;
+      }
+ else       if (dto instanceof RequestThriftDTO) {
+        address=requestTransactionDataAddr;
+      }
+ else       if (dto instanceof JVMInfoThriftDTO) {
+        address=jvmDataAddr;
+      }
+      if (address == null) {
+        throw new IllegalArgumentException("Can't resolve receiver address.");
+      }
+      DatagramPacket packet=new DatagramPacket(sendData,sendData.length,address);
+      udpSocket=new DatagramSocket();
+      udpSocket.send(packet);
+      System.out.println("data sent.");
+    }
+ catch (    InterruptedException e) {
+      e.printStackTrace();
+    }
+catch (    TException e) {
+      e.printStackTrace();
+    }
+catch (    SocketException e) {
+      e.printStackTrace();
+    }
+catch (    IOException e) {
+      e.printStackTrace();
+    }
+ finally {
+      if (udpSocket != null) {
+        udpSocket.close();
+      }
+    }
+  }
+}
