@@ -7,8 +7,8 @@
     RequestDataThriftDTO dataDto=new RequestDataThriftDTO(dataType,System.currentTimeMillis());
     if (url != null) {
       int hashCode=url.hashCode();
-      if (!dbConnectionURL.containsKey(hashCode)) {
-        dbConnectionURL.put(hashCode,url);
+      String before=dbConnectionURL.putIfAbsent(hashCode,url);
+      if (before == null) {
         dataDto.setDataString(url);
       }
       dataDto.setDataHashCode(hashCode);
