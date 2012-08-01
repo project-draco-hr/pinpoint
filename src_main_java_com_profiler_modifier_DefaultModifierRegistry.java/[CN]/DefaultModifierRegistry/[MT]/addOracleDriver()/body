@@ -1,9 +1,9 @@
 {
   Map<String,Modifier> registry=this.registry;
   Modifier oraclePreparedStatementModifier=new OraclePreparedStatementModifier(classPool);
-  registry.put("oracle/jdbc/driver/OraclePreparedStatement",oraclePreparedStatementModifier);
+  registry.put(oraclePreparedStatementModifier.getTargetClass(),oraclePreparedStatementModifier);
   Modifier oracleStatement=new OracleStatementModifier(classPool);
-  registry.put("oracle/jdbc/driver/OracleStatement",oracleStatement);
+  registry.put(oracleStatement.getTargetClass(),oracleStatement);
   Modifier oracleResultSetModifier=new OracleResultSetModifier(classPool);
-  registry.put("oracle/jdbc/driver/OracleResultSetImpl",oracleResultSetModifier);
+  registry.put(oracleResultSetModifier.getTargetClass(),oracleResultSetModifier);
 }

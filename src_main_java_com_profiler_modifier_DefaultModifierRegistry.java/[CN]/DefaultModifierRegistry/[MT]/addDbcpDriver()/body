@@ -1,7 +1,7 @@
 {
   Map<String,Modifier> registry=this.registry;
   Modifier dbcpBasicDataSourceModifier=new DBCPBasicDataSourceModifier(classPool);
-  registry.put("org/apache/commons/dbcp/BasicDataSource",dbcpBasicDataSourceModifier);
+  registry.put(dbcpBasicDataSourceModifier.getTargetClass(),dbcpBasicDataSourceModifier);
   Modifier dbcpPoolModifier=new DBCPPoolModifier(classPool);
-  registry.put("org/apache/commons/dbcp/PoolingDataSource$PoolGuardConnectionWrapper",dbcpPoolModifier);
+  registry.put(dbcpPoolModifier.getTargetClass(),dbcpPoolModifier);
 }

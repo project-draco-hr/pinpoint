@@ -1,9 +1,9 @@
 {
   Map<String,Modifier> registry=this.registry;
   Modifier entryPointStandardHostValveModifier=new EntryPointStandardHostValveModifier(classPool);
-  registry.put("org/apache/catalina/core/StandardHostValve",entryPointStandardHostValveModifier);
+  registry.put(entryPointStandardHostValveModifier.getTargetClass(),entryPointStandardHostValveModifier);
   Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(classPool);
-  registry.put("org/apache/catalina/core/StandardService",tomcatStandardServiceModifier);
+  registry.put(tomcatStandardServiceModifier.getTargetClass(),tomcatStandardServiceModifier);
   Modifier tomcatConnectorModifier=new TomcatConnectorModifier(classPool);
-  registry.put("org/apache/catalina/connector/Connector",tomcatConnectorModifier);
+  registry.put(tomcatConnectorModifier.getTargetClass(),tomcatConnectorModifier);
 }
