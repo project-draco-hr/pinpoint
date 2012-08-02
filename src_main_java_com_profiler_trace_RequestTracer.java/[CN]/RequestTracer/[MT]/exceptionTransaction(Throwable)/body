@@ -1,6 +1,6 @@
 {
   long cpuUserTime[]=getThreadTime();
-  RequestThriftDTO dto=new RequestThriftDTO(AgentInfoDTO.staticHostHashCode,currentRequestHash.get(),TomcatProfilerConstant.DATA_TYPE_UNCAUGHT_EXCEPTION,System.currentTimeMillis(),cpuUserTime[0],cpuUserTime[1]);
+  RequestThriftDTO dto=new RequestThriftDTO(Agent.getInstance().getAgentHashCode(),currentRequestHash.get(),TomcatProfilerConstant.DATA_TYPE_UNCAUGHT_EXCEPTION,System.currentTimeMillis(),cpuUserTime[0],cpuUserTime[1]);
   dto.setExtraData1(throwable.getMessage());
   StackTraceElement[] tempElement=throwable.getStackTrace();
   dto.setExtraData2(tempElement[0].toString());

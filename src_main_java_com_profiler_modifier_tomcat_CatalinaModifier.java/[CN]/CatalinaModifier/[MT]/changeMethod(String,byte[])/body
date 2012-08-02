@@ -1,0 +1,15 @@
+{
+  try {
+    CtClass cc=classPool.get(javassistClassName);
+    CtMethod initializeMethod=cc.getDeclaredMethod("await",null);
+    initializeMethod.insertBefore("{" + Agent.FQCN + ".getInstance().sendStartupInfo(); }");
+    printClassConvertComplete(javassistClassName);
+    return cc.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
+}

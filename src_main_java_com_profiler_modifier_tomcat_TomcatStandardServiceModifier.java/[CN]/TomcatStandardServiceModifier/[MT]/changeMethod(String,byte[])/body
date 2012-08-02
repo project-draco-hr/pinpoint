@@ -2,9 +2,9 @@
   try {
     CtClass cc=classPool.get(javassistClassName);
     CtMethod startMethod=cc.getDeclaredMethod("start",null);
-    startMethod.insertBefore("{" + "System.out.println(\"*** Start TomcatProfiler JVMStat Thread ***\");" + CLASS_NAME_AGENT_STATE_MANAGER + ".startJVMTraceThread();"+ "}");
+    startMethod.insertBefore("{" + Agent.FQCN + ".startAgent();"+ "}");
     CtMethod stopMethod=cc.getDeclaredMethod("stop",null);
-    stopMethod.insertBefore("{" + "System.out.println(\"*** TomcatProfiler send JVM is stopped info ***\");" + CLASS_NAME_AGENT_STATE_MANAGER + ".sendJVMStoppedInfo();"+ "}");
+    stopMethod.insertBefore("{" + Agent.FQCN + ".stopAgent();"+ "}");
     printClassConvertComplete(javassistClassName);
     return cc.toBytecode();
   }
