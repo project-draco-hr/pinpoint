@@ -1,0 +1,19 @@
+{
+  HeaderTBaseSerializer serializer=new HeaderTBaseSerializer();
+  Header header=new Header();
+  header.setType((short)10);
+  byte[] serialize=serializer.serialize(header,new JVMInfoThriftDTO());
+  dump(serialize);
+  HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
+  TBaseSelector tBaseSelector=new TBaseSelector(){
+    @Override public TBase getSelect(    Header header){
+      if (header.getType() == 10) {
+        return new JVMInfoThriftDTO();
+      }
+      throw new IllegalArgumentException("type not found:" + header.getType());
+    }
+  }
+;
+  TBase deserialize=deserializer.deserialize(tBaseSelector,serialize);
+  logger.info("deserialize:" + deserialize.getClass());
+}

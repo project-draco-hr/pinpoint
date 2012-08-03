@@ -1,0 +1,14 @@
+{
+  try {
+    trans_.reset(bytes);
+    Header header=readHeader();
+    validate(header);
+    TBase base=selector.getSelect(header);
+    base.read(protocol_);
+    return base;
+  }
+  finally {
+    trans_.clear();
+    protocol_.reset();
+  }
+}
