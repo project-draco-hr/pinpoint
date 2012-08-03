@@ -1,0 +1,14 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(2);
+  if (incoming.get(0)) {
+    struct.header=new com.profiler.dto.Header();
+    struct.header.read(iprot);
+    struct.setHeaderIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.request=new com.profiler.dto.RequestThriftDTO();
+    struct.request.read(iprot);
+    struct.setRequestIsSet(true);
+  }
+}

@@ -1,0 +1,28 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  JVMInfoData typedOther=(JVMInfoData)other;
+  lastComparison=Boolean.valueOf(isSetHeader()).compareTo(typedOther.isSetHeader());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetHeader()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.header,typedOther.header);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetJvmInfoThriftDTO()).compareTo(typedOther.isSetJvmInfoThriftDTO());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetJvmInfoThriftDTO()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.jvmInfoThriftDTO,typedOther.jvmInfoThriftDTO);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}
