@@ -1,2 +1,6 @@
 {
+  boolean accepted=HeaderUtil.validateSignature(header.getSignature());
+  if (!accepted) {
+    throw new IllegalArgumentException("Invalid Signature:" + header);
+  }
 }

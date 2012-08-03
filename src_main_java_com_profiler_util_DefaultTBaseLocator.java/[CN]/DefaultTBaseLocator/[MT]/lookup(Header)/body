@@ -1,0 +1,12 @@
+{
+  short type=header.getType();
+switch (type) {
+case 10:
+    return new JVMInfoThriftDTO();
+case 20:
+  return new RequestDataListThriftDTO();
+case 30:
+return new RequestThriftDTO();
+}
+throw new IllegalArgumentException("Unsupported type:" + type + " "+ header);
+}
