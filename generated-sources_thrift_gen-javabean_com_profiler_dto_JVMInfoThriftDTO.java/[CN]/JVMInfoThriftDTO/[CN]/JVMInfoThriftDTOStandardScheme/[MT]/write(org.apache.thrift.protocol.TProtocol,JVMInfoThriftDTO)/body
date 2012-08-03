@@ -1,0 +1,52 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(AGENT_HASH_CODE_FIELD_DESC);
+  oprot.writeI32(struct.agentHashCode);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(DATA_TIME_FIELD_DESC);
+  oprot.writeI64(struct.dataTime);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(ACTIVE_THREAD_COUNT_FIELD_DESC);
+  oprot.writeI32(struct.activeThreadCount);
+  oprot.writeFieldEnd();
+  if (struct.isSetGc1Count()) {
+    oprot.writeFieldBegin(GC1_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.gc1Count);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetGc1Time()) {
+    oprot.writeFieldBegin(GC1_TIME_FIELD_DESC);
+    oprot.writeI64(struct.gc1Time);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetGc2Count()) {
+    oprot.writeFieldBegin(GC2_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.gc2Count);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetGc2Time()) {
+    oprot.writeFieldBegin(GC2_TIME_FIELD_DESC);
+    oprot.writeI64(struct.gc2Time);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(HEAP_USED_FIELD_DESC);
+  oprot.writeI64(struct.heapUsed);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(HEAP_COMMITTED_FIELD_DESC);
+  oprot.writeI64(struct.heapCommitted);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(NON_HEAP_USED_FIELD_DESC);
+  oprot.writeI64(struct.nonHeapUsed);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(NON_HEAP_COMMITTED_FIELD_DESC);
+  oprot.writeI64(struct.nonHeapCommitted);
+  oprot.writeFieldEnd();
+  if (struct.isSetProcessCPUTime()) {
+    oprot.writeFieldBegin(PROCESS_CPUTIME_FIELD_DESC);
+    oprot.writeDouble(struct.processCPUTime);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

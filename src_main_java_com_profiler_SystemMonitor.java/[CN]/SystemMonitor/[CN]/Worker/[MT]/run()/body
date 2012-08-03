@@ -1,0 +1,14 @@
+{
+  try {
+    currentDto=new JVMInfoThriftDTO();
+    currentDto.setAgentHashCode(Agent.getInstance().getAgentHashCode());
+    currentDto.setDataTime(System.currentTimeMillis());
+    getActiveThreadCount();
+    getGCState();
+    getMemoryState();
+    getProcessCPUUsage();
+    DataSender.getInstance().addDataToSend(currentDto);
+  }
+ catch (  Exception e) {
+  }
+}
