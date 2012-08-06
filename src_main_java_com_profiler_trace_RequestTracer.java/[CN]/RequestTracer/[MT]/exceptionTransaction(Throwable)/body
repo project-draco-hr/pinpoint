@@ -1,5 +1,5 @@
 {
-  long cpuUserTime[]=getThreadTime();
+  long cpuUserTime[]=SystemUtils.getThreadTime();
   RequestThriftDTO dto=new RequestThriftDTO(Agent.getInstance().getAgentHashCode(),currentRequestHash.get(),TomcatProfilerConstant.DATA_TYPE_UNCAUGHT_EXCEPTION,System.currentTimeMillis(),cpuUserTime[0],cpuUserTime[1]);
   dto.setExtraData1(throwable.getMessage());
   StackTraceElement[] tempElement=throwable.getStackTrace();
