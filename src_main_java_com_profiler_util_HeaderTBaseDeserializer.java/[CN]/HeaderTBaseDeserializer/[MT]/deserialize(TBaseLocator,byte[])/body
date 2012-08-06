@@ -3,7 +3,7 @@
     trans_.reset(bytes);
     Header header=readHeader();
     validate(header);
-    TBase base=locator.lookup(header);
+    TBase<?,?> base=locator.lookup(header);
     base.read(protocol_);
     return base;
   }
