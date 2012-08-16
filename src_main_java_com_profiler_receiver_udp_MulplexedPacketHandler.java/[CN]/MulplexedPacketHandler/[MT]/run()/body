@@ -1,0 +1,11 @@
+{
+  HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
+  TBase<?,?> tBase=null;
+  try {
+    tBase=deserializer.deserialize(locator,datagramPacket.getData());
+    dispatch(tBase,datagramPacket);
+  }
+ catch (  TException e) {
+    e.printStackTrace();
+  }
+}

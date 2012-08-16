@@ -1,0 +1,16 @@
+{
+  RequestDataListThriftDTO dto=(RequestDataListThriftDTO)tbase;
+  try {
+    RequestTransactionDataManager manager=new RequestTransactionDataManager();
+    int hostHashCode=dto.getHostHashCode();
+    CharSequence agentName=manager.getAgentName(hostHashCode);
+    int requestHashCode=dto.getRequestHashCode();
+    String url=manager.getRequestURL(requestHashCode);
+    StringBuilder message=RequestDataPrinter.printRequestData(dto,agentName,url,"\n");
+    logger.debug(message);
+    manager.addRequestDataList(dto,datagramPacket.getData());
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}

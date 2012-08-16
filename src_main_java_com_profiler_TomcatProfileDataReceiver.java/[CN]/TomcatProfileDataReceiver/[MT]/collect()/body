@@ -1,19 +1,13 @@
 {
   System.out.println("******************************************************");
   System.out.println("***** Start TomcatTransactionData Receive UDP Thread *****");
-  RequestTransactionDataReceiver requestTransactionDataReceiver=new RequestTransactionDataReceiver(1024);
-  System.out.println("***** Start TomcatRequestData Receive UDP Thread *****");
-  RequestDataReceiver requestDataReceiver=new RequestDataReceiver(64512);
-  System.out.println("***** Start TomcatJVMData Receive UDP Thread     *****");
-  JVMStatDataReceiver jvmReceiver=new JVMStatDataReceiver(256);
+  DataReceiver mulplexDataReceiver=new MulplexedUDPReceiver();
   System.out.println("***** Start Tomcat Agent Data Receive TDP Thread *****");
   TCPReceiver tcpReceiver=new TCPReceiver();
   System.out.println("***** Start Fetch data Thread                    *****");
   FetchTPSDataThread fetchRPS=new FetchTPSDataThread();
   System.out.println("******************************************************");
-  requestTransactionDataReceiver.start();
-  requestDataReceiver.start();
-  jvmReceiver.start();
+  mulplexDataReceiver.start();
   tcpReceiver.start();
   fetchRPS.start();
 }
