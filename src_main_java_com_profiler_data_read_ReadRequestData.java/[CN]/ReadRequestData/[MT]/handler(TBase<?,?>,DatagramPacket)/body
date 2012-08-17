@@ -1,4 +1,7 @@
 {
+  if (logger.isDebugEnabled()) {
+    logger.debug("handle " + tbase);
+  }
   RequestDataListThriftDTO dto=(RequestDataListThriftDTO)tbase;
   try {
     RequestTransactionDataManager manager=new RequestTransactionDataManager();
@@ -8,7 +11,7 @@
     String url=manager.getRequestURL(requestHashCode);
     StringBuilder message=RequestDataPrinter.printRequestData(dto,agentName,url,"\n");
     logger.debug(message);
-    manager.addRequestDataList(dto,datagramPacket.getData());
+    manager.addRequestDataList(dto,Arrays.copyOf(datagramPacket.getData(),datagramPacket.getLength()));
   }
  catch (  Exception e) {
     e.printStackTrace();
