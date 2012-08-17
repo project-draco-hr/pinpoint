@@ -9,8 +9,10 @@
     CharSequence agentName=manager.getAgentName(hostHashCode);
     int requestHashCode=dto.getRequestHashCode();
     String url=manager.getRequestURL(requestHashCode);
-    StringBuilder message=RequestDataPrinter.printRequestData(dto,agentName,url,"\n");
-    logger.debug(message);
+    if (logger.isDebugEnabled()) {
+      StringBuilder message=RequestDataPrinter.printRequestData(dto,agentName,url,"\n");
+      logger.debug(message);
+    }
     manager.addRequestDataList(dto,Arrays.copyOf(datagramPacket.getData(),datagramPacket.getLength()));
   }
  catch (  Exception e) {
