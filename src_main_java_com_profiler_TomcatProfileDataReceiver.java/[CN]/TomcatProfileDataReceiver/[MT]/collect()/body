@@ -2,12 +2,12 @@
   System.out.println("******************************************************");
   System.out.println("***** Start MulplexedUDPReceiver Receive UDP Thread *****");
   DataReceiver mulplexDataReceiver=new MulplexedUDPReceiver();
+  mulplexDataReceiver.start();
   System.out.println("***** Start Tomcat Agent Data Receive TDP Thread *****");
   TCPReceiver tcpReceiver=new TCPReceiver();
+  tcpReceiver.start();
   System.out.println("***** Start Fetch data Thread                    *****");
   FetchTPSDataThread fetchRPS=new FetchTPSDataThread();
-  System.out.println("******************************************************");
-  mulplexDataReceiver.start();
-  tcpReceiver.start();
   fetchRPS.start();
+  System.out.println("******************************************************");
 }
