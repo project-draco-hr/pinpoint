@@ -2,13 +2,12 @@
   if (logger.isDebugEnabled()) {
     logger.debug("handle " + tbase);
   }
-  JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
   try {
+    JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
     int agentHashCode=dto.getAgentHashCode();
     RequestTransactionDataManager manager=new RequestTransactionDataManager();
     manager.addAgentHashCode(agentHashCode);
     checkAgentHashCodeIsExist(agentHashCode);
-    logger.debug(dto.toString());
     if (TomcatProfilerReceiverConfig.USING_HBASE) {
       String tableName=TomcatProfilerReceiverConstant.HBASE_JVM_TABLE + "_" + agentHashCode;
       PutJVMData put=new PutJVMData(tableName,dto);
@@ -16,6 +15,6 @@
     }
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.warn("ReadJVMData handle error " + e.getMessage(),e);
   }
 }

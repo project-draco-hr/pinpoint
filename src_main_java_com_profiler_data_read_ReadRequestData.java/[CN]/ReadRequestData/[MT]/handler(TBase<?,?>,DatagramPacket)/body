@@ -2,8 +2,8 @@
   if (logger.isDebugEnabled()) {
     logger.debug("handle " + tbase);
   }
-  RequestDataListThriftDTO dto=(RequestDataListThriftDTO)tbase;
   try {
+    RequestDataListThriftDTO dto=(RequestDataListThriftDTO)tbase;
     RequestTransactionDataManager manager=new RequestTransactionDataManager();
     int hostHashCode=dto.getHostHashCode();
     CharSequence agentName=manager.getAgentName(hostHashCode);
@@ -14,6 +14,6 @@
     manager.addRequestDataList(dto,Arrays.copyOf(datagramPacket.getData(),datagramPacket.getLength()));
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.warn("ReadRequestData handle error " + e.getMessage(),e);
   }
 }

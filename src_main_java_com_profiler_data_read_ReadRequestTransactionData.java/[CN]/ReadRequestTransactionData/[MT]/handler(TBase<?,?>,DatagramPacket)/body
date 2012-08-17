@@ -2,13 +2,12 @@
   if (logger.isDebugEnabled()) {
     logger.debug("handle " + tbase);
   }
-  RequestThriftDTO dto=(RequestThriftDTO)tbase;
   try {
-    logger.debug(dto);
+    RequestThriftDTO dto=(RequestThriftDTO)tbase;
     RequestTransactionDataManager manager=new RequestTransactionDataManager();
     manager.addRequest(dto);
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.warn("ReadRequestTransactionData handle error " + e.getMessage(),e);
   }
 }
