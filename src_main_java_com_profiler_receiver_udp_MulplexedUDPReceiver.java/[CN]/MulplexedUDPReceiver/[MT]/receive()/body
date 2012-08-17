@@ -1,6 +1,7 @@
 {
   try {
     this.udpSocket=new DatagramSocket(TomcatProfilerReceiverConfig.DEFUALT_PORT);
+    System.out.println("ddddd");
   }
  catch (  Exception e) {
     e.printStackTrace();
@@ -12,7 +13,10 @@
       try {
         DatagramPacket packet=new DatagramPacket(buffer,AcceptedSize);
         udpSocket.receive(packet);
-        executor.execute(new MulplexedPacketHandler(packet));
+        if (logger.isDebugEnabled()) {
+          logger.debug("DatagramPacket read size:" + packet.getLength());
+        }
+        worker.execute(new MulplexedPacketHandler(packet));
       }
  catch (      RejectedExecutionException ree) {
         rejectedExecutionCount++;
