@@ -1,0 +1,18 @@
+{
+  if (traceID == null) {
+    this.traceID=traceID;
+  }
+ else {
+    this.traceID=IDFactory.newTraceID();
+  }
+  if (parentSpanID < 0) {
+    this.spanID=1;
+  }
+ else {
+    this.spanID=++parentSpanID;
+  }
+  this.parentSpanID=parentSpanID;
+  this.name=name;
+  this.createTime=System.nanoTime();
+  this.debug=debug;
+}
