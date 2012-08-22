@@ -1,0 +1,16 @@
+{
+  ClassPool getDefault=ClassPool.getDefault();
+  CtClass ctClass=getDefault.get(String.class.getName());
+  String s="";
+  CtMethod[] methods=ctClass.getMethods();
+  CtMethod endsWith=ctClass.getMethod("endsWith","(Ljava/lang/String;)Z");
+  System.out.println(endsWith.getMethodInfo());
+  System.out.println(endsWith.getSignature());
+  System.out.println(endsWith.getLongName());
+  System.out.println(endsWith);
+  System.out.println(endsWith.getName());
+  System.out.println(endsWith.getMethodInfo().getName());
+  System.out.println(endsWith.getMethodInfo().getDescriptor());
+  Method endsWith1=String.class.getMethod("endsWith",new Class[]{String.class});
+  System.out.println(endsWith1);
+}
