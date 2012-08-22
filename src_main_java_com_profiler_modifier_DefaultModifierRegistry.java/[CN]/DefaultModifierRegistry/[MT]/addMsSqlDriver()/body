@@ -1,11 +1,11 @@
 {
   Map<String,Modifier> registry=this.registry;
-  Modifier mssqlConnectionModifier=new MSSQLConnectionModifier(classPool);
+  Modifier mssqlConnectionModifier=new MSSQLConnectionModifier(byteCodeInstrumentor);
   registry.put(mssqlConnectionModifier.getTargetClass(),mssqlConnectionModifier);
-  Modifier mssqlStatementModifier=new MSSQLStatementModifier(classPool);
+  Modifier mssqlStatementModifier=new MSSQLStatementModifier(byteCodeInstrumentor);
   registry.put(mssqlStatementModifier.getTargetClass(),mssqlStatementModifier);
-  Modifier mssqlPreparedStatementModifier=new MSSQLPreparedStatementModifier(classPool);
+  Modifier mssqlPreparedStatementModifier=new MSSQLPreparedStatementModifier(byteCodeInstrumentor);
   registry.put(mssqlPreparedStatementModifier.getTargetClass(),mssqlPreparedStatementModifier);
-  Modifier mssqlResultSetModifier=new MSSQLResultSetModifier(classPool);
+  Modifier mssqlResultSetModifier=new MSSQLResultSetModifier(byteCodeInstrumentor);
   registry.put(mssqlResultSetModifier.getTargetClass(),mssqlResultSetModifier);
 }

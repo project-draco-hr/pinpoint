@@ -2,7 +2,7 @@
   this.agentArgString=agentArgs;
   this.instrumentation=inst;
   this.instrumentation.addTransformer(this);
-  this.classPool=createClassPool();
-  this.modifierRepository=createModifierRegistry(this.classPool,tomcatProfilerConfig);
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  this.modifierRepository=createModifierRegistry(byteCodeInstrumentor,tomcatProfilerConfig);
   this.tomcatProfilerConfig=tomcatProfilerConfig;
 }

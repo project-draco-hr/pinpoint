@@ -1,11 +1,11 @@
 {
   Map<String,Modifier> registry=this.registry;
-  Modifier cubridStatementModifier=new CubridStatementModifier(classPool);
+  Modifier cubridStatementModifier=new CubridStatementModifier(byteCodeInstrumentor);
   registry.put(cubridStatementModifier.getTargetClass(),cubridStatementModifier);
-  Modifier cubridPreparedStatementModifier=new CubridPreparedStatementModifier(classPool);
+  Modifier cubridPreparedStatementModifier=new CubridPreparedStatementModifier(byteCodeInstrumentor);
   registry.put(cubridPreparedStatementModifier.getTargetClass(),cubridPreparedStatementModifier);
-  Modifier cubridResultSetModifier=new CubridResultSetModifier(classPool);
+  Modifier cubridResultSetModifier=new CubridResultSetModifier(byteCodeInstrumentor);
   registry.put(cubridResultSetModifier.getTargetClass(),cubridResultSetModifier);
-  Modifier cubridUStatementModifier=new CubridUStatementModifier(classPool);
+  Modifier cubridUStatementModifier=new CubridUStatementModifier(byteCodeInstrumentor);
   registry.put(cubridStatementModifier.getTargetClass(),cubridUStatementModifier);
 }
