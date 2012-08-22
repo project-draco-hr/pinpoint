@@ -2,5 +2,38 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  return changeServiceMethod(classLoader,javassistClassName,classFileBuffer);
+  addRequestTracerToCurrentClassLoader(classLoader);
+  System.out.println("\n\n\n\n\n\n");
+  System.out.println("EntryPointStandardHostValveModifier=" + classLoader);
+  System.out.println("EntryPointStandardHostValveModifier parent=" + classLoader.getParent());
+  try {
+    System.out.println(org.apache.catalina.Manager.class.getClassLoader().loadClass("com.profiler.modifier.tomcat.InvokeMethodInterceptor").newInstance().getClass().getClassLoader());
+    System.out.println(classLoader.loadClass("com.profiler.modifier.tomcat.InvokeMethodInterceptor").newInstance().getClass().getClassLoader());
+  }
+ catch (  InstantiationException e1) {
+    e1.printStackTrace();
+  }
+catch (  IllegalAccessException e1) {
+    e1.printStackTrace();
+  }
+catch (  ClassNotFoundException e1) {
+    e1.printStackTrace();
+  }
+  System.out.println("\n\n\n\n\n\n");
+  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
+  InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+  try {
+    aClass.addInterceptor("invoke",new String[]{"org.apache.catalina.connector.Request","org.apache.catalina.connector.Response"},(Interceptor)org.apache.catalina.Manager.class.getClassLoader().loadClass("com.profiler.modifier.tomcat.InvokeMethodInterceptor").newInstance());
+  }
+ catch (  InstantiationException e) {
+    e.printStackTrace();
+  }
+catch (  IllegalAccessException e) {
+    e.printStackTrace();
+  }
+catch (  ClassNotFoundException e) {
+    e.printStackTrace();
+  }
+  return aClass.toBytecode();
 }

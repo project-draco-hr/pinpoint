@@ -1,5 +1,5 @@
 {
-  InterceptorRegistry.addInterceptor("a",new AroundInterceptor(){
+  InterceptorRegistry.addInterceptor(1,new AroundInterceptor(){
     @Override public void before(    InterceptorContext ctx){
       System.out.println("before ctx:" + ctx);
     }
@@ -19,7 +19,7 @@
   hello.addLocalVariable("interceptor",interceptor);
   CtClass object=p.get(Object.class.getName());
   hello.addLocalVariable("result",object);
-  hello.insertBefore("{" + "ctx = new com.profiler.interceptor.InterceptorContext();" + "ctx.setParameter($args);"+ "interceptor = (com.profiler.interceptor.AroundInterceptor) " + InterceptorRegistry.class.getName() + ".getInterceptor(\"a\");"+ "interceptor.before(ctx);"+ "}");
+  hello.insertBefore("{" + "ctx = new com.profiler.interceptor.InterceptorContext();" + "ctx.setParameter($args);"+ "interceptor = (com.profiler.interceptor.AroundInterceptor) " + InterceptorRegistry.class.getName() + ".getInterceptor(1);"+ "interceptor.before(ctx);"+ "}");
   hello.addCatch("{" + " throw $e;" + "}",throwable);
   hello.insertAfter("{" + "interceptor.after(ctx); " + "}");
   hello.insertBefore(" System.out.println(\" before +  \");");

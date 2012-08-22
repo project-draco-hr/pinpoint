@@ -1,0 +1,15 @@
+{
+  Enumeration<?> attrs=request.getParameterNames();
+  StringBuilder params=new StringBuilder();
+  while (attrs.hasMoreElements()) {
+    String keyString=attrs.nextElement().toString();
+    System.out.println(request.getParameter(keyString));
+    Object value=request.getParameter(keyString);
+    if (value != null) {
+      String valueString=value.toString();
+      int valueStringLength=valueString.length();
+      if (valueStringLength > 0 && valueStringLength < 100)       params.append(keyString).append("=").append(valueString);
+    }
+  }
+  return params.toString();
+}
