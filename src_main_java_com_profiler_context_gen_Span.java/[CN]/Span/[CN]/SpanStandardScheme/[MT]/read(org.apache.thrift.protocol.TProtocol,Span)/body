@@ -1,0 +1,100 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.traceID=iprot.readString();
+        struct.setTraceIDIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+    struct.name=iprot.readString();
+    struct.setNameIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.spanID=iprot.readString();
+struct.setSpanIDIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.parentSpanId=iprot.readString();
+struct.setParentSpanIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 5:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
+struct.annotations=new ArrayList<Annotation>(_list0.size);
+for (int _i1=0; _i1 < _list0.size; ++_i1) {
+Annotation _elem2;
+_elem2=new Annotation();
+_elem2.read(iprot);
+struct.annotations.add(_elem2);
+}
+iprot.readListEnd();
+}
+struct.setAnnotationsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 6:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list3=iprot.readListBegin();
+struct.binaryAnnotations=new ArrayList<BinaryAnnotation>(_list3.size);
+for (int _i4=0; _i4 < _list3.size; ++_i4) {
+BinaryAnnotation _elem5;
+_elem5=new BinaryAnnotation();
+_elem5.read(iprot);
+struct.binaryAnnotations.add(_elem5);
+}
+iprot.readListEnd();
+}
+struct.setBinaryAnnotationsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 7:
+if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+struct.debug=iprot.readBool();
+struct.setDebugIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

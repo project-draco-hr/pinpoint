@@ -1,0 +1,29 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetTimestamp()) {
+    optionals.set(0);
+  }
+  if (struct.isSetValue()) {
+    optionals.set(1);
+  }
+  if (struct.isSetHost()) {
+    optionals.set(2);
+  }
+  if (struct.isSetDuration()) {
+    optionals.set(3);
+  }
+  oprot.writeBitSet(optionals,4);
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
+  }
+  if (struct.isSetValue()) {
+    oprot.writeString(struct.value);
+  }
+  if (struct.isSetHost()) {
+    struct.host.write(oprot);
+  }
+  if (struct.isSetDuration()) {
+    oprot.writeI32(struct.duration);
+  }
+}
