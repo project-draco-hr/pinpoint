@@ -6,6 +6,9 @@
       String filePath=tempURL.getFile();
       try {
         classPool.appendClassPath(filePath);
+        if (logger.isLoggable(Level.FINE)) {
+          logger.info("Loaded " + filePath + " library.");
+        }
       }
  catch (      NotFoundException e) {
       }

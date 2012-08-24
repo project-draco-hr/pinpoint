@@ -1,0 +1,12 @@
+{
+  StringBuilder code=new StringBuilder(1024);
+  code.append("{");
+  addGetBeforeInterceptor(id,code);
+  code.append("  interceptor.before(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args);");
+  code.append("}");
+  String buildBefore=code.toString();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("addStaticBeforeInterceptor catch method:" + method.getLongName() + " code:"+ buildBefore);
+  }
+  method.insertBefore(buildBefore);
+}

@@ -1,0 +1,17 @@
+{
+  Class aClass=this.byteCodeInstrumentor.defineClass(classLoader,"com.profiler.modifier.tomcat.InvokeMethodInterceptor",protectedDomain);
+  try {
+    return (Interceptor)aClass.newInstance();
+  }
+ catch (  InstantiationException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  IllegalAccessException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
+}

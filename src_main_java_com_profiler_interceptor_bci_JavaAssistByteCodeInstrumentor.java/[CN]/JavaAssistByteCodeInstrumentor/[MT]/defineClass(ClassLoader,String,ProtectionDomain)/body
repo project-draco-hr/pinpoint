@@ -1,0 +1,17 @@
+{
+  try {
+    CtClass clazz=classPool.get(defineClass);
+    return clazz.toClass(classLoader,protectedDomain);
+  }
+ catch (  NotFoundException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  CannotCompileException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
+}

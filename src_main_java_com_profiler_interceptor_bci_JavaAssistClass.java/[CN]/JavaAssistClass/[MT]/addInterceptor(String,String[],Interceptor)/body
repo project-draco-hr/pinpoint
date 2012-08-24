@@ -1,13 +1,16 @@
 {
-  int num=interceptorNo.getAndIncrement();
-  InterceptorRegistry.addInterceptor(num,interceptor);
+  int id=InterceptorRegistry.addInterceptor(interceptor);
   try {
-    CtClass[] params=new CtClass[args.length];
-    for (int i=0; i < args.length; i++) {
-      params[i]=instrumentor.getClassPool().getCtClass(args[i]);
+    CtMethod method=getMethod(methodName,args);
+    if (interceptor instanceof StaticAroundInterceptor) {
+      addAroundInterceptor(methodName,id,method);
     }
-    CtMethod method=ctClass.getDeclaredMethod(methodName,params);
-    method.insertBefore("System.out.println(\"request=\" + this.getClass().getClassLoader()); ((com.profiler.interceptor.StaticAroundInterceptor) com.profiler.interceptor.InterceptorRegistry.getInterceptor(" + num + ")).before(this, \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args);");
+ else     if (interceptor instanceof StaticBeforeInterceptor) {
+      addStaticBeforeInterceptor(methodName,id,method);
+    }
+ else     if (interceptor instanceof StaticAfterInterceptor) {
+      addStaticAfterInterceptor(methodName,id,method);
+    }
   }
  catch (  NotFoundException e) {
     e.printStackTrace();
