@@ -1,3 +1,9 @@
 {
-  System.out.println("record=" + record);
+  mutate(record.getTraceId(),new SpanUpdater(){
+    @Override public Span updateSpan(    Span span){
+      span.addAnnotation(record.getAnnotation());
+      return span;
+    }
+  }
+);
 }

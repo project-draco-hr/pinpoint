@@ -1,11 +1,6 @@
 {
-  Trace.addTracer(new Tracer(){
-    @Override public void record(    Record record){
-      System.out.printf("[%s] Record=%s\n",Thread.currentThread().getId(),record);
-    }
-  }
-);
-  int testSize=3;
+  Trace.addTracer(new DefaultTracer());
+  int testSize=1;
   final CountDownLatch startLatch=new CountDownLatch(1);
   final CountDownLatch endLatch=new CountDownLatch(testSize);
   Executor exec=Executors.newFixedThreadPool(testSize);

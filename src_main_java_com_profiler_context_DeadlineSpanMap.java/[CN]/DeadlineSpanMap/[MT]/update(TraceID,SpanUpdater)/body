@@ -1,0 +1,8 @@
+{
+  Span span=map.get(traceId.toString());
+  if (span == null) {
+    span=new Span(traceId,null,null);
+    map.put(traceId.toString(),span);
+  }
+  return spanUpdater.updateSpan(span);
+}
