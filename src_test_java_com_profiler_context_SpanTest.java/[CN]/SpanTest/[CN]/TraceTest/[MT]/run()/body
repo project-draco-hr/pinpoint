@@ -1,0 +1,17 @@
+{
+  try {
+    startLatch.await();
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+  }
+  Trace.record("msg:client send");
+  Trace.record(new Annotation.ClientSend());
+  Trace.record("msg:server recv");
+  Trace.record(new Annotation.ServerRecv());
+  Trace.record("msg:server send");
+  Trace.record(new Annotation.ServerSend());
+  Trace.record("msg:client recg");
+  Trace.record(new Annotation.ClientRecv());
+  endLatch.countDown();
+}

@@ -1,10 +1,23 @@
 {
-  Trace tracer=RequestContext.getTrace(TraceID.EMPTY,SpanID.ROOT_SPAN_ID,"UnitTest",true);
-  Annotation a1=new Annotation(System.nanoTime(),"step1");
-  Annotation a2=new Annotation(System.nanoTime(),"step2");
-  BinaryAnnotation a3=new BinaryAnnotation(System.nanoTime(),"",null,"");
-  tracer.record(a1);
-  tracer.record(a2);
-  tracer.recordBinary(a3);
-  System.out.println(tracer);
+  Trace.addTracer(new Tracer(){
+    @Override public void record(    Record record){
+      System.out.printf("[%s] Record=%s\n",Thread.currentThread().getId(),record);
+    }
+  }
+);
+  int testSize=3;
+  final CountDownLatch startLatch=new CountDownLatch(1);
+  final CountDownLatch endLatch=new CountDownLatch(testSize);
+  Executor exec=Executors.newFixedThreadPool(testSize);
+  for (int i=0; i < testSize; i++) {
+    exec.execute(new TraceTest(startLatch,endLatch));
+  }
+  startLatch.countDown();
+  try {
+    endLatch.await();
+  }
+ catch (  InterruptedException e) {
+    e.printStackTrace();
+    Assert.fail(e.getMessage());
+  }
 }
