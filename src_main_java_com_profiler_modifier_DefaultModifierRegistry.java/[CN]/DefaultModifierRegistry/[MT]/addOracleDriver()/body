@@ -1,9 +1,9 @@
 {
   Map<String,Modifier> registry=this.registry;
   Modifier oraclePreparedStatementModifier=new OraclePreparedStatementModifier(byteCodeInstrumentor);
-  registry.put(oraclePreparedStatementModifier.getTargetClass(),oraclePreparedStatementModifier);
+  addModifier(oraclePreparedStatementModifier);
   Modifier oracleStatement=new OracleStatementModifier(byteCodeInstrumentor);
-  registry.put(oracleStatement.getTargetClass(),oracleStatement);
+  addModifier(oracleStatement);
   Modifier oracleResultSetModifier=new OracleResultSetModifier(byteCodeInstrumentor);
-  registry.put(oracleResultSetModifier.getTargetClass(),oracleResultSetModifier);
+  addModifier(oracleResultSetModifier);
 }

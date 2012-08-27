@@ -1,0 +1,24 @@
+{
+  StringBuilder after=new StringBuilder(1024);
+  after.append("{");
+  addGetStaticAfterInterceptor(after,id);
+  after.append("  interceptor.after(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args, ($w)$_);");
+  after.append("}");
+  String buildAfter=after.toString();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("addStaticAfterInterceptor after behavior:" + behavior.getLongName() + " code:"+ buildAfter);
+  }
+  behavior.insertAfter(buildAfter);
+  StringBuilder catchCode=new StringBuilder(1024);
+  catchCode.append("{");
+  addGetStaticAfterInterceptor(catchCode,id);
+  catchCode.append("  interceptor.after(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args, $e);");
+  catchCode.append("  throw $e;");
+  catchCode.append("}");
+  String buildCatch=catchCode.toString();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("addStaticAfterInterceptor catch behavior:" + behavior.getLongName() + " code:"+ buildCatch);
+  }
+  CtClass th=instrumentor.getClassPool().get("java.lang.Throwable");
+  behavior.addCatch(buildCatch,th);
+}

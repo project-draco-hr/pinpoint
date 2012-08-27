@@ -1,11 +1,10 @@
 {
-  Map<String,Modifier> registry=this.registry;
   Modifier entryPointStandardHostValveModifier=new EntryPointStandardHostValveModifier(byteCodeInstrumentor);
-  registry.put(entryPointStandardHostValveModifier.getTargetClass(),entryPointStandardHostValveModifier);
+  addModifier(entryPointStandardHostValveModifier);
   Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(byteCodeInstrumentor);
-  registry.put(tomcatStandardServiceModifier.getTargetClass(),tomcatStandardServiceModifier);
+  addModifier(tomcatStandardServiceModifier);
   Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor);
-  registry.put(tomcatConnectorModifier.getTargetClass(),tomcatConnectorModifier);
+  addModifier(tomcatConnectorModifier);
   Modifier tomcatCatalinaModifier=new CatalinaModifier(byteCodeInstrumentor);
-  registry.put(tomcatCatalinaModifier.getTargetClass(),tomcatCatalinaModifier);
+  addModifier(tomcatCatalinaModifier);
 }

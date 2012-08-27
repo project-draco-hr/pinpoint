@@ -1,16 +1,19 @@
 {
   try {
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("defineClass classLoader:" + classLoader + " class:"+ defineClass);
+    }
     CtClass clazz=classPool.get(defineClass);
     return clazz.toClass(classLoader,protectedDomain);
   }
  catch (  NotFoundException e) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
+      logger.log(Level.WARNING,"defineClass classLoader:" + classLoader + " "+ e.getMessage(),e);
     }
   }
 catch (  CannotCompileException e) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
+      logger.log(Level.WARNING,"defineClass classLoader:" + classLoader + " "+ e.getMessage(),e);
     }
   }
   return null;

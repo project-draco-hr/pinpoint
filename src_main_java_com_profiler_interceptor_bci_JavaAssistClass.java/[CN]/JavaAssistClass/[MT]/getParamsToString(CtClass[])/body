@@ -1,0 +1,14 @@
+{
+  StringBuilder sb=new StringBuilder(512);
+  if (params.length != 0) {
+    int paramsLength=params.length;
+    for (int loop=paramsLength - 1; loop > 0; loop--) {
+      sb.append(params[loop].getName()).append(",");
+    }
+  }
+  String paramsStr=sb.toString();
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("params type:" + paramsStr);
+  }
+  return paramsStr;
+}

@@ -1,7 +1,7 @@
 {
   Map<String,Modifier> registry=this.registry;
   Modifier dbcpBasicDataSourceModifier=new DBCPBasicDataSourceModifier(byteCodeInstrumentor);
-  registry.put(dbcpBasicDataSourceModifier.getTargetClass(),dbcpBasicDataSourceModifier);
+  addModifier(dbcpBasicDataSourceModifier);
   Modifier dbcpPoolModifier=new DBCPPoolModifier(byteCodeInstrumentor);
-  registry.put(dbcpPoolModifier.getTargetClass(),dbcpPoolModifier);
+  addModifier(dbcpPoolModifier);
 }

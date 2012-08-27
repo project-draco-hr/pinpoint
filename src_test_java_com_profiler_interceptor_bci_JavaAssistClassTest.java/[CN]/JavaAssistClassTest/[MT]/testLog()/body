@@ -1,0 +1,10 @@
+{
+  ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("com.profiler.interceptor.bci.TestLog");
+  aClass.addDebugLogBeforeAfterMethod();
+  Object testObject=aClass.toClass().newInstance();
+  Method test=testObject.getClass().getMethod("test",null);
+  test.invoke(testObject);
+  Method testString=testObject.getClass().getMethod("test",new Class[]{String.class});
+  testString.invoke(testObject,"method");
+}

@@ -1,10 +1,10 @@
 {
   Modifier mysqlConnectionImplModifier=new MySQLConnectionImplModifier(byteCodeInstrumentor);
-  registry.put(mysqlConnectionImplModifier.getTargetClass(),mysqlConnectionImplModifier);
+  addModifier(mysqlConnectionImplModifier);
   Modifier mysqlStatementModifier=new MySQLStatementModifier(byteCodeInstrumentor);
-  registry.put(mysqlStatementModifier.getTargetClass(),mysqlStatementModifier);
+  addModifier(mysqlStatementModifier);
   Modifier mysqlPreparedStatementModifier=new MySQLPreparedStatementModifier(byteCodeInstrumentor);
-  registry.put(mysqlPreparedStatementModifier.getTargetClass(),mysqlPreparedStatementModifier);
+  addModifier(mysqlPreparedStatementModifier);
   Modifier mysqlResultSetModifier=new MySQLResultSetModifier(byteCodeInstrumentor);
-  registry.put(mysqlResultSetModifier.getTargetClass(),mysqlResultSetModifier);
+  addModifier(mysqlResultSetModifier);
 }

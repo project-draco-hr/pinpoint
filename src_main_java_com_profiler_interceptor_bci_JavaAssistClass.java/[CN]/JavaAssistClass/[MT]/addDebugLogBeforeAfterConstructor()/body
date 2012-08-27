@@ -1,0 +1,27 @@
+{
+  String className=this.ctClass.getName();
+  LoggingInterceptor loggingInterceptor=new LoggingInterceptor(className);
+  int id=InterceptorRegistry.addInterceptor(loggingInterceptor);
+  try {
+    CtClass cc=this.instrumentor.getClassPool().get(className);
+    CtConstructor[] constructors=cc.getConstructors();
+    for (    CtConstructor constructor : constructors) {
+      if (constructor.isEmpty()) {
+        if (logger.isLoggable(Level.FINE)) {
+          logger.fine(constructor.getLongName() + " is empty.");
+        }
+        continue;
+      }
+      String constructorName=constructor.getName();
+      String params=getParamsToString(constructor.getParameterTypes());
+      addAroundInterceptor(constructorName,id,constructor);
+    }
+    return true;
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return false;
+}
