@@ -1,0 +1,9 @@
+{
+  mutate(record.getTraceId(),new SpanUpdater(){
+    @Override public Span updateSpan(    Span span){
+      span.setEndPoint(endPoint);
+      return span;
+    }
+  }
+);
+}

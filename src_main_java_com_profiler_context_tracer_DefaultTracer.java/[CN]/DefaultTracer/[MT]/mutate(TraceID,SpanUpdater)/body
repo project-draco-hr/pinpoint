@@ -1,6 +1,6 @@
 {
   Span span=spanMap.update(traceId,spanUpdater);
-  if (span.isExistsAnnotation(Annotation.CLIENT_RECV) || span.isExistsAnnotation(Annotation.SERVER_SEND)) {
+  if (span.isExistsAnnotationType("CR") || span.isExistsAnnotationType("SS")) {
     spanMap.remove(traceId);
     logSpan(span);
   }

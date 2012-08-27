@@ -1,0 +1,8 @@
+{
+  Trace.addTracer(new DefaultTracer());
+  Trace.recordRpcName("service_name","http://");
+  Trace.recordServerAddr("localhost",8080);
+  Trace.record(new Annotation.ServerRecv());
+  getDataFromDB();
+  Trace.record(new Annotation.ServerSend());
+}
