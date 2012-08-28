@@ -6,8 +6,14 @@
     String traceID=request.getHeader(Header.HTTP_TRACE_ID.toString());
     String parentSpanID=request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString());
     String spanID=request.getHeader(Header.HTTP_SPAN_ID.toString());
-    Boolean sampled=Boolean.valueOf(request.getHeader(Header.HTTP_SAMPLED.toString()));
-    Integer flags=Integer.valueOf(request.getHeader(Header.HTTP_FLAGS.toString()));
+    Boolean sampled=null;
+    if (request.getHeader(Header.HTTP_SAMPLED.toString()) != null) {
+      sampled=Boolean.valueOf(request.getHeader(Header.HTTP_SAMPLED.toString()));
+    }
+    Integer flags=null;
+    if (request.getHeader(Header.HTTP_FLAGS.toString()) != null) {
+      flags=Integer.valueOf(request.getHeader(Header.HTTP_FLAGS.toString()));
+    }
     String parameters=getParameter(request);
     if (traceID != null) {
       Trace.setTraceId(new TraceID(traceID,parentSpanID,spanID,sampled,flags));
@@ -15,12 +21,12 @@
  else {
       Trace.setTraceId(TraceID.newTraceId());
     }
-    Trace.addTracer(new DefaultTracer());
     Trace.recordRpcName("tomcat",requestURL);
     Trace.recordServerAddr(request.getLocalAddr(),request.getLocalPort());
     Trace.record("Parameter=" + parameters);
     Trace.record(new Annotation.ServerRecv());
     RequestTracer.startTransaction(requestURL,clientIP,System.currentTimeMillis(),parameters);
+    start.set(System.currentTimeMillis());
   }
  catch (  Exception e) {
     e.printStackTrace();

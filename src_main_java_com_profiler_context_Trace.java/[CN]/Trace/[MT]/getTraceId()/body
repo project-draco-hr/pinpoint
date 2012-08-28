@@ -1,7 +1,7 @@
 {
-  State state=local.get();
-  if (state == null || state.getId() == null) {
-    return defaultId;
+  TraceID id=traceId.get();
+  if (id == null) {
+    return TraceID.newTraceId();
   }
-  return state.getId();
+  return id;
 }
