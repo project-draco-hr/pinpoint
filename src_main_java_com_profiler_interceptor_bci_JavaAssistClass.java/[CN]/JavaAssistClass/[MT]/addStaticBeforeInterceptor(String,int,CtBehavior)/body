@@ -8,5 +8,10 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("addStaticBeforeInterceptor catch behavior:" + behavior.getLongName() + " code:"+ buildBefore);
   }
-  behavior.insertBefore(buildBefore);
+  if (behavior instanceof CtConstructor) {
+    ((CtConstructor)behavior).insertBeforeBody(buildBefore);
+  }
+ else {
+    behavior.insertBefore(buildBefore);
+  }
 }
