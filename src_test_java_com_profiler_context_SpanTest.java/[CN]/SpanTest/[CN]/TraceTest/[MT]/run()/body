@@ -5,6 +5,8 @@
  catch (  InterruptedException e) {
     e.printStackTrace();
   }
+  Trace.setTraceId(Trace.getNextId());
+  Trace.addTracer(new DefaultTracer());
   Trace.record("msg:client send");
   Trace.record(new Annotation.ClientSend());
   Trace.record("msg:server recv");

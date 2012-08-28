@@ -1,3 +1,11 @@
 {
-  Trace.traceId.set(traceId);
+  State state=local.get();
+  if (state == null) {
+    local.set(new State(traceId,false,getTracers()));
+  }
+ else {
+    state.setId(traceId);
+    state.setTerminal(false);
+  }
+  return traceId;
 }
