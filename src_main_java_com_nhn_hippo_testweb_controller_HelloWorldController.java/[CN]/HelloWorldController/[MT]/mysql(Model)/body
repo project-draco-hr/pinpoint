@@ -1,0 +1,14 @@
+{
+  int id=(new Random()).nextInt();
+  Member member=new Member();
+  member.setId(id);
+  member.setName("chisu");
+  member.setJoined(new Date());
+  service.add(member);
+  List<Member> list=service.list();
+  System.out.println(list);
+  HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
+  String executeToBloc=client.executeToBloc("http://localhost:9080/arcus.hippo?id=" + id,new HashMap<String,Object>());
+  System.out.println(executeToBloc);
+  return "helloworld";
+}

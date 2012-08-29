@@ -1,0 +1,26 @@
+{
+  if (null == uri) {
+    return null;
+  }
+  String responseBody=null;
+  HttpClient httpClient=null;
+  try {
+    HttpPost post=new HttpPost(uri);
+    post.setEntity(getEntity(paramMap));
+    post.setParams(getHttpParams());
+    post.addHeader("Content-Type","application/json;charset=UTF-8");
+    ResponseHandler<String> responseHandler=new BasicResponseHandler();
+    httpClient=getHttpClient(getHttpParams());
+    responseBody=httpClient.execute(post,responseHandler);
+    return responseBody;
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    return e.getMessage();
+  }
+ finally {
+    if (null != httpClient && null != httpClient.getConnectionManager()) {
+      httpClient.getConnectionManager().shutdown();
+    }
+  }
+}
