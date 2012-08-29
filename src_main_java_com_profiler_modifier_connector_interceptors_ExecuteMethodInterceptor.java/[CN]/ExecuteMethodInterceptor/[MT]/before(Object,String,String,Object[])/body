@@ -1,3 +1,11 @@
 {
   System.out.println("\n\n\n\nHTTP BEFORE");
+  HttpHost host=(HttpHost)args[0];
+  HttpRequest request=(HttpRequest)args[1];
+  System.out.println(Arrays.toString(request.getAllHeaders()));
+  Trace.recordRpcName("http-call","");
+  Trace.recordServerAddr(host.getHostName(),host.getPort());
+  Trace.record("http.uri=" + request.toString());
+  Trace.record(new Annotation.ClientSend());
+  StopWatch.start("ExecuteMethodInterceptor");
 }
