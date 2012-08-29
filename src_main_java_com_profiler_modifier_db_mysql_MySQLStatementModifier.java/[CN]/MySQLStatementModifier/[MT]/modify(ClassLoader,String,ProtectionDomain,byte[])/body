@@ -2,6 +2,13 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  checkLibrary(classLoader,javassistClassName);
-  return changeMethod(javassistClassName,classFileBuffer);
+  Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteQueryMethodInterceptor");
+  if (interceptor == null) {
+    return null;
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
+  InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+  aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
+  return aClass.toBytecode();
 }

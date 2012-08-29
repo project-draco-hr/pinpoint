@@ -2,18 +2,14 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  addRequestTracerToCurrentClassLoader(classLoader);
-  System.out.println("\n\n\n\n\n\n");
-  System.out.println("EntryPointStandardHostValveModifier=" + classLoader);
-  System.out.println("EntryPointStandardHostValveModifier parent=" + classLoader.getParent());
-  Interceptor interceptor=newInterceptor(classLoader,protectedDomain);
+  addRequiredCladdToCurrentClassLoader(classLoader);
+  Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.tomcat.interceptors.InvokeMethodInterceptor");
   if (interceptor == null) {
     return null;
   }
-  System.out.println("\n\n\n\n\n\n");
-  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
-  InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+  InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
   aClass.addInterceptor("invoke",new String[]{"org.apache.catalina.connector.Request","org.apache.catalina.connector.Response"},interceptor);
   return aClass.toBytecode();
 }
