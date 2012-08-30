@@ -1,15 +1,15 @@
 {
+  System.out.println("ExecuteUpdateMethodInterceptor.before");
   try {
     if (Trace.getCurrentTraceId() == null) {
       return;
     }
     Trace.recordRpcName("mysql","");
     if (args.length > 0) {
-      System.out.println("Query=" + args[0]);
       Trace.record("Query=" + args[0]);
     }
     Trace.record(new Annotation.ClientSend());
-    StopWatch.start("ExecuteQueryMethodInterceptor");
+    StopWatch.start("ExecuteUpdateMethodInterceptor");
   }
  catch (  Exception e) {
     e.printStackTrace();
