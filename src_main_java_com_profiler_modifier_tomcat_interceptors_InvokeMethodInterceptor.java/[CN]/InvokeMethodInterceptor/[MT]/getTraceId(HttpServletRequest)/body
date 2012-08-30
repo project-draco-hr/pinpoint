@@ -1,0 +1,12 @@
+{
+  String header=request.getHeader(Header.HTTP_TRACE_ID.toString());
+  if (header == null) {
+    return null;
+  }
+  try {
+    return UUID.fromString(header);
+  }
+ catch (  IllegalArgumentException e) {
+    return null;
+  }
+}

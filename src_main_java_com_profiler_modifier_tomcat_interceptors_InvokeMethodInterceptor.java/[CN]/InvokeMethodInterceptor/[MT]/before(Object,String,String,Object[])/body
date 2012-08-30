@@ -3,19 +3,13 @@
     HttpServletRequest request=(HttpServletRequest)args[0];
     String requestURL=request.getRequestURI();
     String clientIP=request.getRemoteAddr();
-    String traceID=request.getHeader(Header.HTTP_TRACE_ID.toString());
-    String parentSpanID=request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString());
-    String spanID=request.getHeader(Header.HTTP_SPAN_ID.toString());
-    Boolean sampled=null;
-    if (request.getHeader(Header.HTTP_SAMPLED.toString()) != null) {
-      sampled=Boolean.valueOf(request.getHeader(Header.HTTP_SAMPLED.toString()));
-    }
-    Integer flags=null;
-    if (request.getHeader(Header.HTTP_FLAGS.toString()) != null) {
-      flags=Integer.valueOf(request.getHeader(Header.HTTP_FLAGS.toString()));
-    }
     String parameters=getParameter(request);
+    UUID traceID=getTraceId(request);
     if (traceID != null) {
+      long parentSpanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanID.NULL);
+      long spanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanID.NULL);
+      boolean sampled=Boolean.parseBoolean(request.getHeader(Header.HTTP_SAMPLED.toString()));
+      int flags=NumberUtils.parseInteger(request.getHeader(Header.HTTP_FLAGS.toString()),0);
       TraceID id=new TraceID(traceID,parentSpanID,spanID,sampled,flags);
       System.out.println("\n\n\ngot a traceid. traceid=" + id + "\n\n\n");
       Trace.setTraceId(id);
