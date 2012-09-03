@@ -3,8 +3,8 @@
   nextId.setSampled(Trace.getTraceId().isSampled());
   Trace.setTraceId(nextId);
   Trace.recordRpcName("service_name","http://");
-  Trace.recordServerAddr("localhost",8080);
-  Trace.record(new Annotation.ServerRecv());
+  Trace.recordEndPoint("localhost",8080);
+  Trace.record(Annotation.ServerRecv);
   getDataFromDB();
-  Trace.record(new Annotation.ServerSend());
+  Trace.record(Annotation.ServerSend);
 }

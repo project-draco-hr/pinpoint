@@ -2,8 +2,7 @@
   if (!tracingEnabled)   return;
   mutate(getTraceId(),new SpanUpdater(){
     @Override public Span updateSpan(    Span span){
-      span.setServiceName(service);
-      span.setName(rpc);
+      span.setEndPoint(new EndPoint(ip,port));
       return span;
     }
   }

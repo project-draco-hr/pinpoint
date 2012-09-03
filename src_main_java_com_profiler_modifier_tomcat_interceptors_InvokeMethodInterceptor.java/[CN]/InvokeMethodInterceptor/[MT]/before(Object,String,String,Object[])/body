@@ -18,9 +18,9 @@
       Trace.setTraceId(TraceID.newTraceId());
     }
     Trace.recordRpcName("tomcat",requestURL);
-    Trace.recordServerAddr(request.getLocalAddr(),request.getLocalPort());
-    Trace.record("Parameter=" + parameters);
-    Trace.record(new Annotation.ServerRecv());
+    Trace.recordEndPoint(request.getLocalAddr(),request.getLocalPort());
+    Trace.recordMessage("Parameter=" + parameters);
+    Trace.record(Annotation.ServerRecv);
     RequestTracer.startTransaction(requestURL,clientIP,System.currentTimeMillis(),parameters);
     start.set(System.currentTimeMillis());
   }

@@ -9,8 +9,8 @@
   request.addHeader(Header.HTTP_SAMPLED.toString(),String.valueOf(nextId.isSampled()));
   request.addHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
   Trace.recordRpcName("http-call","");
-  Trace.recordServerAddr(host.getHostName(),host.getPort());
-  Trace.record("http.uri=" + request.toString());
-  Trace.record(new Annotation.ClientSend());
+  Trace.recordEndPoint(host.getHostName(),host.getPort());
+  Trace.recordMessage("http.uri=" + request.toString());
+  Trace.record(Annotation.ClientSend);
   StopWatch.start("ExecuteMethodInterceptor");
 }

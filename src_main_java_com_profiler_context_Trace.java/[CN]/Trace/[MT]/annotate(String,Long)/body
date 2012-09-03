@@ -2,8 +2,7 @@
   if (!tracingEnabled)   return;
   mutate(getTraceId(),new SpanUpdater(){
     @Override public Span updateSpan(    Span span){
-      span.setServiceName(service);
-      span.setName(rpc);
+      span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),value,span.getEndPoint(),duration));
       return span;
     }
   }

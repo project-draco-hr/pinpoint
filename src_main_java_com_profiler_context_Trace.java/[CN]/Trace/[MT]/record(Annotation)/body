@@ -1,3 +1,4 @@
 {
-  record(new Record(getTraceId(),System.currentTimeMillis(),annotation,null));
+  if (!tracingEnabled)   return;
+  annotate(annotation.getCode(),null);
 }

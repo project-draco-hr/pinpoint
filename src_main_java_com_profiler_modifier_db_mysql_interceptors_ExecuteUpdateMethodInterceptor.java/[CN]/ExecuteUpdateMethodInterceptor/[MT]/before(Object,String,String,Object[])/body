@@ -6,9 +6,9 @@
     }
     Trace.recordRpcName("mysql","");
     if (args.length > 0) {
-      Trace.record("Query=" + args[0]);
+      Trace.recordAttibute("Query",args[0]);
     }
-    Trace.record(new Annotation.ClientSend());
+    Trace.record(Annotation.ClientSend);
     StopWatch.start("ExecuteUpdateMethodInterceptor");
   }
  catch (  Exception e) {
