@@ -1,4 +1,12 @@
 {
-  CtClass[] params=getCtParameter(args);
-  return ctClass.getDeclaredMethod(methodName,params);
+  try {
+    CtClass[] params=getCtParameter(args);
+    return ctClass.getDeclaredMethod(methodName,params);
+  }
+ catch (  NotFoundException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
 }

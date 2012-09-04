@@ -1,0 +1,18 @@
+{
+  Class<Driver> driverClazz=(Class<Driver>)loader.loadClass("com.mysql.jdbc.NonRegisteringDriver");
+  Driver driver=driverClazz.newInstance();
+  logger.info("Driver class name:" + driverClazz.getName());
+  logger.info("Driver class cl:" + driverClazz.getClassLoader());
+  Properties properties=new Properties();
+  properties.setProperty("user","lucytest");
+  properties.setProperty("password","testlucy");
+  Connection connect=driver.connect("jdbc:mysql://10.98.133.22:3306/hippo",properties);
+  logger.info("Connection class name:" + connect.getClass().getName());
+  logger.info("Connection class cl:" + connect.getClass().getClassLoader());
+  Set<Connection> connectionList=ConnectionTrace.getConnectionTrace().getConnectionList();
+  Assert.assertEquals(connectionList.size(),1);
+  logger.info("connection size:" + connectionList.size());
+  connect.close();
+  Assert.assertEquals(connectionList.size(),0);
+  logger.info("connection size:" + connectionList.size());
+}

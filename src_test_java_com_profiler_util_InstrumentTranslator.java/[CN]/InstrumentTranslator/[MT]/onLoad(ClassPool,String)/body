@@ -1,0 +1,10 @@
+{
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("loading className:" + classname);
+  }
+  Modifier modifier=modifierMap.get(classname);
+  if (modifier == null) {
+    return;
+  }
+  modifier.modify(this.loader,classname,null,null);
+}

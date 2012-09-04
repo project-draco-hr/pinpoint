@@ -2,7 +2,8 @@
   StringBuilder code=new StringBuilder(1024);
   code.append("{");
   addGetBeforeInterceptor(id,code);
-  code.append("  interceptor.before(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args);");
+  String target=getTarget(behavior);
+  code.append("  interceptor.before(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args);");
   code.append("}");
   String buildBefore=code.toString();
   if (logger.isLoggable(Level.INFO)) {

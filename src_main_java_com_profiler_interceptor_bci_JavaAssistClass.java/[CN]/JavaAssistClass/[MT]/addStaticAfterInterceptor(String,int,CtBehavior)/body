@@ -2,7 +2,8 @@
   StringBuilder after=new StringBuilder(1024);
   after.append("{");
   addGetStaticAfterInterceptor(after,id);
-  after.append("  interceptor.after(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args, ($w)$_);");
+  String target=getTarget(behavior);
+  after.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, ($w)$_);");
   after.append("}");
   String buildAfter=after.toString();
   if (logger.isLoggable(Level.INFO)) {
@@ -12,7 +13,7 @@
   StringBuilder catchCode=new StringBuilder(1024);
   catchCode.append("{");
   addGetStaticAfterInterceptor(catchCode,id);
-  catchCode.append("  interceptor.after(this, \"" + ctClass.getName() + "\", \""+ methodName+ "\", $args, $e);");
+  catchCode.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, $e);");
   catchCode.append("  throw $e;");
   catchCode.append("}");
   String buildCatch=catchCode.toString();

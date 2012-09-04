@@ -1,28 +1,3 @@
 {
-  if (interceptor == null)   return false;
-  int id=InterceptorRegistry.addInterceptor(interceptor);
-  try {
-    CtMethod method=getMethod(methodName,args);
-    if (interceptor instanceof StaticAroundInterceptor) {
-      addAroundInterceptor(methodName,id,method);
-    }
- else     if (interceptor instanceof StaticBeforeInterceptor) {
-      addStaticBeforeInterceptor(methodName,id,method);
-    }
- else     if (interceptor instanceof StaticAfterInterceptor) {
-      addStaticAfterInterceptor(methodName,id,method);
-    }
-    return true;
-  }
- catch (  NotFoundException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
-  }
-catch (  CannotCompileException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
-  }
-  return false;
+  return addInterceptor(methodName,args,interceptor,Type.auto);
 }

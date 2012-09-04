@@ -1,0 +1,13 @@
+{
+  if (InterceptorUtils.isThrowable(result)) {
+    return;
+  }
+  if (!(result instanceof Connection)) {
+    return;
+  }
+  String url=(String)args[4];
+  if (url instanceof String) {
+    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
+    connectionTrace.createConnection((Connection)result,url);
+  }
+}

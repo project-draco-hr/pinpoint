@@ -3,5 +3,34 @@
     logger.info("Modifing. " + javassistClassName);
   }
   checkLibrary(classLoader,javassistClassName);
-  return changeMethods(javassistClassName,classFileBuffer);
+  try {
+    InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    if (mysqlConnection == null) {
+      return null;
+    }
+    String[] params=new String[]{"java.lang.String","int","java.util.Properties","java.lang.String","java.lang.String"};
+    Interceptor createConnection=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.CreateConnectionInterceptor");
+    if (createConnection == null) {
+      return null;
+    }
+    Interceptor closeConnection=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.CloseConnectionInterceptor");
+    if (closeConnection == null) {
+      return null;
+    }
+    Interceptor createStatement=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.CreateStatementInterceptor");
+    if (createStatement == null) {
+      return null;
+    }
+    mysqlConnection.addInterceptor("getInstance",params,createConnection);
+    mysqlConnection.addInterceptor("close",null,closeConnection);
+    mysqlConnection.addInterceptor("createStatement",null,createStatement);
+    printClassConvertComplete(javassistClassName);
+    return mysqlConnection.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
 }
