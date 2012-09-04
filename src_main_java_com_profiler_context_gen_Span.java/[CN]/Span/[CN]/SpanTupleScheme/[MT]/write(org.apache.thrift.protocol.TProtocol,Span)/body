@@ -1,0 +1,69 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetTimestamp()) {
+    optionals.set(0);
+  }
+  if (struct.isSetMostTraceID()) {
+    optionals.set(1);
+  }
+  if (struct.isSetLeastTraceID()) {
+    optionals.set(2);
+  }
+  if (struct.isSetName()) {
+    optionals.set(3);
+  }
+  if (struct.isSetSpanID()) {
+    optionals.set(4);
+  }
+  if (struct.isSetParentSpanId()) {
+    optionals.set(5);
+  }
+  if (struct.isSetAnnotations()) {
+    optionals.set(6);
+  }
+  if (struct.isSetBinaryAnnotations()) {
+    optionals.set(7);
+  }
+  if (struct.isSetFlag()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
+  }
+  if (struct.isSetMostTraceID()) {
+    oprot.writeI64(struct.mostTraceID);
+  }
+  if (struct.isSetLeastTraceID()) {
+    oprot.writeI64(struct.leastTraceID);
+  }
+  if (struct.isSetName()) {
+    oprot.writeString(struct.name);
+  }
+  if (struct.isSetSpanID()) {
+    oprot.writeI64(struct.spanID);
+  }
+  if (struct.isSetParentSpanId()) {
+    oprot.writeI64(struct.parentSpanId);
+  }
+  if (struct.isSetAnnotations()) {
+{
+      oprot.writeI32(struct.annotations.size());
+      for (      Annotation _iter8 : struct.annotations) {
+        _iter8.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetBinaryAnnotations()) {
+{
+      oprot.writeI32(struct.binaryAnnotations.size());
+      for (      BinaryAnnotation _iter9 : struct.binaryAnnotations) {
+        _iter9.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetFlag()) {
+    oprot.writeI32(struct.flag);
+  }
+}
