@@ -1,3 +1,9 @@
 {
-  System.out.println("\n\nWrite span hash=" + span.hashCode() + ", value="+ span+ ", spanMap.size="+ spanMap.size()+ ", threadid="+ Thread.currentThread().getId()+ "\n\n");
+  try {
+    System.out.println("\n\nWrite span hash=" + span.hashCode() + ", value="+ span+ ", spanMap.size="+ spanMap.size()+ ", threadid="+ Thread.currentThread().getId()+ "\n\n");
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    logger.log(Level.SEVERE,e.getMessage());
+  }
 }
