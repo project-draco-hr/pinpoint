@@ -1,16 +1,10 @@
 {
   if (!tracingEnabled)   return;
-  try {
-    mutate(getTraceId(),new SpanUpdater(){
-      @Override public Span updateSpan(      Span span){
-        span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),value,duration));
-        return span;
-      }
+  mutate(getTraceId(),new SpanUpdater(){
+    @Override public Span updateSpan(    Span span){
+      span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),value,duration));
+      return span;
     }
+  }
 );
-  }
- catch (  Exception e) {
-    e.printStackTrace();
-    logger.log(Level.SEVERE,e.getMessage());
-  }
 }

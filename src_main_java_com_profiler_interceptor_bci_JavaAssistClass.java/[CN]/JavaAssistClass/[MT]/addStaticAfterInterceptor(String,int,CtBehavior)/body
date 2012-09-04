@@ -3,7 +3,8 @@
   after.append("{");
   addGetStaticAfterInterceptor(after,id);
   String target=getTarget(behavior);
-  after.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, ($w)$_);");
+  String returnType=getReturnType(behavior);
+  after.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, "+ returnType+ ");");
   after.append("}");
   String buildAfter=after.toString();
   if (logger.isLoggable(Level.INFO)) {

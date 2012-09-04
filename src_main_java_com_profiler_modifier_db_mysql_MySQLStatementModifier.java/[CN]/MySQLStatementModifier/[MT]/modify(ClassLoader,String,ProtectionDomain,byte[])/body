@@ -3,13 +3,20 @@
     logger.info("Modifing. " + javassistClassName);
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
-  classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
   InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
-  boolean instrumented=aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteQueryMethodInterceptor"));
-  instrumented&=aClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","boolean","boolean"},newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteUpdateMethodInterceptor"));
-  System.out.println("instrumented=" + instrumented);
-  if (!instrumented) {
-    return null;
+  Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteQueryMethodInterceptor");
+  boolean executeQuery=aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("executeQuery =" + executeQuery);
   }
-  return aClass.toBytecode();
+  Interceptor interceptor1=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteUpdateMethodInterceptor");
+  boolean executeUpdate=aClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","boolean","boolean"},interceptor1);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("executeUpdate =" + executeUpdate);
+  }
+  addTraceData((JavaAssistClass)aClass);
+  if (executeQuery && executeQuery) {
+    return aClass.toBytecode();
+  }
+  return null;
 }

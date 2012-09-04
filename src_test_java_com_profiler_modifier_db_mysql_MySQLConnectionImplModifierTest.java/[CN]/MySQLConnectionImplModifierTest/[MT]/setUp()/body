@@ -1,6 +1,8 @@
 {
   loader=new TestClassLoader();
-  MySQLConnectionImplModifier modifier=new MySQLConnectionImplModifier(loader.getInstrumentor());
-  loader.addModifier(modifier);
+  MySQLConnectionImplModifier connectionModifier=new MySQLConnectionImplModifier(loader.getInstrumentor());
+  loader.addModifier(connectionModifier);
+  MySQLStatementModifier statementModifier=new MySQLStatementModifier(loader.getInstrumentor());
+  loader.addModifier(statementModifier);
   loader.initialize();
 }

@@ -1,9 +1,15 @@
 {
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("before className:" + className + " methodName:"+ methodName+ " args:"+ Arrays.toString(args));
+  }
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
   try {
-    if (Trace.getCurrentTraceId() == null) {
-      return;
-    }
-    Trace.recordRpcName("mysql","url*****");
+    Method getUrl=target.getClass().getMethod("__getUrl");
+    String url=(String)getUrl.invoke(target);
+    System.out.println("url:" + url);
+    Trace.recordRpcName("mysql",url);
     if (args.length > 0) {
       Trace.recordAttibute("Query",args[0]);
     }

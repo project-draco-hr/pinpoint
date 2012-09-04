@@ -1,16 +1,10 @@
 {
   if (!tracingEnabled)   return;
-  try {
-    mutate(getTraceId(),new SpanUpdater(){
-      @Override public Span updateSpan(      Span span){
-        span.setEndPoint(new EndPoint(ip,port));
-        return span;
-      }
+  mutate(getTraceId(),new SpanUpdater(){
+    @Override public Span updateSpan(    Span span){
+      span.setEndPoint(new EndPoint(ip,port));
+      return span;
     }
+  }
 );
-  }
- catch (  Exception e) {
-    e.printStackTrace();
-    logger.log(Level.SEVERE,e.getMessage());
-  }
 }

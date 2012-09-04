@@ -1,5 +1,25 @@
 {
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after className:" + className + " methodName:"+ methodName+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
   if (Trace.getCurrentTraceId() == null) {
     return;
+  }
+  if (target instanceof Connection) {
+    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
+    String connectionUrl=connectionTrace.getConnectionUrl((Connection)target);
+    try {
+      Method setUrl=result.getClass().getMethod("__setUrl",String.class);
+      setUrl.invoke(result,connectionUrl);
+    }
+ catch (    NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+catch (    InvocationTargetException e) {
+      e.printStackTrace();
+    }
+catch (    IllegalAccessException e) {
+      e.printStackTrace();
+    }
   }
 }
