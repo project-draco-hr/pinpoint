@@ -2,7 +2,7 @@
   if (!tracingEnabled)   return;
   mutate(getTraceId(),new SpanUpdater(){
     @Override public Span updateSpan(    Span span){
-      span.addAnnotation(new HippoBinaryAnnotation(System.currentTimeMillis(),key,value,span.getEndPoint(),null));
+      span.addAnnotation(new HippoBinaryAnnotation(System.currentTimeMillis(),key,value,null));
       return span;
     }
   }
