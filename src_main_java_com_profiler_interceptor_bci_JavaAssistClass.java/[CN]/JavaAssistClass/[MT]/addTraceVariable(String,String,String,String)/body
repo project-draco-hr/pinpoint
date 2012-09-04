@@ -1,0 +1,23 @@
+{
+  try {
+    CtClass type=instrumentor.getClassPool().get(variableType);
+    CtField traceVariable=new CtField(type,variableName,ctClass);
+    ctClass.addField(traceVariable);
+    CtMethod setterMethod=CtNewMethod.setter(setterName,traceVariable);
+    ctClass.addMethod(setterMethod);
+    CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
+    ctClass.addMethod(getterMethod);
+    return true;
+  }
+ catch (  NotFoundException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  CannotCompileException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return false;
+}

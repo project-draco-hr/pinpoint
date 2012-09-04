@@ -1,0 +1,24 @@
+{
+  try {
+    if (getUrl == null) {
+      getUrl=target.getClass().getMethod("__getUrl");
+    }
+    return (String)getUrl.invoke(target);
+  }
+ catch (  NoSuchMethodException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  IllegalAccessException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  InvocationTargetException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
+}

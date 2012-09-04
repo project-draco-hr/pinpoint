@@ -6,9 +6,7 @@
     return;
   }
   try {
-    Method getUrl=target.getClass().getMethod("__getUrl");
-    String url=(String)getUrl.invoke(target);
-    System.out.println("url:" + url);
+    String url=getUrl(target);
     Trace.recordRpcName("mysql",url);
     if (args.length > 0) {
       Trace.recordAttibute("Query",args[0]);

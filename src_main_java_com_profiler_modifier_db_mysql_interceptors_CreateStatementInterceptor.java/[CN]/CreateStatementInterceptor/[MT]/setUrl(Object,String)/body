@@ -1,0 +1,23 @@
+{
+  try {
+    if (setUrl == null) {
+      setUrl=result.getClass().getMethod("__setUrl",String.class);
+    }
+    setUrl.invoke(result,connectionUrl);
+  }
+ catch (  NoSuchMethodException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  InvocationTargetException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+catch (  IllegalAccessException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+}
