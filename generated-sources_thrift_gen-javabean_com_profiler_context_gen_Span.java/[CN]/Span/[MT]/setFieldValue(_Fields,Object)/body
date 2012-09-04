@@ -1,19 +1,35 @@
 {
 switch (field) {
-case TRACE_ID:
+case TIMESTAMP:
     if (value == null) {
-      unsetTraceID();
+      unsetTimestamp();
     }
  else {
-      setTraceID((String)value);
+      setTimestamp((Long)value);
     }
   break;
-case NAME:
+case MOST_TRACE_ID:
 if (value == null) {
-  unsetName();
+  unsetMostTraceID();
 }
  else {
-  setName((String)value);
+  setMostTraceID((Long)value);
+}
+break;
+case LEAST_TRACE_ID:
+if (value == null) {
+unsetLeastTraceID();
+}
+ else {
+setLeastTraceID((Long)value);
+}
+break;
+case NAME:
+if (value == null) {
+unsetName();
+}
+ else {
+setName((String)value);
 }
 break;
 case SPAN_ID:
@@ -21,7 +37,7 @@ if (value == null) {
 unsetSpanID();
 }
  else {
-setSpanID((String)value);
+setSpanID((Long)value);
 }
 break;
 case PARENT_SPAN_ID:
@@ -29,7 +45,7 @@ if (value == null) {
 unsetParentSpanId();
 }
  else {
-setParentSpanId((String)value);
+setParentSpanId((Long)value);
 }
 break;
 case ANNOTATIONS:
@@ -48,12 +64,12 @@ unsetBinaryAnnotations();
 setBinaryAnnotations((List<BinaryAnnotation>)value);
 }
 break;
-case DEBUG:
+case FLAG:
 if (value == null) {
-unsetDebug();
+unsetFlag();
 }
  else {
-setDebug((Boolean)value);
+setFlag((Integer)value);
 }
 break;
 }

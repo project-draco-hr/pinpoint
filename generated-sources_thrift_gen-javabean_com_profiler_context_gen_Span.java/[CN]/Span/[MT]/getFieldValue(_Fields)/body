@@ -1,19 +1,23 @@
 {
 switch (field) {
-case TRACE_ID:
-    return getTraceID();
+case TIMESTAMP:
+    return Long.valueOf(getTimestamp());
+case MOST_TRACE_ID:
+  return Long.valueOf(getMostTraceID());
+case LEAST_TRACE_ID:
+return Long.valueOf(getLeastTraceID());
 case NAME:
-  return getName();
+return getName();
 case SPAN_ID:
-return getSpanID();
+return Long.valueOf(getSpanID());
 case PARENT_SPAN_ID:
-return getParentSpanId();
+return Long.valueOf(getParentSpanId());
 case ANNOTATIONS:
 return getAnnotations();
 case BINARY_ANNOTATIONS:
 return getBinaryAnnotations();
-case DEBUG:
-return Boolean.valueOf(isDebug());
+case FLAG:
+return Integer.valueOf(getFlag());
 }
 throw new IllegalStateException();
 }

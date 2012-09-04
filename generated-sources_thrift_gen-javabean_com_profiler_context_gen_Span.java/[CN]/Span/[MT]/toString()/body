@@ -1,13 +1,16 @@
 {
   StringBuilder sb=new StringBuilder("Span(");
   boolean first=true;
-  sb.append("traceID:");
-  if (this.traceID == null) {
-    sb.append("null");
-  }
- else {
-    sb.append(this.traceID);
-  }
+  sb.append("timestamp:");
+  sb.append(this.timestamp);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("mostTraceID:");
+  sb.append(this.mostTraceID);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("leastTraceID:");
+  sb.append(this.leastTraceID);
   first=false;
   if (!first)   sb.append(", ");
   sb.append("name:");
@@ -20,22 +23,12 @@
   first=false;
   if (!first)   sb.append(", ");
   sb.append("spanID:");
-  if (this.spanID == null) {
-    sb.append("null");
-  }
- else {
-    sb.append(this.spanID);
-  }
+  sb.append(this.spanID);
   first=false;
   if (isSetParentSpanId()) {
     if (!first)     sb.append(", ");
     sb.append("parentSpanId:");
-    if (this.parentSpanId == null) {
-      sb.append("null");
-    }
- else {
-      sb.append(this.parentSpanId);
-    }
+    sb.append(this.parentSpanId);
     first=false;
   }
   if (!first)   sb.append(", ");
@@ -56,10 +49,10 @@
     sb.append(this.binaryAnnotations);
   }
   first=false;
-  if (isSetDebug()) {
+  if (isSetFlag()) {
     if (!first)     sb.append(", ");
-    sb.append("debug:");
-    sb.append(this.debug);
+    sb.append("flag:");
+    sb.append(this.flag);
     first=false;
   }
   sb.append(")");

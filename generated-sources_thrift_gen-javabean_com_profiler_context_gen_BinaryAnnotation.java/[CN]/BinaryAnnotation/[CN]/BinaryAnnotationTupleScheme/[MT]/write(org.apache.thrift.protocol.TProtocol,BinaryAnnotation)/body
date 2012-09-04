@@ -10,13 +10,10 @@
   if (struct.isSetValue()) {
     optionals.set(2);
   }
-  if (struct.isSetAnnotationType()) {
+  if (struct.isSetValueType()) {
     optionals.set(3);
   }
-  if (struct.isSetHost()) {
-    optionals.set(4);
-  }
-  oprot.writeBitSet(optionals,5);
+  oprot.writeBitSet(optionals,4);
   if (struct.isSetTimestamp()) {
     oprot.writeI64(struct.timestamp);
   }
@@ -26,10 +23,7 @@
   if (struct.isSetValue()) {
     oprot.writeBinary(struct.value);
   }
-  if (struct.isSetAnnotationType()) {
-    oprot.writeString(struct.annotationType);
-  }
-  if (struct.isSetHost()) {
-    struct.host.write(oprot);
+  if (struct.isSetValueType()) {
+    oprot.writeString(struct.valueType);
   }
 }

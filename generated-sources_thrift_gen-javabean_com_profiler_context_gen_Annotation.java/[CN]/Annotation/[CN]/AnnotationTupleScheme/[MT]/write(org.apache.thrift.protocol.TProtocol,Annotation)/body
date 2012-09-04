@@ -7,23 +7,17 @@
   if (struct.isSetValue()) {
     optionals.set(1);
   }
-  if (struct.isSetHost()) {
+  if (struct.isSetDuration()) {
     optionals.set(2);
   }
-  if (struct.isSetDuration()) {
-    optionals.set(3);
-  }
-  oprot.writeBitSet(optionals,4);
+  oprot.writeBitSet(optionals,3);
   if (struct.isSetTimestamp()) {
     oprot.writeI64(struct.timestamp);
   }
   if (struct.isSetValue()) {
     oprot.writeString(struct.value);
   }
-  if (struct.isSetHost()) {
-    struct.host.write(oprot);
-  }
   if (struct.isSetDuration()) {
-    oprot.writeI32(struct.duration);
+    oprot.writeI64(struct.duration);
   }
 }

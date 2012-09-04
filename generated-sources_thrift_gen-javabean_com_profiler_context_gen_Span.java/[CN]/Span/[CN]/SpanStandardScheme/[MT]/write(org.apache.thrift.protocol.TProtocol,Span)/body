@@ -1,27 +1,27 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  if (struct.traceID != null) {
-    oprot.writeFieldBegin(TRACE_ID_FIELD_DESC);
-    oprot.writeString(struct.traceID);
-    oprot.writeFieldEnd();
-  }
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.mostTraceID);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.leastTraceID);
+  oprot.writeFieldEnd();
   if (struct.name != null) {
     oprot.writeFieldBegin(NAME_FIELD_DESC);
     oprot.writeString(struct.name);
     oprot.writeFieldEnd();
   }
-  if (struct.spanID != null) {
-    oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
-    oprot.writeString(struct.spanID);
+  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.spanID);
+  oprot.writeFieldEnd();
+  if (struct.isSetParentSpanId()) {
+    oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
+    oprot.writeI64(struct.parentSpanId);
     oprot.writeFieldEnd();
-  }
-  if (struct.parentSpanId != null) {
-    if (struct.isSetParentSpanId()) {
-      oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
-      oprot.writeString(struct.parentSpanId);
-      oprot.writeFieldEnd();
-    }
   }
   if (struct.annotations != null) {
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
@@ -45,9 +45,9 @@
     }
     oprot.writeFieldEnd();
   }
-  if (struct.isSetDebug()) {
-    oprot.writeFieldBegin(DEBUG_FIELD_DESC);
-    oprot.writeBool(struct.debug);
+  if (struct.isSetFlag()) {
+    oprot.writeFieldBegin(FLAG_FIELD_DESC);
+    oprot.writeI32(struct.flag);
     oprot.writeFieldEnd();
   }
   oprot.writeFieldStop();

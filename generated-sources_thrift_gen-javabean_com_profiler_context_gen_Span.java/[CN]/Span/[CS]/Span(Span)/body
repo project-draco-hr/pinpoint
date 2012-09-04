@@ -1,18 +1,14 @@
 {
   __isset_bit_vector.clear();
   __isset_bit_vector.or(other.__isset_bit_vector);
-  if (other.isSetTraceID()) {
-    this.traceID=other.traceID;
-  }
+  this.timestamp=other.timestamp;
+  this.mostTraceID=other.mostTraceID;
+  this.leastTraceID=other.leastTraceID;
   if (other.isSetName()) {
     this.name=other.name;
   }
-  if (other.isSetSpanID()) {
-    this.spanID=other.spanID;
-  }
-  if (other.isSetParentSpanId()) {
-    this.parentSpanId=other.parentSpanId;
-  }
+  this.spanID=other.spanID;
+  this.parentSpanId=other.parentSpanId;
   if (other.isSetAnnotations()) {
     List<Annotation> __this__annotations=new ArrayList<Annotation>();
     for (    Annotation other_element : other.annotations) {
@@ -27,5 +23,5 @@
     }
     this.binaryAnnotations=__this__binaryAnnotations;
   }
-  this.debug=other.debug;
+  this.flag=other.flag;
 }

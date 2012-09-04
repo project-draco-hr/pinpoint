@@ -1,39 +1,51 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetTraceID()) {
+  if (struct.isSetTimestamp()) {
     optionals.set(0);
   }
-  if (struct.isSetName()) {
+  if (struct.isSetMostTraceID()) {
     optionals.set(1);
   }
-  if (struct.isSetSpanID()) {
+  if (struct.isSetLeastTraceID()) {
     optionals.set(2);
   }
-  if (struct.isSetParentSpanId()) {
+  if (struct.isSetName()) {
     optionals.set(3);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetSpanID()) {
     optionals.set(4);
   }
-  if (struct.isSetBinaryAnnotations()) {
+  if (struct.isSetParentSpanId()) {
     optionals.set(5);
   }
-  if (struct.isSetDebug()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(6);
   }
-  oprot.writeBitSet(optionals,7);
-  if (struct.isSetTraceID()) {
-    oprot.writeString(struct.traceID);
+  if (struct.isSetBinaryAnnotations()) {
+    optionals.set(7);
+  }
+  if (struct.isSetFlag()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
+  }
+  if (struct.isSetMostTraceID()) {
+    oprot.writeI64(struct.mostTraceID);
+  }
+  if (struct.isSetLeastTraceID()) {
+    oprot.writeI64(struct.leastTraceID);
   }
   if (struct.isSetName()) {
     oprot.writeString(struct.name);
   }
   if (struct.isSetSpanID()) {
-    oprot.writeString(struct.spanID);
+    oprot.writeI64(struct.spanID);
   }
   if (struct.isSetParentSpanId()) {
-    oprot.writeString(struct.parentSpanId);
+    oprot.writeI64(struct.parentSpanId);
   }
   if (struct.isSetAnnotations()) {
 {
@@ -51,7 +63,7 @@
       }
     }
   }
-  if (struct.isSetDebug()) {
-    oprot.writeBool(struct.debug);
+  if (struct.isSetFlag()) {
+    oprot.writeI32(struct.flag);
   }
 }
