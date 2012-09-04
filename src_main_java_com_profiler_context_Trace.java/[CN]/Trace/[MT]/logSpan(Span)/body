@@ -2,9 +2,9 @@
   try {
     System.out.println("\n\nWrite span hash=" + span.hashCode() + ", value="+ span+ ", spanMap.size="+ spanMap.size()+ ", threadid="+ Thread.currentThread().getId()+ "\n\n");
     DataSender.getInstance().addDataToSend(span.toThrift());
+    span.cancelTimer();
   }
  catch (  Exception e) {
-    e.printStackTrace();
-    logger.log(Level.SEVERE,e.getMessage());
+    logger.log(Level.SEVERE,e.getMessage(),e);
   }
 }
