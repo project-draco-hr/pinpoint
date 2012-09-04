@@ -1,11 +1,17 @@
 {
   if (!tracingEnabled)   return;
-  mutate(getTraceId(),new SpanUpdater(){
-    @Override public Span updateSpan(    Span span){
-      span.setServiceName(service);
-      span.setName(rpc);
-      return span;
+  try {
+    mutate(getTraceId(),new SpanUpdater(){
+      @Override public Span updateSpan(      Span span){
+        span.setServiceName(service);
+        span.setName(rpc);
+        return span;
+      }
     }
-  }
 );
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    logger.log(Level.SEVERE,e.getMessage());
+  }
 }
