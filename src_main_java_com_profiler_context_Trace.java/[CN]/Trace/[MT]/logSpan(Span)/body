@@ -1,6 +1,11 @@
 {
   try {
-    System.out.println("\n\nWrite span hash=" + span.hashCode() + ", value="+ span+ ", spanMap.size="+ spanMap.size()+ ", threadid="+ Thread.currentThread().getId()+ "\n\n");
+    System.out.println("\n\n[WRITE SPAN] hashCode=" + span.hashCode() + ", Value="+ span+ ", SpanMap.size="+ spanMap.size()+ ", CurrentThreadID="+ Thread.currentThread().getId()+ "\n\n");
+    if (spanMap.size() > 0) {
+      System.out.println("###############################################################");
+      System.out.println("#          WARNING SpanMap size > 0 check spanMap.            #");
+      System.out.println("###############################################################");
+    }
     DataSender.getInstance().addDataToSend(span.toThrift());
     span.cancelTimer();
   }

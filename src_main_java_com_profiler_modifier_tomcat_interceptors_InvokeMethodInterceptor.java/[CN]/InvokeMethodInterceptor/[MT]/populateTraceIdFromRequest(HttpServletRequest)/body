@@ -1,0 +1,16 @@
+{
+  String strUUID=request.getHeader(Header.HTTP_TRACE_ID.toString());
+  if (strUUID != null) {
+    UUID uuid=UUID.fromString(strUUID);
+    long parentSpanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanID.NULL);
+    long spanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanID.NULL);
+    boolean sampled=Boolean.parseBoolean(request.getHeader(Header.HTTP_SAMPLED.toString()));
+    int flags=NumberUtils.parseInteger(request.getHeader(Header.HTTP_FLAGS.toString()),0);
+    TraceID id=new TraceID(uuid,parentSpanID,spanID,sampled,flags);
+    System.out.println("\nGOT A TRACEID. TRACEID=" + id + "\n\n");
+    return id;
+  }
+ else {
+    return null;
+  }
+}

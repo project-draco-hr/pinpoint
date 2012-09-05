@@ -1,7 +1,7 @@
 {
   if (!tracingEnabled)   return;
   try {
-    mutate(getTraceId(),new SpanUpdater(){
+    mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
       @Override public Span updateSpan(      Span span){
         span.setServiceName(service);
         span.setName(rpc);

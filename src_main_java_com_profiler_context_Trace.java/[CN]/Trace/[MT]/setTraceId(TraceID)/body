@@ -1,3 +1,6 @@
 {
-  Trace.traceId.set(traceId);
+  if (getCurrentTraceId() != null) {
+    logger.log(Level.WARNING,"TraceID is already exists. But overwritten.");
+  }
+  Trace.traceIdLocal.set(traceId);
 }

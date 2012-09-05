@@ -7,7 +7,7 @@
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addTraceVariable("__traceId","__setTraceId","__getTraceId","com.profiler.context.TraceID");
     aClass.addTraceVariable("__nextTraceId","__setNextTraceId","__getNextTraceId","com.profiler.context.TraceID");
-    aClass.insertCodeAfterConstructor(null,"{ __setTraceId(com.profiler.context.Trace.getCurrentTraceId()); __setNextTraceId(com.profiler.context.Trace.getNextId()); }");
+    aClass.insertCodeAfterConstructor(null,"{ __setTraceId(com.profiler.context.Trace.getCurrentTraceId()); __setNextTraceId(com.profiler.context.Trace.getNextTraceId()); }");
     aClass.insertCodeBeforeMethod("transitionState",new String[]{"net.spy.memcached.ops.OperationState"},getTransitionStateAfterCode());
     return aClass.toBytecode();
   }

@@ -1,7 +1,8 @@
 {
-  TraceID traceID=traceId.get();
+  TraceID traceID=traceIdLocal.get();
   if (traceID != null) {
-    traceId.remove();
+    traceIdLocal.remove();
+    spanMap.remove(traceID);
     return true;
   }
   return false;
