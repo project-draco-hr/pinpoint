@@ -1,0 +1,16 @@
+{
+  try {
+    CtConstructor constructor=getConstructor(args);
+    if (constructor == null) {
+      return false;
+    }
+    constructor.insertAfter(code);
+    return true;
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+    return false;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  try {
+    CtMethod method=getMethod(methodName,args);
+    if (method == null) {
+      return false;
+    }
+    method.insertBefore(code);
+    return true;
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+    return false;
+  }
+}

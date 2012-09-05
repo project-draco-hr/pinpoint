@@ -1,0 +1,12 @@
+{
+  try {
+    CtClass[] params=getCtParameter(args);
+    return ctClass.getDeclaredConstructor(params);
+  }
+ catch (  NotFoundException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+  return null;
+}
