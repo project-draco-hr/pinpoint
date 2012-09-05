@@ -1,0 +1,15 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + className + "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  if (InterceptorUtils.isThrowable(result)) {
+    return;
+  }
+  if (result instanceof Connection) {
+    Object url=args[4];
+    if (url instanceof String) {
+      ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
+      connectionTrace.createConnection((Connection)result,(String)url);
+    }
+  }
+}

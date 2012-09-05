@@ -1,0 +1,9 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + className + "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
+  Trace.record(Annotation.ClientRecv,StopWatch.stopAndGetElapsed("ExecuteQueryMethodInterceptor"));
+}
