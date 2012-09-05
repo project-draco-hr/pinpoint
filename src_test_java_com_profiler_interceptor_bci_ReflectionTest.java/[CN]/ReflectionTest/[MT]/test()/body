@@ -1,0 +1,15 @@
+{
+  Constructor<?>[] constructors=String.class.getConstructors();
+  for (  Constructor c : constructors) {
+    System.out.println(c.getName());
+  }
+  ClassPool pool=new ClassPool();
+  pool.appendSystemPath();
+  CtClass ctClass=pool.get("java.lang.String");
+  CtConstructor[] constructors1=ctClass.getConstructors();
+  for (  CtConstructor cc : constructors1) {
+    System.out.println(cc.getName());
+    System.out.println(cc.getLongName());
+    System.out.println(cc.getSignature());
+  }
+}

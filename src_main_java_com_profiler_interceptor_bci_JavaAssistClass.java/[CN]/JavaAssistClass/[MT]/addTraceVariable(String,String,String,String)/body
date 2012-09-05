@@ -3,10 +3,14 @@
     CtClass type=instrumentor.getClassPool().get(variableType);
     CtField traceVariable=new CtField(type,variableName,ctClass);
     ctClass.addField(traceVariable);
-    CtMethod setterMethod=CtNewMethod.setter(setterName,traceVariable);
-    ctClass.addMethod(setterMethod);
-    CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
-    ctClass.addMethod(getterMethod);
+    if (setterName != null) {
+      CtMethod setterMethod=CtNewMethod.setter(setterName,traceVariable);
+      ctClass.addMethod(setterMethod);
+    }
+    if (getterName != null) {
+      CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
+      ctClass.addMethod(getterMethod);
+    }
     return true;
   }
  catch (  NotFoundException e) {

@@ -1,9 +1,9 @@
 {
   StringBuilder code=new StringBuilder(1024);
   code.append("{");
-  addGetBeforeInterceptor(id,code);
+  format(code,"  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticBeforeInterceptor.class.getName(),id);
   String target=getTarget(behavior);
-  code.append("  interceptor.before(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args);");
+  format(code,"  interceptor.before(%1$s, \"%2$s\", \"%3$s\", $args);",target,ctClass.getName(),methodName);
   code.append("}");
   String buildBefore=code.toString();
   if (logger.isLoggable(Level.INFO)) {

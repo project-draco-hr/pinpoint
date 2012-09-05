@@ -1,10 +1,10 @@
 {
   StringBuilder after=new StringBuilder(1024);
   after.append("{");
-  addGetStaticAfterInterceptor(after,id);
+  format(after,"  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
   String target=getTarget(behavior);
   String returnType=getReturnType(behavior);
-  after.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, "+ returnType+ ");");
+  format(after,"  interceptor.after(%1$s, \"%2$s\", \"%3$s\", $args, %4$s);",target,ctClass.getName(),methodName,returnType);
   after.append("}");
   String buildAfter=after.toString();
   if (logger.isLoggable(Level.INFO)) {
@@ -13,8 +13,8 @@
   behavior.insertAfter(buildAfter);
   StringBuilder catchCode=new StringBuilder(1024);
   catchCode.append("{");
-  addGetStaticAfterInterceptor(catchCode,id);
-  catchCode.append("  interceptor.after(" + target + ", \""+ ctClass.getName()+ "\", \""+ methodName+ "\", $args, $e);");
+  format(catchCode,"  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
+  format(catchCode,"  interceptor.after(%1$s, \"%2$s\", \"%3$s\", $args, $e);",target,ctClass.getName(),methodName);
   catchCode.append("  throw $e;");
   catchCode.append("}");
   String buildCatch=catchCode.toString();

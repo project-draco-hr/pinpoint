@@ -1,48 +1,10 @@
 {
-  if (interceptor == null)   return false;
-  CtMethod method=getMethod(methodName,args);
-  if (method == null) {
+  if (interceptor == null) {
     return false;
   }
-  int id=InterceptorRegistry.addInterceptor(interceptor);
-  try {
-    if (type == Type.auto) {
-      if (interceptor instanceof StaticAroundInterceptor) {
-        addStaticAroundInterceptor(methodName,id,method);
-      }
- else       if (interceptor instanceof StaticBeforeInterceptor) {
-        addStaticBeforeInterceptor(methodName,id,method);
-      }
- else       if (interceptor instanceof StaticAfterInterceptor) {
-        addStaticAfterInterceptor(methodName,id,method);
-      }
- else {
-        return false;
-      }
-    }
- else     if (type == Type.around && interceptor instanceof StaticAroundInterceptor) {
-      addStaticAroundInterceptor(methodName,id,method);
-    }
- else     if (type == Type.before && interceptor instanceof StaticBeforeInterceptor) {
-      addStaticBeforeInterceptor(methodName,id,method);
-    }
- else     if (type == Type.after && interceptor instanceof StaticAfterInterceptor) {
-      addStaticAfterInterceptor(methodName,id,method);
-    }
- else {
-      return false;
-    }
-    return true;
+  CtBehavior behavior=getBehavior(methodName,args);
+  if (behavior == null) {
+    return false;
   }
- catch (  NotFoundException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
-  }
-catch (  CannotCompileException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
-  }
-  return false;
+  return addInterceptor0(methodName,interceptor,type,behavior);
 }
