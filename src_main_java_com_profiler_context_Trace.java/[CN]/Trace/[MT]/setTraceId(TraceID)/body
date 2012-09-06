@@ -13,5 +13,7 @@
       e.printStackTrace();
     }
   }
-  Trace.traceIdLocal.set(traceId);
+  TraceIDStack stack=traceIdLocal.get();
+  if (stack == null)   traceIdLocal.set(new TraceIDStack());
+  Trace.traceIdLocal.get().setTraceId(traceId);
 }

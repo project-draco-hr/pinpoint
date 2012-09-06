@@ -1,10 +1,11 @@
 {
-  TraceID nextId=Trace.getNextTraceId();
-  nextId.setSampled(Trace.getTraceIdOrCreateNew().isSampled());
-  Trace.setTraceId(nextId);
+  Trace.traceBlockBegin();
+  Trace.setTraceId(TraceID.newTraceId());
   Trace.recordRpcName("service_name","http://");
   Trace.recordEndPoint("localhost",8080);
+  Trace.recordAttibute("KEY","VALUE");
   Trace.record(Annotation.ServerRecv);
   getDataFromDB();
   Trace.record(Annotation.ServerSend);
+  Trace.traceBlockEnd();
 }

@@ -1,7 +1,12 @@
 {
-  TraceID traceId=traceIdLocal.get();
+  TraceIDStack stack=traceIdLocal.get();
+  TraceID traceId=null;
+  if (stack != null)   traceId=stack.getTraceId();
   if (traceId != null) {
-    traceIdLocal.remove();
+    if (stack == null) {
+      traceIdLocal.set(new TraceIDStack());
+    }
+    traceIdLocal.get().clear();
     spanMap.remove(traceId);
     return true;
   }

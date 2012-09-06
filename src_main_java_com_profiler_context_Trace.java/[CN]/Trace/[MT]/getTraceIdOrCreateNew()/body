@@ -1,8 +1,16 @@
 {
-  TraceID id=traceIdLocal.get();
+  TraceIDStack stack=traceIdLocal.get();
+  TraceID id=null;
+  if (stack != null) {
+    id=stack.getTraceId();
+  }
   if (id == null) {
+    System.out.println("create new traceid");
     id=TraceID.newTraceId();
-    traceIdLocal.set(id);
+    if (stack == null) {
+      traceIdLocal.set(new TraceIDStack());
+    }
+    traceIdLocal.get().setTraceId(id);
     return id;
   }
   return id;

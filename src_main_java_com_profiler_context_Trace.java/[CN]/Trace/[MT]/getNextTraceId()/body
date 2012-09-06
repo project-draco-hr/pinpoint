@@ -1,5 +1,4 @@
 {
   TraceID current=getTraceIdOrCreateNew();
-  long currentSpanId=current.getSpanId();
-  return new TraceID(current.getId(),currentSpanId,SpanID.nextSpanID(currentSpanId),current.isSampled(),current.getFlags());
+  return current.getNextTraceId();
 }

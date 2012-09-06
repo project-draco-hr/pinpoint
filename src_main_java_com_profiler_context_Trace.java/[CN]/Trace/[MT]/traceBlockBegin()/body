@@ -1,0 +1,17 @@
+{
+  TraceIDStack traceIDStack=traceIdLocal.get();
+  if (traceIDStack == null) {
+    traceIDStack=new TraceIDStack();
+    traceIdLocal.set(traceIDStack);
+  }
+  try {
+    TraceID nextId=getNextTraceId();
+    traceIDStack.incr();
+    if (traceIDStack.getTraceId() == null) {
+      traceIDStack.setTraceId(nextId);
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}
