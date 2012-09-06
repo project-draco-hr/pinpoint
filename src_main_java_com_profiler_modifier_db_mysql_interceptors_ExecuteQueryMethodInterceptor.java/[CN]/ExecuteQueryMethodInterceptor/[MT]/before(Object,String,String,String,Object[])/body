@@ -5,6 +5,7 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
+  Trace.traceBlockBegin();
   try {
     String url=getUrl(target);
     Trace.recordRpcName("mysql",url);
@@ -16,5 +17,8 @@
   }
  catch (  Exception e) {
     e.printStackTrace();
+  }
+ finally {
+    Trace.traceBlockEnd();
   }
 }

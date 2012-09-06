@@ -5,5 +5,7 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
+  Trace.traceBlockBegin();
   Trace.record(Annotation.ClientRecv,StopWatch.stopAndGetElapsed("ExecuteQueryMethodInterceptor"));
+  Trace.traceBlockEnd();
 }

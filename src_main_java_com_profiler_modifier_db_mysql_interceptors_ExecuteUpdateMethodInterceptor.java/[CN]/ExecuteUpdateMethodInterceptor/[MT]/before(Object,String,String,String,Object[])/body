@@ -1,9 +1,10 @@
 {
   System.out.println("ExecuteUpdateMethodInterceptor.before");
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
   try {
-    if (Trace.getCurrentTraceId() == null) {
-      return;
-    }
+    Trace.traceBlockBegin();
     Trace.recordRpcName("mysql","");
     if (args.length > 0) {
       Trace.recordAttibute("Query",args[0]);
@@ -13,5 +14,8 @@
   }
  catch (  Exception e) {
     e.printStackTrace();
+  }
+ finally {
+    Trace.traceBlockEnd();
   }
 }
