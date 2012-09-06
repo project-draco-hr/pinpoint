@@ -1,0 +1,13 @@
+{
+  CtClass[] nestedClasses=clazz.getNestedClasses();
+  if (nestedClasses.length == 0) {
+    return;
+  }
+  for (  CtClass nested : nestedClasses) {
+    defineNestedClass(nested,classLoader,protectedDomain);
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("defineNestedClass classLoader:" + classLoader + " class:"+ nested.getName());
+    }
+    nested.toClass(classLoader,protectedDomain);
+  }
+}
