@@ -1,7 +1,7 @@
 {
   Span span=spanMap.update(traceId,spanUpdater);
   if (span.isExistsAnnotationType(Annotation.ClientRecv.getCode()) || span.isExistsAnnotationType(Annotation.ServerSend.getCode())) {
-    spanMap.remove(traceId);
+    removeCurrentTraceIdFromStack();
     logSpan(span);
   }
 }

@@ -1,0 +1,20 @@
+{
+  TraceIDStack stack=traceIdLocal.get();
+  TraceID traceId=null;
+  if (stack != null) {
+    traceId=stack.getTraceId();
+  }
+ else {
+    System.out.println("#############################################################");
+    System.out.println("# Something's going wrong. Stack is not exists.             #");
+    System.out.println("#############################################################");
+    stack=new TraceIDStack();
+    traceIdLocal.set(stack);
+  }
+  if (traceId != null) {
+    stack.clear();
+    spanMap.remove(traceId);
+    return true;
+  }
+  return false;
+}
