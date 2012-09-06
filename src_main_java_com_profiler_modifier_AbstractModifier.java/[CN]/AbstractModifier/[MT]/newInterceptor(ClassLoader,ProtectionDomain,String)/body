@@ -4,14 +4,9 @@
     return (Interceptor)aClass.newInstance();
   }
  catch (  InstantiationException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
   }
 catch (  IllegalAccessException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
   }
-  return null;
 }

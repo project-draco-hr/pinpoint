@@ -4,9 +4,6 @@
     return ctClass.getDeclaredMethod(methodName,params);
   }
  catch (  NotFoundException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException(methodName + Arrays.toString(args) + " method not found. Cause:"+ e.getMessage(),e);
   }
-  return null;
 }

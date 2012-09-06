@@ -3,5 +3,13 @@
     logger.info("Modifing. " + javassistClassName);
   }
   checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.PreparedStatementMethodInterceptor");
+    preparedStatement.addInterceptor("prepareStatement",new String[]{"java.lang.String"},interceptor);
+  }
+ catch (  InstrumentException e) {
+    return null;
+  }
   return changeMethod(javassistClassName,classFileBuffer);
 }

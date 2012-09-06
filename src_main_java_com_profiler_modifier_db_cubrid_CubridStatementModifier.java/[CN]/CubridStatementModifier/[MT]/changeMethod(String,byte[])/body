@@ -9,10 +9,10 @@
     }
   }
 ;
-  InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
-  aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
-  printClassConvertComplete(javassistClassName);
   try {
+    InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+    aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
+    printClassConvertComplete(javassistClassName);
     CtClass cc=classPool.get(javassistClassName);
     updateExecuteQueryMethod(cc);
     return cc.toBytecode();

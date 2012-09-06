@@ -4,6 +4,6 @@
     return new JavaAssistClass(this,cc);
   }
  catch (  NotFoundException e) {
-    return null;
+    throw new InstrumentException(javassistClassName + " class not fund. Cause:" + e.getMessage(),e);
   }
 }

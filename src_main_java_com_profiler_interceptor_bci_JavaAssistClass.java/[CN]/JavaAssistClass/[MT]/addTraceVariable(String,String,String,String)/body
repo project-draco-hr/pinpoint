@@ -11,17 +11,11 @@
       CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
       ctClass.addMethod(getterMethod);
     }
-    return true;
   }
  catch (  NotFoundException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException("addTraceVariable fail. Cause:" + e.getMessage(),e);
   }
 catch (  CannotCompileException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException("addTraceVariable fail. Cause:" + e.getMessage(),e);
   }
-  return false;
 }

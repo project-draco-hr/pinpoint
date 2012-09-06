@@ -1,10 +1,7 @@
 {
   if (interceptor == null) {
-    return false;
+    throw new IllegalArgumentException("interceptor is null");
   }
   CtBehavior behavior=getBehavior(methodName,args);
-  if (behavior == null) {
-    return false;
-  }
   return addInterceptor0(methodName,interceptor,type,behavior);
 }

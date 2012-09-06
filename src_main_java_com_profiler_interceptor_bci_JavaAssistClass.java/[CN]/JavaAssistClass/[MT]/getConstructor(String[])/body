@@ -4,9 +4,6 @@
     return ctClass.getDeclaredConstructor(params);
   }
  catch (  NotFoundException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
-    }
+    throw new InstrumentException(Arrays.toString(args) + " Constructor not found. Cause:" + e.getMessage(),e);
   }
-  return null;
 }
