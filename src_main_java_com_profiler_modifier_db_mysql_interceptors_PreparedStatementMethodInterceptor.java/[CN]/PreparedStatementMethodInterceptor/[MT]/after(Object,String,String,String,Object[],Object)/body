@@ -1,2 +1,20 @@
 {
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
+  Trace.traceBlockBegin();
+  try {
+    boolean success=InterceptorUtils.isSuccess(result);
+    Trace.recordAttibute("Success",success);
+    Trace.record(Annotation.ClientRecv);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+ finally {
+    Trace.traceBlockEnd();
+  }
 }

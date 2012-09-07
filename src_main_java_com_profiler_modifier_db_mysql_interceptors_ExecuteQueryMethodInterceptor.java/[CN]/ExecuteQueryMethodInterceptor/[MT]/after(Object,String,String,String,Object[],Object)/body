@@ -1,11 +1,12 @@
 {
   if (logger.isLoggable(Level.INFO)) {
-    logger.info("after " + className + "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
   }
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
   Trace.traceBlockBegin();
+  Trace.recordAttibute("Success",InterceptorUtils.isSuccess(result));
   Trace.record(Annotation.ClientRecv,StopWatch.stopAndGetElapsed("ExecuteQueryMethodInterceptor"));
   Trace.traceBlockEnd();
 }

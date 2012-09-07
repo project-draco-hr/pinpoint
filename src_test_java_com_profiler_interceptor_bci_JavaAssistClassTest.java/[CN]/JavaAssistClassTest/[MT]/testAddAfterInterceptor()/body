@@ -13,7 +13,7 @@
   Assert.assertEquals(callaInterceptor.call,1);
   Assert.assertEquals(callaInterceptor.className,"com.profiler.interceptor.bci.TestObject2");
   Assert.assertEquals(callaInterceptor.methodName,callA);
-  Assert.assertEquals(callaInterceptor.args.length,0);
+  Assert.assertNull(callaInterceptor.args);
   Assert.assertEquals(callaInterceptor.target,testObject);
   Assert.assertEquals(callaInterceptor.result,result);
   Method callBMethod=testObject.getClass().getMethod(callB);
@@ -21,7 +21,7 @@
   Assert.assertEquals(callbInterceptor.call,1);
   Assert.assertEquals(callbInterceptor.className,"com.profiler.interceptor.bci.TestObject2");
   Assert.assertEquals(callbInterceptor.methodName,callB);
-  Assert.assertEquals(callbInterceptor.args.length,0);
+  Assert.assertNull(callbInterceptor.args);
   Assert.assertEquals(callbInterceptor.target,testObject);
   Assert.assertNull(callbInterceptor.result);
 }

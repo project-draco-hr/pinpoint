@@ -7,13 +7,11 @@
   }
   Trace.traceBlockBegin();
   try {
-    String url=(String)this.getUrl.invoke(target);
+    String url=getUrl.invoke(target,null);
     Trace.recordRpcName("mysql",url);
-    if (args.length > 0) {
-      Trace.recordAttibute("Query",args[0]);
-    }
+    String sql=getSql.invoke(target,null);
+    Trace.recordAttibute("Query",sql);
     Trace.record(Annotation.ClientSend);
-    StopWatch.start("ExecuteQueryMethodInterceptor");
   }
  catch (  Exception e) {
     e.printStackTrace();
