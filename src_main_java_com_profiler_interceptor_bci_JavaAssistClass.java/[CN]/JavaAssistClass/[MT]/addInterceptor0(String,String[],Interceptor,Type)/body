@@ -1,0 +1,42 @@
+{
+  if (interceptor == null) {
+    throw new IllegalArgumentException("interceptor is null");
+  }
+  try {
+    CtBehavior behavior=getBehavior(methodName,args);
+    int interceptorId=InterceptorRegistry.addInterceptor(interceptor);
+    if (type == Type.auto) {
+      if (interceptor instanceof StaticAroundInterceptor) {
+        addStaticAroundInterceptor(methodName,interceptorId,behavior);
+      }
+ else       if (interceptor instanceof StaticBeforeInterceptor) {
+        addStaticBeforeInterceptor(methodName,interceptorId,behavior);
+      }
+ else       if (interceptor instanceof StaticAfterInterceptor) {
+        addStaticAfterInterceptor(methodName,interceptorId,behavior);
+      }
+ else {
+        throw new IllegalArgumentException("unsupported");
+      }
+    }
+ else     if (type == Type.around && interceptor instanceof StaticAroundInterceptor) {
+      addStaticAroundInterceptor(methodName,interceptorId,behavior);
+    }
+ else     if (type == Type.before && interceptor instanceof StaticBeforeInterceptor) {
+      addStaticBeforeInterceptor(methodName,interceptorId,behavior);
+    }
+ else     if (type == Type.after && interceptor instanceof StaticAfterInterceptor) {
+      addStaticAfterInterceptor(methodName,interceptorId,behavior);
+    }
+ else {
+      throw new IllegalArgumentException("unsupported");
+    }
+    return interceptorId;
+  }
+ catch (  NotFoundException e) {
+    throw new InstrumentException(interceptor.getClass().getSimpleName() + " add fail. Cause:" + e.getMessage(),e);
+  }
+catch (  CannotCompileException e) {
+    throw new InstrumentException(interceptor.getClass().getSimpleName() + "add fail. Cause:" + e.getMessage(),e);
+  }
+}

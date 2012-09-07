@@ -13,9 +13,8 @@
   Set<Connection> connectionList=ConnectionTrace.getConnectionTrace().getConnectionList();
   Assert.assertEquals(connectionList.size(),1);
   logger.info("connection size:" + connectionList.size());
-  Statement statement=connect.createStatement();
-  statement.executeQuery("select 1");
-  statement.close();
+  statement(connect);
+  preparedStatement(connect);
   connect.close();
   Assert.assertEquals(connectionList.size(),0);
   logger.info("connection size:" + connectionList.size());

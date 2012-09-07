@@ -2,12 +2,15 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("after " + className + "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
   }
+  if (!InterceptorUtils.isSuccess(result)) {
+    return;
+  }
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
   if (target instanceof Connection) {
     ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
     String connectionUrl=connectionTrace.getConnectionUrl((Connection)target);
-    setUrl(result,connectionUrl);
+    setUrl.invoke(result,connectionUrl);
   }
 }

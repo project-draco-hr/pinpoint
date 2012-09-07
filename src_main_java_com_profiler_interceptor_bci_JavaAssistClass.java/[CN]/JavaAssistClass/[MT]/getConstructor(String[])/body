@@ -1,9 +1,4 @@
 {
-  try {
-    CtClass[] params=getCtParameter(args);
-    return ctClass.getDeclaredConstructor(params);
-  }
- catch (  NotFoundException e) {
-    throw new InstrumentException(Arrays.toString(args) + " Constructor not found. Cause:" + e.getMessage(),e);
-  }
+  CtClass[] params=JavaAssistUtils.getCtParameter(args,instrumentor.getClassPool());
+  return ctClass.getDeclaredConstructor(params);
 }

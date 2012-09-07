@@ -2,22 +2,22 @@
   String target=getTarget(behavior);
   String returnType=getReturnType(behavior);
   String parameterTypeString=JavaAssistUtils.getParameterDescription(behavior.getParameterTypes());
-  StringBuilder after=new StringBuilder(1024);
-  after.append("{");
-  format(after,"  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
-  format(after,"  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", $args, %5$s);",target,ctClass.getName(),methodName,parameterTypeString,returnType);
-  after.append("}");
+  CodeBuilder after=new CodeBuilder();
+  after.begin();
+  after.format("  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
+  after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", $args, %5$s);",target,ctClass.getName(),methodName,parameterTypeString,returnType);
+  after.end();
   String buildAfter=after.toString();
   if (logger.isLoggable(Level.INFO)) {
     logger.info("addStaticAfterInterceptor after behavior:" + behavior.getLongName() + " code:"+ buildAfter);
   }
   behavior.insertAfter(buildAfter);
-  StringBuilder catchCode=new StringBuilder(1024);
-  catchCode.append("{");
-  format(catchCode,"  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
-  format(catchCode,"  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", $args, $e);",target,ctClass.getName(),methodName,parameterTypeString);
+  CodeBuilder catchCode=new CodeBuilder();
+  catchCode.begin();
+  catchCode.format("  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
+  catchCode.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", $args, $e);",target,ctClass.getName(),methodName,parameterTypeString);
   catchCode.append("  throw $e;");
-  catchCode.append("}");
+  catchCode.end();
   String buildCatch=catchCode.toString();
   if (logger.isLoggable(Level.INFO)) {
     logger.info("addStaticAfterInterceptor catch behavior:" + behavior.getLongName() + " code:"+ buildCatch);

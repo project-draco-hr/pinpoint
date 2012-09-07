@@ -6,10 +6,15 @@
   try {
     InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.PreparedStatementMethodInterceptor");
-    preparedStatement.addInterceptor("prepareStatement",new String[]{"java.lang.String"},interceptor);
+    preparedStatement.addInterceptor("executeQuery",null,interceptor);
+    preparedStatement.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
+    preparedStatement.addTraceVariable("__sql","__setSql","__getSql","java.lang.String");
+    return preparedStatement.toBytecode();
   }
  catch (  InstrumentException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
     return null;
   }
-  return changeMethod(javassistClassName,classFileBuffer);
 }

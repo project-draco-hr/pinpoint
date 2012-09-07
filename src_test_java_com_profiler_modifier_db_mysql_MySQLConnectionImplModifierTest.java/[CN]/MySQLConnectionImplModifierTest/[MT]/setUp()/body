@@ -4,5 +4,7 @@
   loader.addModifier(connectionModifier);
   MySQLStatementModifier statementModifier=new MySQLStatementModifier(loader.getInstrumentor());
   loader.addModifier(statementModifier);
+  MySQLPreparedStatementModifier preparedStatementModifier=new MySQLPreparedStatementModifier(loader.getInstrumentor());
+  loader.addModifier(preparedStatementModifier);
   loader.initialize();
 }
