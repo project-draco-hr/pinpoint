@@ -1,12 +1,9 @@
 {
   if (tBase instanceof JVMInfoThriftDTO) {
-    return readJVMData;
+    return jvmDataReader;
   }
-  if (tBase instanceof RequestDataListThriftDTO) {
-    return readRequestData;
-  }
-  if (tBase instanceof RequestThriftDTO) {
-    return readRequestTransactionData;
+  if (tBase instanceof Span) {
+    return spanReader;
   }
   throw new UnsupportedOperationException();
 }
