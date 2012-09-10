@@ -9,6 +9,8 @@
     preparedStatement.addInterceptor("executeQuery",null,interceptor);
     preparedStatement.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
     preparedStatement.addTraceVariable("__sql","__setSql","__getSql","java.lang.String");
+    preparedStatement.addTraceVariable("__bindValue","__setBindValue","__getBindValue","java.util.List","java.util.Collections.synchronizedList(new java.util.LinkedList());");
+    bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
     return preparedStatement.toBytecode();
   }
  catch (  InstrumentException e) {

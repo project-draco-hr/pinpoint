@@ -7,10 +7,13 @@
   }
   Trace.traceBlockBegin();
   try {
-    String url=getUrl.invoke(target,null);
+    String url=getUrl.invoke(target);
     Trace.recordRpcName("mysql",url);
-    String sql=getSql.invoke(target,null);
-    Trace.recordAttibute("Query",sql);
+    String sql=getSql.invoke(target);
+    Trace.recordAttibute("PreparedStatement",sql);
+    List<String> bindValue=getBindValue.invoke(target);
+    Trace.recordAttibute("BindValue",bindValue.toString());
+    setBindValue.invoke(target,Collections.synchronizedList(new LinkedList<String>()));
     Trace.record(Annotation.ClientSend);
   }
  catch (  Exception e) {

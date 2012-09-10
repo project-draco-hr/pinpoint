@@ -1,0 +1,12 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
+  List bindList=getBindValue.invoke(target);
+  String index=StringUtils.toString(args[0]);
+  String value=StringUtils.toString(args[1]);
+  bindList.add(index + ":" + value);
+}

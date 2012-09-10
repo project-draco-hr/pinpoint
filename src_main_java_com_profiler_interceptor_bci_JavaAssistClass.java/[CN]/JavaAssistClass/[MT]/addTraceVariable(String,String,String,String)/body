@@ -1,21 +1,3 @@
 {
-  try {
-    CtClass type=instrumentor.getClassPool().get(variableType);
-    CtField traceVariable=new CtField(type,variableName,ctClass);
-    ctClass.addField(traceVariable);
-    if (setterName != null) {
-      CtMethod setterMethod=CtNewMethod.setter(setterName,traceVariable);
-      ctClass.addMethod(setterMethod);
-    }
-    if (getterName != null) {
-      CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
-      ctClass.addMethod(getterMethod);
-    }
-  }
- catch (  NotFoundException e) {
-    throw new InstrumentException(variableName + " addTraceVariable fail. Cause:" + e.getMessage(),e);
-  }
-catch (  CannotCompileException e) {
-    throw new InstrumentException(variableName + " addTraceVariable fail. Cause:" + e.getMessage(),e);
-  }
+  addTraceVariable0(variableName,setterName,getterName,variableType,null);
 }

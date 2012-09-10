@@ -1,0 +1,23 @@
+{
+  Method[] methods=PreparedStatement.class.getDeclaredMethods();
+  List<Method> bindMethod=new LinkedList<Method>();
+  for (  Method method : methods) {
+    if (isSetter(method.getName())) {
+      Class<?>[] parameterTypes=method.getParameterTypes();
+      if (parameterTypes.length < 2) {
+        continue;
+      }
+      if (parameterTypes[0] != int.class) {
+        continue;
+      }
+      if (method.getReturnType() != void.class) {
+        continue;
+      }
+      if (method.getExceptionTypes().equals(SQLException.class)) {
+        continue;
+      }
+      bindMethod.add(method);
+    }
+  }
+  return Collections.unmodifiableList(bindMethod);
+}

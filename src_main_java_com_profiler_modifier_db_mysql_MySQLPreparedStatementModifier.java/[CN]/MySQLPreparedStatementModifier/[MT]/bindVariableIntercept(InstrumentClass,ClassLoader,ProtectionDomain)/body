@@ -1,0 +1,17 @@
+{
+  ExcludeBindVariableFilter exclude=new ExcludeBindVariableFilter(excludes);
+  List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
+  Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.PreparedStatementBindVariableInterceptor");
+  for (  Method method : bindMethod) {
+    String methodName=method.getName();
+    String[] parameterType=JavaAssistUtils.getParameterType(method.getParameterTypes());
+    try {
+      preparedStatement.addInterceptor(methodName,parameterType,interceptor);
+    }
+ catch (    NotFoundInstrumentException e) {
+      if (logger.isLoggable(Level.WARNING)) {
+        logger.log(Level.WARNING,"bindVariable api modify fail. Cause:" + e.getMessage(),e);
+      }
+    }
+  }
+}
