@@ -1,9 +1,0 @@
-{
-  RequestTransactionDataManager manager=new RequestTransactionDataManager();
-  manager.addAgent(dto.getHostHashCode(),dto.getHostIP(),dto.getPortNumbers(),dto.getAgentTCPPortNumber());
-  if (TomcatProfilerReceiverConfig.USING_HBASE) {
-    createAgentTables(dto.getHostHashCode());
-    PutServerData put=new PutServerData(HBASE_SERVER_TABLE,dto);
-    DataPutThreadManager.execute(put);
-  }
-}

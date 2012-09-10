@@ -1,9 +1,0 @@
-{
-  ByteBuffer row=ByteBuffer.wrap((hashCode + "").getBytes());
-  List<Mutation> mutations=new ArrayList<Mutation>();
-  mutations.add(getMutation(HBASE_DATABASE_COLUMN_CONNECTION_URL + REQ_DATA_TYPE_DB_GET_CONNECTION,url.getBytes()));
-  client.mutateRow(tableNameBuffer,row,mutations);
-  List<Mutation> rowNamesMutation=new ArrayList<Mutation>();
-  rowNamesMutation.add(getMutation(HBASE_DATABASE_COLUMN_DB_ROW_NAMES + hashCode,(hashCode + "").getBytes()));
-  client.mutateRow(tableNameBuffer,HBASE_DATABASE_ROW_DB_ROW_NAMES,rowNamesMutation);
-}

@@ -1,0 +1,60 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.agent != null) {
+    oprot.writeFieldBegin(AGENT_FIELD_DESC);
+    oprot.writeString(struct.agent);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.mostTraceID);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.leastTraceID);
+  oprot.writeFieldEnd();
+  if (struct.name != null) {
+    oprot.writeFieldBegin(NAME_FIELD_DESC);
+    oprot.writeString(struct.name);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.spanID);
+  oprot.writeFieldEnd();
+  if (struct.isSetParentSpanId()) {
+    oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
+    oprot.writeI64(struct.parentSpanId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.annotations != null) {
+    oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
+      for (      Annotation _iter6 : struct.annotations) {
+        _iter6.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  if (struct.binaryAnnotations != null) {
+    oprot.writeFieldBegin(BINARY_ANNOTATIONS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.binaryAnnotations.size()));
+      for (      BinaryAnnotation _iter7 : struct.binaryAnnotations) {
+        _iter7.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetFlag()) {
+    oprot.writeFieldBegin(FLAG_FIELD_DESC);
+    oprot.writeI32(struct.flag);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

@@ -5,13 +5,9 @@
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
     int agentHashCode=dto.getAgentHashCode();
-    RequestTransactionDataManager manager=new RequestTransactionDataManager();
-    manager.addAgentHashCode(agentHashCode);
     checkAgentHashCodeIsExist(agentHashCode);
     if (TomcatProfilerReceiverConfig.USING_HBASE) {
       String tableName=TomcatProfilerReceiverConstant.HBASE_JVM_TABLE + "_" + agentHashCode;
-      PutJVMData put=new PutJVMData(tableName,dto);
-      DataPutThreadManager.execute(put);
     }
   }
  catch (  Exception e) {

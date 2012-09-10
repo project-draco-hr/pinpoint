@@ -1,0 +1,62 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(10);
+  if (incoming.get(0)) {
+    struct.agent=iprot.readString();
+    struct.setAgentIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.timestamp=iprot.readI64();
+    struct.setTimestampIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.mostTraceID=iprot.readI64();
+    struct.setMostTraceIDIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.leastTraceID=iprot.readI64();
+    struct.setLeastTraceIDIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.name=iprot.readString();
+    struct.setNameIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.spanID=iprot.readI64();
+    struct.setSpanIDIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.parentSpanId=iprot.readI64();
+    struct.setParentSpanIdIsSet(true);
+  }
+  if (incoming.get(7)) {
+{
+      org.apache.thrift.protocol.TList _list10=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<Annotation>(_list10.size);
+      for (int _i11=0; _i11 < _list10.size; ++_i11) {
+        Annotation _elem12;
+        _elem12=new Annotation();
+        _elem12.read(iprot);
+        struct.annotations.add(_elem12);
+      }
+    }
+    struct.setAnnotationsIsSet(true);
+  }
+  if (incoming.get(8)) {
+{
+      org.apache.thrift.protocol.TList _list13=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.binaryAnnotations=new ArrayList<BinaryAnnotation>(_list13.size);
+      for (int _i14=0; _i14 < _list13.size; ++_i14) {
+        BinaryAnnotation _elem15;
+        _elem15=new BinaryAnnotation();
+        _elem15.read(iprot);
+        struct.binaryAnnotations.add(_elem15);
+      }
+    }
+    struct.setBinaryAnnotationsIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.flag=iprot.readI32();
+    struct.setFlagIsSet(true);
+  }
+}

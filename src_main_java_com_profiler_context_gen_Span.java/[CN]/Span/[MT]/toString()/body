@@ -1,0 +1,69 @@
+{
+  StringBuilder sb=new StringBuilder("Span(");
+  boolean first=true;
+  sb.append("agent:");
+  if (this.agent == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.agent);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("timestamp:");
+  sb.append(this.timestamp);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("mostTraceID:");
+  sb.append(this.mostTraceID);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("leastTraceID:");
+  sb.append(this.leastTraceID);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("name:");
+  if (this.name == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.name);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("spanID:");
+  sb.append(this.spanID);
+  first=false;
+  if (isSetParentSpanId()) {
+    if (!first)     sb.append(", ");
+    sb.append("parentSpanId:");
+    sb.append(this.parentSpanId);
+    first=false;
+  }
+  if (!first)   sb.append(", ");
+  sb.append("annotations:");
+  if (this.annotations == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.annotations);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("binaryAnnotations:");
+  if (this.binaryAnnotations == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.binaryAnnotations);
+  }
+  first=false;
+  if (isSetFlag()) {
+    if (!first)     sb.append(", ");
+    sb.append("flag:");
+    sb.append(this.flag);
+    first=false;
+  }
+  sb.append(")");
+  return sb.toString();
+}

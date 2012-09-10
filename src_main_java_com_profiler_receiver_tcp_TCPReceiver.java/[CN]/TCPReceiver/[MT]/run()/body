@@ -8,8 +8,6 @@
       ObjectInputStream objStream=new ObjectInputStream(stream);
       Object receivedObj=objStream.readObject();
       if (receivedObj instanceof AgentInfoDTO) {
-        AgentTableCreator creator=new AgentTableCreator();
-        creator.setAgentTable((AgentInfoDTO)receivedObj);
       }
       logger.debug(receivedObj.toString());
     }

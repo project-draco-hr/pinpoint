@@ -11,6 +11,7 @@
     while (true) {
       byte[] buffer=new byte[AcceptedSize];
       try {
+        System.out.println("ReceiveBufferSize=" + udpSocket.getReceiveBufferSize());
         DatagramPacket packet=new DatagramPacket(buffer,AcceptedSize);
         udpSocket.receive(packet);
         if (logger.isDebugEnabled()) {

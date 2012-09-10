@@ -3,17 +3,6 @@
     logger.debug("handle " + tbase);
   }
   try {
-    RequestDataListThriftDTO dto=(RequestDataListThriftDTO)tbase;
-    RequestTransactionDataManager manager=new RequestTransactionDataManager();
-    int hostHashCode=dto.getHostHashCode();
-    CharSequence agentName=manager.getAgentName(hostHashCode);
-    int requestHashCode=dto.getRequestHashCode();
-    String url=manager.getRequestURL(requestHashCode);
-    if (logger.isDebugEnabled()) {
-      StringBuilder message=RequestDataPrinter.printRequestData(dto,agentName,url,"\n");
-      logger.debug(message);
-    }
-    manager.addRequestDataList(dto,Arrays.copyOf(datagramPacket.getData(),datagramPacket.getLength()));
   }
  catch (  Exception e) {
     logger.warn("ReadRequestData handle error " + e.getMessage(),e);
