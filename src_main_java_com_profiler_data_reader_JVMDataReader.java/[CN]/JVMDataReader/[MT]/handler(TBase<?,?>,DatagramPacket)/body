@@ -4,11 +4,7 @@
   }
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
-    int agentHashCode=dto.getAgentHashCode();
-    checkAgentHashCodeIsExist(agentHashCode);
-    if (TomcatProfilerReceiverConfig.USING_HBASE) {
-      String tableName=TomcatProfilerReceiverConstant.HBASE_JVM_TABLE + "_" + agentHashCode;
-    }
+    System.out.println("Got JVM DTO. " + dto);
   }
  catch (  Exception e) {
     logger.warn("ReadJVMData handle error " + e.getMessage(),e);
