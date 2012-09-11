@@ -5,8 +5,11 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
-  List bindList=getBindValue.invoke(target);
-  String index=StringUtils.toString(args[0]);
+  Map bindList=getBindValue.invoke(target);
+  Integer index=NumberUtils.toInteger(args[0]);
+  if (index == null) {
+    return;
+  }
   String value=StringUtils.toString(args[1]);
-  bindList.add(index + ":" + value);
+  bindList.put(index,value);
 }

@@ -1,0 +1,38 @@
+{
+  if (bytes == null) {
+    return "null";
+  }
+  int iMax=bytes.length - 1;
+  int iLimit=limit - 1;
+  if (iMax > iLimit) {
+    iMax=iLimit;
+  }
+  if (iMax == -1) {
+    if (bytes.length == 0) {
+      return "[]";
+    }
+ else {
+      return "[...(" + bytes.length + ")]";
+    }
+  }
+  StringBuilder sb=new StringBuilder();
+  sb.append('[');
+  for (int i=0; ; i++) {
+    sb.append(bytes[i]);
+    if (i == iMax) {
+      if (iMax < iLimit) {
+        return sb.append(']').toString();
+      }
+ else {
+        if (i > 0) {
+        }
+        sb.append(", ");
+        sb.append("...(");
+        sb.append(bytes.length);
+        sb.append(")]");
+        return sb.toString();
+      }
+    }
+    sb.append(", ");
+  }
+}
