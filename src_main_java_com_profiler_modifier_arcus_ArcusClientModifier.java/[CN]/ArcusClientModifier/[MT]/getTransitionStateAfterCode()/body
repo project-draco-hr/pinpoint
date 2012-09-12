@@ -1,8 +1,7 @@
 {
   StringBuilder code=new StringBuilder();
   code.append("{");
-  code.append("com.profiler.context.Trace.traceBlockBegin();");
-  code.append("if (com.profiler.context.Trace.getCurrentTraceId() == null) { com.profiler.context.Trace.setTraceId(__nextTraceId); }");
+  code.append("com.profiler.context.Trace.setTraceId(__nextTraceId); System.out.println(\"set next TraceID\" + __nextTraceId);");
   code.append("if (newState == net.spy.memcached.ops.OperationState.READING) {");
   code.append("System.out.println(\"\\n\\n\\nINVOKE ARCUS BEFORE  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\");");
   code.append("	java.net.SocketAddress socketAddress = handlingNode.getSocketAddress();");
@@ -18,7 +17,6 @@
   code.append("	com.profiler.context.Trace.record(com.profiler.context.Annotation.ClientRecv, com.profiler.StopWatch.stopAndGetElapsed(this.hashCode()));");
   code.append("System.out.println(\"\\n\\n\\nINVOKE ARCUS AFTER  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\");");
   code.append("}");
-  code.append("com.profiler.context.Trace.traceBlockEnd();");
   code.append("}");
   return code.toString();
 }
