@@ -1,17 +1,20 @@
 {
   try {
     this.udpSocket=new DatagramSocket(TomcatProfilerReceiverConfig.DEFUALT_PORT);
-    System.out.println("ddddd");
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.error(e.getMessage(),e);
   }
   if (udpSocket != null) {
-    System.out.println("Waiting for " + MulplexedUDPReceiver.class.getSimpleName());
+    if (logger.isInfoEnabled()) {
+      logger.info("Waiting for " + MulplexedUDPReceiver.class.getSimpleName());
+    }
     while (true) {
       byte[] buffer=new byte[AcceptedSize];
       try {
-        System.out.println("ReceiveBufferSize=" + udpSocket.getReceiveBufferSize());
+        if (logger.isInfoEnabled()) {
+          logger.info("ReceiveBufferSize=" + udpSocket.getReceiveBufferSize());
+        }
         DatagramPacket packet=new DatagramPacket(buffer,AcceptedSize);
         udpSocket.receive(packet);
         if (logger.isDebugEnabled()) {
@@ -22,16 +25,16 @@
  catch (      RejectedExecutionException ree) {
         rejectedExecutionCount++;
         if (rejectedExecutionCount > 1000) {
-          System.out.println("rejectedExecutionCount=1000");
+          logger.warn("RejectedExecutionCount=1000");
           rejectedExecutionCount=0;
         }
       }
 catch (      Exception e) {
-        e.printStackTrace();
+        logger.error(e.getMessage(),e);
       }
     }
   }
  else {
-    System.out.println("There is problem with making UDP Socket connection.");
+    logger.fatal("There is problem with making UDP Socket connection.");
   }
 }

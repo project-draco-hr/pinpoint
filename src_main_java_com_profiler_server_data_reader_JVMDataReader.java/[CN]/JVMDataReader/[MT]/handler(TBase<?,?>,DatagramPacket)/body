@@ -1,10 +1,10 @@
 {
-  if (logger.isDebugEnabled()) {
-    logger.debug("handle " + tbase);
-  }
+  assert(tbase instanceof JVMInfoThriftDTO);
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
-    System.out.println("Got JVM DTO. " + dto);
+    if (logger.isInfoEnabled()) {
+      logger.info("Received JVM=" + dto);
+    }
   }
  catch (  Exception e) {
     logger.warn("ReadJVMData handle error " + e.getMessage(),e);
