@@ -3,8 +3,8 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
+  Trace.traceBlockBegin();
   try {
-    Trace.traceBlockBegin();
     Trace.recordRpcName("mysql","");
     if (args.length > 0) {
       Trace.recordAttibute("Query",args[0]);
@@ -13,7 +13,9 @@
     StopWatch.start("ExecuteUpdateMethodInterceptor");
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
   }
  finally {
     Trace.traceBlockEnd();

@@ -1,0 +1,17 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  if (Trace.getCurrentTraceId() == null) {
+    return;
+  }
+  if ("setAutoCommit".equals(methodName)) {
+    startTransaction(target,args[0],result);
+  }
+ else   if ("commit".equals(methodName)) {
+    commit(target,result);
+  }
+ else   if ("rollback".equals(methodName)) {
+    rollback(target,result);
+  }
+}

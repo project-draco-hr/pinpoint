@@ -13,12 +13,14 @@
     Trace.recordAttibute("PreparedStatement",sql);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
-    Trace.recordAttibute("BindValue",bindValue.toString());
-    setBindValue.invoke(target,Collections.synchronizedList(new LinkedList<String>()));
+    Trace.recordAttibute("BindValue",bindString);
+    clean(target);
     Trace.record(Annotation.ClientSend);
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
   }
  finally {
     Trace.traceBlockEnd();

@@ -1,15 +1,15 @@
 {
-  if (logger.isLoggable(Level.INFO)) {
-    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
-  }
-  if (Trace.getCurrentTraceId() == null) {
-    return;
-  }
   Trace.traceBlockBegin();
   try {
+    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
+    String connectionUrl=connectionTrace.getConnectionUrl((Connection)target);
+    Trace.recordRpcName("mysql",connectionUrl);
     boolean success=InterceptorUtils.isSuccess(result);
-    Trace.recordAttibute("Success",success);
-    if (!success) {
+    if (success) {
+      Trace.recordAttibute("Transaction","rollback");
+    }
+ else {
+      Trace.recordAttibute("Transaction","rollback fail");
       Throwable th=(Throwable)result;
       Trace.recordAttibute("Exception",th.getMessage());
     }

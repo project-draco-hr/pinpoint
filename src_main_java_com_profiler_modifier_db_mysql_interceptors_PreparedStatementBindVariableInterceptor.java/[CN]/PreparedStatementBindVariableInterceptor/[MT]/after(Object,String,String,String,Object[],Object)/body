@@ -6,10 +6,16 @@
     return;
   }
   Map bindList=getBindValue.invoke(target);
+  if (bindList == null) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,"bindValue is null");
+    }
+    return;
+  }
   Integer index=NumberUtils.toInteger(args[0]);
   if (index == null) {
     return;
   }
-  String value=StringUtils.toString(args[1]);
+  String value=BindValueConverter.convert(methodName,args);
   bindList.put(index,value);
 }
