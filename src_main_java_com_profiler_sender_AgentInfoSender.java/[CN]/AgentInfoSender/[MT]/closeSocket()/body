@@ -1,7 +1,12 @@
 {
   try {
-    requestSocket.close();
-    logger.info("TCP RequestSocket is closed");
+    if (requestSocket != null) {
+      requestSocket.close();
+      logger.info("TCP RequestSocket is closed");
+    }
+ else {
+      logger.info("TCP RequestSocket is already closed");
+    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
