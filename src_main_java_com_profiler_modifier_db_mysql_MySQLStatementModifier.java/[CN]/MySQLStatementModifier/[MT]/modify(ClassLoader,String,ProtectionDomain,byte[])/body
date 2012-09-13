@@ -7,7 +7,7 @@
     InstrumentClass statementClass=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor interceptor=new ExecuteQueryMethodInterceptor();
     statementClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
-    Interceptor interceptor1=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteUpdateMethodInterceptor");
+    Interceptor interceptor1=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.interceptor.ExecuteUpdateMethodInterceptor");
     statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","boolean","boolean"},interceptor1);
     statementClass.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
     return statementClass.toBytecode();
