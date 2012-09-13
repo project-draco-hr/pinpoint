@@ -1,17 +1,20 @@
 {
   try {
     connectToServer();
-    ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
-    AgentInfoDTO dto=new AgentInfoDTO();
+    Agent agent=Agent.getInstance();
+    String ip=agent.getServerInfo().getHostip();
+    String portNumbers="";
+    for (    Entry<Integer,String> entry : agent.getServerInfo().getConnectors().entrySet()) {
+      portNumbers+=" " + entry.getKey();
+    }
+    AgentInfoDTO dto=new AgentInfoDTO(ip,portNumbers);
     dto.setIsDead();
     if (logger.isLoggable(Level.INFO)) {
       logger.info("send agent stop info. " + dto.toString());
     }
+    ObjectOutputStream stream=new ObjectOutputStream(requestSocket.getOutputStream());
     stream.writeObject(dto);
     stream.close();
-    if (logger.isLoggable(Level.INFO)) {
-      logger.info("Agent Stopped message is sent. " + dto.toString());
-    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
