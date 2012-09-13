@@ -5,13 +5,16 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
-  if ("setAutoCommit".equals(methodName)) {
-    startTransaction(target,args[0],result);
-  }
- else   if ("commit".equals(methodName)) {
-    commit(target,result);
-  }
- else   if ("rollback".equals(methodName)) {
-    rollback(target,result);
+  if (target instanceof Connection) {
+    Connection con=(Connection)target;
+    if ("setAutoCommit".equals(methodName)) {
+      afterStartTransaction(con,args[0],result);
+    }
+ else     if ("commit".equals(methodName)) {
+      afterCommit(con,result);
+    }
+ else     if ("rollback".equals(methodName)) {
+      afterRollback(con,result);
+    }
   }
 }

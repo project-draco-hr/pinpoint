@@ -5,4 +5,16 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
+  if (target instanceof Connection) {
+    Connection con=(Connection)target;
+    if ("setAutoCommit".equals(methodName)) {
+      beforeStartTransaction(con);
+    }
+ else     if ("commit".equals(methodName)) {
+      beforeCommit(con);
+    }
+ else     if ("rollback".equals(methodName)) {
+      beforeRollback(con);
+    }
+  }
 }

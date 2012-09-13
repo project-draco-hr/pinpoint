@@ -1,0 +1,11 @@
+{
+  Trace.traceBlockBegin();
+  try {
+    String connectionUrl=this.getUrl.invoke(target);
+    Trace.recordRpcName("mysql",connectionUrl);
+    Trace.record(Annotation.ClientSend);
+  }
+  finally {
+    Trace.traceBlockEnd();
+  }
+}

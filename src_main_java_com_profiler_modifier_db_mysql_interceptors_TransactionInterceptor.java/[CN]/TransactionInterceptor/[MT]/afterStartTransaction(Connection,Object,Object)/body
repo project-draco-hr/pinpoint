@@ -1,8 +1,6 @@
 {
   Trace.traceBlockBegin();
   try {
-    String connectionUrl=this.getUrl.invoke((Connection)target);
-    Trace.recordRpcName("mysql",connectionUrl);
     Boolean autocommit=(Boolean)arg;
     boolean success=InterceptorUtils.isSuccess(result);
     if (!autocommit) {
@@ -14,7 +12,6 @@
         Throwable th=(Throwable)result;
         Trace.recordAttibute("Exception",th.getMessage());
       }
-      Trace.record(Annotation.ClientSend);
       Trace.record(Annotation.ClientRecv);
     }
  else {
@@ -26,7 +23,6 @@
         Throwable th=(Throwable)result;
         Trace.recordAttibute("Exception",th.getMessage());
       }
-      Trace.record(Annotation.ClientSend);
       Trace.record(Annotation.ClientRecv);
     }
   }

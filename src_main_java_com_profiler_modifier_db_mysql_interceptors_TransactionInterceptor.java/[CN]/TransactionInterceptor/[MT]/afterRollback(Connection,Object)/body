@@ -1,18 +1,17 @@
 {
   Trace.traceBlockBegin();
   try {
-    String connectionUrl=this.getUrl.invoke((Connection)target);
+    String connectionUrl=this.getUrl.invoke(target);
     Trace.recordRpcName("mysql",connectionUrl);
     boolean success=InterceptorUtils.isSuccess(result);
     if (success) {
-      Trace.recordAttibute("Transaction","commit");
+      Trace.recordAttibute("Transaction","rollback");
     }
  else {
-      Trace.recordAttibute("Transaction","commit fail");
+      Trace.recordAttibute("Transaction","rollback fail");
       Throwable th=(Throwable)result;
       Trace.recordAttibute("Exception",th.getMessage());
     }
-    Trace.record(Annotation.ClientSend);
     Trace.record(Annotation.ClientRecv);
   }
  catch (  Exception e) {
