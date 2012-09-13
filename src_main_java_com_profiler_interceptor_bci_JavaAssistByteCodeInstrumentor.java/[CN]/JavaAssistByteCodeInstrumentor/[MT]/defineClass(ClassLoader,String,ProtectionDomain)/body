@@ -3,14 +3,22 @@
     logger.info("defineClass class:" + defineClass + " cl:"+ classLoader);
   }
   try {
-    CtClass clazz=classPool.get(defineClass);
-    defineNestedClass(clazz,classLoader,protectedDomain);
-    return clazz.toClass(classLoader,protectedDomain);
+    if (this.classLoadChecker.exist(classLoader,defineClass)) {
+      return classLoader.loadClass(defineClass);
+    }
+ else {
+      CtClass clazz=classPool.get(defineClass);
+      defineNestedClass(clazz,classLoader,protectedDomain);
+      return clazz.toClass(classLoader,protectedDomain);
+    }
   }
  catch (  NotFoundException e) {
     throw new InstrumentException(defineClass + " class not fund. Cause:" + e.getMessage(),e);
   }
 catch (  CannotCompileException e) {
     throw new InstrumentException(defineClass + " class define fail. cl:" + classLoader+ " Cause:"+ e.getMessage(),e);
+  }
+catch (  ClassNotFoundException e) {
+    throw new InstrumentException(defineClass + " class not fund. Cause:" + e.getMessage(),e);
   }
 }

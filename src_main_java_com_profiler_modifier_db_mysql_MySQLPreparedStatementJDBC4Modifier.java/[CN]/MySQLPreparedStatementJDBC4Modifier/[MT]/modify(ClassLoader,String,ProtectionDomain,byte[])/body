@@ -1,0 +1,17 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + className);
+  }
+  checkLibrary(classLoader,className);
+  try {
+    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(className);
+    bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
+    return preparedStatement.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
+    return null;
+  }
+}
