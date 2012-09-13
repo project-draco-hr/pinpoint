@@ -9,8 +9,7 @@
     return;
   }
   if (target instanceof Connection) {
-    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
-    String connectionUrl=connectionTrace.getConnectionUrl((Connection)target);
+    String connectionUrl=getUrl.invoke(target);
     setUrl.invoke(result,connectionUrl);
   }
 }

@@ -8,8 +8,7 @@
   if (result instanceof Connection) {
     Object url=args[4];
     if (url instanceof String) {
-      ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
-      connectionTrace.createConnection((Connection)result,(String)url);
+      this.setUrl.invoke(result,url);
     }
   }
 }

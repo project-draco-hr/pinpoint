@@ -1,8 +1,7 @@
 {
   Trace.traceBlockBegin();
   try {
-    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
-    String connectionUrl=connectionTrace.getConnectionUrl((Connection)target);
+    String connectionUrl=this.getUrl.invoke((Connection)target);
     Trace.recordRpcName("mysql",connectionUrl);
     Boolean autocommit=(Boolean)arg;
     boolean success=InterceptorUtils.isSuccess(result);

@@ -3,7 +3,6 @@
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
   if (target instanceof Connection) {
-    ConnectionTrace connectionTrace=ConnectionTrace.getConnectionTrace();
-    connectionTrace.closeConnection((Connection)target);
+    this.setUrl.invoke(target,new Object[]{null});
   }
 }

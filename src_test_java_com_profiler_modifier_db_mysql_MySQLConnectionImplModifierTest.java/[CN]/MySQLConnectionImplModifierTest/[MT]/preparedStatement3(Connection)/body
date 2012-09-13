@@ -1,12 +1,12 @@
 {
-  connect.setAutoCommit(false);
-  PreparedStatement preparedStatement=connect.prepareStatement("select * from member where id = ? or id = ?  or id = ?");
+  connection.setAutoCommit(false);
+  PreparedStatement preparedStatement=connection.prepareStatement("select * from member where id = ? or id = ?  or id = ?");
   preparedStatement.setInt(1,1);
   preparedStatement.setInt(2,2);
   preparedStatement.setString(3,"3");
   ResultSet resultSet=preparedStatement.executeQuery();
   resultSet.close();
   preparedStatement.close();
-  connect.commit();
-  connect.setAutoCommit(true);
+  connection.commit();
+  connection.setAutoCommit(true);
 }
