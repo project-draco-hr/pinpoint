@@ -1,7 +1,7 @@
 {
   BindVariableFilter exclude=new IncludeBindVariableFilter(includes);
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
-  Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.PreparedStatementBindVariableInterceptor");
+  Interceptor interceptor=new PreparedStatementBindVariableInterceptor();
   for (  Method method : bindMethod) {
     String methodName=method.getName();
     String[] parameterType=JavaAssistUtils.getParameterType(method.getParameterTypes());

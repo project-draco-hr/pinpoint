@@ -5,7 +5,7 @@
   checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.PreparedStatementMethodInterceptor");
+    Interceptor interceptor=new PreparedStatementMethodInterceptor();
     preparedStatement.addInterceptor("executeQuery",null,interceptor);
     preparedStatement.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
     preparedStatement.addTraceVariable("__sql","__setSql","__getSql","java.lang.String");

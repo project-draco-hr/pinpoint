@@ -5,7 +5,7 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass statementClass=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteQueryMethodInterceptor");
+    Interceptor interceptor=new ExecuteQueryMethodInterceptor();
     statementClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
     Interceptor interceptor1=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.db.mysql.interceptors.ExecuteUpdateMethodInterceptor");
     statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","boolean","boolean"},interceptor1);
