@@ -1,7 +1,4 @@
 {
-  if (interceptor == null) {
-    throw new IllegalArgumentException("interceptor is null");
-  }
   CtBehavior behavior=null;
   try {
     behavior=getBehavior(methodName,args);
@@ -10,7 +7,9 @@
     throw new NotFoundInstrumentException(interceptor.getClass().getSimpleName() + " add fail. Cause:" + e.getMessage(),e);
   }
   try {
-    int interceptorId=InterceptorRegistry.addInterceptor(interceptor);
+    if (interceptor != null) {
+      interceptorId=InterceptorRegistry.addInterceptor(interceptor);
+    }
     if (type == Type.auto) {
       if (interceptor instanceof StaticAroundInterceptor) {
         addStaticAroundInterceptor(methodName,interceptorId,behavior);

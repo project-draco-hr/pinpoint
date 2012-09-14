@@ -1,3 +1,6 @@
 {
-  return addInterceptor0(methodName,args,interceptor,type);
+  if (interceptor == null) {
+    throw new IllegalArgumentException("interceptor is null");
+  }
+  return addInterceptor0(methodName,args,interceptor,-1,type);
 }

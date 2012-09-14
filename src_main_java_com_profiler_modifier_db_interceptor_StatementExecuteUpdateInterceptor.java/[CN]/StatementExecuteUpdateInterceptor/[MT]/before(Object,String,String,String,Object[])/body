@@ -1,5 +1,7 @@
 {
-  System.out.println("ExecuteUpdateMethodInterceptor.before");
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
+  }
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
@@ -7,10 +9,11 @@
   try {
     Trace.recordRpcName("mysql","");
     if (args.length > 0) {
-      Trace.recordAttibute("Query",args[0]);
+      String url=(String)this.getUrl.invoke(target);
+      Trace.recordAttibute("Query",url);
     }
     Trace.record(Annotation.ClientSend);
-    StopWatch.start("ExecuteUpdateMethodInterceptor");
+    StopWatch.start("StatementExecuteUpdateInterceptor");
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

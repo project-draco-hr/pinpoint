@@ -5,7 +5,7 @@
   checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor interceptor=new PreparedStatementMethodInterceptor();
+    Interceptor interceptor=new PreparedStatementExecuteQueryInterceptor();
     preparedStatement.addInterceptor("executeQuery",null,interceptor);
     preparedStatement.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
     preparedStatement.addTraceVariable("__sql","__setSql","__getSql","java.lang.String");
