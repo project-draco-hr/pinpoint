@@ -1,3 +1,6 @@
 {
-  this(null,null,poolSize);
+  Properties properties=readProperties();
+  String host=properties.getProperty("hbase.client.host");
+  String port=properties.getProperty("hbase.client.port");
+  init(host,port,poolSize);
 }
