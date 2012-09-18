@@ -1,0 +1,16 @@
+{
+  try {
+    byte[] agentId=Bytes.toBytes(span.getAgentID());
+    byte[] time=Bytes.toBytes(span.getTimestamp());
+    byte[] mostTid=Bytes.toBytes(span.getMostTraceID());
+    byte[] leastTid=Bytes.toBytes(span.getLeastTraceID());
+    Put put=new Put(ArrayUtils.addAll(agentId,time),span.getTimestamp());
+    put.add(COLFAM_TRACE,COLNAME_ID,ArrayUtils.addAll(mostTid,leastTid));
+    client.insert(TABLE_TRACE_INDEX,put);
+    return true;
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+  }
+  return false;
+}

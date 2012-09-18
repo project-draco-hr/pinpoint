@@ -1,0 +1,14 @@
+{
+  try {
+    byte[] traceId=ArrayUtils.addAll(Bytes.toBytes(span.getMostTraceID()),Bytes.toBytes(span.getLeastTraceID()));
+    byte[] value=new TSerializer().serialize(span);
+    Put put=new Put(traceId,span.getTimestamp());
+    put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),value);
+    client.insert(TABLE_TRACE,put);
+    return true;
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+  }
+  return false;
+}
