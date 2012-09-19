@@ -10,8 +10,7 @@
     put.add(Bytes.toBytes(COLUMN_FAMILY),Bytes.toBytes("qual2"),Bytes.toBytes("val2"));
     putList.add(put);
   }
-  client.insert(Bytes.toBytes(TABLE_NAME),putList);
-  client.flush(Bytes.toBytes(TABLE_NAME));
+  client.insert(TABLE_NAME,putList);
   try {
     Thread.sleep(10000L);
   }

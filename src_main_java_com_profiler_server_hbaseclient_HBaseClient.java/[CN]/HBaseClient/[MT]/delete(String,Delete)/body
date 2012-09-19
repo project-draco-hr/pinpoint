@@ -1,9 +1,12 @@
 {
   HTable htable=(HTable)tablePool.getTable(tablename);
   try {
-    htable.put(put);
+    htable.delete(delete);
   }
  catch (  IOException e) {
     e.printStackTrace();
+  }
+ finally {
+    closeHTable(htable);
   }
 }
