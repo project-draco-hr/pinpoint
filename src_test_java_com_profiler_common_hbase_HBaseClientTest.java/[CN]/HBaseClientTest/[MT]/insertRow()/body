@@ -11,13 +11,6 @@
     putList.add(put);
   }
   client.insert(Bytes.toBytes(TABLE_NAME),putList);
-  client.flush(Bytes.toBytes(TABLE_NAME));
-  try {
-    Thread.sleep(10000L);
-  }
- catch (  InterruptedException e) {
-    e.printStackTrace();
-  }
   List<HbaseColumn> list=new ArrayList<HBaseQuery.HbaseColumn>();
   list.add(new HbaseColumn(COLUMN_FAMILY,"qual1"));
   list.add(new HbaseColumn(COLUMN_FAMILY,"qual2"));
