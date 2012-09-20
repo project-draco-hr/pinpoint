@@ -1,0 +1,35 @@
+{
+  Integer type=fieldNameVsType.get(colName);
+  if (type == null) {
+    type=HBaseTypes.STRING;
+  }
+switch (type) {
+case HBaseTypes.INTEGER:
+    result.put(colName,Integer.valueOf(Bytes.toString(value)));
+  break;
+case HBaseTypes.FLOAT:
+result.put(colName,Float.valueOf(Bytes.toString(value)));
+break;
+case HBaseTypes.LONG:
+result.put(colName,Long.valueOf(Bytes.toString(value)));
+break;
+case HBaseTypes.DOUBLE:
+result.put(colName,Double.valueOf(Bytes.toString(value)));
+break;
+case HBaseTypes.DATE:
+result.put(colName,new Date(Bytes.toLong(value)));
+break;
+case HBaseTypes.BOOLEAN:
+result.put(colName,Boolean.valueOf(Bytes.toString(value)));
+break;
+case HBaseTypes.BINARY:
+result.put(colName,value);
+break;
+case HBaseTypes.STRING:
+result.put(colName,Bytes.toString(value));
+break;
+default :
+result.put(colName,Bytes.toString(value));
+break;
+}
+}

@@ -1,0 +1,70 @@
+{
+  try {
+    String startRow=query.getStartRow();
+    String stopRow=query.getStopRow();
+    String tableName=query.getTableName();
+    System.out.println("startRow=" + startRow);
+    System.out.println("stopRow=" + stopRow);
+    System.out.println("tableName=" + tableName);
+    columns=query.getColumns();
+    HTableInterface htable=getHTable(tableName);
+    if (query.isSingleRow()) {
+      System.out.println("Query single row");
+      Get get=new Get(Bytes.toBytes(startRow));
+      if (columns != null) {
+        for (        HbaseColumn column : columns) {
+          get.addColumn(column.getFamily().getBytes(),column.getColumnName().getBytes());
+        }
+      }
+      Result result=htable.get(get);
+      List<Result> resultList=new ArrayList<Result>(1);
+      resultList.add(result);
+      resultIterator=resultList.iterator();
+    }
+ else {
+      System.out.println("Query multiple rows");
+      Scan scan=new Scan();
+      if (startRow != null) {
+        scan.setStartRow(startRow.getBytes());
+      }
+      if (stopRow != null) {
+        scan.setStopRow(stopRow.getBytes());
+      }
+      if (columns != null) {
+        for (        HbaseColumn column : columns) {
+          scan.addColumn(column.getFamily().getBytes(),column.getColumnName().getBytes());
+          System.out.println("add column to scanner " + column);
+        }
+      }
+      LOG.debug("Executing scanner: " + query);
+      System.out.println("executing scanner:" + query);
+      long start=System.currentTimeMillis();
+      resultScanner=htable.getScanner(scan);
+      System.out.println("result scanner:" + resultScanner);
+      Iterator<Result> it=resultScanner.iterator();
+      while (it.hasNext()) {
+        System.out.println("R=" + it.next());
+      }
+      LOG.trace("Time taken for scanner: " + (System.currentTimeMillis() - start));
+      resultIterator=resultScanner.iterator();
+    }
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("UNable to execute SCANNER : " + query,e);
+  }
+  if (!resultIterator.hasNext()) {
+    rSetIterator=new ArrayList<Map<String,Object>>().iterator();
+    return;
+  }
+  rSetIterator=new Iterator<Map<String,Object>>(){
+    public boolean hasNext(){
+      return hasnext();
+    }
+    public Map<String,Object> next(){
+      return getARow();
+    }
+    public void remove(){
+    }
+  }
+;
+}
