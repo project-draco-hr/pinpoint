@@ -1,7 +1,7 @@
 {
   try {
-    String startRow=query.getStartRow();
-    String stopRow=query.getStopRow();
+    byte[] startRow=query.getStartRow();
+    byte[] stopRow=query.getStopRow();
     String tableName=query.getTableName();
     System.out.println("startRow=" + startRow);
     System.out.println("stopRow=" + stopRow);
@@ -10,7 +10,7 @@
     HTableInterface htable=getHTable(tableName);
     if (query.isSingleRow()) {
       System.out.println("Query single row");
-      Get get=new Get(Bytes.toBytes(startRow));
+      Get get=new Get(startRow);
       if (columns != null) {
         for (        HbaseColumn column : columns) {
           get.addColumn(column.getFamily().getBytes(),column.getColumnName().getBytes());
@@ -25,10 +25,10 @@
       System.out.println("Query multiple rows");
       Scan scan=new Scan();
       if (startRow != null) {
-        scan.setStartRow(startRow.getBytes());
+        scan.setStartRow(startRow);
       }
       if (stopRow != null) {
-        scan.setStopRow(stopRow.getBytes());
+        scan.setStopRow(stopRow);
       }
       if (columns != null) {
         for (        HbaseColumn column : columns) {
