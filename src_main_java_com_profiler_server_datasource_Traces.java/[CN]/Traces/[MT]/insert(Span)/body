@@ -1,10 +1,9 @@
 {
   try {
-    byte[] traceId=ArrayUtils.addAll(Bytes.toBytes(span.getMostTraceID()),Bytes.toBytes(span.getLeastTraceID()));
     byte[] value=new TSerializer().serialize(span);
-    Put put=new Put(traceId,span.getTimestamp());
+    Put put=new Put(SpanUtils.getTracesRowkey(span),span.getTimestamp());
     put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),value);
-    client.insert(TABLE_TRACE,put);
+    client.insert(HBaseTables.TRACES,put);
     return true;
   }
  catch (  Exception e) {
