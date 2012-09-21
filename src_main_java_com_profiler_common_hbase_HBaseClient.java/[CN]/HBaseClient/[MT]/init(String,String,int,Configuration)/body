@@ -1,0 +1,22 @@
+{
+  if (configuration == null) {
+    Configuration cfg=HBaseConfiguration.create();
+    if (zk != null) {
+      cfg.set("hbase.zookeeper.quorum",zk);
+    }
+    if (port != null) {
+      cfg.set("hbase.zookeeper.property.clientPort",port);
+    }
+    configuration=cfg;
+  }
+  tablePool=new HTablePool(configuration,poolSize);
+  try {
+    admin=new HBaseAdmin(configuration);
+  }
+ catch (  MasterNotRunningException e) {
+    e.printStackTrace();
+  }
+catch (  ZooKeeperConnectionException e) {
+    e.printStackTrace();
+  }
+}
