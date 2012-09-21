@@ -1,7 +1,7 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetAgentHashCode()) {
+  if (struct.isSetAgentId()) {
     optionals.set(0);
   }
   if (struct.isSetDataTime()) {
@@ -38,8 +38,8 @@
     optionals.set(11);
   }
   oprot.writeBitSet(optionals,12);
-  if (struct.isSetAgentHashCode()) {
-    oprot.writeI32(struct.agentHashCode);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
   }
   if (struct.isSetDataTime()) {
     oprot.writeI64(struct.dataTime);

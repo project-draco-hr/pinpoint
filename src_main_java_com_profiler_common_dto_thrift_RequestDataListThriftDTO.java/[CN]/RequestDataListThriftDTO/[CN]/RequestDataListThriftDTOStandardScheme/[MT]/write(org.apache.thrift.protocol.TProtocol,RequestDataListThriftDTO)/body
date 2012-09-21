@@ -1,9 +1,11 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  oprot.writeFieldBegin(HOST_HASH_CODE_FIELD_DESC);
-  oprot.writeI32(struct.hostHashCode);
-  oprot.writeFieldEnd();
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
   oprot.writeFieldBegin(REQUEST_HASH_CODE_FIELD_DESC);
   oprot.writeI32(struct.requestHashCode);
   oprot.writeFieldEnd();
