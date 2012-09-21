@@ -1,0 +1,40 @@
+{
+  List<HbaseColumn> column=new ArrayList<HBaseQuery.HbaseColumn>();
+  column.add(new HbaseColumn("Trace","ID"));
+  final List<Iterator<Map<String,Object>>> list=new ArrayList<Iterator<Map<String,Object>>>();
+  for (  String agentId : agentIds) {
+    byte[] s=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(from));
+    byte[] e=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(to));
+    HBaseQuery query=new HBaseQuery(HBaseTables.TRACE_INDEX,s,e,column);
+    Iterator<Map<String,Object>> result=client.getHBaseData(query);
+    list.add(result);
+  }
+  return new Iterator<Map<String,Object>>(){
+    int pos=0;
+    @Override public boolean hasNext(){
+      if (list.isEmpty())       return false;
+      while (pos < list.size()) {
+        if (list.get(pos).hasNext()) {
+          break;
+        }
+ else {
+          pos++;
+          if (pos >= list.size()) {
+            return false;
+          }
+ else {
+            continue;
+          }
+        }
+      }
+      return true;
+    }
+    @Override public Map<String,Object> next(){
+      return list.get(pos).next();
+    }
+    @Override public void remove(){
+      throw new RuntimeException("NOT SUPPORTED METHOD");
+    }
+  }
+;
+}
