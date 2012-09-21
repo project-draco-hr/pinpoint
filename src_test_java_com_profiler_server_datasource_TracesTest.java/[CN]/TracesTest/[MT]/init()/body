@@ -1,0 +1,11 @@
+{
+  if (hbaseClient == null) {
+    System.out.println("hbaseClient is null-------");
+    return;
+  }
+  if (!hbaseClient.isTableExists(traceIndex.getTableName())) {
+    HTableDescriptor testTrace=new HTableDescriptor(traceIndex.getTableName());
+    testTrace.addFamily(new HColumnDescriptor(TRACE));
+    hbaseClient.createTable(testTrace);
+  }
+}

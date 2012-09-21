@@ -1,0 +1,40 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Waiting for " + MultiplexedUDPReceiver.class.getSimpleName());
+  }
+  while (state.get()) {
+    DatagramPacket packet=null;
+    try {
+      byte[] buffer=new byte[AcceptedSize];
+      packet=new DatagramPacket(buffer,AcceptedSize);
+      try {
+        socket.receive(packet);
+      }
+ catch (      SocketTimeoutException e) {
+        continue;
+      }
+      if (logger.isDebugEnabled()) {
+        logger.debug("DatagramPacket read size:" + packet.getLength());
+      }
+    }
+ catch (    IOException e) {
+      if (state.get() == false) {
+      }
+ else {
+        logger.error(e.getMessage(),e);
+      }
+      continue;
+    }
+    try {
+      logger.debug("Dispatch packet");
+      worker.execute(new MultiplexedPacketHandler(packet,context));
+    }
+ catch (    RejectedExecutionException ree) {
+      rejectedExecutionCount++;
+      if (rejectedExecutionCount > 1000) {
+        logger.warn("RejectedExecutionCount=1000");
+        rejectedExecutionCount=0;
+      }
+    }
+  }
+}

@@ -1,12 +1,12 @@
 {
-  try {
-    Put put=new Put(SpanUtils.getTraceIndexRowKey(span),span.getTimestamp());
-    put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(span));
-    client.insert(HBaseTables.TRACE_INDEX,put);
-    return true;
+  hbaseTemplate.execute(tableName,new TableCallback<Object>(){
+    @Override public Object doInTable(    HTable table) throws Throwable {
+      Put put=new Put(SpanUtils.getTraceIndexRowKey(span),span.getTimestamp());
+      put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(span));
+      table.put(put);
+      return null;
+    }
   }
- catch (  Exception e) {
-    logger.error(e.getMessage(),e);
-  }
-  return false;
+);
+  return true;
 }
