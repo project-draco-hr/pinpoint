@@ -5,8 +5,8 @@
   JVMInfoThriftDTO jvmInfoThriftDTO=new JVMInfoThriftDTO();
   int activeThreadount=10;
   jvmInfoThriftDTO.setActiveThreadCount(activeThreadount);
-  int agentHashCde=123;
-  jvmInfoThriftDTO.setAgentHashCode(agentHashCde);
+  String agentId="agentId";
+  jvmInfoThriftDTO.setAgentId(agentId);
   byte[] serialize=serializer.serialize(header,jvmInfoThriftDTO);
   dump(serialize);
   HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
@@ -14,5 +14,5 @@
   JVMInfoThriftDTO deserialize=(JVMInfoThriftDTO)deserializer.deserialize(locator,serialize);
   logger.info("deserialize:" + deserialize.getClass());
   Assert.assertEquals(deserialize.getActiveThreadCount(),activeThreadount);
-  Assert.assertEquals(deserialize.getAgentHashCode(),agentHashCde);
+  Assert.assertEquals(deserialize.getAgentId(),agentId);
 }
