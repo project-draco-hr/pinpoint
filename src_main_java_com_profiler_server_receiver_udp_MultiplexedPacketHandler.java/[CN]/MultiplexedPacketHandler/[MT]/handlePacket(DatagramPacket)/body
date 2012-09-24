@@ -1,8 +1,8 @@
 {
   HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
   try {
-    TBase<?,?> tBase=deserializer.deserialize(locator,datagramPacket.getData());
-    dispatch(tBase,datagramPacket);
+    TBase<?,?> tBase=deserializer.deserialize(locator,packet.getData());
+    dispatch(tBase,packet);
   }
  catch (  TException e) {
     logger.warn("packet serialize error " + e.getMessage(),e);
