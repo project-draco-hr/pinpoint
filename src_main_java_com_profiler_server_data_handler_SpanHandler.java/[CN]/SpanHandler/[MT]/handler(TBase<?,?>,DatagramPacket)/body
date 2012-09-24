@@ -2,6 +2,8 @@
   assert(tbase instanceof Span);
   try {
     Span span=(Span)tbase;
+    System.out.println(trace);
+    System.out.println(traceIndex);
     trace.insert(span);
     traceIndex.insert(span);
     if (logger.isInfoEnabled()) {
@@ -9,6 +11,6 @@
     }
   }
  catch (  Exception e) {
-    logger.warn("ReadJVMData handle error " + e.getMessage(),e);
+    logger.warn("Span handle error " + e.getMessage(),e);
   }
 }

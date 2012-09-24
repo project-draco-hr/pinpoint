@@ -1,9 +1,9 @@
 {
   if (tBase instanceof JVMInfoThriftDTO) {
-    return context.getBean(SpringConstants.JVM_DATA_READER_BEAN_NAME,Reader.class);
+    return context.getBean(SpringConstants.JVM_DATA_READER_BEAN_NAME,Handler.class);
   }
   if (tBase instanceof Span) {
-    return context.getBean(SpringConstants.SPAN_READER_BEAN_NAME,Reader.class);
+    return context.getBean(SpringConstants.SPAN_READER_BEAN_NAME,Handler.class);
   }
   logger.warn("Unknown type of data received. data=" + tBase);
   throw new UnsupportedOperationException();
