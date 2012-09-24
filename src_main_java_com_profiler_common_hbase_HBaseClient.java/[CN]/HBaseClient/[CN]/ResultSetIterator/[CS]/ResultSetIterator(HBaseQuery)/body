@@ -3,9 +3,6 @@
     byte[] startRow=query.getStartRow();
     byte[] stopRow=query.getStopRow();
     String tableName=query.getTableName();
-    System.out.println("startRow=" + startRow);
-    System.out.println("stopRow=" + stopRow);
-    System.out.println("tableName=" + tableName);
     columns=query.getColumns();
     HTableInterface htable=getHTable(tableName);
     if (query.isSingleRow()) {
@@ -45,14 +42,14 @@
     throw new RuntimeException("UNable to execute SCANNER : " + query,e);
   }
   if (!resultIterator.hasNext()) {
-    rSetIterator=new ArrayList<Map<String,Object>>().iterator();
+    rSetIterator=new ArrayList<Map<String,byte[]>>().iterator();
     return;
   }
-  rSetIterator=new Iterator<Map<String,Object>>(){
+  rSetIterator=new Iterator<Map<String,byte[]>>(){
     public boolean hasNext(){
       return hasnext();
     }
-    public Map<String,Object> next(){
+    public Map<String,byte[]> next(){
       return getARow();
     }
     public void remove(){

@@ -1,8 +1,7 @@
 {
   if (resultIterator == null)   return null;
   Result res=resultIterator.next();
-  System.out.println("next=" + res);
-  Map<String,Object> result=new HashMap<String,Object>();
+  Map<String,byte[]> result=new HashMap<String,byte[]>();
   if (!res.isEmpty()) {
     byte[] value;
     if (columns != null) {
@@ -12,15 +11,10 @@
         if (value == null) {
           continue;
         }
-        if (!convertType) {
-          result.put(colName,Bytes.toString(value));
-          continue;
-        }
-        addConvertedType(value,colName,result);
+        result.put(colName,value);
       }
     }
     value=res.getRow();
-    addConvertedType(value,HBASE_ROW_ID,result);
   }
   return result;
 }
