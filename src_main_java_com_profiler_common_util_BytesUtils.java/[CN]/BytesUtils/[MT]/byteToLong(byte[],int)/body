@@ -1,0 +1,11 @@
+{
+  if (b.length < offset + 8) {
+    throw new IllegalArgumentException("Illegal bytes or offset.");
+  }
+  long rv=0;
+  for (int index=offset; index < offset + 8; index++) {
+    byte i=b[index];
+    rv=(rv << 8) | (i < 0 ? 256 + i : i);
+  }
+  return rv;
+}

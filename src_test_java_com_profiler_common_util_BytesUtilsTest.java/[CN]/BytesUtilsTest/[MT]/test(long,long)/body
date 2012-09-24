@@ -3,5 +3,8 @@
   byte[] bytes2=Bytes.toBytes(least);
   byte[] add=Bytes.add(bytes1,bytes2);
   byte[] bytes=BytesUtils.longLongToBytes(most,least);
+  long[] org=BytesUtils.bytesToLongLong(bytes);
+  Assert.assertEquals(most,org[0]);
+  Assert.assertEquals(least,org[1]);
   Assert.assertArrayEquals(add,bytes);
 }
