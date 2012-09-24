@@ -1,0 +1,15 @@
+{
+  List<HbaseColumn> column=new ArrayList<HBaseQuery.HbaseColumn>();
+  column.add(new HbaseColumn("Trace","ID"));
+  List<byte[]> list=new ArrayList<byte[]>();
+  for (  String agentId : agentIds) {
+    byte[] s=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(from));
+    byte[] e=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(to));
+    HBaseQuery query=new HBaseQuery(HBaseTables.TRACE_INDEX,s,e,column);
+    Iterator<Map<String,byte[]>> result=client.getHBaseData(query);
+    while (result.hasNext()) {
+      list.add(result.next().get("ID"));
+    }
+  }
+  return list;
+}

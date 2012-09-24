@@ -2,9 +2,9 @@
   List<HbaseColumn> column=new ArrayList<HBaseQuery.HbaseColumn>();
   column.add(new HbaseColumn("Agents","AgentID"));
   HBaseQuery query=new HBaseQuery(HBaseTables.SERVERS,null,null,column);
-  Iterator<Map<String,Object>> iterator=client.getHBaseData(query);
+  Iterator<Map<String,byte[]>> iterator=client.getHBaseData(query);
   while (iterator.hasNext()) {
-    System.out.println(iterator.next());
+    System.out.println("selectedAgentId=" + iterator.next());
   }
   return null;
 }

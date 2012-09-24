@@ -1,8 +1,7 @@
 {
   String[] selectAgentIds=flow.selectAgentIds(hosts);
-  Iterator<Map<String,Object>> iterator=flow.selectTraces(hosts,from,to);
-  while (iterator.hasNext()) {
-    System.out.println(iterator.next());
-  }
+  System.out.println("selectedAgentIds=" + Arrays.toString(selectAgentIds));
+  List<byte[]> iterator=flow.selectTraceIdsFromTraceIndex(hosts,from,to);
+  flow.selectTraces(iterator);
   return "flow";
 }

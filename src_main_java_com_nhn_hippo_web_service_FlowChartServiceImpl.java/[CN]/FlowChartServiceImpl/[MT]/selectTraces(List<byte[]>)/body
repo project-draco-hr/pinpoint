@@ -1,0 +1,13 @@
+{
+  List<Get> gets=new ArrayList<Get>(traceIds.size());
+  for (  byte[] traceId : traceIds) {
+    gets.add(new Get(traceId));
+  }
+  Result[] results=client.get(HBaseTables.TRACES,gets);
+  Map<byte[],List<Span>> result=new HashMap<byte[],List<Span>>();
+  for (  Result r : results) {
+    result.put(r.getRow(),populateSpans(r));
+  }
+  System.out.println("result=" + result);
+  return result;
+}
