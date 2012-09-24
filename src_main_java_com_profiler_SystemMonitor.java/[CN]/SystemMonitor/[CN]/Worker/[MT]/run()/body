@@ -1,14 +1,17 @@
 {
+  JVMInfoThriftDTO jvmInfo=new JVMInfoThriftDTO();
   try {
-    currentDto=new JVMInfoThriftDTO();
-    currentDto.setAgentId(Agent.getInstance().getAgentId());
-    currentDto.setDataTime(System.currentTimeMillis());
-    getActiveThreadCount();
-    getGCState();
-    getMemoryState();
-    getProcessCPUUsage();
-    DataSender.getInstance().addDataToSend(currentDto);
+    jvmInfo=new JVMInfoThriftDTO();
+    jvmInfo.setAgentId(Agent.getInstance().getAgentId());
+    jvmInfo.setDataTime(System.currentTimeMillis());
+    TraceContext traceContext=TraceContext.getTraceContext();
+    activeThread(traceContext,jvmInfo);
+    setGCState(jvmInfo);
+    setMemoryState(jvmInfo);
+    setProcessCPUUsage(jvmInfo);
+    DataSender.getInstance().addDataToSend(jvmInfo);
   }
  catch (  Exception e) {
+    logger.log(Level.INFO,"JvmInfo collect error Cause:" + e.getMessage(),e);
   }
 }

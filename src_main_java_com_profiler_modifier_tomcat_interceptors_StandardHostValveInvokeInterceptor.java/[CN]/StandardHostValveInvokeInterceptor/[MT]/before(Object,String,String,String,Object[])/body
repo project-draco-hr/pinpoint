@@ -1,0 +1,35 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
+  }
+  try {
+    TraceContext traceContext=TraceContext.getTraceContext();
+    traceContext.getActiveThreadCounter().start();
+    HttpServletRequest request=(HttpServletRequest)args[0];
+    String requestURL=request.getRequestURI();
+    String clientIP=request.getRemoteAddr();
+    String parameters=getRequestParameter(request);
+    TraceID traceId=populateTraceIdFromRequest(request);
+    if (traceId != null) {
+      Trace.setTraceId(traceId);
+    }
+ else {
+      TraceID newTraceID=TraceID.newTraceId();
+      if (logger.isLoggable(Level.INFO)) {
+        logger.info("TraceID not exist. start new trace. " + newTraceID);
+        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
+      }
+      Trace.setTraceId(newTraceID);
+    }
+    Trace.recordRpcName("tomcat",requestURL);
+    Trace.recordEndPoint(request.getLocalAddr(),request.getLocalPort());
+    Trace.recordAttibute("http.params",parameters);
+    Trace.record(Annotation.ServerRecv);
+    StopWatch.start("StandardHostValveInvokeInterceptor-starttime");
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,"Tomcat StandardHostValve trace start fail",e);
+    }
+  }
+}

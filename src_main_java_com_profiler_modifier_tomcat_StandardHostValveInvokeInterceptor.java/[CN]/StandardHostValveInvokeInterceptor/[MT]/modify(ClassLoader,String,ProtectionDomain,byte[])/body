@@ -1,0 +1,18 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  addRequiredCladdToCurrentClassLoader(classLoader);
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
+  try {
+    Interceptor interceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.tomcat.interceptors.StandardHostValveInvokeInterceptor");
+    InstrumentClass standardHostValve=byteCodeInstrumentor.getClass(javassistClassName);
+    standardHostValve.addInterceptor("invoke",new String[]{"org.apache.catalina.connector.Request","org.apache.catalina.connector.Response"},interceptor);
+    return standardHostValve.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.log(Level.WARNING,"modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  List<GarbageCollectorMXBean> list=ManagementFactory.getGarbageCollectorMXBeans();
+  if (list.size() == 2) {
+    GarbageCollectorMXBean young=list.get(0);
+    jvmInfo.setGc1Count(young.getCollectionCount());
+    jvmInfo.setGc1Time(young.getCollectionTime());
+    GarbageCollectorMXBean old=list.get(1);
+    jvmInfo.setGc2Count(old.getCollectionCount());
+    jvmInfo.setGc2Time(old.getCollectionTime());
+  }
+ else {
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("unknown gc type. gc collector size:" + list.size());
+    }
+  }
+}

@@ -10,7 +10,7 @@
   when(request.getHeader(Header.HTTP_FLAGS.toString())).thenReturn("0");
   Enumeration<?> enumeration=mock(Enumeration.class);
   when(request.getParameterNames()).thenReturn(enumeration);
-  InvokeMethodInterceptor interceptor=new InvokeMethodInterceptor();
+  StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor();
   interceptor.before("target","classname","methodname",null,new Object[]{request,response});
   interceptor.after("target","classname","methodname",null,new Object[]{request,response},new Object());
   interceptor.before("target","classname","methodname",null,new Object[]{request,response});

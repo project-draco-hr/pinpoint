@@ -1,0 +1,9 @@
+{
+  MemoryMXBean bean=ManagementFactory.getMemoryMXBean();
+  MemoryUsage heap=bean.getHeapMemoryUsage();
+  MemoryUsage nonHeap=bean.getNonHeapMemoryUsage();
+  jvmInfo.setHeapUsed(heap.getUsed());
+  jvmInfo.setHeapCommitted(heap.getCommitted());
+  jvmInfo.setNonHeapUsed(nonHeap.getUsed());
+  jvmInfo.setNonHeapCommitted(nonHeap.getCommitted());
+}
