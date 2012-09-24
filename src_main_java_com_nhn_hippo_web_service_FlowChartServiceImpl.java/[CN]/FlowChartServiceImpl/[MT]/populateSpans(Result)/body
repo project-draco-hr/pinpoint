@@ -1,5 +1,6 @@
 {
   List<Span> list=new ArrayList<Span>();
+  TDeserializer deserializer=new TDeserializer();
   NavigableMap<byte[],NavigableMap<byte[],NavigableMap<Long,byte[]>>> map=res.getMap();
   for (  Entry<byte[],NavigableMap<byte[],NavigableMap<Long,byte[]>>> entry : map.entrySet()) {
     byte[] family=entry.getKey();
@@ -12,7 +13,7 @@
       for (      Entry<Long,byte[]> v : valueSeries.entrySet()) {
         Span span=new Span();
         try {
-          new TDeserializer().deserialize(span,v.getValue());
+          deserializer.deserialize(span,v.getValue());
           list.add(span);
         }
  catch (        TException e) {
