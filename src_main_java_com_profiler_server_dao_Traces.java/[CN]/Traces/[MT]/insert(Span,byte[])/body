@@ -1,10 +1,9 @@
 {
   try {
-    final byte[] value=new TSerializer().serialize(span);
     hbaseTemplate.execute(HBaseTables.TRACES,new TableCallback<Object>(){
       @Override public Object doInTable(      HTable table) throws Throwable {
         Put put=new Put(SpanUtils.getTracesRowkey(span),span.getTimestamp());
-        put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),value);
+        put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),spanBytes);
         table.put(put);
         return null;
       }

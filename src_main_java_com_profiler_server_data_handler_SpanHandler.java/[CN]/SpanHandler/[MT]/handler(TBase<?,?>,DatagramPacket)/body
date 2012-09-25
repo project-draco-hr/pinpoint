@@ -2,7 +2,8 @@
   assert(tbase instanceof Span);
   try {
     Span span=(Span)tbase;
-    trace.insert(span);
+    byte[] spanBytes=PacketUtils.sliceData(datagramPacket,Header.HEADER_SIZE);
+    trace.insert(span,spanBytes);
     traceIndex.insert(span);
     if (logger.isInfoEnabled()) {
       logger.info("Received SPAN=" + span);

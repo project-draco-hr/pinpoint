@@ -1,0 +1,11 @@
+{
+  JVMInfoThriftDTO jvmInfoThriftDTO=new JVMInfoThriftDTO();
+  jvmInfoThriftDTO.setAgentId("test");
+  jvmInfoThriftDTO.setDataTime(System.currentTimeMillis());
+  HbaseJvmInfoDao jvm=new HbaseJvmInfoDao();
+  byte[] rowKey=jvm.getRowKey(jvmInfoThriftDTO);
+  byte[] tests=Bytes.toBytes("test");
+  long dataTime=jvmInfoThriftDTO.getDataTime();
+  Assert.assertArrayEquals(Arrays.copyOfRange(rowKey,0,tests.length),tests);
+  Assert.assertArrayEquals(Arrays.copyOfRange(rowKey,tests.length,tests.length + 8),Bytes.toBytes(dataTime));
+}
