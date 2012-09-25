@@ -16,22 +16,25 @@
   if (struct.isSetName()) {
     optionals.set(4);
   }
-  if (struct.isSetSpanID()) {
+  if (struct.isSetServiceName()) {
     optionals.set(5);
   }
-  if (struct.isSetParentSpanId()) {
+  if (struct.isSetSpanID()) {
     optionals.set(6);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetParentSpanId()) {
     optionals.set(7);
   }
-  if (struct.isSetBinaryAnnotations()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(8);
   }
-  if (struct.isSetFlag()) {
+  if (struct.isSetBinaryAnnotations()) {
     optionals.set(9);
   }
-  oprot.writeBitSet(optionals,10);
+  if (struct.isSetFlag()) {
+    optionals.set(10);
+  }
+  oprot.writeBitSet(optionals,11);
   if (struct.isSetAgentID()) {
     oprot.writeString(struct.agentID);
   }
@@ -46,6 +49,9 @@
   }
   if (struct.isSetName()) {
     oprot.writeString(struct.name);
+  }
+  if (struct.isSetServiceName()) {
+    oprot.writeString(struct.serviceName);
   }
   if (struct.isSetSpanID()) {
     oprot.writeI64(struct.spanID);
