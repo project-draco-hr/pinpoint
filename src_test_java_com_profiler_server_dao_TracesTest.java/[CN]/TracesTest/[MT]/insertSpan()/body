@@ -1,14 +1,7 @@
 {
   final Span span=createSpan();
   traceIndex.insert(span);
-  Result result=hbaseOperations.execute(traceIndex.getTableName(),new TableCallback<Result>(){
-    @Override public Result doInTable(    HTable table) throws Throwable {
-      byte[] s=ArrayUtils.addAll(Bytes.toBytes(span.getAgentID()),Bytes.toBytes(span.getTimestamp()));
-      Get get=new Get(s);
-      get.addColumn(Bytes.toBytes("Trace"),Bytes.toBytes("ID"));
-      return table.get(get);
-    }
-  }
-);
-  Assert.assertArrayEquals(SpanUtils.getTraceId(span),result.value());
+  byte[] s=ArrayUtils.addAll(Bytes.toBytes(span.getAgentID()),Bytes.toBytes(span.getTimestamp()));
+  byte[] result=hbaseOperations.get(traceIndex.getTableName(),s,Bytes.toBytes("Trace"),Bytes.toBytes("ID"),valueRowMapper);
+  Assert.assertArrayEquals(SpanUtils.getTraceId(span),result);
 }

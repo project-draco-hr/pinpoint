@@ -5,15 +5,7 @@
   TSerializer tSerializer=new TSerializer();
   byte[] bytes=tSerializer.serialize(jvmInfoThriftDTO);
   hbaseJvmInfoDao.insert(jvmInfoThriftDTO,bytes);
-  byte[] execute=hbaseOperations.execute("SystemInfo",new TableCallback<byte[]>(){
-    @Override public byte[] doInTable(    HTable table) throws Throwable {
-      byte[] rowKey=hbaseJvmInfoDao.getRowKey(jvmInfoThriftDTO);
-      Get get=new Get(rowKey);
-      get.addColumn(Bytes.toBytes("JVM"),Bytes.toBytes("info"));
-      Result result=table.get(get);
-      return result.value();
-    }
-  }
-);
+  byte[] rowKey=hbaseJvmInfoDao.getRowKey(jvmInfoThriftDTO);
+  byte[] execute=hbaseOperations.get("SystemInfo",rowKey,Bytes.toBytes("JVM"),Bytes.toBytes("info"),valueRowMapper);
   Assert.assertArrayEquals(execute,bytes);
 }
