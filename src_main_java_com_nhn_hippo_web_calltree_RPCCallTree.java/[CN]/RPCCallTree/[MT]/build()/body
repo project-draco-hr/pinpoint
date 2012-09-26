@@ -1,0 +1,25 @@
+{
+  if (isBuilt)   return this;
+  int i=0;
+  for (  Entry<String,RPC> entry : rpcs.entrySet()) {
+    entry.getValue().setSequence(i++);
+  }
+  for (  Span span : spans) {
+    String from=String.valueOf(span.getParentSpanId());
+    String to=String.valueOf(span.getSpanID());
+    RPC fromRPC=rpcs.get(spanIdToRPCId.get(from));
+    RPC toRPC=rpcs.get(spanIdToRPCId.get(to));
+    if (fromRPC == null) {
+      fromRPC=rpcs.get(spanIdToRPCId.get(PREFIX_CLIENT + to));
+    }
+    Request request=new Request(fromRPC,toRPC);
+    if (requests.containsKey(request.getId())) {
+      requests.get(request.getId()).increaseCallCount();
+    }
+ else {
+      requests.put(request.getId(),request);
+    }
+  }
+  isBuilt=true;
+  return this;
+}

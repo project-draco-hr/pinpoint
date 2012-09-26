@@ -1,0 +1,14 @@
+{
+  System.out.println("Add span to calltree=" + span + "\n");
+  RPC rpc=new RPC(span.getAgentID(),span.getServiceName(),span.getName());
+  if (!rpcs.containsKey(rpc.getId())) {
+    rpcs.put(rpc.getId(),rpc);
+  }
+  spanIdToRPCId.put(String.valueOf(span.getSpanID()),rpc.getId());
+  if (span.getParentSpanId() == -1) {
+    RPC client=new RPC(PREFIX_CLIENT + span.getAgentID(),span.getServiceName(),span.getName());
+    rpcs.put(client.getId(),client);
+    spanIdToRPCId.put(PREFIX_CLIENT + span.getSpanID(),client.getId());
+  }
+  spans.add(span);
+}
