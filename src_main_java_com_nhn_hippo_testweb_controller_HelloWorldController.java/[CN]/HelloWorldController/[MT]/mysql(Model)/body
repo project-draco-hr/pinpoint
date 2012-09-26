@@ -1,6 +1,18 @@
 {
   int id=(new Random()).nextInt();
-  setDataIntoArcus();
-  setDataIntoArcus();
+  Member member=new Member();
+  member.setId(id);
+  member.setName("chisu");
+  member.setJoined(new Date());
+  System.out.println("before service.add");
+  service.add(member);
+  System.out.println("after service.add");
+  System.out.println("before service.list");
+  List<Member> list=service.list();
+  System.out.println("after service.list");
+  System.out.println("before invoke.http");
+  HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
+  String executeToBloc=client.executeToBloc("http://localhost:9080/arcus.hippo?id=" + id,new HashMap<String,Object>());
+  System.out.println("after invoke.http");
   return "helloworld";
 }
