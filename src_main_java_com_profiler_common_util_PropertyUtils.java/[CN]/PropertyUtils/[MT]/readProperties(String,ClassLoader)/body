@@ -2,15 +2,12 @@
   Properties properties=new Properties();
   InputStream stream=cl.getResourceAsStream(propertyName);
   if (stream == null) {
-    throw new RuntimeException(propertyName + " not found.");
+    throw new FileNotFoundException(propertyName + " not found.");
   }
   try {
     properties.load(stream);
   }
- catch (  IOException e) {
-    throw new RuntimeException(propertyName + " load fail. Cause:" + e.getMessage(),e);
-  }
- finally {
+  finally {
     try {
       stream.close();
     }
