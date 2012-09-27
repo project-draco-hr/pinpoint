@@ -1,0 +1,9 @@
+{
+  this.agentArgString=agentArgs;
+  this.profilerConfig=profilerConfig;
+  this.instrumentation=inst;
+  this.instrumentation.addTransformer(this);
+  String[] paths=getTomcatlibPath();
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths);
+  this.modifierRepository=createModifierRegistry(byteCodeInstrumentor);
+}

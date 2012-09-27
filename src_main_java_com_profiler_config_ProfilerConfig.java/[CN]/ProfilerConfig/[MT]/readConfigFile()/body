@@ -1,0 +1,23 @@
+{
+  String hippoConfigFileName=System.getProperty("hippo.config");
+  if (hippoConfigFileName == null) {
+    logger.info("hippo.config property is not set. Using default property file(\"hippo.config\")");
+    hippoConfigFileName="hippo.config";
+  }
+  try {
+    Properties properties=PropertyUtils.readProperties(hippoConfigFileName);
+    readPropertyValues(properties);
+  }
+ catch (  FileNotFoundException fe) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,hippoConfigFileName + " file is not exists. Please check configuration. Cause:" + fe.getMessage(),fe);
+    }
+    throw fe;
+  }
+catch (  IOException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,hippoConfigFileName + " file read error. Cause:" + e.getMessage(),e);
+    }
+    throw e;
+  }
+}

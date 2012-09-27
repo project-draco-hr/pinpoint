@@ -1,7 +1,20 @@
 {
-  addMySqlDriver();
-  addMsSqlDriver();
-  addOracleDriver();
-  addCubridDriver();
-  addDbcpDriver();
+  if (!profilerConfig.isJdbcProfile()) {
+    return;
+  }
+  if (profilerConfig.isJdbcProfileMySql()) {
+    addMySqlDriver();
+  }
+  if (profilerConfig.isJdbcProfileMsSql()) {
+    addMsSqlDriver();
+  }
+  if (profilerConfig.isJdbcProfileOracle()) {
+    addOracleDriver();
+  }
+  if (profilerConfig.isJdbcProfileCubrid()) {
+    addCubridDriver();
+  }
+  if (profilerConfig.isJdbcProfileDbcp()) {
+    addDbcpDriver();
+  }
 }

@@ -1,4 +1,10 @@
 {
-  TomcatProfilerConfig tomcatProfilerConfig=TomcatProfilerConfig.readConfigFile();
-  new TomcatProfiler(agentArgs,inst,tomcatProfilerConfig);
+  try {
+    ProfilerConfig profilerConfig=new ProfilerConfig();
+    profilerConfig.readConfigFile();
+    new TomcatProfiler(agentArgs,inst,profilerConfig);
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,"Profiler Agent start fail. Cause:" + e.getMessage(),e);
+  }
 }

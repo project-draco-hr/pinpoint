@@ -4,7 +4,7 @@
     for (    CtConstructor constructor : constructorList) {
       CtClass params[]=constructor.getParameterTypes();
       if (params.length == 3) {
-        constructor.insertBefore("{" + DatabaseRequestTracer.FQCN + ".putSqlQuery("+ TomcatProfilerConstant.REQ_DATA_TYPE_DB_QUERY+ ",$2); }");
+        constructor.insertBefore("{" + DatabaseRequestTracer.FQCN + ".putSqlQuery("+ ProfilerConstant.REQ_DATA_TYPE_DB_QUERY+ ",$2); }");
       }
     }
   }

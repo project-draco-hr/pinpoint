@@ -1,23 +1,23 @@
 {
   try {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("Trying to connect server. " + TomcatProfilerConfig.SERVER_IP + ":"+ TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT);
+      logger.info("Trying to connect server. " + ProfilerConfig.SERVER_IP + ":"+ ProfilerConfig.SERVER_TCP_LISTEN_PORT);
     }
-    requestSocket=new Socket(TomcatProfilerConfig.SERVER_IP,TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT);
+    requestSocket=new Socket(ProfilerConfig.SERVER_IP,ProfilerConfig.SERVER_TCP_LISTEN_PORT);
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("Connected to server. " + TomcatProfilerConfig.SERVER_IP + ":"+ TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT);
+      logger.info("Connected to server. " + ProfilerConfig.SERVER_IP + ":"+ ProfilerConfig.SERVER_TCP_LISTEN_PORT);
     }
     return false;
   }
  catch (  java.net.ConnectException ce) {
     if (logger.isLoggable(Level.SEVERE)) {
-      logger.log(Level.SEVERE,"Connect to TomcatProfiler server is failed. " + TomcatProfilerConfig.SERVER_IP + ":"+ TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT,ce);
+      logger.log(Level.SEVERE,"Connect to TomcatProfiler server is failed. " + ProfilerConfig.SERVER_IP + ":"+ ProfilerConfig.SERVER_TCP_LISTEN_PORT,ce);
     }
     return true;
   }
 catch (  Exception e) {
     if (logger.isLoggable(Level.SEVERE)) {
-      logger.log(Level.SEVERE,"Connect to TomcatProfiler server is failed. " + TomcatProfilerConfig.SERVER_IP + ":"+ TomcatProfilerConfig.SERVER_TCP_LISTEN_PORT,e);
+      logger.log(Level.SEVERE,"Connect to TomcatProfiler server is failed. " + ProfilerConfig.SERVER_IP + ":"+ ProfilerConfig.SERVER_TCP_LISTEN_PORT,e);
     }
     return true;
   }

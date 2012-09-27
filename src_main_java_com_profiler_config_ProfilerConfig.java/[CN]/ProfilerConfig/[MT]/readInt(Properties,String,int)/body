@@ -1,0 +1,14 @@
+{
+  String value=prop.getProperty(propertyName);
+  int result;
+  try {
+    result=Integer.parseInt(value);
+  }
+ catch (  NumberFormatException e) {
+    result=defaultValue;
+  }
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info(propertyName + "=" + result);
+  }
+  return result;
+}
