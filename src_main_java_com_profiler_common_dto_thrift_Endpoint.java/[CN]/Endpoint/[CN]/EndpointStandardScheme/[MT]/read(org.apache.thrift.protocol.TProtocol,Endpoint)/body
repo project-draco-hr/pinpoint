@@ -9,21 +9,30 @@
 switch (schemeField.id) {
 case 1:
       if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-        struct.ip=iprot.readString();
-        struct.setIpIsSet(true);
+        struct.protocol=iprot.readString();
+        struct.setProtocolIsSet(true);
       }
  else {
         org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
       }
     break;
 case 2:
-  if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
-    struct.port=iprot.readI16();
-    struct.setPortIsSet(true);
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+    struct.ip=iprot.readString();
+    struct.setIpIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+struct.port=iprot.readI16();
+struct.setPortIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
 break;
 default :
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);

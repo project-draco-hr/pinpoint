@@ -1,5 +1,11 @@
 {
   if (that == null)   return false;
+  boolean this_present_protocol=true && this.isSetProtocol();
+  boolean that_present_protocol=true && that.isSetProtocol();
+  if (this_present_protocol || that_present_protocol) {
+    if (!(this_present_protocol && that_present_protocol))     return false;
+    if (!this.protocol.equals(that.protocol))     return false;
+  }
   boolean this_present_ip=true && this.isSetIp();
   boolean that_present_ip=true && that.isSetIp();
   if (this_present_ip || that_present_ip) {

@@ -4,6 +4,16 @@
   }
   int lastComparison=0;
   Endpoint typedOther=(Endpoint)other;
+  lastComparison=Boolean.valueOf(isSetProtocol()).compareTo(typedOther.isSetProtocol());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetProtocol()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.protocol,typedOther.protocol);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
   lastComparison=Boolean.valueOf(isSetIp()).compareTo(typedOther.isSetIp());
   if (lastComparison != 0) {
     return lastComparison;

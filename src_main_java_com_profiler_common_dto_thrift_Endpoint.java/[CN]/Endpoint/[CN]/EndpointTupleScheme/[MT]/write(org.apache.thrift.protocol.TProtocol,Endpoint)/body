@@ -1,13 +1,19 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetIp()) {
+  if (struct.isSetProtocol()) {
     optionals.set(0);
   }
-  if (struct.isSetPort()) {
+  if (struct.isSetIp()) {
     optionals.set(1);
   }
-  oprot.writeBitSet(optionals,2);
+  if (struct.isSetPort()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetProtocol()) {
+    oprot.writeString(struct.protocol);
+  }
   if (struct.isSetIp()) {
     oprot.writeString(struct.ip);
   }

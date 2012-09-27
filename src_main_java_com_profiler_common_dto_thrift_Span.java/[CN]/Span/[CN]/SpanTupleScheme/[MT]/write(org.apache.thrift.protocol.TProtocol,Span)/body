@@ -34,7 +34,10 @@
   if (struct.isSetFlag()) {
     optionals.set(10);
   }
-  oprot.writeBitSet(optionals,11);
+  if (struct.isSetEndPoint()) {
+    optionals.set(11);
+  }
+  oprot.writeBitSet(optionals,12);
   if (struct.isSetAgentID()) {
     oprot.writeString(struct.agentID);
   }
@@ -77,5 +80,8 @@
   }
   if (struct.isSetFlag()) {
     oprot.writeI32(struct.flag);
+  }
+  if (struct.isSetEndPoint()) {
+    struct.endPoint.write(oprot);
   }
 }
