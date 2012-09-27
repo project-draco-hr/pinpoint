@@ -3,7 +3,7 @@
   try {
     mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
       @Override public Span updateSpan(      Span span){
-        span.setEndPoint(new EndPoint(ip,port));
+        span.setEndPoint(new EndPoint(protocol,ip,port));
         return span;
       }
     }
