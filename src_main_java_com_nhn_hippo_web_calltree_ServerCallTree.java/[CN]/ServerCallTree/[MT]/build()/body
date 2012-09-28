@@ -1,0 +1,25 @@
+{
+  if (isBuilt)   return this;
+  int i=0;
+  for (  Entry<String,Server> entry : servers.entrySet()) {
+    entry.getValue().setSequence(i++);
+  }
+  for (  Span span : spans) {
+    String from=String.valueOf(span.getParentSpanId());
+    String to=String.valueOf(span.getSpanID());
+    Server fromServer=servers.get(spanIdToServerId.get(from));
+    Server toServer=servers.get(spanIdToServerId.get(to));
+    if (fromServer == null) {
+      fromServer=servers.get(spanIdToServerId.get(PREFIX_CLIENT + to));
+    }
+    ServerRequest ServerRequest=new ServerRequest(fromServer,toServer);
+    if (ServerRequests.containsKey(ServerRequest.getId())) {
+      ServerRequests.get(ServerRequest.getId()).increaseCallCount();
+    }
+ else {
+      ServerRequests.put(ServerRequest.getId(),ServerRequest);
+    }
+  }
+  isBuilt=true;
+  return this;
+}

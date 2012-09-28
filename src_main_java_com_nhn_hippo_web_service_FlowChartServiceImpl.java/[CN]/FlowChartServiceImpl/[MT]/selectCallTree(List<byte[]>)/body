@@ -1,8 +1,0 @@
-{
-  List<Get> gets=new ArrayList<Get>(traceIds.size());
-  for (  byte[] traceId : traceIds) {
-    gets.add(new Get(traceId));
-  }
-  Result[] results=client.get(HBaseTables.TRACES,gets);
-  return TracesProcessor.process(results);
-}

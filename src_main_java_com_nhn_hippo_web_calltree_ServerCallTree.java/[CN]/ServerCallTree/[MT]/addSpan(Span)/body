@@ -1,0 +1,17 @@
+{
+  System.out.println("Add span to calltree=" + span + "\n");
+  Server Server=new Server(span.getAgentID(),span.getEndPoint());
+  if (Server.getId().contains("mysql:jdbc:") || Server.getId().contains("favicon")) {
+    return;
+  }
+  if (!servers.containsKey(Server.getId())) {
+    servers.put(Server.getId(),Server);
+  }
+  spanIdToServerId.put(String.valueOf(span.getSpanID()),Server.getId());
+  if (span.getParentSpanId() == -1) {
+    Server client=new Server(PREFIX_CLIENT + span.getAgentID(),span.getEndPoint());
+    servers.put(client.getId(),client);
+    spanIdToServerId.put(PREFIX_CLIENT + span.getSpanID(),client.getId());
+  }
+  spans.add(span);
+}

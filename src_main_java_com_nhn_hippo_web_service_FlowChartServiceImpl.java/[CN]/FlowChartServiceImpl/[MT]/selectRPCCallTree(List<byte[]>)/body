@@ -4,19 +4,12 @@
     gets.add(new Get(traceId));
   }
   Result[] results=client.get(HBaseTables.TRACES,gets);
-  final Map<byte[],List<Span>> result=new HashMap<byte[],List<Span>>();
+  final RPCCallTree tree=new RPCCallTree();
   TracesProcessor.process(results,new SpanHandler(){
     @Override public void handleSpan(    byte[] row,    byte[] family,    byte[] column,    Span span){
-      if (result.containsKey(row)) {
-        result.get(row).add(span);
-      }
- else {
-        List<Span> list=new ArrayList<Span>();
-        list.add(span);
-        result.put(row,list);
-      }
+      tree.addSpan(span);
     }
   }
 );
-  return result;
+  return tree.build();
 }
