@@ -1,3 +1,15 @@
 {
-  return readProperties(propertyName,PropertyUtils.class.getClassLoader());
+  Properties properties=new Properties();
+  FileReader fileReader=new FileReader(propertyPath);
+  try {
+    properties.load(fileReader);
+  }
+  finally {
+    try {
+      fileReader.close();
+    }
+ catch (    IOException e) {
+    }
+  }
+  return properties;
 }
