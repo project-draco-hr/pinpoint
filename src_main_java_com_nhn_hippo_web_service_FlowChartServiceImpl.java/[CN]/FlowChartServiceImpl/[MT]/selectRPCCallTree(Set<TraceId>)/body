@@ -1,7 +1,7 @@
 {
   List<Get> gets=new ArrayList<Get>(traceIds.size());
-  for (  byte[] traceId : traceIds) {
-    gets.add(new Get(traceId));
+  for (  TraceId traceId : traceIds) {
+    gets.add(new Get(traceId.getBytes()));
   }
   Result[] results=client.get(HBaseTables.TRACES,gets);
   final RPCCallTree tree=new RPCCallTree();

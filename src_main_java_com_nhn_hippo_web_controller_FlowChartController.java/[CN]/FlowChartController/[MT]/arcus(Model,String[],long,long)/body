@@ -1,10 +1,19 @@
 {
   String[] agentIds=flow.selectAgentIds(hosts);
-  List<byte[]> traceIds=flow.selectTraceIdsFromTraceIndex(agentIds,from,to);
+  System.out.println("");
+  System.out.println("--------------------------------------");
+  System.out.println("agentIds=" + Arrays.toString(agentIds));
+  Set<TraceId> traceIds=flow.selectTraceIdsFromTraceIndex(agentIds,from,to);
+  for (  TraceId tid : traceIds) {
+    System.out.println("traceIds=" + tid);
+  }
+  System.out.println("--------------------------------------");
+  System.out.println("");
   RPCCallTree callTree=flow.selectRPCCallTree(traceIds);
   model.addAttribute("nodes",callTree.getNodes());
   model.addAttribute("links",callTree.getLinks());
-  model.addAttribute("value","hello world");
+  System.out.println("");
+  System.out.println("--------------------------------------");
   System.out.println(callTree.toString());
   return "flow";
 }
