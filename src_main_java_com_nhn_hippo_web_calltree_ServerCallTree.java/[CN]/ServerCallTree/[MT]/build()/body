@@ -12,12 +12,15 @@
     if (fromServer == null) {
       fromServer=servers.get(spanIdToServerId.get(PREFIX_CLIENT + to));
     }
-    ServerRequest ServerRequest=new ServerRequest(fromServer,toServer);
-    if (ServerRequests.containsKey(ServerRequest.getId())) {
-      ServerRequests.get(ServerRequest.getId()).increaseCallCount();
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer);
+    if (serverRequest.isSelfCalled()) {
+      continue;
+    }
+    if (ServerRequests.containsKey(serverRequest.getId())) {
+      ServerRequests.get(serverRequest.getId()).increaseCallCount();
     }
  else {
-      ServerRequests.put(ServerRequest.getId(),ServerRequest);
+      ServerRequests.put(serverRequest.getId(),serverRequest);
     }
   }
   isBuilt=true;
