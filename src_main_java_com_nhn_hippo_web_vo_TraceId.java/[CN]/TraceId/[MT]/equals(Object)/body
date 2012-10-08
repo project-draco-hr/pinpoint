@@ -1,6 +1,8 @@
 {
-  if (traceId instanceof TraceId) {
-    return Arrays.equals(id,((TraceId)traceId).id);
-  }
-  return false;
+  if (this == obj)   return true;
+  if (obj == null)   return false;
+  if (getClass() != obj.getClass())   return false;
+  TraceId other=(TraceId)obj;
+  if (!Arrays.equals(id,other.id))   return false;
+  return true;
 }
