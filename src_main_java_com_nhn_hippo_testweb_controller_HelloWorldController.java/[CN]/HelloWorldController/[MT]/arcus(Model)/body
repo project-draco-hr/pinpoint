@@ -1,10 +1,10 @@
 {
   try {
-    System.out.println("before arcus.set");
     Future<Boolean> future=arcus.set("hippo:testkey",10,"Hello, Hippo.");
-    System.out.println("after arcus.set");
+    future.get(1000L,TimeUnit.MILLISECONDS);
   }
  catch (  Exception e) {
     e.printStackTrace();
   }
+  return "arcus";
 }
