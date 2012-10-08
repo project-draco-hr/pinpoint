@@ -1,5 +1,4 @@
 {
-  System.out.println("\n\n\n\nINVOKE HTTP START ----------------------------------------------------------------------------------------------------------------------------------------------------");
   final HttpHost host=(HttpHost)args[0];
   final HttpRequest request=(HttpRequest)args[1];
   try {
@@ -10,8 +9,8 @@
     request.addHeader(Header.HTTP_PARENT_SPAN_ID.toString(),Long.toString(nextId.getParentSpanId()));
     request.addHeader(Header.HTTP_SAMPLED.toString(),String.valueOf(nextId.isSampled()));
     request.addHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
-    Trace.recordRpcName("http-call","");
-    Trace.recordEndPoint("http:" + host.getHostName() + ":"+ host.getPort());
+    Trace.recordRpcName(request.getProtocolVersion().toString(),request.toString());
+    Trace.recordEndPoint(request.getProtocolVersion().toString() + ":" + host.getHostName()+ ":"+ host.getPort());
     Trace.recordAttibute("http.url",request.toString());
     Trace.record(Annotation.ClientSend);
   }
