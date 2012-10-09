@@ -1,0 +1,16 @@
+{
+  if (!tracingEnabled)   return;
+  try {
+    mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
+      @Override public Span updateSpan(      Span span){
+        span.setEndPoint(endPoint);
+        span.setTerminal(isTerminal);
+        return span;
+      }
+    }
+);
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,e.getMessage(),e);
+  }
+}
