@@ -1,5 +1,5 @@
 {
-  Server Server=new Server(span.getAgentID(),span.getEndPoint());
+  Server Server=new Server(span.getAgentID(),span.getEndPoint(),span.isTerminal());
   if (Server.getId().contains("mysql:jdbc:") || Server.getId().contains("favicon")) {
     return;
   }
@@ -8,9 +8,9 @@
   }
   spanIdToServerId.put(String.valueOf(span.getSpanID()),Server.getId());
   if (span.getParentSpanId() == -1) {
-    Server client=new Server(PREFIX_CLIENT + span.getAgentID(),span.getEndPoint());
-    servers.put(client.getId(),client);
-    spanIdToServerId.put(PREFIX_CLIENT + span.getSpanID(),client.getId());
+    businessTransaction.add(span);
   }
-  spans.add(span);
+ else {
+    spans.add(span);
+  }
 }
