@@ -1,5 +1,5 @@
 {
-  RPC rpc=new RPC(span.getAgentID(),span.getServiceName(),span.getName());
+  RPC rpc=new RPC(span.getAgentID(),span.getServiceName(),span.getName(),span.isTerminal());
   if (rpc.getId().contains("mysql:jdbc:") || rpc.getId().contains("favicon")) {
     return;
   }
@@ -8,7 +8,7 @@
   }
   spanIdToRPCId.put(String.valueOf(span.getSpanID()),rpc.getId());
   if (span.getParentSpanId() == -1) {
-    RPC client=new RPC(PREFIX_CLIENT + span.getAgentID(),span.getServiceName(),span.getName());
+    RPC client=new RPC(PREFIX_CLIENT + span.getAgentID(),span.getServiceName(),span.getName(),false);
     rpcs.put(client.getId(),client);
     spanIdToRPCId.put(PREFIX_CLIENT + span.getSpanID(),client.getId());
   }
