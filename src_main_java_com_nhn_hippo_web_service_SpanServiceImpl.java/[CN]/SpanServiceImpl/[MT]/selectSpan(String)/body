@@ -1,0 +1,12 @@
+{
+  UUID id=UUID.fromString(uuid);
+  List<Span> spans=traceDao.readSpan(id);
+  if (spans == null) {
+    return Collections.emptyList();
+  }
+  List<SpanAlign> order=order(spans);
+  if (order.size() != spans.size()) {
+    logger.info("span node not complete! ");
+  }
+  return order;
+}

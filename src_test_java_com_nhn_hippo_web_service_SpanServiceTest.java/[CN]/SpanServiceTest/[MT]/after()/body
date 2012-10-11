@@ -1,0 +1,9 @@
+{
+  List list=new LinkedList();
+  for (  Span span : deleteSpans) {
+    Delete delete=new Delete(SpanUtils.getTracesRowkey(span));
+    list.add(delete);
+  }
+  template2.delete(HBaseTables.TRACES,list);
+  deleteSpans.clear();
+}

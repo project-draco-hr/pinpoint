@@ -1,0 +1,11 @@
+{
+  Span root=this.spanIdMap.get(SPAN_ROOT);
+  if (root == null) {
+    logger.info("root span not found. {}",spans);
+    throw new IllegalStateException("root span not found");
+  }
+  if (root.getParentSpanId() == -1) {
+    logger.info("invalid root span. parentSpanId not -1 {}",root);
+  }
+  return root;
+}

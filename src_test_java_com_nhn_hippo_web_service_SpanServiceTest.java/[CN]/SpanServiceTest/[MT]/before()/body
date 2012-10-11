@@ -1,0 +1,23 @@
+{
+  Span span=createSpan();
+  logger.debug("uuid:{}",new UUID(span.getMostTraceID(),span.getLeastTraceID()));
+  insert(span);
+  deleteSpans.add(span);
+  Span subSpan1=createSubSpan(span);
+  insert(subSpan1);
+  deleteSpans.add(subSpan1);
+  Span subSpan1_2=createSubSpan(span);
+  insert(subSpan1_2);
+  deleteSpans.add(subSpan1_2);
+  Span subSpan2=createSubSpan(subSpan1);
+  insert(subSpan2);
+  deleteSpans.add(subSpan2);
+  Span subSpan3=createSubSpan(subSpan1);
+  insert(subSpan3);
+  deleteSpans.add(subSpan3);
+  root=span;
+  logger.info(subSpan1.toString());
+  logger.info(subSpan1_2.toString());
+  logger.info(subSpan2.toString());
+  logger.info(subSpan3.toString());
+}

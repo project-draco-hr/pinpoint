@@ -1,0 +1,10 @@
+{
+  UUID uuid=UUID.randomUUID();
+  List<Annotation> ano=Collections.emptyList();
+  List<BinaryAnnotation> bano=Collections.emptyList();
+  long time=System.currentTimeMillis();
+  int andIncrement=id.getAndIncrement();
+  Span span=new Span("UnitTest",time,uuid.getMostSignificantBits(),uuid.getLeastSignificantBits(),"test","rpc" + andIncrement,andIncrement,ano,bano,"protocol:ip:port",false);
+  span.setParentSpanId(-1);
+  return span;
+}

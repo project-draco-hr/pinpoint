@@ -1,0 +1,9 @@
+{
+  List<Span> child=this.parentSpanIdMap.get(parent.getSpanID());
+  if (child == null) {
+    return null;
+  }
+  this.parentSpanIdMap.remove(parent.getSpanID());
+  Collections.sort(child,timeComparator);
+  return child;
+}

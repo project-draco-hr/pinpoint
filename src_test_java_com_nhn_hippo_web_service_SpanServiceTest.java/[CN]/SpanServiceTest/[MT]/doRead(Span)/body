@@ -1,0 +1,7 @@
+{
+  UUID uuid=new UUID(span.getMostTraceID(),span.getLeastTraceID());
+  List<SpanAlign> sort=spanService.selectSpan(uuid.toString());
+  for (  SpanAlign spanAlign : sort) {
+    logger.info("depth:{} {}",spanAlign.getDepth(),spanAlign.getSpan());
+  }
+}

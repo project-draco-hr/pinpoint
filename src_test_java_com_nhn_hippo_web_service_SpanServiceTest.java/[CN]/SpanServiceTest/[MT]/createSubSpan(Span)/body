@@ -1,0 +1,9 @@
+{
+  List<Annotation> ano=Collections.emptyList();
+  List<BinaryAnnotation> bano=Collections.emptyList();
+  long time=System.currentTimeMillis();
+  int andIncrement=id.getAndIncrement();
+  Span sub=new Span("UnitTest",time,span.getMostTraceID(),span.getLeastTraceID(),"test","rpc" + andIncrement,andIncrement,ano,bano,"protocol:ip:port",false);
+  sub.setParentSpanId(span.getSpanID());
+  return sub;
+}

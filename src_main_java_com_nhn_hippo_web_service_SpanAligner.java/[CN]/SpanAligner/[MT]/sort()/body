@@ -1,0 +1,10 @@
+{
+  buildIndex();
+  List<SpanAlign> result=new ArrayList<SpanAlign>(spans.size());
+  Span root=findRoot();
+  result.add(new SpanAlign(0,root));
+  logger.debug("find root {}",root);
+  List<Span> next=nextSpan(root);
+  doNext(next,result);
+  return result;
+}
