@@ -1,4 +1,8 @@
 {
-  List<SpanAlign> spanAligns=spanService.selectSpan(uuid);
-  return new ModelAndView("selectTransaction","span",spanAligns);
+  logger.debug("traceId:{}",traceId);
+  List<SpanAlign> spanAligns=spanService.selectSpan(traceId);
+  ModelAndView mv=new ModelAndView("selectTransaction");
+  mv.addObject("spanList",spanAligns);
+  mv.addObject("traceId",traceId);
+  return mv;
 }

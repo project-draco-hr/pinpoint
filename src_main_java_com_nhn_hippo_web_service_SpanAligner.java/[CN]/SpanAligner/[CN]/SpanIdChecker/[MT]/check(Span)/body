@@ -1,0 +1,7 @@
+{
+  Span before=spanCheck.put(span.getSpanID(),span);
+  if (before != null) {
+    deplicatedSpanIdDump(span);
+    throw new IllegalStateException("duplicated spanId. id:" + span.getSpanID());
+  }
+}

@@ -1,0 +1,9 @@
+{
+  List<Annotation> annotations=span.getAnnotations();
+  List<BinaryAnnotation> binaryAnnotations=span.getBinaryAnnotations();
+  for (  BinaryAnnotation binaryAnnotation : binaryAnnotations) {
+    Object decode=decode(binaryAnnotation);
+    Annotation annotation=new Annotation(binaryAnnotation.getTimestamp(),binaryAnnotation.getKey() + ":" + decode.toString());
+    annotations.add(annotation);
+  }
+}

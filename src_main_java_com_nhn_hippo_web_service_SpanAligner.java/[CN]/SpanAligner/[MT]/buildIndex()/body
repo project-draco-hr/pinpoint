@@ -1,12 +1,8 @@
 {
-  Map<Long,Span> spanIdMap=new HashMap<Long,Span>();
+  SpanIdChecker spanIdCheck=new SpanIdChecker(spans);
   Map<Long,List<Span>> parentSpanIdMap=new HashMap<Long,List<Span>>();
   for (  Span span : spans) {
-    Span spanId=spanIdMap.put(span.getSpanID(),span);
-    if (spanId != null) {
-      logger.info("duplicated spanId. {}",spans);
-      throw new IllegalStateException("duplicated spanId.");
-    }
+    spanIdCheck.check(span);
     long parentSpanId=span.getParentSpanId();
     List<Span> spanList=parentSpanIdMap.get(parentSpanId);
     if (spanList != null) {
@@ -19,6 +15,5 @@
     }
   }
   this.depth=0;
-  this.spanIdMap=spanIdMap;
   this.parentSpanIdMap=parentSpanIdMap;
 }

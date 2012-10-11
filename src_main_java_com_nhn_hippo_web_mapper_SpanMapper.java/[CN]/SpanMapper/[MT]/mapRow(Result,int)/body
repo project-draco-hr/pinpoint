@@ -1,10 +1,16 @@
 {
   NavigableMap<byte[],byte[]> familyMap=result.getFamilyMap(COLFAM_SPAN);
+  if (familyMap == null) {
+    return Collections.emptyList();
+  }
   List<Span> spanList=new ArrayList<Span>(familyMap.size());
+  TDeserializer de=new TDeserializer();
   for (  NavigableMap.Entry<byte[],byte[]> entry : familyMap.entrySet()) {
     Span span=new Span();
-    TDeserializer de=new TDeserializer();
     de.deserialize(span,entry.getValue());
+    if (binaryAnnotationDecoder != null) {
+      binaryAnnotationDecoder.decode(span);
+    }
     if (logger.isDebugEnabled()) {
       logger.debug("deserailze span :{}",span);
     }
