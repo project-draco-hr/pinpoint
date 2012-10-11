@@ -1,15 +1,10 @@
 {
-  List<Get> gets=new ArrayList<Get>(traceIds.size());
-  for (  TraceId traceId : traceIds) {
-    gets.add(new Get(traceId.getBytes()));
-  }
-  Result[] results=client.get(HBaseTables.TRACES,gets);
   final ServerCallTree tree=new ServerCallTree();
-  TracesProcessor.process(results,new SpanHandler(){
-    @Override public void handleSpan(    byte[] row,    byte[] family,    byte[] column,    Span span){
-      tree.addSpan(span);
+  List<List<Span>> traces=this.traceDao.selectSpans(traceIds);
+  for (  List<Span> transaction : traces) {
+    for (    Span eachTransaction : transaction) {
+      tree.addSpan(eachTransaction);
     }
   }
-);
   return tree.build();
 }
