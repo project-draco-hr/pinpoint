@@ -1,0 +1,19 @@
+{
+  return execute(tableName,new TableCallback<List<T>>(){
+    @Override public List<T> doInTable(    HTable htable) throws Throwable {
+      List<T> result=new ArrayList<T>(scans.size());
+      for (      Scan scan : scans) {
+        ResultScanner scanner=htable.getScanner(scan);
+        try {
+          T t=action.extractData(scanner);
+          result.add(t);
+        }
+  finally {
+          scanner.close();
+        }
+      }
+      return result;
+    }
+  }
+);
+}
