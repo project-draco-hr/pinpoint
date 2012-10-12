@@ -1,12 +1,5 @@
 {
-  try {
-    Put put=new Put(SpanUtils.getTracesRowkey(span),span.getTimestamp());
-    put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),spanBytes);
-    hbaseTemplate.put(HBaseTables.TRACES,put);
-    return true;
-  }
- catch (  Exception e) {
-    logger.error(e.getMessage(),e);
-  }
-  return false;
+  Put put=new Put(SpanUtils.getTracesRowkey(span),span.getTimestamp());
+  put.add(COLFAM_SPAN,Bytes.toBytes(span.getSpanID()),spanBytes);
+  hbaseTemplate.put(HBaseTables.TRACES,put);
 }
