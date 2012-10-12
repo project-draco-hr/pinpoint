@@ -1,0 +1,16 @@
+{
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
+  }
+  if (buf.length < 16) {
+    throw new IllegalArgumentException("buf.length is too small(16). buf.length:" + buf.length);
+  }
+  buf[8]=(byte)(value >> 56);
+  buf[9]=(byte)(value >> 48);
+  buf[10]=(byte)(value >> 40);
+  buf[11]=(byte)(value >> 32);
+  buf[12]=(byte)(value >> 24);
+  buf[13]=(byte)(value >> 16);
+  buf[14]=(byte)(value >> 8);
+  buf[15]=(byte)(value);
+}

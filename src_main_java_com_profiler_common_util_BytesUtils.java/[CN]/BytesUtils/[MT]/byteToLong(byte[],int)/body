@@ -1,11 +1,10 @@
 {
-  if (b.length < offset + 8) {
-    throw new IllegalArgumentException("Illegal bytes or offset.");
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
   }
-  long rv=0;
-  for (int index=offset; index < offset + 8; index++) {
-    byte i=b[index];
-    rv=(rv << 8) | (i < 0 ? 256 + i : i);
+  if (buf.length < offset + 8) {
+    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ offset+ 8);
   }
+  long rv=(((long)buf[offset] & 0xff) << 56) | (((long)buf[offset + 1] & 0xff) << 48) | (((long)buf[offset + 2] & 0xff) << 40)| (((long)buf[offset + 3] & 0xff) << 32)| (((long)buf[offset + 4] & 0xff) << 24)| (((long)buf[offset + 5] & 0xff) << 16)| (((long)buf[offset + 6] & 0xff) << 8)| (((long)buf[offset + 7] & 0xff));
   return rv;
 }
