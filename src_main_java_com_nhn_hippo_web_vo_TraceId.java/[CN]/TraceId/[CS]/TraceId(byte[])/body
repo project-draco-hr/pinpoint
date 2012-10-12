@@ -2,10 +2,10 @@
   if (traceId == null) {
     throw new NullPointerException("traceId");
   }
-  if (traceId.length < 8) {
+  if (traceId.length < 16) {
     throw new IllegalArgumentException("invalid traceId");
   }
   this.id=traceId;
-  this.most=BytesUtils.bytesToFirstLong(traceId);
-  this.least=BytesUtils.bytesToSecondLong(traceId);
+  this.most=BytesUtils.bytesToFirstLong(id);
+  this.least=BytesUtils.bytesToSecondLong(id);
 }

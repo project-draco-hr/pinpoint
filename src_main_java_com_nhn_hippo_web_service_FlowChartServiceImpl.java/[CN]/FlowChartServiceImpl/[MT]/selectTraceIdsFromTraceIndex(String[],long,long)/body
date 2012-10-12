@@ -1,15 +1,23 @@
 {
-  List<HbaseColumn> column=new ArrayList<HBaseQuery.HbaseColumn>();
-  column.add(new HbaseColumn("Trace","ID"));
-  Set<TraceId> set=new HashSet<TraceId>();
-  for (  String agentId : agentIds) {
-    byte[] s=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(from));
-    byte[] e=ArrayUtils.addAll(Bytes.toBytes(agentId),Bytes.toBytes(to));
-    HBaseQuery query=new HBaseQuery(HBaseTables.TRACE_INDEX,s,e,column);
-    Iterator<Map<String,byte[]>> result=client.getHBaseData(query);
-    while (result.hasNext()) {
-      set.add(new TraceId(result.next().get("ID")));
-    }
+  if (agentIds == null) {
+    throw new NullPointerException("agentIds");
   }
-  return set;
+  if (agentIds.length == 1) {
+    List<byte[]> bytes=this.traceIndexDao.scanTraceIndex(agentIds[0],from,to);
+    Set<TraceId> result=new HashSet<TraceId>();
+    for (    byte[] traceId : bytes) {
+      result.add(new TraceId(traceId));
+    }
+    return result;
+  }
+ else {
+    List<List<byte[]>> multiScan=this.traceIndexDao.multiScanTraceIndex(agentIds,from,to);
+    Set<TraceId> result=new HashSet<TraceId>();
+    for (    List<byte[]> scan : multiScan) {
+      for (      byte[] traceId : scan) {
+        result.add(new TraceId(traceId));
+      }
+    }
+    return result;
+  }
 }

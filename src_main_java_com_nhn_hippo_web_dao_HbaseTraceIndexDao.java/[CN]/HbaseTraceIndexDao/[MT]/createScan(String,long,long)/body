@@ -1,0 +1,12 @@
+{
+  byte[] bAgent=Bytes.toBytes(agent);
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  byte[] bStart=BytesUtils.add(bAgent,start);
+  scan.setStartRow(bStart);
+  byte[] bEnd=BytesUtils.add(bAgent,end);
+  scan.setStopRow(bEnd);
+  scan.addColumn(COLFAM_TRACE,COLNAME_ID);
+  logger.debug("create scan:{}",scan);
+  return scan;
+}
