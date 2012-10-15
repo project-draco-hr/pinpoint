@@ -1,0 +1,40 @@
+{
+  Object rv=null;
+  int flags=dataType & SPECIAL_MASK;
+  if ((dataType & SERIALIZED) != 0 && data != null) {
+    rv=deserialize(data);
+  }
+ else   if (flags != 0 && data != null) {
+switch (flags) {
+case SPECIAL_BOOLEAN:
+      rv=Boolean.valueOf(tu.decodeBoolean(data));
+    break;
+case SPECIAL_INT:
+  rv=new Integer(tu.decodeInt(data));
+break;
+case SPECIAL_LONG:
+rv=new Long(tu.decodeLong(data));
+break;
+case SPECIAL_DATE:
+rv=new Date(tu.decodeLong(data));
+break;
+case SPECIAL_BYTE:
+rv=new Byte(tu.decodeByte(data));
+break;
+case SPECIAL_FLOAT:
+rv=new Float(Float.intBitsToFloat(tu.decodeInt(data)));
+break;
+case SPECIAL_DOUBLE:
+rv=new Double(Double.longBitsToDouble(tu.decodeLong(data)));
+break;
+case SPECIAL_BYTEARRAY:
+rv=data;
+break;
+default :
+}
+}
+ else {
+rv=decodeString(data);
+}
+return rv;
+}

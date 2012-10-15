@@ -2,10 +2,14 @@
 switch (field) {
 case TIMESTAMP:
     return Long.valueOf(getTimestamp());
-case VALUE:
-  return getValue();
 case DURATION:
-return Long.valueOf(getDuration());
+  return Long.valueOf(getDuration());
+case KEY:
+return getKey();
+case VALUE_TYPE_CODE:
+return Integer.valueOf(getValueTypeCode());
+case VALUE:
+return getValue();
 }
 throw new IllegalStateException();
 }

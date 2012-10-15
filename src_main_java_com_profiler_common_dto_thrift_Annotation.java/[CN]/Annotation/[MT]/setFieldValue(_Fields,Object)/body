@@ -8,20 +8,36 @@ case TIMESTAMP:
       setTimestamp((Long)value);
     }
   break;
-case VALUE:
-if (value == null) {
-  unsetValue();
-}
- else {
-  setValue((String)value);
-}
-break;
 case DURATION:
 if (value == null) {
-unsetDuration();
+  unsetDuration();
 }
  else {
-setDuration((Long)value);
+  setDuration((Long)value);
+}
+break;
+case KEY:
+if (value == null) {
+unsetKey();
+}
+ else {
+setKey((String)value);
+}
+break;
+case VALUE_TYPE_CODE:
+if (value == null) {
+unsetValueTypeCode();
+}
+ else {
+setValueTypeCode((Integer)value);
+}
+break;
+case VALUE:
+if (value == null) {
+unsetValue();
+}
+ else {
+setValue((ByteBuffer)value);
 }
 break;
 }

@@ -1,16 +1,24 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(3);
+  BitSet incoming=iprot.readBitSet(5);
   if (incoming.get(0)) {
     struct.timestamp=iprot.readI64();
     struct.setTimestampIsSet(true);
   }
   if (incoming.get(1)) {
-    struct.value=iprot.readString();
-    struct.setValueIsSet(true);
-  }
-  if (incoming.get(2)) {
     struct.duration=iprot.readI64();
     struct.setDurationIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.key=iprot.readString();
+    struct.setKeyIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.valueTypeCode=iprot.readI32();
+    struct.setValueTypeCodeIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.value=iprot.readBinary();
+    struct.setValueIsSet(true);
   }
 }

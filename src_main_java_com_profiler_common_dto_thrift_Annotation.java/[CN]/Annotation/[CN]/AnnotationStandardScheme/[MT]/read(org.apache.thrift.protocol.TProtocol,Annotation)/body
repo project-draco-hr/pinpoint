@@ -17,18 +17,36 @@ case 1:
       }
     break;
 case 2:
-  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-    struct.value=iprot.readString();
-    struct.setValueIsSet(true);
+  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+    struct.duration=iprot.readI64();
+    struct.setDurationIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
 break;
 case 3:
-if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-struct.duration=iprot.readI64();
-struct.setDurationIsSet(true);
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.key=iprot.readString();
+struct.setKeyIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.valueTypeCode=iprot.readI32();
+struct.setValueTypeCodeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 5:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.value=iprot.readBinary();
+struct.setValueIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);

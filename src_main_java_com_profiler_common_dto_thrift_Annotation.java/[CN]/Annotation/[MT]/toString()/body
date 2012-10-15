@@ -4,19 +4,34 @@
   sb.append("timestamp:");
   sb.append(this.timestamp);
   first=false;
-  if (!first)   sb.append(", ");
-  sb.append("value:");
-  if (this.value == null) {
-    sb.append("null");
-  }
- else {
-    sb.append(this.value);
-  }
-  first=false;
   if (isSetDuration()) {
     if (!first)     sb.append(", ");
     sb.append("duration:");
     sb.append(this.duration);
+    first=false;
+  }
+  if (!first)   sb.append(", ");
+  sb.append("key:");
+  if (this.key == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.key);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("valueTypeCode:");
+  sb.append(this.valueTypeCode);
+  first=false;
+  if (isSetValue()) {
+    if (!first)     sb.append(", ");
+    sb.append("value:");
+    if (this.value == null) {
+      sb.append("null");
+    }
+ else {
+      org.apache.thrift.TBaseHelper.toString(this.value,sb);
+    }
     first=false;
   }
   sb.append(")");

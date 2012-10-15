@@ -4,20 +4,32 @@
   if (struct.isSetTimestamp()) {
     optionals.set(0);
   }
-  if (struct.isSetValue()) {
+  if (struct.isSetDuration()) {
     optionals.set(1);
   }
-  if (struct.isSetDuration()) {
+  if (struct.isSetKey()) {
     optionals.set(2);
   }
-  oprot.writeBitSet(optionals,3);
+  if (struct.isSetValueTypeCode()) {
+    optionals.set(3);
+  }
+  if (struct.isSetValue()) {
+    optionals.set(4);
+  }
+  oprot.writeBitSet(optionals,5);
   if (struct.isSetTimestamp()) {
     oprot.writeI64(struct.timestamp);
   }
-  if (struct.isSetValue()) {
-    oprot.writeString(struct.value);
-  }
   if (struct.isSetDuration()) {
     oprot.writeI64(struct.duration);
+  }
+  if (struct.isSetKey()) {
+    oprot.writeString(struct.key);
+  }
+  if (struct.isSetValueTypeCode()) {
+    oprot.writeI32(struct.valueTypeCode);
+  }
+  if (struct.isSetValue()) {
+    oprot.writeBinary(struct.value);
   }
 }

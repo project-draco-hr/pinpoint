@@ -2,8 +2,13 @@
   __isset_bit_vector.clear();
   __isset_bit_vector.or(other.__isset_bit_vector);
   this.timestamp=other.timestamp;
-  if (other.isSetValue()) {
-    this.value=other.value;
-  }
   this.duration=other.duration;
+  if (other.isSetKey()) {
+    this.key=other.key;
+  }
+  this.valueTypeCode=other.valueTypeCode;
+  if (other.isSetValue()) {
+    this.value=org.apache.thrift.TBaseHelper.copyBinary(other.value);
+    ;
+  }
 }
