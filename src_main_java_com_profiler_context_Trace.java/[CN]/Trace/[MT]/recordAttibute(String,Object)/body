@@ -3,7 +3,8 @@
   try {
     mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
       @Override public Span updateSpan(      Span span){
-        span.addAnnotation(new HippoBinaryAnnotation(System.currentTimeMillis(),key,value));
+        Encoded enc=transcoder.encode(value);
+        span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,enc.getValueType(),enc.getBytes(),null));
         return span;
       }
     }

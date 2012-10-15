@@ -3,7 +3,7 @@
   try {
     mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
       @Override public Span updateSpan(      Span span){
-        span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),value,duration));
+        span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,duration));
         return span;
       }
     }

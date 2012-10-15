@@ -15,11 +15,6 @@
     annotationList.add(a.toThrift());
   }
   span.setAnnotations(annotationList);
-  List<com.profiler.common.dto.thrift.BinaryAnnotation> binaryAnnotationList=new ArrayList<com.profiler.common.dto.thrift.BinaryAnnotation>(binaryAnnotations.size());
-  for (  HippoBinaryAnnotation a : binaryAnnotations) {
-    binaryAnnotationList.add(a.toThrift());
-  }
-  span.setBinaryAnnotations(binaryAnnotationList);
   span.setFlag(traceID.getFlags());
   return span;
 }
