@@ -8,9 +8,6 @@
   for (  NavigableMap.Entry<byte[],byte[]> entry : familyMap.entrySet()) {
     Span span=new Span();
     de.deserialize(span,entry.getValue());
-    if (binaryAnnotationDecoder != null) {
-      binaryAnnotationDecoder.decode(span);
-    }
     if (logger.isDebugEnabled()) {
       logger.debug("deserailze span :{}",span);
     }
