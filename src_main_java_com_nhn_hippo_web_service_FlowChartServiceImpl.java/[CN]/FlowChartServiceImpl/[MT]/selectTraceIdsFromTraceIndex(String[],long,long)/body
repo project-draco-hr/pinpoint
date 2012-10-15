@@ -6,7 +6,9 @@
     List<byte[]> bytes=this.traceIndexDao.scanTraceIndex(agentIds[0],from,to);
     Set<TraceId> result=new HashSet<TraceId>();
     for (    byte[] traceId : bytes) {
-      result.add(new TraceId(traceId));
+      TraceId tid=new TraceId(traceId);
+      result.add(tid);
+      logger.trace("traceid:{}",tid);
     }
     return result;
   }
