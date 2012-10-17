@@ -5,9 +5,6 @@
   if (Trace.getCurrentTraceId() == null) {
     return;
   }
-  Throwable th=new Throwable();
-  logger.log(Level.WARNING,"stack",th);
-  th.printStackTrace();
   Trace.traceBlockBegin();
   try {
     String url=(String)this.getUrl.invoke(target);
