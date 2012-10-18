@@ -5,9 +5,9 @@
     traceId=stack.getTraceId();
   }
  else {
-    System.out.println("#############################################################");
-    System.out.println("# Something's going wrong. Stack is not exists.             #");
-    System.out.println("#############################################################");
+    if (logger.isLoggable(Level.FINE)) {
+      logger.log(Level.FINE,"#############################################################" + "\n# Something's going wrong. Stack is not exists.             #" + "\n#############################################################");
+    }
     stack=new TraceIDStack();
     traceIdLocal.set(stack);
   }

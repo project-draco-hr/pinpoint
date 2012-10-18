@@ -1,11 +1,9 @@
 {
   if (getCurrentTraceId() != null) {
-    System.out.println("###############################################################################################################");
-    System.out.println("# [DEBUG MSG] TraceID is overwritten.");
-    System.out.println("#   Before : " + getCurrentTraceId());
-    System.out.println("#   After  : " + traceId);
-    System.out.println("###############################################################################################################");
-    new RuntimeException("TraceID overwritten.").printStackTrace();
+    if (logger.isLoggable(Level.FINE)) {
+      logger.log(Level.FINE,"###############################################################################################################" + "\n# [DEBUG MSG] TraceID is overwritten." + "\n#   Before : " + getCurrentTraceId() + "\n#   After  : "+ traceId+ "\n###############################################################################################################");
+      new RuntimeException("TraceID overwritten.").printStackTrace();
+    }
   }
   TraceIDStack stack=traceIdLocal.get();
   if (stack == null)   traceIdLocal.set(new TraceIDStack());

@@ -8,7 +8,9 @@
     TraceID nextId=getNextTraceId();
     traceIDStack.incr();
     if (traceIDStack.getTraceId() == null) {
-      System.out.println(getCurrentTraceId());
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine(getCurrentTraceId().toString());
+      }
       traceIDStack.setTraceId(nextId);
     }
     handler.handle();
