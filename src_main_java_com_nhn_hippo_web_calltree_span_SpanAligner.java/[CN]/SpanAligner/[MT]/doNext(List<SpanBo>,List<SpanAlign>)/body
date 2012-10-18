@@ -1,0 +1,19 @@
+{
+  if (spans == null) {
+    return;
+  }
+  depth++;
+  try {
+    for (    SpanBo next : spans) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("{} {} next {}",new Object[]{getSpace(),depth,next});
+      }
+      result.add(new SpanAlign(depth,next));
+      List<SpanBo> nextSpan=nextSpan(next);
+      doNext(nextSpan,result);
+    }
+  }
+  finally {
+    depth--;
+  }
+}

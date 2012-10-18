@@ -5,5 +5,8 @@
   int andIncrement=id.getAndIncrement();
   Span span=new Span("UnitTest",time,uuid.getMostSignificantBits(),uuid.getLeastSignificantBits(),"test","rpc" + andIncrement,andIncrement,ano,"protocol:ip:port",false);
   span.setParentSpanId(-1);
+  List<Annotation> annotations=new ArrayList<Annotation>();
+  annotations.add(new Annotation(0,"root ann",0));
+  span.setAnnotations(annotations);
   return span;
 }

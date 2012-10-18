@@ -1,0 +1,7 @@
+{
+  byte[] uuidBytes=BytesUtils.longLongToBytes(traceId.getMostSignificantBits(),traceId.getLeastSignificantBits());
+  Get get=new Get(uuidBytes);
+  get.addFamily(COLFAM_SPAN);
+  get.addFamily(COLFAM_ANNOTATION);
+  return template2.get(HBaseTables.TRACES,get,spanAnnotationMapper);
+}

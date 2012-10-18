@@ -1,0 +1,30 @@
+{
+  KeyValue[] keyList=result.raw();
+  Map<Long,List<AnnotationBo>> annotationList=new HashMap<Long,List<AnnotationBo>>();
+  for (  KeyValue kv : keyList) {
+    byte[] buffer=kv.getBuffer();
+    long spanId=BytesUtils.bytesToLong(buffer,kv.getQualifierOffset());
+    int offset=kv.getValueOffset();
+    if (kv.getFamilyLength() == HBaseTables.TRACES_CF_ANNOTATION.length) {
+      int valueLength=kv.getValueLength();
+      if (valueLength == 0) {
+        continue;
+      }
+      int size=BytesUtils.bytesToInt(buffer,offset);
+      if (size == 0) {
+        continue;
+      }
+      offset+=4;
+      List<AnnotationBo> bos=new ArrayList<AnnotationBo>(size);
+      for (int i=0; i < size; i++) {
+        AnnotationBo annotationBo=new AnnotationBo();
+        annotationBo.setSpanId(spanId);
+        offset=annotationBo.readValue(buffer,offset);
+        bos.add(annotationBo);
+        logger.trace("read annotation:{}",annotationBo);
+      }
+      annotationList.put(spanId,bos);
+    }
+  }
+  return annotationList;
+}

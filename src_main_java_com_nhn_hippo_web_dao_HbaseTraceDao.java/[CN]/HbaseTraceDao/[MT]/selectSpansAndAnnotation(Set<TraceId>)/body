@@ -1,0 +1,10 @@
+{
+  List<Get> gets=new ArrayList<Get>(traceIds.size());
+  for (  TraceId traceId : traceIds) {
+    Get get=new Get(traceId.getBytes());
+    get.addFamily(COLFAM_SPAN);
+    get.addFamily(COLFAM_ANNOTATION);
+    gets.add(get);
+  }
+  return template2.get(HBaseTables.TRACES,gets,spanAnnotationMapper);
+}

@@ -1,17 +1,27 @@
 {
-  NavigableMap<byte[],byte[]> familyMap=result.getFamilyMap(COLFAM_SPAN);
-  if (familyMap == null) {
-    return Collections.emptyList();
-  }
-  List<Span> spanList=new ArrayList<Span>(familyMap.size());
-  TDeserializer de=new TDeserializer();
-  for (  NavigableMap.Entry<byte[],byte[]> entry : familyMap.entrySet()) {
-    Span span=new Span();
-    de.deserialize(span,entry.getValue());
-    if (logger.isDebugEnabled()) {
-      logger.debug("deserailze span :{}",span);
+  byte[] rowKey=result.getRow();
+  long most=BytesUtils.bytesToFirstLong(rowKey);
+  long least=BytesUtils.bytesToSecondLong(rowKey);
+  KeyValue[] keyList=result.raw();
+  List<SpanBo> spanList=new ArrayList<SpanBo>();
+  for (  KeyValue kv : keyList) {
+    if (kv.getFamilyLength() == HBaseTables.TRACES_CF_SPAN.length) {
+      SpanBo spanBo=new SpanBo();
+      spanBo.setMostTraceId(most);
+      spanBo.setLeastTraceId(least);
+      spanBo.setSpanID(Bytes.toLong(kv.getBuffer(),kv.getQualifierOffset()));
+      spanBo.setSpanID(Bytes.toLong(kv.getQualifier()));
+      spanBo.setTimestamp(kv.getTimestamp());
+      spanBo.readValue(kv.getBuffer(),kv.getValueOffset());
+      if (logger.isTraceEnabled()) {
+        logger.trace("read span :{}",spanBo);
+      }
+      spanList.add(spanBo);
     }
-    spanList.add(span);
+  }
+  if (annotationMapper != null) {
+    Map<Long,List<AnnotationBo>> annotationMap=annotationMapper.mapRow(result,rowNum);
+    addAnnotation(spanList,annotationMap);
   }
   return spanList;
 }

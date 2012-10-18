@@ -3,6 +3,9 @@
     throw new NullPointerException("agentIds");
   }
   if (agentIds.length == 1) {
+    if (logger.isTraceEnabled()) {
+      logger.trace("scan {}, {}, {}",new Object[]{agentIds[0],from,to});
+    }
     List<byte[]> bytes=this.traceIndexDao.scanTraceIndex(agentIds[0],from,to);
     Set<TraceId> result=new HashSet<TraceId>();
     for (    byte[] traceId : bytes) {

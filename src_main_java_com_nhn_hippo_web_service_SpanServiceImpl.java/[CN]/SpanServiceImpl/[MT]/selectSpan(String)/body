@@ -1,7 +1,6 @@
 {
   UUID id=UUID.fromString(uuid);
-  List<Span> spans=traceDao.selectSpan(id);
-  logger.debug("spans11 {}",spans);
+  List<SpanBo> spans=traceDao.selectSpanAndAnnotation(id);
   if (spans == null) {
     return Collections.emptyList();
   }

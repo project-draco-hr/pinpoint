@@ -1,15 +1,15 @@
 {
   SpanIdChecker spanIdCheck=new SpanIdChecker(spans);
-  Map<Long,List<Span>> parentSpanIdMap=new HashMap<Long,List<Span>>();
-  for (  Span span : spans) {
+  Map<Long,List<SpanBo>> parentSpanIdMap=new HashMap<Long,List<SpanBo>>();
+  for (  SpanBo span : spans) {
     spanIdCheck.check(span);
     long parentSpanId=span.getParentSpanId();
-    List<Span> spanList=parentSpanIdMap.get(parentSpanId);
+    List<SpanBo> spanList=parentSpanIdMap.get(parentSpanId);
     if (spanList != null) {
       spanList.add(span);
     }
  else {
-      LinkedList<Span> newSpanList=new LinkedList<Span>();
+      LinkedList<SpanBo> newSpanList=new LinkedList<SpanBo>();
       newSpanList.add(span);
       parentSpanIdMap.put(parentSpanId,newSpanList);
     }

@@ -4,5 +4,8 @@
   int andIncrement=id.getAndIncrement();
   Span sub=new Span("UnitTest",time,span.getMostTraceId(),span.getLeastTraceId(),"test","rpc" + andIncrement,andIncrement,ano,"protocol:ip:port",false);
   sub.setParentSpanId(span.getSpanId());
+  List<Annotation> annotations=new ArrayList<Annotation>();
+  annotations.add(new Annotation(0,"sub ann" + andIncrement,0));
+  sub.setAnnotations(annotations);
   return sub;
 }

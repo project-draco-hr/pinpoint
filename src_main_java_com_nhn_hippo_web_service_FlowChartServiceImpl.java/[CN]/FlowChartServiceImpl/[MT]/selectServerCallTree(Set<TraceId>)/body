@@ -1,8 +1,8 @@
 {
   final ServerCallTree tree=new ServerCallTree();
-  List<List<Span>> traces=this.traceDao.selectSpans(traceIds);
-  for (  List<Span> transaction : traces) {
-    for (    Span eachTransaction : transaction) {
+  List<List<SpanBo>> traces=this.traceDao.selectSpansAndAnnotation(traceIds);
+  for (  List<SpanBo> transaction : traces) {
+    for (    SpanBo eachTransaction : transaction) {
       tree.addSpan(eachTransaction);
     }
   }

@@ -1,0 +1,21 @@
+{
+  this.traces.add(new UUID(span.getMostTraceId(),span.getLeastTraceId()).toString());
+  if (span.getParentSpanId() == -1) {
+    calls++;
+  }
+  List<AnnotationBo> annotations=span.getAnnotationBoList();
+  long begin=0;
+  long end=0;
+  for (  AnnotationBo a : annotations) {
+    if (a.getKey().equals("SR") || a.getKey().equals("CS")) {
+      begin=a.getTimestamp();
+    }
+    if (a.getKey().equals("SS") || a.getKey().equals("CR")) {
+      end=a.getTimestamp();
+    }
+  }
+  long elapsed=end - begin;
+  totalTime+=elapsed;
+  if (maxTime < elapsed)   maxTime=elapsed;
+  if (minTime > elapsed)   minTime=elapsed;
+}
