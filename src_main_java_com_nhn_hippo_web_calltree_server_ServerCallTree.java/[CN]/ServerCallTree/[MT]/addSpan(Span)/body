@@ -1,12 +1,12 @@
 {
-  Server Server=new Server(span.getAgentID(),span.getEndPoint(),span.isTerminal());
+  Server Server=new Server(span.getAgentId(),span.getEndPoint(),span.isTerminal());
   if (Server.getId().contains("mysql:jdbc:") || Server.getId().contains("favicon")) {
     return;
   }
   if (!servers.containsKey(Server.getId())) {
     servers.put(Server.getId(),Server);
   }
-  spanIdToServerId.put(String.valueOf(span.getSpanID()),Server.getId());
+  spanIdToServerId.put(String.valueOf(span.getSpanId()),Server.getId());
   if (span.getParentSpanId() == -1) {
     businessTransactions.add(span);
   }
