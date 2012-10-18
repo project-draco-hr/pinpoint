@@ -1,8 +1,8 @@
 {
-  byte[] agentIDBytes=agentId.getBytes(UTF8);
-  byte[] nameBytes=name.getBytes(UTF8);
-  byte[] serviceNameBytes=serviceName.getBytes(UTF8);
-  byte[] endPointBytes=endPoint.getBytes(UTF8);
+  byte[] agentIDBytes=BytesUtils.getBytes(agentId);
+  byte[] nameBytes=BytesUtils.getBytes(name);
+  byte[] serviceNameBytes=BytesUtils.getBytes(serviceName);
+  byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   int bufferLength=getBufferLength(agentIDBytes.length,nameBytes.length,serviceNameBytes.length,endPointBytes.length);
   Buffer buffer=new Buffer(bufferLength);
   buffer.put(version);
