@@ -1,0 +1,12 @@
+{
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
+  }
+  if (buf.length < offset + 4) {
+    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ offset+ 4);
+  }
+  buf[offset++]=(byte)(value >> 24);
+  buf[offset++]=(byte)(value >> 16);
+  buf[offset++]=(byte)(value >> 8);
+  buf[offset]=(byte)(value);
+}

@@ -1,0 +1,13 @@
+{
+  SpanBo spanBo=new SpanBo();
+  spanBo.setAgentId("agent");
+  spanBo.setEndPoint("end");
+  spanBo.setName("name");
+  spanBo.setServiceName("serviceName");
+  byte[] bytes=spanBo.writeValue();
+  logger.debug("length:{}",bytes.length);
+  SpanBo newSpanBo=new SpanBo();
+  int i=newSpanBo.readValue(bytes,0);
+  logger.debug("length:{}",i);
+  Assert.assertEquals(bytes.length,i);
+}
