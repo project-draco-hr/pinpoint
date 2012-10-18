@@ -1,0 +1,18 @@
+{
+  int size=0;
+  List<AnnotationBo> boList=new ArrayList<AnnotationBo>(annotations.size());
+  for (  Annotation ano : annotations) {
+    AnnotationBo annotationBo=new AnnotationBo(ano);
+    size+=annotationBo.getBufferSize();
+    boList.add(annotationBo);
+  }
+  size+=4;
+  byte[] buffer=new byte[size];
+  int offset=0;
+  BytesUtils.writeInt(boList.size(),buffer,offset);
+  offset=4;
+  for (  AnnotationBo bo : boList) {
+    offset=bo.writeValue(buffer,offset);
+  }
+  return buffer;
+}
