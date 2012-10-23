@@ -1,0 +1,14 @@
+{
+  traceIterator=transactions.entrySet().iterator();
+  return new Iterator<BusinessTransaction>(){
+    @Override public boolean hasNext(){
+      return traceIterator.hasNext();
+    }
+    @Override public BusinessTransaction next(){
+      return traceIterator.next().getValue();
+    }
+    @Override public void remove(){
+    }
+  }
+;
+}
