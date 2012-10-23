@@ -1,8 +1,4 @@
 {
-  this.traces.add(new UUID(span.getMostTraceId(),span.getLeastTraceId()).toString());
-  if (span.getParentSpanId() == -1) {
-    calls++;
-  }
   List<AnnotationBo> annotations=span.getAnnotationBoList();
   long begin=0;
   long end=0;
@@ -18,4 +14,8 @@
   totalTime+=elapsed;
   if (maxTime < elapsed)   maxTime=elapsed;
   if (minTime > elapsed)   minTime=elapsed;
+  this.traces.add(new Trace(new UUID(span.getMostTraceId(),span.getLeastTraceId()).toString(),elapsed));
+  if (span.getParentSpanId() == -1) {
+    calls++;
+  }
 }
