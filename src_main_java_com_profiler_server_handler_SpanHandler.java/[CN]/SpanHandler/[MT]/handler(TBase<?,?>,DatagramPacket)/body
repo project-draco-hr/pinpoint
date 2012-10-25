@@ -3,6 +3,9 @@
   try {
     Span span=(Span)tbase;
     traceDao.insert(span);
+    if (span.getParentSpanId() == -1) {
+      rootTraceIndexDao.insert(span);
+    }
     traceIndexDao.insert(span);
     if (logger.isInfoEnabled()) {
       logger.info("Received SPAN={}",span);
