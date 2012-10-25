@@ -11,17 +11,19 @@
         continue;
       }
       int size=BytesUtils.bytesToInt(buffer,offset);
+      offset+=4;
       if (size == 0) {
         continue;
       }
-      offset+=4;
       List<AnnotationBo> bos=new ArrayList<AnnotationBo>(size);
       for (int i=0; i < size; i++) {
         AnnotationBo annotationBo=new AnnotationBo();
         annotationBo.setSpanId(spanId);
         offset=annotationBo.readValue(buffer,offset);
         bos.add(annotationBo);
-        logger.trace("read annotation:{}",annotationBo);
+        if (logger.isTraceEnabled()) {
+          logger.trace("read annotation:{}",annotationBo);
+        }
       }
       annotationList.put(spanId,bos);
     }
