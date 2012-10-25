@@ -4,5 +4,10 @@
   ModelAndView mv=new ModelAndView("selectTransaction");
   mv.addObject("spanList",spanAligns);
   mv.addObject("traceId",traceId);
+  Set<TraceId> traceIds=new HashSet<TraceId>(1);
+  traceIds.add(new TraceId(UUID.fromString(traceId)));
+  ServerCallTree callTree=flow.selectServerCallTree(traceIds);
+  mv.addObject("nodes",callTree.getNodes());
+  mv.addObject("links",callTree.getLinks());
   return mv;
 }
