@@ -1,0 +1,11 @@
+{
+  Future<Boolean> future=null;
+  try {
+    future=arcus.set("hippo:expect-timeout",10,"Hello, Timeout.");
+    future.get(100L,TimeUnit.MICROSECONDS);
+  }
+ catch (  Exception e) {
+    if (future != null)     future.cancel(true);
+  }
+  return "timeout";
+}
