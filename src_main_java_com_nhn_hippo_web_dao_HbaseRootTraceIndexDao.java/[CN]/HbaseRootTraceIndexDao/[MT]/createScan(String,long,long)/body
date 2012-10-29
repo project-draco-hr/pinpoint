@@ -2,10 +2,10 @@
   Scan scan=new Scan();
   scan.setCaching(this.scanCacheSize);
   byte[] bAgent=Bytes.toBytes(agent);
-  byte[] bStart=BytesUtils.add(bAgent,start);
-  scan.setStartRow(bStart);
-  byte[] bEnd=BytesUtils.add(bAgent,end);
-  scan.setStopRow(bEnd);
+  byte[] traceIndexStartKey=SpanUtils.getTraceIndexRowKey(bAgent,start);
+  scan.setStartRow(traceIndexStartKey);
+  byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,end);
+  scan.setStopRow(traceIndexEndKey);
   scan.addColumn(COLFAM_TRACE,COLNAME_ID);
   scan.setId("rootTraceIndexScan");
   logger.debug("create scan:{}",scan);
