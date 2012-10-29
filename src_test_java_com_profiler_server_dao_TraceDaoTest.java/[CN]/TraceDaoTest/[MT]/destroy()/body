@@ -1,5 +1,4 @@
 {
-  if (hbaseClient.isTableExists(traceIndex.getTableName())) {
-    hbaseClient.dropTable(traceIndex.getTableName());
-  }
+  String tableName=traceIndex.getTableName();
+  hBaseAdminTemplate.dropTableIfExist(tableName);
 }

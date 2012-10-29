@@ -1,11 +1,10 @@
 {
-  if (hbaseClient == null) {
-    System.out.println("hbaseClient is null-------");
+  if (hBaseAdminTemplate == null) {
+    System.out.println("hBaseAdmin is null-------");
     return;
   }
-  if (!hbaseClient.isTableExists(traceIndex.getTableName())) {
-    HTableDescriptor testTrace=new HTableDescriptor(traceIndex.getTableName());
-    testTrace.addFamily(new HColumnDescriptor(TRACE));
-    hbaseClient.createTable(testTrace);
-  }
+  String tableName=traceIndex.getTableName();
+  HTableDescriptor testTrace=new HTableDescriptor(traceIndex.getTableName());
+  testTrace.addFamily(new HColumnDescriptor(TRACE));
+  hBaseAdminTemplate.createTableIfNotExist(testTrace);
 }
