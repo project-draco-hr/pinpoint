@@ -1,7 +1,7 @@
 {
-  client.createTable(new HTableDescriptor(TABLE_NAME));
-  Assert.assertTrue("Table is not exists",client.isTableExists(TABLE_NAME));
-  client.dropTable(TABLE_NAME);
-  client.isTableExists(TABLE_NAME);
-  Assert.assertFalse("Table is not dropped",client.isTableExists(TABLE_NAME));
+  adminTemplate.createTableIfNotExist(new HTableDescriptor(TABLE_NAME));
+  Assert.assertTrue("Table is not exists",adminTemplate.tableExists(TABLE_NAME));
+  adminTemplate.dropTableIfExist(TABLE_NAME);
+  adminTemplate.tableExists(TABLE_NAME);
+  Assert.assertFalse("Table is not dropped",adminTemplate.tableExists(TABLE_NAME));
 }

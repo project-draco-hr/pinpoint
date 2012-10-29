@@ -1,0 +1,11 @@
+{
+  try {
+    this.hBaseAdmin=new HBaseAdmin(configuration);
+  }
+ catch (  MasterNotRunningException e) {
+    throw new HbaseSystemException(e);
+  }
+catch (  ZooKeeperConnectionException e) {
+    throw new HbaseSystemException(e);
+  }
+}

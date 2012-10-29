@@ -1,0 +1,10 @@
+{
+  Span span=new Span();
+  span.setAgentId(agentId0);
+  span.setTimestamp(l1);
+  byte[] traceIndexRowKey=SpanUtils.getTraceIndexRowKey(span);
+  String agentId=Bytes.toString(traceIndexRowKey,0,agentId0.length());
+  Assert.assertEquals(agentId0,agentId);
+  long time=Bytes.toLong(traceIndexRowKey,SpanUtils.AGENT_NAME_LIMIT);
+  Assert.assertEquals(time,l1);
+}

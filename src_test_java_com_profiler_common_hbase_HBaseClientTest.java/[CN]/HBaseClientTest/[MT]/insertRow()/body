@@ -1,8 +1,8 @@
 {
   HTableDescriptor desc=new HTableDescriptor(TABLE_NAME);
   desc.addFamily(new HColumnDescriptor(COLUMN_FAMILY));
-  client.createTable(desc);
-  Assert.assertTrue("Table is not exists",client.isTableExists(TABLE_NAME));
+  adminTemplate.createTableIfNotExist(desc);
+  Assert.assertTrue("Table is not exists",adminTemplate.tableExists(TABLE_NAME));
   List<Put> putList=new ArrayList<Put>();
   for (int i=0; i < 10; i++) {
     Put put=new Put(Bytes.toBytes(i + "row"));

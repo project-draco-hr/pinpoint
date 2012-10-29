@@ -2,8 +2,7 @@
   URL resource=HBaseClientTest.class.getClassLoader().getResource("test-hbase.properties");
   Properties properties=PropertyUtils.readProperties(resource.getPath());
   client=new HBaseClient(properties);
-  if (client.isTableExists(TABLE_NAME)) {
-    client.dropTable(TABLE_NAME);
-  }
+  adminTemplate=new HBaseAdminTemplate(client.getConfiguration());
+  adminTemplate.dropTableIfExist(TABLE_NAME);
   Assert.assertNotNull(client);
 }
