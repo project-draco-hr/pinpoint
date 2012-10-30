@@ -2,8 +2,5 @@
   String agentId=jvmInfoThriftDTO.getAgentId();
   byte[] agnetIdBytes=Bytes.toBytes(agentId);
   long currentTime=jvmInfoThriftDTO.getDataTime();
-  byte[] buffer=new byte[agnetIdBytes.length + 8];
-  Bytes.putBytes(buffer,0,agnetIdBytes,0,agnetIdBytes.length);
-  Bytes.putLong(buffer,agnetIdBytes.length,currentTime);
-  return buffer;
+  return RowKeyUtils.concatFixedByteAndLong(agnetIdBytes,SpanUtils.AGENT_NAME_LIMIT,currentTime);
 }
