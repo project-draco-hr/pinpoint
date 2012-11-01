@@ -1,0 +1,15 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  JDBCScope.popScope();
+  if (!InterceptorUtils.isSuccess(result)) {
+    return;
+  }
+  if (result instanceof Connection) {
+    Object url=args[0];
+    if (url instanceof String) {
+      this.setUrl.invoke(result,url);
+    }
+  }
+}

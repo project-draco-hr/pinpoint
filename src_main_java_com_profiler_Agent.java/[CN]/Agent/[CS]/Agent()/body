@@ -2,7 +2,7 @@
   this.serverInfo=new ServerInfo();
   this.systemMonitor=new SystemMonitor();
   String machineName=NetworkUtils.getMachineName();
-  this.agentId=System.getProperty("hippo.agentId",machineName);
-  validateAgentId();
-  this.applicationName=System.getProperty("hippo.applicationName","TOMCAT");
+  this.agentId=getId("hippo.agentId",machineName);
+  this.nodeName=getId("hippo.nodeName",machineName);
+  this.applicationName=getId("hippo.applicationName","UnknownApplicationName");
 }

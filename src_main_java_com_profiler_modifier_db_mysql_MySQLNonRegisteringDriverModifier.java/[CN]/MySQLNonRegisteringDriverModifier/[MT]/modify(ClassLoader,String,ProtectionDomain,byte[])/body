@@ -1,0 +1,20 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor createConnection=new DriverInterceptor();
+    String[] params=new String[]{"java.lang.String","java.util.Properties"};
+    mysqlConnection.addInterceptor("connect",params,createConnection);
+    printClassConvertComplete(javassistClassName);
+    return mysqlConnection.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
+    return null;
+  }
+}

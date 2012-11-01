@@ -6,9 +6,6 @@
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
     mysqlConnection.addTraceVariable("__url","__setUrl","__getUrl","java.lang.String");
-    Interceptor createConnection=new ConnectionCreateInterceptor();
-    String[] params=new String[]{"java.lang.String","int","java.util.Properties","java.lang.String","java.lang.String"};
-    mysqlConnection.addInterceptor("getInstance",params,createConnection);
     Interceptor closeConnection=new ConnectionCloseInterceptor();
     mysqlConnection.addInterceptor("close",null,closeConnection);
     Interceptor createStatement=new StatementCreateInterceptor();
