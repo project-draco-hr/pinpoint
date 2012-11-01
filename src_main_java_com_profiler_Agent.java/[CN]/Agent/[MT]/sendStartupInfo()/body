@@ -8,8 +8,9 @@
   AgentInfo agentInfo=new AgentInfo();
   agentInfo.setHostname(ip);
   agentInfo.setPorts(ports);
+  agentInfo.setAgentId(getAgentId());
+  agentInfo.setApplicationName(getApplicationName());
   agentInfo.setIsAlive(true);
   agentInfo.setTimestamp(System.currentTimeMillis());
-  agentInfo.setAgentId(getAgentId());
   DataSender.getInstance().addDataToSend(agentInfo);
 }
