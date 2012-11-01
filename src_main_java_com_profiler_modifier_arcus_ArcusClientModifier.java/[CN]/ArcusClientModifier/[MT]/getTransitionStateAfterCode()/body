@@ -13,7 +13,15 @@
   code.append("	com.profiler.StopWatch.start(this.hashCode());");
   code.append("	com.profiler.context.Trace.record(com.profiler.context.Annotation.ClientSend, System.nanoTime() - __commandCreatedTime);");
   code.append("} else if (newState == net.spy.memcached.ops.OperationState.COMPLETE || newState == net.spy.memcached.ops.OperationState.TIMEDOUT) {");
-  code.append("	com.profiler.context.Trace.record(com.profiler.context.Annotation.ClientRecv, com.profiler.StopWatch.stopAndGetElapsed(this.hashCode()));");
+  code.append("	if (exception != null) { ");
+  code.append("		com.profiler.context.Trace.recordAttribute(\"exception\", com.profiler.util.InterceptorUtils.exceptionToString(exception));");
+  code.append("	}");
+  code.append("	if (!cancelled) {");
+  code.append("		com.profiler.context.Trace.record(com.profiler.context.Annotation.ClientRecv, com.profiler.StopWatch.stopAndGetElapsed(this.hashCode()));");
+  code.append("	} else {");
+  code.append("		com.profiler.context.Trace.recordAttribute(\"exception\", \"cancelled by user\");");
+  code.append("		com.profiler.context.Trace.record(com.profiler.context.Annotation.ClientRecv, System.nanoTime() - __cancelledTime);");
+  code.append("	}");
   code.append("}");
   code.append("}");
   return code.toString();

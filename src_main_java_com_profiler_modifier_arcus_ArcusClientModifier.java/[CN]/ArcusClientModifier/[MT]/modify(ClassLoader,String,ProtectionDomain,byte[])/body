@@ -10,7 +10,9 @@
     aClass.insertCodeAfterConstructor(null,"{ __setTraceId(com.profiler.context.Trace.getCurrentTraceId()); __setNextTraceId(com.profiler.context.Trace.getNextTraceId()); }");
     aClass.addTraceVariable("__commandCreatedTime","__setCommandCreatedTime","__getCommandCreatedTime","long");
     aClass.insertCodeAfterConstructor(null,"{ __setCommandCreatedTime(System.nanoTime()); }");
+    aClass.addTraceVariable("__cancelledTime","__setCancelledTime","__getCancelledTime","long");
     aClass.insertCodeBeforeMethod("transitionState",new String[]{"net.spy.memcached.ops.OperationState"},getTransitionStateAfterCode());
+    aClass.insertCodeBeforeMethod("cancel",null,getCancelBeforeCode());
     return aClass.toBytecode();
   }
  catch (  Exception e) {
