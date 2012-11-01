@@ -10,13 +10,16 @@
   if (struct.isSetAgentId()) {
     optionals.set(2);
   }
-  if (struct.isSetIsAlive()) {
+  if (struct.isSetApplicationName()) {
     optionals.set(3);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetIsAlive()) {
     optionals.set(4);
   }
-  oprot.writeBitSet(optionals,5);
+  if (struct.isSetTimestamp()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -25,6 +28,9 @@
   }
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationName()) {
+    oprot.writeString(struct.applicationName);
   }
   if (struct.isSetIsAlive()) {
     oprot.writeBool(struct.isAlive);

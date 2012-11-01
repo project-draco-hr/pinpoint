@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(5);
+  BitSet incoming=iprot.readBitSet(6);
   if (incoming.get(0)) {
     struct.hostname=iprot.readString();
     struct.setHostnameIsSet(true);
@@ -14,10 +14,14 @@
     struct.setAgentIdIsSet(true);
   }
   if (incoming.get(3)) {
+    struct.applicationName=iprot.readString();
+    struct.setApplicationNameIsSet(true);
+  }
+  if (incoming.get(4)) {
     struct.isAlive=iprot.readBool();
     struct.setIsAliveIsSet(true);
   }
-  if (incoming.get(4)) {
+  if (incoming.get(5)) {
     struct.timestamp=iprot.readI64();
     struct.setTimestampIsSet(true);
   }
