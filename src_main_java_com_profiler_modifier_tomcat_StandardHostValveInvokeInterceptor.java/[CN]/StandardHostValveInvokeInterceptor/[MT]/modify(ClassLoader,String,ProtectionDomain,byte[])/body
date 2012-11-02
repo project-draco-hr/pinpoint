@@ -2,7 +2,6 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  addRequiredCladdToCurrentClassLoader(classLoader);
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
   try {

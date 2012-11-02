@@ -3,7 +3,6 @@
     logger.info("Modifing. " + javassistClassName);
   }
   try {
-    classLoader.loadClass("net.spy.memcached.ops.OperationState");
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addTraceVariable("__traceId","__setTraceId","__getTraceId","com.profiler.context.TraceID");
     aClass.addTraceVariable("__nextTraceId","__setNextTraceId","__getNextTraceId","com.profiler.context.TraceID");

@@ -2,12 +2,6 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  try {
-    classLoader.loadClass("com.profiler.context.TraceHandler");
-  }
- catch (  Exception e) {
-    e.printStackTrace();
-  }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   classPool.insertClassPath(new ByteArrayClassPath(javassistClassName,classFileBuffer));
   try {
