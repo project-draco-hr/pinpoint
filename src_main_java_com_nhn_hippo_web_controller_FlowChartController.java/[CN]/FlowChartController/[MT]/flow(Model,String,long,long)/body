@@ -1,5 +1,5 @@
 {
-  String[] agentIds=flow.selectAgentIds(hosts);
+  String[] agentIds=flow.selectAgentIdsFromApplicationName(applicationName);
   Set<TraceId> traceIds=flow.selectTraceIdsFromTraceIndex(agentIds,from,to);
   RPCCallTree callTree=flow.selectRPCCallTree(traceIds);
   model.addAttribute("nodes",callTree.getNodes());
