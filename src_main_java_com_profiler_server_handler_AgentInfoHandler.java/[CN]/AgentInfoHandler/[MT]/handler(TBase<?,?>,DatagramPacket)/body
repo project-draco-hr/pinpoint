@@ -2,10 +2,8 @@
   assert(tbase instanceof Span);
   try {
     AgentInfo agentInfo=(AgentInfo)tbase;
-    if (logger.isDebugEnabled()) {
-      logger.debug("Received AgentInfo=" + agentInfo);
-    }
-    applicationsIndexDao.insert(agentInfo);
+    logger.debug("Received AgentInfo=%s",agentInfo);
+    applicationIndexDao.insert(agentInfo);
   }
  catch (  Exception e) {
     logger.warn("Span handle error " + e.getMessage(),e);
