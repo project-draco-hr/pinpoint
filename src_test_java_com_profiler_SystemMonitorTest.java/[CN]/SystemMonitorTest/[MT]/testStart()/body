@@ -1,4 +1,8 @@
 {
-  SystemMonitor.Worker systemMonitor=new SystemMonitor.Worker();
-  systemMonitor.run();
+  DataSender loggingDataSender=new LoggingDataSender();
+  SystemMonitor systemMonitor=new SystemMonitor();
+  systemMonitor.setDataSender(loggingDataSender);
+  systemMonitor.start();
+  Thread.sleep(10000);
+  systemMonitor.stop();
 }
