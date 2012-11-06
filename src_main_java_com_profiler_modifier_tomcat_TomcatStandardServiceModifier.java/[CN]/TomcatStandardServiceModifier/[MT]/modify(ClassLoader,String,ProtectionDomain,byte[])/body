@@ -2,5 +2,17 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  return changeMethod(javassistClassName,classFileBuffer);
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
+    StandardServiceStartInterceptor start=new StandardServiceStartInterceptor();
+    standardService.addInterceptor("start",null,start);
+    StandardServiceStopInterceptor stop=new StandardServiceStopInterceptor();
+    standardService.addInterceptor("stop",null,stop);
+    return standardService.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.log(Level.WARNING,"modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
 }

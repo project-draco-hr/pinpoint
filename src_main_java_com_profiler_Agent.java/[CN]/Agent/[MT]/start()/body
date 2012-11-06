@@ -1,5 +1,7 @@
 {
   logger.info("Starting HIPPO Agent.");
   TraceContext.initialize();
+  this.dataSender=UdpDataSender.getInstance();
+  systemMonitor.setDataSender(dataSender);
   systemMonitor.start();
 }

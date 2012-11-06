@@ -5,8 +5,10 @@
     id=stack.getTraceId();
   }
   if (id == null) {
-    System.out.println("create new traceid");
     id=TraceID.newTraceId();
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("create new traceid:" + id);
+    }
     if (stack == null) {
       traceIdLocal.set(new TraceIDStack());
     }

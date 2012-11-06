@@ -1,0 +1,14 @@
+{
+  while (true) {
+    try {
+      TBase<?,?> dto=take();
+      if (dto == null) {
+        continue;
+      }
+      send0(dto);
+    }
+ catch (    Exception e) {
+      logger.log(Level.WARNING,"Unexpected Error",e);
+    }
+  }
+}

@@ -9,7 +9,7 @@
     setGCState(jvmInfo);
     setMemoryState(jvmInfo);
     setProcessCPUUsage(jvmInfo);
-    DataSender.getInstance().addDataToSend(jvmInfo);
+    dataSender.send(jvmInfo);
   }
  catch (  Exception e) {
     logger.log(Level.INFO,"JvmInfo collect error Cause:" + e.getMessage(),e);

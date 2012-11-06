@@ -6,7 +6,7 @@
   }
   try {
     TraceID nextId=getNextTraceId();
-    traceIDStack.incr();
+    traceIDStack.push();
     if (traceIDStack.getTraceId() == null) {
       if (logger.isLoggable(Level.FINE)) {
         logger.fine(getCurrentTraceId().toString());
@@ -19,6 +19,6 @@
     e.printStackTrace();
   }
  finally {
-    traceIDStack.decr();
+    traceIDStack.pop();
   }
 }

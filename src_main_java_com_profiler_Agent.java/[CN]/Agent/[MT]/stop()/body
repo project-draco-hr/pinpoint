@@ -12,5 +12,6 @@
   agentInfo.setIsAlive(false);
   agentInfo.setTimestamp(System.currentTimeMillis());
   agentInfo.setAgentId(getAgentId());
-  DataSender.getInstance().addDataToSend(agentInfo);
+  this.dataSender.send(agentInfo);
+  this.dataSender.stop();
 }

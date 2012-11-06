@@ -1,7 +1,9 @@
 {
   try {
-    System.out.println("\n\n[WRITE SPAN] hashCode=" + span.hashCode() + ",\n\t "+ span+ ",\n\t SpanMap.size="+ spanMap.size()+ ",\n\t CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
-    DataSender.getInstance().addDataToSend(span.toThrift());
+    if (logger.isLoggable(Level.FINE)) {
+      logger.info("[WRITE SPAN]" + span + " size="+ spanMap.size()+ " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
+    }
+    UdpDataSender.getInstance().send(span.toThrift());
     span.cancelTimer();
   }
  catch (  Exception e) {
