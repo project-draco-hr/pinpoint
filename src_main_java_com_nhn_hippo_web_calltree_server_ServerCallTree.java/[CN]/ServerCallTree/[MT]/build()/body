@@ -1,0 +1,32 @@
+{
+  if (isBuilt)   return this;
+  int i=0;
+  for (  Entry<String,Server> entry : servers.entrySet()) {
+    entry.getValue().setSequence(i++);
+  }
+  for (  SpanBo span : spans) {
+    String from=String.valueOf(span.getParentSpanId());
+    String to=String.valueOf(span.getSpanId());
+    Server fromServer=servers.get(spanIdToServerId.get(from));
+    Server toServer=servers.get(spanIdToServerId.get(to));
+    if (fromServer == null) {
+      fromServer=servers.get(spanIdToServerId.get(PREFIX_CLIENT + to));
+    }
+    if (fromServer == null) {
+      logger.debug("invalid form server {}",from);
+      continue;
+    }
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer);
+    if (serverRequest.isSelfCalled()) {
+      continue;
+    }
+    if (ServerRequests.containsKey(serverRequest.getId())) {
+      ServerRequests.get(serverRequest.getId()).increaseCallCount();
+    }
+ else {
+      ServerRequests.put(serverRequest.getId(),serverRequest);
+    }
+  }
+  isBuilt=true;
+  return this;
+}
