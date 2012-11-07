@@ -1,6 +1,6 @@
 {
   byte[] rowKey=Bytes.toBytes(applicationName);
   Get get=new Get(rowKey);
-  get.addFamily(HBaseTables.APPLICATION_CF_AGENTS);
+  get.addFamily(HBaseTables.APPLICATION_INDEX_CF_AGENTS);
   return hbaseOperations2.get(HBaseTables.APPLICATION_INDEX,get,agentIdMapper);
 }

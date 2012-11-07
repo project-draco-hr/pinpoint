@@ -1,7 +1,8 @@
 {
+  String[] agentIds=flow.selectAgentIds(hosts);
   StopWatch watch=new StopWatch();
   watch.start("scanTraceindex");
-  Set<TraceId> traceIds=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
+  Set<TraceId> traceIds=flow.selectTraceIdsFromTraceIndex(agentIds,from,to);
   watch.stop();
   logger.info("time:{} {}",watch.getLastTaskTimeMillis(),traceIds.size());
   watch.start("selectServerCallTree");
