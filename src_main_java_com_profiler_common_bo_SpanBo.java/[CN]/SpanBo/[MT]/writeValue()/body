@@ -1,12 +1,14 @@
 {
   byte[] agentIDBytes=BytesUtils.getBytes(agentId);
+  byte[] applicationNameBytes=BytesUtils.getBytes(applicationName);
   byte[] nameBytes=BytesUtils.getBytes(name);
   byte[] serviceNameBytes=BytesUtils.getBytes(serviceName);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
-  int bufferLength=getBufferLength(agentIDBytes.length,nameBytes.length,serviceNameBytes.length,endPointBytes.length);
+  int bufferLength=getBufferLength(applicationNameBytes.length,agentIDBytes.length,nameBytes.length,serviceNameBytes.length,endPointBytes.length);
   Buffer buffer=new Buffer(bufferLength);
   buffer.put(version);
   buffer.putPrefixedBytes(agentIDBytes);
+  buffer.putPrefixedBytes(applicationNameBytes);
   buffer.putPrefixedBytes(nameBytes);
   buffer.putPrefixedBytes(serviceNameBytes);
   buffer.put(parentSpanId);
