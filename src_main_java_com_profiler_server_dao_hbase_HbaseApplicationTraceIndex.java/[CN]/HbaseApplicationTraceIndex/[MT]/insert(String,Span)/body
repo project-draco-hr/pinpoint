@@ -1,0 +1,5 @@
+{
+  Put put=new Put(SpanUtils.getApplicationTraceIndexRowKey(applicationName,span),span.getTimestamp());
+  put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(span));
+  hbaseTemplate.put(TABLE_NAME,put);
+}

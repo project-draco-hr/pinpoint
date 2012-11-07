@@ -1,0 +1,6 @@
+{
+  byte[] rowKey=Bytes.toBytes(agentId);
+  Get get=new Get(rowKey);
+  get.addFamily(HBaseTables.AGENTID_APPLICATION_INDEX_CF_APPLICATION);
+  return hbaseTemplate.get(TABLE_NAME,get,applicationNameMapper);
+}

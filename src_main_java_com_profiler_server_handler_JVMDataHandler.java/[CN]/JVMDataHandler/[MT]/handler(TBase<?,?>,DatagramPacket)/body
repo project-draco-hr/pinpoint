@@ -2,11 +2,11 @@
   assert(tbase instanceof JVMInfoThriftDTO);
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
-    byte[] bytes=PacketUtils.sliceData(datagramPacket,Header.HEADER_SIZE);
-    jvmInfoDao.insert(dto,bytes);
     if (logger.isInfoEnabled()) {
       logger.info("Received JVM=" + dto);
     }
+    byte[] bytes=PacketUtils.sliceData(datagramPacket,Header.HEADER_SIZE);
+    jvmInfoDao.insert(dto,bytes);
   }
  catch (  Exception e) {
     logger.warn("JVMData handle error. Caused:" + e.getMessage(),e);

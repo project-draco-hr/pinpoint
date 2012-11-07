@@ -5,11 +5,16 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received SPAN={}",span);
     }
-    traceDao.insert(span);
+    String applicationName=agentIdApplicationIndexDao.selectApplicationName(span.getAgentId());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Found Applicationname={}",applicationName);
+    }
+    traceDao.insert(applicationName,span);
     if (span.getParentSpanId() == -1) {
       rootTraceIndexDao.insert(span);
     }
     traceIndexDao.insert(span);
+    applicationTraceIndexDao.insert(applicationName,span);
   }
  catch (  Exception e) {
     logger.warn("Span handle error " + e.getMessage(),e);

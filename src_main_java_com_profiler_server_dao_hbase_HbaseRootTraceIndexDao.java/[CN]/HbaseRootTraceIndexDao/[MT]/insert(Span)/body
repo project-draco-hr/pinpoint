@@ -1,0 +1,9 @@
+{
+  if (rootSpan.getParentSpanId() != -1) {
+    logger.debug("invalid root span{}",rootSpan);
+    return;
+  }
+  Put put=new Put(SpanUtils.getTraceIndexRowKey(rootSpan),rootSpan.getTimestamp());
+  put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(rootSpan));
+  hbaseTemplate.put(TABLE_NAME,put);
+}
