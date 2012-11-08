@@ -6,8 +6,10 @@
   Properties properties=new Properties();
   properties.setProperty("user","lucytest");
   properties.setProperty("password","testlucy");
+  TraceContext traceContext=new TraceContext();
+  TraceID traceID=TraceID.newTraceId();
+  traceContext.attachTraceObject(traceID);
   Connection connection=driver.connect("jdbc:mysql://10.98.133.22:3306/hippo",properties);
-  Trace.getTraceIdOrCreateNew();
   logger.info("Connection class name:" + connection.getClass().getName());
   logger.info("Connection class cl:" + connection.getClass().getClassLoader());
   String url=getUrl.invoke(connection);
@@ -19,5 +21,5 @@
   connection.close();
   String clearUrl=getUrl.invoke(connection);
   Assert.assertNull(clearUrl);
-  Trace.removeCurrentTraceIdFromStack();
+  traceContext.detachTraceObject();
 }

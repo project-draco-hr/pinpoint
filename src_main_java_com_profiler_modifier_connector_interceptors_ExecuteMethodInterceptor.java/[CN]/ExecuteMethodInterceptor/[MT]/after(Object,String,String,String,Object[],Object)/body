@@ -1,5 +1,12 @@
 {
-  Trace.traceBlockBegin();
-  Trace.record(Annotation.ClientRecv,StopWatch.stopAndGetElapsed("ExecuteMethodInterceptor"));
-  Trace.traceBlockEnd();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.record(Annotation.ClientRecv,trace.afterTime());
+  trace.traceBlockEnd();
 }

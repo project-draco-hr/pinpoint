@@ -1,10 +1,9 @@
 {
   try {
-    if (logger.isLoggable(Level.FINE)) {
-      logger.info("[WRITE SPAN]" + span + " size="+ spanMap.size()+ " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("[WRITE SPAN]" + span + " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
     }
-    UdpDataSender.getInstance().send(span.toThrift());
-    span.cancelTimer();
+    dataSender.send(span.toThrift());
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);

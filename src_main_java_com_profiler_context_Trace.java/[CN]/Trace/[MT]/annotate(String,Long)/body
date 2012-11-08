@@ -1,7 +1,7 @@
 {
   if (!tracingEnabled)   return;
   try {
-    mutate(getTraceIdOrCreateNew(),new SpanUpdater(){
+    spanUpdate(new SpanUpdater(){
       @Override public Span updateSpan(      Span span){
         span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,duration));
         return span;

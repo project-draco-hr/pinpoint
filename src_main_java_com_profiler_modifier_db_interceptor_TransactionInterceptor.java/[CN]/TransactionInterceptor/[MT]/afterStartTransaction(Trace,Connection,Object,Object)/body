@@ -1,0 +1,36 @@
+{
+  try {
+    Boolean autocommit=(Boolean)arg;
+    boolean success=InterceptorUtils.isSuccess(result);
+    if (!autocommit) {
+      if (success) {
+        trace.recordAttibute("Transaction","begin");
+      }
+ else {
+        trace.recordAttibute("Transaction","begin fail");
+        Throwable th=(Throwable)result;
+        trace.recordAttibute("Exception",th.getMessage());
+      }
+      trace.record(Annotation.ClientRecv);
+    }
+ else {
+      if (success) {
+        trace.recordAttibute("Transaction","autoCommit:false");
+      }
+ else {
+        trace.recordAttibute("Transaction","autoCommit:false fail");
+        Throwable th=(Throwable)result;
+        trace.recordAttibute("Exception",th.getMessage());
+      }
+      trace.record(Annotation.ClientRecv);
+    }
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

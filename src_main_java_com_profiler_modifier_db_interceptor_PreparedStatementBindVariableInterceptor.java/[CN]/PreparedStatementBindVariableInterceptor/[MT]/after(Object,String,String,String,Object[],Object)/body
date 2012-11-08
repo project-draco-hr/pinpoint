@@ -6,7 +6,9 @@
     logger.info("internal jdbc scope. skip trace");
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
   Map bindList=getBindValue.invoke(target);

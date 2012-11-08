@@ -5,10 +5,11 @@
   if (JDBCScope.isInternal()) {
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
-  Trace.traceBlockBegin();
-  Trace.record(Annotation.ClientRecv,StopWatch.stopAndGetElapsed("StatementExecuteUpdateInterceptor"));
-  Trace.traceBlockEnd();
+  trace.record(Annotation.ClientRecv,trace.afterTime());
+  trace.traceBlockEnd();
 }

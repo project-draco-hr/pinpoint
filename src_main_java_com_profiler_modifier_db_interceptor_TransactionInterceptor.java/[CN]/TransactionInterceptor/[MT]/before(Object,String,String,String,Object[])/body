@@ -6,19 +6,21 @@
     logger.info("internal jdbc scope. skip trace");
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
   if (target instanceof Connection) {
     Connection con=(Connection)target;
     if ("setAutoCommit".equals(methodName)) {
-      beforeStartTransaction(con);
+      beforeStartTransaction(trace,con);
     }
  else     if ("commit".equals(methodName)) {
-      beforeCommit(con);
+      beforeCommit(trace,con);
     }
  else     if ("rollback".equals(methodName)) {
-      beforeRollback(con);
+      beforeRollback(trace,con);
     }
   }
 }

@@ -9,7 +9,9 @@
   if (!InterceptorUtils.isSuccess(result)) {
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
   if (target instanceof Connection) {

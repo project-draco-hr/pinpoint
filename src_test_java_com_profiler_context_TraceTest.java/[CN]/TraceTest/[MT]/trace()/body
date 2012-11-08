@@ -1,11 +1,12 @@
 {
-  Trace.traceBlockBegin();
-  Trace.setTraceId(TraceID.newTraceId());
-  Trace.recordRpcName("service_name","http://");
-  Trace.recordEndPoint("http:localhost:8080");
-  Trace.recordAttibute("KEY","VALUE");
-  Trace.record(Annotation.ServerRecv);
-  getDataFromDB();
-  Trace.record(Annotation.ServerSend);
-  Trace.traceBlockEnd();
+  TraceID traceID=TraceID.newTraceId();
+  Trace trace=new Trace(traceID);
+  trace.traceBlockBegin();
+  trace.recordRpcName("service_name","http://");
+  trace.recordEndPoint("http:localhost:8080");
+  trace.recordAttibute("KEY","VALUE");
+  trace.record(Annotation.ServerRecv);
+  getDataFromDB(trace);
+  trace.record(Annotation.ServerSend);
+  trace.traceBlockEnd();
 }

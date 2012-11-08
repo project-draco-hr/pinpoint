@@ -1,0 +1,25 @@
+{
+  try {
+    String connectionUrl=this.getUrl.invoke(target);
+    trace.recordRpcName("MYSQL",connectionUrl);
+    trace.recordTerminalEndPoint(connectionUrl);
+    boolean success=InterceptorUtils.isSuccess(result);
+    if (success) {
+      trace.recordAttibute("Transaction","commit");
+    }
+ else {
+      trace.recordAttibute("Transaction","commit fail");
+      Throwable th=(Throwable)result;
+      trace.recordAttibute("Exception",th.getMessage());
+    }
+    trace.record(Annotation.ClientRecv);
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

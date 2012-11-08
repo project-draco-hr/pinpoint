@@ -4,5 +4,13 @@
   }
   TraceContext traceContext=TraceContext.getTraceContext();
   traceContext.getActiveThreadCounter().end();
-  Trace.record(Annotation.ServerSend,StopWatch.stopAndGetElapsed("StandardHostValveInvokeModifier-starttime"));
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  if (trace.getCurrentStackContext().getStackFrameId() != 0) {
+    logger.warning("Corrupted CallStack found. StackId not Root(0)");
+  }
+  trace.record(Annotation.ServerSend,trace.afterTime());
 }

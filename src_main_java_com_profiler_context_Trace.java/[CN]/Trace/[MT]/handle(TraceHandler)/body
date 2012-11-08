@@ -1,24 +1,15 @@
 {
-  TraceIDStack traceIDStack=traceIdLocal.get();
-  if (traceIDStack == null) {
-    traceIDStack=new TraceIDStack();
-    traceIdLocal.set(traceIDStack);
-  }
   try {
     TraceID nextId=getNextTraceId();
-    traceIDStack.push();
-    if (traceIDStack.getTraceId() == null) {
-      if (logger.isLoggable(Level.FINE)) {
-        logger.fine(getCurrentTraceId().toString());
-      }
-      traceIDStack.setTraceId(nextId);
-    }
-    handler.handle();
+    callStack.push();
+    StackFrame stackFrame=createCallInfo(nextId,HANDLER_STACKID);
+    callStack.setStackFrame(stackFrame);
+    handler.handle(nextId);
   }
  catch (  Exception e) {
     e.printStackTrace();
   }
  finally {
-    traceIDStack.pop();
+    callStack.pop();
   }
 }

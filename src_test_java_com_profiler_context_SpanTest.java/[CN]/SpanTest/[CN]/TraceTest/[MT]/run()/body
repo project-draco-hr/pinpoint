@@ -5,14 +5,14 @@
  catch (  InterruptedException e) {
     e.printStackTrace();
   }
-  Trace.setTraceId(Trace.getNextTraceId());
-  Trace.recordMessage("msg:client send");
-  Trace.record(Annotation.ClientSend);
-  Trace.recordMessage("msg:server recv");
-  Trace.record(Annotation.ServerRecv);
-  Trace.recordMessage("msg:server send");
-  Trace.record(Annotation.ServerSend);
-  Trace.recordMessage("msg:client recv");
-  Trace.record(Annotation.ClientRecv);
+  Trace trace=new Trace();
+  trace.recordMessage("msg:client send");
+  trace.record(Annotation.ClientSend);
+  trace.recordMessage("msg:server recv");
+  trace.record(Annotation.ServerRecv);
+  trace.recordMessage("msg:server send");
+  trace.record(Annotation.ServerSend);
+  trace.recordMessage("msg:client recv");
+  trace.record(Annotation.ClientRecv);
   endLatch.countDown();
 }

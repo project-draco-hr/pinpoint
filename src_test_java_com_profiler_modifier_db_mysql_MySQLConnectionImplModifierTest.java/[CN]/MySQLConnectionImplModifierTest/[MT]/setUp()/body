@@ -1,5 +1,7 @@
 {
   loader=new TestClassLoader();
+  MySQLNonRegisteringDriverModifier driverModifier=new MySQLNonRegisteringDriverModifier(loader.getInstrumentor());
+  loader.addModifier(driverModifier);
   MySQLConnectionImplModifier connectionModifier=new MySQLConnectionImplModifier(loader.getInstrumentor());
   loader.addModifier(connectionModifier);
   MySQLStatementModifier statementModifier=new MySQLStatementModifier(loader.getInstrumentor());

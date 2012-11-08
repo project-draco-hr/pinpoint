@@ -6,26 +6,25 @@
     logger.info("internal jdbc scope. skip trace");
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
-  Trace.traceBlockBegin();
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
   try {
     String url=(String)this.getUrl.invoke(target);
-    Trace.recordRpcName("MYSQL",url);
-    Trace.recordTerminalEndPoint(url);
+    trace.recordRpcName("MYSQL",url);
+    trace.recordTerminalEndPoint(url);
     if (args.length > 0) {
-      Trace.recordAttibute("Statement",args[0]);
+      trace.recordAttibute("Statement",args[0]);
     }
-    Trace.record(Annotation.ClientSend);
-    StopWatch.start("StatementExecuteQueryInterceptor");
+    trace.record(Annotation.ClientSend);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
       logger.log(Level.WARNING,e.getMessage(),e);
     }
-  }
- finally {
-    Trace.traceBlockEnd();
   }
 }

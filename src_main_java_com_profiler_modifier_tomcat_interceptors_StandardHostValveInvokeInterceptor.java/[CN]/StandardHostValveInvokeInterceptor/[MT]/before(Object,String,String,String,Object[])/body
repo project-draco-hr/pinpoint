@@ -10,8 +10,10 @@
     String clientIP=request.getRemoteAddr();
     String parameters=getRequestParameter(request);
     TraceID traceId=populateTraceIdFromRequest(request);
+    Trace trace;
     if (traceId != null) {
-      Trace.setTraceId(traceId);
+      TraceID nextTraceId=traceId.getNextTraceId();
+      trace=traceContext.attachTraceObject(nextTraceId);
     }
  else {
       TraceID newTraceID=TraceID.newTraceId();
@@ -19,20 +21,20 @@
         logger.info("TraceID not exist. start new trace. " + newTraceID);
         logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
       }
-      Trace.setTraceId(newTraceID);
+      trace=traceContext.attachTraceObject(newTraceID);
     }
-    Trace.recordRpcName("TOMCAT",requestURL);
-    Trace.recordEndPoint(request.getProtocol() + ":" + request.getLocalName()+ ":"+ request.getLocalPort());
-    Trace.recordAttibute("http.url",request.getRequestURI());
+    trace.markBeforeTime();
+    trace.recordRpcName("TOMCAT",requestURL);
+    trace.recordEndPoint(request.getProtocol() + ":" + request.getLocalName()+ ":"+ request.getLocalPort());
+    trace.recordAttibute("http.url",request.getRequestURI());
     if (parameters != null && parameters.length() > 0) {
-      Trace.recordAttibute("http.params",parameters);
+      trace.recordAttibute("http.params",parameters);
     }
-    Trace.record(Annotation.ServerRecv);
-    StopWatch.start("StandardHostValveInvokeModifier-starttime");
+    trace.record(Annotation.ServerRecv);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,"Tomcat StandardHostValve trace start fail",e);
+      logger.log(Level.WARNING,"Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
     }
   }
 }

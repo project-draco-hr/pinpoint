@@ -6,28 +6,27 @@
     logger.info("internal jdbc scope. skip trace");
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
-  Trace.traceBlockBegin();
+  trace.traceBlockBegin();
   try {
     String url=getUrl.invoke(target);
-    Trace.recordRpcName("MYSQL",url);
-    Trace.recordTerminalEndPoint(url);
+    trace.recordRpcName("MYSQL",url);
+    trace.recordTerminalEndPoint(url);
     String sql=getSql.invoke(target);
-    Trace.recordAttibute("PreparedStatement",sql);
+    trace.recordAttibute("PreparedStatement",sql);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
-    Trace.recordAttibute("BindValue",bindString);
+    trace.recordAttibute("BindValue",bindString);
     clean(target);
-    Trace.record(Annotation.ClientSend);
+    trace.record(Annotation.ClientSend);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
       logger.log(Level.WARNING,e.getMessage(),e);
     }
-  }
- finally {
-    Trace.traceBlockEnd();
   }
 }

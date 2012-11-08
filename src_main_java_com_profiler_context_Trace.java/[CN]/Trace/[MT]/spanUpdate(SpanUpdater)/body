@@ -1,0 +1,7 @@
+{
+  StackFrame currentStackFrame=getCurrentStackContext();
+  Span span=spanUpdater.updateSpan(currentStackFrame.getSpan());
+  if (span.isExistsAnnotationKey(Annotation.ClientRecv.getCode()) || span.isExistsAnnotationKey(Annotation.ServerSend.getCode())) {
+    logSpan(span);
+  }
+}

@@ -1,19 +1,8 @@
 {
-  TraceIDStack stack=traceIdLocal.get();
-  TraceID traceId=null;
-  if (stack != null) {
-    traceId=stack.getTraceId();
-  }
- else {
-    if (logger.isLoggable(Level.FINE)) {
-      logger.log(Level.FINE,"#############################################################" + "\n# Something's going wrong. Stack is not exists.             #" + "\n#############################################################");
-    }
-    stack=new TraceIDStack();
-    traceIdLocal.set(stack);
-  }
-  if (traceId != null) {
-    stack.clear();
-    spanMap.remove(traceId);
+  StackFrame currentStackFrame=callStack.getCurrentStackFrame();
+  if (currentStackFrame != null) {
+    TraceID traceId=currentStackFrame.getTraceID();
+    callStack.currentStackFrameClear();
     return true;
   }
   return false;

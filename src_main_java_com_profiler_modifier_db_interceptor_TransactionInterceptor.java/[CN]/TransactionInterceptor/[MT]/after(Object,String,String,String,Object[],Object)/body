@@ -5,19 +5,21 @@
   if (JDBCScope.isInternal()) {
     return;
   }
-  if (Trace.getCurrentTraceId() == null) {
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
   if (target instanceof Connection) {
     Connection con=(Connection)target;
     if ("setAutoCommit".equals(methodName)) {
-      afterStartTransaction(con,args[0],result);
+      afterStartTransaction(trace,con,args[0],result);
     }
  else     if ("commit".equals(methodName)) {
-      afterCommit(con,result);
+      afterCommit(trace,con,result);
     }
  else     if ("rollback".equals(methodName)) {
-      afterRollback(con,result);
+      afterRollback(trace,con,result);
     }
   }
 }
