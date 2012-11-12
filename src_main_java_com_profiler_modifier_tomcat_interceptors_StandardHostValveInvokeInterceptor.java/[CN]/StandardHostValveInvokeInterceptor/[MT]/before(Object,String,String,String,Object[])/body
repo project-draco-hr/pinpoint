@@ -24,7 +24,7 @@
       trace=traceContext.attachTraceObject(newTraceID);
     }
     trace.markBeforeTime();
-    trace.recordRpcName("TOMCAT",requestURL);
+    trace.recordRpcName(Agent.getInstance().getApplicationName(),requestURL);
     trace.recordEndPoint(request.getProtocol() + ":" + request.getLocalName()+ ":"+ request.getLocalPort());
     trace.recordAttibute("http.url",request.getRequestURI());
     if (parameters != null && parameters.length() > 0) {
