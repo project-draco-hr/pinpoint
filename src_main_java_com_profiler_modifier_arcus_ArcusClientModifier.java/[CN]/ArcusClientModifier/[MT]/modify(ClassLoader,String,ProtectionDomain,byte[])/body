@@ -4,14 +4,8 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
-    aClass.addTraceVariable("__traceId","__setTraceId","__getTraceId","com.profiler.context.TraceID");
-    aClass.addTraceVariable("__nextTraceId","__setNextTraceId","__getNextTraceId","com.profiler.context.TraceID");
-    aClass.insertCodeAfterConstructor(null,"{ __setTraceId(com.profiler.context.Trace.getCurrentTraceId()); __setNextTraceId(com.profiler.context.Trace.getNextTraceId()); }");
-    aClass.addTraceVariable("__commandCreatedTime","__setCommandCreatedTime","__getCommandCreatedTime","long");
-    aClass.insertCodeAfterConstructor(null,"{ __setCommandCreatedTime(System.nanoTime()); }");
-    aClass.addTraceVariable("__cancelledTime","__setCancelledTime","__getCancelledTime","long");
-    aClass.insertCodeBeforeMethod("transitionState",new String[]{"net.spy.memcached.ops.OperationState"},getTransitionStateAfterCode());
-    aClass.insertCodeBeforeMethod("cancel",null,getCancelBeforeCode());
+    aClass.addTraceVariable("__asyncTraceId","__setAsyncTraceId","__getAsyncTraceId","int");
+    aClass.addConstructorInterceptor(null,new ConstructInterceptor());
     return aClass.toBytecode();
   }
  catch (  Exception e) {

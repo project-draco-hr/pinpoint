@@ -1,0 +1,12 @@
+{
+  try {
+    if (logger.isLoggable(Level.INFO)) {
+      Thread thread=Thread.currentThread();
+      logger.info("[WRITE SPAN]" + span + " CurrentThreadID="+ thread.getId()+ ",\n\t CurrentThreadName="+ thread.getName());
+    }
+    this.dataSender.send(span.toThrift());
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,e.getMessage(),e);
+  }
+}
