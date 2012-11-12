@@ -5,7 +5,7 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received SPAN={}",span);
     }
-    String applicationName=agentIdApplicationIndexDao.selectApplicationName(span.getAgentId());
+    String applicationName=span.getServiceName();
     if (applicationName == null) {
       logger.info("Applicationname '{}' not found. Drop the log.",applicationName);
       return;
