@@ -1,6 +1,9 @@
 {
-  target.setDataSender(this.dataSender);
-  int id=idGenerator.getAndIncrement();
-  trace.put(id,target);
+  asyncTrace.setDataSender(this.dataSender);
+  TimeoutTask timeoutTask=new TimeoutTask(trace,asyncTrace.getAsyncId());
+  asyncTrace.setTimeoutTask(timeoutTask);
+  int id=put(asyncTrace);
+  asyncTrace.setAsyncId(id);
+  timer.schedule(timeoutTask,FLUSH_TIMEOUT);
   return id;
 }
