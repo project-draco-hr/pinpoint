@@ -6,5 +6,11 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("CATALINA_HOME=" + catalinaHome);
   }
-  return new String[]{catalinaHome + "/lib/servlet-api.jar",catalinaHome + "/lib/catalina.jar"};
+  String type=System.getProperty("hippo.servertype","tomcat");
+  if (type.equals("bloc")) {
+    return new String[]{catalinaHome + "/server/lib/catalina.jar",catalinaHome + "/common/lib/servlet-api.jar"};
+  }
+ else {
+    return new String[]{catalinaHome + "/lib/servlet-api.jar",catalinaHome + "/lib/catalina.jar"};
+  }
 }
