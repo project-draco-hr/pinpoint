@@ -1,14 +1,9 @@
 {
   if (!tracingEnabled)   return;
   try {
-    spanUpdate(new SpanUpdater(){
-      @Override public Span updateSpan(      Span span){
-        span.setServiceName(service);
-        span.setName(rpc);
-        return span;
-      }
-    }
-);
+    Span span=getCurrentStackFrame().getSpan();
+    span.setServiceName(service);
+    span.setName(rpc);
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);

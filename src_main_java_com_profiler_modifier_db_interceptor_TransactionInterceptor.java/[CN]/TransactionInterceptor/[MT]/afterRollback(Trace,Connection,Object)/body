@@ -5,12 +5,12 @@
     trace.recordTerminalEndPoint(connectionUrl);
     boolean success=InterceptorUtils.isSuccess(result);
     if (success) {
-      trace.recordAttibute("Transaction","rollback");
+      trace.recordAttribute("Transaction","rollback");
     }
  else {
-      trace.recordAttibute("Transaction","rollback fail");
+      trace.recordAttribute("Transaction","rollback fail");
       Throwable th=(Throwable)result;
-      trace.recordAttibute("Exception",th.getMessage());
+      trace.recordAttribute("Exception",th.getMessage());
     }
     trace.record(Annotation.ClientRecv);
   }

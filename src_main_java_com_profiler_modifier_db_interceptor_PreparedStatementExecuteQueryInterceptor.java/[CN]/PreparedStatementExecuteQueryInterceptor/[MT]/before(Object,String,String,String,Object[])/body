@@ -17,10 +17,10 @@
     trace.recordRpcName("MYSQL",url);
     trace.recordTerminalEndPoint(url);
     String sql=getSql.invoke(target);
-    trace.recordAttibute("PreparedStatement",sql);
+    trace.recordAttribute("PreparedStatement",sql);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
-    trace.recordAttibute("BindValue",bindString);
+    trace.recordAttribute("BindValue",bindString);
     clean(target);
     trace.record(Annotation.ClientSend);
   }

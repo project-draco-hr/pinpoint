@@ -1,0 +1,18 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  TraceContext traceContext=TraceContext.getTraceContext();
+  GlobalCallTrace globalCallTrace=traceContext.getGlobalCallTrace();
+  Object asyncId=asyncTraceId.invoke(target);
+  if (asyncId == null) {
+    logger.info("asyncId not found");
+    return;
+  }
+  AsyncTrace asyncTrace=globalCallTrace.removeTraceObject((Integer)asyncId);
+  BaseOperationImpl baseOperation=(BaseOperationImpl)target;
+  if (!baseOperation.isCancelled()) {
+    TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
+    timeObject.markCancelTime();
+  }
+}

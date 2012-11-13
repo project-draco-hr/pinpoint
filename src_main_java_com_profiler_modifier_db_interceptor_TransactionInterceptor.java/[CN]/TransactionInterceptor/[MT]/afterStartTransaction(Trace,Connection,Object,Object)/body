@@ -4,23 +4,23 @@
     boolean success=InterceptorUtils.isSuccess(result);
     if (!autocommit) {
       if (success) {
-        trace.recordAttibute("Transaction","begin");
+        trace.recordAttribute("Transaction","begin");
       }
  else {
-        trace.recordAttibute("Transaction","begin fail");
+        trace.recordAttribute("Transaction","begin fail");
         Throwable th=(Throwable)result;
-        trace.recordAttibute("Exception",th.getMessage());
+        trace.recordAttribute("Exception",th.getMessage());
       }
       trace.record(Annotation.ClientRecv);
     }
  else {
       if (success) {
-        trace.recordAttibute("Transaction","autoCommit:false");
+        trace.recordAttribute("Transaction","autoCommit:false");
       }
  else {
-        trace.recordAttibute("Transaction","autoCommit:false fail");
+        trace.recordAttribute("Transaction","autoCommit:false fail");
         Throwable th=(Throwable)result;
-        trace.recordAttibute("Exception",th.getMessage());
+        trace.recordAttribute("Exception",th.getMessage());
       }
       trace.record(Annotation.ClientRecv);
     }

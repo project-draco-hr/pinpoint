@@ -1,14 +1,9 @@
 {
   if (!tracingEnabled)   return;
   try {
-    spanUpdate(new SpanUpdater(){
-      @Override public Span updateSpan(      Span span){
-        span.setEndPoint(endPoint);
-        span.setTerminal(isTerminal);
-        return span;
-      }
-    }
-);
+    Span span=getCurrentStackFrame().getSpan();
+    span.setEndPoint(endPoint);
+    span.setTerminal(isTerminal);
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);

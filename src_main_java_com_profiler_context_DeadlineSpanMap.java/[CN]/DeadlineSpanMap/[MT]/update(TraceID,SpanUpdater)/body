@@ -5,7 +5,6 @@
     span=new Span(traceId,null,null);
     map.put(traceIdKey,span);
     TimerTask task=new FlushTimedoutSpanTask(span);
-    span.setTimerTask(task);
     timer.schedule(task,FLUSH_TIMEOUT);
   }
   return spanUpdater.updateSpan(span);

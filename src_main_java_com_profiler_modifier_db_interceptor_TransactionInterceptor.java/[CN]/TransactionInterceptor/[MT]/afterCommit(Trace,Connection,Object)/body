@@ -5,12 +5,12 @@
     trace.recordTerminalEndPoint(connectionUrl);
     boolean success=InterceptorUtils.isSuccess(result);
     if (success) {
-      trace.recordAttibute("Transaction","commit");
+      trace.recordAttribute("Transaction","commit");
     }
  else {
-      trace.recordAttibute("Transaction","commit fail");
+      trace.recordAttribute("Transaction","commit fail");
       Throwable th=(Throwable)result;
-      trace.recordAttibute("Exception",th.getMessage());
+      trace.recordAttribute("Exception",th.getMessage());
     }
     trace.record(Annotation.ClientRecv);
   }
