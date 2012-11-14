@@ -2,19 +2,16 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
-  TraceContext traceContext=TraceContext.getTraceContext();
-  Object asyncId=asyncTraceId.invoke(target);
-  if (asyncId == null) {
-    logger.fine("asyncId not found");
+  AsyncTrace asyncTrace=(AsyncTrace)asyncTraceId.invoke(target);
+  if (asyncTrace == null) {
+    logger.fine("asyncTrace not found");
     return;
   }
-  System.out.println(asyncId);
-  AsyncTrace asyncTrace=(AsyncTrace)asyncId;
   OperationState newState=(OperationState)args[0];
   BaseOperationImpl baseOperation=(BaseOperationImpl)target;
   if (newState == OperationState.READING) {
     if (logger.isLoggable(Level.FINE)) {
-      logger.fine("event:" + newState + " asyncId:"+ asyncId);
+      logger.fine("event:" + newState + " asyncTrace:"+ asyncTrace);
     }
     if (asyncTrace.getState() != AsyncTrace.STATE_INIT) {
       return;
@@ -35,7 +32,7 @@
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
     if (logger.isLoggable(Level.FINE)) {
-      logger.fine("event:" + newState + " asyncId:"+ asyncId);
+      logger.fine("event:" + newState + " asyncTrace:"+ asyncTrace);
     }
     boolean fire=asyncTrace.fire();
     if (!fire) {
