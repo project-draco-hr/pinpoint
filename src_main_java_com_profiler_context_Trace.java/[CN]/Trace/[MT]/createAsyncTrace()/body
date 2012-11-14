@@ -1,0 +1,7 @@
+{
+  TraceID nextTraceId=getNextTraceId();
+  Span span=new Span(nextTraceId,null,null);
+  AsyncTrace asyncTrace=new AsyncTrace(span);
+  asyncTrace.setDataSender(this.getDataSender());
+  return asyncTrace;
+}

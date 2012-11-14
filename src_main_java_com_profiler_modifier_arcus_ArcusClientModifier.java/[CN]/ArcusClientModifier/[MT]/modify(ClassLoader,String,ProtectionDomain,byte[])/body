@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
-    aClass.addTraceVariable("__asyncTraceId","__setAsyncTraceId","__getAsyncTraceId","int");
+    aClass.addTraceVariable("__asyncTraceId","__setAsyncTraceId","__getAsyncTraceId","java.lang.Object");
     aClass.addConstructorInterceptor(null,new ConstructInterceptor());
     Interceptor transitionStateInterceptor=newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.arcus.interceptors.BaseOperationTransitionStateInterceptor");
     aClass.addInterceptor("transitionState",new String[]{"net.spy.memcached.ops.OperationState"},transitionStateInterceptor);

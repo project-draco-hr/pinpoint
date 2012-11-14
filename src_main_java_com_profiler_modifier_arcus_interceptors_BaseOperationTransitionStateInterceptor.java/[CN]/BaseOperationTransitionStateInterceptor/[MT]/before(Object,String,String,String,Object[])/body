@@ -3,22 +3,21 @@
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
   TraceContext traceContext=TraceContext.getTraceContext();
-  GlobalCallTrace globalCallTrace=traceContext.getGlobalCallTrace();
   Object asyncId=asyncTraceId.invoke(target);
   if (asyncId == null) {
     logger.fine("asyncId not found");
     return;
   }
-  AsyncTrace asyncTrace=globalCallTrace.removeTraceObject((Integer)asyncId);
-  if (asyncTrace == null) {
-    logger.fine("AsyncTrace already timeout");
-    return;
-  }
+  System.out.println(asyncId);
+  AsyncTrace asyncTrace=(AsyncTrace)asyncId;
   OperationState newState=(OperationState)args[0];
   BaseOperationImpl baseOperation=(BaseOperationImpl)target;
   if (newState == OperationState.READING) {
     if (logger.isLoggable(Level.FINE)) {
       logger.fine("event:" + newState + " asyncId:"+ asyncId);
+    }
+    if (asyncTrace.getState() != AsyncTrace.STATE_INIT) {
+      return;
     }
     MemcachedNode handlingNode=baseOperation.getHandlingNode();
     SocketAddress socketAddress=handlingNode.getSocketAddress();
@@ -37,6 +36,10 @@
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
     if (logger.isLoggable(Level.FINE)) {
       logger.fine("event:" + newState + " asyncId:"+ asyncId);
+    }
+    boolean fire=asyncTrace.fire();
+    if (!fire) {
+      return;
     }
     Exception exception=baseOperation.getException();
     if (exception != null) {

@@ -7,11 +7,7 @@
   if (trace == null) {
     return;
   }
-  GlobalCallTrace globalCallTrace=traceContext.getGlobalCallTrace();
-  TraceID nextTraceId=trace.getNextTraceId();
-  Span span=new Span(nextTraceId,null,null);
-  AsyncTrace asyncTrace=new AsyncTrace(span);
+  AsyncTrace asyncTrace=trace.createAsyncTrace();
   asyncTrace.setAttachObject(new TimeObject());
-  int asyncId=globalCallTrace.registerTraceObject(asyncTrace);
-  asyncTraceId.invoke(target,asyncId);
+  asyncTraceId.invoke(target,asyncTrace);
 }
