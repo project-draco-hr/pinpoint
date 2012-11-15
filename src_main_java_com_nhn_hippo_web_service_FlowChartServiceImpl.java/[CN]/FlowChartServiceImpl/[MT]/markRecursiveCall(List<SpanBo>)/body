@@ -1,0 +1,12 @@
+{
+  for (int i=0; i < list.size(); i++) {
+    SpanBo a=list.get(i);
+    for (int j=0; j < list.size(); j++) {
+      if (i == j)       continue;
+      SpanBo b=list.get(j);
+      if (a.getServiceName().equals(b.getServiceName()) && a.getSpanId() == b.getParentSpanId()) {
+        a.increaseRecursiveCallCount();
+      }
+    }
+  }
+}

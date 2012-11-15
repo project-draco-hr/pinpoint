@@ -3,6 +3,7 @@
   List<List<SpanBo>> traces=this.traceDao.selectSpansAndAnnotation(traceIds);
   for (  List<SpanBo> transaction : traces) {
     List<SpanBo> processed=refine(transaction);
+    markRecursiveCall(processed);
     for (    SpanBo eachTransaction : processed) {
       tree.addSpan(eachTransaction);
     }
