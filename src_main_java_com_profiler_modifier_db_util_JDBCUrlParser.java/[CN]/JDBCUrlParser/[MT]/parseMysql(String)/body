@@ -1,0 +1,8 @@
+{
+  StringMaker maker=new StringMaker(url);
+  maker.after("jdbc:mysql:");
+  String host=maker.after("//").before('/').before(':').value();
+  String port=maker.next().after(':').before('/').value();
+  String databaseId=maker.next().afterLast('/').before('?').value();
+  return new DatabaseInfo(DatabaseInfo.DBType.MYSQL,url,host,port,databaseId);
+}

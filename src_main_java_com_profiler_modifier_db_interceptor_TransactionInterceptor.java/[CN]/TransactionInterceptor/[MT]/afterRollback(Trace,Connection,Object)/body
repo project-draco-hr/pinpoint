@@ -1,8 +1,8 @@
 {
   try {
-    String connectionUrl=this.getUrl.invoke(target);
-    trace.recordRpcName("MYSQL",connectionUrl);
-    trace.recordTerminalEndPoint(connectionUrl);
+    DatabaseInfo databaseInfo=(DatabaseInfo)this.getUrl.invoke(target);
+    trace.recordRpcName(getRpcName(databaseInfo),databaseInfo.getUrl());
+    trace.recordTerminalEndPoint(databaseInfo.getUrl());
     boolean success=InterceptorUtils.isSuccess(result);
     if (success) {
       trace.recordAttribute("Transaction","rollback");

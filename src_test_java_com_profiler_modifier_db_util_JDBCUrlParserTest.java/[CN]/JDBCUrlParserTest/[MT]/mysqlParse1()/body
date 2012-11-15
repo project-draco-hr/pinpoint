@@ -1,0 +1,7 @@
+{
+  DatabaseInfo dbInfo=JDBCUrlParser.parse("jdbc:mysql://ip_address:3306/database_name?useUnicode=yes&amp;characterEncoding=UTF-8");
+  Assert.assertEquals(dbInfo.getType(),DatabaseInfo.DBType.MYSQL);
+  Assert.assertEquals(dbInfo.getHost(),"ip_address");
+  Assert.assertEquals(dbInfo.getPort(),"3306");
+  Assert.assertEquals(dbInfo.getDatabaseId(),"database_name");
+}

@@ -3,4 +3,12 @@
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
   JDBCScope.pushScope();
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.record(Annotation.ClientSend);
+  trace.markBeforeTime();
 }

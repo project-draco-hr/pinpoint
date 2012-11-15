@@ -3,13 +3,27 @@
     logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
   }
   JDBCScope.popScope();
-  if (!InterceptorUtils.isSuccess(result)) {
+  boolean success=InterceptorUtils.isSuccess(result);
+  DatabaseInfo databaseInfo=createDatabaseInfo((String)args[0]);
+  if (success) {
+    this.setUrl.invoke(result,databaseInfo);
+  }
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
-  if (result instanceof Connection) {
-    Object url=args[0];
-    if (url instanceof String) {
-      this.setUrl.invoke(result,url);
-    }
+  trace.recordRpcName(databaseInfo.getType() + "/" + databaseInfo.getDatabaseId(),databaseInfo.getUrl());
+  trace.recordTerminalEndPoint(databaseInfo.getUrl());
+  trace.recordAttribute("JDBCConnection","create");
+  if (success) {
+    trace.recordAttribute("Success","true");
   }
+ else {
+    Throwable th=(Throwable)result;
+    trace.recordAttribute("Success","false");
+    trace.recordAttribute("Exception",th.getMessage());
+  }
+  trace.record(Annotation.ClientRecv,trace.afterTime());
+  trace.traceBlockEnd();
 }

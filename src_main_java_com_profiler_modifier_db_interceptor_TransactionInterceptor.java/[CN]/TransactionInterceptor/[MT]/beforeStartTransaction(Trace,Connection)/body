@@ -1,7 +1,7 @@
 {
   trace.traceBlockBegin();
-  String connectionUrl=this.getUrl.invoke(target);
-  trace.recordRpcName("MYSQL",connectionUrl);
-  trace.recordTerminalEndPoint(connectionUrl);
+  DatabaseInfo databaseInfo=(DatabaseInfo)this.getUrl.invoke(target);
+  trace.recordRpcName(getRpcName(databaseInfo),databaseInfo.getUrl());
+  trace.recordTerminalEndPoint(databaseInfo.getUrl());
   trace.record(Annotation.ClientSend);
 }

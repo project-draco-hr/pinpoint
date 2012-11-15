@@ -15,7 +15,7 @@
     return;
   }
   if (target instanceof Connection) {
-    String connectionUrl=getUrl.invoke(target);
-    setUrl.invoke(result,connectionUrl);
+    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+    setUrl.invoke(result,databaseInfo);
   }
 }

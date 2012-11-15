@@ -1,0 +1,7 @@
+{
+  String lowCaseURL=url.toLowerCase();
+  if (lowCaseURL.contains("jdbc:mysql")) {
+    return parseMysql(url);
+  }
+  return new DatabaseInfo(DatabaseInfo.DBType.UNKOWN,url,"error","error","error");
+}
