@@ -2,6 +2,9 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("JDBCScope push:" + Thread.currentThread().getName());
+  }
   JDBCScope.pushScope();
   TraceContext traceContext=TraceContext.getTraceContext();
   Trace trace=traceContext.currentTraceObject();

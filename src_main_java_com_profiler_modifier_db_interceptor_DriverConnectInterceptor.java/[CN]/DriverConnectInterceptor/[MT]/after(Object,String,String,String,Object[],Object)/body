@@ -2,6 +2,9 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
   }
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("JDBCScope pop:" + Thread.currentThread().getName());
+  }
   JDBCScope.popScope();
   boolean success=InterceptorUtils.isSuccess(result);
   DatabaseInfo databaseInfo=createDatabaseInfo((String)args[0]);
