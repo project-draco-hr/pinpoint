@@ -1,7 +1,10 @@
 {
-  String lowCaseURL=url.toLowerCase();
-  if (lowCaseURL.contains("jdbc:mysql")) {
+  String lowCaseURL=url.toLowerCase().trim();
+  if (lowCaseURL.startsWith("jdbc:mysql")) {
     return parseMysql(url);
   }
-  return new DatabaseInfo(DatabaseInfo.DBType.UNKOWN,url,"error","error","error");
+  if (lowCaseURL.startsWith("jdbc:oracle")) {
+    return parseOracle(url);
+  }
+  return new DatabaseInfo(DatabaseInfo.DBType.UNKOWN,url,url,"error","error","error");
 }

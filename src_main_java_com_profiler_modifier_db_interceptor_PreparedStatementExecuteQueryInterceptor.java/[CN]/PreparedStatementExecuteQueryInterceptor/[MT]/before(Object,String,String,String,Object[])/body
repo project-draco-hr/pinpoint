@@ -21,6 +21,7 @@
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
     trace.recordAttribute("BindValue",bindString);
+    trace.recordAttribute("API",descriptor.getClassName() + "." + descriptor.getMethodName()+ descriptor.getSimpleParameterDescriptor());
     clean(target);
     trace.record(Annotation.ClientSend);
   }

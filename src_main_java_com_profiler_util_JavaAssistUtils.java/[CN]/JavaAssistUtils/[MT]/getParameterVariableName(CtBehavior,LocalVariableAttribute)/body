@@ -1,0 +1,21 @@
+{
+  if (localVariableAttribute == null) {
+    return null;
+  }
+  CtClass[] parameterTypes=method.getParameterTypes();
+  if (parameterTypes.length == 0) {
+    return EMPTY_STRING_ARRAY;
+  }
+  String[] parameterVariableNames=new String[parameterTypes.length];
+  int firstIndex=0;
+  int modifiers=method.getModifiers();
+  if (Modifier.isStatic(modifiers) == false) {
+    firstIndex++;
+  }
+  for (int i=0; i < parameterTypes.length; i++) {
+    int accesIndex=firstIndex + i;
+    String variablename=localVariableAttribute.variableName(accesIndex);
+    parameterVariableNames[i]=variablename;
+  }
+  return parameterVariableNames;
+}

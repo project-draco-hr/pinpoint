@@ -14,6 +14,9 @@
   try {
     if (interceptor != null) {
       interceptorId=InterceptorRegistry.addInterceptor(interceptor);
+      if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
+        setMethodDescriptor(behavior,(ByteCodeMethodDescriptorSupport)interceptor);
+      }
     }
  else {
       interceptor=InterceptorRegistry.getInterceptor(interceptorId);
