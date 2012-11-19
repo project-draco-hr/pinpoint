@@ -1,39 +1,43 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(12);
+  BitSet incoming=iprot.readBitSet(13);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
   }
   if (incoming.get(1)) {
-    struct.timestamp=iprot.readI64();
-    struct.setTimestampIsSet(true);
-  }
-  if (incoming.get(2)) {
     struct.mostTraceId=iprot.readI64();
     struct.setMostTraceIdIsSet(true);
   }
-  if (incoming.get(3)) {
+  if (incoming.get(2)) {
     struct.leastTraceId=iprot.readI64();
     struct.setLeastTraceIdIsSet(true);
   }
+  if (incoming.get(3)) {
+    struct.startTime=iprot.readI64();
+    struct.setStartTimeIsSet(true);
+  }
   if (incoming.get(4)) {
+    struct.endTime=iprot.readI64();
+    struct.setEndTimeIsSet(true);
+  }
+  if (incoming.get(5)) {
     struct.name=iprot.readString();
     struct.setNameIsSet(true);
   }
-  if (incoming.get(5)) {
+  if (incoming.get(6)) {
     struct.serviceName=iprot.readString();
     struct.setServiceNameIsSet(true);
   }
-  if (incoming.get(6)) {
+  if (incoming.get(7)) {
     struct.spanId=iprot.readI64();
     struct.setSpanIdIsSet(true);
   }
-  if (incoming.get(7)) {
+  if (incoming.get(8)) {
     struct.parentSpanId=iprot.readI64();
     struct.setParentSpanIdIsSet(true);
   }
-  if (incoming.get(8)) {
+  if (incoming.get(9)) {
 {
       org.apache.thrift.protocol.TList _list5=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.annotations=new ArrayList<Annotation>(_list5.size);
@@ -46,15 +50,15 @@
     }
     struct.setAnnotationsIsSet(true);
   }
-  if (incoming.get(9)) {
+  if (incoming.get(10)) {
     struct.flag=iprot.readI32();
     struct.setFlagIsSet(true);
   }
-  if (incoming.get(10)) {
+  if (incoming.get(11)) {
     struct.endPoint=iprot.readString();
     struct.setEndPointIsSet(true);
   }
-  if (incoming.get(11)) {
+  if (incoming.get(12)) {
     struct.terminal=iprot.readBool();
     struct.setTerminalIsSet(true);
   }

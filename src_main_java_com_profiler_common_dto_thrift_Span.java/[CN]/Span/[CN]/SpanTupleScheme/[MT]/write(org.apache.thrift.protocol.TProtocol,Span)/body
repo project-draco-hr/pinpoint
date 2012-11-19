@@ -4,51 +4,57 @@
   if (struct.isSetAgentId()) {
     optionals.set(0);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetMostTraceId()) {
     optionals.set(1);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetLeastTraceId()) {
     optionals.set(2);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetStartTime()) {
     optionals.set(3);
   }
-  if (struct.isSetName()) {
+  if (struct.isSetEndTime()) {
     optionals.set(4);
   }
-  if (struct.isSetServiceName()) {
+  if (struct.isSetName()) {
     optionals.set(5);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetServiceName()) {
     optionals.set(6);
   }
-  if (struct.isSetParentSpanId()) {
+  if (struct.isSetSpanId()) {
     optionals.set(7);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetParentSpanId()) {
     optionals.set(8);
   }
-  if (struct.isSetFlag()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(9);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetFlag()) {
     optionals.set(10);
   }
-  if (struct.isSetTerminal()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(11);
   }
-  oprot.writeBitSet(optionals,12);
+  if (struct.isSetTerminal()) {
+    optionals.set(12);
+  }
+  oprot.writeBitSet(optionals,13);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
-  }
-  if (struct.isSetTimestamp()) {
-    oprot.writeI64(struct.timestamp);
   }
   if (struct.isSetMostTraceId()) {
     oprot.writeI64(struct.mostTraceId);
   }
   if (struct.isSetLeastTraceId()) {
     oprot.writeI64(struct.leastTraceId);
+  }
+  if (struct.isSetStartTime()) {
+    oprot.writeI64(struct.startTime);
+  }
+  if (struct.isSetEndTime()) {
+    oprot.writeI64(struct.endTime);
   }
   if (struct.isSetName()) {
     oprot.writeString(struct.name);
