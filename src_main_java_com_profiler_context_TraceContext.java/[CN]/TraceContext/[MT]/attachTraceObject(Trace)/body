@@ -1,0 +1,8 @@
+{
+  Trace old=this.threadLocal.get();
+  if (old != null) {
+    throw new IllegalStateException("already Trace Object exist.");
+  }
+  trace.setDataSender(this.dataSender);
+  threadLocal.set(trace);
+}

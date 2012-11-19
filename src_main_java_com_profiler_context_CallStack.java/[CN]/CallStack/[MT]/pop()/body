@@ -1,6 +1,13 @@
 {
-  if (index > 0) {
+  if (index >= 0) {
     stack[index]=null;
     index--;
+  }
+ else {
+    Logger logger=Logger.getLogger(this.getClass().getName());
+    if (logger.isLoggable(Level.WARNING)) {
+      Exception ex=new Exception("Profiler CallStack check. index:" + index);
+      logger.log(Level.WARNING,"invalid callStack found",ex);
+    }
   }
 }

@@ -27,7 +27,7 @@
     asyncTrace.recordAttibute("arcus.command",cmd);
     TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
     timeObject.markSendTime();
-    long createTime=asyncTrace.getSpan().getCreateTime();
+    long createTime=asyncTrace.getSpan().getStartTime();
     asyncTrace.record(Annotation.ClientSend,System.currentTimeMillis() - createTime);
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {

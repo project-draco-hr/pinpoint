@@ -1,8 +1,6 @@
 {
-  StackFrame stackFrame=new StackFrame();
-  stackFrame.setStackFrameId(stackId);
-  stackFrame.setTraceID(nextId);
   Span span=new Span(nextId,null,null);
-  stackFrame.setSpan(span);
+  StackFrame stackFrame=new StackFrame(span);
+  stackFrame.setStackFrameId(stackId);
   return stackFrame;
 }
