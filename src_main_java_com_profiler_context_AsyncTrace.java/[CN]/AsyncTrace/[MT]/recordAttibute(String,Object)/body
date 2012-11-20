@@ -1,9 +1,3 @@
 {
-  try {
-    AnnotationTranscoder.Encoded enc=transcoder.encode(value);
-    span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,enc.getValueType(),enc.getBytes(),null));
-  }
- catch (  Exception e) {
-    logger.log(Level.SEVERE,e.getMessage(),e);
-  }
+  span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,value));
 }

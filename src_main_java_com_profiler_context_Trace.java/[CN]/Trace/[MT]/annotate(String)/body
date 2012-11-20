@@ -2,7 +2,7 @@
   if (!tracingEnabled)   return;
   try {
     Span span=getCurrentStackFrame().getSpan();
-    span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,duration));
+    span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key));
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);

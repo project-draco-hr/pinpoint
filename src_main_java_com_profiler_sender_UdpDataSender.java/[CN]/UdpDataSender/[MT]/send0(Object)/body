@@ -1,5 +1,16 @@
 {
-  byte[] sendData=serialize(dto);
+  TBase tBase;
+  if (dto instanceof TBase) {
+    tBase=(TBase)dto;
+  }
+ else   if (dto instanceof Thriftable) {
+    tBase=((Thriftable)dto).toThrift();
+  }
+ else {
+    logger.warning("invalid type:" + dto.getClass());
+    return;
+  }
+  byte[] sendData=serialize(tBase);
   if (sendData == null) {
     return;
   }

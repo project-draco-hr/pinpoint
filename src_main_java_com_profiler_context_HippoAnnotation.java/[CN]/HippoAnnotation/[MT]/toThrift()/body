@@ -1,11 +1,9 @@
 {
   com.profiler.common.dto.thrift.Annotation ann=new com.profiler.common.dto.thrift.Annotation();
   ann.setTimestamp(timestamp);
-  if (duration != null) {
-    ann.setDuration(duration);
-  }
   ann.setKey(key);
-  ann.setValueTypeCode(valueTypeCode);
-  ann.setValue(value);
+  AnnotationTranscoder.Encoded encode=transCoder.encode(value);
+  ann.setValueTypeCode(encode.getValueType());
+  ann.setValue(encode.getBytes());
   return ann;
 }
