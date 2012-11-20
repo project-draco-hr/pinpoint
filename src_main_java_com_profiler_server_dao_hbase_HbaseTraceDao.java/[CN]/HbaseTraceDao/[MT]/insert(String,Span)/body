@@ -1,7 +1,7 @@
 {
   SpanBo spanBo=new SpanBo(span);
   byte[] value=spanBo.writeValue();
-  Put put=new Put(SpanUtils.getTraceId(span),spanBo.getTimestamp());
+  Put put=new Put(SpanUtils.getTraceId(span),spanBo.getStartTime());
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
   put.add(COLFAM_SPAN,spanId,value);
   List<Annotation> annotations=span.getAnnotations();
