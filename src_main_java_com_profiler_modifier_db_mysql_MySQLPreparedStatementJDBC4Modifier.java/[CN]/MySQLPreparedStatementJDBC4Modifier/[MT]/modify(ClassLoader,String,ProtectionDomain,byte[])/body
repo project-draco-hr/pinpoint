@@ -2,7 +2,7 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + className);
   }
-  checkLibrary(classLoader,className);
+  this.byteCodeInstrumentor.checkLibrary(classLoader,className);
   try {
     InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(className);
     bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
