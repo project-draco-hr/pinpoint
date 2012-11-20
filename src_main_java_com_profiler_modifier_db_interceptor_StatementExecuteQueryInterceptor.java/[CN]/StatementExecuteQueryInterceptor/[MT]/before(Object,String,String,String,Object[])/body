@@ -17,9 +17,6 @@
     DatabaseInfo databaseInfo=(DatabaseInfo)this.getUrl.invoke(target);
     trace.recordRpcName(databaseInfo.getType() + "/" + databaseInfo.getDatabaseId(),databaseInfo.getUrl());
     trace.recordTerminalEndPoint(databaseInfo.getUrl());
-    if (args.length > 0) {
-      trace.recordAttribute("Statement",args[0]);
-    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

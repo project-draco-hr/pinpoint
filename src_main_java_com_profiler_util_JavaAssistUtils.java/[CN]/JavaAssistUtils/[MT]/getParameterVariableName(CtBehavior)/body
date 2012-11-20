@@ -1,4 +1,7 @@
 {
   LocalVariableAttribute localVariableAttribute=lookupLocalVariableAttribute(method);
+  if (localVariableAttribute == null) {
+    return getParameterDefaultVariableName(method);
+  }
   return getParameterVariableName(method,localVariableAttribute);
 }

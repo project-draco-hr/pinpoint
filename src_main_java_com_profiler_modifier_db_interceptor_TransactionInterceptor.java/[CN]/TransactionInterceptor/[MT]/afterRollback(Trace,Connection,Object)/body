@@ -3,13 +3,8 @@
     DatabaseInfo databaseInfo=(DatabaseInfo)this.getUrl.invoke(target);
     trace.recordRpcName(getRpcName(databaseInfo),databaseInfo.getUrl());
     trace.recordTerminalEndPoint(databaseInfo.getUrl());
-    boolean success=InterceptorUtils.isSuccess(result);
-    if (success) {
-      trace.recordAttribute("Transaction","rollback");
-    }
- else {
-      trace.recordAttribute("Transaction","rollback fail");
-    }
+    trace.recordApi(descriptor);
+    trace.recordException(result);
     trace.recordException(result);
   }
  catch (  Exception e) {
