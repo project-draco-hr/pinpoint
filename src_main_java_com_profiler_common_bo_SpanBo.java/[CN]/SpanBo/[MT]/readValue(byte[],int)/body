@@ -2,6 +2,8 @@
   Buffer buffer=new Buffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.readPrefixedString();
+  this.startTime=buffer.readLong();
+  this.endTime=buffer.readLong();
   this.name=buffer.readPrefixedString();
   this.serviceName=buffer.readPrefixedString();
   this.parentSpanId=buffer.readLong();
