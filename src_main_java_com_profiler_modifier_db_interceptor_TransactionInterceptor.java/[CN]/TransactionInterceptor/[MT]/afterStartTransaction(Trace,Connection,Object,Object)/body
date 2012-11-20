@@ -11,7 +11,6 @@
         Throwable th=(Throwable)result;
         trace.recordAttribute("Exception",th.getMessage());
       }
-      trace.record(Annotation.ClientRecv);
     }
  else {
       if (success) {
@@ -22,7 +21,6 @@
         Throwable th=(Throwable)result;
         trace.recordAttribute("Exception",th.getMessage());
       }
-      trace.record(Annotation.ClientRecv);
     }
   }
  catch (  Exception e) {
@@ -31,6 +29,7 @@
     }
   }
  finally {
+    trace.markAfterTime();
     trace.traceBlockEnd();
   }
 }

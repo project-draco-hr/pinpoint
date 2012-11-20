@@ -17,7 +17,6 @@
       Throwable th=(Throwable)result;
       trace.recordAttribute("Exception",th.getMessage());
     }
-    trace.record(Annotation.ClientRecv);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
@@ -25,6 +24,7 @@
     }
   }
  finally {
+    trace.markAfterTime();
     trace.traceBlockEnd();
   }
 }

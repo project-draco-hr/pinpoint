@@ -2,10 +2,10 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
-  if (logger.isLoggable(Level.FINE)) {
-    logger.fine("JDBCScope push:" + Thread.currentThread().getName());
+  if (JDBCScope.isInternal()) {
+    logger.info("internal jdbc scope. skip trace");
+    return;
   }
-  JDBCScope.pushScope();
   TraceContext traceContext=TraceContext.getTraceContext();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {

@@ -12,6 +12,7 @@
     return;
   }
   trace.traceBlockBegin();
+  trace.markBeforeTime();
   try {
     DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
     trace.recordRpcName(databaseInfo.getType() + "/" + databaseInfo.getDatabaseId(),databaseInfo.getUrl());
@@ -23,7 +24,6 @@
     trace.recordAttribute("BindValue",bindString);
     trace.recordAttribute("API",descriptor.getClassName() + "." + descriptor.getMethodName()+ descriptor.getSimpleParameterDescriptor()+ ":"+ descriptor.getLineNumber());
     clean(target);
-    trace.record(Annotation.ClientSend);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
