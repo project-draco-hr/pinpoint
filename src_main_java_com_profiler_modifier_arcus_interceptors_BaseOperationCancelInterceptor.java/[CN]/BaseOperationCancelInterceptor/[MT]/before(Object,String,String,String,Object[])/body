@@ -2,7 +2,7 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
-  AsyncTrace asyncTrace=(AsyncTrace)asyncTraceId.invoke(target);
+  AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
     logger.fine("asyncTrace not found ");
     return;

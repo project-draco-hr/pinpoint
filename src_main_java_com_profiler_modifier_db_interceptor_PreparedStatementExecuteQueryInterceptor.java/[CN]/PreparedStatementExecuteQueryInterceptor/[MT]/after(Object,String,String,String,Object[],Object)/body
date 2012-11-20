@@ -11,12 +11,7 @@
     return;
   }
   try {
-    boolean success=InterceptorUtils.isSuccess(result);
-    trace.recordAttribute("Success",success);
-    if (!success) {
-      Throwable th=(Throwable)result;
-      trace.recordAttribute("Exception",th.getMessage());
-    }
+    trace.recordException(result);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

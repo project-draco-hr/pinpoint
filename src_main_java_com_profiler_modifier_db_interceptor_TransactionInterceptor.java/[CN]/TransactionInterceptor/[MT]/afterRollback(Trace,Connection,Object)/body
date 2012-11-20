@@ -9,9 +9,8 @@
     }
  else {
       trace.recordAttribute("Transaction","rollback fail");
-      Throwable th=(Throwable)result;
-      trace.recordAttribute("Exception",th.getMessage());
     }
+    trace.recordException(result);
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

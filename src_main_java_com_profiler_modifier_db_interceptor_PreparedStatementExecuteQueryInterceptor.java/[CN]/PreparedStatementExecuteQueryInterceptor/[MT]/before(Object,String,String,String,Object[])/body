@@ -22,7 +22,7 @@
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
     trace.recordAttribute("BindValue",bindString);
-    trace.recordAttribute("API",descriptor.getClassName() + "." + descriptor.getMethodName()+ descriptor.getSimpleParameterDescriptor()+ ":"+ descriptor.getLineNumber());
+    trace.recordApi(descriptor,args);
     clean(target);
   }
  catch (  Exception e) {

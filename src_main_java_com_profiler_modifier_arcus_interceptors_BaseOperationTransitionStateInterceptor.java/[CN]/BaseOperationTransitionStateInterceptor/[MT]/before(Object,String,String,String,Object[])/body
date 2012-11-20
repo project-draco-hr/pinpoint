@@ -2,7 +2,7 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
-  AsyncTrace asyncTrace=(AsyncTrace)asyncTraceId.invoke(target);
+  AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
     logger.fine("asyncTrace not found");
     return;
@@ -25,10 +25,8 @@
     asyncTrace.recordRpcName("ARCUS",baseOperation.getClass().getSimpleName());
     String cmd=getCommand(baseOperation);
     asyncTrace.recordAttibute("arcus.command",cmd);
-    TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
-    timeObject.markSendTime();
-    long createTime=asyncTrace.getSpan().getStartTime();
-    asyncTrace.record(Annotation.ClientSend,System.currentTimeMillis() - createTime);
+    asyncTrace.markAfterTime();
+    asyncTrace.traceBlockEnd();
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
     if (logger.isLoggable(Level.FINE)) {
@@ -40,16 +38,18 @@
     }
     Exception exception=baseOperation.getException();
     if (exception != null) {
-      asyncTrace.recordAttibute("exception",InterceptorUtils.exceptionToString(exception));
+      asyncTrace.recordAttibute("Exception",InterceptorUtils.exceptionToString(exception));
     }
     if (!baseOperation.isCancelled()) {
       TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
-      asyncTrace.record(Annotation.ClientRecv,timeObject.getSendTime());
+      asyncTrace.markAfterTime();
+      asyncTrace.traceBlockEnd();
     }
  else {
-      asyncTrace.recordAttribute("exception","cancelled by user");
+      asyncTrace.recordAttribute("Exception","cancelled by user");
       TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
-      asyncTrace.record(Annotation.ClientRecv,timeObject.getCancelTime());
+      asyncTrace.markAfterTime();
+      asyncTrace.traceBlockEnd();
     }
   }
 }
