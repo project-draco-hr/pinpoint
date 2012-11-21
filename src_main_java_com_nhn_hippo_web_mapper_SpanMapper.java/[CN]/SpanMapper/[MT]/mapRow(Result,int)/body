@@ -1,5 +1,8 @@
 {
   byte[] rowKey=result.getRow();
+  if (rowKey == null) {
+    return Collections.emptyList();
+  }
   long most=BytesUtils.bytesToFirstLong(rowKey);
   long least=BytesUtils.bytesToSecondLong(rowKey);
   KeyValue[] keyList=result.raw();
