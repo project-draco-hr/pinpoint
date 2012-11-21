@@ -4,6 +4,7 @@
   this.timestamp=buffer.readLong();
   this.key=buffer.readPrefixedString();
   this.valueType=buffer.readInt();
-  this.value=buffer.readPrefixedBytes();
+  this.byteValue=buffer.readPrefixedBytes();
+  this.value=transcoder.decode(valueType,byteValue);
   return buffer.getOffset();
 }
