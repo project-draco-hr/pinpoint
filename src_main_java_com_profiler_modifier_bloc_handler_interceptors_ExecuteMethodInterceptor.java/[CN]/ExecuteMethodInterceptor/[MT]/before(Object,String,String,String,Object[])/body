@@ -5,9 +5,9 @@
   try {
     TraceContext traceContext=TraceContext.getTraceContext();
     traceContext.getActiveThreadCounter().start();
-    HttpServletRequest request=(HttpServletRequest)args[0];
-    String requestURL=request.getRequestURI();
-    String clientIP=request.getRemoteAddr();
+    external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
+    String requestURL=request.requestURI().toString();
+    String clientIP=request.remoteAddr().toString();
     String parameters=getRequestParameter(request);
     TraceID traceId=populateTraceIdFromRequest(request);
     Trace trace;
@@ -30,8 +30,8 @@
     }
     trace.markBeforeTime();
     trace.recordRpcName(Agent.getInstance().getApplicationName(),requestURL);
-    trace.recordEndPoint(request.getProtocol() + ":" + request.getServerName()+ ":"+ request.getServerPort());
-    trace.recordAttribute("http.url",request.getRequestURI());
+    trace.recordEndPoint(request.protocol().toString() + ":" + request.serverName().toString()+ ":"+ request.getServerPort());
+    trace.recordAttribute("http.url",request.requestURI().toString());
     if (parameters != null && parameters.length() > 0) {
       trace.recordAttribute("http.params",parameters);
     }

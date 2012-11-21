@@ -1,0 +1,14 @@
+{
+  Enumeration<?> attrs=request.getParameters().getParameterNames();
+  StringBuilder params=new StringBuilder();
+  while (attrs.hasMoreElements()) {
+    String keyString=attrs.nextElement().toString();
+    Object value=request.getParameters().getParameter(keyString);
+    if (value != null) {
+      String valueString=value.toString();
+      int valueStringLength=valueString.length();
+      if (valueStringLength > 0 && valueStringLength < 100)       params.append(keyString).append("=").append(valueString);
+    }
+  }
+  return params.toString();
+}

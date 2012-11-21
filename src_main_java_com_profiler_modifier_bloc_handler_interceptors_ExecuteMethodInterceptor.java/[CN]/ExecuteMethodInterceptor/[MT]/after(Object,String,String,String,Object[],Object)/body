@@ -1,0 +1,19 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  TraceContext traceContext=TraceContext.getTraceContext();
+  traceContext.getActiveThreadCounter().end();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  if (trace.getCurrentStackFrame().getStackFrameId() != 0) {
+    logger.warning("Corrupted CallStack found. StackId not Root(0)");
+  }
+  trace.recordApi(descriptor);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}
