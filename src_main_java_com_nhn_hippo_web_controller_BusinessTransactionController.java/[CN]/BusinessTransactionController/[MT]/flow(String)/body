@@ -9,5 +9,8 @@
   ServerCallTree callTree=flow.selectServerCallTree(traceIds);
   mv.addObject("nodes",callTree.getNodes());
   mv.addObject("links",callTree.getLinks());
+  RPCCallTree rpcTree=flow.selectRPCCallTree(traceIds);
+  mv.addObject("rpcnodes",rpcTree.getNodes());
+  mv.addObject("rpclinks",rpcTree.getLinks());
   return mv;
 }

@@ -1,28 +1,15 @@
 {
-  SpanBo removeSpan=null;
-  boolean rescan=true;
   for (int i=0; i < list.size(); i++) {
     SpanBo span=list.get(i);
     String svcName=span.getServiceName();
-    if (removeSpan != null) {
-      if (span.getParentSpanId() == removeSpan.getSpanId()) {
-        logger.debug("modify span for removed span. before {}",span);
-        span.setParentSpanId(removeSpan.getParentSpanId());
-        span.getAnnotationBoList().addAll(removeSpan.getAnnotationBoList());
-        logger.debug("modify span for removed span. after {}",span);
-        removeSpan=null;
-      }
-    }
     if ("HTTP/1.1".equals(svcName)) {
-      removeSpan=list.get(i);
-      logger.debug("Remove span. {}",removeSpan);
+      SpanBo child=findChildSpan(list,span);
+      if (child != null) {
+        child.setParentSpanId(span.getParentSpanId());
+        child.getAnnotationBoList().addAll(span.getAnnotationBoList());
+      }
       list.remove(i);
-    }
-    if (removeSpan != null && i == list.size() - 1 && rescan) {
-      logger.debug("modify span not found. scan again. {}",removeSpan);
-      i=-1;
-      rescan=false;
-      continue;
+      i--;
     }
   }
   return list;
