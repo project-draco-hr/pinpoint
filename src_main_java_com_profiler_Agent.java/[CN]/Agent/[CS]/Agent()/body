@@ -5,4 +5,8 @@
   this.agentId=getId("hippo.agentId",machineName);
   this.nodeName=getId("hippo.nodeName",machineName);
   this.applicationName=getId("hippo.applicationName","UnknownApplicationName");
+  this.dataSender=UdpDataSender.getInstance();
+  TraceContext traceContext=TraceContext.getTraceContext();
+  traceContext.setDataSender(this.dataSender);
+  systemMonitor.setDataSender(dataSender);
 }
