@@ -7,5 +7,34 @@
  catch (  Exception e) {
     if (future != null)     future.cancel(true);
   }
+  Future<Boolean> future2=null;
+  try {
+    future2=arcus2.set("hippo:testkey",10,"Hello, Hippo.");
+    future2.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (future2 != null)     future2.cancel(true);
+  }
+  Future<Boolean> future3=null;
+  try {
+    future3=arcusPool.set("hippo:testkey",10,"Hello, Hippo.");
+    future3.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (future3 != null)     future3.cancel(true);
+  }
+  ConnectionFactoryBuilder cfb=new ConnectionFactoryBuilder();
+  cfb.setFrontCacheExpireTime(1000);
+  cfb.setMaxFrontCacheElements(1000);
+  ArcusClient c=ArcusClient.createArcusClient("dev.arcuscloud.nhncorp.com:17288","dev",cfb);
+  try {
+    c.set("hippo:k",1000,"V").get(500,TimeUnit.MILLISECONDS);
+    c.get("hippo:k");
+    c.get("hippo:k");
+    c.get("hippo:k");
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
   return "arcus";
 }
