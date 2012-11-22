@@ -1,0 +1,11 @@
+{
+  Logger logger=Logger.getLogger(JavaAssistUtils.class.getName());
+  if (logger.isLoggable(Level.FINE)) {
+    StringBuilder buffer=new StringBuilder(1024);
+    for (int i=0; i < lva.tableLength(); i++) {
+      buffer.append("\n");
+      buffer.append(i + "  start_pc:" + lva.startPc(i)+ "  index:"+ lva.index(i)+ "  name:"+ lva.variableName(i)+ "  nameIndex:"+ lva.nameIndex(i));
+    }
+    logger.fine(buffer.toString());
+  }
+}
