@@ -7,9 +7,13 @@
       if (child != null) {
         child.setParentSpanId(span.getParentSpanId());
         child.getAnnotationBoList().addAll(span.getAnnotationBoList());
+        list.remove(i);
+        i--;
+        continue;
       }
-      list.remove(i);
-      i--;
+ else {
+        span.setServiceName(span.getEndPoint());
+      }
     }
   }
   return list;
