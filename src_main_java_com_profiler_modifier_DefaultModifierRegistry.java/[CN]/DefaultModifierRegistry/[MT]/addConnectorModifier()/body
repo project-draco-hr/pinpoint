@@ -1,6 +1,12 @@
 {
   HTTPClientModifier httpClientModifier=new HTTPClientModifier(byteCodeInstrumentor);
   addModifier(httpClientModifier);
+  MemcachedClientModifier memcachedClientModifier=new MemcachedClientModifier(byteCodeInstrumentor);
+  addModifier(memcachedClientModifier);
   ArcusClientModifier arcusClientModifier=new ArcusClientModifier(byteCodeInstrumentor);
   addModifier(arcusClientModifier);
+  BaseOperationModifier baseOperationModifier=new BaseOperationModifier(byteCodeInstrumentor);
+  addModifier(baseOperationModifier);
+  CacheManagerModifier cacheManagerModifier=new CacheManagerModifier(byteCodeInstrumentor);
+  addModifier(cacheManagerModifier);
 }

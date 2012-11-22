@@ -22,7 +22,11 @@
       InetSocketAddress address=(InetSocketAddress)socketAddress;
       asyncTrace.recordTerminalEndPoint("ARCUS:" + address.getHostName() + ":"+ address.getPort());
     }
-    asyncTrace.recordRpcName("ARCUS",baseOperation.getClass().getSimpleName());
+    String serviceCode=(String)getServiceCode.invoke(target);
+    if (serviceCode == null) {
+      serviceCode="UNKNOWN";
+    }
+    asyncTrace.recordRpcName("ARCUS/" + serviceCode,baseOperation.getClass().getSimpleName());
     String cmd=getCommand(baseOperation);
     asyncTrace.recordAttibute("arcus.command",cmd);
     asyncTrace.markAfterTime();

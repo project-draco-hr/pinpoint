@@ -4,8 +4,8 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.arcus.interceptors.SetCacheManagerInterceptor");
-    aClass.addInterceptor("setCacheManager",new String[]{"net.spy.memcached.CacheManager"},setCacheManagerInterceptor);
+    aClass.addTraceVariable("__serviceCode","__setServiceCode","__getServiceCode","java.lang.String");
+    aClass.addConstructorInterceptor(new String[]{"java.lang.String","java.lang.String","net.spy.memcached.ConnectionFactoryBuilder","java.util.concurrent.CountDownLatch","int","int"},new CacheManagerConstructInterceptor());
     return aClass.toBytecode();
   }
  catch (  Exception e) {
