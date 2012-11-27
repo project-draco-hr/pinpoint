@@ -20,8 +20,13 @@
     if (span.getParentSpanId() == -1) {
       rootTraceIndexDao.insert(span);
     }
-    traceIndexDao.insert(span);
-    applicationTraceIndexDao.insert(applicationName,span);
+    if (ServiceType.parse(span.getServiceType()).isIndexable()) {
+      traceIndexDao.insert(span);
+      applicationTraceIndexDao.insert(applicationName,span);
+    }
+ else {
+      logger.debug("Skip writing index. '{}'",span);
+    }
   }
  catch (  Exception e) {
     logger.warn("Span handle error " + e.getMessage(),e);
