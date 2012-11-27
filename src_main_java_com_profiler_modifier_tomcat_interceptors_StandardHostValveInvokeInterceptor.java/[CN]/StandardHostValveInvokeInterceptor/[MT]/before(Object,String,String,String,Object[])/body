@@ -29,7 +29,7 @@
       traceContext.attachTraceObject(trace);
     }
     trace.markBeforeTime();
-    trace.recordRpcName("TOMCAT/" + Agent.getInstance().getApplicationName(),requestURL);
+    trace.recordRpcName(ServiceType.TOMCAT,Agent.getInstance().getApplicationName(),requestURL);
     trace.recordEndPoint(request.getProtocol() + ":" + request.getServerName()+ ":"+ request.getServerPort());
     trace.recordAttribute("http.url",request.getRequestURI());
     if (parameters != null && parameters.length() > 0) {

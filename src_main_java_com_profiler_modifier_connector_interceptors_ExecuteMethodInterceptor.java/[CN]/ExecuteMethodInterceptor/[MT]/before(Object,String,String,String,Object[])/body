@@ -17,7 +17,7 @@
   request.addHeader(Header.HTTP_PARENT_SPAN_ID.toString(),Long.toString(nextId.getParentSpanId()));
   request.addHeader(Header.HTTP_SAMPLED.toString(),String.valueOf(nextId.isSampled()));
   request.addHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
-  trace.recordRpcName(request.getProtocolVersion().toString(),"CLIENT");
+  trace.recordRpcName(ServiceType.HTTP_CLIENT,request.getProtocolVersion().toString(),"CLIENT");
   trace.recordEndPoint(request.getProtocolVersion().toString() + ":" + host.getHostName()+ ":"+ host.getPort());
   trace.recordAttribute("http.url",request.getRequestLine().getUri());
 }
