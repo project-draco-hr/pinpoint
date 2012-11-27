@@ -1,5 +1,5 @@
 {
-  RPC rpc=new RPC(span.getAgentId(),span.getServiceName(),span.getRpc(),span.isTerminal());
+  RPC rpc=new RPC(span.getAgentId(),span.getServiceName(),span.getRpc(),span.getServiceType().isTerminal());
   if (rpc.getId().contains("mysql:jdbc:") || rpc.getId().contains("favicon")) {
     return;
   }

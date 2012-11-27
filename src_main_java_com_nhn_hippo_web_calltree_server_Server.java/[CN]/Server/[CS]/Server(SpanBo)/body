@@ -1,6 +1,6 @@
 {
   this.id=span.getServiceName();
-  if (span.isTerminal()) {
+  if (span.getServiceType().isTerminal()) {
     this.agentIds.add(span.getAgentId());
   }
  else {
@@ -8,7 +8,6 @@
   }
   this.applicationName=span.getServiceName();
   this.endPoint=span.getEndPoint();
-  this.terminal=span.isTerminal();
   this.recursiveCallCount=span.getRecursiveCallCount();
   this.serviceType=span.getServiceType();
 }
