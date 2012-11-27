@@ -1,0 +1,12 @@
+{
+  this.classId=classId;
+  this.className=className;
+  this.methodIdIndex=new HashMap<Integer,MethodMapping>();
+  this.methodMapping=new HashMap<MethodMapping,MethodMapping>();
+  for (int i=0; i < methodIdIndex.length; i++) {
+    this.methodIdIndex.put(i,methodIdIndex[i]);
+    this.methodMapping.put(methodIdIndex[i],methodIdIndex[i]);
+    methodIdIndex[i].setClassMapping(this);
+    methodIdIndex[i].setMethodId(i);
+  }
+}
