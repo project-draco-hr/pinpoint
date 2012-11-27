@@ -1,0 +1,26 @@
+{
+  for (  SpanBo spanBo : spans) {
+    List<AnnotationBo> annotationBoList=spanBo.getAnnotationBoList();
+    for (    AnnotationBo annotationBo : annotationBoList) {
+      if ("API-ID".equals(annotationBo.getKey())) {
+        MethodMapping methodMapping=null;
+        try {
+          methodMapping=ApiMappingTable.findMethodMapping((Integer)annotationBo.getValue());
+        }
+ catch (        Exception e) {
+          e.printStackTrace();
+        }
+        String className=methodMapping.getClassMapping().getClassName();
+        String methodName=methodMapping.getMethodName();
+        String[] parameterType=methodMapping.getParameterType();
+        String[] parameterName=methodMapping.getParameterName();
+        String args=ApiUtils.mergeParameterVariableNameDescription(parameterType,parameterName);
+        AnnotationBo api=new AnnotationBo();
+        api.setKey("API");
+        api.setValue(className + "." + methodName+ args);
+        annotationBoList.add(api);
+        break;
+      }
+    }
+  }
+}
