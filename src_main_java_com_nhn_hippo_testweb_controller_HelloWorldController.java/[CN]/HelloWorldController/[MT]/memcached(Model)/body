@@ -1,0 +1,11 @@
+{
+  Future<Boolean> future=null;
+  try {
+    future=memcached.set("hippo:testkey",10,"Hello, Hippo.");
+    future.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (future != null)     future.cancel(true);
+  }
+  return "memcached";
+}
