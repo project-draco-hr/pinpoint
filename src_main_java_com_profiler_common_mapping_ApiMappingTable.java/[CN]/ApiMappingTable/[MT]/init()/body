@@ -1,6 +1,8 @@
 {
-  this.put(MysqlDriver);
-  this.put(MysqlConnection);
-  this.put(MySqlPreparedStatement);
-  this.put(MySqlStatementImpl);
+  JDBCRegister jdbc=new JDBCRegister();
+  jdbc.register(this,1000,1999);
+  ServerRegister server=new ServerRegister();
+  server.register(this,5000,5999);
+  RpcClientRegister rpcClient=new RpcClientRegister();
+  rpcClient.register(this,10000,10999);
 }
