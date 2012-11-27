@@ -2,7 +2,7 @@
   for (int i=0; i < list.size(); i++) {
     SpanBo span=list.get(i);
     String svcName=span.getServiceName();
-    if ("HTTP/1.1".equals(svcName)) {
+    if (span.getServiceType().isRpcClient()) {
       SpanBo child=findChildSpan(list,span);
       if (child != null) {
         child.setParentSpanId(span.getParentSpanId());
@@ -13,6 +13,7 @@
       }
  else {
         span.setServiceName(span.getEndPoint());
+        span.setServiceType(ServiceType.UNKNOWN_CLOUD);
       }
     }
   }
