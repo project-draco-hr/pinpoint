@@ -12,15 +12,21 @@
   oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
   oprot.writeI64(struct.leastTraceId);
   oprot.writeFieldEnd();
+  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.spanId);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.parentSpanId);
+  oprot.writeFieldEnd();
   oprot.writeFieldBegin(START_TIME_FIELD_DESC);
   oprot.writeI64(struct.startTime);
   oprot.writeFieldEnd();
   oprot.writeFieldBegin(ELAPSED_FIELD_DESC);
   oprot.writeI32(struct.elapsed);
   oprot.writeFieldEnd();
-  if (struct.name != null) {
-    oprot.writeFieldBegin(NAME_FIELD_DESC);
-    oprot.writeString(struct.name);
+  if (struct.rpc != null) {
+    oprot.writeFieldBegin(RPC_FIELD_DESC);
+    oprot.writeString(struct.rpc);
     oprot.writeFieldEnd();
   }
   if (struct.serviceName != null) {
@@ -28,14 +34,17 @@
     oprot.writeString(struct.serviceName);
     oprot.writeFieldEnd();
   }
-  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
-  oprot.writeI64(struct.spanId);
+  oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
+  oprot.writeI16(struct.serviceType);
   oprot.writeFieldEnd();
-  if (struct.isSetParentSpanId()) {
-    oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
-    oprot.writeI64(struct.parentSpanId);
+  if (struct.endPoint != null) {
+    oprot.writeFieldBegin(END_POINT_FIELD_DESC);
+    oprot.writeString(struct.endPoint);
     oprot.writeFieldEnd();
   }
+  oprot.writeFieldBegin(TERMINAL_FIELD_DESC);
+  oprot.writeBool(struct.terminal);
+  oprot.writeFieldEnd();
   if (struct.annotations != null) {
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
@@ -49,17 +58,9 @@
   }
   if (struct.isSetFlag()) {
     oprot.writeFieldBegin(FLAG_FIELD_DESC);
-    oprot.writeI32(struct.flag);
+    oprot.writeI16(struct.flag);
     oprot.writeFieldEnd();
   }
-  if (struct.endPoint != null) {
-    oprot.writeFieldBegin(END_POINT_FIELD_DESC);
-    oprot.writeString(struct.endPoint);
-    oprot.writeFieldEnd();
-  }
-  oprot.writeFieldBegin(TERMINAL_FIELD_DESC);
-  oprot.writeBool(struct.terminal);
-  oprot.writeFieldEnd();
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }

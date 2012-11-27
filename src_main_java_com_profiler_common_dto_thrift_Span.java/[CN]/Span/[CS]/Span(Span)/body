@@ -6,16 +6,21 @@
   }
   this.mostTraceId=other.mostTraceId;
   this.leastTraceId=other.leastTraceId;
+  this.spanId=other.spanId;
+  this.parentSpanId=other.parentSpanId;
   this.startTime=other.startTime;
   this.elapsed=other.elapsed;
-  if (other.isSetName()) {
-    this.name=other.name;
+  if (other.isSetRpc()) {
+    this.rpc=other.rpc;
   }
   if (other.isSetServiceName()) {
     this.serviceName=other.serviceName;
   }
-  this.spanId=other.spanId;
-  this.parentSpanId=other.parentSpanId;
+  this.serviceType=other.serviceType;
+  if (other.isSetEndPoint()) {
+    this.endPoint=other.endPoint;
+  }
+  this.terminal=other.terminal;
   if (other.isSetAnnotations()) {
     List<Annotation> __this__annotations=new ArrayList<Annotation>();
     for (    Annotation other_element : other.annotations) {
@@ -24,8 +29,4 @@
     this.annotations=__this__annotations;
   }
   this.flag=other.flag;
-  if (other.isSetEndPoint()) {
-    this.endPoint=other.endPoint;
-  }
-  this.terminal=other.terminal;
 }

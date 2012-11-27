@@ -2,13 +2,14 @@
   Buffer buffer=new Buffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.readPrefixedString();
+  this.parentSpanId=buffer.readLong();
   this.startTime=buffer.readLong();
   this.elapsed=buffer.readInt();
-  this.name=buffer.readPrefixedString();
+  this.rpc=buffer.readPrefixedString();
   this.serviceName=buffer.readPrefixedString();
-  this.parentSpanId=buffer.readLong();
-  this.flag=buffer.readInt();
+  this.serviceType=ServiceType.parse(buffer.readShort());
   this.endPoint=buffer.readPrefixedString();
   this.terminal=buffer.readBoolean();
+  this.flag=buffer.readShort();
   return buffer.getOffset();
 }

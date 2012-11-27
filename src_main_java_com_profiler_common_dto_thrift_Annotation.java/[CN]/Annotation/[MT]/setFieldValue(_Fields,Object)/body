@@ -1,27 +1,19 @@
 {
 switch (field) {
-case TIMESTAMP:
+case KEY:
     if (value == null) {
-      unsetTimestamp();
+      unsetKey();
     }
  else {
-      setTimestamp((Long)value);
+      setKey((String)value);
     }
   break;
-case KEY:
-if (value == null) {
-  unsetKey();
-}
- else {
-  setKey((String)value);
-}
-break;
 case VALUE_TYPE_CODE:
 if (value == null) {
-unsetValueTypeCode();
+  unsetValueTypeCode();
 }
  else {
-setValueTypeCode((Integer)value);
+  setValueTypeCode((Integer)value);
 }
 break;
 case VALUE:
@@ -30,6 +22,14 @@ unsetValue();
 }
  else {
 setValue((ByteBuffer)value);
+}
+break;
+case TIMESTAMP:
+if (value == null) {
+unsetTimestamp();
+}
+ else {
+setTimestamp((Long)value);
 }
 break;
 }

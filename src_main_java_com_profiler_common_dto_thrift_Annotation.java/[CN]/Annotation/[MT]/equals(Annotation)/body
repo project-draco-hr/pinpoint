@@ -1,11 +1,5 @@
 {
   if (that == null)   return false;
-  boolean this_present_timestamp=true;
-  boolean that_present_timestamp=true;
-  if (this_present_timestamp || that_present_timestamp) {
-    if (!(this_present_timestamp && that_present_timestamp))     return false;
-    if (this.timestamp != that.timestamp)     return false;
-  }
   boolean this_present_key=true && this.isSetKey();
   boolean that_present_key=true && that.isSetKey();
   if (this_present_key || that_present_key) {
@@ -23,6 +17,12 @@
   if (this_present_value || that_present_value) {
     if (!(this_present_value && that_present_value))     return false;
     if (!this.value.equals(that.value))     return false;
+  }
+  boolean this_present_timestamp=true;
+  boolean that_present_timestamp=true;
+  if (this_present_timestamp || that_present_timestamp) {
+    if (!(this_present_timestamp && that_present_timestamp))     return false;
+    if (this.timestamp != that.timestamp)     return false;
   }
   return true;
 }

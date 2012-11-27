@@ -18,6 +18,18 @@
     if (!(this_present_leastTraceId && that_present_leastTraceId))     return false;
     if (this.leastTraceId != that.leastTraceId)     return false;
   }
+  boolean this_present_spanId=true;
+  boolean that_present_spanId=true;
+  if (this_present_spanId || that_present_spanId) {
+    if (!(this_present_spanId && that_present_spanId))     return false;
+    if (this.spanId != that.spanId)     return false;
+  }
+  boolean this_present_parentSpanId=true;
+  boolean that_present_parentSpanId=true;
+  if (this_present_parentSpanId || that_present_parentSpanId) {
+    if (!(this_present_parentSpanId && that_present_parentSpanId))     return false;
+    if (this.parentSpanId != that.parentSpanId)     return false;
+  }
   boolean this_present_startTime=true;
   boolean that_present_startTime=true;
   if (this_present_startTime || that_present_startTime) {
@@ -30,11 +42,11 @@
     if (!(this_present_elapsed && that_present_elapsed))     return false;
     if (this.elapsed != that.elapsed)     return false;
   }
-  boolean this_present_name=true && this.isSetName();
-  boolean that_present_name=true && that.isSetName();
-  if (this_present_name || that_present_name) {
-    if (!(this_present_name && that_present_name))     return false;
-    if (!this.name.equals(that.name))     return false;
+  boolean this_present_rpc=true && this.isSetRpc();
+  boolean that_present_rpc=true && that.isSetRpc();
+  if (this_present_rpc || that_present_rpc) {
+    if (!(this_present_rpc && that_present_rpc))     return false;
+    if (!this.rpc.equals(that.rpc))     return false;
   }
   boolean this_present_serviceName=true && this.isSetServiceName();
   boolean that_present_serviceName=true && that.isSetServiceName();
@@ -42,29 +54,11 @@
     if (!(this_present_serviceName && that_present_serviceName))     return false;
     if (!this.serviceName.equals(that.serviceName))     return false;
   }
-  boolean this_present_spanId=true;
-  boolean that_present_spanId=true;
-  if (this_present_spanId || that_present_spanId) {
-    if (!(this_present_spanId && that_present_spanId))     return false;
-    if (this.spanId != that.spanId)     return false;
-  }
-  boolean this_present_parentSpanId=true && this.isSetParentSpanId();
-  boolean that_present_parentSpanId=true && that.isSetParentSpanId();
-  if (this_present_parentSpanId || that_present_parentSpanId) {
-    if (!(this_present_parentSpanId && that_present_parentSpanId))     return false;
-    if (this.parentSpanId != that.parentSpanId)     return false;
-  }
-  boolean this_present_annotations=true && this.isSetAnnotations();
-  boolean that_present_annotations=true && that.isSetAnnotations();
-  if (this_present_annotations || that_present_annotations) {
-    if (!(this_present_annotations && that_present_annotations))     return false;
-    if (!this.annotations.equals(that.annotations))     return false;
-  }
-  boolean this_present_flag=true && this.isSetFlag();
-  boolean that_present_flag=true && that.isSetFlag();
-  if (this_present_flag || that_present_flag) {
-    if (!(this_present_flag && that_present_flag))     return false;
-    if (this.flag != that.flag)     return false;
+  boolean this_present_serviceType=true;
+  boolean that_present_serviceType=true;
+  if (this_present_serviceType || that_present_serviceType) {
+    if (!(this_present_serviceType && that_present_serviceType))     return false;
+    if (this.serviceType != that.serviceType)     return false;
   }
   boolean this_present_endPoint=true && this.isSetEndPoint();
   boolean that_present_endPoint=true && that.isSetEndPoint();
@@ -77,6 +71,18 @@
   if (this_present_terminal || that_present_terminal) {
     if (!(this_present_terminal && that_present_terminal))     return false;
     if (this.terminal != that.terminal)     return false;
+  }
+  boolean this_present_annotations=true && this.isSetAnnotations();
+  boolean that_present_annotations=true && that.isSetAnnotations();
+  if (this_present_annotations || that_present_annotations) {
+    if (!(this_present_annotations && that_present_annotations))     return false;
+    if (!this.annotations.equals(that.annotations))     return false;
+  }
+  boolean this_present_flag=true && this.isSetFlag();
+  boolean that_present_flag=true && that.isSetFlag();
+  if (this_present_flag || that_present_flag) {
+    if (!(this_present_flag && that_present_flag))     return false;
+    if (this.flag != that.flag)     return false;
   }
   return true;
 }

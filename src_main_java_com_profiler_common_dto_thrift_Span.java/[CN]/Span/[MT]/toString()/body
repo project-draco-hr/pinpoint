@@ -18,6 +18,14 @@
   sb.append(this.leastTraceId);
   first=false;
   if (!first)   sb.append(", ");
+  sb.append("spanId:");
+  sb.append(this.spanId);
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("parentSpanId:");
+  sb.append(this.parentSpanId);
+  first=false;
+  if (!first)   sb.append(", ");
   sb.append("startTime:");
   sb.append(this.startTime);
   first=false;
@@ -26,12 +34,12 @@
   sb.append(this.elapsed);
   first=false;
   if (!first)   sb.append(", ");
-  sb.append("name:");
-  if (this.name == null) {
+  sb.append("rpc:");
+  if (this.rpc == null) {
     sb.append("null");
   }
  else {
-    sb.append(this.name);
+    sb.append(this.rpc);
   }
   first=false;
   if (!first)   sb.append(", ");
@@ -44,15 +52,22 @@
   }
   first=false;
   if (!first)   sb.append(", ");
-  sb.append("spanId:");
-  sb.append(this.spanId);
+  sb.append("serviceType:");
+  sb.append(this.serviceType);
   first=false;
-  if (isSetParentSpanId()) {
-    if (!first)     sb.append(", ");
-    sb.append("parentSpanId:");
-    sb.append(this.parentSpanId);
-    first=false;
+  if (!first)   sb.append(", ");
+  sb.append("endPoint:");
+  if (this.endPoint == null) {
+    sb.append("null");
   }
+ else {
+    sb.append(this.endPoint);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("terminal:");
+  sb.append(this.terminal);
+  first=false;
   if (!first)   sb.append(", ");
   sb.append("annotations:");
   if (this.annotations == null) {
@@ -68,19 +83,6 @@
     sb.append(this.flag);
     first=false;
   }
-  if (!first)   sb.append(", ");
-  sb.append("endPoint:");
-  if (this.endPoint == null) {
-    sb.append("null");
-  }
- else {
-    sb.append(this.endPoint);
-  }
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("terminal:");
-  sb.append(this.terminal);
-  first=false;
   sb.append(")");
   return sb.toString();
 }

@@ -6,26 +6,28 @@ case MOST_TRACE_ID:
   return Long.valueOf(getMostTraceId());
 case LEAST_TRACE_ID:
 return Long.valueOf(getLeastTraceId());
-case START_TIME:
-return Long.valueOf(getStartTime());
-case ELAPSED:
-return Integer.valueOf(getElapsed());
-case NAME:
-return getName();
-case SERVICE_NAME:
-return getServiceName();
 case SPAN_ID:
 return Long.valueOf(getSpanId());
 case PARENT_SPAN_ID:
 return Long.valueOf(getParentSpanId());
-case ANNOTATIONS:
-return getAnnotations();
-case FLAG:
-return Integer.valueOf(getFlag());
+case START_TIME:
+return Long.valueOf(getStartTime());
+case ELAPSED:
+return Integer.valueOf(getElapsed());
+case RPC:
+return getRpc();
+case SERVICE_NAME:
+return getServiceName();
+case SERVICE_TYPE:
+return Short.valueOf(getServiceType());
 case END_POINT:
 return getEndPoint();
 case TERMINAL:
 return Boolean.valueOf(isTerminal());
+case ANNOTATIONS:
+return getAnnotations();
+case FLAG:
+return Short.valueOf(getFlag());
 }
 throw new IllegalStateException();
 }

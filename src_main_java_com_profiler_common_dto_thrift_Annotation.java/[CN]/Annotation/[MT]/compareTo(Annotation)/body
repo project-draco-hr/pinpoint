@@ -4,16 +4,6 @@
   }
   int lastComparison=0;
   Annotation typedOther=(Annotation)other;
-  lastComparison=Boolean.valueOf(isSetTimestamp()).compareTo(typedOther.isSetTimestamp());
-  if (lastComparison != 0) {
-    return lastComparison;
-  }
-  if (isSetTimestamp()) {
-    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.timestamp,typedOther.timestamp);
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-  }
   lastComparison=Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
   if (lastComparison != 0) {
     return lastComparison;
@@ -40,6 +30,16 @@
   }
   if (isSetValue()) {
     lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.value,typedOther.value);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetTimestamp()).compareTo(typedOther.isSetTimestamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTimestamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.timestamp,typedOther.timestamp);
     if (lastComparison != 0) {
       return lastComparison;
     }

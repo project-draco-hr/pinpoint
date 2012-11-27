@@ -1,9 +1,6 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
-  oprot.writeI64(struct.timestamp);
-  oprot.writeFieldEnd();
   if (struct.key != null) {
     oprot.writeFieldBegin(KEY_FIELD_DESC);
     oprot.writeString(struct.key);
@@ -19,6 +16,9 @@
       oprot.writeFieldEnd();
     }
   }
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }

@@ -24,38 +24,6 @@ unsetLeastTraceId();
 setLeastTraceId((Long)value);
 }
 break;
-case START_TIME:
-if (value == null) {
-unsetStartTime();
-}
- else {
-setStartTime((Long)value);
-}
-break;
-case ELAPSED:
-if (value == null) {
-unsetElapsed();
-}
- else {
-setElapsed((Integer)value);
-}
-break;
-case NAME:
-if (value == null) {
-unsetName();
-}
- else {
-setName((String)value);
-}
-break;
-case SERVICE_NAME:
-if (value == null) {
-unsetServiceName();
-}
- else {
-setServiceName((String)value);
-}
-break;
 case SPAN_ID:
 if (value == null) {
 unsetSpanId();
@@ -72,20 +40,44 @@ unsetParentSpanId();
 setParentSpanId((Long)value);
 }
 break;
-case ANNOTATIONS:
+case START_TIME:
 if (value == null) {
-unsetAnnotations();
+unsetStartTime();
 }
  else {
-setAnnotations((List<Annotation>)value);
+setStartTime((Long)value);
 }
 break;
-case FLAG:
+case ELAPSED:
 if (value == null) {
-unsetFlag();
+unsetElapsed();
 }
  else {
-setFlag((Integer)value);
+setElapsed((Integer)value);
+}
+break;
+case RPC:
+if (value == null) {
+unsetRpc();
+}
+ else {
+setRpc((String)value);
+}
+break;
+case SERVICE_NAME:
+if (value == null) {
+unsetServiceName();
+}
+ else {
+setServiceName((String)value);
+}
+break;
+case SERVICE_TYPE:
+if (value == null) {
+unsetServiceType();
+}
+ else {
+setServiceType((Short)value);
 }
 break;
 case END_POINT:
@@ -102,6 +94,22 @@ unsetTerminal();
 }
  else {
 setTerminal((Boolean)value);
+}
+break;
+case ANNOTATIONS:
+if (value == null) {
+unsetAnnotations();
+}
+ else {
+setAnnotations((List<Annotation>)value);
+}
+break;
+case FLAG:
+if (value == null) {
+unsetFlag();
+}
+ else {
+setFlag((Short)value);
 }
 break;
 }

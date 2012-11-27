@@ -10,37 +10,40 @@
   if (struct.isSetLeastTraceId()) {
     optionals.set(2);
   }
-  if (struct.isSetStartTime()) {
+  if (struct.isSetSpanId()) {
     optionals.set(3);
   }
-  if (struct.isSetElapsed()) {
+  if (struct.isSetParentSpanId()) {
     optionals.set(4);
   }
-  if (struct.isSetName()) {
+  if (struct.isSetStartTime()) {
     optionals.set(5);
   }
-  if (struct.isSetServiceName()) {
+  if (struct.isSetElapsed()) {
     optionals.set(6);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetRpc()) {
     optionals.set(7);
   }
-  if (struct.isSetParentSpanId()) {
+  if (struct.isSetServiceName()) {
     optionals.set(8);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetServiceType()) {
     optionals.set(9);
   }
-  if (struct.isSetFlag()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(10);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetTerminal()) {
     optionals.set(11);
   }
-  if (struct.isSetTerminal()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(12);
   }
-  oprot.writeBitSet(optionals,13);
+  if (struct.isSetFlag()) {
+    optionals.set(13);
+  }
+  oprot.writeBitSet(optionals,14);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -50,23 +53,32 @@
   if (struct.isSetLeastTraceId()) {
     oprot.writeI64(struct.leastTraceId);
   }
+  if (struct.isSetSpanId()) {
+    oprot.writeI64(struct.spanId);
+  }
+  if (struct.isSetParentSpanId()) {
+    oprot.writeI64(struct.parentSpanId);
+  }
   if (struct.isSetStartTime()) {
     oprot.writeI64(struct.startTime);
   }
   if (struct.isSetElapsed()) {
     oprot.writeI32(struct.elapsed);
   }
-  if (struct.isSetName()) {
-    oprot.writeString(struct.name);
+  if (struct.isSetRpc()) {
+    oprot.writeString(struct.rpc);
   }
   if (struct.isSetServiceName()) {
     oprot.writeString(struct.serviceName);
   }
-  if (struct.isSetSpanId()) {
-    oprot.writeI64(struct.spanId);
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
   }
-  if (struct.isSetParentSpanId()) {
-    oprot.writeI64(struct.parentSpanId);
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetTerminal()) {
+    oprot.writeBool(struct.terminal);
   }
   if (struct.isSetAnnotations()) {
 {
@@ -77,12 +89,6 @@
     }
   }
   if (struct.isSetFlag()) {
-    oprot.writeI32(struct.flag);
-  }
-  if (struct.isSetEndPoint()) {
-    oprot.writeString(struct.endPoint);
-  }
-  if (struct.isSetTerminal()) {
-    oprot.writeBool(struct.terminal);
+    oprot.writeI16(struct.flag);
   }
 }

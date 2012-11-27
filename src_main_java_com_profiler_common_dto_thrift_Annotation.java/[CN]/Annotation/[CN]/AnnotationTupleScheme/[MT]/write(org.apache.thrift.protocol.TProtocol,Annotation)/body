@@ -1,22 +1,19 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetKey()) {
     optionals.set(0);
   }
-  if (struct.isSetKey()) {
+  if (struct.isSetValueTypeCode()) {
     optionals.set(1);
   }
-  if (struct.isSetValueTypeCode()) {
+  if (struct.isSetValue()) {
     optionals.set(2);
   }
-  if (struct.isSetValue()) {
+  if (struct.isSetTimestamp()) {
     optionals.set(3);
   }
   oprot.writeBitSet(optionals,4);
-  if (struct.isSetTimestamp()) {
-    oprot.writeI64(struct.timestamp);
-  }
   if (struct.isSetKey()) {
     oprot.writeString(struct.key);
   }
@@ -25,5 +22,8 @@
   }
   if (struct.isSetValue()) {
     oprot.writeBinary(struct.value);
+  }
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
   }
 }
