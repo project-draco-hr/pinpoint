@@ -3,10 +3,20 @@
   List<Annotation> ano=Collections.emptyList();
   long time=System.currentTimeMillis();
   int andIncrement=id.getAndIncrement();
-  Span span=new Span("UnitTest",uuid.getMostSignificantBits(),uuid.getLeastSignificantBits(),time,(int)time + 5,"test","rpc" + andIncrement,andIncrement,ano,"protocol:ip:port",false);
+  Span span=new Span();
+  span.setAgentId("UnitTest");
+  span.setMostTraceId(uuid.getMostSignificantBits());
+  span.setLeastTraceId(uuid.getLeastSignificantBits());
+  span.setStartTime(time);
+  span.setElapsed(5);
+  span.setRpc("RPC");
+  span.setServiceName("SERVICENAME");
+  span.setServiceType(ServiceType.UNKNOWN.getCode());
+  span.setAnnotations(ano);
+  span.setTerminal(false);
   span.setParentSpanId(-1);
   List<Annotation> annotations=new ArrayList<Annotation>();
-  annotations.add(new Annotation(0,"root ann",0));
+  annotations.add(new Annotation("root ann",0,0));
   span.setAnnotations(annotations);
   return span;
 }
