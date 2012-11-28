@@ -6,14 +6,14 @@
   int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length);
   Buffer buffer=new Buffer(bufferLength);
   buffer.put(version);
-  buffer.putPrefixedBytes(agentIDBytes);
+  buffer.put1PrefixedBytes(agentIDBytes);
   buffer.put(parentSpanId);
   buffer.put(startTime);
   buffer.put(elapsed);
-  buffer.putPrefixedBytes(rpcBytes);
-  buffer.putPrefixedBytes(serviceNameBytes);
+  buffer.put2PrefixedBytes(rpcBytes);
+  buffer.put2PrefixedBytes(serviceNameBytes);
   buffer.put(serviceType.getCode());
-  buffer.putPrefixedBytes(endPointBytes);
+  buffer.put2PrefixedBytes(endPointBytes);
   buffer.put(flag);
   return buffer.getBuffer();
 }

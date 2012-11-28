@@ -1,2 +1,9 @@
 {
+  Buffer buffer=new Buffer(1024);
+  buffer.put1PrefixedBytes("string".getBytes("UTF-8"));
+  byte[] buffer1=buffer.getBuffer();
+  Buffer read=new Buffer(buffer1);
+  byte[] bytes=read.read1PrefixedBytes();
+  String s=new String(bytes,"UTF-8");
+  logger.info(s);
 }
