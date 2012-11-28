@@ -5,10 +5,10 @@
   this.parentSpanId=buffer.readLong();
   this.startTime=buffer.readLong();
   this.elapsed=buffer.readInt();
-  this.rpc=buffer.read2PrefixedString();
-  this.serviceName=buffer.read2PrefixedString();
+  this.rpc=buffer.read1UnsignedPrefixedString();
+  this.serviceName=buffer.read1UnsignedPrefixedString();
   this.serviceType=ServiceType.parse(buffer.readShort());
-  this.endPoint=buffer.read2PrefixedString();
+  this.endPoint=buffer.read1UnsignedPrefixedString();
   this.flag=buffer.readShort();
   return buffer.getOffset();
 }

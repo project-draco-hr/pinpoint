@@ -10,10 +10,10 @@
   buffer.put(parentSpanId);
   buffer.put(startTime);
   buffer.put(elapsed);
-  buffer.put2PrefixedBytes(rpcBytes);
-  buffer.put2PrefixedBytes(serviceNameBytes);
+  buffer.put1PrefixedBytes(rpcBytes);
+  buffer.put1PrefixedBytes(serviceNameBytes);
   buffer.put(serviceType.getCode());
-  buffer.put2PrefixedBytes(endPointBytes);
+  buffer.put1PrefixedBytes(endPointBytes);
   buffer.put(flag);
   return buffer.getBuffer();
 }
