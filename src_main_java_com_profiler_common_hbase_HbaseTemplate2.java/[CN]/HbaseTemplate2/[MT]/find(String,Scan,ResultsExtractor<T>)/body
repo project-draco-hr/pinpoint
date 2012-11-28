@@ -1,0 +1,14 @@
+{
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    HTable htable) throws Throwable {
+      ResultScanner scanner=htable.getScanner(scan);
+      try {
+        return action.extractData(scanner);
+      }
+  finally {
+        scanner.close();
+      }
+    }
+  }
+);
+}

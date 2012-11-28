@@ -1,0 +1,23 @@
+{
+  Assert.notNull(action,"Callback object must not be null");
+  Assert.notNull(tableName,"No table specified");
+  HTable table=getTable(tableName);
+  try {
+    boolean previousFlushSetting=applyFlushSetting(table);
+    T result=action.doInTable(table);
+    flushIfNecessary(table,previousFlushSetting);
+    return result;
+  }
+ catch (  Throwable th) {
+    if (th instanceof Error) {
+      throw ((Error)th);
+    }
+    if (th instanceof RuntimeException) {
+      throw ((RuntimeException)th);
+    }
+    throw convertHbaseAccessException((Exception)th);
+  }
+ finally {
+    releaseTable(tableName,table);
+  }
+}
