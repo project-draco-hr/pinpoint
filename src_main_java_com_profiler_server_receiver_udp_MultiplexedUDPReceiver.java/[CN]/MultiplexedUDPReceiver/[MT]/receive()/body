@@ -25,6 +25,9 @@
       }
       continue;
     }
+    if (logger.isDebugEnabled()) {
+      logger.debug("pool getActiveCount:{}",worker.getActiveCount());
+    }
     try {
       worker.execute(new DispatchPacket(packet));
     }
