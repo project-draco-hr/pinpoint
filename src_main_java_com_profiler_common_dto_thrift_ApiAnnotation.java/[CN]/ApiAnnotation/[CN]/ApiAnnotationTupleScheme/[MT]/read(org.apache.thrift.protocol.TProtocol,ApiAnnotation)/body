@@ -1,0 +1,52 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(6);
+  if (incoming.get(0)) {
+    struct.className=iprot.readString();
+    struct.setClassNameIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.methodName=iprot.readString();
+    struct.setMethodNameIsSet(true);
+  }
+  if (incoming.get(2)) {
+{
+      org.apache.thrift.protocol.TList _list15=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.parameterType=new ArrayList<String>(_list15.size);
+      for (int _i16=0; _i16 < _list15.size; ++_i16) {
+        String _elem17;
+        _elem17=iprot.readString();
+        struct.parameterType.add(_elem17);
+      }
+    }
+    struct.setParameterTypeIsSet(true);
+  }
+  if (incoming.get(3)) {
+{
+      org.apache.thrift.protocol.TList _list18=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.parameterName=new ArrayList<String>(_list18.size);
+      for (int _i19=0; _i19 < _list18.size; ++_i19) {
+        String _elem20;
+        _elem20=iprot.readString();
+        struct.parameterName.add(_elem20);
+      }
+    }
+    struct.setParameterNameIsSet(true);
+  }
+  if (incoming.get(4)) {
+{
+      org.apache.thrift.protocol.TList _list21=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.parameterValue=new ArrayList<String>(_list21.size);
+      for (int _i22=0; _i22 < _list21.size; ++_i22) {
+        String _elem23;
+        _elem23=iprot.readString();
+        struct.parameterValue.add(_elem23);
+      }
+    }
+    struct.setParameterValueIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.line=iprot.readI32();
+    struct.setLineIsSet(true);
+  }
+}
