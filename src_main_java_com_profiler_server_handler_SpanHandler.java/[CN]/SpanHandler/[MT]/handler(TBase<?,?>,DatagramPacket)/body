@@ -16,11 +16,18 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Found Applicationname={}",applicationName);
     }
-    traceDao.insert(applicationName,span);
+    ServiceType serviceType=ServiceType.parse(span.getServiceType());
+    if (serviceType.isTerminal()) {
+      traceDao.insertTerminalSpan(applicationName,span);
+      terminalStatistics.update(applicationName,span.getServiceName(),serviceType.getCode());
+    }
+ else {
+      traceDao.insert(applicationName,span);
+    }
     if (span.getParentSpanId() == -1) {
       rootTraceIndexDao.insert(span);
     }
-    if (ServiceType.parse(span.getServiceType()).isIndexable()) {
+    if (serviceType.isIndexable()) {
       traceIndexDao.insert(span);
       applicationTraceIndexDao.insert(applicationName,span);
     }
