@@ -4,13 +4,8 @@
   ModelAndView mv=new ModelAndView("selectTransaction");
   mv.addObject("spanList",spanAligns);
   mv.addObject("traceId",traceId);
-  Set<TraceId> traceIds=new HashSet<TraceId>(1);
-  traceIds.add(new TraceId(UUID.fromString(traceId)));
-  ServerCallTree callTree=flow.selectServerCallTree(traceIds);
+  ServerCallTree callTree=flow.selectServerCallTree(new TraceId(UUID.fromString(traceId)));
   mv.addObject("nodes",callTree.getNodes());
   mv.addObject("links",callTree.getLinks());
-  RPCCallTree rpcTree=flow.selectRPCCallTree(traceIds);
-  mv.addObject("rpcnodes",rpcTree.getNodes());
-  mv.addObject("rpclinks",rpcTree.getLinks());
   return mv;
 }

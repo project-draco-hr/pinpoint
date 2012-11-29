@@ -1,0 +1,38 @@
+{
+  final Map<String,ServiceType> terminalQueryParams=new HashMap<String,ServiceType>();
+  final ServerCallTree tree=new ServerCallTree();
+  StopWatch watch=new StopWatch();
+  watch.start("scanNonTerminalSpans");
+  List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
+  watch.stop();
+  int totalNonTerminalSpansCount=0;
+  for (  List<SpanBo> transaction : traces) {
+    totalNonTerminalSpansCount+=transaction.size();
+    List<SpanBo> processed=refine(transaction);
+    markRecursiveCall(processed);
+    for (    SpanBo eachTransaction : processed) {
+      tree.addSpan(eachTransaction);
+      terminalQueryParams.put(eachTransaction.getServiceName(),eachTransaction.getServiceType());
+    }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("Fetch non-terminal spans elapsed : {}ms, {} traces, {} spans",new Object[]{watch.getLastTaskTimeMillis(),traces.size(),totalNonTerminalSpansCount});
+  }
+  watch.start("scanTerminalStatistics");
+  for (  Entry<String,ServiceType> param : terminalQueryParams.entrySet()) {
+    ServiceType svcType=param.getValue();
+    if (!svcType.isRpcClient() && !svcType.isUnknown() && !svcType.isTerminal()) {
+      long start=System.currentTimeMillis();
+      List<List<TerminalRequest>> terminals=terminalStatisticsDao.selectTerminal(param.getKey(),from,to);
+      logger.info("	Fetch terminals of {} : {}ms",param.getKey(),System.currentTimeMillis() - start);
+      for (      List<TerminalRequest> terminal : terminals) {
+        for (        TerminalRequest t : terminal) {
+          tree.addTerminal(t);
+        }
+      }
+    }
+  }
+  watch.stop();
+  logger.info("Fetch terminal statistics elapsed : {}ms",watch.getLastTaskTimeMillis());
+  return tree.build();
+}

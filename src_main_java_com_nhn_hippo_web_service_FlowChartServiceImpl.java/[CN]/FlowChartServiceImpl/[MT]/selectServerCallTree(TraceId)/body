@@ -1,0 +1,10 @@
+{
+  final ServerCallTree tree=new ServerCallTree();
+  List<SpanBo> transaction=this.traceDao.selectSpans(traceId);
+  List<SpanBo> processed=refine(transaction);
+  markRecursiveCall(processed);
+  for (  SpanBo eachTransaction : processed) {
+    tree.addSpan(eachTransaction);
+  }
+  return tree.build();
+}

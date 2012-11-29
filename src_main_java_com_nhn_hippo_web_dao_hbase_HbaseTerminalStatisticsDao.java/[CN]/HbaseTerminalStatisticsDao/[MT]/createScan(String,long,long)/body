@@ -1,0 +1,11 @@
+{
+  byte[] startKey=TerminalSpanUtils.makeRowKey(applicationName,TimeSlot.getSlot(from));
+  byte[] endKey=TerminalSpanUtils.makeRowKey(applicationName,TimeSlot.getSlot(to));
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  scan.setStartRow(startKey);
+  scan.setStopRow(endKey);
+  scan.addFamily(HBaseTables.TERMINAL_STATISTICS_CF_COUNTER);
+  scan.setId("terminalStatisticsScan");
+  return scan;
+}

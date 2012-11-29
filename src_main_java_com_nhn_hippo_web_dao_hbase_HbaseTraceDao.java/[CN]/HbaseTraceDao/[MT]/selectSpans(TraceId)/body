@@ -1,0 +1,6 @@
+{
+  Get get=new Get(traceId.getBytes());
+  get.addFamily(COLFAM_SPAN);
+  get.addFamily(COLFAM_TERMINALSPAN);
+  return template2.get(HBaseTables.TRACES,get,spanMapper);
+}

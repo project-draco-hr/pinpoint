@@ -1,8 +1,16 @@
 {
   if (isBuilt)   return this;
+  for (  TerminalRequest terminal : terminalRequests) {
+    Server server=new Server(terminal.getTo(),terminal.getTo(),"UNKNOWN",ServiceType.parse(terminal.getToServiceType()));
+    servers.put(server.getId(),server);
+  }
   int i=0;
   for (  Entry<String,Server> entry : servers.entrySet()) {
     entry.getValue().setSequence(i++);
+  }
+  for (  TerminalRequest terminal : terminalRequests) {
+    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()));
+    serverRequests.put(request.getId(),request);
   }
   for (  SpanBo span : spans) {
     String from=String.valueOf(span.getParentSpanId());
@@ -20,11 +28,11 @@
     if (serverRequest.isSelfCalled()) {
       continue;
     }
-    if (ServerRequests.containsKey(serverRequest.getId())) {
-      ServerRequests.get(serverRequest.getId()).addRequest(span.getElapsed());
+    if (serverRequests.containsKey(serverRequest.getId())) {
+      serverRequests.get(serverRequest.getId()).addRequest(span.getElapsed());
     }
  else {
-      ServerRequests.put(serverRequest.getId(),serverRequest);
+      serverRequests.put(serverRequest.getId(),serverRequest);
     }
   }
   isBuilt=true;
