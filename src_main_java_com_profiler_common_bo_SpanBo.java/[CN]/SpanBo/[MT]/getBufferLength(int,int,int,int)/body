@@ -1,7 +1,10 @@
 {
   int size=a + b + c+ d;
   size+=1 + 1 + 1+ 1+ VERSION_SIZE;
-  size+=PARENTSPANID + FLAG + SERVICETYPE;
+  size+=PARENTSPANID + SERVICETYPE;
+  if (flag != 0) {
+    size+=FLAG;
+  }
   size+=12;
   return size;
 }
