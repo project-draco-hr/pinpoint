@@ -1,6 +1,6 @@
 {
   byte[] rowKey=getRowKey(jvmInfoThriftDTO);
   Put put=new Put(rowKey,jvmInfoThriftDTO.getDataTime());
-  put.add(FamilyJvm,QualifierInfo,jvmInfoBytes);
-  hbaseOperations.put("SystemInfo",put);
+  put.add(SYSTEMINFO_CF_JVM,SYSTEMINFO_CN_INFO,jvmInfoBytes);
+  hbaseOperations.put(SYSTEMINFO,put);
 }

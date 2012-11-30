@@ -3,11 +3,11 @@
   byte[] value=spanBo.writeValue();
   Put put=new Put(SpanUtils.getTraceId(span),spanBo.getStartTime());
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
-  put.add(COLFAM_SPAN,spanId,value);
+  put.add(TRACES_CF_SPAN,spanId,value);
   List<Annotation> annotations=span.getAnnotations();
   if (annotations.size() != 0) {
     byte[] bytes=wrietBuffer(annotations);
-    put.add(COLFAM_ANNOTATION,spanId,bytes);
+    put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
-  hbaseTemplate.put(HBaseTables.TRACES,put);
+  hbaseTemplate.put(TRACES,put);
 }

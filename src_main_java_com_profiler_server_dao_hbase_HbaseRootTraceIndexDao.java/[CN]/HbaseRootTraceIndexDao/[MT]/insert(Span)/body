@@ -4,6 +4,6 @@
     return;
   }
   Put put=new Put(SpanUtils.getTraceIndexRowKey(rootSpan),rootSpan.getStartTime());
-  put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(rootSpan));
-  hbaseTemplate.put(TABLE_NAME,put);
+  put.add(ROOT_TRACE_INDEX_CF_TRACE,ROOT_TRACE_INDEX_CN_ID,SpanUtils.getTraceId(rootSpan));
+  hbaseTemplate.put(ROOT_TRACE_INDEX,put);
 }

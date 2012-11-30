@@ -1,5 +1,5 @@
 {
   Put put=new Put(SpanUtils.getTraceIndexRowKey(span),span.getStartTime());
-  put.add(COLFAM_TRACE,COLNAME_ID,SpanUtils.getTraceId(span));
+  put.add(TRACE_INDEX_CF_TRACE,TRACE_INDEX_CN_ID,SpanUtils.getTraceId(span));
   hbaseTemplate.put(tableName,put);
 }
