@@ -1,0 +1,9 @@
+{
+  execute(tableName,new TableCallback(){
+    @Override public Object doInTable(    HTable htable) throws Throwable {
+      htable.incrementColumnValue(rowName,familyName,qualifier,amount);
+      return null;
+    }
+  }
+);
+}
