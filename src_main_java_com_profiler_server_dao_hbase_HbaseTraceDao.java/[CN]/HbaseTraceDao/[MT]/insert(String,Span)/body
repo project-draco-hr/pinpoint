@@ -6,7 +6,7 @@
   put.add(TRACES_CF_SPAN,spanId,value);
   List<Annotation> annotations=span.getAnnotations();
   if (annotations.size() != 0) {
-    byte[] bytes=wrietBuffer(annotations);
+    byte[] bytes=writeBuffer(annotations);
     put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
   hbaseTemplate.put(TRACES,put);
