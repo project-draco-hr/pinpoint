@@ -1,0 +1,82 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetMostTraceId()) {
+    optionals.set(1);
+  }
+  if (struct.isSetLeastTraceId()) {
+    optionals.set(2);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetSequence()) {
+    optionals.set(4);
+  }
+  if (struct.isSetStartElapsed()) {
+    optionals.set(5);
+  }
+  if (struct.isSetEndElapsed()) {
+    optionals.set(6);
+  }
+  if (struct.isSetRpc()) {
+    optionals.set(7);
+  }
+  if (struct.isSetServiceName()) {
+    optionals.set(8);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(9);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(10);
+  }
+  if (struct.isSetAnnotations()) {
+    optionals.set(11);
+  }
+  oprot.writeBitSet(optionals,12);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetMostTraceId()) {
+    oprot.writeI64(struct.mostTraceId);
+  }
+  if (struct.isSetLeastTraceId()) {
+    oprot.writeI64(struct.leastTraceId);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI64(struct.spanId);
+  }
+  if (struct.isSetSequence()) {
+    oprot.writeI16(struct.sequence);
+  }
+  if (struct.isSetStartElapsed()) {
+    oprot.writeI32(struct.startElapsed);
+  }
+  if (struct.isSetEndElapsed()) {
+    oprot.writeI32(struct.endElapsed);
+  }
+  if (struct.isSetRpc()) {
+    oprot.writeString(struct.rpc);
+  }
+  if (struct.isSetServiceName()) {
+    oprot.writeString(struct.serviceName);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetAnnotations()) {
+{
+      oprot.writeI32(struct.annotations.size());
+      for (      Annotation _iter36 : struct.annotations) {
+        _iter36.write(oprot);
+      }
+    }
+  }
+}

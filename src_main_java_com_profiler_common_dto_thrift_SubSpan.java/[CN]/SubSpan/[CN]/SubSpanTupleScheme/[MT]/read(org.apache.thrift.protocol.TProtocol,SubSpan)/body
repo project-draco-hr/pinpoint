@@ -1,0 +1,61 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(12);
+  if (incoming.get(0)) {
+    struct.agentId=iprot.readString();
+    struct.setAgentIdIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.mostTraceId=iprot.readI64();
+    struct.setMostTraceIdIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.leastTraceId=iprot.readI64();
+    struct.setLeastTraceIdIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.spanId=iprot.readI64();
+    struct.setSpanIdIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.sequence=iprot.readI16();
+    struct.setSequenceIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.startElapsed=iprot.readI32();
+    struct.setStartElapsedIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.endElapsed=iprot.readI32();
+    struct.setEndElapsedIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.rpc=iprot.readString();
+    struct.setRpcIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.serviceName=iprot.readString();
+    struct.setServiceNameIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.serviceType=iprot.readI16();
+    struct.setServiceTypeIsSet(true);
+  }
+  if (incoming.get(10)) {
+    struct.endPoint=iprot.readString();
+    struct.setEndPointIsSet(true);
+  }
+  if (incoming.get(11)) {
+{
+      org.apache.thrift.protocol.TList _list37=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<Annotation>(_list37.size);
+      for (int _i38=0; _i38 < _list37.size; ++_i38) {
+        Annotation _elem39;
+        _elem39=new Annotation();
+        _elem39.read(iprot);
+        struct.annotations.add(_elem39);
+      }
+    }
+    struct.setAnnotationsIsSet(true);
+  }
+}
