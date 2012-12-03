@@ -1,17 +1,15 @@
 {
   if (isBuilt)   return this;
-  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
-    TerminalRequest terminal=entry.getValue();
-    Server server=new Server(terminal.getTo(),terminal.getTo(),"UNKNOWN",ServiceType.parse(terminal.getToServiceType()),terminal.getStatistics().getAgentIds());
+  for (  TerminalRequest terminal : terminalRequests) {
+    Server server=new Server(terminal.getTo(),terminal.getTo(),"UNKNOWN",ServiceType.parse(terminal.getToServiceType()));
     servers.put(server.getId(),server);
   }
   int i=0;
   for (  Entry<String,Server> entry : servers.entrySet()) {
     entry.getValue().setSequence(i++);
   }
-  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
-    TerminalRequest terminal=entry.getValue();
-    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()),terminal.getStatistics().getHistogram());
+  for (  TerminalRequest terminal : terminalRequests) {
+    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()));
     serverRequests.put(request.getId(),request);
   }
   for (  SpanBo span : spans) {
