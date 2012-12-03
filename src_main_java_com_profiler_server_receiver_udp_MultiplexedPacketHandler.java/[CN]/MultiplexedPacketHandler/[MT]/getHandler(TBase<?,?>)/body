@@ -8,6 +8,9 @@
   if (tBase instanceof AgentInfo) {
     return agentInfoHandler;
   }
+  if (tBase instanceof SubSpan) {
+    return subSpanHandler;
+  }
   logger.warn("Unknown type of data received. data=" + tBase);
   throw new UnsupportedOperationException();
 }

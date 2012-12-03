@@ -17,13 +17,7 @@
       logger.debug("Found Applicationname={}",applicationName);
     }
     ServiceType serviceType=ServiceType.parse(span.getServiceType());
-    if (serviceType.isTerminal()) {
-      traceDao.insertTerminalSpan(applicationName,span);
-      terminalStatistics.update(applicationName,span.getServiceName(),serviceType.getCode());
-    }
- else {
-      traceDao.insert(applicationName,span);
-    }
+    traceDao.insert(applicationName,span);
     if (span.getParentSpanId() == -1) {
       rootTraceIndexDao.insert(span);
     }
