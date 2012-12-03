@@ -1,6 +1,7 @@
 {
   if (isBuilt)   return this;
-  for (  TerminalRequest terminal : terminalRequests) {
+  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
+    TerminalRequest terminal=entry.getValue();
     Server server=new Server(terminal.getTo(),terminal.getTo(),"UNKNOWN",ServiceType.parse(terminal.getToServiceType()));
     servers.put(server.getId(),server);
   }
@@ -8,8 +9,9 @@
   for (  Entry<String,Server> entry : servers.entrySet()) {
     entry.getValue().setSequence(i++);
   }
-  for (  TerminalRequest terminal : terminalRequests) {
-    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()));
+  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
+    TerminalRequest terminal=entry.getValue();
+    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()),terminal.getStatistics().getHistogram());
     serverRequests.put(request.getId(),request);
   }
   for (  SpanBo span : spans) {

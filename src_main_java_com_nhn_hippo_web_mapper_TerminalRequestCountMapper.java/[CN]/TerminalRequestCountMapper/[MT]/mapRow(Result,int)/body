@@ -5,10 +5,11 @@
     if (kv.getFamilyLength() == HBaseTables.TERMINAL_STATISTICS_CF_COUNTER.length) {
       String from=TerminalSpanUtils.getApplicationNameFromRowKey(kv.getRow());
       String to=TerminalSpanUtils.getApplicationNameFromColumnName(kv.getQualifier());
-      int requestCount=Bytes.toInt(kv.getValue());
+      TerminalStatisticsBo statistics=TerminalStatisticsBo.parse(kv.getValue());
       short serviceType=TerminalSpanUtils.getServiceTypeFromColumnName(kv.getQualifier());
-      TerminalRequest request=new TerminalRequest(from,to,serviceType,requestCount);
+      TerminalRequest request=new TerminalRequest(from,to,serviceType,statistics);
       requestList.add(request);
+      System.out.println("REQUEST=" + request);
     }
   }
   return requestList;
