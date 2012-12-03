@@ -1,3 +1,9 @@
 {
-  terminalRequests.add(terminal);
+  if (terminalRequests.containsKey(terminal.getId())) {
+    TerminalRequest req=terminalRequests.get(terminal.getId());
+    req.mergeWith(terminal);
+  }
+ else {
+    terminalRequests.put(terminal.getId(),terminal);
+  }
 }
