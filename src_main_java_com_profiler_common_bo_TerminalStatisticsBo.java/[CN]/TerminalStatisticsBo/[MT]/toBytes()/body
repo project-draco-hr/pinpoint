@@ -1,0 +1,28 @@
+{
+  ByteArrayOutputStream bos=null;
+  ObjectOutput out=null;
+  try {
+    bos=new ByteArrayOutputStream();
+    out=new ObjectOutputStream(bos);
+    out.writeObject(this);
+    return bos.toByteArray();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+ finally {
+    try {
+      if (out != null)       out.close();
+    }
+ catch (    Exception e2) {
+      e2.printStackTrace();
+    }
+    try {
+      if (bos != null)       bos.close();
+    }
+ catch (    Exception e2) {
+      e2.printStackTrace();
+    }
+  }
+}
