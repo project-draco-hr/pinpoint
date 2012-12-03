@@ -19,7 +19,7 @@
     ServiceType serviceType=ServiceType.parse(span.getServiceType());
     if (serviceType.isTerminal()) {
       traceDao.insertTerminalSpan(applicationName,span);
-      terminalStatistics.update(applicationName,span.getServiceName(),serviceType.getCode());
+      terminalStatistics.update(applicationName,span.getServiceName(),serviceType.getCode(),span.getAgentId(),span.getElapsed());
     }
  else {
       traceDao.insert(applicationName,span);
