@@ -1,15 +1,19 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(6);
+  BitSet incoming=iprot.readBitSet(7);
   if (incoming.get(0)) {
+    struct.apiId=iprot.readI32();
+    struct.setApiIdIsSet(true);
+  }
+  if (incoming.get(1)) {
     struct.className=iprot.readString();
     struct.setClassNameIsSet(true);
   }
-  if (incoming.get(1)) {
+  if (incoming.get(2)) {
     struct.methodName=iprot.readString();
     struct.setMethodNameIsSet(true);
   }
-  if (incoming.get(2)) {
+  if (incoming.get(3)) {
 {
       org.apache.thrift.protocol.TList _list15=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.parameterType=new ArrayList<String>(_list15.size);
@@ -21,7 +25,7 @@
     }
     struct.setParameterTypeIsSet(true);
   }
-  if (incoming.get(3)) {
+  if (incoming.get(4)) {
 {
       org.apache.thrift.protocol.TList _list18=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.parameterName=new ArrayList<String>(_list18.size);
@@ -33,7 +37,7 @@
     }
     struct.setParameterNameIsSet(true);
   }
-  if (incoming.get(4)) {
+  if (incoming.get(5)) {
 {
       org.apache.thrift.protocol.TList _list21=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.parameterValue=new ArrayList<String>(_list21.size);
@@ -45,7 +49,7 @@
     }
     struct.setParameterValueIsSet(true);
   }
-  if (incoming.get(5)) {
+  if (incoming.get(6)) {
     struct.line=iprot.readI32();
     struct.setLineIsSet(true);
   }

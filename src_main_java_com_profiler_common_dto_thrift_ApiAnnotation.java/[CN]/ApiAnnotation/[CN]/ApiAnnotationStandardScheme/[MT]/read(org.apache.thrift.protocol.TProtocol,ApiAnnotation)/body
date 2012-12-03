@@ -8,9 +8,9 @@
     }
 switch (schemeField.id) {
 case 1:
-      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-        struct.className=iprot.readString();
-        struct.setClassNameIsSet(true);
+      if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+        struct.apiId=iprot.readI32();
+        struct.setApiIdIsSet(true);
       }
  else {
         org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
@@ -18,24 +18,33 @@ case 1:
     break;
 case 2:
   if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-    struct.methodName=iprot.readString();
-    struct.setMethodNameIsSet(true);
+    struct.className=iprot.readString();
+    struct.setClassNameIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
 break;
 case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.methodName=iprot.readString();
+struct.setMethodNameIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
-  org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
-  struct.parameterType=new ArrayList<String>(_list0.size);
-  for (int _i1=0; _i1 < _list0.size; ++_i1) {
-    String _elem2;
-    _elem2=iprot.readString();
-    struct.parameterType.add(_elem2);
-  }
-  iprot.readListEnd();
+org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
+struct.parameterType=new ArrayList<String>(_list0.size);
+for (int _i1=0; _i1 < _list0.size; ++_i1) {
+String _elem2;
+_elem2=iprot.readString();
+struct.parameterType.add(_elem2);
+}
+iprot.readListEnd();
 }
 struct.setParameterTypeIsSet(true);
 }
@@ -43,7 +52,7 @@ struct.setParameterTypeIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 4:
+case 5:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list3=iprot.readListBegin();
@@ -61,7 +70,7 @@ struct.setParameterNameIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 5:
+case 6:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list6=iprot.readListBegin();
@@ -79,7 +88,7 @@ struct.setParameterValueIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 6:
+case 7:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.line=iprot.readI32();
 struct.setLineIsSet(true);

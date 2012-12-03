@@ -1,25 +1,31 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetClassName()) {
+  if (struct.isSetApiId()) {
     optionals.set(0);
   }
-  if (struct.isSetMethodName()) {
+  if (struct.isSetClassName()) {
     optionals.set(1);
   }
-  if (struct.isSetParameterType()) {
+  if (struct.isSetMethodName()) {
     optionals.set(2);
   }
-  if (struct.isSetParameterName()) {
+  if (struct.isSetParameterType()) {
     optionals.set(3);
   }
-  if (struct.isSetParameterValue()) {
+  if (struct.isSetParameterName()) {
     optionals.set(4);
   }
-  if (struct.isSetLine()) {
+  if (struct.isSetParameterValue()) {
     optionals.set(5);
   }
-  oprot.writeBitSet(optionals,6);
+  if (struct.isSetLine()) {
+    optionals.set(6);
+  }
+  oprot.writeBitSet(optionals,7);
+  if (struct.isSetApiId()) {
+    oprot.writeI32(struct.apiId);
+  }
   if (struct.isSetClassName()) {
     oprot.writeString(struct.className);
   }
