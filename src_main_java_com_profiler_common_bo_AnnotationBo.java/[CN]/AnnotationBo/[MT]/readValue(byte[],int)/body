@@ -1,10 +1,5 @@
 {
   Buffer buffer=new Buffer(buf,offset);
-  this.version=buffer.readByte();
-  this.timestamp=buffer.readLong();
-  this.key=buffer.readPrefixedString();
-  this.valueType=buffer.readInt();
-  this.byteValue=buffer.readPrefixedBytes();
-  this.value=transcoder.decode(valueType,byteValue);
+  readValue(buffer);
   return buffer.getOffset();
 }

@@ -8,5 +8,6 @@
   this.serviceName=buffer.read1UnsignedPrefixedString();
   this.serviceType=ServiceType.parse(buffer.readShort());
   this.endPoint=buffer.read1UnsignedPrefixedString();
+  this.annotationBoList=readAnnotation(buffer);
   return buffer.getOffset();
 }
