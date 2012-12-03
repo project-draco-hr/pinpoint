@@ -1,0 +1,11 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("[WritingTerminalStatistics] " + sourceApplicationName + " -> "+ destApplicationName+ " ("+ ServiceType.parse(destServiceType)+ ")");
+  }
+  byte[] columnName=TerminalSpanUtils.makeColumnName(destServiceType,destApplicationName);
+  long timeSlot=TimeSlot.getSlot(System.currentTimeMillis());
+  final byte[] rowKey=TerminalSpanUtils.makeRowKey(sourceApplicationName,timeSlot);
+  final Put put=new Put(rowKey);
+  put.add(TERMINAL_STATISTICS_CF_COUNTER,columnName,Bytes.toBytes(1));
+  hbaseTemplate.put(TERMINAL_STATISTICS,put);
+}
