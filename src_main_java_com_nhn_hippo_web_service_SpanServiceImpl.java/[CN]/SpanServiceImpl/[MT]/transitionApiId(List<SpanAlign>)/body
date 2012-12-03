@@ -1,6 +1,12 @@
 {
-  for (  SpanBo spanBo : spans) {
-    List<AnnotationBo> annotationBoList=spanBo.getAnnotationBoList();
+  for (  SpanAlign spanBo : spans) {
+    List<AnnotationBo> annotationBoList;
+    if (spanBo.isRoot()) {
+      annotationBoList=spanBo.getSpan().getAnnotationBoList();
+    }
+ else {
+      annotationBoList=spanBo.getSubSpanBo().getAnnotationBoList();
+    }
     for (    AnnotationBo annotationBo : annotationBoList) {
       if ("API-ID".equals(annotationBo.getKey())) {
         MethodMapping methodMapping=null;
