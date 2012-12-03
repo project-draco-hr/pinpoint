@@ -1,0 +1,12 @@
+{
+  Buffer buffer=new Buffer(bytes,offset);
+  this.version=buffer.readByte();
+  this.agentId=buffer.read1PrefixedString();
+  this.startElapsed=buffer.readInt();
+  this.endElapsed=buffer.readInt();
+  this.rpc=buffer.read1UnsignedPrefixedString();
+  this.serviceName=buffer.read1UnsignedPrefixedString();
+  this.serviceType=ServiceType.parse(buffer.readShort());
+  this.endPoint=buffer.read1UnsignedPrefixedString();
+  return buffer.getOffset();
+}
