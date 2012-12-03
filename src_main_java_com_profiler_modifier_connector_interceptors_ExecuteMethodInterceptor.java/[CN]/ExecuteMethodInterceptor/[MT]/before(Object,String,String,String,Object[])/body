@@ -9,7 +9,8 @@
   }
   trace.traceBlockBegin();
   trace.markBeforeTime();
-  TraceID nextId=trace.getCurrentTraceId();
+  TraceID nextId=trace.getTraceId();
+  nextId.getNextTraceId();
   final HttpHost host=(HttpHost)args[0];
   final HttpRequest request=(HttpRequest)args[1];
   request.addHeader(Header.HTTP_TRACE_ID.toString(),nextId.getId().toString());

@@ -1,8 +1,15 @@
 {
   if (!tracingEnabled)   return;
   try {
-    Span span=getCurrentStackFrame().getSpan();
-    span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,value));
+    StackFrame currentStackFrame=getCurrentStackFrame();
+    if (currentStackFrame instanceof RootStackFrame) {
+      Span span=((RootStackFrame)currentStackFrame).getSpan();
+      span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,value));
+    }
+ else {
+      SubSpan span=((SubStackFrame)currentStackFrame).getSubSpan();
+      span.addAnnotation(new HippoAnnotation(System.currentTimeMillis(),key,value));
+    }
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);

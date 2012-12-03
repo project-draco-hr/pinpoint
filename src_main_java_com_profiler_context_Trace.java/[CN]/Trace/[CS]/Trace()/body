@@ -1,7 +1,7 @@
 {
-  this.root=TraceID.newTraceId();
-  this.callStack=new CallStack();
+  TraceID traceId=TraceID.newTraceId();
+  this.callStack=new CallStack(traceId);
   this.callStack.push();
-  StackFrame stackFrame=createStackFrame(root,ROOT_STACKID);
+  StackFrame stackFrame=createRootStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);
 }

@@ -3,6 +3,11 @@
   if (currentStackFrame.getStackFrameId() != stackId) {
     logger.warning("Corrupted CallStack found. StackId not matched");
   }
-  logSpan(currentStackFrame);
+  if (currentStackFrame instanceof RootStackFrame) {
+    logSpan(((RootStackFrame)currentStackFrame).getSpan());
+  }
+ else {
+    logSpan(((SubStackFrame)currentStackFrame).getSubSpan());
+  }
   callStack.pop();
 }

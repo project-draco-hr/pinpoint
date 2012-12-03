@@ -1,7 +1,6 @@
 {
-  this.root=continueRoot;
-  this.callStack=new CallStack();
+  this.callStack=new CallStack(continueRoot);
   this.callStack.push();
-  StackFrame stackFrame=createStackFrame(continueRoot,ROOT_STACKID);
+  StackFrame stackFrame=createRootStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);
 }

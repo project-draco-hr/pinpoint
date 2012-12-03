@@ -1,8 +1,15 @@
 {
   if (!tracingEnabled)   return;
   try {
-    Span span=getCurrentStackFrame().getSpan();
-    span.setEndPoint(endPoint);
+    StackFrame currentStackFrame=getCurrentStackFrame();
+    if (currentStackFrame instanceof RootStackFrame) {
+      Span span=((RootStackFrame)currentStackFrame).getSpan();
+      span.setEndPoint(endPoint);
+    }
+ else {
+      SubSpan span=((SubStackFrame)currentStackFrame).getSubSpan();
+      span.setEndPoint(endPoint);
+    }
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);
