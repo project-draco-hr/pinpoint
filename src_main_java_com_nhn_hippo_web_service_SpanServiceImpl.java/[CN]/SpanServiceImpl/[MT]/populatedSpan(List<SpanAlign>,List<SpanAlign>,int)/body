@@ -1,0 +1,19 @@
+{
+  SpanAlign spanAlign=order.get(i);
+  SpanBo span=spanAlign.getSpan();
+  populatedList.add(spanAlign);
+  long startTime=span.getStartTime();
+  List<SubSpanBo> subSpanBos=sortSubSpan(span);
+  for (  SubSpanBo subSpanBo : subSpanBos) {
+    long subStartTime=startTime + subSpanBo.getStartElapsed();
+    long nextSpanStartTime=getNextSpanStartTime(order,i);
+    if (subStartTime >= nextSpanStartTime) {
+      SpanAlign subSpanAlign=new SpanAlign(spanAlign.getDepth(),span,subSpanBo);
+      subSpanAlign.setRoot(false);
+      populatedList.add(subSpanAlign);
+    }
+ else {
+      populatedSpan(populatedList,order,i);
+    }
+  }
+}
