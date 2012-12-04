@@ -5,10 +5,9 @@
     return Collections.emptyList();
   }
   List<SpanAlign> order=order(spans);
-  List<SpanAlign> populatedList=populateSubSpan(order);
-  transitionApiId(populatedList);
+  transitionApiId(order);
   if (order.size() != spans.size()) {
     logger.info("span node not complete! ");
   }
-  return populatedList;
+  return order;
 }

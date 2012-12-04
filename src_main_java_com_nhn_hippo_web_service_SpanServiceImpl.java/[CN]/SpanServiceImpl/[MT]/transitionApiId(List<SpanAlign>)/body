@@ -9,12 +9,9 @@
     }
     for (    AnnotationBo annotationBo : annotationBoList) {
       if ("API-ID".equals(annotationBo.getKey())) {
-        MethodMapping methodMapping=null;
-        try {
-          methodMapping=ApiMappingTable.findMethodMapping((Integer)annotationBo.getValue());
-        }
- catch (        Exception e) {
-          e.printStackTrace();
+        MethodMapping methodMapping=ApiMappingTable.findMethodMapping((Integer)annotationBo.getValue());
+        if (methodMapping == null) {
+          continue;
         }
         String className=methodMapping.getClassMapping().getClassName();
         String methodName=methodMapping.getMethodName();

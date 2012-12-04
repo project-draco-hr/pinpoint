@@ -1,4 +1,7 @@
 {
   SpanAligner spanAligner=new SpanAligner(spans);
-  return spanAligner.sort();
+  List<SpanAlign> sort=spanAligner.sort();
+  SpanPopulator spanPopulator=new SpanPopulator(sort);
+  List<SpanAlign> populatedList=spanPopulator.populateSubSpan();
+  return populatedList;
 }
