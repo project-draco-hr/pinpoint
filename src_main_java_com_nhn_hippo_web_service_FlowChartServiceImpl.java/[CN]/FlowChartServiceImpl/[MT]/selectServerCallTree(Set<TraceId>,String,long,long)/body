@@ -6,13 +6,14 @@
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
   watch.stop();
   int totalNonTerminalSpansCount=0;
+  Set<String> endPoints=new HashSet<String>();
   for (  List<SpanBo> transaction : traces) {
     totalNonTerminalSpansCount+=transaction.size();
-    List<SpanBo> processed=refine(transaction);
-    markRecursiveCall(processed);
-    for (    SpanBo eachTransaction : processed) {
+    markRecursiveCall(transaction);
+    for (    SpanBo eachTransaction : transaction) {
       tree.addSpan(eachTransaction);
       terminalQueryParams.put(eachTransaction.getServiceName(),eachTransaction.getServiceType());
+      endPoints.add(eachTransaction.getEndPoint());
     }
   }
   if (logger.isInfoEnabled()) {
@@ -27,7 +28,12 @@
       logger.info("	Fetch terminals of {} : {}ms",param.getKey(),System.currentTimeMillis() - start);
       for (      List<TerminalRequest> terminal : terminals) {
         for (        TerminalRequest t : terminal) {
-          tree.addTerminal(t);
+          if (!endPoints.contains(t.getTo())) {
+            t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
+            tree.addTerminal(t);
+          }
+ else {
+          }
         }
       }
     }
