@@ -3,13 +3,7 @@
   if (server.getId() == null) {
     return;
   }
-  if (!servers.containsKey(server.getId())) {
-    servers.put(server.getId(),server);
-  }
- else {
-    servers.get(server.getId()).mergeWith(server);
-  }
-  spanIdToServerId.put(String.valueOf(span.getSpanId()),server.getId());
+  addServer(String.valueOf(span.getSpanId()),server);
   if (span.getParentSpanId() == -1) {
     businessTransactions.add(span);
   }

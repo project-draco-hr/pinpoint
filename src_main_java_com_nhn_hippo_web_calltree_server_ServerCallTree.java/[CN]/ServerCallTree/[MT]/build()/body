@@ -37,6 +37,25 @@
       serverRequests.put(serverRequest.getId(),serverRequest);
     }
   }
+  for (  SubSpanBo span : subspans) {
+    String from=String.valueOf(span.getSpanId());
+    String to;
+    if (span.getServiceType().isRpcClient()) {
+      to=String.valueOf(span.getEndPoint());
+    }
+ else {
+      to=String.valueOf(span.getServiceName());
+    }
+    Server fromServer=servers.get(spanIdToServerId.get(from));
+    Server toServer=servers.get(spanIdToServerId.get(to));
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer);
+    if (serverRequests.containsKey(serverRequest.getId())) {
+      serverRequests.get(serverRequest.getId()).addRequest(span.getEndElapsed());
+    }
+ else {
+      serverRequests.put(serverRequest.getId(),serverRequest);
+    }
+  }
   isBuilt=true;
   return this;
 }
