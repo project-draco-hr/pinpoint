@@ -29,10 +29,10 @@
       for (      List<TerminalRequest> terminal : terminals) {
         for (        TerminalRequest t : terminal) {
           if (!endPoints.contains(t.getTo())) {
-            t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
+            if (ServiceType.parse(t.getToServiceType()).isRpcClient()) {
+              t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
+            }
             tree.addTerminal(t);
-          }
- else {
           }
         }
       }
