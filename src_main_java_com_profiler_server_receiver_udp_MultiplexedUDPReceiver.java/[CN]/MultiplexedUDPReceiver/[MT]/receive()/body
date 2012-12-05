@@ -5,7 +5,7 @@
   while (state.get()) {
     DatagramPacket packet=null;
     try {
-      byte[] buffer=new byte[AcceptedSize];
+      byte[] buffer=pool.getBuffer();
       packet=new DatagramPacket(buffer,AcceptedSize);
       try {
         socket.receive(packet);

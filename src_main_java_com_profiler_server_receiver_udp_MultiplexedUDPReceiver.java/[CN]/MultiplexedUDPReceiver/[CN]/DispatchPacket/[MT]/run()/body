@@ -1,3 +1,8 @@
 {
-  multiplexedPacketHandler.handlePacket(packet);
+  try {
+    multiplexedPacketHandler.handlePacket(packet);
+  }
+  finally {
+    pool.returnPacket(packet.getData());
+  }
 }
