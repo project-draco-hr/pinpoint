@@ -3,6 +3,7 @@
     logger.info("Waiting for " + MultiplexedUDPReceiver.class.getSimpleName());
   }
   while (state.get()) {
+    boolean success=false;
     DatagramPacket packet=null;
     try {
       byte[] buffer=pool.getBuffer();
@@ -16,6 +17,7 @@
       if (logger.isDebugEnabled()) {
         logger.debug("DatagramPacket read size:" + packet.getLength());
       }
+      success=true;
     }
  catch (    IOException e) {
       if (state.get() == false) {
@@ -24,6 +26,11 @@
         logger.error(e.getMessage(),e);
       }
       continue;
+    }
+ finally {
+      if (!success) {
+        pool.returnPacket(packet.getData());
+      }
     }
     if (logger.isDebugEnabled()) {
       logger.debug("pool getActiveCount:{}",worker.getActiveCount());
