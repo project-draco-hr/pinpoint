@@ -7,13 +7,16 @@
   for (  SubSpanBo subSpanBo : subSpanBos) {
     long subStartTime=startTime + subSpanBo.getStartElapsed();
     long nextSpanStartTime=getNextSpanStartTime(i);
-    if (subStartTime >= nextSpanStartTime) {
+    if (subStartTime <= nextSpanStartTime) {
       SpanAlign subSpanAlign=new SpanAlign(spanAlign.getDepth(),span,subSpanBo);
       subSpanAlign.setRoot(false);
       populatedList.add(subSpanAlign);
     }
  else {
-      populatedSpan(populatedList,i);
+      if (nextSpanStartTime == Long.MAX_VALUE) {
+        return;
+      }
+      populatedSpan(populatedList,++i);
     }
   }
 }
