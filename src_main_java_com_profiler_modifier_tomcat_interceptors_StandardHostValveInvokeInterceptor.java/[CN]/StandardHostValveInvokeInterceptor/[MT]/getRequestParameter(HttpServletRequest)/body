@@ -7,7 +7,12 @@
     if (value != null) {
       String valueString=value.toString();
       int valueStringLength=valueString.length();
-      if (valueStringLength > 0 && valueStringLength < 100)       params.append(keyString).append("=").append(valueString);
+      if (valueStringLength > 0 && valueStringLength < 100) {
+        params.append(keyString).append("=").append(valueString);
+      }
+      if (attrs.hasMoreElements()) {
+        params.append(", ");
+      }
     }
   }
   return params.toString();
