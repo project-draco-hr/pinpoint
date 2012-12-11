@@ -8,14 +8,13 @@
     HttpServletRequest request=(HttpServletRequest)args[0];
     String requestURL=request.getRequestURI();
     String clientIP=request.getRemoteAddr();
-    String parameters=getRequestParameter(request);
     TraceID traceId=populateTraceIdFromRequest(request);
     Trace trace;
     if (traceId != null) {
       TraceID nextTraceId=traceId.getNextTraceId();
       if (logger.isLoggable(Level.INFO)) {
         logger.info("TraceID exist. continue trace. " + nextTraceId);
-        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
+        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP);
       }
       trace=new Trace(nextTraceId);
       traceContext.attachTraceObject(trace);
@@ -24,7 +23,7 @@
       trace=new Trace();
       if (logger.isLoggable(Level.INFO)) {
         logger.info("TraceID not exist. start new trace. " + trace.getTraceId());
-        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
+        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP);
       }
       traceContext.attachTraceObject(trace);
     }
@@ -33,9 +32,6 @@
     int port=request.getServerPort();
     trace.recordEndPoint(request.getProtocol() + ":" + request.getServerName()+ ((port > 0) ? ":" + port : ""));
     trace.recordAttribute("http.url",request.getRequestURI());
-    if (parameters != null && parameters.length() > 0) {
-      trace.recordAttribute("http.params",parameters);
-    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
