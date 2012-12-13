@@ -1,0 +1,17 @@
+{
+  List<AnnotationBo> list=span.getAnnotationBoList();
+  int index=-1;
+  if (span.getServiceType() == ServiceType.ARCUS || span.getServiceType() == ServiceType.MEMCACHED) {
+    index=Collections.binarySearch(list,ARCUS_COMMAND);
+  }
+  if (span.getServiceType() == ServiceType.HTTP_CLIENT) {
+    index=Collections.binarySearch(list,HTTP_URL);
+  }
+  if (span.getServiceType() == ServiceType.TOMCAT) {
+    index=Collections.binarySearch(list,HTTP_URL);
+  }
+  if (index > -1) {
+    return list.get(index).getValue();
+  }
+  return null;
+}
