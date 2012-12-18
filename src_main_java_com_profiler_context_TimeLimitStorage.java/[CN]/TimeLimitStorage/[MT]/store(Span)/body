@@ -1,0 +1,15 @@
+{
+  if (dropSubSpan) {
+    limit=checkLimit(span);
+    if (!limit) {
+      this.storage=null;
+      dataSender.send(span);
+    }
+ else {
+      flushAll(span);
+    }
+  }
+ else {
+    flushAll(span);
+  }
+}

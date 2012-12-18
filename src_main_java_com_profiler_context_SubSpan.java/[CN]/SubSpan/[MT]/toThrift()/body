@@ -1,22 +1,3 @@
 {
-  com.profiler.common.dto.thrift.SubSpan span=new com.profiler.common.dto.thrift.SubSpan();
-  span.setAgentId(Agent.getInstance().getAgentId());
-  long parentSpanStartTime=parentSpan.getStartTime();
-  span.setStartElapsed((int)(startTime - parentSpanStartTime));
-  span.setEndElapsed((int)(endTime - startTime));
-  TraceID parentSpanTraceID=parentSpan.getTraceID();
-  span.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
-  span.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
-  span.setRpc(rpc);
-  span.setServiceName(serviceName);
-  span.setServiceType(serviceType.getCode());
-  span.setSpanId(parentSpanTraceID.getSpanId());
-  span.setSequence(sequence);
-  span.setEndPoint(endPoint);
-  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
-  for (  HippoAnnotation a : annotations) {
-    annotationList.add(a.toThrift());
-  }
-  span.setAnnotations(annotationList);
-  return span;
+  return toThrift(false);
 }

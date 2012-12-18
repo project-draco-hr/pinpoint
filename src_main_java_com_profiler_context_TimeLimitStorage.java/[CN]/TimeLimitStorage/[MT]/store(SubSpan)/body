@@ -1,0 +1,13 @@
+{
+  addSubSpan(subSpan);
+  if (!limit) {
+    limit=checkLimit(subSpan);
+  }
+ else {
+    if (storage.size() >= flushCount) {
+      SubSpanList subSpanList=new SubSpanList(storage);
+      storage=new ArrayList<SubSpan>(flushCount);
+      dataSender.send(subSpanList);
+    }
+  }
+}

@@ -2,7 +2,9 @@
   TraceID traceID=TraceID.newTraceId();
   Trace trace=new Trace(traceID);
   TestDataSender dataSender=new TestDataSender();
-  trace.setDataSender(dataSender);
+  BypassStorage bypassStorage=new BypassStorage();
+  bypassStorage.setDataSender(new LoggingDataSender());
+  trace.setStorage(bypassStorage);
   trace.traceBlockEnd(0);
   logger.info(String.valueOf(dataSender.event));
 }

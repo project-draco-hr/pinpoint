@@ -3,6 +3,8 @@
   if (old != null) {
     throw new IllegalStateException("already Trace Object exist.");
   }
-  trace.setDataSender(this.dataSender);
+  TimeLimitStorage storage=new TimeLimitStorage();
+  storage.setDataSender(this.dataSender);
+  trace.setStorage(storage);
   threadLocal.set(trace);
 }

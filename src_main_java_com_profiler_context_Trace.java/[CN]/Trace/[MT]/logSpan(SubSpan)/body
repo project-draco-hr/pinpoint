@@ -1,9 +1,9 @@
 {
   try {
     if (logger.isLoggable(Level.INFO)) {
-      logger.info("[WRITE SubSPAN]" + span + " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
+      logger.info("[WRITE SubSPAN]" + subSpan + " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
     }
-    dataSender.send(span);
+    this.storage.store(subSpan);
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,e.getMessage(),e);
