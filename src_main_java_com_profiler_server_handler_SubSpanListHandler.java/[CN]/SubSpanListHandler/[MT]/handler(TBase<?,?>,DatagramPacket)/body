@@ -15,7 +15,7 @@
     traceDao.insertSubSpanList(applicationName,subSpanList);
     List<SubSpan> ssList=subSpanList.getSubSpanList();
     if (ssList != null) {
-      logger.debug("SubSpanList Size:{}" + ssList.size());
+      logger.debug("SubSpanList Size:{}",ssList.size());
       for (      SubSpan subSpan : ssList) {
         ServiceType serviceType=ServiceType.parse(subSpan.getServiceType());
         if (serviceType.isRpcClient()) {
@@ -28,6 +28,6 @@
     }
   }
  catch (  Exception e) {
-    logger.warn("Span handle error " + e.getMessage(),e);
+    logger.warn("SubSpanList handle error " + e.getMessage(),e);
   }
 }
