@@ -12,11 +12,8 @@
  else {
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
-    if (logger.isDebugEnabled()) {
-      logger.debug("Found Applicationname={}",applicationName);
-    }
+    traceDao.insertSubSpan(applicationName,subSpan);
     ServiceType serviceType=ServiceType.parse(subSpan.getServiceType());
-    traceDao.insertTerminalSpan(applicationName,subSpan);
     if (serviceType.isRpcClient()) {
       terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode());
     }

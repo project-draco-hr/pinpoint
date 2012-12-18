@@ -7,12 +7,10 @@
     boList.add(annotationBo);
   }
   size+=4;
-  byte[] buffer=new byte[size];
-  int offset=0;
-  BytesUtils.writeInt(boList.size(),buffer,offset);
-  offset=4;
+  Buffer buffer=new Buffer(size);
+  buffer.put(boList.size());
   for (  AnnotationBo bo : boList) {
-    offset=bo.writeValue(buffer,offset);
+    bo.writeValue(buffer);
   }
-  return buffer;
+  return buffer.getBuffer();
 }

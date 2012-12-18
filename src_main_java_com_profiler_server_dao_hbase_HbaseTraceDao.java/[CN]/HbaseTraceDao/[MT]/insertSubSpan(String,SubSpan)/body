@@ -1,0 +1,8 @@
+{
+  SubSpanBo subSpanBo=new SubSpanBo(subSpan);
+  byte[] value=subSpanBo.writeValue();
+  Put put=new Put(SpanUtils.getTraceId(subSpan));
+  byte[] rowId=BytesUtils.add(subSpanBo.getSpanId(),subSpanBo.getSequence());
+  put.add(TRACES_CF_TERMINALSPAN,rowId,value);
+  hbaseTemplate.put(TRACES,put);
+}

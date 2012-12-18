@@ -1,0 +1,14 @@
+{
+  List<SubSpan> subSpanList=span.getSubSpanList();
+  if (subSpanList == null || subSpanList.size() == 0) {
+    return;
+  }
+  short seqence=-1;
+  for (  SubSpan subSpan : subSpanList) {
+    seqence=getSequence(span,subSpan,seqence);
+    SubSpanBo subSpanBo=new SubSpanBo(span,subSpan,seqence);
+    byte[] rowId=BytesUtils.add(subSpanBo.getSpanId(),subSpanBo.getSequence());
+    byte[] value=subSpanBo.writeValue();
+    put.add(TRACES_CF_TERMINALSPAN,rowId,value);
+  }
+}

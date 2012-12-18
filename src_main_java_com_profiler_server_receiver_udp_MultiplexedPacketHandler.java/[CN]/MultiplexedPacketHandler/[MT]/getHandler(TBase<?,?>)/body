@@ -11,6 +11,9 @@
   if (tBase instanceof SubSpan) {
     return subSpanHandler;
   }
+  if (tBase instanceof SubSpanList) {
+    return subSpanListHandler;
+  }
   logger.warn("Unknown type of data received. data=" + tBase);
   throw new UnsupportedOperationException();
 }

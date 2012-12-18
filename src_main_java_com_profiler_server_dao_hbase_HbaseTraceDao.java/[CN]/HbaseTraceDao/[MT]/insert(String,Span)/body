@@ -5,9 +5,10 @@
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
   put.add(TRACES_CF_SPAN,spanId,value);
   List<Annotation> annotations=span.getAnnotations();
-  if (annotations.size() != 0) {
+  if (annotations != null && annotations.size() != 0) {
     byte[] bytes=writeBuffer(annotations);
     put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
+  addNestedSubSpan(put,span);
   hbaseTemplate.put(TRACES,put);
 }
