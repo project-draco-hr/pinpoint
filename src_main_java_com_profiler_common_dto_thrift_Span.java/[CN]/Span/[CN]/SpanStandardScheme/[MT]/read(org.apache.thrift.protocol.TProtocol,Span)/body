@@ -109,13 +109,13 @@ break;
 case 12:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
-org.apache.thrift.protocol.TList _list24=iprot.readListBegin();
-struct.annotations=new ArrayList<Annotation>(_list24.size);
-for (int _i25=0; _i25 < _list24.size; ++_i25) {
-Annotation _elem26;
-_elem26=new Annotation();
-_elem26.read(iprot);
-struct.annotations.add(_elem26);
+org.apache.thrift.protocol.TList _list32=iprot.readListBegin();
+struct.annotations=new ArrayList<Annotation>(_list32.size);
+for (int _i33=0; _i33 < _list32.size; ++_i33) {
+Annotation _elem34;
+_elem34=new Annotation();
+_elem34.read(iprot);
+struct.annotations.add(_elem34);
 }
 iprot.readListEnd();
 }
@@ -129,6 +129,25 @@ case 13:
 if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
 struct.flag=iprot.readI16();
 struct.setFlagIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 14:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list35=iprot.readListBegin();
+struct.subSpanList=new ArrayList<SubSpan>(_list35.size);
+for (int _i36=0; _i36 < _list35.size; ++_i36) {
+SubSpan _elem37;
+_elem37=new SubSpan();
+_elem37.read(iprot);
+struct.subSpanList.add(_elem37);
+}
+iprot.readListEnd();
+}
+struct.setSubSpanListIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);

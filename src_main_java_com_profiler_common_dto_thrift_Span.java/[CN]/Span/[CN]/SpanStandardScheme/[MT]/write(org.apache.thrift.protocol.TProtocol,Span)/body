@@ -46,8 +46,8 @@
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
       oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      Annotation _iter27 : struct.annotations) {
-        _iter27.write(oprot);
+      for (      Annotation _iter38 : struct.annotations) {
+        _iter38.write(oprot);
       }
       oprot.writeListEnd();
     }
@@ -57,6 +57,19 @@
     oprot.writeFieldBegin(FLAG_FIELD_DESC);
     oprot.writeI16(struct.flag);
     oprot.writeFieldEnd();
+  }
+  if (struct.subSpanList != null) {
+    if (struct.isSetSubSpanList()) {
+      oprot.writeFieldBegin(SUB_SPAN_LIST_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.subSpanList.size()));
+        for (        SubSpan _iter39 : struct.subSpanList) {
+          _iter39.write(oprot);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldStop();
   oprot.writeStructEnd();

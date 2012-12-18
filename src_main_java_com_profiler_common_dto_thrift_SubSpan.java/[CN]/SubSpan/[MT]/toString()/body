@@ -1,30 +1,40 @@
 {
   StringBuilder sb=new StringBuilder("SubSpan(");
   boolean first=true;
-  sb.append("agentId:");
-  if (this.agentId == null) {
-    sb.append("null");
-  }
+  if (isSetAgentId()) {
+    sb.append("agentId:");
+    if (this.agentId == null) {
+      sb.append("null");
+    }
  else {
-    sb.append(this.agentId);
+      sb.append(this.agentId);
+    }
+    first=false;
   }
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("mostTraceId:");
-  sb.append(this.mostTraceId);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("leastTraceId:");
-  sb.append(this.leastTraceId);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("spanId:");
-  sb.append(this.spanId);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("sequence:");
-  sb.append(this.sequence);
-  first=false;
+  if (isSetMostTraceId()) {
+    if (!first)     sb.append(", ");
+    sb.append("mostTraceId:");
+    sb.append(this.mostTraceId);
+    first=false;
+  }
+  if (isSetLeastTraceId()) {
+    if (!first)     sb.append(", ");
+    sb.append("leastTraceId:");
+    sb.append(this.leastTraceId);
+    first=false;
+  }
+  if (isSetSpanId()) {
+    if (!first)     sb.append(", ");
+    sb.append("spanId:");
+    sb.append(this.spanId);
+    first=false;
+  }
+  if (isSetSequence()) {
+    if (!first)     sb.append(", ");
+    sb.append("sequence:");
+    sb.append(this.sequence);
+    first=false;
+  }
   if (!first)   sb.append(", ");
   sb.append("startElapsed:");
   sb.append(this.startElapsed);

@@ -2,22 +2,32 @@
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
   if (struct.agentId != null) {
-    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
-    oprot.writeString(struct.agentId);
+    if (struct.isSetAgentId()) {
+      oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+      oprot.writeString(struct.agentId);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.isSetMostTraceId()) {
+    oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
+    oprot.writeI64(struct.mostTraceId);
     oprot.writeFieldEnd();
   }
-  oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
-  oprot.writeI64(struct.mostTraceId);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
-  oprot.writeI64(struct.leastTraceId);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
-  oprot.writeI64(struct.spanId);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(SEQUENCE_FIELD_DESC);
-  oprot.writeI16(struct.sequence);
-  oprot.writeFieldEnd();
+  if (struct.isSetLeastTraceId()) {
+    oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
+    oprot.writeI64(struct.leastTraceId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+    oprot.writeI64(struct.spanId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetSequence()) {
+    oprot.writeFieldBegin(SEQUENCE_FIELD_DESC);
+    oprot.writeI16(struct.sequence);
+    oprot.writeFieldEnd();
+  }
   oprot.writeFieldBegin(START_ELAPSED_FIELD_DESC);
   oprot.writeI32(struct.startElapsed);
   oprot.writeFieldEnd();
@@ -46,8 +56,8 @@
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
       oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      Annotation _iter35 : struct.annotations) {
-        _iter35.write(oprot);
+      for (      Annotation _iter27 : struct.annotations) {
+        _iter27.write(oprot);
       }
       oprot.writeListEnd();
     }
