@@ -4,12 +4,12 @@
       return classFileBuffer;
     }
   }
-  if (logger.isLoggable(Level.FINE)) {
-    logger.fine("[transform] cl" + classLoader + " className:"+ className);
-  }
   Modifier findModifier=this.modifierRepository.findModifier(className);
   if (findModifier == null) {
     return null;
+  }
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("[transform] cl" + classLoader + " className:"+ className+ " Modifier:"+ findModifier.getClass().getName());
   }
   String javassistClassName=className.replace('/','.');
   return findModifier.modify(classLoader,javassistClassName,protectionDomain,classFileBuffer);

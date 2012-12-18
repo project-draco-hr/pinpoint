@@ -1,0 +1,11 @@
+{
+  Class<?>[] paramClass=new Class<?>[params.length];
+  for (int i=0; i < params.length; i++) {
+    Object o=params[i];
+    if (o == null) {
+      throw new InstrumentException("params is null ");
+    }
+    paramClass[i]=o.getClass();
+  }
+  return paramClass;
+}

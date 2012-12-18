@@ -1,0 +1,15 @@
+{
+  Assert.notNull(profilerConfig,"profilerConfig must not be null");
+  this.profilerConfig=profilerConfig;
+  this.serverInfo=new ServerInfo();
+  String machineName=NetworkUtils.getMachineName();
+  this.agentId=getId("hippo.agentId",machineName);
+  this.nodeName=getId("hippo.nodeName",machineName);
+  this.applicationName=getId("hippo.applicationName","UnknownApplicationName");
+  this.dataSender=createDataSender();
+  initializeTraceContext();
+  this.systemMonitor=new SystemMonitor(this.traceContext);
+  this.systemMonitor.setDataSender(dataSender);
+  ApiMappingTable.findApiId("test",null,null);
+  SingletonHolder.INSTANCE=this;
+}

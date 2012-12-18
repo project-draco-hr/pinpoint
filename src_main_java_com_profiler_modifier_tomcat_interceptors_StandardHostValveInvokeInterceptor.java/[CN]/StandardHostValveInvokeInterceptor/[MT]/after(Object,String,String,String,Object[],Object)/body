@@ -2,7 +2,6 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
   }
-  TraceContext traceContext=TraceContext.getTraceContext();
   traceContext.getActiveThreadCounter().end();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {

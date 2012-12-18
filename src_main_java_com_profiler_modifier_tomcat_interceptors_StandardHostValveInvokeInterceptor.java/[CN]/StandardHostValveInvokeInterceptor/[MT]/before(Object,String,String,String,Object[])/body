@@ -3,7 +3,6 @@
     logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
   }
   try {
-    TraceContext traceContext=TraceContext.getTraceContext();
     traceContext.getActiveThreadCounter().start();
     HttpServletRequest request=(HttpServletRequest)args[0];
     String requestURL=request.getRequestURI();
@@ -28,7 +27,7 @@
       traceContext.attachTraceObject(trace);
     }
     trace.markBeforeTime();
-    trace.recordRpcName(ServiceType.TOMCAT,Agent.getInstance().getApplicationName(),requestURL);
+    trace.recordRpcName(ServiceType.TOMCAT,traceContext.getApplicationId(),requestURL);
     int port=request.getServerPort();
     trace.recordEndPoint(request.getProtocol() + ":" + request.getServerName()+ ((port > 0) ? ":" + port : ""));
     trace.recordAttribute("http.url",request.getRequestURI());

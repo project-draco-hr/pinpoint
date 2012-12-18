@@ -1,10 +1,10 @@
 {
-  StandardHostValveInvokeModifier standardHostValveInvokeModifier=new StandardHostValveInvokeModifier(byteCodeInstrumentor);
+  StandardHostValveInvokeModifier standardHostValveInvokeModifier=new StandardHostValveInvokeModifier(byteCodeInstrumentor,agent);
   addModifier(standardHostValveInvokeModifier);
-  Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(byteCodeInstrumentor);
+  Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatStandardServiceModifier);
-  Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor);
+  Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatConnectorModifier);
-  Modifier tomcatCatalinaModifier=new CatalinaModifier(byteCodeInstrumentor);
+  Modifier tomcatCatalinaModifier=new CatalinaModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatCatalinaModifier);
 }

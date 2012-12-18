@@ -16,18 +16,13 @@
     return;
   }
   DatagramPacket packet=new DatagramPacket(sendData,sendData.length);
-  if (udpSocket == null) {
-    udpSocket=createSocket();
+  try {
+    udpSocket.send(packet);
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("Data sent. " + dto);
+    }
   }
-  if (udpSocket != null) {
-    try {
-      udpSocket.send(packet);
-      if (logger.isLoggable(Level.FINE)) {
-        logger.fine("Data sent. " + dto);
-      }
-    }
- catch (    IOException e) {
-      logger.log(Level.WARNING,"packet send error " + dto,e);
-    }
+ catch (  IOException e) {
+    logger.log(Level.WARNING,"packet send error " + dto,e);
   }
 }

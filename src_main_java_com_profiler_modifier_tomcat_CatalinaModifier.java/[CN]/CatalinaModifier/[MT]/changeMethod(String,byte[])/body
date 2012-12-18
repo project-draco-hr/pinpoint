@@ -1,10 +1,10 @@
 {
   try {
-    CtClass cc=classPool.get(javassistClassName);
-    CtMethod initializeMethod=cc.getDeclaredMethod("await",null);
-    initializeMethod.insertBefore("{" + Agent.FQCN + ".getInstance().sendStartupInfo(); }");
+    CatalinaAwaitInterceptor catalinaAwaitInterceptor=new CatalinaAwaitInterceptor(agent);
+    InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+    aClass.addInterceptor("await",null,catalinaAwaitInterceptor);
     printClassConvertComplete(javassistClassName);
-    return cc.toBytecode();
+    return aClass.toBytecode();
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

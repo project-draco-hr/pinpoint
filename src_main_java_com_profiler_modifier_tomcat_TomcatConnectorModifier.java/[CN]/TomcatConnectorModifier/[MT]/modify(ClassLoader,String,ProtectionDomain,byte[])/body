@@ -2,5 +2,17 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("Modifing. " + javassistClassName);
   }
-  return changeMethod(javassistClassName,classFileBuffer);
+  try {
+    Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.tomcat.interceptors.ConnectorInitializeInterceptor",new Object[]{agent});
+    InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+    aClass.addInterceptor("initialize",null,interceptor);
+    printClassConvertComplete(javassistClassName);
+    return aClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,e.getMessage(),e);
+    }
+    return null;
+  }
 }

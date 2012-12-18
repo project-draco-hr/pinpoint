@@ -1,9 +1,7 @@
 {
   RequestDataListThriftDTO dataListDto=DatabaseRequestTracer.getRequestDataList();
   if (dataListDto != null) {
-    UdpDataSender.getInstance().send(dataListDto);
   }
-  UdpDataSender.getInstance().send(dto);
   requestSet.remove(currentRequestID.get());
   DatabaseRequestTracer.removeRequestDataList();
   DatabaseRequestTracer.removeFetchCount();

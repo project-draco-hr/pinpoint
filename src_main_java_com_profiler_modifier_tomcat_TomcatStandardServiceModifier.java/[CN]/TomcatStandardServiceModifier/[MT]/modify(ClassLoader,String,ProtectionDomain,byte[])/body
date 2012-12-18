@@ -5,9 +5,10 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
-    StandardServiceStartInterceptor start=new StandardServiceStartInterceptor();
+    LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);
+    StandardServiceStartInterceptor start=new StandardServiceStartInterceptor(lifeCycleEventListener);
     standardService.addInterceptor("start",null,start);
-    StandardServiceStopInterceptor stop=new StandardServiceStopInterceptor();
+    StandardServiceStopInterceptor stop=new StandardServiceStopInterceptor(lifeCycleEventListener);
     standardService.addInterceptor("stop",null,stop);
     return standardService.toBytecode();
   }

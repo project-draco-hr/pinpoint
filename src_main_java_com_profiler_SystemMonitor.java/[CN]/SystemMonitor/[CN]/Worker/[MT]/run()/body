@@ -1,9 +1,8 @@
 {
   try {
     JVMInfoThriftDTO jvmInfo=new JVMInfoThriftDTO();
-    jvmInfo.setAgentId(Agent.getInstance().getAgentId());
+    jvmInfo.setAgentId(traceContext.getAgentId());
     jvmInfo.setDataTime(System.currentTimeMillis());
-    TraceContext traceContext=TraceContext.getTraceContext();
     activeThread(traceContext,jvmInfo);
     setGCState(jvmInfo);
     setMemoryState(jvmInfo);
