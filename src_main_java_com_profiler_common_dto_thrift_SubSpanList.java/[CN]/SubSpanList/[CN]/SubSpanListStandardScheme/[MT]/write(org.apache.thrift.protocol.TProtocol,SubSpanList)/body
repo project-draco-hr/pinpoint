@@ -1,0 +1,34 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.mostTraceId);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
+  oprot.writeI64(struct.leastTraceId);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.spanId);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(START_SEQUENCE_FIELD_DESC);
+  oprot.writeI16(struct.startSequence);
+  oprot.writeFieldEnd();
+  if (struct.subSpanList != null) {
+    oprot.writeFieldBegin(SUB_SPAN_LIST_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.subSpanList.size()));
+      for (      SubSpan _iter51 : struct.subSpanList) {
+        _iter51.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
