@@ -1,0 +1,24 @@
+{
+switch (typeCode) {
+case 0:
+    return encodeString((String)o);
+case SPECIAL_INT:
+  return tu.encodeInt((Integer)o);
+case SPECIAL_BOOLEAN:
+return tu.encodeBoolean((Boolean)o);
+case SPECIAL_LONG:
+return tu.encodeLong((Long)o);
+case SPECIAL_DATE:
+return tu.encodeLong(((Date)o).getTime());
+case SPECIAL_BYTE:
+return tu.encodeByte((Byte)o);
+case SPECIAL_FLOAT:
+return tu.encodeInt(Float.floatToRawIntBits((Float)o));
+case SPECIAL_DOUBLE:
+return tu.encodeLong(Double.doubleToRawLongBits((Double)o));
+case SPECIAL_BYTEARRAY:
+return (byte[])o;
+default :
+return serialize(o);
+}
+}
