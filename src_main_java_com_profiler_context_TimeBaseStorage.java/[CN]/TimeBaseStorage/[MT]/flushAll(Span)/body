@@ -1,8 +1,11 @@
 {
-  List<SubSpan> subSpanList=storage;
+  List<SubSpan> subSpanList;
+synchronized (this) {
+    subSpanList=storage;
+    this.storage=null;
+  }
   if (subSpanList != null && subSpanList.size() != 0) {
     span.setSubSpanList(subSpanList);
   }
-  this.storage=null;
   dataSender.send(span);
 }

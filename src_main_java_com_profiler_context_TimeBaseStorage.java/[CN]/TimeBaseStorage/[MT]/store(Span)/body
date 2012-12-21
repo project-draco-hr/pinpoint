@@ -2,7 +2,9 @@
   if (discard) {
     limit=checkLimit(span);
     if (!limit) {
-      this.storage=null;
+synchronized (this) {
+        this.storage=null;
+      }
       dataSender.send(span);
     }
  else {

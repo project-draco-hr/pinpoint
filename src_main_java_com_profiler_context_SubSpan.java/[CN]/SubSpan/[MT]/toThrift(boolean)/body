@@ -1,24 +1,24 @@
 {
-  com.profiler.common.dto.thrift.SubSpan span=new com.profiler.common.dto.thrift.SubSpan();
+  com.profiler.common.dto.thrift.SubSpan subSpan=new com.profiler.common.dto.thrift.SubSpan();
   long parentSpanStartTime=parentSpan.getStartTime();
-  span.setStartElapsed((int)(startTime - parentSpanStartTime));
-  span.setEndElapsed((int)(endTime - startTime));
+  subSpan.setStartElapsed((int)(startTime - parentSpanStartTime));
+  subSpan.setEndElapsed((int)(endTime - startTime));
+  subSpan.setSequence(sequence);
   if (!child) {
-    span.setAgentId(Agent.getInstance().getAgentId());
+    subSpan.setAgentId(Agent.getInstance().getAgentId());
     TraceID parentSpanTraceID=parentSpan.getTraceID();
-    span.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
-    span.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
-    span.setSpanId(parentSpanTraceID.getSpanId());
-    span.setSequence(sequence);
+    subSpan.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
+    subSpan.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
+    subSpan.setSpanId(parentSpanTraceID.getSpanId());
   }
-  span.setRpc(rpc);
-  span.setServiceName(serviceName);
-  span.setServiceType(serviceType.getCode());
-  span.setEndPoint(endPoint);
+  subSpan.setRpc(rpc);
+  subSpan.setServiceName(serviceName);
+  subSpan.setServiceType(serviceType.getCode());
+  subSpan.setEndPoint(endPoint);
   List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
   for (  HippoAnnotation a : annotations) {
     annotationList.add(a.toThrift());
   }
-  span.setAnnotations(annotationList);
-  return span;
+  subSpan.setAnnotations(annotationList);
+  return subSpan;
 }

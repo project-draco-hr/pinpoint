@@ -1,13 +1,24 @@
 {
-  addSubSpan(subSpan);
   if (!limit) {
+synchronized (this) {
+      addSubSpan(subSpan);
+    }
     limit=checkLimit(subSpan);
   }
  else {
-    if (storage.size() >= bufferSize) {
-      SubSpanList subSpanList=new SubSpanList(storage);
-      storage=new ArrayList<SubSpan>(bufferSize);
-      dataSender.send(subSpanList);
+    List<SubSpan> flushData=null;
+synchronized (this) {
+      if (!addSubSpan(subSpan)) {
+        dataSender.send(subSpan);
+        return;
+      }
+      if (storage.size() >= bufferSize) {
+        flushData=storage;
+        storage=new ArrayList<SubSpan>(bufferSize + RESERVE_BUFFER_SIZE);
+      }
+    }
+    if (flushData != null) {
+      dataSender.send(new SubSpanList(flushData));
     }
   }
 }
