@@ -1,0 +1,5 @@
+{
+  assertEqual("select * from table a = 1 and b=50 and c=? and d='11'","select * from table a = # and b=# and c=? and d='$'");
+  assertEqual("select * from table a = -1 and b=-50 and c=? and d='-11'","select * from table a = -# and b=-# and c=? and d='$'");
+  assertEqual("select * from table a = 1/*test*/ and b=50/*test*/ and c=? and d='11'","select * from table a = #/*test*/ and b=#/*test*/ and c=? and d='$'");
+}

@@ -1,0 +1,156 @@
+{
+  if (sql == null) {
+    return "";
+  }
+  final int length=sql.length();
+  final StringBuilder normalized=new StringBuilder(length);
+  boolean newTokenState=true;
+  for (int i=0; i < length; i++) {
+    final char ch=sql.charAt(i);
+switch (ch) {
+case '/':
+      if (lookAhead1(sql,i) == '*') {
+        normalized.append("/*");
+        int stateIndex=i + 2;
+        for (; stateIndex < length; stateIndex++) {
+          char stateCh=sql.charAt(stateIndex);
+          if (stateCh == '*') {
+            if (lookAhead1(sql,stateIndex) == '/') {
+              normalized.append("*/");
+              break;
+            }
+          }
+          normalized.append(stateCh);
+        }
+        i=stateIndex + 1;
+        break;
+      }
+ else {
+        newTokenState=true;
+        normalized.append(ch);
+        break;
+      }
+case '-':
+    if (lookAhead1(sql,i) == '-') {
+      normalized.append("--");
+      int stateIndex=i + 2;
+      for (; stateIndex < length; stateIndex++) {
+        char stateCh=sql.charAt(stateIndex);
+        if (stateCh == '\n') {
+          normalized.append(stateCh);
+          break;
+        }
+        normalized.append(stateCh);
+      }
+      i=stateIndex;
+      break;
+    }
+ else {
+      newTokenState=true;
+      normalized.append(ch);
+      break;
+    }
+case '\'':
+  if (lookAhead1(sql,i) == '\'') {
+    normalized.append("''");
+    i+=2;
+    break;
+  }
+ else {
+    normalized.append('\'');
+    int stateIndex=i + 1;
+    for (; stateIndex < length; stateIndex++) {
+      char stateCh=sql.charAt(stateIndex);
+      if (stateCh == '\'') {
+        if (lookAhead1(sql,stateIndex) == '\'') {
+          stateIndex++;
+          outputParam.append("''");
+          continue;
+        }
+ else {
+          normalized.append(SYMBOL_REPLACE);
+          normalized.append('\'');
+          outputParam.append(',');
+          break;
+        }
+      }
+      outputParam.append(stateCh);
+    }
+    i=stateIndex;
+    break;
+  }
+case '0':
+case '1':
+case '2':
+case '3':
+case '4':
+case '5':
+case '6':
+case '7':
+case '8':
+case '9':
+if (newTokenState) {
+  normalized.append('#');
+  outputParam.append(ch);
+  int stateIndex=i + 1;
+  tokenEnd:   for (; stateIndex < length; stateIndex++) {
+    char stateCh=sql.charAt(stateIndex);
+switch (stateCh) {
+case '0':
+case '1':
+case '2':
+case '3':
+case '4':
+case '5':
+case '6':
+case '7':
+case '8':
+case '9':
+case '.':
+case 'E':
+      outputParam.append(stateCh);
+    break;
+default :
+  stateIndex--;
+break tokenEnd;
+}
+}
+i=stateIndex;
+break;
+}
+ else {
+normalized.append(ch);
+break;
+}
+case ' ':
+case '\t':
+case '\n':
+case '\r':
+newTokenState=true;
+normalized.append(ch);
+break;
+case '*':
+case '+':
+case '=':
+newTokenState=true;
+normalized.append(ch);
+break;
+default :
+if (ch >= 'a' && ch <= 'z') {
+newTokenState=false;
+}
+ else if (ch >= 'A' && ch <= 'Z') {
+newTokenState=false;
+}
+ else if (ch == '_') {
+newTokenState=false;
+}
+ else {
+newTokenState=true;
+}
+normalized.append(ch);
+break;
+}
+}
+return normalized.toString();
+}

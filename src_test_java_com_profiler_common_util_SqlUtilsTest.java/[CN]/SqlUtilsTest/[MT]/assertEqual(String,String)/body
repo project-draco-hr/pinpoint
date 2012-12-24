@@ -1,0 +1,11 @@
+{
+  StringBuilder sb=new StringBuilder();
+  String normalizedSql=SqlUtils.normalizedSql(expected,sb);
+  try {
+    Assert.assertEquals(actual,normalizedSql);
+  }
+ catch (  AssertionFailedError e) {
+    System.err.println("Original :" + expected);
+    throw e;
+  }
+}

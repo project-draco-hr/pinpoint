@@ -1,0 +1,21 @@
+{
+  StringBuilder sb=new StringBuilder(10);
+  String s=SqlUtils.normalizedSql("select * from table a = 1 and b=50 and c=? and d='11'",sb);
+  System.out.println(s);
+  System.out.println(sb.toString());
+  StringBuilder sb2=new StringBuilder(10);
+  String s2=SqlUtils.normalizedSql(" ",sb2);
+  System.out.println(s2);
+  System.out.println((char)-1);
+  String str="s";
+  System.out.println(str.codePointAt(0));
+  System.out.println((int)str.charAt(0));
+  System.out.println("high" + (char)Character.MAX_HIGH_SURROGATE);
+  System.out.println("low" + (char)Character.MIN_LOW_SURROGATE);
+  System.out.println((int)Character.MIN_LOW_SURROGATE);
+  System.out.println((int)Character.MAX_HIGH_SURROGATE);
+  StringBuilder sb3=new StringBuilder();
+  String s3=SqlUtils.normalizedSql("''",sb3);
+  System.out.println("s3:" + s3);
+  System.out.println("sb3:" + sb3.toString());
+}
