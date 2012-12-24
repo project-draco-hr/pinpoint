@@ -4,35 +4,30 @@
   }
   final int length=sql.length();
   final StringBuilder normalized=new StringBuilder(length);
-  boolean newTokenState=true;
+  boolean numberTokenStartEnable=true;
   for (int i=0; i < length; i++) {
     final char ch=sql.charAt(i);
 switch (ch) {
 case '/':
-      if (lookAhead1(sql,i) == '*') {
-        normalized.append("/*");
-        i+=2;
-        for (; i < length; i++) {
-          char stateCh=sql.charAt(i);
-          if (stateCh == '*') {
-            if (lookAhead1(sql,i) == '/') {
-              normalized.append("*/");
-              i++;
-              break;
-            }
+      int lookAhead1Char=lookAhead1(sql,i);
+    if (lookAhead1Char == '*') {
+      normalized.append("/*");
+      i+=2;
+      for (; i < length; i++) {
+        char stateCh=sql.charAt(i);
+        if (stateCh == '*') {
+          if (lookAhead1(sql,i) == '/') {
+            normalized.append("*/");
+            i++;
+            break;
           }
-          normalized.append(stateCh);
         }
-        break;
+        normalized.append(stateCh);
       }
- else {
-        newTokenState=true;
-        normalized.append(ch);
-        break;
-      }
-case '-':
-    if (lookAhead1(sql,i) == '-') {
-      normalized.append("--");
+      break;
+    }
+ else     if (lookAhead1Char == '/') {
+      normalized.append("//");
       i+=2;
       for (; i < length; i++) {
         char stateCh=sql.charAt(i);
@@ -45,38 +40,57 @@ case '-':
       break;
     }
  else {
-      newTokenState=true;
+      numberTokenStartEnable=true;
       normalized.append(ch);
       break;
     }
-case '\'':
-  if (lookAhead1(sql,i) == '\'') {
-    normalized.append("''");
+case '-':
+  if (lookAhead1(sql,i) == '-') {
+    normalized.append("--");
     i+=2;
-    break;
-  }
- else {
-    normalized.append('\'');
-    i++;
     for (; i < length; i++) {
       char stateCh=sql.charAt(i);
-      if (stateCh == '\'') {
-        if (lookAhead1(sql,i) == '\'') {
-          i++;
-          outputParam.append("''");
-          continue;
-        }
- else {
-          normalized.append(SYMBOL_REPLACE);
-          normalized.append('\'');
-          outputParam.append(',');
-          break;
-        }
+      if (stateCh == '\n') {
+        normalized.append(stateCh);
+        break;
       }
-      outputParam.append(stateCh);
+      normalized.append(stateCh);
     }
     break;
   }
+ else {
+    numberTokenStartEnable=true;
+    normalized.append(ch);
+    break;
+  }
+case '\'':
+if (lookAhead1(sql,i) == '\'') {
+  normalized.append("''");
+  i+=2;
+  break;
+}
+ else {
+  normalized.append('\'');
+  i++;
+  for (; i < length; i++) {
+    char stateCh=sql.charAt(i);
+    if (stateCh == '\'') {
+      if (lookAhead1(sql,i) == '\'') {
+        i++;
+        outputParam.append("''");
+        continue;
+      }
+ else {
+        normalized.append(SYMBOL_REPLACE);
+        normalized.append('\'');
+        outputParam.append(',');
+        break;
+      }
+    }
+    outputParam.append(stateCh);
+  }
+  break;
+}
 case '0':
 case '1':
 case '2':
@@ -87,12 +101,12 @@ case '6':
 case '7':
 case '8':
 case '9':
-if (newTokenState) {
-  normalized.append('#');
-  outputParam.append(ch);
-  i++;
-  tokenEnd:   for (; i < length; i++) {
-    char stateCh=sql.charAt(i);
+if (numberTokenStartEnable) {
+normalized.append('#');
+outputParam.append(ch);
+i++;
+tokenEnd: for (; i < length; i++) {
+  char stateCh=sql.charAt(i);
 switch (stateCh) {
 case '0':
 case '1':
@@ -106,10 +120,10 @@ case '8':
 case '9':
 case '.':
 case 'E':
-      outputParam.append(stateCh);
-    break;
+    outputParam.append(stateCh);
+  break;
 default :
-  i--;
+i--;
 break tokenEnd;
 }
 }
@@ -123,34 +137,42 @@ case ' ':
 case '\t':
 case '\n':
 case '\r':
-newTokenState=true;
+numberTokenStartEnable=true;
 normalized.append(ch);
 break;
 case '*':
 case '+':
+case '%':
 case '=':
 case '<':
 case '>':
-newTokenState=true;
+case '&':
+case '|':
+case '^':
+case '~':
+case '!':
+numberTokenStartEnable=true;
 normalized.append(ch);
 break;
 case '(':
 case ')':
 case ',':
-newTokenState=true;
+case ';':
+numberTokenStartEnable=true;
 normalized.append(ch);
 break;
 case '.':
 case '_':
-newTokenState=false;
+case '@':
+numberTokenStartEnable=false;
 normalized.append(ch);
 break;
 default :
 if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z') {
-newTokenState=false;
+numberTokenStartEnable=false;
 }
  else {
-newTokenState=true;
+numberTokenStartEnable=true;
 }
 normalized.append(ch);
 break;
