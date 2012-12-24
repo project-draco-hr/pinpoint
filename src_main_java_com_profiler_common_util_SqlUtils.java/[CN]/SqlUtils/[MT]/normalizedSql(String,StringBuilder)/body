@@ -11,18 +11,18 @@ switch (ch) {
 case '/':
       if (lookAhead1(sql,i) == '*') {
         normalized.append("/*");
-        int stateIndex=i + 2;
-        for (; stateIndex < length; stateIndex++) {
-          char stateCh=sql.charAt(stateIndex);
+        i+=2;
+        for (; i < length; i++) {
+          char stateCh=sql.charAt(i);
           if (stateCh == '*') {
-            if (lookAhead1(sql,stateIndex) == '/') {
+            if (lookAhead1(sql,i) == '/') {
               normalized.append("*/");
+              i++;
               break;
             }
           }
           normalized.append(stateCh);
         }
-        i=stateIndex + 1;
         break;
       }
  else {
@@ -33,16 +33,15 @@ case '/':
 case '-':
     if (lookAhead1(sql,i) == '-') {
       normalized.append("--");
-      int stateIndex=i + 2;
-      for (; stateIndex < length; stateIndex++) {
-        char stateCh=sql.charAt(stateIndex);
+      i+=2;
+      for (; i < length; i++) {
+        char stateCh=sql.charAt(i);
         if (stateCh == '\n') {
           normalized.append(stateCh);
           break;
         }
         normalized.append(stateCh);
       }
-      i=stateIndex;
       break;
     }
  else {
@@ -58,12 +57,12 @@ case '\'':
   }
  else {
     normalized.append('\'');
-    int stateIndex=i + 1;
-    for (; stateIndex < length; stateIndex++) {
-      char stateCh=sql.charAt(stateIndex);
+    i++;
+    for (; i < length; i++) {
+      char stateCh=sql.charAt(i);
       if (stateCh == '\'') {
-        if (lookAhead1(sql,stateIndex) == '\'') {
-          stateIndex++;
+        if (lookAhead1(sql,i) == '\'') {
+          i++;
           outputParam.append("''");
           continue;
         }
@@ -76,7 +75,6 @@ case '\'':
       }
       outputParam.append(stateCh);
     }
-    i=stateIndex;
     break;
   }
 case '0':
@@ -92,9 +90,9 @@ case '9':
 if (newTokenState) {
   normalized.append('#');
   outputParam.append(ch);
-  int stateIndex=i + 1;
-  tokenEnd:   for (; stateIndex < length; stateIndex++) {
-    char stateCh=sql.charAt(stateIndex);
+  i++;
+  tokenEnd:   for (; i < length; i++) {
+    char stateCh=sql.charAt(i);
 switch (stateCh) {
 case '0':
 case '1':
@@ -111,11 +109,10 @@ case 'E':
       outputParam.append(stateCh);
     break;
 default :
-  stateIndex--;
+  i--;
 break tokenEnd;
 }
 }
-i=stateIndex;
 break;
 }
  else {
@@ -132,17 +129,24 @@ break;
 case '*':
 case '+':
 case '=':
+case '<':
+case '>':
 newTokenState=true;
 normalized.append(ch);
 break;
+case '(':
+case ')':
+case ',':
+newTokenState=true;
+normalized.append(ch);
+break;
+case '.':
+case '_':
+newTokenState=false;
+normalized.append(ch);
+break;
 default :
-if (ch >= 'a' && ch <= 'z') {
-newTokenState=false;
-}
- else if (ch >= 'A' && ch <= 'Z') {
-newTokenState=false;
-}
- else if (ch == '_') {
+if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z') {
 newTokenState=false;
 }
  else {
