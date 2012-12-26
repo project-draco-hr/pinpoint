@@ -29,14 +29,7 @@ case '/':
  else     if (lookAhead1Char == '/') {
       normalized.append("//");
       i+=2;
-      for (; i < length; i++) {
-        char stateCh=sql.charAt(i);
-        if (stateCh == '\n') {
-          normalized.append(stateCh);
-          break;
-        }
-        normalized.append(stateCh);
-      }
+      i=readLine(sql,normalized,i);
       break;
     }
  else {
@@ -48,14 +41,7 @@ case '-':
   if (lookAhead1(sql,i) == '-') {
     normalized.append("--");
     i+=2;
-    for (; i < length; i++) {
-      char stateCh=sql.charAt(i);
-      if (stateCh == '\n') {
-        normalized.append(stateCh);
-        break;
-      }
-      normalized.append(stateCh);
-    }
+    i=readLine(sql,normalized,i);
     break;
   }
  else {
@@ -103,6 +89,7 @@ case '8':
 case '9':
 if (numberTokenStartEnable) {
 normalized.append('#');
+appendSeparator(outputParam);
 outputParam.append(ch);
 i++;
 tokenEnd: for (; i < length; i++) {
@@ -164,6 +151,7 @@ break;
 case '.':
 case '_':
 case '@':
+case ':':
 numberTokenStartEnable=false;
 normalized.append(ch);
 break;
