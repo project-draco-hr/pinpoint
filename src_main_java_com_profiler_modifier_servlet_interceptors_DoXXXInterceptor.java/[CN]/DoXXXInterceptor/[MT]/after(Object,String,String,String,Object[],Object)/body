@@ -1,0 +1,23 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  }
+  traceContext.getActiveThreadCounter().end();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  HttpServletRequest request=(HttpServletRequest)args[0];
+  String parameters=getRequestParameter(request);
+  if (parameters != null && parameters.length() > 0) {
+    trace.recordAttribute("http.params",parameters);
+  }
+  if (trace.getCurrentStackFrame().getStackFrameId() != 0) {
+    logger.warning("Corrupted CallStack found. StackId not Root(0)");
+  }
+  trace.recordApi(this.apiId);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}
