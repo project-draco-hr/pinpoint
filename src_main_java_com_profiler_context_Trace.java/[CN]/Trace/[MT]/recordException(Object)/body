@@ -1,6 +1,18 @@
 {
   if (result instanceof Throwable) {
     Throwable th=(Throwable)result;
-    recordAttribute("Exception",th.getMessage());
+    recordAttribute(AnnotationNames.EXCEPTION,th.getMessage());
+    try {
+      StackFrame currentStackFrame=getCurrentStackFrame();
+      if (currentStackFrame instanceof RootStackFrame) {
+        ((RootStackFrame)currentStackFrame).getSpan().setException(true);
+      }
+ else {
+        ((SubStackFrame)currentStackFrame).getSubSpan().setException(true);
+      }
+    }
+ catch (    Exception e) {
+      logger.log(Level.SEVERE,e.getMessage(),e);
+    }
   }
 }
