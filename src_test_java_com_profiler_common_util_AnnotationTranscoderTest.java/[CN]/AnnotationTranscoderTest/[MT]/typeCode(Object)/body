@@ -1,0 +1,9 @@
+{
+  AnnotationTranscoder transcoder=new AnnotationTranscoder();
+  AnnotationTranscoder.Encoded encoded=transcoder.encode(value);
+  int valueType=encoded.getValueType();
+  int typeCode=transcoder.getTypeCode(value);
+  Assert.assertEquals(valueType,typeCode);
+  byte[] bytes=transcoder.encode(value,typeCode);
+  Assert.assertArrayEquals(bytes,encoded.getBytes());
+}
