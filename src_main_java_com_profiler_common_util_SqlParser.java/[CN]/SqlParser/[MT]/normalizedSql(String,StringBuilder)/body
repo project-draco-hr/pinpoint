@@ -58,6 +58,7 @@ if (lookAhead1(sql,i) == '\'') {
  else {
   normalized.append('\'');
   i++;
+  appendSeparator(outputParam);
   for (; i < length; i++) {
     char stateCh=sql.charAt(i);
     if (stateCh == '\'') {
@@ -69,7 +70,6 @@ if (lookAhead1(sql,i) == '\'') {
  else {
         normalized.append(SYMBOL_REPLACE);
         normalized.append('\'');
-        outputParam.append(',');
         break;
       }
     }
@@ -88,7 +88,7 @@ case '7':
 case '8':
 case '9':
 if (numberTokenStartEnable) {
-normalized.append('#');
+normalized.append(NUMBER_REPLACE);
 appendSeparator(outputParam);
 outputParam.append(ch);
 i++;

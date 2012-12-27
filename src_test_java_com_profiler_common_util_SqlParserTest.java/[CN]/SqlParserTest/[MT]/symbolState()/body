@@ -1,7 +1,8 @@
 {
-  assertEqual("''","''");
-  assertEqual("'abc'","'$'");
-  assertEqual("'a''bc'","'$'");
-  assertEqual("'a' 'bc'","'$' '$'");
-  assertEqual("select * from table where a='a'","select * from table where a='$'");
+  assertEqual("''","''","");
+  assertEqual("'abc'","'$'","abc");
+  assertEqual("'a''bc'","'$'","a''bc");
+  assertEqual("'a' 'bc'","'$' '$'","a,bc");
+  assertEqual("'a''bc' 'a''bc'","'$' '$'","a''bc,a''bc");
+  assertEqual("select * from table where a='a'","select * from table where a='$'","a");
 }
