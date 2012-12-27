@@ -40,10 +40,13 @@
   if (struct.isSetFlag()) {
     optionals.set(12);
   }
-  if (struct.isSetSubSpanList()) {
+  if (struct.isSetErr()) {
     optionals.set(13);
   }
-  oprot.writeBitSet(optionals,14);
+  if (struct.isSetSubSpanList()) {
+    optionals.set(14);
+  }
+  oprot.writeBitSet(optionals,15);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -87,6 +90,9 @@
   }
   if (struct.isSetFlag()) {
     oprot.writeI16(struct.flag);
+  }
+  if (struct.isSetErr()) {
+    oprot.writeBool(struct.err);
   }
   if (struct.isSetSubSpanList()) {
 {

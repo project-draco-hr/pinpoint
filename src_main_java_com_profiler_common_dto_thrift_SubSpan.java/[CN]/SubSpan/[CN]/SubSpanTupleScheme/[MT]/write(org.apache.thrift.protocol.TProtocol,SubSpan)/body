@@ -34,10 +34,13 @@
   if (struct.isSetEndPoint()) {
     optionals.set(10);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetErr()) {
     optionals.set(11);
   }
-  oprot.writeBitSet(optionals,12);
+  if (struct.isSetAnnotations()) {
+    optionals.set(12);
+  }
+  oprot.writeBitSet(optionals,13);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -70,6 +73,9 @@
   }
   if (struct.isSetEndPoint()) {
     oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetErr()) {
+    oprot.writeBool(struct.err);
   }
   if (struct.isSetAnnotations()) {
 {

@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(14);
+  BitSet incoming=iprot.readBitSet(15);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -63,6 +63,10 @@
     struct.setFlagIsSet(true);
   }
   if (incoming.get(13)) {
+    struct.err=iprot.readBool();
+    struct.setErrIsSet(true);
+  }
+  if (incoming.get(14)) {
 {
       org.apache.thrift.protocol.TList _list45=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.subSpanList=new ArrayList<SubSpan>(_list45.size);
