@@ -6,7 +6,7 @@
   scan.setStartRow(traceIndexStartKey);
   byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,end);
   scan.setStopRow(traceIndexEndKey);
-  scan.addColumn(COLFAM_TRACE,COLNAME_ID);
+  scan.addFamily(HBaseTables.TRACE_INDEX_CF_TRACE);
   scan.setId("traceIndexScan");
   logger.debug("create scan:{}",scan);
   return scan;

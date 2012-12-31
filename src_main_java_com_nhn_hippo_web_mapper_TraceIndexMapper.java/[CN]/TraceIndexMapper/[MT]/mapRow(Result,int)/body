@@ -1,3 +1,11 @@
 {
-  return result.getValue(COLFAM_TRACE,COLNAME_ID);
+  if (result == null) {
+    return Collections.emptyList();
+  }
+  KeyValue[] raw=result.raw();
+  List<byte[]> list=new ArrayList<byte[]>(raw.length);
+  for (  KeyValue kv : raw) {
+    list.add(kv.getQualifier());
+  }
+  return list;
 }
