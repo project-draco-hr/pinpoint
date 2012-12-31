@@ -1,5 +1,5 @@
 {
   Put put=new Put(SpanUtils.getApplicationTraceIndexRowKey(applicationName,span),span.getStartTime());
-  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,APPLICATION_TRACE_INDEX_CN_ID,SpanUtils.getTraceId(span));
+  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),null);
   hbaseTemplate.put(APPLICATION_TRACE_INDEX,put);
 }
