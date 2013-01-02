@@ -2,7 +2,7 @@
   List<Get> gets=new ArrayList<Get>(traceIds.size());
   for (  TraceId traceId : traceIds) {
     Get get=new Get(traceId.getBytes());
-    get.addFamily(COLFAM_SPAN);
+    get.addFamily(HBaseTables.TRACES_CF_SPAN);
     gets.add(get);
   }
   return template2.get(HBaseTables.TRACES,gets,spanMapper);

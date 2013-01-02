@@ -1,8 +1,8 @@
 {
   byte[] uuidBytes=BytesUtils.longLongToBytes(traceId.getMostSignificantBits(),traceId.getLeastSignificantBits());
   Get get=new Get(uuidBytes);
-  get.addFamily(COLFAM_SPAN);
-  get.addFamily(COLFAM_ANNOTATION);
-  get.addFamily(COLFAM_TERMINALSPAN);
+  get.addFamily(HBaseTables.TRACES_CF_SPAN);
+  get.addFamily(HBaseTables.TRACES_CF_ANNOTATION);
+  get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
   return template2.get(HBaseTables.TRACES,get,spanAnnotationMapper);
 }
