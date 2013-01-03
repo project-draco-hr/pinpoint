@@ -18,10 +18,10 @@
     trace.recordRpcName(databaseInfo.getType(),databaseInfo.getDatabaseId(),databaseInfo.getUrl());
     trace.recordEndPoint(databaseInfo.getUrl());
     String sql=getSql.invoke(target);
-    trace.recordAttribute("PreparedStatement",sql);
+    trace.recordAttribute(AnnotationNames.PREPAREDSTATEMENT,sql);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
-    trace.recordAttribute("BindValue",bindString);
+    trace.recordAttribute(AnnotationNames.BINDVALUE,bindString);
     trace.recordApi(apiId);
     clean(target);
   }
