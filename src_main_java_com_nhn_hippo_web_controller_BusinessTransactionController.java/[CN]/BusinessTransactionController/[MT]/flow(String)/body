@@ -7,5 +7,9 @@
   ServerCallTree callTree=flow.selectServerCallTree(new TraceId(UUID.fromString(traceId)));
   mv.addObject("nodes",callTree.getNodes());
   mv.addObject("links",callTree.getLinks());
+  RecordSet recordset=new RecordSet(spanAligns);
+  mv.addObject("callstack",recordset.getIterator());
+  mv.addObject("callstackStart",recordset.getStartTime());
+  mv.addObject("callstackEnd",recordset.getEndTime());
   return mv;
 }

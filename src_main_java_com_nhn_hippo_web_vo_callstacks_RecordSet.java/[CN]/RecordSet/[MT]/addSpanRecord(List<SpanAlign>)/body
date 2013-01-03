@@ -1,0 +1,33 @@
+{
+  boolean marked=false;
+  for (  SpanAlign sa : spanAligns) {
+    if (sa.isRoot()) {
+      SpanBo span=sa.getSpan();
+      AnnotationUtils.sortAnnotationListByKey(span);
+      String method=(String)AnnotationUtils.getDisplayMethod(span);
+      String arguments=(String)AnnotationUtils.getDisplayArgument(span);
+      long begin=span.getStartTime();
+      long elapsed=span.getElapsed();
+      if (!marked) {
+        setStartTime(begin);
+        setEndTime(begin + elapsed);
+      }
+      recordset.add(new Record(sa.getDepth(),true,method,arguments,begin,elapsed,span.getAgentId(),span.getServiceName()));
+      addAnnotationRecord(sa.getDepth() + 1,span.getAnnotationBoList());
+    }
+ else {
+      SubSpanBo subSpan=sa.getSubSpanBo();
+      AnnotationUtils.sortAnnotationListByKey(subSpan);
+      String method=(String)AnnotationUtils.getDisplayMethod(subSpan);
+      Object arguments=AnnotationUtils.getDisplayArgument(subSpan);
+      long begin=sa.getSpan().getStartTime() + subSpan.getStartElapsed();
+      long elapsed=subSpan.getEndElapsed();
+      if (!marked) {
+        setStartTime(begin);
+        setEndTime(begin + elapsed);
+      }
+      recordset.add(new Record(sa.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,subSpan.getAgentId(),subSpan.getServiceName()));
+      addAnnotationRecord(sa.getDepth() + 1,subSpan.getAnnotationBoList());
+    }
+  }
+}
