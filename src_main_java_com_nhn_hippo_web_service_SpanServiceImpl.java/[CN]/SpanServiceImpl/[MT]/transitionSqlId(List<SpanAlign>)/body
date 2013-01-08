@@ -1,0 +1,34 @@
+{
+  this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
+    @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
+      for (      AnnotationBo annotationBo : annotationBoList) {
+        if ("SQL-ID".equals(annotationBo.getKey())) {
+          String agentId=getAgentId(spanAlign);
+          int hashCode=(Integer)annotationBo.getValue();
+          List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentId,hashCode,0);
+          int size=sqlMetaDataList.size();
+          if (size == 0) {
+            AnnotationBo api=new AnnotationBo();
+            api.setKey(AnnotationNames.SQL_METADATA);
+            api.setValue("SQL-ID not found hashCode:" + hashCode);
+            annotationBoList.add(api);
+          }
+ else           if (size == 1) {
+            AnnotationBo api=new AnnotationBo();
+            api.setKey(AnnotationNames.SQL_METADATA);
+            api.setValue(sqlMetaDataList.get(0).getSql());
+            annotationBoList.add(api);
+          }
+ else {
+            AnnotationBo api=new AnnotationBo();
+            api.setKey(AnnotationNames.SQL_METADATA);
+            api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
+            annotationBoList.add(api);
+          }
+          break;
+        }
+      }
+    }
+  }
+);
+}

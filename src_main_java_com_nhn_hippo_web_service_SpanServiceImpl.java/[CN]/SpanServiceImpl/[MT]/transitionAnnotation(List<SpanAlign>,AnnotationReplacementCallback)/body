@@ -1,0 +1,13 @@
+{
+  for (  SpanAlign spanAlign : spans) {
+    List<AnnotationBo> annotationBoList;
+    if (spanAlign.isRoot()) {
+      annotationBoList=spanAlign.getSpan().getAnnotationBoList();
+      annotationReplacementCallback.replacement(spanAlign,annotationBoList);
+    }
+ else {
+      annotationBoList=spanAlign.getSubSpanBo().getAnnotationBoList();
+      annotationReplacementCallback.replacement(spanAlign,annotationBoList);
+    }
+  }
+}

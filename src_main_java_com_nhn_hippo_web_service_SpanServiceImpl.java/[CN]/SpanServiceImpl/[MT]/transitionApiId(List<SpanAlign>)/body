@@ -1,29 +1,25 @@
 {
-  for (  SpanAlign spanBo : spans) {
-    List<AnnotationBo> annotationBoList;
-    if (spanBo.isRoot()) {
-      annotationBoList=spanBo.getSpan().getAnnotationBoList();
-    }
- else {
-      annotationBoList=spanBo.getSubSpanBo().getAnnotationBoList();
-    }
-    for (    AnnotationBo annotationBo : annotationBoList) {
-      if ("API-ID".equals(annotationBo.getKey())) {
-        MethodMapping methodMapping=ApiMappingTable.findMethodMapping((Integer)annotationBo.getValue());
-        if (methodMapping == null) {
-          continue;
+  this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
+    @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
+      for (      AnnotationBo annotationBo : annotationBoList) {
+        if ("API-ID".equals(annotationBo.getKey())) {
+          MethodMapping methodMapping=ApiMappingTable.findMethodMapping((Integer)annotationBo.getValue());
+          if (methodMapping == null) {
+            continue;
+          }
+          String className=methodMapping.getClassMapping().getClassName();
+          String methodName=methodMapping.getMethodName();
+          String[] parameterType=methodMapping.getParameterType();
+          String[] parameterName=methodMapping.getParameterName();
+          String args=ApiUtils.mergeParameterVariableNameDescription(parameterType,parameterName);
+          AnnotationBo api=new AnnotationBo();
+          api.setKey("API");
+          api.setValue(className + "." + methodName+ args);
+          annotationBoList.add(api);
+          break;
         }
-        String className=methodMapping.getClassMapping().getClassName();
-        String methodName=methodMapping.getMethodName();
-        String[] parameterType=methodMapping.getParameterType();
-        String[] parameterName=methodMapping.getParameterName();
-        String args=ApiUtils.mergeParameterVariableNameDescription(parameterType,parameterName);
-        AnnotationBo api=new AnnotationBo();
-        api.setKey("API");
-        api.setValue(className + "." + methodName+ args);
-        annotationBoList.add(api);
-        break;
       }
     }
   }
+);
 }
