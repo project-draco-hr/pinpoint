@@ -1,0 +1,12 @@
+{
+  String agentId=sqlMetaData.getAgentId();
+  if (logger.isDebugEnabled()) {
+    logger.debug("insert:" + sqlMetaData);
+  }
+  byte[] rowKey=RowKeyUtils.getSqlId(agentId,sqlMetaData.getHashCode(),sqlMetaData.getStartTime());
+  Put put=new Put(rowKey);
+  String sql=sqlMetaData.getSql();
+  byte[] sqlBytes=Bytes.toBytes(sql);
+  put.add(HBaseTables.SQL_METADATA_CF_SQL,sqlBytes,null);
+  hbaseTemplate.put(HBaseTables.SQL_METADATA,put);
+}

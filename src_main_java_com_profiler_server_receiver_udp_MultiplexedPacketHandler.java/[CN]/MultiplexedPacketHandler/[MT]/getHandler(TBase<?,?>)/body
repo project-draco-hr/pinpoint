@@ -14,6 +14,9 @@
   if (tBase instanceof SubSpanList) {
     return subSpanListHandler;
   }
+  if (tBase instanceof SqlMetaData) {
+    return sqlMetaDataHandler;
+  }
   logger.warn("Unknown type of data received. data=" + tBase);
   throw new UnsupportedOperationException();
 }

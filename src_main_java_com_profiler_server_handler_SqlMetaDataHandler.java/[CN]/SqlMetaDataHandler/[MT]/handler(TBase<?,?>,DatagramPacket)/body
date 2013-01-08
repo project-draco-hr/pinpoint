@@ -1,0 +1,11 @@
+{
+  if (!(tbase instanceof SqlMetaData)) {
+    logger.warn("invalid tbase:" + tbase);
+    return;
+  }
+  SqlMetaData sqlMetaData=(SqlMetaData)tbase;
+  if (logger.isInfoEnabled()) {
+    logger.info("Received SqlMetaData=" + sqlMetaData);
+  }
+  sqlMetaDataDao.insert(sqlMetaData);
+}
