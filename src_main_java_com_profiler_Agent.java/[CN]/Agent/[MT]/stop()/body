@@ -9,10 +9,10 @@
   AgentInfo agentInfo=new AgentInfo();
   agentInfo.setHostname(ip);
   agentInfo.setPorts(ports);
-  agentInfo.setIsAlive(false);
-  agentInfo.setTimestamp(System.currentTimeMillis());
   agentInfo.setAgentId(getAgentId());
   agentInfo.setApplicationName(getApplicationName());
+  agentInfo.setIsAlive(false);
+  agentInfo.setTimestamp(this.startTime);
   this.dataSender.send(agentInfo);
   this.dataSender.stop();
 }

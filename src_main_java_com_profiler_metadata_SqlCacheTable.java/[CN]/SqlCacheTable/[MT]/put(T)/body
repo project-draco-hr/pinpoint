@@ -1,0 +1,9 @@
+{
+  Map cacheMap=getHashEntry(value);
+  Object oldValue=cacheMap.put(value,V);
+  if (oldValue == null) {
+    cacheSize.incrementAndGet();
+    return true;
+  }
+  return false;
+}

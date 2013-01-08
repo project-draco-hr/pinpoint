@@ -1,0 +1,16 @@
+{
+  SqlCacheTable sqlCacheTable=new SqlCacheTable(2);
+  Assert.assertEquals(sqlCacheTable.getSize(),0);
+  SqlObject sqlObject=new SqlObject("test");
+  boolean hit=sqlCacheTable.put(sqlObject);
+  Assert.assertTrue(hit);
+  Assert.assertEquals(sqlCacheTable.getSize(),1);
+  boolean hit2=sqlCacheTable.put(sqlObject);
+  Assert.assertFalse(hit2);
+  Assert.assertEquals(sqlCacheTable.getSize(),1);
+  sqlCacheTable.put(new SqlObject("23 123"));
+  sqlCacheTable.put(new SqlObject("DCArMlhwQO 7"));
+  sqlCacheTable.put(new SqlObject("3"));
+  sqlCacheTable.put(new SqlObject("4"));
+  Assert.assertEquals(sqlCacheTable.getSize(),2);
+}
