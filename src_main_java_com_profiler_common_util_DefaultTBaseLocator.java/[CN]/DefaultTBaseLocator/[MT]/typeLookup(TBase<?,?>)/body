@@ -20,5 +20,11 @@
   if (tbase instanceof SubSpanList) {
     return SUBSPANLIST;
   }
-  throw new UnsupportedOperationException("Unsupported Type");
+  if (tbase instanceof SqlMetaData) {
+    return SQLMETADATA;
+  }
+  if (tbase == null) {
+    throw new UnsupportedOperationException("Unsupported Type is null");
+  }
+  throw new UnsupportedOperationException("Unsupported Type" + tbase.getClass());
 }

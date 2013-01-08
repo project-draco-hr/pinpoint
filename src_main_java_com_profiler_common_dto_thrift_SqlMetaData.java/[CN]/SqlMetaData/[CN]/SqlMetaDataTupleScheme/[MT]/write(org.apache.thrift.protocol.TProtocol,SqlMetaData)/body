@@ -1,0 +1,29 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetStartTime()) {
+    optionals.set(1);
+  }
+  if (struct.isSetHashCode()) {
+    optionals.set(2);
+  }
+  if (struct.isSetSql()) {
+    optionals.set(3);
+  }
+  oprot.writeBitSet(optionals,4);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetStartTime()) {
+    oprot.writeI64(struct.startTime);
+  }
+  if (struct.isSetHashCode()) {
+    oprot.writeI32(struct.hashCode);
+  }
+  if (struct.isSetSql()) {
+    oprot.writeString(struct.sql);
+  }
+}
