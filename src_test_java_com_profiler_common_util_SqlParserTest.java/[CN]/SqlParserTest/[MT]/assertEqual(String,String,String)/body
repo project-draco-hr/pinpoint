@@ -1,6 +1,6 @@
 {
-  StringBuilder output=new StringBuilder();
-  String normalizedSql=sqlParser.normalizedSql(expected,output);
+  ParsingResult parsingResult=sqlParser.normalizedSql(expected);
+  String normalizedSql=parsingResult.getSql();
   try {
     Assert.assertEquals("normalizedSql check",actual,normalizedSql);
   }
@@ -8,5 +8,5 @@
     System.err.println("Original :" + expected);
     throw e;
   }
-  Assert.assertEquals("outputParam check",ouputExpected,output.toString());
+  Assert.assertEquals("outputParam check",ouputExpected,parsingResult.getOutput());
 }
