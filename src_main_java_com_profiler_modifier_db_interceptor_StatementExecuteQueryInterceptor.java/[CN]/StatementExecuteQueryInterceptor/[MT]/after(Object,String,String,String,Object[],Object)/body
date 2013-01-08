@@ -10,8 +10,15 @@
   if (trace == null) {
     return;
   }
-  trace.recordApi(descriptor,args);
+  trace.recordApi(descriptor);
   trace.recordException(result);
+  if (args.length > 0) {
+    Object arg=args[0];
+    if (arg instanceof String) {
+      trace.recordSqlInfo((String)arg);
+      trace.recordAttribute(AnnotationNames.SQL,args[0]);
+    }
+  }
   trace.markAfterTime();
   trace.traceBlockEnd();
 }

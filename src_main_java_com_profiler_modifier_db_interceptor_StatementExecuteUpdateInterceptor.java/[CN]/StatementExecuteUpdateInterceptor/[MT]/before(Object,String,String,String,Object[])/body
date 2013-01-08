@@ -18,6 +18,13 @@
     trace.recordRpcName(databaseInfo.getType(),databaseInfo.getDatabaseId(),databaseInfo.getUrl());
     trace.recordEndPoint(databaseInfo.getUrl());
     trace.recordApi(apiId,args);
+    if (args.length > 0) {
+      Object arg=args[0];
+      if (arg instanceof String) {
+        trace.recordSqlInfo((String)arg);
+        trace.recordAttribute(AnnotationNames.SQL,args[0]);
+      }
+    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
