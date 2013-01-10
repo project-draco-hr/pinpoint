@@ -1,5 +1,17 @@
 {
+  int elapsedTime=span.getElapsed();
+  int resultCode=0;
+  List<Annotation> anns=span.getAnnotations();
+  for (  Annotation ann : anns) {
+    if (AnnotationNames.EXCEPTION.equals(ann.getKey())) {
+      resultCode=1;
+      break;
+    }
+  }
+  byte[] value=new byte[8];
+  BytesUtils.writeInt(elapsedTime,value,0);
+  BytesUtils.writeInt(resultCode,value,4);
   Put put=new Put(SpanUtils.getApplicationTraceIndexRowKey(applicationName,span),span.getStartTime());
-  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),null);
+  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),value);
   hbaseTemplate.put(APPLICATION_TRACE_INDEX,put);
 }
