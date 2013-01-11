@@ -1,11 +1,11 @@
 {
-  Header header=createHeader(dto);
   try {
+    Header header=createHeader(dto);
     return serializer.serialize(header,dto);
   }
  catch (  TException e) {
     if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,"Serialize fail:" + dto,e);
+      logger.log(Level.WARNING,"Serialize fail:" + dto + " Caused:"+ e.getMessage(),e);
     }
     return null;
   }
