@@ -1,4 +1,7 @@
 {
+  if (tbase == null) {
+    throw new IllegalArgumentException("tbase must not be null");
+  }
   if (tbase instanceof JVMInfoThriftDTO) {
     return JVM_INFO_THRIFT_DTO;
   }
@@ -23,8 +26,5 @@
   if (tbase instanceof SqlMetaData) {
     return SQLMETADATA;
   }
-  if (tbase == null) {
-    throw new UnsupportedOperationException("Unsupported Type is null");
-  }
-  throw new UnsupportedOperationException("Unsupported Type" + tbase.getClass());
+  throw new TException("Unsupported Type" + tbase.getClass());
 }
