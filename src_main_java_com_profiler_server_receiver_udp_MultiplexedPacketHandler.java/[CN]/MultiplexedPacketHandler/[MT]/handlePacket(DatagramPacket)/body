@@ -5,6 +5,11 @@
     dispatch(tBase,packet);
   }
  catch (  TException e) {
-    logger.warn("packet serialize error " + e.getMessage(),e);
+    logger.warn("packet serialize error. SendSocketAddress:" + packet.getSocketAddress() + "Cause:"+ e.getMessage(),e);
+    logger.warn("packet dump hex:" + PacketUtils.dumpDatagramPacket(packet));
+  }
+catch (  Exception e) {
+    logger.warn("Unexpected error. SendSocketAddress:" + packet.getSocketAddress() + " Cause:"+ e.getMessage(),e);
+    logger.warn("packet dump hex:" + PacketUtils.dumpDatagramPacket(packet));
   }
 }

@@ -15,7 +15,8 @@
         continue;
       }
       if (logger.isDebugEnabled()) {
-        logger.debug("DatagramPacket read size:" + packet.getLength());
+        logger.debug("DatagramPacket SocketAddress:" + packet.getSocketAddress() + " read size:"+ packet.getLength());
+        logger.trace("dump packet:" + PacketUtils.dumpDatagramPacket(packet));
       }
       success=true;
     }
