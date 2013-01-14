@@ -3,7 +3,7 @@
   for (  SubSpan subSpan : subSpanList) {
     com.profiler.common.dto.thrift.SubSpan tSubSpan=new com.profiler.common.dto.thrift.SubSpan();
     tSubSpan.setAgentId(Agent.getInstance().getAgentId());
-    long parentSpanStartTime=subSpan.getStartTime();
+    long parentSpanStartTime=subSpan.getParentSpan().getStartTime();
     tSubSpan.setStartElapsed((int)(subSpan.getStartTime() - parentSpanStartTime));
     tSubSpan.setEndElapsed((int)(subSpan.getEndTime() - subSpan.getStartTime()));
     tSubSpan.setSequence(subSpan.getSequence());
