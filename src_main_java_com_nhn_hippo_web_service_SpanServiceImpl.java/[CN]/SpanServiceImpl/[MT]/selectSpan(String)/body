@@ -1,7 +1,7 @@
 {
   UUID id=UUID.fromString(uuid);
   List<SpanBo> spans=traceDao.selectSpanAndAnnotation(id);
-  if (spans == null) {
+  if (spans == null || spans.isEmpty()) {
     return Collections.emptyList();
   }
   List<SpanAlign> order=order(spans);
