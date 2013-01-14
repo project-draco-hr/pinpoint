@@ -1,8 +1,8 @@
 {
+  StandardHostValveInvokeModifier standardHostValveInvokeModifier=new StandardHostValveInvokeModifier(byteCodeInstrumentor,agent);
+  addModifier(standardHostValveInvokeModifier);
   HttpServletModifier httpServletModifier=new HttpServletModifier(byteCodeInstrumentor,agent);
   addModifier(httpServletModifier);
-  SpringFrameworkServletModifier springServletModifier=new SpringFrameworkServletModifier(byteCodeInstrumentor,agent);
-  addModifier(springServletModifier);
   Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatStandardServiceModifier);
   Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor,agent);
