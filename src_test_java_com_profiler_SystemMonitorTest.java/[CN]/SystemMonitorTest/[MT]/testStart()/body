@@ -1,7 +1,8 @@
 {
   DataSender loggingDataSender=new LoggingDataSender();
   TraceContext traceContext=new TraceContext();
-  SystemMonitor systemMonitor=new SystemMonitor(traceContext);
+  ProfilerConfig profilerConfig=new ProfilerConfig();
+  SystemMonitor systemMonitor=new SystemMonitor(traceContext,profilerConfig);
   systemMonitor.setDataSender(loggingDataSender);
   systemMonitor.start();
   Thread.sleep(10000);

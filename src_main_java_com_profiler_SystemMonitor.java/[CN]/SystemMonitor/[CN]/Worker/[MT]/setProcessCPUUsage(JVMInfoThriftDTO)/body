@@ -8,7 +8,7 @@
       }
       if (previousCpuTime != 0) {
         long usedCPUTotal=(cpuTime - previousCpuTime) / 1000000;
-        double usedCPU=(0.1D * usedCPUTotal) / (processorCount * JVM_STAT_GAP / 1000.0);
+        double usedCPU=(0.1D * usedCPUTotal) / (processorCount * profilerConfig.getProfileJvmCollectInterval() / 1000.0);
         jvmInfo.setProcessCPUTime(usedCPU);
       }
       previousCpuTime=cpuTime;
