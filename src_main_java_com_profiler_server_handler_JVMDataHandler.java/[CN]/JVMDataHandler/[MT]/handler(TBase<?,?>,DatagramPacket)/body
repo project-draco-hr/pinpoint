@@ -3,7 +3,7 @@
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
     if (logger.isInfoEnabled()) {
-      logger.info("Received JVM=" + dto);
+      logger.info("Received JVM={}",dto);
     }
     byte[] bytes=PacketUtils.sliceData(datagramPacket,Header.HEADER_SIZE);
     jvmInfoDao.insert(dto,bytes);

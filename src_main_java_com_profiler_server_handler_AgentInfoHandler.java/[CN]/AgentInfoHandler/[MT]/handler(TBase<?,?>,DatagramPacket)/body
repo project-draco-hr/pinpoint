@@ -1,5 +1,8 @@
 {
-  assert(tbase instanceof Span);
+  if (!(tbase instanceof AgentInfo)) {
+    logger.warn("invalid tbase:" + tbase);
+    return;
+  }
   try {
     AgentInfo agentInfo=(AgentInfo)tbase;
     logger.debug("Received AgentInfo={}",agentInfo);
