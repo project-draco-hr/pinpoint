@@ -1,0 +1,8 @@
+{
+  byte[] agentId=Bytes.toBytes(agentInfo.getAgentId());
+  long reverseKey=TimeUtils.reverseCurrentTimeMillis(agentInfo.getTimestamp());
+  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(agentId,RowKeyUtils.AGENT_NAME_LIMIT,reverseKey);
+  Put put=new Put(rowKey);
+  put.add(HBaseTables.AGENTINFO_CF_INFO,null,null);
+  hbaseTemplate.put(HBaseTables.AGENTINFO,put);
+}
