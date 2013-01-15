@@ -11,6 +11,8 @@
       if (!marked) {
         setStartTime(begin);
         setEndTime(begin + elapsed);
+        applicationName=arguments;
+        marked=true;
       }
       recordset.add(new Record(sa.getDepth(),true,method,arguments,begin,elapsed,span.getAgentId(),span.getServiceName()));
       addAnnotationRecord(sa.getDepth() + 1,span.getAnnotationBoList());
@@ -25,6 +27,7 @@
       if (!marked) {
         setStartTime(begin);
         setEndTime(begin + elapsed);
+        marked=true;
       }
       recordset.add(new Record(sa.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,subSpan.getAgentId(),subSpan.getServiceName()));
       addAnnotationRecord(sa.getDepth() + 1,subSpan.getAnnotationBoList());
