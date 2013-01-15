@@ -18,10 +18,13 @@
     DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
     this.setUrl.invoke(result,databaseInfo);
     String sql=(String)args[0];
-    this.setSql.invoke(result,sql);
+    ParsingResult parsingResult=trace.recordSqlInfo(sql);
+    if (parsingResult != null) {
+      this.setSql.invoke(result,parsingResult);
+    }
     trace.recordException(result);
   }
-  trace.recordApi(apiId,args);
+  trace.recordApi(apiId);
   trace.markAfterTime();
   trace.traceBlockEnd();
 }

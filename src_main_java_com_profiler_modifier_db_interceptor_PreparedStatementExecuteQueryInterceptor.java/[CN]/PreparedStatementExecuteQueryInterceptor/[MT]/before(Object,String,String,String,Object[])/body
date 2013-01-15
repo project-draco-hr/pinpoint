@@ -17,9 +17,8 @@
     DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
     trace.recordRpcName(databaseInfo.getType(),databaseInfo.getDatabaseId(),databaseInfo.getUrl());
     trace.recordEndPoint(databaseInfo.getUrl());
-    String sql=getSql.invoke(target);
-    trace.recordAttribute(AnnotationNames.SQL,sql);
-    trace.recordSqlInfo(sql);
+    ParsingResult parsingResult=(ParsingResult)getSql.invoke(target);
+    trace.recordSqlParsingResult(parsingResult);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
     trace.recordAttribute(AnnotationNames.SQL_BINDVALUE,bindString);

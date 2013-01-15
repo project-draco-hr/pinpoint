@@ -1,8 +1,8 @@
 {
-  ParsingResult parsingResult=parseSql(sql);
-  recordAttribute(AnnotationNames.SQL_ID,parsingResult.getSql().hashCode());
-  String output=parsingResult.getOutput();
-  if (output != null && output.length() != 0) {
-    recordAttribute(AnnotationNames.SQL_PARAM,output);
+  if (sql == null) {
+    return null;
   }
+  ParsingResult parsingResult=parseSql(sql);
+  recordSqlParsingResult(parsingResult);
+  return parsingResult;
 }
