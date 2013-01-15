@@ -1,0 +1,20 @@
+{
+  Scan scan=createScan(agentInfo,currentTime);
+  Long startTime=hbaseOperations2.find(HBaseTables.AGENTINFO,scan,new ResultsExtractor<Long>(){
+    @Override public Long extractData(    ResultScanner results) throws Exception {
+      for (Result next; (next=results.next()) != null; ) {
+        byte[] row=next.getRow();
+        long reverseStartTime=BytesUtils.bytesToLong(row,RowKeyUtils.AGENT_NAME_LIMIT);
+        long startTime=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
+        logger.debug("agent:{} startTime value {}",agentInfo,startTime);
+        if (startTime < currentTime) {
+          logger.info("agent:{} startTime find {}",agentInfo,startTime);
+          return startTime;
+        }
+      }
+      return 0L;
+    }
+  }
+);
+  return startTime;
+}
