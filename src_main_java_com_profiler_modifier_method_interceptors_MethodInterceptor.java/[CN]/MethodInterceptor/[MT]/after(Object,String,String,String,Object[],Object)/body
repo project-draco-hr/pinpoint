@@ -1,0 +1,13 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
+  }
+  Trace trace=TraceContext.getTraceContext().currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.recordApi(descriptor);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}

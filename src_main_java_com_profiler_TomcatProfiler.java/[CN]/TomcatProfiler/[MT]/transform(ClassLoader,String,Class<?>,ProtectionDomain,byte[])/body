@@ -6,7 +6,7 @@
   }
   Modifier findModifier=this.modifierRepository.findModifier(className);
   if (findModifier == null) {
-    return null;
+    findModifier=this.modifierRepository.findModifier("*");
   }
   if (logger.isLoggable(Level.FINE)) {
     logger.fine("[transform] cl" + classLoader + " className:"+ className+ " Modifier:"+ findModifier.getClass().getName());
