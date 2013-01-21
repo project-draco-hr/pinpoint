@@ -30,6 +30,9 @@
       logger.info("handle subSpan size:{}",subSpanList.size());
       for (      SubSpan subSpan : subSpanList) {
         ServiceType subSpanServiceType=ServiceType.parse(subSpan.getServiceType());
+        if (subSpanServiceType == ServiceType.INTERNAL_METHOD) {
+          continue;
+        }
         if (subSpanServiceType.isRpcClient()) {
           terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode());
         }
