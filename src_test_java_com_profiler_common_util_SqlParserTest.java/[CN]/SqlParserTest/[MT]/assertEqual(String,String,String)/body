@@ -1,6 +1,10 @@
 {
   ParsingResult parsingResult=sqlParser.normalizedSql(expected);
   String normalizedSql=parsingResult.getSql();
+  String output=parsingResult.getOutput();
+  List<String> outputParams=outputParameterParser.parseOutputParameter(output);
+  String s=sqlParser.combineOutputParams(normalizedSql,outputParams);
+  System.out.println("combine:" + s);
   try {
     Assert.assertEquals("normalizedSql check",actual,normalizedSql);
   }

@@ -1,10 +1,10 @@
 {
-  assertEqual("select * from table a = 1 and b=50 and c=? and d='11'","select * from table a = # and b=# and c=? and d='$'","1,50,11");
-  assertEqual("select * from table a = -1 and b=-50 and c=? and d='-11'","select * from table a = -# and b=-# and c=? and d='$'","1,50,-11");
-  assertEqual("select * from table a = 1/*test*/ and b=50/*test*/ and c=? and d='11'","select * from table a = #/*test*/ and b=#/*test*/ and c=? and d='$'","1,50,11");
+  assertEqual("select * from table a = 1 and b=50 and c=? and d='11'","select * from table a = 0# and b=1# and c=? and d='2$'","1,50,11");
+  assertEqual("select * from table a = -1 and b=-50 and c=? and d='-11'","select * from table a = -0# and b=-1# and c=? and d='2$'","1,50,-11");
+  assertEqual("select * from table a = 1/*test*/ and b=50/*test*/ and c=? and d='11'","select * from table a = 0#/*test*/ and b=1#/*test*/ and c=? and d='2$'","1,50,11");
   assertEqual("select ZIPCODE,CITY from ZIPCODE");
   assertEqual("select a.ZIPCODE,a.CITY from ZIPCODE as a");
-  assertEqual("select ZIPCODE,123 from ZIPCODE","select ZIPCODE,# from ZIPCODE","123");
-  assertEqual("SELECT * from table a=123 and b='abc' and c=1-3","SELECT * from table a=# and b='$' and c=#-#","123,abc,1,3");
-  assertEqual("SYSTEM_RANGE(1, 10)","SYSTEM_RANGE(#, #)","1,10");
+  assertEqual("select ZIPCODE,123 from ZIPCODE","select ZIPCODE,0# from ZIPCODE","123");
+  assertEqual("SELECT * from table a=123 and b='abc' and c=1-3","SELECT * from table a=0# and b='1$' and c=2#-3#","123,abc,1,3");
+  assertEqual("SYSTEM_RANGE(1, 10)","SYSTEM_RANGE(0#, 1#)","1,10");
 }

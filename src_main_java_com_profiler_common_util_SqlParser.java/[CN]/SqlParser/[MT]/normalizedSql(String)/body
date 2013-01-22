@@ -6,6 +6,7 @@
   final int length=sql.length();
   final StringBuilder normalized=new StringBuilder(length + 16);
   boolean change=false;
+  int replaceIndex=0;
   boolean numberTokenStartEnable=true;
   for (int i=0; i < length; i++) {
     final char ch=sql.charAt(i);
@@ -61,7 +62,7 @@ if (lookAhead1(sql,i) == '\'') {
   change=true;
   normalized.append('\'');
   i++;
-  parsingResult.appendOutputSeparator(SEPARATOR);
+  parsingResult.appendOutputSeparator();
   for (; i < length; i++) {
     char stateCh=sql.charAt(i);
     if (stateCh == '\'') {
@@ -71,12 +72,13 @@ if (lookAhead1(sql,i) == '\'') {
         continue;
       }
  else {
+        normalized.append(replaceIndex++);
         normalized.append(SYMBOL_REPLACE);
         normalized.append('\'');
         break;
       }
     }
-    parsingResult.appendOutputParam(stateCh);
+    parsingResult.appendSeparatorCheckOutputParam(stateCh);
   }
   break;
 }
@@ -92,8 +94,9 @@ case '8':
 case '9':
 if (numberTokenStartEnable) {
 change=true;
+normalized.append(replaceIndex++);
 normalized.append(NUMBER_REPLACE);
-parsingResult.appendOutputSeparator(SEPARATOR);
+parsingResult.appendOutputSeparator();
 parsingResult.appendOutputParam(ch);
 i++;
 tokenEnd: for (; i < length; i++) {
