@@ -11,6 +11,9 @@
     List<SubSpanBo> subSpanList=eachTransaction.getSubSpanList();
     if (subSpanList == null)     continue;
     for (    SubSpanBo subTransaction : subSpanList) {
+      if (subTransaction.getServiceType() == ServiceType.INTERNAL_METHOD) {
+        continue;
+      }
       if (!endPoints.contains(subTransaction.getEndPoint())) {
         tree.addSubSpan(subTransaction);
       }
