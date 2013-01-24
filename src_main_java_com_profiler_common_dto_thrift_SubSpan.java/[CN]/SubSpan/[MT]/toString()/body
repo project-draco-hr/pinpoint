@@ -41,37 +41,45 @@
   sb.append("endElapsed:");
   sb.append(this.endElapsed);
   first=false;
-  if (!first)   sb.append(", ");
-  sb.append("rpc:");
-  if (this.rpc == null) {
-    sb.append("null");
-  }
+  if (isSetRpc()) {
+    if (!first)     sb.append(", ");
+    sb.append("rpc:");
+    if (this.rpc == null) {
+      sb.append("null");
+    }
  else {
-    sb.append(this.rpc);
+      sb.append(this.rpc);
+    }
+    first=false;
   }
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("serviceName:");
-  if (this.serviceName == null) {
-    sb.append("null");
-  }
+  if (isSetServiceName()) {
+    if (!first)     sb.append(", ");
+    sb.append("serviceName:");
+    if (this.serviceName == null) {
+      sb.append("null");
+    }
  else {
-    sb.append(this.serviceName);
+      sb.append(this.serviceName);
+    }
+    first=false;
   }
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("serviceType:");
-  sb.append(this.serviceType);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("endPoint:");
-  if (this.endPoint == null) {
-    sb.append("null");
+  if (isSetServiceType()) {
+    if (!first)     sb.append(", ");
+    sb.append("serviceType:");
+    sb.append(this.serviceType);
+    first=false;
   }
+  if (isSetEndPoint()) {
+    if (!first)     sb.append(", ");
+    sb.append("endPoint:");
+    if (this.endPoint == null) {
+      sb.append("null");
+    }
  else {
-    sb.append(this.endPoint);
+      sb.append(this.endPoint);
+    }
+    first=false;
   }
-  first=false;
   if (!first)   sb.append(", ");
   sb.append("err:");
   sb.append(this.err);
@@ -85,6 +93,18 @@
     sb.append(this.annotations);
   }
   first=false;
+  if (isSetDepth()) {
+    if (!first)     sb.append(", ");
+    sb.append("depth:");
+    sb.append(this.depth);
+    first=false;
+  }
+  if (isSetNextSpanId()) {
+    if (!first)     sb.append(", ");
+    sb.append("nextSpanId:");
+    sb.append(this.nextSpanId);
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

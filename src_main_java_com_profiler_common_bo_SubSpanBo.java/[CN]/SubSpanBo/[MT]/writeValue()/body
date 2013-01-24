@@ -15,6 +15,8 @@
   buffer.put(serviceType.getCode());
   buffer.put1PrefixedBytes(endPointBytes);
   buffer.put(exception);
+  buffer.put(depth);
+  buffer.put(nextSpanId);
   writeAnnotation(buffer);
   return buffer.getBuffer();
 }

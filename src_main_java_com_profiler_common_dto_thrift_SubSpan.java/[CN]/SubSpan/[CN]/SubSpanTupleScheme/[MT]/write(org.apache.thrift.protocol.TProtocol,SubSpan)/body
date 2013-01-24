@@ -40,7 +40,13 @@
   if (struct.isSetAnnotations()) {
     optionals.set(12);
   }
-  oprot.writeBitSet(optionals,13);
+  if (struct.isSetDepth()) {
+    optionals.set(13);
+  }
+  if (struct.isSetNextSpanId()) {
+    optionals.set(14);
+  }
+  oprot.writeBitSet(optionals,15);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -84,5 +90,11 @@
         _iter28.write(oprot);
       }
     }
+  }
+  if (struct.isSetDepth()) {
+    oprot.writeI32(struct.depth);
+  }
+  if (struct.isSetNextSpanId()) {
+    oprot.writeI64(struct.nextSpanId);
   }
 }

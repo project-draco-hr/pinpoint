@@ -11,5 +11,11 @@
   this.serviceType=ServiceType.parse(tSubSpan.getServiceType());
   this.endPoint=tSubSpan.getEndPoint();
   this.exception=tSubSpan.isErr();
+  if (tSubSpan.isSetDepth()) {
+    this.depth=tSubSpan.getDepth();
+  }
+  if (tSubSpan.isSetNextSpanId()) {
+    this.nextSpanId=tSubSpan.getNextSpanId();
+  }
   setAnnotationBoList(tSubSpan.getAnnotations());
 }

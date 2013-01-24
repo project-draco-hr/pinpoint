@@ -10,5 +10,11 @@
   this.serviceName=subSpan.getServiceName();
   this.serviceType=ServiceType.parse(subSpan.getServiceType());
   this.endPoint=subSpan.getEndPoint();
+  if (subSpan.isSetDepth()) {
+    this.depth=subSpan.getDepth();
+  }
+  if (subSpan.isSetNextSpanId()) {
+    this.nextSpanId=subSpan.getNextSpanId();
+  }
   setAnnotationBoList(subSpan.getAnnotations());
 }
