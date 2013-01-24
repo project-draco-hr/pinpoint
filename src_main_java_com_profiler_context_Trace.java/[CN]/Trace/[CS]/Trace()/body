@@ -1,7 +1,7 @@
 {
   TraceID traceId=TraceID.newTraceId();
   this.callStack=new CallStack(traceId);
-  this.callStack.push();
+  latestStackIndex=this.callStack.push();
   StackFrame stackFrame=createRootStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);
 }

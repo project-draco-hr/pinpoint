@@ -1,5 +1,10 @@
 {
-  callStack.push();
+  int currentStackIndex=callStack.push();
   StackFrame stackFrame=createSubStackFrame(stackId);
+  if (latestStackIndex != currentStackIndex) {
+    latestStackIndex=currentStackIndex;
+    SubSpan span=((SubStackFrame)stackFrame).getSubSpan();
+    span.setDepth(latestStackIndex);
+  }
   callStack.setStackFrame(stackFrame);
 }

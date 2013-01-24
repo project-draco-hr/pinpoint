@@ -23,5 +23,11 @@
     annotationList.add(a.toThrift());
   }
   subSpan.setAnnotations(annotationList);
+  if (depth != null) {
+    subSpan.setDepth(depth);
+  }
+  if (nextSpanId != null) {
+    subSpan.setNextSpanId(nextSpanId);
+  }
   return subSpan;
 }

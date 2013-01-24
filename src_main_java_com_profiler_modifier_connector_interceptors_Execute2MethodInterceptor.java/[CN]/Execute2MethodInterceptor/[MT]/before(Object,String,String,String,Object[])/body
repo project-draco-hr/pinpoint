@@ -9,7 +9,8 @@
   }
   trace.traceBlockBegin();
   trace.markBeforeTime();
-  TraceID nextId=trace.getTraceId();
+  TraceID nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
   final HttpUriRequest request=(HttpUriRequest)args[0];
   request.addHeader(Header.HTTP_TRACE_ID.toString(),nextId.getId().toString());
   request.addHeader(Header.HTTP_SPAN_ID.toString(),Long.toString(nextId.getSpanId()));
@@ -19,6 +20,6 @@
   HttpHost host=extractHost(request.getURI());
   trace.recordRpcName(ServiceType.HTTP_CLIENT,request.getProtocolVersion().toString(),"CLIENT");
   int port=host.getPort();
-  trace.recordEndPoint(host.getHostName() + ((port > 0) ? ":" + port : ""));
+  trace.recordEndPoint(request.getProtocolVersion() + ":" + host.getHostName()+ ((port > 0) ? ":" + port : ""));
   trace.recordAttribute(AnnotationNames.HTTP_URL,request.getRequestLine().getUri());
 }
