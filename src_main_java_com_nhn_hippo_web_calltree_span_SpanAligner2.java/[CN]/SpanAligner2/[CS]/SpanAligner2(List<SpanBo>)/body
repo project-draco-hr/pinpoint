@@ -1,0 +1,9 @@
+{
+  spanMap=new HashMap<Long,SpanBo>(spans.size());
+  for (  SpanBo span : spans) {
+    if (spanMap.containsKey(span.getSpanId())) {
+      throw new IllegalStateException("duplicated spanId. id:" + span.getSpanId());
+    }
+    this.spanMap.put((span.getParentSpanId() == -1) ? -1L : span.getSpanId(),span);
+  }
+}

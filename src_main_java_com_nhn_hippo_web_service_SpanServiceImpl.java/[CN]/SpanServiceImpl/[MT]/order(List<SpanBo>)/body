@@ -1,10 +1,4 @@
 {
-  SpanAligner spanAligner=new SpanAligner(spans);
-  List<SpanAlign> sort=spanAligner.sort();
-  if (sort.size() != spans.size()) {
-    logger.warn("span node not complete! spans:{}, sort{}",spans,sort);
-  }
-  SpanPopulator spanPopulator=new SpanPopulator(sort);
-  List<SpanAlign> populatedList=spanPopulator.populateSubSpan();
-  return populatedList;
+  SpanAligner2 spanAligner=new SpanAligner2(spans);
+  return spanAligner.sort();
 }

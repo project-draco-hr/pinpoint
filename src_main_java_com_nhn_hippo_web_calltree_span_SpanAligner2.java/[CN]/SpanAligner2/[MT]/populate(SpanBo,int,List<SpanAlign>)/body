@@ -1,0 +1,17 @@
+{
+  int depth=spanDepth + 1;
+  SpanAlign element=new SpanAlign(depth,parentSpan);
+  container.add(element);
+  List<SubSpanBo> subSpanList=parentSpan.getSubSpanList();
+  for (  SubSpanBo subSpanBo : subSpanList) {
+    if (subSpanBo.getDepth() != -1) {
+      depth=spanDepth + subSpanBo.getDepth() + 1;
+    }
+    SpanAlign sa=new SpanAlign(depth,parentSpan,subSpanBo);
+    container.add(sa);
+    Long nextSpanId=new Long(subSpanBo.getNextSpanId());
+    if (nextSpanId != -1 && spanMap.containsKey(nextSpanId)) {
+      populate(spanMap.get(new Long(nextSpanId)),depth,container);
+    }
+  }
+}
