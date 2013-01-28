@@ -6,7 +6,12 @@
   }
   Modifier findModifier=this.modifierRepository.findModifier(className);
   if (findModifier == null) {
-    findModifier=this.modifierRepository.findModifier("*");
+    if (className.startsWith("com/nhn/hippo/testweb/controller")) {
+      findModifier=this.modifierRepository.findModifier("*");
+    }
+ else {
+      return null;
+    }
   }
   if (logger.isLoggable(Level.FINE)) {
     logger.fine("[transform] cl" + classLoader + " className:"+ className+ " Modifier:"+ findModifier.getClass().getName());

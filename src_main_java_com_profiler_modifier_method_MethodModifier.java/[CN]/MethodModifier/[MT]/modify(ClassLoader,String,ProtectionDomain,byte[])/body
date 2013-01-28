@@ -1,0 +1,32 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass clazz=byteCodeInstrumentor.getClass(javassistClassName);
+    if (!clazz.isInterceptable()) {
+      return null;
+    }
+    CtMethod[] methods=clazz.getDeclaredMethods();
+    for (    CtMethod m : methods) {
+      if (m.isEmpty()) {
+        continue;
+      }
+      Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.method.interceptors.MethodInterceptor");
+      setTraceContext(interceptor);
+      CtClass[] paramClass=m.getParameterTypes();
+      String[] params=new String[paramClass.length];
+      for (int i=0; i < paramClass.length; i++) {
+        params[i]=paramClass[i].getName();
+      }
+      System.out.println("### c=" + javassistClassName + ", m="+ m.getName()+ ", params="+ Arrays.toString(params));
+      clazz.addInterceptor(m.getName(),params,interceptor);
+    }
+    return clazz.toBytecode();
+  }
+ catch (  Exception e) {
+    logger.log(Level.WARNING,"modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
+}
