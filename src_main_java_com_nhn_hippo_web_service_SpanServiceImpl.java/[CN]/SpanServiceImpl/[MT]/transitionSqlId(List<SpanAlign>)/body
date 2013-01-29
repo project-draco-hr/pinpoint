@@ -7,7 +7,7 @@
       }
       String agentId=getAgentId(spanAlign);
       long startTime=spanAlign.getSpanBo().getStartTime();
-      long agentStartTime=agentInfoDao.selectAgentInfoBeforeStartTime(agentId,startTime);
+      long agentStartTime=agentInfoDao.findAgentInfoBeforeStartTime(agentId,startTime);
       logger.info("{} Agent StartTime fonud:{}",agentId,agentStartTime);
       int hashCode=(Integer)sqlIdAnnotation.getValue();
       List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentId,hashCode,agentStartTime);
@@ -31,6 +31,17 @@
           annotationBoList.add(sql);
         }
  else {
+          SqlMetaDataBo sqlMetaDataBo=sqlMetaDataList.get(0);
+          logger.debug("sqlMetaDataBo:{}",sqlMetaDataBo);
+          String outputParams=(String)sqlIdAnnotation.getValue();
+          List<String> parsedOutputParams=outputParameterParser.parseOutputParameter(outputParams);
+          logger.debug("outputPrams:{}, parsedOutputPrams:{}",outputParams,parsedOutputParams);
+          String originalSql=sqlParser.combineOutputParams(sqlMetaDataBo.getSql(),parsedOutputParams);
+          logger.debug("outputPrams{}, originalSql:{}",outputParams,originalSql);
+          AnnotationBo sql=new AnnotationBo();
+          sql.setKey(AnnotationNames.SQL);
+          sql.setValue(originalSql);
+          annotationBoList.add(sql);
         }
       }
  else {
