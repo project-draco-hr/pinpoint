@@ -18,6 +18,9 @@
       logger.debug("SubSpanList Size:{}",ssList.size());
       for (      SubSpan subSpan : ssList) {
         ServiceType serviceType=ServiceType.parse(subSpan.getServiceType());
+        if (serviceType.isInternalMethod()) {
+          continue;
+        }
         if (serviceType.isRpcClient()) {
           terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode());
         }
