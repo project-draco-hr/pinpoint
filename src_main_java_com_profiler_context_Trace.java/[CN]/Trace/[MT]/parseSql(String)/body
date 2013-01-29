@@ -1,7 +1,7 @@
 {
   ParsingResult parsingResult=this.sqlParser.normalizedSql(sql);
   String normalizedSql=parsingResult.getSql();
-  boolean newValue=this.sqlCacheTable.put(normalizedSql);
+  boolean newValue=this.sqlCache.put(normalizedSql);
   if (newValue) {
     if (logger.isLoggable(Level.FINE)) {
       logger.fine("NewSQLParsingResult:" + parsingResult);
