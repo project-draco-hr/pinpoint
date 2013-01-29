@@ -1,8 +1,8 @@
 {
-  String agentId=sqlMetaData.getAgentId();
   if (logger.isDebugEnabled()) {
     logger.debug("insert:" + sqlMetaData);
   }
+  String agentId=sqlMetaData.getAgentId();
   byte[] rowKey=RowKeyUtils.getSqlId(agentId,sqlMetaData.getHashCode(),sqlMetaData.getStartTime());
   Put put=new Put(rowKey);
   String sql=sqlMetaData.getSql();
