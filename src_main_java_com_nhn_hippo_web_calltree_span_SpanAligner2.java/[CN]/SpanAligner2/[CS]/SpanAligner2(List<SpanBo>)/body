@@ -1,8 +1,13 @@
 {
   spanMap=new HashMap<Long,SpanBo>(spans.size());
+  long rootSpanStartTime=Long.MAX_VALUE;
   for (  SpanBo span : spans) {
-    if (spanMap.containsKey(span.getSpanId())) {
+    if (spanMap.containsKey(Long.valueOf(span.getSpanId()))) {
       throw new IllegalStateException("duplicated spanId. id:" + span.getSpanId());
+    }
+    if (span.getStartTime() < rootSpanStartTime) {
+      rootSpanId=(span.getParentSpanId() == -1) ? -1L : span.getSpanId();
+      rootSpanStartTime=span.getStartTime();
     }
     this.spanMap.put((span.getParentSpanId() == -1) ? -1L : span.getSpanId(),span);
   }

@@ -1,8 +1,8 @@
 {
   List<SpanAlign> list=new ArrayList<SpanAlign>();
-  SpanBo root=spanMap.get(new Long(-1));
+  SpanBo root=spanMap.get(rootSpanId);
   if (root == null) {
-    throw new IllegalStateException("root span not found");
+    throw new IllegalStateException("root span not found. rootSpanId=" + rootSpanId + ", map="+ spanMap.keySet());
   }
   populate(root,0,list);
   System.out.println(list);
