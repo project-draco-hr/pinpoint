@@ -5,10 +5,15 @@
     if (spanMap.containsKey(Long.valueOf(span.getSpanId()))) {
       throw new IllegalStateException("duplicated spanId. id:" + span.getSpanId());
     }
-    if (span.getStartTime() < rootSpanStartTime) {
+    if (span.getParentSpanId() == -1L) {
+      rootSpanId=-1L;
+      spanMap.put(-1L,span);
+      continue;
+    }
+ else     if (rootSpanId != -1 && span.getStartTime() < rootSpanStartTime) {
       rootSpanId=(span.getParentSpanId() == -1) ? -1L : span.getSpanId();
       rootSpanStartTime=span.getStartTime();
     }
-    this.spanMap.put((span.getParentSpanId() == -1) ? -1L : span.getSpanId(),span);
+    spanMap.put(span.getSpanId(),span);
   }
 }
