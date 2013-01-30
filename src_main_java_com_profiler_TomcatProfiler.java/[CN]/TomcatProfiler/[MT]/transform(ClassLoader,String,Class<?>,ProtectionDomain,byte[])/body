@@ -6,7 +6,7 @@
   }
   Modifier findModifier=this.modifierRepository.findModifier(className);
   if (findModifier == null) {
-    if (className.startsWith("com/nhn/hippo/testweb/controller")) {
+    if (profilerConfig.isProfilableClass(className)) {
       findModifier=this.modifierRepository.findModifier("*");
     }
  else {

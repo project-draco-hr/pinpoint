@@ -13,5 +13,14 @@
   this.samplingElapsedTimeBaseDiscard=readBoolean(prop,"sampling.elapsedtimebase.discard",true);
   this.samplingElapsedTimeBaseDiscardTimeLimit=readLong(prop,"sampling.elapsedtimebase.discard.timelimit",1000);
   this.profileJvmCollectInterval=readInt(prop,"profile.jvm.collect.interval",1000);
+  String[] tmp=readString(prop,"profile.include","").split(",");
+  for (  String str : tmp) {
+    if (str.endsWith(".*")) {
+      this.profileIncludeSub.add(str.substring(0,str.length() - 2).replace('.','/') + "/");
+    }
+ else {
+      this.profileInclude.add(str.trim().replace('.','/'));
+    }
+  }
   logger.info("configuration loaded successfully.");
 }
