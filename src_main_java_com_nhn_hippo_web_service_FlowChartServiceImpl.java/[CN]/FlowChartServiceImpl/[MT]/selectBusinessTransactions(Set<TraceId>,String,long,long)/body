@@ -1,0 +1,10 @@
+{
+  List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
+  BusinessTransactions businessTransactions=new BusinessTransactions();
+  for (  List<SpanBo> transaction : traces) {
+    for (    SpanBo eachTransaction : transaction) {
+      businessTransactions.add(eachTransaction);
+    }
+  }
+  return businessTransactions;
+}

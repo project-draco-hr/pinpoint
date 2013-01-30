@@ -1,0 +1,6 @@
+{
+  Set<TraceId> traceIds=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
+  BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIds,applicationName,from,to);
+  model.addAttribute("businessTransactions",selectBusinessTransactions.getBusinessTransactionIterator());
+  return "businesstransactions";
+}
