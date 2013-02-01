@@ -1,6 +1,6 @@
 {
   if (isDebug) {
-    logger.fine("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
+    LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
   }
   AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
