@@ -1,0 +1,50 @@
+{
+  this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
+    @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
+      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationNames.API_DID);
+      if (apiIdAnnotation == null) {
+        return;
+      }
+      String agentId=getAgentId(spanAlign);
+      long startTime=spanAlign.getSpanBo().getStartTime();
+      long agentStartTime=agentInfoDao.findAgentInfoBeforeStartTime(agentId,startTime);
+      logger.info("{} Agent StartTime fonud:{}",agentId,agentStartTime);
+      if (agentStartTime == 0) {
+        AnnotationBo agentInfoNotFound=new AnnotationBo();
+        agentInfoNotFound.setKey(AnnotationNames.API);
+        agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + agentId + " startTime:"+ startTime);
+        annotationBoList.add(agentInfoNotFound);
+        return;
+      }
+      int apiId=(Integer)apiIdAnnotation.getValue();
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentId,apiId,agentStartTime);
+      int size=apiMetaDataList.size();
+      if (size == 0) {
+        AnnotationBo api=new AnnotationBo();
+        api.setKey(AnnotationNames.API);
+        api.setValue("API-DID not found api:" + apiId);
+        annotationBoList.add(api);
+      }
+ else       if (size == 1) {
+        ApiMetaDataBo apiMetaDataBo=apiMetaDataList.get(0);
+        AnnotationBo apiMetaData=new AnnotationBo();
+        apiMetaData.setKey(AnnotationNames.API_METADATA);
+        apiMetaData.setValue(apiMetaDataBo);
+        annotationBoList.add(apiMetaData);
+        AnnotationBo apiAnnotation=new AnnotationBo();
+        apiAnnotation.setKey(AnnotationNames.API);
+        String apiInfo=getApiInfo(apiMetaDataBo);
+        apiAnnotation.setValue(apiInfo);
+        annotationBoList.add(apiAnnotation);
+      }
+ else {
+        AnnotationBo apiAnnotation=new AnnotationBo();
+        apiAnnotation.setKey(AnnotationNames.API);
+        String collisonMessage=collisionApiDidMessage(apiId,apiMetaDataList);
+        apiAnnotation.setValue(collisonMessage);
+        annotationBoList.add(apiAnnotation);
+      }
+    }
+  }
+);
+}

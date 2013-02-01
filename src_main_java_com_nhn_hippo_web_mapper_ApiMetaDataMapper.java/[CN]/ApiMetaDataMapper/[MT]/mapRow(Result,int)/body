@@ -1,0 +1,19 @@
+{
+  byte[] rowKey=result.getRow();
+  List<ApiMetaDataBo> apiMetaDataList=new ArrayList<ApiMetaDataBo>();
+  KeyValue[] keyList=result.raw();
+  for (  KeyValue keyValue : keyList) {
+    ApiMetaDataBo apiMetaDataBo=RowKeyUtils.parseApiId(rowKey);
+    byte[] qualifier=keyValue.getQualifier();
+    Buffer buffer=new Buffer(qualifier);
+    String apiInfo=buffer.readPrefixedString();
+    int lineNumber=buffer.readInt();
+    apiMetaDataBo.setApiInfo(apiInfo);
+    apiMetaDataBo.setLineNumber(lineNumber);
+    apiMetaDataList.add(apiMetaDataBo);
+    if (logger.isDebugEnabled()) {
+      logger.debug("read apiAnnotation:{}",apiMetaDataBo);
+    }
+  }
+  return apiMetaDataList;
+}
