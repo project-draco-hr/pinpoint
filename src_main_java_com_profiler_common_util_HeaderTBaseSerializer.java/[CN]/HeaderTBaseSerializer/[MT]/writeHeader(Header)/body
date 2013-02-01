@@ -1,5 +1,7 @@
 {
   protocol_.writeByte(header.getSignature());
   protocol_.writeByte(header.getVersion());
-  protocol_.writeI16(header.getType());
+  short type=header.getType();
+  protocol_.writeByte(BytesUtils.writeShort1(type));
+  protocol_.writeByte(BytesUtils.writeShort2(type));
 }

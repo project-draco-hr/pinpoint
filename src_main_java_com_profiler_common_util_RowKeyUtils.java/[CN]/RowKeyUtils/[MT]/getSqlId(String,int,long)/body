@@ -1,15 +1,3 @@
 {
-  if (agentId == null) {
-    throw new IllegalArgumentException("agentId must not be null");
-  }
-  byte[] agentBytes=Bytes.toBytes(agentId);
-  if (agentBytes.length > AGENT_NAME_LIMIT) {
-    throw new IllegalArgumentException("agent.length too big. agent:" + agentId + " length:"+ agentId.length());
-  }
-  byte[] buffer=new byte[AGENT_NAME_LIMIT + INT_BYTE_LENGTH + LONG_BYTE_LENGTH];
-  Bytes.putBytes(buffer,0,agentBytes,0,agentBytes.length);
-  BytesUtils.writeInt(hashCode,buffer,AGENT_NAME_LIMIT);
-  long reverseCurrentTimeMillis=TimeUtils.reverseCurrentTimeMillis(agentStartTime);
-  BytesUtils.writeLong(reverseCurrentTimeMillis,buffer,AGENT_NAME_LIMIT + INT_BYTE_LENGTH);
-  return buffer;
+  return getMetaInfoRowKey(agentId,hashCode,agentStartTime);
 }
