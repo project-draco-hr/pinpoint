@@ -1,8 +1,6 @@
 {
-  if (logger.isLoggable(Level.INFO)) {
-    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
-  }
-  if (logger.isLoggable(Level.FINE)) {
+  if (isDebug) {
+    logger.fine("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
     logger.fine("JDBCScope pop:" + Thread.currentThread().getName());
   }
   JDBCScope.popScope();

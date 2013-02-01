@@ -1,8 +1,6 @@
 {
-  if (logger.isLoggable(Level.INFO)) {
-    logger.info("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
-  }
-  if (logger.isLoggable(Level.FINE)) {
+  if (isDebug) {
+    logger.fine("before " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args));
     logger.fine("JDBCScope push:" + Thread.currentThread().getName());
   }
   JDBCScope.pushScope();
