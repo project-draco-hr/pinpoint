@@ -1,0 +1,16 @@
+{
+  String fullName=methodDescriptor.getFullName();
+  Result result=this.apiCache.put(fullName);
+  if (result.isNewValue()) {
+    ApiMetaData apiMetadata=new ApiMetaData();
+    apiMetadata.setAgentId(Agent.getInstance().getAgentId());
+    apiMetadata.setStartTime(Agent.getInstance().getStartTime());
+    apiMetadata.setApiId(result.getId());
+    apiMetadata.setApiInfo(methodDescriptor.getApiDescriptor());
+    apiMetadata.setLine(methodDescriptor.getLineNumber());
+    DataSender dataSender=storageFactory.getDataSender();
+    dataSender.send(apiMetadata);
+    methodDescriptor.setApiId(result.getId());
+  }
+  return result.getId();
+}

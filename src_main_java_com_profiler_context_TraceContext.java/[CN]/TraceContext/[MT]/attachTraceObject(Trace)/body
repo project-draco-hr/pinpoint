@@ -5,7 +5,6 @@
   }
   Storage storage=storageFactory.createStorage();
   trace.setStorage(storage);
-  trace.setSqlCache(this.LRU);
-  trace.setSqlParser(this.sqlParser);
+  trace.setTraceContext(this);
   threadLocal.set(trace);
 }
