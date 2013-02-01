@@ -14,7 +14,7 @@
         applicationName=arguments;
         marked=true;
       }
-      recordset.add(new Record(sa.getDepth(),true,method,arguments,begin,elapsed,span.getAgentId(),span.getServiceName()));
+      recordset.add(new Record(sa.getDepth(),true,method,arguments,begin,elapsed,span.getAgentId(),span.getServiceName(),span.getServiceType()));
       addAnnotationRecord(sa.getDepth() + 1,span.getAnnotationBoList());
     }
  else {
@@ -29,7 +29,7 @@
         setEndTime(begin + elapsed);
         marked=true;
       }
-      recordset.add(new Record(sa.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,subSpan.getAgentId(),subSpan.getServiceName()));
+      recordset.add(new Record(sa.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,subSpan.getAgentId(),subSpan.getServiceName(),subSpan.getServiceType()));
       addAnnotationRecord(sa.getDepth() + 1,subSpan.getAnnotationBoList());
     }
   }
