@@ -1,0 +1,21 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("insert:" + apiMetaData);
+  }
+  String agentId=apiMetaData.getAgentId();
+  byte[] rowKey=RowKeyUtils.getApiId(agentId,apiMetaData.getApiId(),apiMetaData.getStartTime());
+  Put put=new Put(rowKey);
+  String api=apiMetaData.getApiInfo();
+  int bufferSize=api.length() + 4 + 4;
+  Buffer buffer=new Buffer(bufferSize);
+  buffer.putPrefixedBytes(Bytes.toBytes(api));
+  if (apiMetaData.isSetLine()) {
+    buffer.put(apiMetaData.getLine());
+  }
+ else {
+    buffer.put(-1);
+  }
+  byte[] apiMetaDataBytes=buffer.getBuffer();
+  put.add(HBaseTables.API_METADATA_CF_API,apiMetaDataBytes,null);
+  hbaseTemplate.put(HBaseTables.API_METADATA,put);
+}

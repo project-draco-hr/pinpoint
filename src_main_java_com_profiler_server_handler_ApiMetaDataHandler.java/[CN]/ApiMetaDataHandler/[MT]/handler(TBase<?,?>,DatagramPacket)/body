@@ -1,0 +1,11 @@
+{
+  if (!(tbase instanceof ApiMetaData)) {
+    logger.warn("invalid tbase:{}",tbase);
+    return;
+  }
+  ApiMetaData apiMetaData=(ApiMetaData)tbase;
+  if (logger.isInfoEnabled()) {
+    logger.info("Received ApiMetaData{}",apiMetaData);
+  }
+  sqlMetaDataDao.insert(apiMetaData);
+}
