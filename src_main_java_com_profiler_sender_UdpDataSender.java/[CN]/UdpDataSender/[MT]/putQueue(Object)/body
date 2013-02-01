@@ -1,0 +1,16 @@
+{
+  if (data == null) {
+    logger.warning("putQueue(). data is null");
+    return false;
+  }
+  if (!started.get()) {
+    return false;
+  }
+  boolean offer=queue.offer(data);
+  if (!offer) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.warning("Drop data. queue is full. size:" + queue.size());
+    }
+  }
+  return offer;
+}

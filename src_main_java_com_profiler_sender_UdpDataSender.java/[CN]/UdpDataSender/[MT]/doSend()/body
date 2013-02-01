@@ -1,0 +1,21 @@
+{
+  drain:   while (true) {
+    try {
+      List<Object> dtoList=takeN();
+      if (dtoList != null) {
+        sendPacketN(dtoList);
+        continue;
+      }
+      while (true) {
+        Object dto=takeOne();
+        if (dto != null) {
+          sendPacket(dto);
+          continue drain;
+        }
+      }
+    }
+ catch (    Throwable th) {
+      logger.log(Level.WARNING,"Unexpected Error Cause:" + th.getMessage(),th);
+    }
+  }
+}
