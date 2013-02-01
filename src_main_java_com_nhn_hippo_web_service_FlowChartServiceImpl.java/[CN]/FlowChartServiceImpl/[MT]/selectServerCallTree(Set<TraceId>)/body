@@ -1,5 +1,5 @@
 {
-  final ServerCallTree tree=new ServerCallTree();
+  final ServerCallTree tree=new ServerCallTree(NodeIdGenerator.BY_APPLICATION_NAME);
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
   for (  List<SpanBo> transaction : traces) {
     markRecursiveCall(transaction);

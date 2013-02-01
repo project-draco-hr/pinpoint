@@ -1,13 +1,13 @@
 {
   KeyValue[] keyList=result.raw();
-  List<TerminalRequest> requestList=new ArrayList<TerminalRequest>();
+  List<TerminalStatistics> requestList=new ArrayList<TerminalStatistics>();
   for (  KeyValue kv : keyList) {
     if (kv.getFamilyLength() == HBaseTables.TERMINAL_STATISTICS_CF_COUNTER.length) {
       String from=TerminalSpanUtils.getApplicationNameFromRowKey(kv.getRow());
       String to=TerminalSpanUtils.getApplicationNameFromColumnName(kv.getQualifier());
       long requestCount=Bytes.toLong(kv.getValue());
       short serviceType=TerminalSpanUtils.getServiceTypeFromColumnName(kv.getQualifier());
-      TerminalRequest request=new TerminalRequest(from,to,serviceType,requestCount);
+      TerminalStatistics request=new TerminalStatistics(from,to,serviceType,requestCount);
       requestList.add(request);
     }
   }

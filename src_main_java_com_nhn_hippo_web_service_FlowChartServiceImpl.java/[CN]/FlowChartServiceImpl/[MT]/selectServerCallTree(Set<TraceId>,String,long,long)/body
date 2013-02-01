@@ -1,6 +1,6 @@
 {
   final Map<String,ServiceType> terminalQueryParams=new HashMap<String,ServiceType>();
-  final ServerCallTree tree=new ServerCallTree();
+  final ServerCallTree tree=new ServerCallTree(NodeIdGenerator.BY_APPLICATION_NAME);
   StopWatch watch=new StopWatch();
   watch.start("scanNonTerminalSpans");
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
@@ -24,15 +24,15 @@
     ServiceType svcType=param.getValue();
     if (!svcType.isRpcClient() && !svcType.isUnknown() && !svcType.isTerminal()) {
       long start=System.currentTimeMillis();
-      List<List<TerminalRequest>> terminals=terminalStatisticsDao.selectTerminal(param.getKey(),from,to);
+      List<List<TerminalStatistics>> terminals=terminalStatisticsDao.selectTerminal(param.getKey(),from,to);
       logger.info("	Fetch terminals of {} : {}ms",param.getKey(),System.currentTimeMillis() - start);
-      for (      List<TerminalRequest> terminal : terminals) {
-        for (        TerminalRequest t : terminal) {
+      for (      List<TerminalStatistics> terminal : terminals) {
+        for (        TerminalStatistics t : terminal) {
           if (!endPoints.contains(t.getTo())) {
             if (ServiceType.parse(t.getToServiceType()).isRpcClient()) {
               t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
             }
-            tree.addTerminal(t);
+            tree.addTerminalStatistics(t);
           }
         }
       }

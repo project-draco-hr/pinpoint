@@ -1,7 +1,7 @@
 {
   if (isBuilt)   return this;
-  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
-    TerminalRequest terminal=entry.getValue();
+  for (  Entry<String,TerminalStatistics> entry : terminalRequests.entrySet()) {
+    TerminalStatistics terminal=entry.getValue();
     Node node=new Node(terminal.getTo(),terminal.getTo(),"UNKNOWN",ServiceType.parse(terminal.getToServiceType()));
     nodes.addNode(node.getId(),node);
   }
@@ -9,8 +9,8 @@
   for (  Entry<String,Node> entry : nodes.entrySet()) {
     entry.getValue().setSequence(i++);
   }
-  for (  Entry<String,TerminalRequest> entry : terminalRequests.entrySet()) {
-    TerminalRequest terminal=entry.getValue();
+  for (  Entry<String,TerminalStatistics> entry : terminalRequests.entrySet()) {
+    TerminalStatistics terminal=entry.getValue();
     Link link=new Link(nodes.get(terminal.getFrom()),nodes.get(terminal.getTo()),terminal.getRequestCount());
     links.add(link);
   }
