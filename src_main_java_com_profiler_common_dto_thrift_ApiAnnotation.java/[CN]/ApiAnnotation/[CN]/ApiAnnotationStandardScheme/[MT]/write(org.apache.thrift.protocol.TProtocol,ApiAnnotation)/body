@@ -1,0 +1,69 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.isSetApiId()) {
+    oprot.writeFieldBegin(API_ID_FIELD_DESC);
+    oprot.writeI32(struct.apiId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.className != null) {
+    if (struct.isSetClassName()) {
+      oprot.writeFieldBegin(CLASS_NAME_FIELD_DESC);
+      oprot.writeString(struct.className);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.methodName != null) {
+    if (struct.isSetMethodName()) {
+      oprot.writeFieldBegin(METHOD_NAME_FIELD_DESC);
+      oprot.writeString(struct.methodName);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.parameterType != null) {
+    if (struct.isSetParameterType()) {
+      oprot.writeFieldBegin(PARAMETER_TYPE_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.parameterType.size()));
+        for (        String _iter9 : struct.parameterType) {
+          oprot.writeString(_iter9);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.parameterName != null) {
+    if (struct.isSetParameterName()) {
+      oprot.writeFieldBegin(PARAMETER_NAME_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.parameterName.size()));
+        for (        String _iter10 : struct.parameterName) {
+          oprot.writeString(_iter10);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.parameterValue != null) {
+    if (struct.isSetParameterValue()) {
+      oprot.writeFieldBegin(PARAMETER_VALUE_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.parameterValue.size()));
+        for (        String _iter11 : struct.parameterValue) {
+          oprot.writeString(_iter11);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.isSetLine()) {
+    oprot.writeFieldBegin(LINE_FIELD_DESC);
+    oprot.writeI32(struct.line);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
