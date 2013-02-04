@@ -1,7 +1,10 @@
 {
   StackFrame currentStackFrame=callStack.getCurrentStackFrame();
-  if (currentStackFrame.getStackFrameId() != stackId) {
-    logger.warning("Corrupted CallStack found. StackId not matched");
+  int stackFrameId=currentStackFrame.getStackFrameId();
+  if (stackFrameId != stackId) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.warning("Corrupted CallStack found. StackId not matched. expected:" + stackId + " current:"+ stackFrameId);
+    }
   }
   if (currentStackFrame instanceof RootStackFrame) {
     logSpan(((RootStackFrame)currentStackFrame).getSpan());

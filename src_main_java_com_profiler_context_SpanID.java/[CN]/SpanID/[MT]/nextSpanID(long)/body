@@ -1,7 +1,7 @@
 {
-  long newId=newSpanID();
-  if (newId == parentId) {
-    return nextSpanID(parentId);
+  int newId=newSpanID();
+  while (newId == parentId) {
+    newId=newSpanID();
   }
   return newId;
 }
