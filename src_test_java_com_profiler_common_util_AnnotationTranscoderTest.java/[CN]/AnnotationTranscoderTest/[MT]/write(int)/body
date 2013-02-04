@@ -1,0 +1,9 @@
+{
+  TCompactProtocol.Factory factory=new TCompactProtocol.Factory();
+  ByteArrayOutputStream baos=new ByteArrayOutputStream(16);
+  TIOStreamTransport transport=new TIOStreamTransport(baos);
+  TProtocol protocol=factory.getProtocol(transport);
+  protocol.writeI32(value);
+  byte[] buffer=baos.toByteArray();
+  logger.info(Arrays.toString(buffer));
+}

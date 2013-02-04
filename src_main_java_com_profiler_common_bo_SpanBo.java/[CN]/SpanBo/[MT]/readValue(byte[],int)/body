@@ -2,7 +2,7 @@
   Buffer buffer=new Buffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.read1PrefixedString();
-  this.parentSpanId=buffer.readLong();
+  this.parentSpanId=buffer.readInt();
   this.startTime=buffer.readLong();
   this.elapsed=buffer.readInt();
   this.rpc=buffer.read1UnsignedPrefixedString();
