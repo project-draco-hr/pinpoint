@@ -9,9 +9,9 @@
     }
     SpanAlign sa=new SpanAlign(depth,parentSpan,subSpanBo);
     container.add(sa);
-    Long nextSpanId=Long.valueOf(subSpanBo.getNextSpanId());
-    if (nextSpanId != -1 && spanMap.containsKey(nextSpanId)) {
-      populate(spanMap.get(Long.valueOf(nextSpanId)),depth,container);
+    int nextSpanId=subSpanBo.getNextSpanId();
+    if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
+      populate(spanMap.get(nextSpanId),depth,container);
     }
   }
 }
