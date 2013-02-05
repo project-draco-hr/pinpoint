@@ -11,7 +11,7 @@
   }
   for (  Entry<String,TerminalStatistics> entry : terminalRequests.entrySet()) {
     TerminalStatistics terminal=entry.getValue();
-    TerminalServerRequest request=new TerminalServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()),(int)terminal.getRequestCount());
+    ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()),terminal.getHistogram());
     serverRequests.put(request.getId(),request);
   }
   for (  SpanBo span : spans) {
@@ -26,14 +26,15 @@
       logger.debug("invalid form server {}",from);
       continue;
     }
-    ServerRequest serverRequest=new ServerRequest(fromServer,toServer);
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer,new ResponseHistogram(span.getServiceType()));
     if (serverRequest.isSelfCalled()) {
       continue;
     }
     if (serverRequests.containsKey(serverRequest.getId())) {
-      serverRequests.get(serverRequest.getId()).addRequest(span.getElapsed());
+      serverRequests.get(serverRequest.getId()).getHistogram().addSample(span.getElapsed());
     }
  else {
+      serverRequest.getHistogram().addSample(span.getElapsed());
       serverRequests.put(serverRequest.getId(),serverRequest);
     }
   }
@@ -48,9 +49,9 @@
     }
     Server fromServer=servers.get(spanIdToServerId.get(from));
     Server toServer=servers.get(spanIdToServerId.get(to));
-    ServerRequest serverRequest=new ServerRequest(fromServer,toServer);
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer,new ResponseHistogram(span.getServiceType()));
     if (serverRequests.containsKey(serverRequest.getId())) {
-      serverRequests.get(serverRequest.getId()).addRequest(span.getEndElapsed());
+      serverRequests.get(serverRequest.getId()).getHistogram().addSample(span.getEndElapsed());
     }
  else {
       serverRequests.put(serverRequest.getId(),serverRequest);
