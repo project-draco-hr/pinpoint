@@ -1,0 +1,10 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("[UpdatingTerminalStatistics] " + sourceApplicationName + " -> "+ destApplicationName+ " ("+ ServiceType.parse(destServiceType)+ ")");
+  }
+  byte[] columnName=TerminalSpanUtils.makeColumnName(destServiceType,destApplicationName,elapsed);
+  long rowTimeSlot=TimeSlot.getStatisticsRowSlot(System.currentTimeMillis());
+  final byte[] rowKey=TerminalSpanUtils.makeRowKey(sourceApplicationName,rowTimeSlot);
+  byte[] cf=(isError ? TERMINAL_STATISTICS_CF_ERROR_COUNTER : TERMINAL_STATISTICS_CF_COUNTER);
+  hbaseTemplate.incrementColumnValue(TERMINAL_STATISTICS,rowKey,cf,columnName,1L);
+}
