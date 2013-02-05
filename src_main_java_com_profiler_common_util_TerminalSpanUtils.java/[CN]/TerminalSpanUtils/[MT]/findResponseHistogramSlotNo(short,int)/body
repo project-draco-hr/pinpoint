@@ -1,0 +1,9 @@
+{
+  short[] slots=ServiceType.parse(serviceType).getHistogramSlots();
+  for (  short slot : slots) {
+    if (elapsed < slot) {
+      return Bytes.toBytes(slot);
+    }
+  }
+  return new byte[]{0,0};
+}
