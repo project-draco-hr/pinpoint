@@ -1,7 +1,7 @@
 {
   final Span span=createSpan();
   traceIndex.insert(span);
-  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(Bytes.toBytes(span.getAgentId()),SpanUtils.AGENT_NAME_LIMIT,span.getStartTime());
+  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(Bytes.toBytes(span.getAgentId()),HBaseTables.AGENT_NAME_MAX_LEN,span.getStartTime());
   byte[] result=hbaseOperations.get(traceIndex.getTableName(),rowKey,Bytes.toBytes("Trace"),Bytes.toBytes("ID"),valueRowMapper);
   Assert.assertArrayEquals(SpanUtils.getTraceId(span),result);
 }

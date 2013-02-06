@@ -7,5 +7,5 @@
   byte[] tests=Bytes.toBytes("test");
   long dataTime=jvmInfoThriftDTO.getDataTime();
   Assert.assertArrayEquals(Arrays.copyOfRange(rowKey,0,tests.length),tests);
-  Assert.assertArrayEquals(Arrays.copyOfRange(rowKey,SpanUtils.AGENT_NAME_LIMIT,SpanUtils.AGENT_NAME_LIMIT + 8),Bytes.toBytes(dataTime));
+  Assert.assertArrayEquals(Arrays.copyOfRange(rowKey,HBaseTables.AGENT_NAME_MAX_LEN,HBaseTables.AGENT_NAME_MAX_LEN + 8),Bytes.toBytes(dataTime));
 }
