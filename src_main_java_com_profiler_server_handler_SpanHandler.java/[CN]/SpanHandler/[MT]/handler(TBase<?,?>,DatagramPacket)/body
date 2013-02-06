@@ -14,13 +14,11 @@
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
     traceDao.insert(applicationName,span);
-    if (span.getParentSpanId() == -1) {
-      rootTraceIndexDao.insert(span);
-    }
     ServiceType serviceType=ServiceType.parse(span.getServiceType());
     if (serviceType.isIndexable()) {
       traceIndexDao.insert(span);
       applicationTraceIndexDao.insert(applicationName,span);
+      businessTransactionStatistics.update(applicationName,span);
     }
  else {
       logger.debug("Skip writing index. '{}'",span);

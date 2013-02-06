@@ -1,0 +1,7 @@
+{
+  long rowTimeSlot=TimeSlot.getStatisticsRowSlot(System.currentTimeMillis());
+  byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(applicationName,24),Bytes.toBytes(rowTimeSlot));
+  byte[] cf=(span.isErr() ? BUSINESS_TRANSACTION_STATISTICS_CF_ERROR : BUSINESS_TRANSACTION_STATISTICS_CF_NORMAL);
+  byte[] columnName=Bytes.toBytes(span.getRpc());
+  hbaseTemplate.incrementColumnValue(BUSINESS_TRANSACTION_STATISTICS,rowKey,cf,columnName,1L);
+}
