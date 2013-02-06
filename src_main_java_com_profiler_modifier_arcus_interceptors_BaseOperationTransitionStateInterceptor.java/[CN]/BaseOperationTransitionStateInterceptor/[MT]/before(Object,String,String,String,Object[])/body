@@ -32,7 +32,7 @@
     }
     asyncTrace.recordRpcName(svcType,serviceCode,baseOperation.getClass().getSimpleName());
     String cmd=getCommand(baseOperation);
-    asyncTrace.recordAttibute("arcus.command",cmd);
+    asyncTrace.recordAttibute(AnnotationNames.ARCUS_COMMAND,cmd);
     asyncTrace.markAfterTime();
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
@@ -45,7 +45,7 @@
     }
     Exception exception=baseOperation.getException();
     if (exception != null) {
-      asyncTrace.recordAttibute("Exception",InterceptorUtils.exceptionToString(exception));
+      asyncTrace.recordAttibute(AnnotationNames.EXCEPTION,InterceptorUtils.exceptionToString(exception));
     }
     if (!baseOperation.isCancelled()) {
       TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
@@ -53,7 +53,7 @@
       asyncTrace.traceBlockEnd();
     }
  else {
-      asyncTrace.recordAttribute("Exception","cancelled by user");
+      asyncTrace.recordAttribute(AnnotationNames.EXCEPTION,"cancelled by user");
       TimeObject timeObject=(TimeObject)asyncTrace.getAttachObject();
       asyncTrace.markAfterTime();
       asyncTrace.traceBlockEnd();

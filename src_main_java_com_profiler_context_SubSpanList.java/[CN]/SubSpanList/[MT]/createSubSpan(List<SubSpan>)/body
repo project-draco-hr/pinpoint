@@ -12,7 +12,7 @@
     tSubSpan.setServiceType(subSpan.getServiceType().getCode());
     tSubSpan.setEndPoint(subSpan.getEndPoint());
     List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(subSpan.getAnnotationSize());
-    for (    HippoAnnotation a : subSpan.getAnnotations()) {
+    for (    Annotation a : subSpan.getAnnotations()) {
       annotationList.add(a.toThrift());
     }
     if (subSpan.getDepth() != -1) {
