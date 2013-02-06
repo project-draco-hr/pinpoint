@@ -1,7 +1,7 @@
 {
-  String agentId=Bytes.toString(rowKey,0,AGENT_NAME_LIMIT).trim();
-  int apiId=BytesUtils.bytesToInt(rowKey,AGENT_NAME_LIMIT);
-  long startTIme=TimeUtils.recoveryCurrentTimeMillis(BytesUtils.bytesToLong(rowKey,AGENT_NAME_LIMIT + INT_BYTE_LENGTH));
+  String agentId=Bytes.toString(rowKey,0,AGENT_NAME_MAX_LEN).trim();
+  int apiId=BytesUtils.bytesToInt(rowKey,AGENT_NAME_MAX_LEN);
+  long startTIme=TimeUtils.recoveryCurrentTimeMillis(BytesUtils.bytesToLong(rowKey,AGENT_NAME_MAX_LEN + INT_BYTE_LENGTH));
   ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo(agentId,apiId,startTIme);
   return apiMetaDataBo;
 }
