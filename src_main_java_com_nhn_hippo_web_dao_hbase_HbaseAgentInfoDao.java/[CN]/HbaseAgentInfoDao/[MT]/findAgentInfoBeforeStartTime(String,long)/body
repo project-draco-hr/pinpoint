@@ -4,7 +4,7 @@
     @Override public Long extractData(    ResultScanner results) throws Exception {
       for (Result next; (next=results.next()) != null; ) {
         byte[] row=next.getRow();
-        long reverseStartTime=BytesUtils.bytesToLong(row,RowKeyUtils.AGENT_NAME_LIMIT);
+        long reverseStartTime=BytesUtils.bytesToLong(row,HBaseTables.AGENT_NAME_MAX_LEN);
         long startTime=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
         logger.debug("agent:{} startTime value {}",agentInfo,startTime);
         if (startTime < currentTime) {

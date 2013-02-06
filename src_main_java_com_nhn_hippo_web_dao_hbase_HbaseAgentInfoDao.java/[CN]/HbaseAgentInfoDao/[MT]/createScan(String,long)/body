@@ -3,9 +3,9 @@
   scan.setCaching(20);
   byte[] agentIdBytes=Bytes.toBytes(agentInfo);
   long startTime=TimeUtils.reverseCurrentTimeMillis(currentTime);
-  byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,RowKeyUtils.AGENT_NAME_LIMIT,startTime);
+  byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,startTime);
   scan.setStartRow(startKeyBytes);
-  byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,RowKeyUtils.AGENT_NAME_LIMIT,Long.MAX_VALUE);
+  byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,Long.MAX_VALUE);
   scan.setStopRow(endKeyBytes);
   return scan;
 }
