@@ -3,7 +3,9 @@
     CtClass cc=classPool.get(javassistClassName);
     updateGetConnectionMethod(cc);
     printClassConvertComplete(javassistClassName);
-    return cc.toBytecode();
+    byte[] bytes=cc.toBytecode();
+    cc.detach();
+    return bytes;
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {
