@@ -1,10 +1,15 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  if (struct.key != null) {
-    oprot.writeFieldBegin(KEY_FIELD_DESC);
-    oprot.writeString(struct.key);
-    oprot.writeFieldEnd();
+  oprot.writeFieldBegin(KEY_FIELD_DESC);
+  oprot.writeI32(struct.key);
+  oprot.writeFieldEnd();
+  if (struct.key2 != null) {
+    if (struct.isSetKey2()) {
+      oprot.writeFieldBegin(KEY2_FIELD_DESC);
+      oprot.writeString(struct.key2);
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldBegin(VALUE_TYPE_CODE_FIELD_DESC);
   oprot.writeI32(struct.valueTypeCode);

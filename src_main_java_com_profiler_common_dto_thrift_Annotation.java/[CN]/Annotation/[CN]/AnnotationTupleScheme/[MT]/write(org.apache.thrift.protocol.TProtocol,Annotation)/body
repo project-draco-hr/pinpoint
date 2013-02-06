@@ -4,18 +4,24 @@
   if (struct.isSetKey()) {
     optionals.set(0);
   }
-  if (struct.isSetValueTypeCode()) {
+  if (struct.isSetKey2()) {
     optionals.set(1);
   }
-  if (struct.isSetValue()) {
+  if (struct.isSetValueTypeCode()) {
     optionals.set(2);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetValue()) {
     optionals.set(3);
   }
-  oprot.writeBitSet(optionals,4);
+  if (struct.isSetTimestamp()) {
+    optionals.set(4);
+  }
+  oprot.writeBitSet(optionals,5);
   if (struct.isSetKey()) {
-    oprot.writeString(struct.key);
+    oprot.writeI32(struct.key);
+  }
+  if (struct.isSetKey2()) {
+    oprot.writeString(struct.key2);
   }
   if (struct.isSetValueTypeCode()) {
     oprot.writeI32(struct.valueTypeCode);

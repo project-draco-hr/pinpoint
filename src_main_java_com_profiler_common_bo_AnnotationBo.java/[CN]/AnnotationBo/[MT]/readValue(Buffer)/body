@@ -1,6 +1,6 @@
 {
   this.version=buffer.readByte();
-  this.key=buffer.readPrefixedString();
+  this.key=buffer.readInt();
   this.valueType=buffer.readInt();
   this.byteValue=buffer.readPrefixedBytes();
   this.value=transcoder.decode(valueType,byteValue);
