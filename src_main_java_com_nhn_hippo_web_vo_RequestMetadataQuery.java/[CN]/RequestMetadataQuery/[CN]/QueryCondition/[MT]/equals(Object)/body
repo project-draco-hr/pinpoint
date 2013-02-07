@@ -1,0 +1,13 @@
+{
+  if (this == obj)   return true;
+  if (obj == null)   return false;
+  if (getClass() != obj.getClass())   return false;
+  QueryCondition other=(QueryCondition)obj;
+  if (responseTime != other.responseTime)   return false;
+  if (time != other.time)   return false;
+  if (traceId == null) {
+    if (other.traceId != null)     return false;
+  }
+ else   if (!traceId.equals(other.traceId))   return false;
+  return true;
+}

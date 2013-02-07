@@ -1,0 +1,13 @@
+{
+  List<List<SpanBo>> selectedSpans=traceDao.selectSpans(query.getTraceIds());
+  Map<String,RequestMetadata> result=new HashMap<String,RequestMetadata>(query.size());
+  for (  List<SpanBo> spans : selectedSpans) {
+    for (    SpanBo span : spans) {
+      if (query.isExists(span.getMostTraceId(),span.getLeastTraceId(),span.getStartTime(),span.getElapsed())) {
+        RequestMetadata m=new RequestMetadata(span.getMostTraceId(),span.getLeastTraceId(),span.getStartTime(),span.getElapsed(),span.getRpc());
+        result.put(m.toString(),m);
+      }
+    }
+  }
+  return result;
+}
