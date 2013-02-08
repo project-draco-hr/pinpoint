@@ -3,11 +3,11 @@
     logger.debug("insert:" + apiMetaData);
   }
   String agentId=apiMetaData.getAgentId();
-  byte[] rowKey=RowKeyUtils.getApiId(agentId,apiMetaData.getApiId(),apiMetaData.getStartTime());
+  byte[] rowKey=RowKeyUtils.getApiId(agentId,apiMetaData.getAgentIdentifier(),apiMetaData.getApiId(),apiMetaData.getStartTime());
   Put put=new Put(rowKey);
   String api=apiMetaData.getApiInfo();
   int bufferSize=api.length() + 4 + 4;
-  Buffer buffer=new Buffer(bufferSize);
+  Buffer buffer=new FixedBuffer(bufferSize);
   buffer.putPrefixedBytes(Bytes.toBytes(api));
   if (apiMetaData.isSetLine()) {
     buffer.put(apiMetaData.getLine());
