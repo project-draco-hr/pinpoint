@@ -3,6 +3,7 @@
   SubSpan first=subSpanList.get(0);
   Span parentSpan=first.getParentSpan();
   tSubSpanList.setAgentId(Agent.getInstance().getAgentId());
+  tSubSpanList.setAgentIdentifier(Agent.getInstance().getIdentifier());
   UUID id=parentSpan.getTraceID().getId();
   tSubSpanList.setMostTraceId(id.getMostSignificantBits());
   tSubSpanList.setLeastTraceId(id.getLeastSignificantBits());

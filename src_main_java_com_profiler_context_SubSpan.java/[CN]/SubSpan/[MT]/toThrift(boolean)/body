@@ -6,6 +6,7 @@
   subSpan.setSequence(sequence);
   if (!child) {
     subSpan.setAgentId(Agent.getInstance().getAgentId());
+    subSpan.setAgentIdentifier(Agent.getInstance().getIdentifier());
     TraceID parentSpanTraceID=parentSpan.getTraceID();
     subSpan.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
     subSpan.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());

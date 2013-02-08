@@ -8,6 +8,7 @@
   this.applicationName=getId("hippo.applicationName","UnknownApplicationName");
   this.dataSender=createDataSender();
   this.startTime=System.currentTimeMillis();
+  this.identifier=(short)IDENTIFIER_KEY.nextInt(16);
   initializeTraceContext();
   this.systemMonitor=new SystemMonitor(this.traceContext,this.profilerConfig);
   this.systemMonitor.setDataSender(dataSender);

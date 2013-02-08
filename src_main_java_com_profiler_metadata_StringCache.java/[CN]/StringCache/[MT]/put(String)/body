@@ -3,7 +3,7 @@
   if (find != null) {
     return new Result(false,find);
   }
-  int newId=idGen.getAndIncrement();
+  int newId=BytesUtils.decodeZigZagInt(idGen.getAndIncrement());
   Integer before=this.cache.putIfAbsent(string,newId);
   if (before != null) {
     return new Result(false,before);
