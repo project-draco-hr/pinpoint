@@ -1,11 +1,11 @@
 {
   String test="test";
   int expected=3333;
-  Buffer buffer=new Buffer(1024);
+  Buffer buffer=new FixedBuffer(1024);
   buffer.putPrefixedBytes(test.getBytes("UTF-8"));
   buffer.put(expected);
   byte[] buffer1=buffer.getBuffer();
-  Buffer actual=new Buffer(buffer1);
+  Buffer actual=new FixedBuffer(buffer1);
   String s=actual.readPrefixedString();
   Assert.assertEquals(test,s);
   int i=actual.readInt();

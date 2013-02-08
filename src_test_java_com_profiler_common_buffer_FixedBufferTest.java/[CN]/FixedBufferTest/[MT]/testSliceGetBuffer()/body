@@ -1,0 +1,9 @@
+{
+  Buffer buffer=new FixedBuffer(5);
+  buffer.put(1);
+  Assert.assertEquals(buffer.getOffset(),4);
+  Assert.assertEquals(buffer.getBuffer().length,4);
+  byte[] buffer1=buffer.getBuffer();
+  byte[] buffer2=buffer.getBuffer();
+  Assert.assertTrue(buffer1 != buffer2);
+}
