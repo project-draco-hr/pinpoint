@@ -1,0 +1,17 @@
+{
+  int length=buffer.length;
+  int remain=length - offset;
+  if (remain >= size) {
+    return;
+  }
+  if (length == 0) {
+    length=1;
+  }
+  while (remain < size) {
+    length=length * 2;
+    final byte[] expendBuffer=new byte[length];
+    System.arraycopy(buffer,0,expendBuffer,0,buffer.length);
+    buffer=expendBuffer;
+    remain=expendBuffer.length - offset;
+  }
+}

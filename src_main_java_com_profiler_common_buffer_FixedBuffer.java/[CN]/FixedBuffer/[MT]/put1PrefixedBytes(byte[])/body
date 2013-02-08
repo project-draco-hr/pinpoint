@@ -1,0 +1,13 @@
+{
+  if (bytes == null) {
+    put(0);
+  }
+ else {
+    int length=(byte)bytes.length;
+    if (length > Byte.MAX_VALUE) {
+      throw new IllegalArgumentException("too large bytes:" + bytes.length);
+    }
+    put((byte)length);
+    put(bytes);
+  }
+}
