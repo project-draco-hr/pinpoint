@@ -5,24 +5,25 @@
       if (apiIdAnnotation == null) {
         return;
       }
-      String agentId=getAgentId(spanAlign);
-      long startTime=spanAlign.getSpanBo().getStartTime();
-      long agentStartTime=agentInfoDao.findAgentInfoBeforeStartTime(agentId,startTime);
-      logger.info("{} Agent StartTime fonud:{}",agentId,agentStartTime);
-      if (agentStartTime == 0) {
+      AgentInfoBo agentInfoBo=null;
+      try {
+        agentInfoBo=findAgentInfoBoBeforeStartTime(spanAlign);
+        logger.info("{} Agent StartTime found:{}",agentInfoBo.getAgentId(),agentInfoBo);
+      }
+ catch (      AgentIdNotFoundException ex) {
         AnnotationBo agentInfoNotFound=new AnnotationBo();
         agentInfoNotFound.setKey(AnnotationNames.API.getCode());
-        agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + agentId + " startTime:"+ startTime);
+        agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
         annotationBoList.add(agentInfoNotFound);
         return;
       }
       int apiId=(Integer)apiIdAnnotation.getValue();
-      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentId,apiId,agentStartTime);
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentInfoBo.getAgentId(),agentInfoBo.getIdentifier(),apiId,agentInfoBo.getTimestamp());
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
         api.setKey(AnnotationNames.API.getCode());
-        api.setValue("API-DID not found api:" + apiId);
+        api.setValue("API-DID not found. api:" + apiId);
         annotationBoList.add(api);
       }
  else       if (size == 1) {
@@ -31,6 +32,11 @@
         apiMetaData.setKey(AnnotationNames.API_METADATA.getCode());
         apiMetaData.setValue(apiMetaDataBo);
         annotationBoList.add(apiMetaData);
+        AnnotationBo checkFail=checkIdentifier(spanAlign,apiMetaDataBo);
+        if (checkFail != null) {
+          annotationBoList.add(checkFail);
+          return;
+        }
         AnnotationBo apiAnnotation=new AnnotationBo();
         apiAnnotation.setKey(AnnotationNames.API.getCode());
         String apiInfo=getApiInfo(apiMetaDataBo);
@@ -44,6 +50,17 @@
         apiAnnotation.setValue(collisonMessage);
         annotationBoList.add(apiAnnotation);
       }
+    }
+    private AnnotationBo checkIdentifier(    SpanAlign spanAlign,    ApiMetaDataBo apiMetaDataBo){
+      short agentIdentifier=getAgentIdentifier(spanAlign);
+      short sqlIdentifier=apiMetaDataBo.getIdentifier();
+      if (agentIdentifier == sqlIdentifier) {
+        return null;
+      }
+      AnnotationBo identifierCheckFail=new AnnotationBo();
+      identifierCheckFail.setKey(AnnotationNames.API.getCode());
+      identifierCheckFail.setValue("invalid ApiMetaInfo:" + apiMetaDataBo);
+      return identifierCheckFail;
     }
   }
 );

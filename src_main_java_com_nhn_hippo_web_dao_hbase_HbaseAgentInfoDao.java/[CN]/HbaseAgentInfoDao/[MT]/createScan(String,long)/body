@@ -7,5 +7,6 @@
   scan.setStartRow(startKeyBytes);
   byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,Long.MAX_VALUE);
   scan.setStopRow(endKeyBytes);
+  scan.addFamily(HBaseTables.AGENTINFO_CF_INFO);
   return scan;
 }

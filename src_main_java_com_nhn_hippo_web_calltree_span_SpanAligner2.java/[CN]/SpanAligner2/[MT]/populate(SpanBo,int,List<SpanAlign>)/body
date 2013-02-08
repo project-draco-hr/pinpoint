@@ -3,6 +3,9 @@
   SpanAlign element=new SpanAlign(depth,parentSpan);
   container.add(element);
   List<SubSpanBo> subSpanList=parentSpan.getSubSpanList();
+  if (subSpanList == null) {
+    return;
+  }
   for (  SubSpanBo subSpanBo : subSpanList) {
     if (subSpanBo.getDepth() != -1) {
       depth=spanDepth + subSpanBo.getDepth() + 1;

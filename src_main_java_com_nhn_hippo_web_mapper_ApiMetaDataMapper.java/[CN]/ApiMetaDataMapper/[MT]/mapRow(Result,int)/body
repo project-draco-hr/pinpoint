@@ -5,7 +5,7 @@
   for (  KeyValue keyValue : keyList) {
     ApiMetaDataBo apiMetaDataBo=RowKeyUtils.parseApiId(rowKey);
     byte[] qualifier=keyValue.getQualifier();
-    Buffer buffer=new Buffer(qualifier);
+    Buffer buffer=new FixedBuffer(qualifier);
     String apiInfo=buffer.readPrefixedString();
     int lineNumber=buffer.readInt();
     apiMetaDataBo.setApiInfo(apiInfo);
