@@ -1,0 +1,28 @@
+{
+switch (dataType) {
+case CODE_STRING:
+    return decodeString(data);
+case CODE_BOOLEAN:
+  return Boolean.valueOf(tu.decodeBoolean(data));
+case CODE_INT:
+return new Integer(tu.decodeInt(data));
+case CODE_LONG:
+return new Long(tu.decodeLong(data));
+case CODE_DATE:
+return new Date(tu.decodeLong(data));
+case CODE_BYTE:
+return new Byte(tu.decodeByte(data));
+case CODE_FLOAT:
+return new Float(Float.intBitsToFloat(tu.decodeInt(data)));
+case CODE_DOUBLE:
+return new Double(Double.longBitsToDouble(tu.decodeLong(data)));
+case CODE_BYTEARRAY:
+return data;
+case CODE_NULL:
+return null;
+case JAVA_SERIALIZED:
+return deserialize(data);
+default :
+}
+return null;
+}

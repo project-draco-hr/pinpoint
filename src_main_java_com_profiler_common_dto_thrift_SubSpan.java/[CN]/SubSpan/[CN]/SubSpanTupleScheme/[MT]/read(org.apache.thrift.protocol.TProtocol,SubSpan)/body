@@ -1,55 +1,59 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(15);
+  BitSet incoming=iprot.readBitSet(16);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
   }
   if (incoming.get(1)) {
+    struct.agentIdentifier=iprot.readI16();
+    struct.setAgentIdentifierIsSet(true);
+  }
+  if (incoming.get(2)) {
     struct.mostTraceId=iprot.readI64();
     struct.setMostTraceIdIsSet(true);
   }
-  if (incoming.get(2)) {
+  if (incoming.get(3)) {
     struct.leastTraceId=iprot.readI64();
     struct.setLeastTraceIdIsSet(true);
   }
-  if (incoming.get(3)) {
+  if (incoming.get(4)) {
     struct.spanId=iprot.readI32();
     struct.setSpanIdIsSet(true);
   }
-  if (incoming.get(4)) {
+  if (incoming.get(5)) {
     struct.sequence=iprot.readI16();
     struct.setSequenceIsSet(true);
   }
-  if (incoming.get(5)) {
+  if (incoming.get(6)) {
     struct.startElapsed=iprot.readI32();
     struct.setStartElapsedIsSet(true);
   }
-  if (incoming.get(6)) {
+  if (incoming.get(7)) {
     struct.endElapsed=iprot.readI32();
     struct.setEndElapsedIsSet(true);
   }
-  if (incoming.get(7)) {
+  if (incoming.get(8)) {
     struct.rpc=iprot.readString();
     struct.setRpcIsSet(true);
   }
-  if (incoming.get(8)) {
+  if (incoming.get(9)) {
     struct.serviceName=iprot.readString();
     struct.setServiceNameIsSet(true);
   }
-  if (incoming.get(9)) {
+  if (incoming.get(10)) {
     struct.serviceType=iprot.readI16();
     struct.setServiceTypeIsSet(true);
   }
-  if (incoming.get(10)) {
+  if (incoming.get(11)) {
     struct.endPoint=iprot.readString();
     struct.setEndPointIsSet(true);
   }
-  if (incoming.get(11)) {
+  if (incoming.get(12)) {
     struct.err=iprot.readBool();
     struct.setErrIsSet(true);
   }
-  if (incoming.get(12)) {
+  if (incoming.get(13)) {
 {
       org.apache.thrift.protocol.TList _list5=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.annotations=new ArrayList<Annotation>(_list5.size);
@@ -62,11 +66,11 @@
     }
     struct.setAnnotationsIsSet(true);
   }
-  if (incoming.get(13)) {
+  if (incoming.get(14)) {
     struct.depth=iprot.readI32();
     struct.setDepthIsSet(true);
   }
-  if (incoming.get(14)) {
+  if (incoming.get(15)) {
     struct.nextSpanId=iprot.readI32();
     struct.setNextSpanIdIsSet(true);
   }

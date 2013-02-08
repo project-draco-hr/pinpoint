@@ -1,23 +1,27 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(5);
+  BitSet incoming=iprot.readBitSet(6);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
   }
   if (incoming.get(1)) {
+    struct.agentIdentifier=iprot.readI16();
+    struct.setAgentIdentifierIsSet(true);
+  }
+  if (incoming.get(2)) {
     struct.mostTraceId=iprot.readI64();
     struct.setMostTraceIdIsSet(true);
   }
-  if (incoming.get(2)) {
+  if (incoming.get(3)) {
     struct.leastTraceId=iprot.readI64();
     struct.setLeastTraceIdIsSet(true);
   }
-  if (incoming.get(3)) {
+  if (incoming.get(4)) {
     struct.spanId=iprot.readI32();
     struct.setSpanIdIsSet(true);
   }
-  if (incoming.get(4)) {
+  if (incoming.get(5)) {
 {
       org.apache.thrift.protocol.TList _list29=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.subSpanList=new ArrayList<SubSpan>(_list29.size);

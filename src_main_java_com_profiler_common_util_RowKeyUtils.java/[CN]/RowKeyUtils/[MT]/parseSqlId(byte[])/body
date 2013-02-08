@@ -1,7 +1,8 @@
 {
   String agentId=Bytes.toString(rowKey,0,AGENT_NAME_MAX_LEN).trim();
-  int hashCode=BytesUtils.bytesToInt(rowKey,AGENT_NAME_MAX_LEN);
-  long startTIme=TimeUtils.recoveryCurrentTimeMillis(BytesUtils.bytesToLong(rowKey,AGENT_NAME_MAX_LEN + INT_BYTE_LENGTH));
-  SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo(agentId,hashCode,startTIme);
+  short identifier=readIdentifier(rowKey);
+  int hashCode=readKeyCode(rowKey);
+  long startTIme=TimeUtils.recoveryCurrentTimeMillis(readTime(rowKey));
+  SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo(agentId,identifier,hashCode,startTIme);
   return sqlMetaDataBo;
 }

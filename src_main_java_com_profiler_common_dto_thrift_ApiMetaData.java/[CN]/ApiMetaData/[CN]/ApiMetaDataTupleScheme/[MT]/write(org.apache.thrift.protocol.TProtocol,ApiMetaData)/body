@@ -4,21 +4,27 @@
   if (struct.isSetAgentId()) {
     optionals.set(0);
   }
-  if (struct.isSetStartTime()) {
+  if (struct.isSetAgentIdentifier()) {
     optionals.set(1);
   }
-  if (struct.isSetApiId()) {
+  if (struct.isSetStartTime()) {
     optionals.set(2);
   }
-  if (struct.isSetApiInfo()) {
+  if (struct.isSetApiId()) {
     optionals.set(3);
   }
-  if (struct.isSetLine()) {
+  if (struct.isSetApiInfo()) {
     optionals.set(4);
   }
-  oprot.writeBitSet(optionals,5);
+  if (struct.isSetLine()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
   }
   if (struct.isSetStartTime()) {
     oprot.writeI64(struct.startTime);

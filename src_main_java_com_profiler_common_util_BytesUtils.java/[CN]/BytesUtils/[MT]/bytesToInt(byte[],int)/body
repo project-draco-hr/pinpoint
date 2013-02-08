@@ -3,8 +3,8 @@
     throw new NullPointerException("buf must not be null");
   }
   if (buf.length < offset + 4) {
-    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ offset+ 4);
+    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 4));
   }
-  int v=((buf[offset] & 0xff) << 24) | ((buf[offset + 1] & 0xff) << 16) | ((buf[offset + 2] & 0xff) << 8)| ((buf[offset + 3] & 0xff));
+  final int v=((buf[offset] & 0xff) << 24) | ((buf[offset + 1] & 0xff) << 16) | ((buf[offset + 2] & 0xff) << 8)| ((buf[offset + 3] & 0xff));
   return v;
 }

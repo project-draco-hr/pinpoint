@@ -19,7 +19,10 @@
   if (struct.isSetTimestamp()) {
     optionals.set(5);
   }
-  oprot.writeBitSet(optionals,6);
+  if (struct.isSetIdentifier()) {
+    optionals.set(6);
+  }
+  oprot.writeBitSet(optionals,7);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -37,5 +40,8 @@
   }
   if (struct.isSetTimestamp()) {
     oprot.writeI64(struct.timestamp);
+  }
+  if (struct.isSetIdentifier()) {
+    oprot.writeI16(struct.identifier);
   }
 }

@@ -4,21 +4,27 @@
   if (struct.isSetAgentId()) {
     optionals.set(0);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetAgentIdentifier()) {
     optionals.set(1);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetMostTraceId()) {
     optionals.set(2);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetLeastTraceId()) {
     optionals.set(3);
   }
-  if (struct.isSetSubSpanList()) {
+  if (struct.isSetSpanId()) {
     optionals.set(4);
   }
-  oprot.writeBitSet(optionals,5);
+  if (struct.isSetSubSpanList()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
   }
   if (struct.isSetMostTraceId()) {
     oprot.writeI64(struct.mostTraceId);

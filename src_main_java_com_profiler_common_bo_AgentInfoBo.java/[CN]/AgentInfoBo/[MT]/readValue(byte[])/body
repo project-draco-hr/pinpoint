@@ -1,0 +1,9 @@
+{
+  Buffer buffer=new FixedBuffer(value);
+  this.hostname=buffer.readPrefixedString();
+  this.ports=buffer.readPrefixedString();
+  this.applicationName=buffer.readPrefixedString();
+  this.isAlive=buffer.readBoolean();
+  this.identifier=buffer.readShort();
+  return buffer.getOffset();
+}

@@ -1,4 +1,13 @@
 {
-  if (value == null)   return EMPTY_BYTES;
-  return value.getBytes(UTF8);
+  if (value == null) {
+    return EMPTY_BYTES;
+  }
+  try {
+    return value.getBytes(UTF8);
+  }
+ catch (  UnsupportedEncodingException e) {
+    final Logger logger=getLogger();
+    logger.log(Level.SEVERE,"String encoding fail. value:" + value + " Caused:"+ e.getMessage(),e);
+    return EMPTY_BYTES;
+  }
 }

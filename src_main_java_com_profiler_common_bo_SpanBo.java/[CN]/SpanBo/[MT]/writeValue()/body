@@ -4,9 +4,10 @@
   byte[] serviceNameBytes=BytesUtils.getBytes(serviceName);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length);
-  Buffer buffer=new Buffer(bufferLength);
+  Buffer buffer=new FixedBuffer(bufferLength);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
+  buffer.put(agentIdentifier);
   buffer.put(parentSpanId);
   buffer.put(startTime);
   buffer.put(elapsed);

@@ -17,15 +17,24 @@ case 1:
       }
     break;
 case 2:
-  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-    struct.mostTraceId=iprot.readI64();
-    struct.setMostTraceIdIsSet(true);
+  if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+    struct.agentIdentifier=iprot.readI16();
+    struct.setAgentIdentifierIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
 break;
 case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.mostTraceId=iprot.readI64();
+struct.setMostTraceIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
 struct.leastTraceId=iprot.readI64();
 struct.setLeastTraceIdIsSet(true);
@@ -34,7 +43,7 @@ struct.setLeastTraceIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 4:
+case 5:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.spanId=iprot.readI32();
 struct.setSpanIdIsSet(true);
@@ -43,7 +52,7 @@ struct.setSpanIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 5:
+case 6:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list24=iprot.readListBegin();

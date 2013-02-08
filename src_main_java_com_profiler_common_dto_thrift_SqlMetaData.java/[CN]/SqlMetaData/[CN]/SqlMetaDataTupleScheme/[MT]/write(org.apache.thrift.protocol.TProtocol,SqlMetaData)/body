@@ -4,18 +4,24 @@
   if (struct.isSetAgentId()) {
     optionals.set(0);
   }
-  if (struct.isSetStartTime()) {
+  if (struct.isSetAgentIdentifier()) {
     optionals.set(1);
   }
-  if (struct.isSetHashCode()) {
+  if (struct.isSetStartTime()) {
     optionals.set(2);
   }
-  if (struct.isSetSql()) {
+  if (struct.isSetHashCode()) {
     optionals.set(3);
   }
-  oprot.writeBitSet(optionals,4);
+  if (struct.isSetSql()) {
+    optionals.set(4);
+  }
+  oprot.writeBitSet(optionals,5);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
   }
   if (struct.isSetStartTime()) {
     oprot.writeI64(struct.startTime);

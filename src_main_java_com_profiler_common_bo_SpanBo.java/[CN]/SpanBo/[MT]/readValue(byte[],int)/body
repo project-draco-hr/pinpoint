@@ -1,7 +1,8 @@
 {
-  Buffer buffer=new Buffer(bytes,offset);
+  Buffer buffer=new FixedBuffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.read1PrefixedString();
+  this.agentIdentifier=buffer.readShort();
   this.parentSpanId=buffer.readInt();
   this.startTime=buffer.readLong();
   this.elapsed=buffer.readInt();

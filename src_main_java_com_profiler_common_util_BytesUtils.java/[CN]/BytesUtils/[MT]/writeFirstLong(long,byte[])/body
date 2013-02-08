@@ -5,12 +5,5 @@
   if (buf.length < 8) {
     throw new IllegalArgumentException("buf.length is too small(8). buf.length:" + buf.length);
   }
-  buf[0]=(byte)(value >> 56);
-  buf[1]=(byte)(value >> 48);
-  buf[2]=(byte)(value >> 40);
-  buf[3]=(byte)(value >> 32);
-  buf[4]=(byte)(value >> 24);
-  buf[5]=(byte)(value >> 16);
-  buf[6]=(byte)(value >> 8);
-  buf[7]=(byte)(value);
+  writeFirstLong0(value,buf);
 }

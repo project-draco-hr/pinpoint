@@ -5,9 +5,10 @@
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length);
   int annotationSize=getAnnotationBufferSize(annotationBoList);
-  Buffer buffer=new Buffer(bufferLength + annotationSize);
+  Buffer buffer=new FixedBuffer(bufferLength + annotationSize);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
+  buffer.put(agentIdentifier);
   buffer.put(startElapsed);
   buffer.put(endElapsed);
   buffer.put1PrefixedBytes(rpcBytes);
