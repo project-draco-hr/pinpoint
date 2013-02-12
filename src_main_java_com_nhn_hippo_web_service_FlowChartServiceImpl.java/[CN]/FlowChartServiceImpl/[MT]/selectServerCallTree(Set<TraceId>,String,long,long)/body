@@ -30,7 +30,7 @@
         for (        Entry<String,TerminalStatistics> entry : terminal.entrySet()) {
           TerminalStatistics t=entry.getValue();
           if (!endPoints.contains(t.getTo())) {
-            if (ServiceType.parse(t.getToServiceType()).isRpcClient()) {
+            if (ServiceType.findServiceType(t.getToServiceType()).isRpcClient()) {
               t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
             }
             tree.addTerminalStatistics(t);
