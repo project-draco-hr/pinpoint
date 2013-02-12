@@ -32,11 +32,12 @@
           continue;
         }
         int elapsed=subSpan.getEndElapsed();
+        boolean hasException=SubSpanUtils.hasException(subSpan);
         if (subSpanServiceType.isRpcClient()) {
-          terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode(),elapsed,subSpan.isErr());
+          terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode(),elapsed,hasException);
         }
  else {
-          terminalStatistics.update(applicationName,subSpan.getServiceName(),serviceType.getCode(),elapsed,subSpan.isErr());
+          terminalStatistics.update(applicationName,subSpan.getServiceName(),serviceType.getCode(),elapsed,hasException);
         }
       }
     }
