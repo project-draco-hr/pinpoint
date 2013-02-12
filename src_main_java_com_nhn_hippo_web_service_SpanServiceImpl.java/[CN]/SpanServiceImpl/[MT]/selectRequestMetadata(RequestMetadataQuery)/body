@@ -1,13 +1,29 @@
 {
   List<List<SpanBo>> selectedSpans=traceDao.selectSpans(query.getTraceIds());
-  Map<String,RequestMetadata> result=new HashMap<String,RequestMetadata>(query.size());
+  List<SpanBo> result=new ArrayList<SpanBo>(query.size());
   for (  List<SpanBo> spans : selectedSpans) {
     for (    SpanBo span : spans) {
       if (query.isExists(span.getMostTraceId(),span.getLeastTraceId(),span.getStartTime(),span.getElapsed())) {
-        RequestMetadata m=new RequestMetadata(span.getMostTraceId(),span.getLeastTraceId(),span.getStartTime(),span.getElapsed(),span.getRpc());
-        result.put(m.toString(),m);
+        result.add(span);
       }
     }
   }
+  Collections.sort(result,new Comparator<SpanBo>(){
+    @Override public int compare(    SpanBo o1,    SpanBo o2){
+      if (o1.isException() && o2.isException()) {
+        return o2.getElapsed() - o1.getElapsed();
+      }
+ else       if (o1.isException()) {
+        return 1;
+      }
+ else       if (o2.isException()) {
+        return -1;
+      }
+ else {
+        return o2.getElapsed() - o1.getElapsed();
+      }
+    }
+  }
+);
   return result;
 }

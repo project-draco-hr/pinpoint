@@ -15,7 +15,7 @@
     index++;
   }
   if (query.size() > 0) {
-    Map<String,RequestMetadata> metadata=spanService.selectRequestMetadata(query);
+    List<SpanBo> metadata=spanService.selectRequestMetadata(query);
     model.addAttribute("metadata",metadata);
   }
   addResponseHeader(response);
