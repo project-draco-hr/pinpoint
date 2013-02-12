@@ -1,0 +1,29 @@
+{
+  Scan scan=createScan(applicationName,start,end);
+  List<Dot> list=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,new ResultsExtractor<List<Dot>>(){
+    @Override public List<Dot> extractData(    ResultScanner results) throws Exception {
+      List<Dot> list=new ArrayList<Dot>();
+      for (      Result result : results) {
+        if (result == null) {
+          continue;
+        }
+        KeyValue[] raw=result.raw();
+        for (        KeyValue kv : raw) {
+          byte[] v=kv.getValue();
+          int elapsed=BytesUtils.bytesToInt(v,0);
+          int resultCode=BytesUtils.bytesToInt(v,4);
+          long timestamp=BytesUtils.bytesToLong(kv.getRow(),24);
+          long[] tid=BytesUtils.bytesToLongLong(kv.getQualifier());
+          String traceId=new UUID(tid[0],tid[1]).toString();
+          list.add(new Dot(resultCode,elapsed,timestamp,traceId));
+        }
+        if (list.size() >= limit) {
+          break;
+        }
+      }
+      return list;
+    }
+  }
+);
+  return list;
+}
