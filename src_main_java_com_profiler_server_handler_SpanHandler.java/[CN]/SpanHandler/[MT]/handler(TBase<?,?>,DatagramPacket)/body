@@ -5,29 +5,24 @@
     if (logger.isInfoEnabled()) {
       logger.info("Received SPAN={}",span);
     }
-    String applicationName=agentIdApplicationIndexDao.selectApplicationName(span.getAgentId());
+    final String applicationName=agentIdApplicationIndexDao.selectApplicationName(span.getAgentId());
     if (applicationName == null) {
-      logger.warn("Applicationname '{}' not found. Drop the log.",applicationName);
+      logger.warn("ApplicationName '{}' not found. Drop the log.",applicationName);
       return;
     }
  else {
-      logger.info("Applicationname '{}' found. Write the log.",applicationName);
+      logger.debug("ApplicationName '{}' found. Write the log.",applicationName);
     }
     traceDao.insert(applicationName,span);
-    ServiceType serviceType=ServiceType.parse(span.getServiceType());
-    if (serviceType.isIndexable()) {
-      traceIndexDao.insert(span);
-      applicationTraceIndexDao.insert(applicationName,span);
-      businessTransactionStatistics.update(applicationName,span);
-    }
- else {
-      logger.debug("Skip writing index. '{}'",span);
-    }
+    ServiceType serviceType=ServiceType.findServiceType(span.getServiceType());
+    traceIndexDao.insert(span);
+    applicationTraceIndexDao.insert(applicationName,span);
+    businessTransactionStatistics.update(applicationName,span);
     List<SubSpan> subSpanList=span.getSubSpanList();
     if (subSpanList != null) {
       logger.info("handle subSpan size:{}",subSpanList.size());
       for (      SubSpan subSpan : subSpanList) {
-        ServiceType subSpanServiceType=ServiceType.parse(subSpan.getServiceType());
+        ServiceType subSpanServiceType=ServiceType.findServiceType(subSpan.getServiceType());
         if (subSpanServiceType == ServiceType.INTERNAL_METHOD) {
           continue;
         }

@@ -13,7 +13,7 @@
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
     traceDao.insertSubSpan(applicationName,subSpan);
-    ServiceType serviceType=ServiceType.parse(subSpan.getServiceType());
+    ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
     int elapsed=subSpan.getEndElapsed();
     boolean hasException=SubSpanUtils.hasException(subSpan);
     if (serviceType.isRpcClient()) {

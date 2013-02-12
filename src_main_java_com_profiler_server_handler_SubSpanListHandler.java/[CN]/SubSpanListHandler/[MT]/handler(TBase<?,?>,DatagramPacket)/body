@@ -17,7 +17,7 @@
     if (ssList != null) {
       logger.debug("SubSpanList Size:{}",ssList.size());
       for (      SubSpan subSpan : ssList) {
-        ServiceType serviceType=ServiceType.parse(subSpan.getServiceType());
+        ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
         if (serviceType.isInternalMethod()) {
           continue;
         }
