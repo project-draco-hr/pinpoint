@@ -12,7 +12,7 @@
     sqlMetaData.setStartTime(Agent.getInstance().getStartTime());
     sqlMetaData.setHashCode(normalizedSql.hashCode());
     sqlMetaData.setSql(normalizedSql);
-    this.storageFactory.getDataSender().send(sqlMetaData);
+    this.priorityDataSender.send(sqlMetaData);
   }
   return parsingResult;
 }
