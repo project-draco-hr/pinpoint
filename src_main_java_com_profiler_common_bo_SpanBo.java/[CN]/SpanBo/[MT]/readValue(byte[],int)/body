@@ -10,7 +10,7 @@
   this.serviceName=buffer.read1UnsignedPrefixedString();
   this.serviceType=ServiceType.parse(buffer.readShort());
   this.endPoint=buffer.read1UnsignedPrefixedString();
-  this.exception=buffer.readBoolean();
+  this.exception=buffer.readInt();
   if (buffer.limit() == 2) {
     this.flag=buffer.readShort();
   }

@@ -61,9 +61,11 @@
     oprot.writeI16(struct.flag);
     oprot.writeFieldEnd();
   }
-  oprot.writeFieldBegin(ERR_FIELD_DESC);
-  oprot.writeBool(struct.err);
-  oprot.writeFieldEnd();
+  if (struct.isSetErr()) {
+    oprot.writeFieldBegin(ERR_FIELD_DESC);
+    oprot.writeI32(struct.err);
+    oprot.writeFieldEnd();
+  }
   if (struct.subSpanList != null) {
     if (struct.isSetSubSpanList()) {
       oprot.writeFieldBegin(SUB_SPAN_LIST_FIELD_DESC);

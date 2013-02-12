@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(16);
+  BitSet incoming=iprot.readBitSet(15);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -50,10 +50,6 @@
     struct.setEndPointIsSet(true);
   }
   if (incoming.get(12)) {
-    struct.err=iprot.readBool();
-    struct.setErrIsSet(true);
-  }
-  if (incoming.get(13)) {
 {
       org.apache.thrift.protocol.TList _list5=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.annotations=new ArrayList<Annotation>(_list5.size);
@@ -66,11 +62,11 @@
     }
     struct.setAnnotationsIsSet(true);
   }
-  if (incoming.get(14)) {
+  if (incoming.get(13)) {
     struct.depth=iprot.readI32();
     struct.setDepthIsSet(true);
   }
-  if (incoming.get(15)) {
+  if (incoming.get(14)) {
     struct.nextSpanId=iprot.readI32();
     struct.setNextSpanIdIsSet(true);
   }
