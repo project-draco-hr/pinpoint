@@ -7,7 +7,7 @@
   this.endElapsed=buffer.readInt();
   this.rpc=buffer.read1UnsignedPrefixedString();
   this.serviceName=buffer.read1UnsignedPrefixedString();
-  this.serviceType=ServiceType.parse(buffer.readShort());
+  this.serviceType=ServiceType.findServiceType(buffer.readShort());
   this.endPoint=buffer.read1UnsignedPrefixedString();
   this.depth=buffer.readInt();
   this.nextSpanId=buffer.readInt();
