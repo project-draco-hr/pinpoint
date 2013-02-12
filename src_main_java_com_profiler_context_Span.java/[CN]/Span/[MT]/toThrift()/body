@@ -12,7 +12,9 @@
   span.setSpanId(traceID.getSpanId());
   span.setParentSpanId(traceID.getParentSpanId());
   span.setEndPoint(endPoint);
-  span.setErr(exception);
+  if (exception != 0) {
+    span.setErr(exception);
+  }
   List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
   for (  Annotation a : annotations) {
     annotationList.add(a.toThrift());

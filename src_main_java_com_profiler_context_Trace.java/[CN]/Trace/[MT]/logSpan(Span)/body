@@ -1,11 +1,7 @@
 {
-  try {
-    if (isDebug) {
-      logger.info("[WRITE SPAN]" + span + " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
-    }
-    this.storage.store(span);
+  if (isDebug) {
+    Thread th=Thread.currentThread();
+    logger.info("[WRITE SPAN]" + span + ", Thread ID="+ th.getId()+ " Name="+ th.getName());
   }
- catch (  Exception e) {
-    logger.log(Level.SEVERE,e.getMessage(),e);
-  }
+  this.storage.store(span);
 }

@@ -1,21 +1,15 @@
 {
-  if (!tracingEnabled)   return;
-  try {
-    StackFrame currentStackFrame=getCurrentStackFrame();
-    if (currentStackFrame instanceof RootStackFrame) {
-      Span span=((RootStackFrame)currentStackFrame).getSpan();
-      span.setServiceType(serviceType);
-      span.setServiceName(serviceName);
-      span.setRpc(rpc);
-    }
- else {
-      SubSpan span=((SubStackFrame)currentStackFrame).getSubSpan();
-      span.setServiceType(serviceType);
-      span.setServiceName(serviceName);
-      span.setRpc(rpc);
-    }
+  StackFrame currentStackFrame=getCurrentStackFrame();
+  if (currentStackFrame instanceof RootStackFrame) {
+    Span span=((RootStackFrame)currentStackFrame).getSpan();
+    span.setServiceType(serviceType);
+    span.setServiceName(serviceName);
+    span.setRpc(rpc);
   }
- catch (  Exception e) {
-    logger.log(Level.SEVERE,e.getMessage(),e);
+ else {
+    SubSpan span=((SubStackFrame)currentStackFrame).getSubSpan();
+    span.setServiceType(serviceType);
+    span.setServiceName(serviceName);
+    span.setRpc(rpc);
   }
 }

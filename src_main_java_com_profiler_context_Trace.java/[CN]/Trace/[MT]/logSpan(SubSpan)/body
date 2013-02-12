@@ -1,11 +1,7 @@
 {
-  try {
-    if (isDebug) {
-      logger.fine("[WRITE SubSPAN]" + subSpan + " CurrentThreadID="+ Thread.currentThread().getId()+ ",\n\t CurrentThreadName="+ Thread.currentThread().getName()+ "\n\n");
-    }
-    this.storage.store(subSpan);
+  if (isDebug) {
+    Thread th=Thread.currentThread();
+    logger.fine("[WRITE SubSPAN]" + subSpan + ", Thread ID="+ th.getId()+ " Name="+ th.getName());
   }
- catch (  Exception e) {
-    logger.log(Level.SEVERE,e.getMessage(),e);
-  }
+  this.storage.store(subSpan);
 }
