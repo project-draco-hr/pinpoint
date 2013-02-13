@@ -7,7 +7,7 @@
   byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,end);
   scan.setStopRow(traceIndexEndKey);
   scan.addFamily(HBaseTables.APPLICATION_TRACE_INDEX_CF_TRACE);
-  scan.setId("traceIndexScan");
+  scan.setId("ApplicationTraceIndexScan");
   logger.debug("create scan:{}",scan);
   return scan;
 }

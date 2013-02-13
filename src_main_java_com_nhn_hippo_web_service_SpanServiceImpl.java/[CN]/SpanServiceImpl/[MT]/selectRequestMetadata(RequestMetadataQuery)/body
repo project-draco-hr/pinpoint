@@ -3,7 +3,7 @@
   List<SpanBo> result=new ArrayList<SpanBo>(query.size());
   for (  List<SpanBo> spans : selectedSpans) {
     for (    SpanBo span : spans) {
-      if (query.isExists(span.getMostTraceId(),span.getLeastTraceId(),span.getStartTime(),span.getElapsed())) {
+      if (query.isExists(span.getMostTraceId(),span.getLeastTraceId(),span.getServerAcceptedTime(),span.getElapsed())) {
         result.add(span);
       }
     }
