@@ -1,7 +1,7 @@
 {
-  List<UUID> result=new ArrayList<UUID>(queryConditions.size());
+  Set<UUID> temp=new HashSet<UUID>(queryConditions.size());
   for (  Entry<QueryCondition,Object> entry : queryConditions.entrySet()) {
-    result.add(entry.getKey().getTraceId());
+    temp.add(entry.getKey().getTraceId());
   }
-  return result;
+  return new ArrayList<UUID>(temp);
 }
