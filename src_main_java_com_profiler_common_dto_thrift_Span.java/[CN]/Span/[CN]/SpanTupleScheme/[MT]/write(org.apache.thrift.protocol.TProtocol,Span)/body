@@ -37,19 +37,22 @@
   if (struct.isSetEndPoint()) {
     optionals.set(11);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetRemoteAddr()) {
     optionals.set(12);
   }
-  if (struct.isSetFlag()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(13);
   }
-  if (struct.isSetErr()) {
+  if (struct.isSetFlag()) {
     optionals.set(14);
   }
-  if (struct.isSetSubSpanList()) {
+  if (struct.isSetErr()) {
     optionals.set(15);
   }
-  oprot.writeBitSet(optionals,16);
+  if (struct.isSetSubSpanList()) {
+    optionals.set(16);
+  }
+  oprot.writeBitSet(optionals,17);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -85,6 +88,9 @@
   }
   if (struct.isSetEndPoint()) {
     oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetRemoteAddr()) {
+    oprot.writeString(struct.remoteAddr);
   }
   if (struct.isSetAnnotations()) {
 {

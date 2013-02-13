@@ -68,6 +68,17 @@
     sb.append(this.endPoint);
   }
   first=false;
+  if (isSetRemoteAddr()) {
+    if (!first)     sb.append(", ");
+    sb.append("remoteAddr:");
+    if (this.remoteAddr == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.remoteAddr);
+    }
+    first=false;
+  }
   if (!first)   sb.append(", ");
   sb.append("annotations:");
   if (this.annotations == null) {

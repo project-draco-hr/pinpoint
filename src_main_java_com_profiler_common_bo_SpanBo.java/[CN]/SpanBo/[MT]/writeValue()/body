@@ -3,7 +3,8 @@
   byte[] rpcBytes=BytesUtils.getBytes(rpc);
   byte[] serviceNameBytes=BytesUtils.getBytes(serviceName);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
-  int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length);
+  byte[] remoteAddrBytes=BytesUtils.getBytes(remoteAddr);
+  int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length,remoteAddrBytes.length);
   Buffer buffer=new FixedBuffer(bufferLength);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
@@ -15,6 +16,7 @@
   buffer.put1PrefixedBytes(serviceNameBytes);
   buffer.put(serviceType.getCode());
   buffer.put1PrefixedBytes(endPointBytes);
+  buffer.put1PrefixedBytes(remoteAddrBytes);
   buffer.put(exception);
   if (flag != 0) {
     buffer.put(flag);
