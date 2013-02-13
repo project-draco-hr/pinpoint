@@ -2,16 +2,16 @@
   List<AnnotationBo> list=span.getAnnotationBoList();
   int index=-1;
   if (span.getServiceType() == ServiceType.ARCUS || span.getServiceType() == ServiceType.MEMCACHED) {
-    index=Collections.binarySearch(list,AnnotationNames.ARCUS_COMMAND,AnnotationBo.AnnotationBoComparator);
+    index=Collections.binarySearch(list,AnnotationKey.ARCUS_COMMAND,AnnotationBo.AnnotationBoComparator);
   }
   if (span.getServiceType() == ServiceType.HTTP_CLIENT) {
-    index=Collections.binarySearch(list,AnnotationNames.HTTP_URL,AnnotationBo.AnnotationBoComparator);
+    index=Collections.binarySearch(list,AnnotationKey.HTTP_URL,AnnotationBo.AnnotationBoComparator);
   }
   if (span.getServiceType() == ServiceType.TOMCAT) {
-    index=Collections.binarySearch(list,AnnotationNames.HTTP_URL,AnnotationBo.AnnotationBoComparator);
+    index=Collections.binarySearch(list,AnnotationKey.HTTP_URL,AnnotationBo.AnnotationBoComparator);
   }
   if (span.getServiceType() == ServiceType.MYSQL) {
-    index=Collections.binarySearch(list,AnnotationNames.ARGS0,AnnotationBo.AnnotationBoComparator);
+    index=Collections.binarySearch(list,AnnotationKey.ARGS0,AnnotationBo.AnnotationBoComparator);
   }
   if (index > -1) {
     return list.get(index).getValue();
