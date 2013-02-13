@@ -1,7 +1,7 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationNames.API_DID.getCode());
+      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationKey.API_DID.getCode());
       if (apiIdAnnotation == null) {
         return;
       }
@@ -12,7 +12,7 @@
       }
  catch (      AgentIdNotFoundException ex) {
         AnnotationBo agentInfoNotFound=new AnnotationBo();
-        agentInfoNotFound.setKey(AnnotationNames.API.getCode());
+        agentInfoNotFound.setKey(AnnotationKey.API.getCode());
         agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
         annotationBoList.add(agentInfoNotFound);
         return;
@@ -22,14 +22,14 @@
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
-        api.setKey(AnnotationNames.API.getCode());
+        api.setKey(AnnotationKey.API.getCode());
         api.setValue("API-DID not found. api:" + apiId);
         annotationBoList.add(api);
       }
  else       if (size == 1) {
         ApiMetaDataBo apiMetaDataBo=apiMetaDataList.get(0);
         AnnotationBo apiMetaData=new AnnotationBo();
-        apiMetaData.setKey(AnnotationNames.API_METADATA.getCode());
+        apiMetaData.setKey(AnnotationKey.API_METADATA.getCode());
         apiMetaData.setValue(apiMetaDataBo);
         annotationBoList.add(apiMetaData);
         AnnotationBo checkFail=checkIdentifier(spanAlign,apiMetaDataBo);
@@ -38,14 +38,14 @@
           return;
         }
         AnnotationBo apiAnnotation=new AnnotationBo();
-        apiAnnotation.setKey(AnnotationNames.API.getCode());
+        apiAnnotation.setKey(AnnotationKey.API.getCode());
         String apiInfo=getApiInfo(apiMetaDataBo);
         apiAnnotation.setValue(apiInfo);
         annotationBoList.add(apiAnnotation);
       }
  else {
         AnnotationBo apiAnnotation=new AnnotationBo();
-        apiAnnotation.setKey(AnnotationNames.API.getCode());
+        apiAnnotation.setKey(AnnotationKey.API.getCode());
         String collisonMessage=collisionApiDidMessage(apiId,apiMetaDataList);
         apiAnnotation.setValue(collisonMessage);
         annotationBoList.add(apiAnnotation);
@@ -58,7 +58,7 @@
         return null;
       }
       AnnotationBo identifierCheckFail=new AnnotationBo();
-      identifierCheckFail.setKey(AnnotationNames.API.getCode());
+      identifierCheckFail.setKey(AnnotationKey.API.getCode());
       identifierCheckFail.setValue("invalid ApiMetaInfo:" + apiMetaDataBo);
       return identifierCheckFail;
     }

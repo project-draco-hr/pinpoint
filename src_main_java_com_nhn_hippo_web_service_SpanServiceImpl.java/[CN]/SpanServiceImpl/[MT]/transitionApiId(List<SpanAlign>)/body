@@ -1,7 +1,7 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationNames.API_ID.getCode());
+      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationKey.API_ID.getCode());
       if (apiIdAnnotation == null) {
         return;
       }
@@ -15,7 +15,7 @@
       String[] parameterName=methodMapping.getParameterName();
       String args=ApiUtils.mergeParameterVariableNameDescription(parameterType,parameterName);
       AnnotationBo api=new AnnotationBo();
-      api.setKey(AnnotationNames.API.getCode());
+      api.setKey(AnnotationKey.API.getCode());
       api.setValue(className + "." + methodName+ args);
       annotationBoList.add(api);
     }

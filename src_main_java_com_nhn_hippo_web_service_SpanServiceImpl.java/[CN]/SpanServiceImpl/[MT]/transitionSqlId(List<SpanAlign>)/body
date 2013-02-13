@@ -1,7 +1,7 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      AnnotationBo sqlIdAnnotation=findAnnotation(annotationBoList,AnnotationNames.SQL_ID.getCode());
+      AnnotationBo sqlIdAnnotation=findAnnotation(annotationBoList,AnnotationKey.SQL_ID.getCode());
       if (sqlIdAnnotation == null) {
         return;
       }
@@ -12,7 +12,7 @@
       }
  catch (      AgentIdNotFoundException ex) {
         AnnotationBo agentInfoNotFound=new AnnotationBo();
-        agentInfoNotFound.setKey(AnnotationNames.SQL.getCode());
+        agentInfoNotFound.setKey(AnnotationKey.SQL.getCode());
         agentInfoNotFound.setValue("SQL-ID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
         annotationBoList.add(agentInfoNotFound);
         return;
@@ -22,16 +22,16 @@
       int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
-        api.setKey(AnnotationNames.SQL.getCode());
+        api.setKey(AnnotationKey.SQL.getCode());
         api.setValue("SQL-ID not found hashCode:" + hashCode);
         annotationBoList.add(api);
       }
  else       if (size == 1) {
-        AnnotationBo sqlParamAnnotationBo=findAnnotation(annotationBoList,AnnotationNames.SQL_PARAM.getCode());
+        AnnotationBo sqlParamAnnotationBo=findAnnotation(annotationBoList,AnnotationKey.SQL_PARAM.getCode());
         final SqlMetaDataBo sqlMetaDataBo=sqlMetaDataList.get(0);
         if (sqlParamAnnotationBo == null) {
           AnnotationBo sqlMeta=new AnnotationBo();
-          sqlMeta.setKey(AnnotationNames.SQL_METADATA.getCode());
+          sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
           sqlMeta.setValue(sqlMetaDataBo.getSql());
           annotationBoList.add(sqlMeta);
           AnnotationBo checkFail=checkIdentifier(spanAlign,sqlMetaDataBo);
@@ -40,7 +40,7 @@
             return;
           }
           AnnotationBo sql=new AnnotationBo();
-          sql.setKey(AnnotationNames.SQL.getCode());
+          sql.setKey(AnnotationKey.SQL.getCode());
           sql.setValue(sqlMetaDataBo.getSql());
           annotationBoList.add(sql);
         }
@@ -52,7 +52,7 @@
           String originalSql=sqlParser.combineOutputParams(sqlMetaDataBo.getSql(),parsedOutputParams);
           logger.debug("outputPrams{}, originalSql:{}",outputParams,originalSql);
           AnnotationBo sqlMeta=new AnnotationBo();
-          sqlMeta.setKey(AnnotationNames.SQL_METADATA.getCode());
+          sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
           sqlMeta.setValue(sqlMetaDataBo.getSql());
           annotationBoList.add(sqlMeta);
           AnnotationBo checkFail=checkIdentifier(spanAlign,sqlMetaDataBo);
@@ -61,14 +61,14 @@
             return;
           }
           AnnotationBo sql=new AnnotationBo();
-          sql.setKey(AnnotationNames.SQL.getCode());
+          sql.setKey(AnnotationKey.SQL.getCode());
           sql.setValue(originalSql);
           annotationBoList.add(sql);
         }
       }
  else {
         AnnotationBo api=new AnnotationBo();
-        api.setKey(AnnotationNames.SQL.getCode());
+        api.setKey(AnnotationKey.SQL.getCode());
         api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
         annotationBoList.add(api);
       }
@@ -80,7 +80,7 @@
         return null;
       }
       AnnotationBo identifierCheckFail=new AnnotationBo();
-      identifierCheckFail.setKey(AnnotationNames.SQL.getCode());
+      identifierCheckFail.setKey(AnnotationKey.SQL.getCode());
       identifierCheckFail.setValue("invalid SqlMetaInfo:" + sqlMetaDataBo);
       return identifierCheckFail;
     }
