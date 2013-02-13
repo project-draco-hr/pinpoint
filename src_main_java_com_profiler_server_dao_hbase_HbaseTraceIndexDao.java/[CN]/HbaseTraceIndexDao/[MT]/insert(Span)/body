@@ -1,5 +1,6 @@
 {
-  Put put=new Put(SpanUtils.getTraceIndexRowKey(span),span.getStartTime());
-  put.add(TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),null);
+  Put put=new Put(SpanUtils.getTraceIndexRowKey(span));
+  long acceptedTime=AcceptedTime.getAcceptedTime();
+  put.add(TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),acceptedTime,null);
   hbaseTemplate.put(tableName,put);
 }

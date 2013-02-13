@@ -1,9 +1,10 @@
 {
   SpanBo spanBo=new SpanBo(span);
-  byte[] value=spanBo.writeValue();
-  Put put=new Put(SpanUtils.getTraceId(span),spanBo.getStartTime());
+  Put put=new Put(SpanUtils.getTraceId(span));
+  byte[] spanValue=spanBo.writeValue();
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
-  put.add(TRACES_CF_SPAN,spanId,value);
+  long acceptedTime=AcceptedTime.getAcceptedTime();
+  put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
   List<Annotation> annotations=span.getAnnotations();
   if (annotations != null && annotations.size() != 0) {
     byte[] bytes=writeBuffer(annotations);

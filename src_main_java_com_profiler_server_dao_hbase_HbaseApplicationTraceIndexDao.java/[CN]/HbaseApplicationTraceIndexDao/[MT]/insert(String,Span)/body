@@ -3,7 +3,8 @@
   byte[] value=new byte[8];
   BytesUtils.writeInt(elapsedTime,value,0);
   BytesUtils.writeInt(span.getErr(),value,4);
-  Put put=new Put(SpanUtils.getApplicationTraceIndexRowKey(applicationName,span),span.getStartTime());
-  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),value);
+  long acceptedTime=AcceptedTime.getAcceptedTime();
+  Put put=new Put(SpanUtils.getApplicationTraceIndexRowKey(applicationName,span));
+  put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),acceptedTime,value);
   hbaseTemplate.put(APPLICATION_TRACE_INDEX,put);
 }

@@ -4,6 +4,7 @@
     return;
   }
   Put put=new Put(SpanUtils.getTraceIndexRowKey(rootSpan),rootSpan.getStartTime());
-  put.add(ROOT_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(rootSpan),null);
+  long acceptedTime=AcceptedTime.getAcceptedTime();
+  put.add(ROOT_TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(rootSpan),acceptedTime,null);
   hbaseTemplate.put(ROOT_TRACE_INDEX,put);
 }

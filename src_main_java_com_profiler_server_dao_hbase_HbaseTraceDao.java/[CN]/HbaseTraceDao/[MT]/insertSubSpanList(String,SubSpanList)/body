@@ -1,11 +1,12 @@
 {
   Put put=new Put(SpanUtils.getTraceId(subSpanList));
+  long acceptedTime=AcceptedTime.getAcceptedTime();
   List<SubSpan> subSpanList0=subSpanList.getSubSpanList();
   for (  SubSpan subSpan : subSpanList0) {
     SubSpanBo subSpanBo=new SubSpanBo(subSpanList,subSpan);
     byte[] value=subSpanBo.writeValue();
     byte[] rowId=BytesUtils.add(subSpanBo.getSpanId(),subSpanBo.getSequence());
-    put.add(TRACES_CF_TERMINALSPAN,rowId,value);
+    put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
   }
   hbaseTemplate.put(TRACES,put);
 }

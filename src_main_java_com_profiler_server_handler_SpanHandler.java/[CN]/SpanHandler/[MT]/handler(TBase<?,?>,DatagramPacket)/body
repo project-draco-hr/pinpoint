@@ -14,7 +14,6 @@
       logger.debug("ApplicationName '{}' found. Write the log.",applicationName);
     }
     traceDao.insert(applicationName,span);
-    ServiceType serviceType=ServiceType.findServiceType(span.getServiceType());
     traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(applicationName,span);
     businessTransactionStatistics.update(applicationName,span);
@@ -22,13 +21,13 @@
     if (subSpanList != null) {
       logger.info("handle subSpan size:{}",subSpanList.size());
       for (      SubSpan subSpan : subSpanList) {
-        ServiceType subSpanServiceType=ServiceType.findServiceType(subSpan.getServiceType());
-        if (subSpanServiceType == ServiceType.INTERNAL_METHOD) {
+        ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
+        if (serviceType == ServiceType.INTERNAL_METHOD) {
           continue;
         }
         int elapsed=subSpan.getEndElapsed();
         boolean hasException=SubSpanUtils.hasException(subSpan);
-        if (subSpanServiceType.isRpcClient()) {
+        if (serviceType.isRpcClient()) {
           terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode(),elapsed,hasException);
         }
  else {

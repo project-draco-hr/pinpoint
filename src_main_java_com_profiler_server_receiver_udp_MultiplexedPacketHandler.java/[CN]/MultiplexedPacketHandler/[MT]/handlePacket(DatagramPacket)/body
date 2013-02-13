@@ -2,7 +2,7 @@
   HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
   try {
     TBase<?,?> tBase=deserializer.deserialize(locator,packet.getData());
-    dispatch(tBase,packet,acceptedTime);
+    dispatch(tBase,packet);
   }
  catch (  TException e) {
     logger.warn("packet serialize error. SendSocketAddress:" + packet.getSocketAddress() + "Cause:"+ e.getMessage(),e);
