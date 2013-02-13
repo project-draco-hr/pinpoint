@@ -1,7 +1,7 @@
 {
   StopWatch watch=new StopWatch();
   watch.start("selectScatterData");
-  Iterator<Dot> scatterData=flow.selectScatterData(applicationName,from,to,limit);
+  List<Dot> scatterData=flow.selectScatterData(applicationName,from,to,limit);
   watch.stop();
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
   model.addAttribute("scatter",scatterData);
