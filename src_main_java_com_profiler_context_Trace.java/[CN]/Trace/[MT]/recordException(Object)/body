@@ -1,7 +1,7 @@
 {
   if (result instanceof Throwable) {
     Throwable th=(Throwable)result;
-    recordAttribute(AnnotationNames.EXCEPTION,th.getMessage());
+    recordAttribute(AnnotationKey.EXCEPTION,th.getMessage());
     Span span=getCallStack().getSpan();
     if (span.getException() == 0) {
       span.setException(1);
