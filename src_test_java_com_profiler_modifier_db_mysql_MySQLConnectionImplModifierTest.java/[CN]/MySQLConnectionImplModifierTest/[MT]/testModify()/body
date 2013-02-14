@@ -7,6 +7,7 @@
   properties.setProperty("user","lucytest");
   properties.setProperty("password","testlucy");
   TraceContext traceContext=new TraceContext();
+  traceContext.setStorageFactory(new BypassStorageFactory(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   Trace trace=new Trace();
   traceContext.attachTraceObject(trace);
   Connection connection=driver.connect("jdbc:mysql://10.98.133.22:3306/hippo",properties);

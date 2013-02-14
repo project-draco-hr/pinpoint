@@ -1,6 +1,7 @@
 {
   TraceID traceID=TraceID.newTraceId();
   Trace trace=new Trace(traceID);
+  trace.setStorage(new BypassStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   trace.traceBlockBegin();
   trace.recordRpcName(ServiceType.UNKNOWN,"service_name","http://");
   trace.recordEndPoint("http:localhost:8080");
