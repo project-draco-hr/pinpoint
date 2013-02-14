@@ -22,7 +22,7 @@
       logger.info("handle subSpan size:{}",subSpanList.size());
       for (      SubSpan subSpan : subSpanList) {
         ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
-        if (serviceType == ServiceType.INTERNAL_METHOD) {
+        if (!serviceType.isRecordStatistics()) {
           continue;
         }
         int elapsed=subSpan.getEndElapsed();
