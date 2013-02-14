@@ -1,0 +1,19 @@
+{
+  StopWatch watch=new StopWatch();
+  watch.start("selectScatterData");
+  long to=System.currentTimeMillis() - 3000L;
+  List<Dot> scatterData=flow.selectScatterData(applicationName,from,to,limit);
+  watch.stop();
+  logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
+  model.addAttribute("scatter",scatterData);
+  model.addAttribute("queryFrom",from);
+  if (scatterData.size() >= limit) {
+    model.addAttribute("queryTo",scatterData.get(scatterData.size() - 1).getTimestamp());
+  }
+ else {
+    model.addAttribute("queryTo",to);
+  }
+  model.addAttribute("limit",limit);
+  addResponseHeader(response);
+  return "scatterRealtime";
+}
