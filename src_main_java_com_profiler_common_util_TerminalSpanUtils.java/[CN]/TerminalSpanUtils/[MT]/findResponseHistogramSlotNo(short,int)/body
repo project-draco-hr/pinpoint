@@ -1,9 +1,6 @@
 {
-  short[] slots=ServiceType.findServiceType(serviceType).getHistogramSlots();
-  for (  short slot : slots) {
-    if (elapsed < slot) {
-      return Bytes.toBytes(slot);
-    }
-  }
-  return new byte[]{0,0};
+  Histogram histogram=ServiceType.findServiceType(serviceType).getHistogram();
+  HistogramSlot histogramSlot=histogram.findHistogramSlot(elapsed);
+  short slotTime=(short)histogramSlot.getSlotTime();
+  return Bytes.toBytes(slotTime);
 }
