@@ -1,7 +1,7 @@
 {
   StopWatch watch=new StopWatch();
   watch.start("selectScatterData");
-  long to=System.currentTimeMillis() - 3000L;
+  long to=getQueryEndTime();
   List<Dot> scatterData=flow.selectScatterData(applicationName,from,to,limit);
   watch.stop();
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
