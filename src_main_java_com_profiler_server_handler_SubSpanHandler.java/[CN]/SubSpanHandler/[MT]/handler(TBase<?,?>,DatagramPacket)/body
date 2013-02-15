@@ -14,6 +14,9 @@
     }
     traceDao.insertSubSpan(applicationName,subSpan);
     ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
+    if (!serviceType.isRecordStatistics()) {
+      return;
+    }
     int elapsed=subSpan.getEndElapsed();
     boolean hasException=SubSpanUtils.hasException(subSpan);
     if (serviceType.isRpcClient()) {
