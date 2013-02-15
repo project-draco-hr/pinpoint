@@ -12,7 +12,12 @@
         setStartTime(begin);
         setEndTime(begin + elapsed);
         applicationName=arguments;
+        beginTimestamp=begin;
         marked=true;
+      }
+      if (span.getCollectorAcceptTime() == focusTimestamp) {
+        applicationName=arguments;
+        beginTimestamp=begin;
       }
       recordset.add(new Record(sa.getDepth(),true,method,arguments,begin,elapsed,span.getAgentId(),span.getServiceName(),span.getServiceType()));
       addAnnotationRecord(sa.getDepth() + 1,span.getAnnotationBoList());

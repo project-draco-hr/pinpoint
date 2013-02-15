@@ -13,7 +13,8 @@
     ServerCallTree callTree=flow.selectServerCallTree(new TraceId(UUID.fromString(traceId)));
     mv.addObject("nodes",callTree.getNodes());
     mv.addObject("links",callTree.getLinks());
-    RecordSet recordset=new RecordSet(spanAligns);
+    RecordSet recordset=new RecordSet(spanAligns,focusTimestamp);
+    mv.addObject("recordset",recordset);
     mv.addObject("applicationName",recordset.getApplicationName());
     mv.addObject("callstack",recordset.getIterator());
     mv.addObject("timeline",recordset.getIterator());
