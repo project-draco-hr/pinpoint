@@ -11,7 +11,7 @@
     List<SubSpanBo> subSpanList=eachTransaction.getSubSpanList();
     if (subSpanList == null)     continue;
     for (    SubSpanBo subTransaction : subSpanList) {
-      if (subTransaction.getServiceType() == ServiceType.INTERNAL_METHOD) {
+      if (!subTransaction.getServiceType().isRecordStatistics()) {
         continue;
       }
       if (!endPoints.contains(subTransaction.getEndPoint())) {
