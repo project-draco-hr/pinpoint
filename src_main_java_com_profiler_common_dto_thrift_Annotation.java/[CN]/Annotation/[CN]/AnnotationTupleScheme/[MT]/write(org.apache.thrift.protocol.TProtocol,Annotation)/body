@@ -4,26 +4,56 @@
   if (struct.isSetKey()) {
     optionals.set(0);
   }
-  if (struct.isSetKey2()) {
+  if (struct.isSetStringValue()) {
     optionals.set(1);
   }
-  if (struct.isSetValueTypeCode()) {
+  if (struct.isSetBoolValue()) {
     optionals.set(2);
   }
-  if (struct.isSetValue()) {
+  if (struct.isSetIntValue()) {
     optionals.set(3);
   }
-  oprot.writeBitSet(optionals,4);
+  if (struct.isSetLongValue()) {
+    optionals.set(4);
+  }
+  if (struct.isSetShortValue()) {
+    optionals.set(5);
+  }
+  if (struct.isSetDoubleValue()) {
+    optionals.set(6);
+  }
+  if (struct.isSetBinaryValue()) {
+    optionals.set(7);
+  }
+  if (struct.isSetByteValue()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
   if (struct.isSetKey()) {
     oprot.writeI32(struct.key);
   }
-  if (struct.isSetKey2()) {
-    oprot.writeString(struct.key2);
+  if (struct.isSetStringValue()) {
+    oprot.writeString(struct.stringValue);
   }
-  if (struct.isSetValueTypeCode()) {
-    oprot.writeI32(struct.valueTypeCode);
+  if (struct.isSetBoolValue()) {
+    oprot.writeBool(struct.boolValue);
   }
-  if (struct.isSetValue()) {
-    oprot.writeBinary(struct.value);
+  if (struct.isSetIntValue()) {
+    oprot.writeI32(struct.intValue);
+  }
+  if (struct.isSetLongValue()) {
+    oprot.writeI64(struct.longValue);
+  }
+  if (struct.isSetShortValue()) {
+    oprot.writeI16(struct.shortValue);
+  }
+  if (struct.isSetDoubleValue()) {
+    oprot.writeDouble(struct.doubleValue);
+  }
+  if (struct.isSetBinaryValue()) {
+    oprot.writeBinary(struct.binaryValue);
+  }
+  if (struct.isSetByteValue()) {
+    oprot.writeByte(struct.byteValue);
   }
 }

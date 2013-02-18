@@ -1,32 +1,36 @@
 {
+  if (o == null) {
+    return CODE_NULL;
+  }
   if (o instanceof String) {
-    return 0;
+    return CODE_STRING;
   }
  else   if (o instanceof Long) {
-    return SPECIAL_LONG;
+    return CODE_LONG;
   }
  else   if (o instanceof Integer) {
-    return SPECIAL_INT;
+    return CODE_INT;
   }
  else   if (o instanceof Boolean) {
-    return SPECIAL_BOOLEAN;
-  }
- else   if (o instanceof Date) {
-    return SPECIAL_DATE;
+    if (Boolean.TRUE.equals(o)) {
+      return CODE_BOOLEAN_TRUE;
+    }
+    return CODE_BOOLEAN_FALSE;
   }
  else   if (o instanceof Byte) {
-    return SPECIAL_BYTE;
+    return CODE_BYTE;
   }
  else   if (o instanceof Float) {
-    return SPECIAL_FLOAT;
+    return CODE_FLOAT;
   }
  else   if (o instanceof Double) {
-    return SPECIAL_DOUBLE;
+    return CODE_DOUBLE;
   }
  else   if (o instanceof byte[]) {
-    return SPECIAL_BYTEARRAY;
+    return CODE_BYTEARRAY;
   }
- else {
-    return SERIALIZED;
+ else   if (o instanceof Date) {
+    return CODE_DATE;
   }
+  return 0;
 }

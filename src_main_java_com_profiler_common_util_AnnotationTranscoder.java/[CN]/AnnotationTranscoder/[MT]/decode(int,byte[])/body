@@ -1,40 +1,28 @@
 {
-  Object rv=null;
-  int flags=dataType & SPECIAL_MASK;
-  if ((dataType & SERIALIZED) != 0 && data != null) {
-    rv=deserialize(data);
-  }
- else   if (flags != 0 && data != null) {
-switch (flags) {
-case SPECIAL_BOOLEAN:
-      rv=Boolean.valueOf(tu.decodeBoolean(data));
-    break;
-case SPECIAL_INT:
-  rv=new Integer(tu.decodeInt(data));
-break;
-case SPECIAL_LONG:
-rv=new Long(tu.decodeLong(data));
-break;
-case SPECIAL_DATE:
-rv=new Date(tu.decodeLong(data));
-break;
-case SPECIAL_BYTE:
-rv=new Byte(tu.decodeByte(data));
-break;
-case SPECIAL_FLOAT:
-rv=new Float(Float.intBitsToFloat(tu.decodeInt(data)));
-break;
-case SPECIAL_DOUBLE:
-rv=new Double(Double.longBitsToDouble(tu.decodeLong(data)));
-break;
-case SPECIAL_BYTEARRAY:
-rv=data;
-break;
+switch (dataType) {
+case CODE_STRING:
+    return decodeString(data);
+case CODE_BOOLEAN_TRUE:
+  return Boolean.TRUE;
+case CODE_BOOLEAN_FALSE:
+return Boolean.FALSE;
+case CODE_INT:
+return new Integer(tu.decodeInt(data));
+case CODE_LONG:
+return new Long(tu.decodeLong(data));
+case CODE_DATE:
+return new Date(tu.decodeLong(data));
+case CODE_BYTE:
+return new Byte(tu.decodeByte(data));
+case CODE_FLOAT:
+return new Float(Float.intBitsToFloat(tu.decodeInt(data)));
+case CODE_DOUBLE:
+return new Double(Double.longBitsToDouble(tu.decodeLong(data)));
+case CODE_BYTEARRAY:
+return data;
+case CODE_NULL:
+return null;
 default :
 }
-}
- else {
-rv=decodeString(data);
-}
-return rv;
+return null;
 }

@@ -1,12 +1,11 @@
 {
-  String rv=null;
+  if (data == null) {
+    return null;
+  }
   try {
-    if (data != null) {
-      rv=new String(data,DEFAULT_CHARSET);
-    }
+    return new String(data,DEFAULT_CHARSET);
   }
  catch (  UnsupportedEncodingException e) {
     throw new RuntimeException(e);
   }
-  return rv;
 }
