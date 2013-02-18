@@ -10,10 +10,10 @@ case CODE_INT:
 return new Integer(tu.decodeInt(data));
 case CODE_LONG:
 return new Long(tu.decodeLong(data));
-case CODE_DATE:
-return new Date(tu.decodeLong(data));
 case CODE_BYTE:
 return new Byte(tu.decodeByte(data));
+case CODE_SHORT:
+return new Short(tu.decodeShort(data));
 case CODE_FLOAT:
 return new Float(Float.intBitsToFloat(tu.decodeInt(data)));
 case CODE_DOUBLE:
@@ -22,7 +22,8 @@ case CODE_BYTEARRAY:
 return data;
 case CODE_NULL:
 return null;
-default :
+case CODE_TOSTRING:
+return decodeString(data);
 }
-return null;
+throw new RuntimeException("unsupported DataType:" + dataType);
 }
