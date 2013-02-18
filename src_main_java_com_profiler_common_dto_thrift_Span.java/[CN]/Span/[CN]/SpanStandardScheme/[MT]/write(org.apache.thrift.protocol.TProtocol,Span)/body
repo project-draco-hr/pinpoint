@@ -18,9 +18,11 @@
   oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
   oprot.writeI32(struct.spanId);
   oprot.writeFieldEnd();
-  oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
-  oprot.writeI32(struct.parentSpanId);
-  oprot.writeFieldEnd();
+  if (struct.isSetParentSpanId()) {
+    oprot.writeFieldBegin(PARENT_SPAN_ID_FIELD_DESC);
+    oprot.writeI32(struct.parentSpanId);
+    oprot.writeFieldEnd();
+  }
   oprot.writeFieldBegin(START_TIME_FIELD_DESC);
   oprot.writeI64(struct.startTime);
   oprot.writeFieldEnd();
