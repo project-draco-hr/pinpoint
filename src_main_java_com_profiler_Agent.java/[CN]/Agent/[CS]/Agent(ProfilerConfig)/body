@@ -9,7 +9,7 @@
   this.priorityDataSender=createDataSender();
   this.dataSender=createDataSender();
   this.startTime=System.currentTimeMillis();
-  this.identifier=(short)IDENTIFIER_KEY.nextInt(16);
+  this.identifier=getShortIdentifier();
   initializeTraceContext();
   this.systemMonitor=new SystemMonitor(this.traceContext,this.profilerConfig);
   this.systemMonitor.setDataSender(dataSender);
