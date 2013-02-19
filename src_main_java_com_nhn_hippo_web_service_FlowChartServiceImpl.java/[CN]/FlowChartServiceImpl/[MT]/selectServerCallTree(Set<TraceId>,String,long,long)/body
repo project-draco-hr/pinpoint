@@ -9,7 +9,6 @@
   Set<String> endPoints=new HashSet<String>();
   for (  List<SpanBo> transaction : traces) {
     totalNonTerminalSpansCount+=transaction.size();
-    markRecursiveCall(transaction);
     for (    SpanBo eachTransaction : transaction) {
       tree.addSpan(eachTransaction);
       terminalQueryParams.put(eachTransaction.getServiceName(),eachTransaction.getServiceType());

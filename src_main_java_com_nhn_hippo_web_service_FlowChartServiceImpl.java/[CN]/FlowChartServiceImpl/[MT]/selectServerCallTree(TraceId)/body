@@ -2,7 +2,6 @@
   final ServerCallTree tree=new ServerCallTree(NodeIdGenerator.BY_SERVER_INSTANCE);
   List<SpanBo> transaction=this.traceDao.selectSpans(traceId);
   Set<String> endPoints=new HashSet<String>();
-  markRecursiveCall(transaction);
   for (  SpanBo eachTransaction : transaction) {
     tree.addSpan(eachTransaction);
     endPoints.add(eachTransaction.getEndPoint());
