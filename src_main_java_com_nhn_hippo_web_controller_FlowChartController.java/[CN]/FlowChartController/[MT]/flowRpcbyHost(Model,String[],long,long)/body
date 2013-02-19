@@ -1,9 +1,0 @@
-{
-  String[] agentIds=flow.selectAgentIds(hosts);
-  Set<TraceId> traceIds=flow.selectTraceIdsFromTraceIndex(agentIds,from,to);
-  RPCCallTree callTree=flow.selectRPCCallTree(traceIds);
-  model.addAttribute("nodes",callTree.getNodes());
-  model.addAttribute("links",callTree.getLinks());
-  logger.debug("callTree:{}",callTree);
-  return "flow";
-}
