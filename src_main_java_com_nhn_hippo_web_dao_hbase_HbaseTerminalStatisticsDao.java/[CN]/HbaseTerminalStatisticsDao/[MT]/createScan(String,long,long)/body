@@ -1,6 +1,12 @@
 {
-  byte[] startKey=TerminalSpanUtils.makeRowKey(applicationName,TimeSlot.getStatisticsRowSlot(from));
-  byte[] endKey=TerminalSpanUtils.makeRowKey(applicationName,TimeSlot.getStatisticsRowSlot(to));
+  long startTime=TimeSlot.getStatisticsRowSlot(from);
+  long endTime=TimeSlot.getStatisticsRowSlot(to) + 1;
+  if (logger.isDebugEnabled()) {
+    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm:ss,SSS");
+    logger.debug("scan startTime:{} endTime:{}",simpleDateFormat.format(new Date(startTime)),simpleDateFormat.format(new Date(endTime)));
+  }
+  byte[] startKey=TerminalSpanUtils.makeRowKey(applicationName,startTime);
+  byte[] endKey=TerminalSpanUtils.makeRowKey(applicationName,endTime);
   Scan scan=new Scan();
   scan.setCaching(this.scanCacheSize);
   scan.setStartRow(startKey);
