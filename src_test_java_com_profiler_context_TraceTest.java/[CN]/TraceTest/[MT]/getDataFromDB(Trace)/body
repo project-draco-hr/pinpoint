@@ -1,6 +1,8 @@
 {
   trace.traceBlockBegin();
-  trace.recordRpcName(ServiceType.MYSQL,"mysql","rpc");
+  trace.recordServiceType(ServiceType.MYSQL);
+  trace.recordServiceName("mysql");
+  trace.recordRpcName("rpc");
   trace.recordAttribute(AnnotationKey.SQL,"SELECT * FROM TABLE");
   trace.traceBlockEnd();
 }

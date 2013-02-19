@@ -3,7 +3,9 @@
   Trace trace=new Trace(traceID);
   trace.setStorage(new BypassStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   trace.traceBlockBegin();
-  trace.recordRpcName(ServiceType.UNKNOWN,"service_name","http://");
+  trace.recordServiceType(ServiceType.UNKNOWN);
+  trace.recordServiceName("service_name");
+  trace.recordRpcName("http://");
   trace.recordEndPoint("http:localhost:8080");
   trace.recordAttribute(AnnotationKey.API,"VALUE");
   getDataFromDB(trace);

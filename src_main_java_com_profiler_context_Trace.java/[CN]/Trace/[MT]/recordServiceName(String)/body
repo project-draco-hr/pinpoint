@@ -1,0 +1,11 @@
+{
+  StackFrame currentStackFrame=getCurrentStackFrame();
+  if (currentStackFrame instanceof RootStackFrame) {
+    Span span=((RootStackFrame)currentStackFrame).getSpan();
+    span.setServiceName(serviceName);
+  }
+ else {
+    SubSpan span=((SubStackFrame)currentStackFrame).getSubSpan();
+    span.setServiceName(serviceName);
+  }
+}
