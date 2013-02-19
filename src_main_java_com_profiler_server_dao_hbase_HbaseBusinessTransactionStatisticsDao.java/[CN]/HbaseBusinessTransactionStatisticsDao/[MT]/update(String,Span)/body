@@ -1,5 +1,6 @@
 {
-  long rowTimeSlot=TimeSlot.getStatisticsRowSlot(System.currentTimeMillis());
+  final long acceptedTime=AcceptedTime.getAcceptedTime();
+  long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(applicationName,24),Bytes.toBytes(rowTimeSlot));
   byte[] cf;
   if (span.getErr() == 0) {
