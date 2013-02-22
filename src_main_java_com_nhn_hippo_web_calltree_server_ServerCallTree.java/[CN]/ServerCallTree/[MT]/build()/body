@@ -17,11 +17,8 @@
   for (  SpanBo span : spans) {
     String from=String.valueOf(span.getParentSpanId());
     String to=String.valueOf(span.getSpanId());
-    Server fromServer=servers.get(spanIdToServerId.get(from));
+    Server fromServer=servers.get((from.equals("-1")) ? spanIdToClientId.get(to) : spanIdToServerId.get(from));
     Server toServer=servers.get(spanIdToServerId.get(to));
-    if (fromServer == null) {
-      fromServer=servers.get(spanIdToServerId.get(PREFIX_CLIENT + to));
-    }
     if (fromServer == null) {
       logger.debug("invalid form server {}",from);
       continue;

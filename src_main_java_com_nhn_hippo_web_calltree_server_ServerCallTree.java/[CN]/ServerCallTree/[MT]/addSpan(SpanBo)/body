@@ -3,10 +3,10 @@
   if (server.getId() == null) {
     return;
   }
-  addServer(String.valueOf(span.getSpanId()),server);
+  String spanId=String.valueOf(span.getSpanId());
+  addServer(spanId,server);
   if (span.getParentSpanId() == -1) {
+    addClient(spanId,new Server("CLIENT","CLIENT","",ServiceType.CLIENT));
   }
- else {
-    spans.add(span);
-  }
+  spans.add(span);
 }
