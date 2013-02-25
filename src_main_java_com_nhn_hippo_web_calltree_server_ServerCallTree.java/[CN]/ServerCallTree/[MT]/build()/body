@@ -23,7 +23,7 @@
       logger.debug("invalid form server {}",from);
       continue;
     }
-    ServerRequest serverRequest=new ServerRequest(fromServer,toServer,new ResponseHistogram(span.getServiceType()));
+    ServerRequest serverRequest=new ServerRequest(fromServer,toServer,new ResponseHistogram((from.equals("-1") ? ServiceType.CLIENT : span.getServiceType())));
     if (serverRequests.containsKey(serverRequest.getId())) {
       serverRequests.get(serverRequest.getId()).getHistogram().addSample(span.getElapsed());
     }
