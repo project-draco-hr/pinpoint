@@ -6,5 +6,7 @@
   if (lowCaseURL.startsWith("jdbc:oracle")) {
     return parseOracle(url);
   }
-  return new DatabaseInfo(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,url,url,"error","error","error");
+  List<String> list=new ArrayList<String>();
+  list.add("error");
+  return new DatabaseInfo(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,url,url,list,"error");
 }

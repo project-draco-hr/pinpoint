@@ -5,8 +5,10 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     Interceptor doGetInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.method.interceptors.MethodInterceptor");
-    Interceptor doPostInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.method.interceptors.MethodInterceptor");
+    setServiceType(doGetInterceptor,ServiceType.SPRING_MVC);
     setTraceContext(doGetInterceptor);
+    Interceptor doPostInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.method.interceptors.MethodInterceptor");
+    setServiceType(doPostInterceptor,ServiceType.SPRING_MVC);
     setTraceContext(doPostInterceptor);
     InstrumentClass servlet=byteCodeInstrumentor.getClass(javassistClassName);
     servlet.addInterceptor("doGet",new String[]{"javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse"},doGetInterceptor);
