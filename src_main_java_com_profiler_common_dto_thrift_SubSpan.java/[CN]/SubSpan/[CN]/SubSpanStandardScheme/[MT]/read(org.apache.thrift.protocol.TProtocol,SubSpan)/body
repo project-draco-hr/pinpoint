@@ -115,16 +115,43 @@ struct.setEndPointIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
+case 13:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.destinationId=iprot.readString();
+struct.setDestinationIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 17:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list8=iprot.readListBegin();
+struct.destinationAddress=new ArrayList<String>(_list8.size);
+for (int _i9=0; _i9 < _list8.size; ++_i9) {
+String _elem10;
+_elem10=iprot.readString();
+struct.destinationAddress.add(_elem10);
+}
+iprot.readListEnd();
+}
+struct.setDestinationAddressIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
 case 14:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
-org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
-struct.annotations=new ArrayList<Annotation>(_list0.size);
-for (int _i1=0; _i1 < _list0.size; ++_i1) {
-Annotation _elem2;
-_elem2=new Annotation();
-_elem2.read(iprot);
-struct.annotations.add(_elem2);
+org.apache.thrift.protocol.TList _list11=iprot.readListBegin();
+struct.annotations=new ArrayList<Annotation>(_list11.size);
+for (int _i12=0; _i12 < _list11.size; ++_i12) {
+Annotation _elem13;
+_elem13=new Annotation();
+_elem13.read(iprot);
+struct.annotations.add(_elem13);
 }
 iprot.readListEnd();
 }

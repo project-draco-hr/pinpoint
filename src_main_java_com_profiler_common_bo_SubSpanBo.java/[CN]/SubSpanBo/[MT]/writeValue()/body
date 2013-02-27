@@ -3,7 +3,8 @@
   byte[] rpcBytes=BytesUtils.getBytes(rpc);
   byte[] serviceNameBytes=BytesUtils.getBytes(serviceName);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
-  int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length);
+  byte[] destinationIdBytes=BytesUtils.getBytes(this.destinationId);
+  int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,serviceNameBytes.length,endPointBytes.length,destinationIdBytes.length);
   int annotationSize=getAnnotationBufferSize(annotationBoList);
   Buffer buffer=new FixedBuffer(bufferLength + annotationSize);
   buffer.put(version);
@@ -15,6 +16,7 @@
   buffer.put1PrefixedBytes(serviceNameBytes);
   buffer.put(serviceType.getCode());
   buffer.put1PrefixedBytes(endPointBytes);
+  buffer.put1PrefixedBytes(destinationIdBytes);
   buffer.put(depth);
   buffer.put(nextSpanId);
   writeAnnotation(buffer);

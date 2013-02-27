@@ -30,22 +30,28 @@
   oprot.writeI32(struct.elapsed);
   oprot.writeFieldEnd();
   if (struct.rpc != null) {
-    oprot.writeFieldBegin(RPC_FIELD_DESC);
-    oprot.writeString(struct.rpc);
-    oprot.writeFieldEnd();
+    if (struct.isSetRpc()) {
+      oprot.writeFieldBegin(RPC_FIELD_DESC);
+      oprot.writeString(struct.rpc);
+      oprot.writeFieldEnd();
+    }
   }
   if (struct.serviceName != null) {
-    oprot.writeFieldBegin(SERVICE_NAME_FIELD_DESC);
-    oprot.writeString(struct.serviceName);
-    oprot.writeFieldEnd();
+    if (struct.isSetServiceName()) {
+      oprot.writeFieldBegin(SERVICE_NAME_FIELD_DESC);
+      oprot.writeString(struct.serviceName);
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
   oprot.writeI16(struct.serviceType);
   oprot.writeFieldEnd();
   if (struct.endPoint != null) {
-    oprot.writeFieldBegin(END_POINT_FIELD_DESC);
-    oprot.writeString(struct.endPoint);
-    oprot.writeFieldEnd();
+    if (struct.isSetEndPoint()) {
+      oprot.writeFieldBegin(END_POINT_FIELD_DESC);
+      oprot.writeString(struct.endPoint);
+      oprot.writeFieldEnd();
+    }
   }
   if (struct.remoteAddr != null) {
     if (struct.isSetRemoteAddr()) {
@@ -58,8 +64,8 @@
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
       oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      Annotation _iter14 : struct.annotations) {
-        _iter14.write(oprot);
+      for (      Annotation _iter30 : struct.annotations) {
+        _iter30.write(oprot);
       }
       oprot.writeListEnd();
     }
@@ -80,8 +86,8 @@
       oprot.writeFieldBegin(SUB_SPAN_LIST_FIELD_DESC);
 {
         oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.subSpanList.size()));
-        for (        SubSpan _iter15 : struct.subSpanList) {
-          _iter15.write(oprot);
+        for (        SubSpan _iter31 : struct.subSpanList) {
+          _iter31.write(oprot);
         }
         oprot.writeListEnd();
       }

@@ -51,11 +51,9 @@
       oprot.writeFieldEnd();
     }
   }
-  if (struct.isSetServiceType()) {
-    oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
-    oprot.writeI16(struct.serviceType);
-    oprot.writeFieldEnd();
-  }
+  oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
+  oprot.writeI16(struct.serviceType);
+  oprot.writeFieldEnd();
   if (struct.endPoint != null) {
     if (struct.isSetEndPoint()) {
       oprot.writeFieldBegin(END_POINT_FIELD_DESC);
@@ -63,12 +61,19 @@
       oprot.writeFieldEnd();
     }
   }
+  if (struct.destinationId != null) {
+    if (struct.isSetDestinationId()) {
+      oprot.writeFieldBegin(DESTINATION_ID_FIELD_DESC);
+      oprot.writeString(struct.destinationId);
+      oprot.writeFieldEnd();
+    }
+  }
   if (struct.annotations != null) {
     oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
       oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      Annotation _iter3 : struct.annotations) {
-        _iter3.write(oprot);
+      for (      Annotation _iter14 : struct.annotations) {
+        _iter14.write(oprot);
       }
       oprot.writeListEnd();
     }
@@ -83,6 +88,19 @@
     oprot.writeFieldBegin(NEXT_SPAN_ID_FIELD_DESC);
     oprot.writeI32(struct.nextSpanId);
     oprot.writeFieldEnd();
+  }
+  if (struct.destinationAddress != null) {
+    if (struct.isSetDestinationAddress()) {
+      oprot.writeFieldBegin(DESTINATION_ADDRESS_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.destinationAddress.size()));
+        for (        String _iter15 : struct.destinationAddress) {
+          oprot.writeString(_iter15);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldStop();
   oprot.writeStructEnd();

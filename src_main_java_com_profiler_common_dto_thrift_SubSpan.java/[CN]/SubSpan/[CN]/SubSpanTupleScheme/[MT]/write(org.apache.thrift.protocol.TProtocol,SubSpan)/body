@@ -37,16 +37,22 @@
   if (struct.isSetEndPoint()) {
     optionals.set(11);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetDestinationId()) {
     optionals.set(12);
   }
-  if (struct.isSetDepth()) {
+  if (struct.isSetDestinationAddress()) {
     optionals.set(13);
   }
-  if (struct.isSetNextSpanId()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(14);
   }
-  oprot.writeBitSet(optionals,15);
+  if (struct.isSetDepth()) {
+    optionals.set(15);
+  }
+  if (struct.isSetNextSpanId()) {
+    optionals.set(16);
+  }
+  oprot.writeBitSet(optionals,17);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -83,11 +89,22 @@
   if (struct.isSetEndPoint()) {
     oprot.writeString(struct.endPoint);
   }
+  if (struct.isSetDestinationId()) {
+    oprot.writeString(struct.destinationId);
+  }
+  if (struct.isSetDestinationAddress()) {
+{
+      oprot.writeI32(struct.destinationAddress.size());
+      for (      String _iter16 : struct.destinationAddress) {
+        oprot.writeString(_iter16);
+      }
+    }
+  }
   if (struct.isSetAnnotations()) {
 {
       oprot.writeI32(struct.annotations.size());
-      for (      Annotation _iter4 : struct.annotations) {
-        _iter4.write(oprot);
+      for (      Annotation _iter17 : struct.annotations) {
+        _iter17.write(oprot);
       }
     }
   }
