@@ -28,10 +28,10 @@
         int elapsed=subSpan.getEndElapsed();
         boolean hasException=SubSpanUtils.hasException(subSpan);
         if (serviceType.isRpcClient()) {
-          terminalStatistics.update(applicationName,subSpan.getEndPoint(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
  else {
-          terminalStatistics.update(applicationName,subSpan.getServiceName(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
       }
     }
