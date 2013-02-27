@@ -1,13 +1,8 @@
 {
-  Server server=new Server(span,idGenerator);
+  Server server=new Server(subSpan,idGenerator);
   if (server.getId() == null) {
     return;
   }
-  if (span.getServiceType().isRpcClient()) {
-    addServer(span.getEndPoint(),server);
-  }
- else {
-    addServer(span.getServiceName(),server);
-  }
-  subspans.add(span);
+  addServer(subSpan.getDestinationId(),server);
+  subspans.add(subSpan);
 }

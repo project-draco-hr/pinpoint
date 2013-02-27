@@ -27,12 +27,12 @@
       logger.info("	Fetch terminals of {} : {}ms",param.getKey(),System.currentTimeMillis() - start);
       for (      Map<String,TerminalStatistics> terminal : terminals) {
         for (        Entry<String,TerminalStatistics> entry : terminal.entrySet()) {
-          TerminalStatistics t=entry.getValue();
-          if (!endPoints.contains(t.getTo())) {
-            if (ServiceType.findServiceType(t.getToServiceType()).isRpcClient()) {
-              t.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
+          TerminalStatistics terminalStatistics=entry.getValue();
+          if (!endPoints.contains(terminalStatistics.getTo())) {
+            if (ServiceType.findServiceType(terminalStatistics.getToServiceType()).isRpcClient()) {
+              terminalStatistics.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
             }
-            tree.addTerminalStatistics(t);
+            tree.addTerminalStatistics(terminalStatistics);
           }
         }
       }

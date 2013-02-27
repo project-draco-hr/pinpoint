@@ -1,0 +1,18 @@
+{
+  List<SubSpanBo> filterSubSpan=new ArrayList<SubSpanBo>();
+  for (  SpanBo eachTransaction : transaction) {
+    List<SubSpanBo> subSpanList=eachTransaction.getSubSpanList();
+    if (subSpanList == null) {
+      continue;
+    }
+    for (    SubSpanBo subTransaction : subSpanList) {
+      if (!subTransaction.getServiceType().isRecordStatistics()) {
+        continue;
+      }
+      if (!endPoints.contains(subTransaction.getEndPoint())) {
+        filterSubSpan.add(subTransaction);
+      }
+    }
+  }
+  return filterSubSpan;
+}
