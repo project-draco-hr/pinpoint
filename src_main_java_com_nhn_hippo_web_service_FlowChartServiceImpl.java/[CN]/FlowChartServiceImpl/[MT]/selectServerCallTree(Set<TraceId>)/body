@@ -1,5 +1,5 @@
 {
-  final ServerCallTree tree=new ServerCallTree(NodeIdGenerator.BY_APPLICATION_NAME);
+  final ServerCallTree tree=new ServerCallTree(new ApplicationIdNodeSelector());
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
   for (  List<SpanBo> transaction : traces) {
     for (    SpanBo eachTransaction : transaction) {

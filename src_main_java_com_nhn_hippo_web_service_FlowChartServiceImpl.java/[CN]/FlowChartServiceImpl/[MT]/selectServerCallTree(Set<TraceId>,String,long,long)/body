@@ -1,6 +1,6 @@
 {
   final Map<String,ServiceType> terminalQueryParams=new HashMap<String,ServiceType>();
-  final ServerCallTree tree=new ServerCallTree(NodeIdGenerator.BY_APPLICATION_NAME);
+  final ServerCallTree tree=new ServerCallTree(new ApplicationIdNodeSelector());
   StopWatch watch=new StopWatch();
   watch.start("scanNonTerminalSpans");
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
