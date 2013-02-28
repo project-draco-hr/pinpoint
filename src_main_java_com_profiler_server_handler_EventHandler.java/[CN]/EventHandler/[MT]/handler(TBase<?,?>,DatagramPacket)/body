@@ -1,0 +1,32 @@
+{
+  try {
+    Event event=(Event)tbase;
+    if (logger.isInfoEnabled()) {
+      logger.info("Received Event={}",event);
+    }
+    String applicationName=agentIdApplicationIndexDao.selectApplicationName(event.getAgentId());
+    if (applicationName == null) {
+      logger.warn("Applicationname '{}' not found. Drop the log.",applicationName);
+      return;
+    }
+ else {
+      logger.info("Applicationname '{}' found. Write the log.",applicationName);
+    }
+    traceDao.insertEvent(applicationName,event);
+    ServiceType serviceType=ServiceType.findServiceType(event.getServiceType());
+    if (!serviceType.isRecordStatistics()) {
+      return;
+    }
+    int elapsed=event.getEndElapsed();
+    boolean hasException=SubSpanUtils.hasException(event);
+    if (serviceType.isRpcClient()) {
+      terminalStatistics.update(applicationName,event.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+    }
+ else {
+      terminalStatistics.update(applicationName,event.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("Event handle error " + e.getMessage(),e);
+  }
+}
