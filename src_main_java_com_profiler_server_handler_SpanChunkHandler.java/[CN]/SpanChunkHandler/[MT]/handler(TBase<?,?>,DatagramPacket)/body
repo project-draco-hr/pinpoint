@@ -1,10 +1,10 @@
 {
   try {
-    SubSpanList subSpanList=(SubSpanList)tbase;
+    SpanChunk spanChunk=(SpanChunk)tbase;
     if (logger.isDebugEnabled()) {
-      logger.debug("Received SubSpanList={}",subSpanList);
+      logger.debug("Received SpanChunk={}",spanChunk);
     }
-    String applicationName=agentIdApplicationIndexDao.selectApplicationName(subSpanList.getAgentId());
+    String applicationName=agentIdApplicationIndexDao.selectApplicationName(spanChunk.getAgentId());
     if (applicationName == null) {
       logger.warn("Applicationname '{}' not found. Drop the log.",applicationName);
       return;
@@ -12,10 +12,10 @@
  else {
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
-    traceDao.insertSubSpanList(applicationName,subSpanList);
-    List<SubSpan> ssList=subSpanList.getSubSpanList();
+    traceDao.insertSubSpanList(applicationName,spanChunk);
+    List<SubSpan> ssList=spanChunk.getSubSpanList();
     if (ssList != null) {
-      logger.debug("SubSpanList Size:{}",ssList.size());
+      logger.debug("SpanChunk Size:{}",ssList.size());
       for (      SubSpan subSpan : ssList) {
         ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
         if (!serviceType.isRecordStatistics()) {
@@ -33,6 +33,6 @@
     }
   }
  catch (  Exception e) {
-    logger.warn("SubSpanList handle error " + e.getMessage(),e);
+    logger.warn("SpanChunk handle error " + e.getMessage(),e);
   }
 }

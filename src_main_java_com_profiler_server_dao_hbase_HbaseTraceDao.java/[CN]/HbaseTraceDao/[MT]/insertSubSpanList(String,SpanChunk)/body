@@ -1,9 +1,9 @@
 {
-  Put put=new Put(SpanUtils.getTraceId(subSpanList));
+  Put put=new Put(SpanUtils.getTraceId(spanChunk));
   long acceptedTime=AcceptedTime.getAcceptedTime();
-  List<SubSpan> subSpanList0=subSpanList.getSubSpanList();
+  List<SubSpan> subSpanList0=spanChunk.getSubSpanList();
   for (  SubSpan subSpan : subSpanList0) {
-    SubSpanBo subSpanBo=new SubSpanBo(subSpanList,subSpan);
+    SubSpanBo subSpanBo=new SubSpanBo(spanChunk,subSpan);
     byte[] value=subSpanBo.writeValue();
     byte[] rowId=BytesUtils.add(subSpanBo.getSpanId(),subSpanBo.getSequence());
     put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
