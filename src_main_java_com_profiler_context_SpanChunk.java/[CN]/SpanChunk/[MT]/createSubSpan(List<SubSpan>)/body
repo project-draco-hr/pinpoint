@@ -1,7 +1,7 @@
 {
-  List<com.profiler.common.dto.thrift.SubSpan> result=new ArrayList<com.profiler.common.dto.thrift.SubSpan>(subSpanList.size());
+  List<Event> result=new ArrayList<Event>(subSpanList.size());
   for (  SubSpan subSpan : subSpanList) {
-    com.profiler.common.dto.thrift.SubSpan tSubSpan=new com.profiler.common.dto.thrift.SubSpan();
+    Event tSubSpan=new Event();
     tSubSpan.setAgentId(Agent.getInstance().getAgentId());
     tSubSpan.setAgentIdentifier(Agent.getInstance().getIdentifier());
     long parentSpanStartTime=subSpan.getParentSpan().getStartTime();
