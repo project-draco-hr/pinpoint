@@ -10,15 +10,15 @@
       setPropertyValues(prop);
     }
  catch (    FileNotFoundException fnfe) {
-      logger.error("##### " + hippoConfigFileName + " file is not exists. Please check configuration.");
+      logger.error("File '{}' is not exists. Please check configuration.",hippoConfigFileName);
       fnfe.printStackTrace();
     }
 catch (    Exception e) {
-      logger.error("##### " + hippoConfigFileName + " file is not exists. Please check configuration.");
+      logger.error("File '{}' is not exists. Please check configuration.",hippoConfigFileName);
       e.printStackTrace();
     }
   }
  else {
-    logger.info("##### " + configFileName + " property is not set. Using default values #####");
+    logger.warn("Property is not set. Using default values. filename={}",configFileName);
   }
 }

@@ -1,7 +1,8 @@
 {
   if (logger.isInfoEnabled()) {
-    logger.info("Waiting for " + MultiplexedUDPReceiver.class.getSimpleName());
+    logger.info("Waiting agent data.");
   }
+  startLatch.countDown();
   while (state.get()) {
     boolean success=false;
     DatagramPacket packet=null;

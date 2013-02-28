@@ -1,10 +1,22 @@
 {
+  logger.info("Initializing server components.");
   context=createContext();
-  System.out.println("Start MultiplexedUDPReceiver Receive UDP Thread");
+  boolean successfullyStarted=true;
+  logger.info("Starting MultiplexedUDPReceiver receive UDP Thread.");
   mulplexDataReceiver=new MultiplexedUDPReceiver(context);
-  mulplexDataReceiver.start();
-  System.out.println("Start Tomcat Agent Data Receive TDP Thread");
-  tcpReceiver=new TCPReceiver();
-  tcpReceiver.start();
+  Future<Boolean> startFuture=mulplexDataReceiver.start();
+  try {
+    successfullyStarted&=startFuture.get();
+  }
+ catch (  Exception e) {
+    startFuture.cancel(true);
+    logger.error("Failed to start multiplexDataReceiver.");
+  }
+  if (successfullyStarted) {
+    logger.info("Server started successfully.");
+  }
+ else {
+    logger.warn("Server started incompletely.");
+  }
   addShutdownHook();
 }

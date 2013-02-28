@@ -1,13 +1,13 @@
 {
   try {
     serverSocket=new ServerSocket(TomcatProfilerReceiverConfig.SERVER_TCP_LISTEN_PORT,100);
-    System.out.println("Waiting for Agent data");
+    logger.info("Waiting for Agent data");
     while (true) {
       Socket socket=serverSocket.accept();
       InputStream stream=socket.getInputStream();
       ObjectInputStream objStream=new ObjectInputStream(stream);
       Object receivedObj=objStream.readObject();
-      System.out.println("Got a data. " + receivedObj);
+      logger.debug("Got a data. {}",receivedObj);
       if (receivedObj instanceof AgentInfoDTO) {
       }
       logger.debug(receivedObj.toString());

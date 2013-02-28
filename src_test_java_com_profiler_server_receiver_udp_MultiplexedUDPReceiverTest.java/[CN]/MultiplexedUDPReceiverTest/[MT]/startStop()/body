@@ -1,8 +1,14 @@
 {
-  GenericApplicationContext context=ApplicationContextUtils.createContext();
-  DataReceiver receiver=new MultiplexedUDPReceiver(context);
-  receiver.start();
-  Thread.sleep(1000 * 2);
-  receiver.shutdown();
-  context.close();
+  try {
+    GenericApplicationContext context=ApplicationContextUtils.createContext();
+    DataReceiver receiver=new MultiplexedUDPReceiver(context);
+    Future<Boolean> startLatch=receiver.start();
+    startLatch.get();
+    receiver.shutdown();
+    context.close();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Assert.fail(e.getMessage());
+  }
 }

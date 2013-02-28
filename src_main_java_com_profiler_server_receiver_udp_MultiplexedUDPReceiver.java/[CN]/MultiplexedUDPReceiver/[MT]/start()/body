@@ -2,6 +2,32 @@
   if (socket != null) {
     this.ioThread.start();
     logger.info("UDP Packet reader started.");
+    return new Future<Boolean>(){
+      @Override public boolean isDone(){
+        return state.get();
+      }
+      @Override public boolean isCancelled(){
+        return !state.get();
+      }
+      @Override public Boolean get(      long timeout,      TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        if (!startLatch.await(timeout,unit)) {
+          throw new TimeoutException();
+        }
+ else {
+          return state.get();
+        }
+      }
+      @Override public Boolean get() throws InterruptedException, ExecutionException {
+        return get(3000L,TimeUnit.MILLISECONDS);
+      }
+      @Override public boolean cancel(      boolean ign){
+        if (ign) {
+          shutdown();
+        }
+        return !state.get();
+      }
+    }
+;
   }
  else {
     throw new RuntimeException("socket create fail");
