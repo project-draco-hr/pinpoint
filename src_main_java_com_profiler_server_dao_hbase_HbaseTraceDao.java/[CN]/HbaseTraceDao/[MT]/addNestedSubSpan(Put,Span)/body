@@ -1,10 +1,10 @@
 {
-  List<SubSpan> subSpanList=span.getSubSpanList();
+  List<Event> subSpanList=span.getSubSpanList();
   if (subSpanList == null || subSpanList.size() == 0) {
     return;
   }
   long acceptedTime=AcceptedTime.getAcceptedTime();
-  for (  SubSpan subSpan : subSpanList) {
+  for (  Event subSpan : subSpanList) {
     SubSpanBo subSpanBo=new SubSpanBo(span,subSpan);
     byte[] rowId=BytesUtils.add(subSpanBo.getSpanId(),subSpanBo.getSequence());
     byte[] value=subSpanBo.writeValue();

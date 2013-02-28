@@ -17,10 +17,10 @@
     traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(applicationName,span);
     businessTransactionStatistics.update(applicationName,span);
-    List<SubSpan> subSpanList=span.getSubSpanList();
+    List<Event> subSpanList=span.getSubSpanList();
     if (subSpanList != null) {
       logger.info("handle subSpan size:{}",subSpanList.size());
-      for (      SubSpan subSpan : subSpanList) {
+      for (      Event subSpan : subSpanList) {
         ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;

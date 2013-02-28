@@ -13,10 +13,10 @@
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
     traceDao.insertSpanChunk(applicationName,spanChunk);
-    List<SubSpan> ssList=spanChunk.getSubSpanList();
+    List<Event> ssList=spanChunk.getSubSpanList();
     if (ssList != null) {
       logger.debug("SpanChunk Size:{}",ssList.size());
-      for (      SubSpan subSpan : ssList) {
+      for (      Event subSpan : ssList) {
         ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;
