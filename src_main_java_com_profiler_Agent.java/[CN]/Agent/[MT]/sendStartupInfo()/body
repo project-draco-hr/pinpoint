@@ -1,5 +1,4 @@
 {
-  logger.info("Send startup information to HIPPO server.");
   String ip=getServerInfo().getHostip();
   String ports="";
   for (  Entry<Integer,String> entry : getServerInfo().getConnectors().entrySet()) {
@@ -13,5 +12,6 @@
   agentInfo.setApplicationName(getApplicationName());
   agentInfo.setIsAlive(true);
   agentInfo.setTimestamp(this.startTime);
+  logger.info("Send startup information to HIPPO server. agentInfo=" + agentInfo);
   send3(agentInfo);
 }
