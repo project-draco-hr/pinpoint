@@ -1,0 +1,20 @@
+{
+  if (spanEvent.getServiceType().isTerminal()) {
+    this.agentIds.add(spanEvent.getAgentId());
+  }
+ else {
+    this.agentIds.add(spanEvent.getEndPoint());
+  }
+  if (spanEvent.getServiceType().isRpcClient()) {
+    this.id=spanEvent.getEndPoint();
+    this.applicationName=spanEvent.getEndPoint();
+    this.serviceType=ServiceType.UNKNOWN_CLOUD;
+  }
+ else {
+    this.id=nodeSelector.getServerId(spanEvent);
+    this.applicationName=spanEvent.getDestinationId();
+    this.serviceType=spanEvent.getServiceType();
+  }
+  this.endPoint=spanEvent.getEndPoint();
+  this.recursiveCallCount=0;
+}

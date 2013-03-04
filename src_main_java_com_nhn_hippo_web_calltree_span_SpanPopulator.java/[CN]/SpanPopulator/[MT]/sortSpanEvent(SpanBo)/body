@@ -1,10 +1,10 @@
 {
-  List<SubSpanBo> subSpanList=span.getSubSpanList();
-  if (subSpanList == null) {
+  List<SpanEvent> spanEventBoList=span.getSpanEventBoList();
+  if (spanEventBoList == null) {
     return Collections.emptyList();
   }
-  Collections.sort(subSpanList,new Comparator<SubSpanBo>(){
-    @Override public int compare(    SubSpanBo o1,    SubSpanBo o2){
+  Collections.sort(spanEventBoList,new Comparator<SpanEvent>(){
+    @Override public int compare(    SpanEvent o1,    SpanEvent o2){
       long o1Timestamp=o1.getSequence();
       long o2Timestamp=o2.getSequence();
       if (o1Timestamp > o2Timestamp) {
@@ -17,5 +17,5 @@
     }
   }
 );
-  return subSpanList;
+  return spanEventBoList;
 }

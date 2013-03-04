@@ -3,14 +3,14 @@
   SpanBo span=spanAlign.getSpanBo();
   populatedList.add(spanAlign);
   long startTime=span.getStartTime();
-  List<SubSpanBo> subSpanBos=sortSubSpan(span);
-  for (  SubSpanBo subSpanBo : subSpanBos) {
-    long subStartTime=startTime + subSpanBo.getStartElapsed();
+  List<SpanEvent> spanEventBoList=sortSpanEvent(span);
+  for (  SpanEvent spanEventBo : spanEventBoList) {
+    long subStartTime=startTime + spanEventBo.getStartElapsed();
     long nextSpanStartTime=getNextSpanStartTime();
     if (subStartTime <= nextSpanStartTime) {
-      SpanAlign subSpanAlign=new SpanAlign(spanAlign.getDepth(),span,subSpanBo);
-      subSpanAlign.setSpan(false);
-      populatedList.add(subSpanAlign);
+      SpanAlign SpanEventAlign=new SpanAlign(spanAlign.getDepth(),span,spanEventBo);
+      SpanEventAlign.setSpan(false);
+      populatedList.add(SpanEventAlign);
     }
  else {
       if (nextSpanStartTime == Long.MAX_VALUE) {

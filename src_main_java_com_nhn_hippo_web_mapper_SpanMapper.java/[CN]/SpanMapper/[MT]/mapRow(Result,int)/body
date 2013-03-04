@@ -8,7 +8,7 @@
   KeyValue[] keyList=result.raw();
   List<SpanBo> spanList=new ArrayList<SpanBo>();
   Map<Integer,SpanBo> spanMap=new HashMap<Integer,SpanBo>();
-  List<SubSpanBo> subSpanBoList=new ArrayList<SubSpanBo>();
+  List<SpanEvent> spanEventBoList=new ArrayList<SpanEvent>();
   for (  KeyValue kv : keyList) {
     if (kv.getFamilyLength() == HBaseTables.TRACES_CF_SPAN.length) {
       SpanBo spanBo=new SpanBo();
@@ -24,25 +24,25 @@
       spanMap.put(spanBo.getSpanId(),spanBo);
     }
  else     if (kv.getFamilyLength() == HBaseTables.TRACES_CF_TERMINALSPAN.length) {
-      SubSpanBo subSpanBo=new SubSpanBo();
-      subSpanBo.setMostTraceId(most);
-      subSpanBo.setLeastTraceId(least);
+      SpanEvent spanEventBo=new SpanEvent();
+      spanEventBo.setMostTraceId(most);
+      spanEventBo.setLeastTraceId(least);
       int spanId=Bytes.toInt(kv.getBuffer(),kv.getQualifierOffset());
       int spanIdOffset=4;
       short sequence=Bytes.toShort(kv.getBuffer(),kv.getQualifierOffset() + spanIdOffset);
-      subSpanBo.setSpanId(spanId);
-      subSpanBo.setSequence(sequence);
-      subSpanBo.readValue(kv.getBuffer(),kv.getValueOffset());
+      spanEventBo.setSpanId(spanId);
+      spanEventBo.setSequence(sequence);
+      spanEventBo.readValue(kv.getBuffer(),kv.getValueOffset());
       if (logger.isDebugEnabled()) {
-        logger.debug("read subSpan :{}",subSpanBo);
+        logger.debug("read spanEvent :{}",spanEventBo);
       }
-      subSpanBoList.add(subSpanBo);
+      spanEventBoList.add(spanEventBo);
     }
   }
-  for (  SubSpanBo subSpanBo : subSpanBoList) {
-    SpanBo spanBo=spanMap.get(subSpanBo.getSpanId());
+  for (  SpanEvent spanEventBo : spanEventBoList) {
+    SpanBo spanBo=spanMap.get(spanEventBo.getSpanId());
     if (spanBo != null) {
-      spanBo.addSubSpan(subSpanBo);
+      spanBo.addSpanEvent(spanEventBo);
     }
   }
   if (annotationMapper != null) {
