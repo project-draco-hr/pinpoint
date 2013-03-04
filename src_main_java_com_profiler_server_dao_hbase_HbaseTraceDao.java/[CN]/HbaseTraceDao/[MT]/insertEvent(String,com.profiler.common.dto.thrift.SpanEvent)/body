@@ -1,0 +1,8 @@
+{
+  SpanEvent spanEventBo=new SpanEvent(spanEvent);
+  byte[] value=spanEventBo.writeValue();
+  Put put=new Put(SpanUtils.getTraceId(spanEvent));
+  byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence());
+  put.add(TRACES_CF_TERMINALSPAN,rowId,value);
+  hbaseTemplate.put(TRACES,put);
+}

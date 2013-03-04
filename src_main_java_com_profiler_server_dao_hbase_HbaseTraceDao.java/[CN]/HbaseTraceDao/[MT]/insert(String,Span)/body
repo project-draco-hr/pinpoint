@@ -10,6 +10,6 @@
     byte[] bytes=writeBuffer(annotations);
     put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
-  addNestedSubSpan(put,span);
+  addNestedSpanEvent(put,span);
   hbaseTemplate.put(TRACES,put);
 }

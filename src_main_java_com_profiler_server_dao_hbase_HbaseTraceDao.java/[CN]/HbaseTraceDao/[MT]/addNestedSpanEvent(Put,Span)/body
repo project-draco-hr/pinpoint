@@ -1,12 +1,13 @@
 {
-  Put put=new Put(SpanUtils.getTraceId(spanChunk));
+  List<com.profiler.common.dto.thrift.SpanEvent> spanEventBoList=span.getSpanEventList();
+  if (spanEventBoList == null || spanEventBoList.size() == 0) {
+    return;
+  }
   long acceptedTime=AcceptedTime.getAcceptedTime();
-  List<com.profiler.common.dto.thrift.SpanEvent> spanEventBoList=spanChunk.getSpanEventList();
   for (  com.profiler.common.dto.thrift.SpanEvent spanEvent : spanEventBoList) {
-    SpanEvent spanEventBo=new SpanEvent(spanChunk,spanEvent);
-    byte[] value=spanEventBo.writeValue();
+    SpanEvent spanEventBo=new SpanEvent(span,spanEvent);
     byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence());
+    byte[] value=spanEventBo.writeValue();
     put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
   }
-  hbaseTemplate.put(TRACES,put);
 }

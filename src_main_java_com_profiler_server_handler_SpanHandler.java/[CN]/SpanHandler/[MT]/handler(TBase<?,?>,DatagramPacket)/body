@@ -17,21 +17,21 @@
     traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(applicationName,span);
     businessTransactionStatistics.update(applicationName,span);
-    List<Event> subSpanList=span.getSubSpanList();
-    if (subSpanList != null) {
-      logger.info("handle subSpan size:{}",subSpanList.size());
-      for (      Event subSpan : subSpanList) {
-        ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
+    List<SpanEvent> spanEventList=span.getSpanEventList();
+    if (spanEventList != null) {
+      logger.info("handle spanEvent size:{}",spanEventList.size());
+      for (      SpanEvent spanEvent : spanEventList) {
+        ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;
         }
-        int elapsed=subSpan.getEndElapsed();
-        boolean hasException=SubSpanUtils.hasException(subSpan);
+        int elapsed=spanEvent.getEndElapsed();
+        boolean hasException=SpanEventUtils.hasException(spanEvent);
         if (serviceType.isRpcClient()) {
-          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
  else {
-          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
       }
     }

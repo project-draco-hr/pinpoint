@@ -13,21 +13,21 @@
       logger.info("Applicationname '{}' found. Write the log.",applicationName);
     }
     traceDao.insertSpanChunk(applicationName,spanChunk);
-    List<Event> ssList=spanChunk.getSubSpanList();
-    if (ssList != null) {
-      logger.debug("SpanChunk Size:{}",ssList.size());
-      for (      Event subSpan : ssList) {
-        ServiceType serviceType=ServiceType.findServiceType(subSpan.getServiceType());
+    List<SpanEvent> spanEventList=spanChunk.getSpanEventList();
+    if (spanEventList != null) {
+      logger.debug("SpanChunk Size:{}",spanEventList.size());
+      for (      SpanEvent spanEvent : spanEventList) {
+        ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;
         }
-        int elapsed=subSpan.getEndElapsed();
-        boolean hasException=SubSpanUtils.hasException(subSpan);
+        int elapsed=spanEvent.getEndElapsed();
+        boolean hasException=SpanEventUtils.hasException(spanEvent);
         if (serviceType.isRpcClient()) {
-          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
  else {
-          terminalStatistics.update(applicationName,subSpan.getDestinationId(),serviceType.getCode(),elapsed,hasException);
+          terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),elapsed,hasException);
         }
       }
     }
