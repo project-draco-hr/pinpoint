@@ -25,14 +25,14 @@
   }
   span.setAnnotations(annotationList);
   span.setFlag(traceID.getFlags());
-  List<SubSpan> subSpanList=this.getSubSpanList();
-  if (subSpanList != null && subSpanList.size() != 0) {
-    List<Event> tSubSpanList=new ArrayList<Event>(subSpanList.size());
-    for (    SubSpan subSpan : subSpanList) {
-      Event tSubSpan=subSpan.toThrift(true);
-      tSubSpanList.add(tSubSpan);
+  List<SpanEvent> spanEventList=this.getSpanEventList();
+  if (spanEventList != null && spanEventList.size() != 0) {
+    List<com.profiler.common.dto.thrift.SpanEvent> tSpanEventList=new ArrayList<com.profiler.common.dto.thrift.SpanEvent>(spanEventList.size());
+    for (    SpanEvent spanEvent : spanEventList) {
+      com.profiler.common.dto.thrift.SpanEvent tSpanEvent=spanEvent.toThrift(true);
+      tSpanEventList.add(tSpanEvent);
     }
-    span.setSubSpanList(tSubSpanList);
+    span.setSpanEventList(tSpanEventList);
   }
   return span;
 }

@@ -1,0 +1,24 @@
+{
+  if (!limit) {
+synchronized (this) {
+      addSpanEvent(spanEvent);
+    }
+    limit=checkLimit(spanEvent);
+  }
+ else {
+    List<SpanEvent> flushData=null;
+synchronized (this) {
+      if (!addSpanEvent(spanEvent)) {
+        dataSender.send(spanEvent);
+        return;
+      }
+      if (storage.size() >= bufferSize) {
+        flushData=storage;
+        storage=new ArrayList<SpanEvent>(bufferSize + RESERVE_BUFFER_SIZE);
+      }
+    }
+    if (flushData != null) {
+      dataSender.send(new SpanChunk(flushData));
+    }
+  }
+}

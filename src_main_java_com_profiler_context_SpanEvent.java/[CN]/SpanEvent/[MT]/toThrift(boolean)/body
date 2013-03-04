@@ -1,0 +1,34 @@
+{
+  com.profiler.common.dto.thrift.SpanEvent spanEvent=new com.profiler.common.dto.thrift.SpanEvent();
+  long parentSpanStartTime=parentSpan.getStartTime();
+  spanEvent.setStartElapsed((int)(startTime - parentSpanStartTime));
+  spanEvent.setEndElapsed((int)(endTime - startTime));
+  spanEvent.setSequence(sequence);
+  if (!child) {
+    spanEvent.setAgentId(Agent.getInstance().getAgentId());
+    spanEvent.setAgentIdentifier(Agent.getInstance().getIdentifier());
+    TraceID parentSpanTraceID=parentSpan.getTraceID();
+    spanEvent.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
+    spanEvent.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
+    spanEvent.setSpanId(parentSpanTraceID.getSpanId());
+  }
+  spanEvent.setRpc(rpc);
+  spanEvent.setServiceName(serviceName);
+  if (serviceType != null) {
+    spanEvent.setServiceType(serviceType.getCode());
+  }
+  spanEvent.setEndPoint(endPoint);
+  spanEvent.setDestinationId(this.destionationId);
+  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
+  for (  Annotation a : annotations) {
+    annotationList.add(a.toThrift());
+  }
+  spanEvent.setAnnotations(annotationList);
+  if (depth != -1) {
+    spanEvent.setDepth(depth);
+  }
+  if (nextSpanId != -1) {
+    spanEvent.setNextSpanId(nextSpanId);
+  }
+  return spanEvent;
+}

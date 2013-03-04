@@ -1,0 +1,12 @@
+{
+  try {
+    if (isDebug) {
+      Thread thread=Thread.currentThread();
+      logger.info("[WRITE SpanEvent]" + spanEvent + " CurrentThreadID="+ thread.getId()+ ",\n\t CurrentThreadName="+ thread.getName());
+    }
+    this.storage.store(spanEvent);
+  }
+ catch (  Exception e) {
+    logger.log(Level.SEVERE,e.getMessage(),e);
+  }
+}

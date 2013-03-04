@@ -1,11 +1,11 @@
 {
-  List<SubSpan> subSpanList;
+  List<SpanEvent> spanEventList;
 synchronized (this) {
-    subSpanList=storage;
+    spanEventList=storage;
     this.storage=null;
   }
-  if (subSpanList != null && subSpanList.size() != 0) {
-    span.setSubSpanList(subSpanList);
+  if (spanEventList != null && spanEventList.size() != 0) {
+    span.setSpanEventList(spanEventList);
   }
   dataSender.send(span);
 }
