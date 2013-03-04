@@ -49,7 +49,7 @@
   if (struct.isSetErr()) {
     optionals.set(15);
   }
-  if (struct.isSetSubSpanList()) {
+  if (struct.isSetSpanEventList()) {
     optionals.set(16);
   }
   oprot.writeBitSet(optionals,17);
@@ -106,10 +106,10 @@
   if (struct.isSetErr()) {
     oprot.writeI32(struct.err);
   }
-  if (struct.isSetSubSpanList()) {
+  if (struct.isSetSpanEventList()) {
 {
-      oprot.writeI32(struct.subSpanList.size());
-      for (      Event _iter33 : struct.subSpanList) {
+      oprot.writeI32(struct.spanEventList.size());
+      for (      SpanEvent _iter33 : struct.spanEventList) {
         _iter33.write(oprot);
       }
     }

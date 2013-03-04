@@ -18,11 +18,11 @@
   oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
   oprot.writeI32(struct.spanId);
   oprot.writeFieldEnd();
-  if (struct.subSpanList != null) {
-    oprot.writeFieldBegin(SUB_SPAN_LIST_FIELD_DESC);
+  if (struct.spanEventList != null) {
+    oprot.writeFieldBegin(SPAN_EVENT_LIST_FIELD_DESC);
 {
-      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.subSpanList.size()));
-      for (      Event _iter43 : struct.subSpanList) {
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.spanEventList.size()));
+      for (      SpanEvent _iter43 : struct.spanEventList) {
         _iter43.write(oprot);
       }
       oprot.writeListEnd();

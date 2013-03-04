@@ -1,0 +1,23 @@
+{
+  this.agentId=spanChunk.getAgentId();
+  this.agentIdentifier=spanChunk.getAgentIdentifier();
+  this.mostTraceId=spanChunk.getMostTraceId();
+  this.leastTraceId=spanChunk.getLeastTraceId();
+  this.spanId=spanChunk.getSpanId();
+  this.sequence=spanEvent.getSequence();
+  this.startElapsed=spanEvent.getStartElapsed();
+  this.endElapsed=spanEvent.getEndElapsed();
+  this.rpc=spanEvent.getRpc();
+  this.serviceName=spanEvent.getServiceName();
+  this.serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
+  this.destinationId=spanEvent.getDestinationId();
+  this.destinationAddress=spanEvent.getDestinationAddress();
+  this.endPoint=spanEvent.getEndPoint();
+  if (spanEvent.isSetDepth()) {
+    this.depth=spanEvent.getDepth();
+  }
+  if (spanEvent.isSetNextSpanId()) {
+    this.nextSpanId=spanEvent.getNextSpanId();
+  }
+  setAnnotationBoList(spanEvent.getAnnotations());
+}

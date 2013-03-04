@@ -1,0 +1,23 @@
+{
+  this.agentId=tSpan.getAgentId();
+  this.agentIdentifier=tSpan.getAgentIdentifier();
+  this.mostTraceId=tSpan.getMostTraceId();
+  this.leastTraceId=tSpan.getLeastTraceId();
+  this.spanId=tSpan.getSpanId();
+  this.sequence=tSpanEvent.getSequence();
+  this.startElapsed=tSpanEvent.getStartElapsed();
+  this.endElapsed=tSpanEvent.getEndElapsed();
+  this.rpc=tSpanEvent.getRpc();
+  this.serviceName=tSpanEvent.getServiceName();
+  this.serviceType=ServiceType.findServiceType(tSpanEvent.getServiceType());
+  this.destinationId=tSpanEvent.getDestinationId();
+  this.destinationAddress=tSpanEvent.getDestinationAddress();
+  this.endPoint=tSpanEvent.getEndPoint();
+  if (tSpanEvent.isSetDepth()) {
+    this.depth=tSpanEvent.getDepth();
+  }
+  if (tSpanEvent.isSetNextSpanId()) {
+    this.nextSpanId=tSpanEvent.getNextSpanId();
+  }
+  setAnnotationBoList(tSpanEvent.getAnnotations());
+}
