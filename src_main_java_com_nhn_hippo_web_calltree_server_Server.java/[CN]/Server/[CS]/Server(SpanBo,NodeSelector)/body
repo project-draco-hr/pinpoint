@@ -1,13 +1,12 @@
 {
   this.id=nodeSelector.getServerId(span);
   if (span.getServiceType().isTerminal()) {
-    this.agentIds.add(span.getAgentId());
+    this.hosts.add(span.getAgentId());
   }
  else {
-    this.agentIds.add(span.getEndPoint());
+    this.hosts.add(span.getEndPoint());
   }
   this.applicationName=span.getApplicationId();
-  this.endPoint=span.getEndPoint();
   this.recursiveCallCount=span.getRecursiveCallCount();
   this.serviceType=span.getServiceType();
 }

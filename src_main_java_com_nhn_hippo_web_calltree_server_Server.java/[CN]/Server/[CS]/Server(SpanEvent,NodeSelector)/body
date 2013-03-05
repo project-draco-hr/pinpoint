@@ -1,9 +1,9 @@
 {
   if (spanEvent.getServiceType().isTerminal()) {
-    this.agentIds.add(spanEvent.getAgentId());
+    this.hosts.add(spanEvent.getAgentId());
   }
  else {
-    this.agentIds.add(spanEvent.getEndPoint());
+    this.hosts.add(spanEvent.getEndPoint());
   }
   if (spanEvent.getServiceType().isRpcClient()) {
     this.id=spanEvent.getEndPoint();
@@ -15,6 +15,5 @@
     this.applicationName=spanEvent.getDestinationId();
     this.serviceType=spanEvent.getServiceType();
   }
-  this.endPoint=spanEvent.getEndPoint();
   this.recursiveCallCount=0;
 }

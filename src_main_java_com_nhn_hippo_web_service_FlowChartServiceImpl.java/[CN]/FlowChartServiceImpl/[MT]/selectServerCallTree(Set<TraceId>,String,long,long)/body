@@ -6,13 +6,13 @@
   List<List<SpanBo>> traces=this.traceDao.selectSpans(traceIds);
   watch.stop();
   int totalNonTerminalSpansCount=0;
-  Set<String> endPoints=new HashSet<String>();
+  Set<String> nonTerminalEndPoints=new HashSet<String>();
   for (  List<SpanBo> transaction : traces) {
     totalNonTerminalSpansCount+=transaction.size();
     for (    SpanBo eachTransaction : transaction) {
       tree.addSpan(eachTransaction);
       terminalQueryParams.put(eachTransaction.getApplicationId(),eachTransaction.getServiceType());
-      endPoints.add(eachTransaction.getEndPoint());
+      nonTerminalEndPoints.add(eachTransaction.getEndPoint());
     }
   }
   if (logger.isInfoEnabled()) {
@@ -28,7 +28,7 @@
       for (      Map<String,TerminalStatistics> terminal : terminals) {
         for (        Entry<String,TerminalStatistics> entry : terminal.entrySet()) {
           TerminalStatistics terminalStatistics=entry.getValue();
-          if (!endPoints.contains(terminalStatistics.getTo())) {
+          if (!nonTerminalEndPoints.contains(terminalStatistics.getTo())) {
             if (ServiceType.findServiceType(terminalStatistics.getToServiceType()).isRpcClient()) {
               terminalStatistics.setToServiceType(ServiceType.UNKNOWN_CLOUD.getCode());
             }
