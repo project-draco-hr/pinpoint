@@ -1,0 +1,26 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.id != null) {
+    if (struct.isSetId()) {
+      oprot.writeFieldBegin(ID_FIELD_DESC);
+      oprot.writeString(struct.id);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.host != null) {
+    if (struct.isSetHost()) {
+      oprot.writeFieldBegin(HOST_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.host.size()));
+        for (        String _iter3 : struct.host) {
+          oprot.writeString(_iter3);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
