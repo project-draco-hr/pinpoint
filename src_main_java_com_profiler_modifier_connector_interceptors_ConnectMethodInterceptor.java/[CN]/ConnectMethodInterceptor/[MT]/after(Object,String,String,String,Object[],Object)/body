@@ -1,0 +1,14 @@
+{
+  if (isDebug) {
+    LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args);
+  }
+  TraceContext traceContext=TraceContext.getTraceContext();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.recordApi(descriptor);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}
