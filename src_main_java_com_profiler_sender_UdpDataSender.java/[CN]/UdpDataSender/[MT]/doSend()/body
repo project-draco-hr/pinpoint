@@ -1,12 +1,20 @@
 {
   drain:   while (true) {
     try {
+      if (!allowInput.get() && isEmpty()) {
+        shutdownLatch.countDown();
+        break;
+      }
       List<Object> dtoList=takeN();
       if (dtoList != null) {
         sendPacketN(dtoList);
         continue;
       }
       while (true) {
+        if (!allowInput.get() && isEmpty()) {
+          shutdownLatch.countDown();
+          break;
+        }
         Object dto=takeOne();
         if (dto != null) {
           sendPacket(dto);

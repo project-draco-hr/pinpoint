@@ -1,6 +1,13 @@
 {
-  if (!started.get()) {
-    return;
+  allowInput.set(false);
+  if (!isEmpty()) {
+    logger.info("Wait 5 seconds. Flushing queued data." + queue.size());
   }
-  started.set(false);
+  try {
+    shutdownLatch.await(5,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    logger.info("UdpDataSender stopped incompletely.");
+  }
+  logger.info("UdpDataSender stopped.");
 }
