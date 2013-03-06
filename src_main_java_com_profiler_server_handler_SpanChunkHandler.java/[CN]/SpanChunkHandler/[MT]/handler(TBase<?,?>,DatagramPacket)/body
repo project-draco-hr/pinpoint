@@ -4,8 +4,7 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received SpanChunk={}",spanChunk);
     }
-    String applicationName=spanChunk.getApplicationId();
-    traceDao.insertSpanChunk(applicationName,spanChunk);
+    traceDao.insertSpanChunk(spanChunk);
     List<SpanEvent> spanEventList=spanChunk.getSpanEventList();
     if (spanEventList != null) {
       logger.debug("SpanChunk Size:{}",spanEventList.size());
@@ -16,7 +15,7 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
-        terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
+        terminalStatistics.update(spanChunk.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
       }
     }
   }

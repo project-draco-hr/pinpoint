@@ -1,7 +1,8 @@
 {
   final long acceptedTime=AcceptedTime.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
-  byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(applicationName,24),Bytes.toBytes(rowTimeSlot));
+  byte[] rowTimeSlotBytes=Bytes.toBytes(rowTimeSlot);
+  byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(span.getApplicationId(),24),rowTimeSlotBytes);
   byte[] cf;
   if (span.getErr() == 0) {
     cf=BUSINESS_TRANSACTION_STATISTICS_CF_NORMAL;

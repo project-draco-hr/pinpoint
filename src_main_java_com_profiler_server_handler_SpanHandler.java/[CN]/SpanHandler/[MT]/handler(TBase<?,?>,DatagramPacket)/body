@@ -5,11 +5,10 @@
     if (logger.isInfoEnabled()) {
       logger.info("Received SPAN={}",span);
     }
-    String applicationName=span.getApplicationId();
-    traceDao.insert(applicationName,span);
+    traceDao.insert(span);
     traceIndexDao.insert(span);
-    applicationTraceIndexDao.insert(applicationName,span);
-    businessTransactionStatistics.update(applicationName,span);
+    applicationTraceIndexDao.insert(span);
+    businessTransactionStatistics.update(span);
     List<SpanEvent> spanEventList=span.getSpanEventList();
     if (spanEventList != null) {
       logger.info("handle spanEvent size:{}",spanEventList.size());
@@ -20,7 +19,7 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
-        terminalStatistics.update(applicationName,spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
+        terminalStatistics.update(spanEvent.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
       }
     }
   }
