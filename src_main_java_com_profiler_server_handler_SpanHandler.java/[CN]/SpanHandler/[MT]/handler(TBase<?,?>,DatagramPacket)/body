@@ -1,5 +1,7 @@
 {
-  assert(tbase instanceof Span);
+  if (!(tbase instanceof Span)) {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  }
   try {
     Span span=(Span)tbase;
     if (logger.isInfoEnabled()) {
@@ -19,7 +21,7 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
-        terminalStatistics.update(spanEvent.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
+        terminalStatistics.update(span.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
       }
     }
   }

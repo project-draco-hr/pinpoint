@@ -1,5 +1,7 @@
 {
-  assert(tbase instanceof JVMInfoThriftDTO);
+  if (!(tbase instanceof JVMInfoThriftDTO)) {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  }
   try {
     JVMInfoThriftDTO dto=(JVMInfoThriftDTO)tbase;
     if (logger.isInfoEnabled()) {

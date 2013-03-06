@@ -1,4 +1,7 @@
 {
+  if (!(tbase instanceof SpanEvent)) {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  }
   try {
     SpanEvent spanEvent=(SpanEvent)tbase;
     if (logger.isInfoEnabled()) {
