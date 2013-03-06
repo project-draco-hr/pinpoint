@@ -2,8 +2,6 @@
   List<com.profiler.common.dto.thrift.SpanEvent> result=new ArrayList<com.profiler.common.dto.thrift.SpanEvent>(spanEventList.size());
   for (  SpanEvent spanEvent : spanEventList) {
     com.profiler.common.dto.thrift.SpanEvent tSpanEvent=new com.profiler.common.dto.thrift.SpanEvent();
-    tSpanEvent.setAgentId(Agent.getInstance().getAgentId());
-    tSpanEvent.setAgentIdentifier(Agent.getInstance().getIdentifier());
     long parentSpanStartTime=spanEvent.getParentSpan().getStartTime();
     tSpanEvent.setStartElapsed((int)(spanEvent.getStartTime() - parentSpanStartTime));
     tSpanEvent.setEndElapsed((int)(spanEvent.getEndTime() - spanEvent.getStartTime()));
@@ -12,7 +10,6 @@
     tSpanEvent.setServiceType(spanEvent.getServiceType().getCode());
     tSpanEvent.setDestinationId(spanEvent.getDestionationId());
     tSpanEvent.setEndPoint(spanEvent.getEndPoint());
-    tSpanEvent.setDestinationId(spanEvent.getDestionationId());
     List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(spanEvent.getAnnotationSize());
     for (    Annotation a : spanEvent.getAnnotations()) {
       annotationList.add(a.toThrift());

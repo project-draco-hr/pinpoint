@@ -3,6 +3,7 @@
   SpanEvent first=spanEventList.get(0);
   Span parentSpan=first.getParentSpan();
   tSpanChunk.setAgentId(Agent.getInstance().getAgentId());
+  tSpanChunk.setApplicationId(Agent.getInstance().getApplicationName());
   tSpanChunk.setAgentIdentifier(Agent.getInstance().getIdentifier());
   UUID id=parentSpan.getTraceID().getId();
   tSpanChunk.setMostTraceId(id.getMostSignificantBits());
