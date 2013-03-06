@@ -1,7 +1,13 @@
 {
-  HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
-  client.executeToBloc("http://localhost:8080/combination2.hippo",new HashMap<String,Object>());
-  client.executeToBloc("http://www.naver.com/",new HashMap<String,Object>());
-  client.executeToBloc("http://www.naver.com/",new HashMap<String,Object>());
+  try {
+    URL url=new URL("http://localhost:8080/combination2.hippo");
+    HttpURLConnection request=(HttpURLConnection)url.openConnection();
+    request.setRequestMethod("GET");
+    request.setRequestProperty("Content-type","text/xml; charset=UTF-8");
+    request.connect();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
   return "remotecombination";
 }
