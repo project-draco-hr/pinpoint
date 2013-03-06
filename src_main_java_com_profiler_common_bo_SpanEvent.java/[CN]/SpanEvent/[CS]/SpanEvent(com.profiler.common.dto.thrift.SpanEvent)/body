@@ -1,23 +1,23 @@
 {
-  this.agentId=subSpan.getAgentId();
-  this.agentIdentifier=subSpan.getAgentIdentifier();
-  this.mostTraceId=subSpan.getMostTraceId();
-  this.leastTraceId=subSpan.getLeastTraceId();
-  this.spanId=subSpan.getSpanId();
-  this.sequence=subSpan.getSequence();
-  this.startElapsed=subSpan.getStartElapsed();
-  this.endElapsed=subSpan.getEndElapsed();
-  this.rpc=subSpan.getRpc();
-  this.serviceName=subSpan.getServiceName();
-  this.serviceType=ServiceType.findServiceType(subSpan.getServiceType());
-  this.endPoint=subSpan.getEndPoint();
-  this.destinationId=subSpan.getDestinationId();
-  this.destinationAddress=subSpan.getDestinationAddress();
-  if (subSpan.isSetDepth()) {
-    this.depth=subSpan.getDepth();
+  this.agentId=spanEvent.getAgentId();
+  this.applicationId=spanEvent.getApplicationId();
+  this.agentIdentifier=spanEvent.getAgentIdentifier();
+  this.mostTraceId=spanEvent.getMostTraceId();
+  this.leastTraceId=spanEvent.getLeastTraceId();
+  this.spanId=spanEvent.getSpanId();
+  this.sequence=spanEvent.getSequence();
+  this.startElapsed=spanEvent.getStartElapsed();
+  this.endElapsed=spanEvent.getEndElapsed();
+  this.rpc=spanEvent.getRpc();
+  this.serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
+  this.endPoint=spanEvent.getEndPoint();
+  this.destinationId=spanEvent.getDestinationId();
+  this.destinationAddress=spanEvent.getDestinationAddress();
+  if (spanEvent.isSetDepth()) {
+    this.depth=spanEvent.getDepth();
   }
-  if (subSpan.isSetNextSpanId()) {
-    this.nextSpanId=subSpan.getNextSpanId();
+  if (spanEvent.isSetNextSpanId()) {
+    this.nextSpanId=spanEvent.getNextSpanId();
   }
-  setAnnotationBoList(subSpan.getAnnotations());
+  setAnnotationBoList(spanEvent.getAnnotations());
 }

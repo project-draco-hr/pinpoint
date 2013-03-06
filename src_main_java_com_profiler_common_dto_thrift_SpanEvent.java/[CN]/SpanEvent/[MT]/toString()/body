@@ -11,6 +11,17 @@
     }
     first=false;
   }
+  if (isSetApplicationId()) {
+    if (!first)     sb.append(", ");
+    sb.append("applicationId:");
+    if (this.applicationId == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.applicationId);
+    }
+    first=false;
+  }
   if (isSetAgentIdentifier()) {
     if (!first)     sb.append(", ");
     sb.append("agentIdentifier:");
@@ -58,17 +69,6 @@
     }
     first=false;
   }
-  if (isSetServiceName()) {
-    if (!first)     sb.append(", ");
-    sb.append("serviceName:");
-    if (this.serviceName == null) {
-      sb.append("null");
-    }
- else {
-      sb.append(this.serviceName);
-    }
-    first=false;
-  }
   if (!first)   sb.append(", ");
   sb.append("serviceType:");
   sb.append(this.serviceType);
@@ -81,28 +81,6 @@
     }
  else {
       sb.append(this.endPoint);
-    }
-    first=false;
-  }
-  if (isSetDestinationId()) {
-    if (!first)     sb.append(", ");
-    sb.append("destinationId:");
-    if (this.destinationId == null) {
-      sb.append("null");
-    }
- else {
-      sb.append(this.destinationId);
-    }
-    first=false;
-  }
-  if (isSetDestinationAddress()) {
-    if (!first)     sb.append(", ");
-    sb.append("destinationAddress:");
-    if (this.destinationAddress == null) {
-      sb.append("null");
-    }
- else {
-      sb.append(this.destinationAddress);
     }
     first=false;
   }
@@ -125,6 +103,28 @@
     if (!first)     sb.append(", ");
     sb.append("nextSpanId:");
     sb.append(this.nextSpanId);
+    first=false;
+  }
+  if (isSetDestinationId()) {
+    if (!first)     sb.append(", ");
+    sb.append("destinationId:");
+    if (this.destinationId == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.destinationId);
+    }
+    first=false;
+  }
+  if (isSetDestinationAddress()) {
+    if (!first)     sb.append(", ");
+    sb.append("destinationAddress:");
+    if (this.destinationAddress == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.destinationAddress);
+    }
     first=false;
   }
   sb.append(")");

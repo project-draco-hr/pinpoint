@@ -8,12 +8,20 @@ case AGENT_ID:
       setAgentId((String)value);
     }
   break;
-case AGENT_IDENTIFIER:
+case APPLICATION_ID:
 if (value == null) {
-  unsetAgentIdentifier();
+  unsetApplicationId();
 }
  else {
-  setAgentIdentifier((Short)value);
+  setApplicationId((String)value);
+}
+break;
+case AGENT_IDENTIFIER:
+if (value == null) {
+unsetAgentIdentifier();
+}
+ else {
+setAgentIdentifier((Short)value);
 }
 break;
 case MOST_TRACE_ID:
@@ -72,14 +80,6 @@ unsetRpc();
 setRpc((String)value);
 }
 break;
-case SERVICE_NAME:
-if (value == null) {
-unsetServiceName();
-}
- else {
-setServiceName((String)value);
-}
-break;
 case SERVICE_TYPE:
 if (value == null) {
 unsetServiceType();
@@ -94,22 +94,6 @@ unsetEndPoint();
 }
  else {
 setEndPoint((String)value);
-}
-break;
-case DESTINATION_ID:
-if (value == null) {
-unsetDestinationId();
-}
- else {
-setDestinationId((String)value);
-}
-break;
-case DESTINATION_ADDRESS:
-if (value == null) {
-unsetDestinationAddress();
-}
- else {
-setDestinationAddress((List<String>)value);
 }
 break;
 case ANNOTATIONS:
@@ -134,6 +118,22 @@ unsetNextSpanId();
 }
  else {
 setNextSpanId((Integer)value);
+}
+break;
+case DESTINATION_ID:
+if (value == null) {
+unsetDestinationId();
+}
+ else {
+setDestinationId((String)value);
+}
+break;
+case DESTINATION_ADDRESS:
+if (value == null) {
+unsetDestinationAddress();
+}
+ else {
+setDestinationAddress((List<String>)value);
 }
 break;
 }

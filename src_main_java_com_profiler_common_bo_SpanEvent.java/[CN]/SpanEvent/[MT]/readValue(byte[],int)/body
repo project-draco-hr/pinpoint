@@ -2,11 +2,11 @@
   Buffer buffer=new FixedBuffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.read1PrefixedString();
+  this.applicationId=buffer.read1UnsignedPrefixedString();
   this.agentIdentifier=buffer.readShort();
   this.startElapsed=buffer.readInt();
   this.endElapsed=buffer.readInt();
   this.rpc=buffer.read1UnsignedPrefixedString();
-  this.serviceName=buffer.read1UnsignedPrefixedString();
   this.serviceType=ServiceType.findServiceType(buffer.readShort());
   this.endPoint=buffer.read1UnsignedPrefixedString();
   this.destinationId=buffer.read1UnsignedPrefixedString();

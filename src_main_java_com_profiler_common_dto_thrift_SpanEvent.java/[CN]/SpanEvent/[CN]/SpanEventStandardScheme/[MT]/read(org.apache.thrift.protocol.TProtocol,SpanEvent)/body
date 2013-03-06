@@ -17,15 +17,24 @@ case 1:
       }
     break;
 case 2:
-  if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
-    struct.agentIdentifier=iprot.readI16();
-    struct.setAgentIdentifierIsSet(true);
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+    struct.applicationId=iprot.readString();
+    struct.setApplicationIdIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
 break;
 case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+struct.agentIdentifier=iprot.readI16();
+struct.setAgentIdentifierIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
 struct.mostTraceId=iprot.readI64();
 struct.setMostTraceIdIsSet(true);
@@ -34,7 +43,7 @@ struct.setMostTraceIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 4:
+case 5:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
 struct.leastTraceId=iprot.readI64();
 struct.setLeastTraceIdIsSet(true);
@@ -43,7 +52,7 @@ struct.setLeastTraceIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 5:
+case 6:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.spanId=iprot.readI32();
 struct.setSpanIdIsSet(true);
@@ -52,7 +61,7 @@ struct.setSpanIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 6:
+case 7:
 if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
 struct.sequence=iprot.readI16();
 struct.setSequenceIsSet(true);
@@ -61,7 +70,7 @@ struct.setSequenceIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 7:
+case 8:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.startElapsed=iprot.readI32();
 struct.setStartElapsedIsSet(true);
@@ -70,7 +79,7 @@ struct.setStartElapsedIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 8:
+case 9:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.endElapsed=iprot.readI32();
 struct.setEndElapsedIsSet(true);
@@ -79,7 +88,7 @@ struct.setEndElapsedIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 9:
+case 10:
 if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
 struct.rpc=iprot.readString();
 struct.setRpcIsSet(true);
@@ -88,16 +97,7 @@ struct.setRpcIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 10:
-if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-struct.serviceName=iprot.readString();
-struct.setServiceNameIsSet(true);
-}
- else {
-org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
-}
-break;
-case 11:
+case 12:
 if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
 struct.serviceType=iprot.readI16();
 struct.setServiceTypeIsSet(true);
@@ -106,7 +106,7 @@ struct.setServiceTypeIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 12:
+case 13:
 if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
 struct.endPoint=iprot.readString();
 struct.setEndPointIsSet(true);
@@ -115,43 +115,16 @@ struct.setEndPointIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 13:
-if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-struct.destinationId=iprot.readString();
-struct.setDestinationIdIsSet(true);
-}
- else {
-org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
-}
-break;
-case 17:
-if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-{
-org.apache.thrift.protocol.TList _list8=iprot.readListBegin();
-struct.destinationAddress=new ArrayList<String>(_list8.size);
-for (int _i9=0; _i9 < _list8.size; ++_i9) {
-String _elem10;
-_elem10=iprot.readString();
-struct.destinationAddress.add(_elem10);
-}
-iprot.readListEnd();
-}
-struct.setDestinationAddressIsSet(true);
-}
- else {
-org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
-}
-break;
 case 14:
 if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
-org.apache.thrift.protocol.TList _list11=iprot.readListBegin();
-struct.annotations=new ArrayList<Annotation>(_list11.size);
-for (int _i12=0; _i12 < _list11.size; ++_i12) {
-Annotation _elem13;
-_elem13=new Annotation();
-_elem13.read(iprot);
-struct.annotations.add(_elem13);
+org.apache.thrift.protocol.TList _list8=iprot.readListBegin();
+struct.annotations=new ArrayList<Annotation>(_list8.size);
+for (int _i9=0; _i9 < _list8.size; ++_i9) {
+Annotation _elem10;
+_elem10=new Annotation();
+_elem10.read(iprot);
+struct.annotations.add(_elem10);
 }
 iprot.readListEnd();
 }
@@ -174,6 +147,33 @@ case 16:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.nextSpanId=iprot.readI32();
 struct.setNextSpanIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 20:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.destinationId=iprot.readString();
+struct.setDestinationIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 21:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list11=iprot.readListBegin();
+struct.destinationAddress=new ArrayList<String>(_list11.size);
+for (int _i12=0; _i12 < _list11.size; ++_i12) {
+String _elem13;
+_elem13=iprot.readString();
+struct.destinationAddress.add(_elem13);
+}
+iprot.readListEnd();
+}
+struct.setDestinationAddressIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
