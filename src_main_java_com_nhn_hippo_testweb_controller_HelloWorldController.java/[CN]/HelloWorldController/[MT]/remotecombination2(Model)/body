@@ -4,7 +4,10 @@
     HttpURLConnection request=(HttpURLConnection)url.openConnection();
     request.setRequestMethod("GET");
     request.setRequestProperty("Content-type","text/xml; charset=UTF-8");
-    request.connect();
+    InputStream is=request.getInputStream();
+    BufferedReader reader=new BufferedReader(new InputStreamReader(is));
+    System.out.println(reader.readLine());
+    reader.close();
   }
  catch (  Exception e) {
     e.printStackTrace();
