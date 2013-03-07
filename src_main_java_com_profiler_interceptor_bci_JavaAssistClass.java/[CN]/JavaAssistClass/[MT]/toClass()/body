@@ -3,7 +3,6 @@
     return ctClass.toClass();
   }
  catch (  CannotCompileException e) {
-    logger.log(Level.INFO,"CannotCompileException class:" + ctClass.getName() + " "+ e.getMessage(),e);
+    throw new InstrumentException("CannotCompileException class:" + ctClass.getName() + " "+ e.getMessage(),e);
   }
-  return null;
 }

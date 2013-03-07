@@ -1,0 +1,53 @@
+{
+  String target=getTarget(behavior);
+  String returnType=getReturnType(behavior);
+  String parameterTypeString=JavaAssistUtils.getParameterDescription(behavior.getParameterTypes());
+  String parameter=getParameter(behavior);
+  CodeBuilder after=new CodeBuilder();
+  if (useContextClassLoader) {
+    after.begin();
+    beginAddFindInterceptorCode(id,after);
+    after.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
+    after.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
+    after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s };",target,ctClass.getName(),methodName,parameterTypeString,parameter,returnType);
+    after.format("  method.invoke(interceptor, methodParams);");
+    endAddFindInterceptorCode(after);
+    after.end();
+  }
+ else {
+    after.begin();
+    after.format("  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
+    after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s);",target,ctClass.getName(),methodName,parameterTypeString,parameter,returnType);
+    after.end();
+  }
+  String buildAfter=after.toString();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("addStaticAfterInterceptor after behavior:" + behavior.getLongName() + " code:"+ buildAfter);
+  }
+  behavior.insertAfter(buildAfter);
+  CodeBuilder catchCode=new CodeBuilder();
+  if (useContextClassLoader) {
+    catchCode.begin();
+    beginAddFindInterceptorCode(id,catchCode);
+    catchCode.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
+    catchCode.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
+    catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, (java.lang.Object) $e };",target,ctClass.getName(),methodName,parameterTypeString,parameter);
+    catchCode.format("  method.invoke(interceptor, methodParams);");
+    endAddFindInterceptorCode(catchCode);
+    catchCode.format("  throw $e;");
+    catchCode.end();
+  }
+ else {
+    catchCode.begin();
+    catchCode.format("  %1$s interceptor = (%1$s) com.profiler.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAfterInterceptor.class.getName(),id);
+    catchCode.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, $e);",target,ctClass.getName(),methodName,parameterTypeString,parameter);
+    catchCode.append("  throw $e;");
+    catchCode.end();
+  }
+  String buildCatch=catchCode.toString();
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("addStaticAfterInterceptor catch behavior:" + behavior.getLongName() + " code:"+ buildCatch);
+  }
+  CtClass th=instrumentor.getClassPool().get("java.lang.Throwable");
+  behavior.addCatch(buildCatch,th);
+}

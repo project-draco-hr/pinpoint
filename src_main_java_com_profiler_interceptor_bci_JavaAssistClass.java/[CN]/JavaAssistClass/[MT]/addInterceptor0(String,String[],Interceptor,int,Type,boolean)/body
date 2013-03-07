@@ -26,26 +26,26 @@
     }
     if (type == Type.auto) {
       if (interceptor instanceof StaticAroundInterceptor) {
-        addStaticAroundInterceptor(methodName,interceptorId,behavior);
+        addStaticAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
       }
  else       if (interceptor instanceof StaticBeforeInterceptor) {
-        addStaticBeforeInterceptor(methodName,interceptorId,behavior);
+        addStaticBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
       }
  else       if (interceptor instanceof StaticAfterInterceptor) {
-        addStaticAfterInterceptor(methodName,interceptorId,behavior);
+        addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
       }
  else {
         throw new IllegalArgumentException("unsupported");
       }
     }
  else     if (type == Type.around && interceptor instanceof StaticAroundInterceptor) {
-      addStaticAroundInterceptor(methodName,interceptorId,behavior);
+      addStaticAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
     }
  else     if (type == Type.before && interceptor instanceof StaticBeforeInterceptor) {
-      addStaticBeforeInterceptor(methodName,interceptorId,behavior);
+      addStaticBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
     }
  else     if (type == Type.after && interceptor instanceof StaticAfterInterceptor) {
-      addStaticAfterInterceptor(methodName,interceptorId,behavior);
+      addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
     }
  else {
       throw new IllegalArgumentException("unsupported");
