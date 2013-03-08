@@ -24,20 +24,20 @@
       addAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
     }
  else {
-      SpanEvent spanEvent=spanAlign.getSpanEventBo();
-      AnnotationUtils.sortAnnotationListByKey(spanEvent);
-      String method=(String)AnnotationUtils.getDisplayMethod(spanEvent);
-      Object arguments=AnnotationUtils.getDisplayArgument(spanEvent);
-      long begin=spanAlign.getSpanBo().getStartTime() + spanEvent.getStartElapsed();
-      long elapsed=spanEvent.getEndElapsed();
+      SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+      AnnotationUtils.sortAnnotationListByKey(spanEventBo);
+      String method=(String)AnnotationUtils.getDisplayMethod(spanEventBo);
+      Object arguments=AnnotationUtils.getDisplayArgument(spanEventBo);
+      long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
+      long elapsed=spanEventBo.getEndElapsed();
       if (!marked) {
         setStartTime(begin);
         setEndTime(begin + elapsed);
         marked=true;
       }
-      String destinationId=spanEvent.getDestinationId();
-      recordset.add(new Record(spanAlign.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEvent.getAgentId(),spanEvent.getDestinationId(),spanEvent.getServiceType(),destinationId));
-      addAnnotationRecord(spanAlign.getDepth() + 1,spanEvent.getAnnotationBoList());
+      String destinationId=spanEventBo.getDestinationId();
+      recordset.add(new Record(spanAlign.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId));
+      addAnnotationRecord(spanAlign.getDepth() + 1,spanEventBo.getAnnotationBoList());
     }
   }
 }

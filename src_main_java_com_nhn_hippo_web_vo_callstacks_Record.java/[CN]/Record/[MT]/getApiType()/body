@@ -5,5 +5,10 @@
     }
     return serviceType.getDesc();
   }
-  return serviceType.getDesc() + "(" + destinationId+ ")";
+  if (serviceType.isIncludeDestinationId()) {
+    return serviceType.getDesc() + "(" + destinationId+ ")";
+  }
+ else {
+    return serviceType.getDesc();
+  }
 }

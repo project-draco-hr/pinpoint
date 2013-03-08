@@ -1,18 +1,18 @@
 {
-  List<SpanEvent> filterSpanEvent=new ArrayList<SpanEvent>();
+  List<SpanEventBo> filterSpanEventBo=new ArrayList<SpanEventBo>();
   for (  SpanBo eachTransaction : transaction) {
-    List<SpanEvent> spanEventBoList=eachTransaction.getSpanEventBoList();
+    List<SpanEventBo> spanEventBoList=eachTransaction.getSpanEventBoList();
     if (spanEventBoList == null) {
       continue;
     }
-    for (    SpanEvent spanEventBo : spanEventBoList) {
+    for (    SpanEventBo spanEventBo : spanEventBoList) {
       if (!spanEventBo.getServiceType().isRecordStatistics()) {
         continue;
       }
       if (!endPoints.contains(spanEventBo.getEndPoint())) {
-        filterSpanEvent.add(spanEventBo);
+        filterSpanEventBo.add(spanEventBo);
       }
     }
   }
-  return filterSpanEvent;
+  return filterSpanEventBo;
 }

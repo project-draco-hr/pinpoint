@@ -32,17 +32,17 @@
       serverRequests.put(serverRequest.getId(),serverRequest);
     }
   }
-  for (  SpanEvent span : subspans) {
-    String from=String.valueOf(span.getSpanId());
+  for (  SpanEventBo spanEventBo : subspans) {
+    String from=String.valueOf(spanEventBo.getSpanId());
     String to;
-    to=span.getDestinationId();
+    to=spanEventBo.getDestinationId();
     Server fromServer=servers.get(spanIdToServerId.get(from));
     Server toServer=servers.get(spanIdToServerId.get(to));
-    ResponseHistogram histogram=new ResponseHistogram(span.getServiceType());
-    histogram.addSample(span.getEndElapsed());
+    ResponseHistogram histogram=new ResponseHistogram(spanEventBo.getServiceType());
+    histogram.addSample(spanEventBo.getEndElapsed());
     ServerRequest serverRequest=new ServerRequest(fromServer,toServer,histogram);
     if (serverRequests.containsKey(serverRequest.getId())) {
-      serverRequests.get(serverRequest.getId()).getHistogram().addSample(span.getEndElapsed());
+      serverRequests.get(serverRequest.getId()).getHistogram().addSample(spanEventBo.getEndElapsed());
     }
  else {
       serverRequests.put(serverRequest.getId(),serverRequest);

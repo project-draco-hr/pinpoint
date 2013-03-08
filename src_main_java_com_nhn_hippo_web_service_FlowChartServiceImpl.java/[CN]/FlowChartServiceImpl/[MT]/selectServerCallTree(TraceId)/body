@@ -2,7 +2,7 @@
   List<SpanBo> transaction=this.traceDao.selectSpans(traceId);
   Set<String> endPoints=createUniqueEndpoint(transaction);
   ServerCallTree tree=createServerCallTree(transaction);
-  List<SpanEvent> spanEventBoList=findRecordStatisticsSpanEventData(transaction,endPoints);
+  List<SpanEventBo> spanEventBoList=findRecordStatisticsSpanEventData(transaction,endPoints);
   tree.addSpanEventList(spanEventBoList);
   return tree.build();
 }
