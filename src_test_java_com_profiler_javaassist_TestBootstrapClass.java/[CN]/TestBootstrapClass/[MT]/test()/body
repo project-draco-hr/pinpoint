@@ -1,0 +1,14 @@
+{
+  Class cl=Class.forName("java.lang.ClassLoader");
+  Method defineClass1=cl.getDeclaredMethod("defineClass",new Class[]{String.class,byte[].class,int.class,int.class});
+  Method defineClass2=cl.getDeclaredMethod("defineClass",new Class[]{String.class,byte[].class,int.class,int.class,ProtectionDomain.class});
+  ClassPool cp=new ClassPool();
+  cp.appendSystemPath();
+  CtClass ctClass=cp.makeClass("com.test.Test");
+  byte[] bytes=ctClass.toBytecode();
+  ClassLoader systemClassLoader=ClassLoader.getSystemClassLoader();
+  logger.info(systemClassLoader.getClass().getName());
+  defineClass(defineClass1,systemClassLoader,new Object[]{"com.test.Test",bytes,0,bytes.length});
+  Class<?> aClass=systemClassLoader.loadClass("com.test.Test");
+  logger.info("" + aClass.getClass().getClassLoader());
+}
