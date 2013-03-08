@@ -5,7 +5,7 @@
   }
   long acceptedTime=AcceptedTime.getAcceptedTime();
   for (  com.profiler.common.dto.thrift.SpanEvent spanEvent : spanEventBoList) {
-    SpanEvent spanEventBo=new SpanEvent(span,spanEvent);
+    SpanEventBo spanEventBo=new SpanEventBo(span,spanEvent);
     byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence());
     byte[] value=spanEventBo.writeValue();
     put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
