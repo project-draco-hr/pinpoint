@@ -5,6 +5,11 @@
     Server server=new Server(terminal.getTo(),terminal.getTo(),terminal.getHosts(),ServiceType.findServiceType(terminal.getToServiceType()));
     servers.put(server.getId(),server);
   }
+  for (  Entry<String,ClientStatistics> entry : clientRequests.entrySet()) {
+    ClientStatistics client=entry.getValue();
+    Server server=new Server(client.getId(),client.getTo(),null,ServiceType.findServiceType(client.getToServiceType()));
+    servers.put(server.getId(),server);
+  }
   int i=0;
   for (  Entry<String,Server> entry : servers.entrySet()) {
     entry.getValue().setSequence(i++);
@@ -17,10 +22,11 @@
   for (  SpanBo span : spans) {
     String from=String.valueOf(span.getParentSpanId());
     String to=String.valueOf(span.getSpanId());
-    Server fromServer=servers.get((span.isRoot()) ? spanIdToClientId.get(to) : spanIdToServerId.get(from));
+    logger.debug("add non-terminal requests from=" + from + ", to="+ to);
+    Server fromServer=servers.get((span.isRoot()) ? clientServerMap.get(span.getApplicationId()) : spanIdToServerId.get(from));
     Server toServer=servers.get(spanIdToServerId.get(to));
     if (fromServer == null) {
-      logger.debug("invalid form server {}",from);
+      logger.debug("invalid fromServer {}",from);
       continue;
     }
     ServerRequest serverRequest=new ServerRequest(fromServer,toServer,new ResponseHistogram(span.isRoot() ? ServiceType.CLIENT : span.getServiceType()));

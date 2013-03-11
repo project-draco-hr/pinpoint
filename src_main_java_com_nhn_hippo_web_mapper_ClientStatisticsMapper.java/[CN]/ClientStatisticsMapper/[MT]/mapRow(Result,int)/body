@@ -1,0 +1,35 @@
+{
+  KeyValue[] keyList=result.raw();
+  Map<String,ClientStatistics> stat=new HashMap<String,ClientStatistics>();
+  for (  KeyValue kv : keyList) {
+    if (kv.getFamilyLength() != HBaseTables.CLIENT_STATISTICS_CF_COUNTER.length) {
+      continue;
+    }
+    byte[] qualifier=kv.getQualifier();
+    String destApplicationName=ClientStatUtils.getApplicationNameFromRowKey(kv.getRow());
+    short destServiceType=ClientStatUtils.getApplicationServiceTypeFromRowKey(kv.getRow());
+    long requestCount=Bytes.toLong(kv.getValue());
+    short histogramSlot=ClientStatUtils.getHistogramSlotFromColumnName(qualifier);
+    boolean isError=histogramSlot == (short)-1;
+    if (stat.containsKey(destApplicationName)) {
+      ClientStatistics statistics=stat.get(destApplicationName);
+      if (isError) {
+        statistics.getHistogram().incrErrorCount(requestCount);
+      }
+ else {
+        statistics.getHistogram().addSample(histogramSlot,requestCount);
+      }
+    }
+ else {
+      ClientStatistics statistics=new ClientStatistics(destApplicationName,destServiceType);
+      if (isError) {
+        statistics.getHistogram().incrErrorCount(requestCount);
+      }
+ else {
+        statistics.getHistogram().addSample(histogramSlot,requestCount);
+      }
+      stat.put(destApplicationName,statistics);
+    }
+  }
+  return stat;
+}
