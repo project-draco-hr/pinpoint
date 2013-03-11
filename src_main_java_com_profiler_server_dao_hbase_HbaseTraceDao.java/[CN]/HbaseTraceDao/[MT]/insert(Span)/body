@@ -3,7 +3,7 @@
   Put put=new Put(SpanUtils.getTraceId(span));
   byte[] spanValue=spanBo.writeValue();
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
-  long acceptedTime=AcceptedTime.getAcceptedTime();
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
   put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
   List<Annotation> annotations=span.getAnnotations();
   if (annotations != null && annotations.size() != 0) {

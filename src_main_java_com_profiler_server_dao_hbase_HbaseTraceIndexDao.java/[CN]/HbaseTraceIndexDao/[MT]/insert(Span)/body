@@ -1,5 +1,5 @@
 {
-  long acceptedTime=AcceptedTime.getAcceptedTime();
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
   byte[] agentIdTraceIndexRowKey=SpanUtils.getAgentIdTraceIndexRowKey(span.getAgentId(),acceptedTime);
   Put put=new Put(agentIdTraceIndexRowKey);
   put.add(TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),acceptedTime,null);

@@ -3,11 +3,11 @@
   if (spanEventBoList == null || spanEventBoList.size() == 0) {
     return;
   }
-  long acceptedTime=AcceptedTime.getAcceptedTime();
+  long acceptedTime0=acceptedTimeService.getAcceptedTime();
   for (  com.profiler.common.dto.thrift.SpanEvent spanEvent : spanEventBoList) {
     SpanEventBo spanEventBo=new SpanEventBo(span,spanEvent);
     byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence());
     byte[] value=spanEventBo.writeValue();
-    put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+    put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime0,value);
   }
 }

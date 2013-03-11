@@ -3,7 +3,7 @@
     logger.debug("[UpdatingTerminalStatistics] " + sourceApplicationName + " -> "+ destApplicationName+ " ("+ ServiceType.findServiceType(destServiceType)+ ")");
   }
   byte[] columnName=TerminalSpanUtils.makeColumnName(destServiceType,destApplicationName,destHost,elapsed,isError);
-  long acceptedTime=AcceptedTime.getAcceptedTime();
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   final byte[] rowKey=TerminalSpanUtils.makeRowKey(sourceApplicationName,rowTimeSlot);
   hbaseTemplate.incrementColumnValue(TERMINAL_STATISTICS,rowKey,TERMINAL_STATISTICS_CF_COUNTER,columnName,1L);
