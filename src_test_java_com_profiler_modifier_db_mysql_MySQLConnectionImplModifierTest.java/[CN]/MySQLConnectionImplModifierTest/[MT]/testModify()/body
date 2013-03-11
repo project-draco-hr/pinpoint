@@ -6,7 +6,7 @@
   Properties properties=new Properties();
   properties.setProperty("user","lucytest");
   properties.setProperty("password","testlucy");
-  TraceContext traceContext=new TraceContext();
+  TraceContext traceContext=TraceContext.getTraceContext();
   traceContext.setStorageFactory(new BypassStorageFactory(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   Trace trace=new Trace();
   traceContext.attachTraceObject(trace);
