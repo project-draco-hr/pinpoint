@@ -1,0 +1,10 @@
+{
+  byte[] slotNumber;
+  if (isError) {
+    slotNumber=HBaseTables.CLIENT_STATISTICS_CQ_ERROR_SLOT;
+  }
+ else {
+    slotNumber=findResponseHistogramSlotNo(elapsed);
+  }
+  return slotNumber;
+}
