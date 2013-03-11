@@ -11,6 +11,9 @@
     traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(span);
     businessTransactionStatistics.update(span);
+    if (span.getParentSpanId() == -1) {
+      clientStatisticsDao.update(span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getElapsed(),span.getErr() > 0);
+    }
     List<SpanEvent> spanEventList=span.getSpanEventList();
     if (spanEventList != null) {
       logger.info("handle spanEvent size:{}",spanEventList.size());
