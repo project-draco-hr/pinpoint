@@ -3,15 +3,14 @@
     throw new NullPointerException("applicationName");
   }
   if (logger.isTraceEnabled()) {
-    logger.trace("scan {}, {}, {}",new Object[]{applicationName,from,to});
+    logger.trace("scan(selectTraceIdsFromApplicationTraceIndex) {}, {}, {}",new Object[]{applicationName,from,to});
   }
-  List<List<byte[]>> bytes=this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to);
+  List<List<TraceId>> traceIdList=this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to);
   Set<TraceId> result=new HashSet<TraceId>();
-  for (  List<byte[]> list : bytes) {
-    for (    byte[] traceId : list) {
-      TraceId tid=new TraceId(traceId);
-      result.add(tid);
-      logger.trace("traceid:{}",tid);
+  for (  List<TraceId> list : traceIdList) {
+    for (    TraceId traceId : list) {
+      result.add(traceId);
+      logger.trace("traceid:{}",traceId);
     }
   }
   return result;

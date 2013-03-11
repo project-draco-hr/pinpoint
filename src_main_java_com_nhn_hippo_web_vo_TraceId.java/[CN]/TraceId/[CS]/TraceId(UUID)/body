@@ -1,5 +1,7 @@
 {
+  if (uuid == null) {
+    throw new NullPointerException("uuid must not be null");
+  }
   this.most=uuid.getMostSignificantBits();
   this.least=uuid.getLeastSignificantBits();
-  this.id=BytesUtils.longLongToBytes(most,least);
 }
