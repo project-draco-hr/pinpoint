@@ -1,6 +1,6 @@
 {
-  byte[] uuidBytes=BytesUtils.longLongToBytes(traceId.getMostSignificantBits(),traceId.getLeastSignificantBits());
-  Get get=new Get(uuidBytes);
+  byte[] traceIdBytes=traceId.getBytes();
+  Get get=new Get(traceIdBytes);
   get.addFamily(HBaseTables.TRACES_CF_SPAN);
   get.addFamily(HBaseTables.TRACES_CF_ANNOTATION);
   get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);

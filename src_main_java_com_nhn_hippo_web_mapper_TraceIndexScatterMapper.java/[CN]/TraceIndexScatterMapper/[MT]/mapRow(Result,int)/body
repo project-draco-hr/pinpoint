@@ -10,7 +10,7 @@
     int exceptionCode=BytesUtils.bytesToInt(v,4);
     long acceptedTime=BytesUtils.bytesToLong(kv.getRow(),24);
     long[] tid=BytesUtils.bytesToLongLong(kv.getQualifier());
-    String traceId=new UUID(tid[0],tid[1]).toString();
+    String traceId=TraceIdUtils.formatString(tid[0],tid[1]);
     Dot dot=new Dot(traceId,acceptedTime,elapsed,exceptionCode);
     list.add(dot);
   }

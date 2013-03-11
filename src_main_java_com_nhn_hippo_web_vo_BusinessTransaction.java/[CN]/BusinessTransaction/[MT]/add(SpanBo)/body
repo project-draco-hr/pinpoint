@@ -1,8 +1,14 @@
 {
   long elapsed=span.getElapsed();
   totalTime+=elapsed;
-  if (maxTime < elapsed)   maxTime=elapsed;
-  if (minTime > elapsed)   minTime=elapsed;
-  this.traces.add(new Trace(new UUID(span.getMostTraceId(),span.getLeastTraceId()).toString(),elapsed,span.getStartTime(),span.getException()));
+  if (maxTime < elapsed) {
+    maxTime=elapsed;
+  }
+  if (minTime > elapsed) {
+    minTime=elapsed;
+  }
+  String traceIdString=TraceIdUtils.formatString(span.getMostTraceId(),span.getLeastTraceId());
+  Trace trace=new Trace(traceIdString,elapsed,span.getStartTime(),span.getException());
+  this.traces.add(trace);
   calls++;
 }

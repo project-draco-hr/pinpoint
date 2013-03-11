@@ -1,6 +1,6 @@
 {
-  List<Get> gets=new ArrayList<Get>(traceIds.size());
-  for (  TraceId traceId : traceIds) {
+  List<Get> gets=new ArrayList<Get>(traceIdSet.size());
+  for (  TraceId traceId : traceIdSet) {
     Get get=new Get(traceId.getBytes());
     get.addFamily(HBaseTables.TRACES_CF_SPAN);
     gets.add(get);

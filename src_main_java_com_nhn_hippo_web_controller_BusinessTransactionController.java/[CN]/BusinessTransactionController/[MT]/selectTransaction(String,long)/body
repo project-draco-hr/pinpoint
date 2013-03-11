@@ -1,5 +1,6 @@
 {
-  logger.debug("traceId:{}",traceId);
+  logger.debug("traceId:{}",traceIdParam);
+  final TraceId traceId=new TraceId(traceIdParam);
   ModelAndView mv=new ModelAndView("selectTransaction");
   try {
     List<SpanAlign> spanAligns=spanService.selectSpan(traceId);
@@ -10,7 +11,7 @@
     }
     mv.addObject("spanList",spanAligns);
     mv.addObject("traceId",traceId);
-    ServerCallTree callTree=flow.selectServerCallTree(new TraceId(UUID.fromString(traceId)));
+    ServerCallTree callTree=flow.selectServerCallTree(traceId);
     mv.addObject("nodes",callTree.getNodes());
     mv.addObject("links",callTree.getLinks());
     RecordSet recordset=new RecordSet(spanAligns,focusTimestamp);
