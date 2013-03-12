@@ -1,0 +1,16 @@
+{
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    ConnectMethodInterceptor connectMethodInterceptor=new ConnectMethodInterceptor();
+    aClass.addInterceptorCallByContextClassLoader("connect",null,connectMethodInterceptor);
+    return aClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    e.printStackTrace();
+    return null;
+  }
+}
