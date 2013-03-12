@@ -3,9 +3,9 @@
   this.profilerConfig=profilerConfig;
   this.serverInfo=new ServerInfo();
   String machineName=NetworkUtils.getMachineName();
-  this.agentId=getId("hippo.agentId",machineName);
-  this.nodeName=getId("hippo.nodeName",machineName);
-  this.applicationName=getId("hippo.applicationName","UnknownApplicationName");
+  this.agentId=getId("hippo.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
+  this.nodeName=System.getProperty("hippo.nodeName",machineName);
+  this.applicationName=getId("hippo.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
   this.priorityDataSender=createDataSender();
   this.dataSender=createDataSender();
   this.startTime=System.currentTimeMillis();
