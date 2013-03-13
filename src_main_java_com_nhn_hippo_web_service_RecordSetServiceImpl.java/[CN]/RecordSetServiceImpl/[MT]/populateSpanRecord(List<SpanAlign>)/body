@@ -7,7 +7,10 @@
       String arguments=(String)AnnotationUtils.getDisplayArgument(spanBo);
       long begin=spanBo.getStartTime();
       long elapsed=spanBo.getElapsed();
-      Record record=new Record(spanAlign.getDepth(),true,method,arguments,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
+      ApiDescription apiDescription=apiDescriptionParser.parse(method);
+      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),arguments,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
+      record.setSimpleClassName(apiDescription.getSimpleClassName());
+      record.setFullApiDescription(method);
       recordList.add(record);
       List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
@@ -18,8 +21,11 @@
       Object arguments=AnnotationUtils.getDisplayArgument(spanEventBo);
       long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
       long elapsed=spanEventBo.getEndElapsed();
+      ApiDescription apiDescription=apiDescriptionParser.parse(method);
       String destinationId=spanEventBo.getDestinationId();
-      Record record=new Record(spanAlign.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
+      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
+      record.setSimpleClassName(apiDescription.getSimpleClassName());
+      record.setFullApiDescription(method);
       recordList.add(record);
       List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanEventBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
