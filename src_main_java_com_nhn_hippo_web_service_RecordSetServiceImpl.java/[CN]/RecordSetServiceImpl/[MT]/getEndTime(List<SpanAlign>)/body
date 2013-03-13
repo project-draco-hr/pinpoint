@@ -1,0 +1,16 @@
+{
+  if (spanAlignList == null || spanAlignList.size() == 0) {
+    return 0;
+  }
+  SpanAlign spanAlign=spanAlignList.get(0);
+  if (spanAlign.isSpan()) {
+    SpanBo spanBo=spanAlign.getSpanBo();
+    return spanBo.getElapsed();
+  }
+ else {
+    SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+    long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
+    long elapsed=spanEventBo.getEndElapsed();
+    return begin + elapsed;
+  }
+}

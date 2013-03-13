@@ -3,7 +3,7 @@
   final TraceId traceId=new TraceId(traceIdParam);
   ModelAndView mv=new ModelAndView("selectTransaction");
   try {
-    List<SpanAlign> spanAligns=spanService.selectSpan(traceId);
+    List<SpanAlign> spanAligns=this.spanService.selectSpan(traceId);
     if (spanAligns.isEmpty()) {
       mv.addObject("errorCode",9);
       mv.setViewName("error");
@@ -11,16 +11,16 @@
     }
     mv.addObject("spanList",spanAligns);
     mv.addObject("traceId",traceId);
-    ServerCallTree callTree=flow.selectServerCallTree(traceId);
+    ServerCallTree callTree=this.flow.selectServerCallTree(traceId);
     mv.addObject("nodes",callTree.getNodes());
     mv.addObject("links",callTree.getLinks());
-    RecordSet recordset=new RecordSet(spanAligns,focusTimestamp);
-    mv.addObject("recordset",recordset);
-    mv.addObject("applicationName",recordset.getApplicationName());
-    mv.addObject("callstack",recordset.getIterator());
-    mv.addObject("timeline",recordset.getIterator());
-    mv.addObject("callstackStart",recordset.getStartTime());
-    mv.addObject("callstackEnd",recordset.getEndTime());
+    RecordSet recordSet=this.recordSetService.createRecordSet(spanAligns,focusTimestamp);
+    mv.addObject("recordset",recordSet);
+    mv.addObject("applicationName",recordSet.getApplicationName());
+    mv.addObject("callstack",recordSet.getIterator());
+    mv.addObject("timeline",recordSet.getIterator());
+    mv.addObject("callstackStart",recordSet.getStartTime());
+    mv.addObject("callstackEnd",recordSet.getEndTime());
   }
  catch (  Exception e) {
     logger.warn("BusinessTransactionController Error Cause" + e.getMessage(),e);

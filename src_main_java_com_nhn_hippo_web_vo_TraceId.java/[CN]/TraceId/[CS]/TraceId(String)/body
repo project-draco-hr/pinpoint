@@ -2,7 +2,7 @@
   if (traceId == null) {
     throw new NullPointerException("traceId must not be null");
   }
-  UUID uuid=UUID.fromString(traceId);
-  this.most=uuid.getMostSignificantBits();
-  this.least=uuid.getLeastSignificantBits();
+  String[] parsedTraceId=TraceIdUtils.parseTraceId(traceId);
+  this.most=TraceIdUtils.parseMostId(parsedTraceId);
+  this.least=TraceIdUtils.parseLeastId(parsedTraceId);
 }

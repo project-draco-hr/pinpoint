@@ -1,40 +1,29 @@
 {
-  boolean marked=false;
-  for (  SpanAlign spanAlign : spanAligns) {
+  List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
+  for (  SpanAlign spanAlign : spanAlignList) {
     if (spanAlign.isSpan()) {
       SpanBo spanBo=spanAlign.getSpanBo();
-      AnnotationUtils.sortAnnotationListByKey(spanBo);
       String method=(String)AnnotationUtils.getDisplayMethod(spanBo);
       String arguments=(String)AnnotationUtils.getDisplayArgument(spanBo);
       long begin=spanBo.getStartTime();
       long elapsed=spanBo.getElapsed();
-      if (!marked) {
-        setStartTime(begin);
-        setEndTime(begin + elapsed);
-        applicationName=arguments;
-        beginTimestamp=begin;
-        marked=true;
-      }
       Record record=new Record(spanAlign.getDepth(),true,method,arguments,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
-      recordSet.add(record);
-      addAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
+      recordList.add(record);
+      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
+      recordList.addAll(annotationRecord);
     }
  else {
       SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
-      AnnotationUtils.sortAnnotationListByKey(spanEventBo);
       String method=(String)AnnotationUtils.getDisplayMethod(spanEventBo);
       Object arguments=AnnotationUtils.getDisplayArgument(spanEventBo);
       long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
       long elapsed=spanEventBo.getEndElapsed();
-      if (!marked) {
-        setStartTime(begin);
-        setEndTime(begin + elapsed);
-        marked=true;
-      }
       String destinationId=spanEventBo.getDestinationId();
       Record record=new Record(spanAlign.getDepth(),true,method,(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
-      recordSet.add(record);
-      addAnnotationRecord(spanAlign.getDepth() + 1,spanEventBo.getAnnotationBoList());
+      recordList.add(record);
+      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanEventBo.getAnnotationBoList());
+      recordList.addAll(annotationRecord);
     }
   }
+  return recordList;
 }

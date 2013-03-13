@@ -19,7 +19,7 @@
     ServerRequest request=new ServerRequest(servers.get(terminal.getFrom()),servers.get(terminal.getTo()),terminal.getHistogram());
     serverRequests.put(request.getId(),request);
   }
-  for (  SpanBo span : spans) {
+  for (  SpanBo span : spanList) {
     String from=String.valueOf(span.getParentSpanId());
     String to=String.valueOf(span.getSpanId());
     logger.debug("add non-terminal requests from=" + from + ", to="+ to);
@@ -38,7 +38,7 @@
       serverRequests.put(serverRequest.getId(),serverRequest);
     }
   }
-  for (  SpanEventBo spanEventBo : subspans) {
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
     String from=String.valueOf(spanEventBo.getSpanId());
     String to;
     to=spanEventBo.getDestinationId();

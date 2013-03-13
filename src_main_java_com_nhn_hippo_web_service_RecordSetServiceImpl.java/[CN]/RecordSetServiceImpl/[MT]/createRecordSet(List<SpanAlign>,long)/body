@@ -1,0 +1,17 @@
+{
+  sortSpanAlignAnnotation(spanAlignList);
+  RecordSet recordSet=new RecordSet();
+  SpanBo focusTimeSpanBo=findFocusTimeSpanBo(spanAlignList,focusTimestamp);
+  String applicationName=getDisplayArgument(focusTimeSpanBo);
+  recordSet.setApplicationName(applicationName);
+  long startTime=getStartTime(spanAlignList);
+  recordSet.setStartTime(startTime);
+  long endTime=getEndTime(spanAlignList);
+  recordSet.setEndTime(endTime);
+  List<Record> recordList=populateSpanRecord(spanAlignList);
+  long beginTimeStamp=focusTimeSpanBo.getStartTime();
+  markFocusRecord(recordList,beginTimeStamp);
+  recordSet.setBeginTimestamp(beginTimeStamp);
+  recordSet.setRecordSet(recordList);
+  return recordSet;
+}
