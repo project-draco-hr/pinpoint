@@ -1,6 +1,6 @@
 {
   if (logger.isInfoEnabled()) {
-    logger.info("Waiting agent data on {}",TomcatProfilerReceiverConfig.SERVER_UDP_LISTEN_PORT);
+    logger.info("Waiting agent data on {}",this.socket.getLocalSocketAddress());
   }
   startLatch.countDown();
   while (state.get()) {
@@ -17,7 +17,9 @@
       }
       if (logger.isDebugEnabled()) {
         logger.debug("DatagramPacket SocketAddress:" + packet.getSocketAddress() + " read size:"+ packet.getLength());
-        logger.trace("dump packet:" + PacketUtils.dumpDatagramPacket(packet));
+        if (logger.isTraceEnabled()) {
+          logger.trace("dump packet:" + PacketUtils.dumpDatagramPacket(packet));
+        }
       }
       success=true;
     }
