@@ -2,6 +2,8 @@
   sortSpanAlignAnnotation(spanAlignList);
   RecordSet recordSet=new RecordSet();
   SpanBo focusTimeSpanBo=findFocusTimeSpanBo(spanAlignList,focusTimestamp);
+  recordSet.setAgentId(focusTimeSpanBo.getAgentId());
+  recordSet.setApplicationId(focusTimeSpanBo.getApplicationId());
   String applicationName=getRpcArgument(focusTimeSpanBo);
   recordSet.setApplicationName(applicationName);
   long startTime=getStartTime(spanAlignList);

@@ -14,6 +14,10 @@
       recordList.add(record);
       List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
+      if (spanBo.getRemoteAddr() != null) {
+        Record remoteAddress=createParameterRecord(spanAlign.getDepth() + 1,"REMOTE_ADDRESS",spanBo.getRemoteAddr());
+        recordList.add(remoteAddress);
+      }
     }
  else {
       SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
