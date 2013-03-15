@@ -4,11 +4,11 @@
     if (spanAlign.isSpan()) {
       SpanBo spanBo=spanAlign.getSpanBo();
       String method=(String)AnnotationUtils.getDisplayMethod(spanBo);
-      String arguments=(String)AnnotationUtils.getDisplayArgument(spanBo);
+      String argument=getRpcArgument(spanBo);
       long begin=spanBo.getStartTime();
       long elapsed=spanBo.getElapsed();
       ApiDescription apiDescription=apiDescriptionParser.parse(method);
-      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),arguments,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
+      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
       record.setSimpleClassName(apiDescription.getSimpleClassName());
       record.setFullApiDescription(method);
       recordList.add(record);
@@ -18,12 +18,12 @@
  else {
       SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
       String method=(String)AnnotationUtils.getDisplayMethod(spanEventBo);
-      Object arguments=AnnotationUtils.getDisplayArgument(spanEventBo);
+      String argument=getDisplayArgument(spanEventBo);
       long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
       long elapsed=spanEventBo.getEndElapsed();
       ApiDescription apiDescription=apiDescriptionParser.parse(method);
       String destinationId=spanEventBo.getDestinationId();
-      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),(arguments != null) ? arguments.toString() : "",begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
+      Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
       record.setSimpleClassName(apiDescription.getSimpleClassName());
       record.setFullApiDescription(method);
       recordList.add(record);
