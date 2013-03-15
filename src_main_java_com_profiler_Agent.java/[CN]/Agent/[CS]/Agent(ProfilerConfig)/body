@@ -1,4 +1,5 @@
 {
+  changeStatus(AgentStatus.INITIALIZING);
   Assert.notNull(profilerConfig,"profilerConfig must not be null");
   this.profilerConfig=profilerConfig;
   this.serverInfo=new ServerInfo();
@@ -14,5 +15,7 @@
   this.systemMonitor=new SystemMonitor(this.traceContext,this.profilerConfig);
   this.systemMonitor.setDataSender(dataSender);
   ApiMappingTable.findApiId("test",null,null);
+  this.agentInfo=createAgentInfo();
+  this.heartbeatThread=createHeartbeatThread();
   SingletonHolder.INSTANCE=this;
 }

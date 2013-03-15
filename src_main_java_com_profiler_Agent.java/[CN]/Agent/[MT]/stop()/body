@@ -1,20 +1,12 @@
 {
   logger.info("Stopping HIPPO Agent.");
+  changeStatus(AgentStatus.STOPPING);
   systemMonitor.stop();
-  String ip=getServerInfo().getHostip();
-  String ports="";
-  for (  Entry<Integer,String> entry : getServerInfo().getConnectors().entrySet()) {
-    ports+=" " + entry.getKey();
-  }
-  AgentInfo agentInfo=new AgentInfo();
-  agentInfo.setHostname(ip);
-  agentInfo.setPorts(ports);
-  agentInfo.setAgentId(getAgentId());
-  agentInfo.setIdentifier(this.identifier);
-  agentInfo.setApplicationName(getApplicationName());
   agentInfo.setIsAlive(false);
-  agentInfo.setTimestamp(this.startTime);
-  send3(agentInfo);
+  this.priorityDataSender.send(agentInfo);
+  this.priorityDataSender.send(agentInfo);
+  this.priorityDataSender.send(agentInfo);
   this.dataSender.stop();
   this.priorityDataSender.stop();
+  changeStatus(AgentStatus.STOPPED);
 }

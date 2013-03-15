@@ -1,0 +1,23 @@
+{
+  try {
+    logger.info("Send startup information to HIPPO server via " + this.priorityDataSender.getClass().getSimpleName() + ". agentInfo="+ agentInfo);
+    this.priorityDataSender.send(agentInfo);
+    this.priorityDataSender.send(agentInfo);
+    this.priorityDataSender.send(agentInfo);
+    logger.info("Starting agent heartbeat.");
+    while (true) {
+      if (agentStatus == AgentStatus.RUNNING) {
+        logger.severe("Send heartbeat");
+        this.priorityDataSender.send(agentInfo);
+      }
+ else       if (agentStatus == AgentStatus.STOPPING || agentStatus == AgentStatus.STOPPED) {
+        break;
+      }
+      Thread.sleep(60 * 1 * 1000L);
+    }
+  }
+ catch (  InterruptedException e) {
+    logger.warning(e.getMessage());
+  }
+  logger.info(Thread.currentThread().getName() + " stopped.");
+}
