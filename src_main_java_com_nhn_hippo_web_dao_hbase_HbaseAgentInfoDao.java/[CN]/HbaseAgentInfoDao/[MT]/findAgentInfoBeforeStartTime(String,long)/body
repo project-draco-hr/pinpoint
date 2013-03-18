@@ -8,7 +8,7 @@
         long startTime=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
         logger.debug("agent:{} startTime value {}",agentId,startTime);
         if (startTime < currentTime) {
-          byte[] value=next.getValue(HBaseTables.AGENTINFO_CF_INFO,HBaseTables.AGENTINFO_CF_INFO__IDENTIFIER);
+          byte[] value=next.getValue(HBaseTables.AGENTINFO_CF_INFO,HBaseTables.AGENTINFO_CF_INFO_IDENTIFIER);
           AgentInfoBo agentInfoBo=new AgentInfoBo();
           agentInfoBo.setAgentId(agentId);
           agentInfoBo.setTimestamp(startTime);

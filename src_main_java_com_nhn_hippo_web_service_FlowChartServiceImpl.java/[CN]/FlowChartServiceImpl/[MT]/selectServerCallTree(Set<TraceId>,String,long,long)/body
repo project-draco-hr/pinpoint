@@ -1,6 +1,7 @@
 {
   final Map<String,ServiceType> terminalQueryParams=new HashMap<String,ServiceType>();
   final Map<String,ServiceType> clientQueryParams=new HashMap<String,ServiceType>();
+  final Set<String> hostnameQueryParams=new HashSet<String>();
   final ServerCallTree tree=new ServerCallTree(new ApplicationIdNodeSelector());
   StopWatch watch=new StopWatch();
   watch.start("scanNonTerminalSpans");
@@ -12,6 +13,7 @@
     totalNonTerminalSpansCount+=transaction.size();
     for (    SpanBo eachTransaction : transaction) {
       tree.addSpan(eachTransaction);
+      hostnameQueryParams.add(eachTransaction.getApplicationId());
       terminalQueryParams.put(eachTransaction.getApplicationId(),eachTransaction.getServiceType());
       if (eachTransaction.isRoot()) {
         clientQueryParams.put(eachTransaction.getApplicationId(),ServiceType.CLIENT);
@@ -42,6 +44,8 @@
       }
     }
   }
+  watch.stop();
+  logger.info("Fetch terminal statistics elapsed : {}ms",watch.getLastTaskTimeMillis());
   logger.debug("client query params=" + clientQueryParams);
   for (  Entry<String,ServiceType> param : clientQueryParams.entrySet()) {
     List<Map<String,ClientStatistics>> clients=clientStatisticsDao.selectClient(param.getKey(),param.getValue().getCode(),from,to);
@@ -52,7 +56,9 @@
       }
     }
   }
-  watch.stop();
-  logger.info("Fetch terminal statistics elapsed : {}ms",watch.getLastTaskTimeMillis());
+  logger.debug("hostname query params=" + hostnameQueryParams);
+  for (  String applicationId : hostnameQueryParams) {
+    tree.addApplicationHosts(applicationId,selectApplicationHosts(applicationId));
+  }
   return tree.build();
 }

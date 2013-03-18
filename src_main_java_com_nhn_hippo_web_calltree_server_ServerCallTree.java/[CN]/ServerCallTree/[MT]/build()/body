@@ -1,5 +1,9 @@
 {
   if (isBuilt)   return this;
+  for (  Entry<String,Server> entry : servers.entrySet()) {
+    Server server=entry.getValue();
+    server.setHosts(applicationHosts.get(server.getApplicationName()));
+  }
   for (  Entry<String,TerminalStatistics> entry : terminalRequests.entrySet()) {
     TerminalStatistics terminal=entry.getValue();
     Server server=new Server(terminal.getTo(),terminal.getTo(),terminal.getHosts(),ServiceType.findServiceType(terminal.getToServiceType()));
