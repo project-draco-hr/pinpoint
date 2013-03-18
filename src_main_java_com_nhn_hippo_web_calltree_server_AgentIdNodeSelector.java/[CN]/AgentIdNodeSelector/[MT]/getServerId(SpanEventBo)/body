@@ -1,3 +1,7 @@
 {
-  return spanEventBo.getEndPoint();
+  String endPoint=spanEventBo.getEndPoint();
+  if (endPoint == null || endPoint.length() == 0) {
+    return spanEventBo.getDestinationId();
+  }
+  return endPoint + "/" + spanEventBo.getDestinationId();
 }
