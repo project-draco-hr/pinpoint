@@ -6,6 +6,12 @@
     if (!(this_present_hostname && that_present_hostname))     return false;
     if (!this.hostname.equals(that.hostname))     return false;
   }
+  boolean this_present_ip=true && this.isSetIp();
+  boolean that_present_ip=true && that.isSetIp();
+  if (this_present_ip || that_present_ip) {
+    if (!(this_present_ip && that_present_ip))     return false;
+    if (!this.ip.equals(that.ip))     return false;
+  }
   boolean this_present_ports=true && this.isSetPorts();
   boolean that_present_ports=true && that.isSetPorts();
   if (this_present_ports || that_present_ports) {

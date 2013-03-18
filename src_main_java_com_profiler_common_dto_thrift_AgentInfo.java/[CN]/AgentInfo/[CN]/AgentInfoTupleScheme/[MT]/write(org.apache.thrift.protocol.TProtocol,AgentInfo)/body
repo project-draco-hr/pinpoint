@@ -4,27 +4,33 @@
   if (struct.isSetHostname()) {
     optionals.set(0);
   }
-  if (struct.isSetPorts()) {
+  if (struct.isSetIp()) {
     optionals.set(1);
   }
-  if (struct.isSetAgentId()) {
+  if (struct.isSetPorts()) {
     optionals.set(2);
   }
-  if (struct.isSetApplicationName()) {
+  if (struct.isSetAgentId()) {
     optionals.set(3);
   }
-  if (struct.isSetIsAlive()) {
+  if (struct.isSetApplicationName()) {
     optionals.set(4);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetIsAlive()) {
     optionals.set(5);
   }
-  if (struct.isSetIdentifier()) {
+  if (struct.isSetTimestamp()) {
     optionals.set(6);
   }
-  oprot.writeBitSet(optionals,7);
+  if (struct.isSetIdentifier()) {
+    optionals.set(7);
+  }
+  oprot.writeBitSet(optionals,8);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
+  }
+  if (struct.isSetIp()) {
+    oprot.writeString(struct.ip);
   }
   if (struct.isSetPorts()) {
     oprot.writeString(struct.ports);
