@@ -2,6 +2,9 @@
   if (logger.isDebugEnabled()) {
     logger.debug("[UpdatingTerminalStatistics] " + sourceApplicationName + " -> "+ destApplicationName+ " ("+ ServiceType.findServiceType(destServiceType)+ ")");
   }
+  if (destHost == null) {
+    destHost="";
+  }
   byte[] columnName=TerminalSpanUtils.makeColumnName(destServiceType,destApplicationName,destHost,elapsed,isError);
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
