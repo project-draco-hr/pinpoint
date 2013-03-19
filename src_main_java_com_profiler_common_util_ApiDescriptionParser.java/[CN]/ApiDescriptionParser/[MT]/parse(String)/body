@@ -1,7 +1,16 @@
 {
   final int methodStart=apiDescriptionString.lastIndexOf(METHOD_PARAM_START);
+  if (methodStart == -1) {
+    throw new IllegalArgumentException("'(' not found. invalid apiDescriptionString:" + apiDescriptionString);
+  }
   final int methodEnd=apiDescriptionString.lastIndexOf(METHOD_PARAM_END);
+  if (methodEnd == -1) {
+    throw new IllegalArgumentException("')' not found. invalid apiDescriptionString:" + apiDescriptionString);
+  }
   final int classIndex=apiDescriptionString.lastIndexOf(DOT,methodStart);
+  if (classIndex == -1) {
+    throw new IllegalArgumentException("'.' not found. invalid apiDescriptionString:" + apiDescriptionString);
+  }
   String className=parseClassName(apiDescriptionString,classIndex);
   ApiDescription api=new ApiDescription();
   api.setClassName(className);
