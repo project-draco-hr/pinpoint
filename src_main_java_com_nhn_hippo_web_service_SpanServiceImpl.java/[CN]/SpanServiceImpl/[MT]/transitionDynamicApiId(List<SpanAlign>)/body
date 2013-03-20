@@ -12,7 +12,7 @@
       }
  catch (      AgentIdNotFoundException ex) {
         AnnotationBo agentInfoNotFound=new AnnotationBo();
-        agentInfoNotFound.setKey(AnnotationKey.API.getCode());
+        agentInfoNotFound.setKey(AnnotationKey.ERROR_API_METADATA_AGENT_INFO_NOT_FOUND.getCode());
         agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
         annotationBoList.add(agentInfoNotFound);
         return;
@@ -22,8 +22,8 @@
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
-        api.setKey(AnnotationKey.API.getCode());
-        api.setValue("API-DID not found. api:" + apiId);
+        api.setKey(AnnotationKey.ERROR_API_METADATA_NOT_FOUND.getCode());
+        api.setValue("API-DynamicID not found. api:" + apiId);
         annotationBoList.add(api);
       }
  else       if (size == 1) {
@@ -45,7 +45,7 @@
       }
  else {
         AnnotationBo apiAnnotation=new AnnotationBo();
-        apiAnnotation.setKey(AnnotationKey.API.getCode());
+        apiAnnotation.setKey(AnnotationKey.ERROR_API_METADATA_DID_COLLSION.getCode());
         String collisonMessage=collisionApiDidMessage(apiId,apiMetaDataList);
         apiAnnotation.setValue(collisonMessage);
         annotationBoList.add(apiAnnotation);
@@ -58,7 +58,7 @@
         return null;
       }
       AnnotationBo identifierCheckFail=new AnnotationBo();
-      identifierCheckFail.setKey(AnnotationKey.API.getCode());
+      identifierCheckFail.setKey(AnnotationKey.ERROR_API_METADATA_IDENTIFIER_CHECK_ERROR.getCode());
       identifierCheckFail.setValue("invalid ApiMetaInfo:" + apiMetaDataBo);
       return identifierCheckFail;
     }
