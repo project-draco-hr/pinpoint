@@ -1,0 +1,10 @@
+{
+  Matcher matcher=agentPattern.matcher(classPath);
+  if (!matcher.find()) {
+    return false;
+  }
+  this.agentJarName=parseAgentJar(matcher);
+  this.agentJarFullPath=parseAgentJarPath(classPath,agentJarName);
+  this.agentDirPath=parseAgentDirPath(agentJarFullPath);
+  return true;
+}
