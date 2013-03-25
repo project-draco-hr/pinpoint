@@ -1,0 +1,13 @@
+{
+  String projectDir=getProjectLibDir();
+  logger.info("lib:" + projectDir);
+  String testJar="hippoClassLoaderTest-1.0.jar";
+  logger.info("load lib:" + testJar);
+  String testJarPath=projectDir + File.separator + testJar;
+  logger.info("load testlib:" + testJarPath);
+  File file=new File(testJarPath);
+  Assert.assertTrue(file.exists());
+  AgentURLClassLoader agentURLClassLoader=new AgentURLClassLoader(new URL[]{file.toURI().toURL()});
+  agentURLClassLoader.setBootClass("com.profiler.boot.BootClassTest");
+  agentURLClassLoader.boot();
+}

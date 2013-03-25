@@ -1,6 +1,7 @@
 {
   logger.info("Stopping HIPPO Agent.");
   changeStatus(AgentStatus.STOPPING);
+  heartbeatThread.interrupt();
   systemMonitor.stop();
   agentInfo.setIsAlive(false);
   this.priorityDataSender.send(agentInfo);
