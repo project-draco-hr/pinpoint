@@ -1,0 +1,13 @@
+{
+  if (!application.getServiceType().isRpcClient()) {
+    applicationNames.add(application.getApplicationName());
+  }
+  if (applications.containsKey(application.getId())) {
+    logger.debug("Merge application. {}",application);
+    applications.get(application.getId()).mergeWith(application);
+  }
+ else {
+    logger.debug("Add application. {}",application);
+    applications.put(application.getId(),application);
+  }
+}

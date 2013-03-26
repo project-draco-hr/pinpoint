@@ -1,0 +1,15 @@
+{
+  if (stat.getToServiceType().isRpcClient()) {
+    Application app=hostApplicationMapDao.findApplicationName(stat.getTo(),from,to);
+    if (app != null) {
+      logger.debug("Application info replaced. {} => {}",stat,app);
+      stat.setTo(app.getApplicationName());
+      stat.setToServiceType(app.getServiceType());
+      return true;
+    }
+ else {
+      stat.setToServiceType(ServiceType.UNKNOWN_CLOUD);
+    }
+  }
+  return false;
+}

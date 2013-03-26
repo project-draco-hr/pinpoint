@@ -1,0 +1,7 @@
+{
+  ApplicationMap map=applicationMapService.selectApplicationMap(applicationName,serviceType,from,to);
+  model.addAttribute("nodes",map.getNodes());
+  model.addAttribute("links",map.getLinks());
+  logger.debug("map : {}",map);
+  return "applicationmap";
+}

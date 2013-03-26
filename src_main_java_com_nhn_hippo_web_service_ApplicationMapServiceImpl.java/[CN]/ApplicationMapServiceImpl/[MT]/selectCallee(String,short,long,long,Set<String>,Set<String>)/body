@@ -1,0 +1,29 @@
+{
+  if (calleeFoundApplications.contains(callerApplicationName + callerServiceType)) {
+    logger.debug("ApplicationStatistics exists. Skip finding callee. " + callerApplicationName + callerServiceType);
+    return new HashSet<ApplicationStatistics>(0);
+  }
+  calleeFoundApplications.add(callerApplicationName + callerServiceType);
+  logger.debug("Find Callee. caller=" + callerApplicationName + ", serviceType="+ ServiceType.findServiceType(callerServiceType));
+  final Set<ApplicationStatistics> calleeSet=new HashSet<ApplicationStatistics>();
+  Map<String,ApplicationStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
+  logger.debug("     Found Callee. caller=" + callerApplicationName + " ("+ callee.size()+ ")");
+  for (  Entry<String,ApplicationStatistics> entry : callee.entrySet()) {
+    boolean replaced=replaceApplicationInfo(entry.getValue(),from,to);
+    if (!replaced) {
+      replaceHosts(entry.getValue(),from,to);
+      calleeSet.add(entry.getValue());
+    }
+    if (entry.getValue().getToServiceType().isTerminal() || entry.getValue().getToServiceType().isUnknown()) {
+      continue;
+    }
+    ApplicationStatistics stat=entry.getValue();
+    Set<ApplicationStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
+    calleeSet.addAll(calleeSub);
+    for (    ApplicationStatistics eachCallee : calleeSub) {
+      Set<ApplicationStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
+      calleeSet.addAll(callerSub);
+    }
+  }
+  return calleeSet;
+}

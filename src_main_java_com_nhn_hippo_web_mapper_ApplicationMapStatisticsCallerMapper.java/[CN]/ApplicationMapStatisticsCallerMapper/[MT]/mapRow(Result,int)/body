@@ -1,0 +1,51 @@
+{
+  KeyValue[] keyList=result.raw();
+  Map<String,ApplicationStatistics> stat=new HashMap<String,ApplicationStatistics>();
+  Map<String,Set<String>> calleeAppHostMap=new HashMap<String,Set<String>>();
+  for (  KeyValue kv : keyList) {
+    byte[] qualifier=kv.getQualifier();
+    String calleeApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(kv.getRow());
+    short calleeServiceType=ApplicationMapStatisticsUtils.getApplicationTypeFromRowKey(kv.getRow());
+    String callerApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
+    short callerServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
+    logger.debug("    Fetched. " + callerApplicationName + " -> "+ calleeApplicationName);
+    long requestCount=Bytes.toLong(kv.getValue());
+    short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
+    String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
+    boolean isError=histogramSlot == (short)-1;
+    String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
+    if (calleeHost != null) {
+      if (calleeAppHostMap.containsKey(id)) {
+        calleeAppHostMap.get(id).add(calleeHost);
+      }
+ else {
+        Set<String> set=new HashSet<String>();
+        set.add(calleeHost);
+        calleeAppHostMap.put(id,set);
+      }
+    }
+    if (stat.containsKey(id)) {
+      ApplicationStatistics statistics=stat.get(id);
+      if (isError) {
+        statistics.getHistogram().incrErrorCount(requestCount);
+      }
+ else {
+        statistics.getHistogram().addSample(histogramSlot,requestCount);
+      }
+    }
+ else {
+      ApplicationStatistics statistics=new ApplicationStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
+      if (isError) {
+        statistics.getHistogram().incrErrorCount(requestCount);
+      }
+ else {
+        statistics.getHistogram().addSample(histogramSlot,requestCount);
+      }
+      stat.put(id,statistics);
+    }
+  }
+  for (  Entry<String,ApplicationStatistics> entry : stat.entrySet()) {
+    entry.getValue().addToHosts(calleeAppHostMap.get(entry.getKey()));
+  }
+  return stat;
+}

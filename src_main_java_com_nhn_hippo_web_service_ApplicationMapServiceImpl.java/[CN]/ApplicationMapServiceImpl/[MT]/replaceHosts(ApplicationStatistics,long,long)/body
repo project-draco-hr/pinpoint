@@ -1,0 +1,12 @@
+{
+  if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+    return;
+  }
+  Set<String> hosts=selectApplicationHosts(stat.getTo());
+  if (hosts.isEmpty()) {
+    return;
+  }
+  stat.clearHosts();
+  stat.addToHosts(hosts);
+  logger.debug("replace host. {}, {}",stat.getTo(),hosts);
+}

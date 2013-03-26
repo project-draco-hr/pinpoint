@@ -1,0 +1,11 @@
+{
+  logger.debug("SelectApplicationMap");
+  final Set<String> callerFoundApplications=new HashSet<String>();
+  final Set<String> calleeFoundApplications=new HashSet<String>();
+  Set<ApplicationStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  Set<ApplicationStatistics> caller=selectCaller(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  Set<ApplicationStatistics> data=new HashSet<ApplicationStatistics>(callee.size() + caller.size());
+  data.addAll(callee);
+  data.addAll(caller);
+  return new ApplicationMap(data).build();
+}

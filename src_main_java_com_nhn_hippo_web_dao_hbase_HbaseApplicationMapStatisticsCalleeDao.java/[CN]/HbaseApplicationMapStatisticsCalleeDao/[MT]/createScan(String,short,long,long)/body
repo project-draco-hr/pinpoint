@@ -1,0 +1,17 @@
+{
+  long startTime=TimeSlot.getStatisticsRowSlot(from);
+  long endTime=TimeSlot.getStatisticsRowSlot(to) + 1;
+  if (logger.isDebugEnabled()) {
+    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm:ss,SSS");
+    logger.debug("scan startTime:{} endTime:{}",simpleDateFormat.format(new Date(startTime)),simpleDateFormat.format(new Date(endTime)));
+  }
+  byte[] startKey=ApplicationMapStatisticsUtils.makeRowKey(applicationName,serviceType,startTime);
+  byte[] endKey=ApplicationMapStatisticsUtils.makeRowKey(applicationName,serviceType,endTime);
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  scan.setStartRow(startKey);
+  scan.setStopRow(endKey);
+  scan.addFamily(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE_CF_COUNTER);
+  scan.setId("ApplicationStatisticsScan");
+  return scan;
+}
