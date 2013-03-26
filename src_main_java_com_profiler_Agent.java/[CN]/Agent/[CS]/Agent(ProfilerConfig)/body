@@ -16,6 +16,6 @@
   this.systemMonitor.setDataSender(dataSender);
   ApiMappingTable.findApiId("test",null,null);
   this.agentInfo=createAgentInfo();
-  this.heartbeatThread=createHeartbeatThread();
+  this.heartBitChecker=new HeartBitChecker(priorityDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
   SingletonHolder.INSTANCE=this;
 }
