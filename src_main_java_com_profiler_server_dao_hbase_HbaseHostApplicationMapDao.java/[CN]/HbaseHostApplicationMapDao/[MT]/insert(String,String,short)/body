@@ -1,0 +1,10 @@
+{
+  logger.debug("Insert host-application map. host={}, applicationName={}, serviceType={}",new Object[]{host,applicationName,serviceType});
+  byte[] rowKey=Bytes.toBytes(TimeSlot.getStatisticsRowSlot(acceptedTimeService.getAcceptedTime()));
+  byte[] columnName=Bytes.toBytes(host);
+  byte[] applicationNameBytes=Bytes.toBytes(applicationName);
+  byte[] offsetBytes=new byte[HBaseTables.APPLICATION_NAME_MAX_LEN - applicationNameBytes.length];
+  byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
+  byte[] value=BytesUtils.concat(applicationNameBytes,offsetBytes,serviceTypeBytes);
+  hbaseTemplate.put(HOST_APPLICATION_MAP,rowKey,HOST_APPLICATION_MAP_CF_MAP,columnName,value);
+}

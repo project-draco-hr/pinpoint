@@ -13,6 +13,15 @@
     businessTransactionStatistics.update(span);
     if (span.getParentSpanId() == -1) {
       clientStatisticsDao.update(span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getElapsed(),span.getErr() > 0);
+      applicationMapStatisticsCalleeDao.update(span.getApplicationId(),span.getServiceType(),span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getEndPoint(),span.getElapsed(),span.getErr() > 0);
+      applicationMapStatisticsCallerDao.update(span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getApplicationId(),span.getServiceType(),span.getEndPoint(),span.getElapsed(),span.getErr() > 0);
+    }
+    if (span.getParentApplicationName() != null) {
+      logger.debug("Received parent application name. " + span.getParentApplicationName());
+      applicationMapStatisticsCallerDao.update(span.getParentApplicationName(),span.getParentApplicationType(),span.getApplicationId(),span.getServiceType(),span.getEndPoint(),span.getElapsed(),span.getErr() > 0);
+    }
+    if (span.getAcceptorHost() != null) {
+      hostApplicationMapDao.insert(span.getAcceptorHost(),span.getApplicationId(),span.getServiceType());
     }
     List<SpanEvent> spanEventList=span.getSpanEventList();
     if (spanEventList != null) {
@@ -24,6 +33,9 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
+        System.out.println("I am SpanHandler");
+        applicationMapStatisticsCalleeDao.update(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationId(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
+        applicationMapStatisticsCallerDao.update(span.getApplicationId(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
         terminalStatistics.update(span.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
       }
     }
