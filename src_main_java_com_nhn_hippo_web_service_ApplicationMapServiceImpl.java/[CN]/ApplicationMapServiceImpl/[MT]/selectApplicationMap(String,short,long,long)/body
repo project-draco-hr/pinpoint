@@ -1,5 +1,7 @@
 {
   logger.debug("SelectApplicationMap");
+  StopWatch watch=new StopWatch("applicationMapWatch");
+  watch.start();
   final Set<String> callerFoundApplications=new HashSet<String>();
   final Set<String> calleeFoundApplications=new HashSet<String>();
   Set<ApplicationStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
@@ -7,5 +9,8 @@
   Set<ApplicationStatistics> data=new HashSet<ApplicationStatistics>(callee.size() + caller.size());
   data.addAll(callee);
   data.addAll(caller);
-  return new ApplicationMap(data).build();
+  ApplicationMap map=new ApplicationMap(data).build();
+  watch.stop();
+  logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
+  return map;
 }

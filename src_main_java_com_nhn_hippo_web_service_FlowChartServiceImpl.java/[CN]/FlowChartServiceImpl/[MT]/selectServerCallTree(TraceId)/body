@@ -1,8 +1,13 @@
 {
+  StopWatch watch=new StopWatch();
+  watch.start();
   List<SpanBo> transaction=this.traceDao.selectSpans(traceId);
   Set<String> endPoints=createUniqueEndpoint(transaction);
   ServerCallTree tree=createServerCallTree(transaction);
   List<SpanEventBo> spanEventBoList=findRecordStatisticsSpanEventData(transaction,endPoints);
   tree.addSpanEventList(spanEventBoList);
-  return tree.build();
+  tree.build();
+  watch.stop();
+  logger.info("Fetch single transaction serverCallTree elapsed. {}ms",watch.getLastTaskTimeMillis());
+  return tree;
 }
