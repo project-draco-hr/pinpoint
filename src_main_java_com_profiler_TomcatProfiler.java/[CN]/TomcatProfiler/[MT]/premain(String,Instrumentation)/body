@@ -2,10 +2,15 @@
   if (agentArgs != null) {
     logger.info("HIPPO agentArgs:" + agentArgs);
   }
-  dumpSystemProperties();
+  ClassPathResolver classPathResolver=new ClassPathResolver();
+  boolean agentJarNotFound=classPathResolver.findAgentJar();
+  if (!agentJarNotFound) {
+    logger.severe("hippo-tomcat-profiler-x.x.x.jar not found.");
+    return;
+  }
+  List<URL> libUrlList=resolveLib(classPathResolver);
   try {
-    ProfilerConfig profilerConfig=new ProfilerConfig();
-    profilerConfig.readConfigFile();
+    ProfilerConfig profilerConfig=readConfig(classPathResolver);
     if (!profilerConfig.isProfileEnable()) {
       logger.warning("Profiler Agent not started. profile.enable=" + profilerConfig.isProfileEnable());
       return;
