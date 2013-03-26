@@ -16,16 +16,19 @@
   if (struct.isSetApplicationName()) {
     optionals.set(4);
   }
-  if (struct.isSetIsAlive()) {
+  if (struct.isSetServiceType()) {
     optionals.set(5);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetIsAlive()) {
     optionals.set(6);
   }
-  if (struct.isSetIdentifier()) {
+  if (struct.isSetTimestamp()) {
     optionals.set(7);
   }
-  oprot.writeBitSet(optionals,8);
+  if (struct.isSetIdentifier()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -40,6 +43,9 @@
   }
   if (struct.isSetApplicationName()) {
     oprot.writeString(struct.applicationName);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
   }
   if (struct.isSetIsAlive()) {
     oprot.writeBool(struct.isAlive);

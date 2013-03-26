@@ -1,0 +1,20 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  if (destHost == null) {
+    destHost="";
+  }
+  byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
+  byte[] slotNumber;
+  if (isError) {
+    slotNumber=HBaseTables.TERMINAL_STATISTICS_CQ_ERROR_SLOT;
+  }
+ else {
+    slotNumber=findResponseHistogramSlotNo(serviceType,elapsed);
+  }
+  byte[] applicationNameBytes=Bytes.toBytes(applicationName);
+  byte[] applicationNameLenBytes=Bytes.toBytes((short)applicationNameBytes.length);
+  byte[] destHostBytes=Bytes.toBytes(destHost);
+  return BytesUtils.concat(serviceTypeBytes,slotNumber,applicationNameLenBytes,applicationNameBytes,destHostBytes);
+}

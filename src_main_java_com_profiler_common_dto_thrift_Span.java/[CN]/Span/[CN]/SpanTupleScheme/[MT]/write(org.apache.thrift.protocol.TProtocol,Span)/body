@@ -52,7 +52,16 @@
   if (struct.isSetSpanEventList()) {
     optionals.set(16);
   }
-  oprot.writeBitSet(optionals,17);
+  if (struct.isSetParentApplicationName()) {
+    optionals.set(17);
+  }
+  if (struct.isSetParentApplicationType()) {
+    optionals.set(18);
+  }
+  if (struct.isSetAcceptorHost()) {
+    optionals.set(19);
+  }
+  oprot.writeBitSet(optionals,20);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -113,5 +122,14 @@
         _iter25.write(oprot);
       }
     }
+  }
+  if (struct.isSetParentApplicationName()) {
+    oprot.writeString(struct.parentApplicationName);
+  }
+  if (struct.isSetParentApplicationType()) {
+    oprot.writeI16(struct.parentApplicationType);
+  }
+  if (struct.isSetAcceptorHost()) {
+    oprot.writeString(struct.acceptorHost);
   }
 }

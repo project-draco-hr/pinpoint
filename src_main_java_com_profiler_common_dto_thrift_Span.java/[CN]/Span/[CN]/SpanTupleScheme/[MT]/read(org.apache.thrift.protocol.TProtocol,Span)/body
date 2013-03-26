@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(17);
+  BitSet incoming=iprot.readBitSet(20);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -86,5 +86,17 @@
       }
     }
     struct.setSpanEventListIsSet(true);
+  }
+  if (incoming.get(17)) {
+    struct.parentApplicationName=iprot.readString();
+    struct.setParentApplicationNameIsSet(true);
+  }
+  if (incoming.get(18)) {
+    struct.parentApplicationType=iprot.readI16();
+    struct.setParentApplicationTypeIsSet(true);
+  }
+  if (incoming.get(19)) {
+    struct.acceptorHost=iprot.readString();
+    struct.setAcceptorHostIsSet(true);
   }
 }
