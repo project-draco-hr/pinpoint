@@ -31,6 +31,16 @@
     int port=request.getServerPort();
     trace.recordEndPoint(request.getServerName() + ((port > 0) ? ":" + port : ""));
     trace.recordRemoteAddr(remoteAddr);
+    if (traceId != null && !traceId.isRoot()) {
+      String parentApplicationName=populateParentApplicationNameFromRequest(request);
+      short parentApplicationType=populateParentApplicationTypeFromRequest(request);
+      if (parentApplicationName != null) {
+        trace.recordParentApplication(parentApplicationName,parentApplicationType);
+        trace.recordAcceptorHost(NetworkUtils.getHostFromURL(request.getRequestURL().toString()));
+      }
+    }
+ else {
+    }
   }
  catch (  Exception e) {
     if (logger.isLoggable(Level.WARNING)) {

@@ -7,8 +7,7 @@
   if (logger.isLoggable(Level.INFO)) {
     logger.info("CATALINA_HOME=" + catalinaHome);
   }
-  String type=System.getProperty("hippo.servertype","tomcat");
-  if (type.equals("bloc")) {
+  if (profilerConfig.getServiceType() == ServiceType.BLOC) {
     return new String[]{catalinaHome + "/server/lib/catalina.jar",catalinaHome + "/common/lib/servlet-api.jar"};
   }
  else {

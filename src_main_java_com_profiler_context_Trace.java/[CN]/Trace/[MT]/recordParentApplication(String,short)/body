@@ -1,0 +1,11 @@
+{
+  StackFrame currentStackFrame=getCurrentStackFrame();
+  if (currentStackFrame instanceof RootStackFrame) {
+    Span span=((RootStackFrame)currentStackFrame).getSpan();
+    span.setParentApplicationName(parentApplicationName);
+    span.setParentApplicationType(parentApplicationType);
+    logger.log(Level.FINE,"ParentApplicationName marked. parentApplicationName={}",parentApplicationName);
+  }
+ else {
+  }
+}
