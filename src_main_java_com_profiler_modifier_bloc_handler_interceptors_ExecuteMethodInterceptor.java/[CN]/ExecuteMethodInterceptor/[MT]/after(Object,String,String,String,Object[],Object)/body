@@ -2,7 +2,7 @@
   if (isDebug) {
     LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args,result);
   }
-  TraceContext traceContext=TraceContext.getTraceContext();
+  DefaultTraceContext traceContext=DefaultTraceContext.getTraceContext();
   traceContext.getActiveThreadCounter().end();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {

@@ -26,9 +26,9 @@
   if (acceptorHost != null) {
     span.setAcceptorHost(acceptorHost);
   }
-  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
-  for (  Annotation a : annotations) {
-    annotationList.add(a.toThrift());
+  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(traceAnnotationList.size());
+  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
+    annotationList.add(traceAnnotation.toThrift());
   }
   span.setAnnotations(annotationList);
   span.setFlag(traceID.getFlags());

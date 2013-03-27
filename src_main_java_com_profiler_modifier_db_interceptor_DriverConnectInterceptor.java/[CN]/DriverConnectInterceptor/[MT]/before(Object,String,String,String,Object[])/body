@@ -4,7 +4,7 @@
     logger.fine("JDBCScope push:" + Thread.currentThread().getName());
   }
   JDBCScope.pushScope();
-  TraceContext traceContext=TraceContext.getTraceContext();
+  TraceContext traceContext=DefaultTraceContext.getTraceContext();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;

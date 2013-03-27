@@ -3,7 +3,7 @@
     LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
   }
   try {
-    TraceContext traceContext=TraceContext.getTraceContext();
+    TraceContext traceContext=DefaultTraceContext.getTraceContext();
     traceContext.getActiveThreadCounter().start();
     external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
     String requestURL=request.requestURI().toString();

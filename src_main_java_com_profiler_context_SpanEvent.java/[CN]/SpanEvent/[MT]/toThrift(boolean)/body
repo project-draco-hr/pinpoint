@@ -17,9 +17,9 @@
   spanEvent.setServiceType(serviceType.getCode());
   spanEvent.setEndPoint(endPoint);
   spanEvent.setDestinationId(this.destionationId);
-  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(annotations.size());
-  for (  Annotation annotation : annotations) {
-    annotationList.add(annotation.toThrift());
+  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(traceAnnotationList.size());
+  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
+    annotationList.add(traceAnnotation.toThrift());
   }
   spanEvent.setAnnotations(annotationList);
   if (depth != -1) {
