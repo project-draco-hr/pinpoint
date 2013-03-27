@@ -1,4 +1,7 @@
 {
-  Object displayArgument=AnnotationUtils.getDisplayArgument(spanEventBo);
-  return ObjectUtils.toString(displayArgument);
+  AnnotationBo displayArgument=AnnotationUtils.getDisplayArgument(spanEventBo);
+  if (displayArgument == null) {
+    return "";
+  }
+  return ObjectUtils.toString(displayArgument.getValue());
 }
