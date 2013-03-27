@@ -9,6 +9,15 @@
     return;
   }
   List<URL> libUrlList=resolveLib(classPathResolver);
+  AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
+  agentClassLoader.setBootClass("com.profiler.boot.BootClassTest");
+  try {
+    agentClassLoader.boot();
+  }
+ catch (  Exception e) {
+    logger.info("test error");
+    e.printStackTrace();
+  }
   try {
     ProfilerConfig profilerConfig=readConfig(classPathResolver);
     if (!profilerConfig.isProfileEnable()) {

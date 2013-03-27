@@ -8,17 +8,17 @@
     String requestURL=request.getRequestURI();
     String remoteAddr=request.getRemoteAddr();
     TraceID traceId=populateTraceIdFromRequest(request);
-    Trace trace;
+    DefaultTrace trace;
     if (traceId != null) {
       if (logger.isLoggable(Level.INFO)) {
         logger.info("TraceID exist. continue trace. " + traceId);
         logger.log(Level.FINE,"requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
       }
-      trace=new Trace(traceId);
+      trace=new DefaultTrace(traceId);
       traceContext.attachTraceObject(trace);
     }
  else {
-      trace=new Trace();
+      trace=new DefaultTrace();
       if (logger.isLoggable(Level.INFO)) {
         logger.info("TraceID not exist. start new trace. " + trace.getTraceId());
         logger.log(Level.FINE,"requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
