@@ -1,13 +1,12 @@
 {
   String projectDir=getProjectLibDir();
   logger.info("lib:" + projectDir);
-  String testJar="hippoClassLoaderTest-1.0.jar";
-  logger.info("load lib:" + testJar);
-  String testJarPath=projectDir + File.separator + testJar;
-  logger.info("load testlib:" + testJarPath);
-  File file=new File(testJarPath);
-  Assert.assertTrue(file.exists());
-  AgentClassLoader agentClassLoader=new AgentClassLoader(new URL[]{file.toURI().toURL()});
+  URL[] lib=getLib(projectDir);
+  logger.info("lib list:" + Arrays.toString(lib));
+  AgentClassLoader agentClassLoader=new AgentClassLoader(lib);
   agentClassLoader.setBootClass("com.profiler.boot.BootClassTest");
   agentClassLoader.boot();
+  LoggerBinder loggerBinder=agentClassLoader.initializeLoggerBinder();
+  com.profiler.logging.Logger test=loggerBinder.getLogger("test");
+  test.info("slf4j logger test");
 }

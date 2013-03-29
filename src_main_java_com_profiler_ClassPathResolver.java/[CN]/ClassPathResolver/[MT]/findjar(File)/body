@@ -1,7 +1,13 @@
 {
   return libDir.listFiles(new FileFilter(){
     @Override public boolean accept(    File pathname){
-      return pathname.getName().lastIndexOf(".jar") != -1;
+      String path=pathname.getName();
+      for (      String extension : fileExtensionList) {
+        if (path.lastIndexOf("." + extension) != -1) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 );

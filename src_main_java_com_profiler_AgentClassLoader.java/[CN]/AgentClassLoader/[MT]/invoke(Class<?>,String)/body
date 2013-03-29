@@ -1,0 +1,24 @@
+{
+  Method bootMethod=null;
+  try {
+    bootMethod=clazz.getDeclaredMethod(method);
+  }
+ catch (  NoSuchMethodException e) {
+    throw new RuntimeException("boot method not found. Caused:" + e.getMessage(),e);
+  }
+  final Thread currentThread=Thread.currentThread();
+  ClassLoader before=currentThread.getContextClassLoader();
+  currentThread.setContextClassLoader(this.classLoader);
+  try {
+    return bootMethod.invoke(agentBootStrap);
+  }
+ catch (  InvocationTargetException e) {
+    throw new RuntimeException(this.bootMethod + "() fail.  Caused:" + e.getMessage(),e);
+  }
+catch (  IllegalAccessException e) {
+    throw new RuntimeException("boot method invoke fail. Caused:" + e.getMessage(),e);
+  }
+ finally {
+    currentThread.setContextClassLoader(before);
+  }
+}

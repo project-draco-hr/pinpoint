@@ -13,10 +13,14 @@
   agentClassLoader.setBootClass("com.profiler.boot.BootClassTest");
   try {
     agentClassLoader.boot();
+    LoggerBinder loggerBinder=agentClassLoader.initializeLoggerBinder();
+    loggerBinder.getLogger("LoggerFactory initialize start");
+    LoggerFactory.initialize(loggerBinder);
+    com.profiler.logging.Logger tomcatLogger=LoggerFactory.getLogger(TomcatProfiler.class);
+    tomcatLogger.info("LoggerFactory initialize end");
   }
  catch (  Exception e) {
-    logger.info("test error");
-    e.printStackTrace();
+    logger.log(Level.INFO,"boot class not found",e);
   }
   try {
     ProfilerConfig profilerConfig=readConfig(classPathResolver);

@@ -2,7 +2,6 @@
   drain:   while (true) {
     try {
       if (!allowInput.get() && isEmpty()) {
-        shutdownLatch.countDown();
         break;
       }
       List<Object> dtoList=takeN();
@@ -12,7 +11,6 @@
       }
       while (true) {
         if (!allowInput.get() && isEmpty()) {
-          shutdownLatch.countDown();
           break;
         }
         Object dto=takeOne();
@@ -23,7 +21,7 @@
       }
     }
  catch (    Throwable th) {
-      logger.log(Level.WARNING,"Unexpected Error Cause:" + th.getMessage(),th);
+      logger.log(Level.WARNING,"Unexpected Error. Cause:" + th.getMessage(),th);
     }
   }
 }

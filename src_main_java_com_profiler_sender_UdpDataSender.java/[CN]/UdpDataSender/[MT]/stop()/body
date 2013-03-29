@@ -4,9 +4,10 @@
     logger.info("Wait 5 seconds. Flushing queued data." + queue.size());
   }
   try {
-    shutdownLatch.await(5,TimeUnit.SECONDS);
+    ioThread.join(5000);
   }
  catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
     logger.info("UdpDataSender stopped incompletely.");
   }
   logger.info("UdpDataSender stopped.");
