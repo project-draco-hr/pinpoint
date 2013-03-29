@@ -9,7 +9,7 @@
   Map<String,ApplicationStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplicationName,calleeServiceType,from,to);
   logger.debug("     Found Caller. callee=" + calleeApplicationName + " ("+ caller.size()+ ")");
   for (  Entry<String,ApplicationStatistics> entry : caller.entrySet()) {
-    replaceHosts(entry.getValue(),from,to);
+    fillAdditionalInfo(entry.getValue(),from,to);
     callerSet.add(entry.getValue());
     ApplicationStatistics stat=entry.getValue();
     Set<ApplicationStatistics> callerSub=selectCaller(stat.getFrom(),stat.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);

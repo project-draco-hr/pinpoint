@@ -11,7 +11,7 @@
   for (  Entry<String,ApplicationStatistics> entry : callee.entrySet()) {
     boolean replaced=replaceApplicationInfo(entry.getValue(),from,to);
     if (!replaced) {
-      replaceHosts(entry.getValue(),from,to);
+      fillAdditionalInfo(entry.getValue(),from,to);
       calleeSet.add(entry.getValue());
     }
     if (entry.getValue().getToServiceType().isTerminal() || entry.getValue().getToServiceType().isUnknown()) {

@@ -1,0 +1,15 @@
+{
+  if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+    return;
+  }
+  Set<AgentInfoBo> agentSet=selectAgents(stat.getTo());
+  if (agentSet.isEmpty()) {
+    return;
+  }
+  stat.addToAgents(agentSet);
+  stat.clearHosts();
+  for (  AgentInfoBo agentInfo : agentSet) {
+    stat.addToHost(agentInfo.getHostname());
+  }
+  logger.debug("fill agent info. {}, {}",stat.getTo(),agentSet);
+}
