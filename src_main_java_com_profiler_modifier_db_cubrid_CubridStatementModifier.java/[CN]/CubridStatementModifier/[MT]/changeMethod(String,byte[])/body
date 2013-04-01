@@ -13,7 +13,7 @@
     InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor);
     printClassConvertComplete(javassistClassName);
-    CtClass cc=classPool.get(javassistClassName);
+    CtClass cc=null;
     updateExecuteQueryMethod(cc);
     return cc.toBytecode();
   }
