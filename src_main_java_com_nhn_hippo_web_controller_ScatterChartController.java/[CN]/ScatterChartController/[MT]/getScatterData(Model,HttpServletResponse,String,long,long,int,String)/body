@@ -6,5 +6,11 @@
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
   model.addAttribute("scatter",scatterData);
   addResponseHeader(response);
-  return "scatter_json";
+  if (jsonpCallback == null) {
+    return "scatter_json";
+  }
+ else {
+    model.addAttribute("callback",jsonpCallback);
+    return "scatter_jsonp";
+  }
 }
