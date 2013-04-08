@@ -1,3 +1,4 @@
 {
-  return BytesUtils.bytesToShort(bytes,HBaseTables.APPLICATION_NAME_MAX_LEN);
+  short applicationNameLength=BytesUtils.bytesToShort(bytes,0);
+  return BytesUtils.bytesToShort(bytes,applicationNameLength + 2);
 }
