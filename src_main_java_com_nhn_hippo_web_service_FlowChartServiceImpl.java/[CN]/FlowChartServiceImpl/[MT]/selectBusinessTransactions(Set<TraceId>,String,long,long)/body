@@ -3,7 +3,9 @@
   BusinessTransactions businessTransactions=new BusinessTransactions();
   for (  List<SpanBo> trace : traceList) {
     for (    SpanBo spanBo : trace) {
-      businessTransactions.add(spanBo);
+      if (applicationName.equals(spanBo.getApplicationId())) {
+        businessTransactions.add(spanBo);
+      }
     }
   }
   return businessTransactions;
