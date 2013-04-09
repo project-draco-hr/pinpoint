@@ -1,0 +1,18 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append("{ ");
+  sb.append("\"sequence\" : ").append(sequence).append(",");
+  sb.append("\"applicationName\" : \"").append(applicationName).append("\",");
+  sb.append("\"serviceType\" : \"").append(serviceType).append("\",");
+  sb.append("\"agents\" : [ ");
+  Iterator<AgentInfoBo> iterator=agents.iterator();
+  while (iterator.hasNext()) {
+    sb.append(iterator.next().getJson());
+    if (iterator.hasNext()) {
+      sb.append(",");
+    }
+  }
+  sb.append(" ]");
+  sb.append(" }");
+  return sb.toString();
+}
