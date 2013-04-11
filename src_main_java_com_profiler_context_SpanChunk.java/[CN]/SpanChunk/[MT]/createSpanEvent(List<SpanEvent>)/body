@@ -10,7 +10,7 @@
     tSpanEvent.setServiceType(spanEvent.getServiceType().getCode());
     tSpanEvent.setDestinationId(spanEvent.getDestionationId());
     tSpanEvent.setEndPoint(spanEvent.getEndPoint());
-    List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(spanEvent.getAnnotationSize());
+    List<Annotation> annotationList=new ArrayList<Annotation>(spanEvent.getAnnotationSize());
     for (    TraceAnnotation traceAnnotation : spanEvent.getTraceAnnotationList()) {
       annotationList.add(traceAnnotation.toThrift());
     }

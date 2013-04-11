@@ -1,0 +1,41 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    optionals.set(1);
+  }
+  if (struct.isSetStartTime()) {
+    optionals.set(2);
+  }
+  if (struct.isSetApiId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetApiInfo()) {
+    optionals.set(4);
+  }
+  if (struct.isSetLine()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
+  }
+  if (struct.isSetStartTime()) {
+    oprot.writeI64(struct.startTime);
+  }
+  if (struct.isSetApiId()) {
+    oprot.writeI32(struct.apiId);
+  }
+  if (struct.isSetApiInfo()) {
+    oprot.writeString(struct.apiInfo);
+  }
+  if (struct.isSetLine()) {
+    oprot.writeI32(struct.line);
+  }
+}

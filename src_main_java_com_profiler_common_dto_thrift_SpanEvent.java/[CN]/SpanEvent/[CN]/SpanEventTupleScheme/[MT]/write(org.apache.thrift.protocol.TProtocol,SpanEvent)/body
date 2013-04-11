@@ -1,0 +1,117 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetApplicationId()) {
+    optionals.set(1);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    optionals.set(2);
+  }
+  if (struct.isSetMostTraceId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetLeastTraceId()) {
+    optionals.set(4);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(5);
+  }
+  if (struct.isSetSequence()) {
+    optionals.set(6);
+  }
+  if (struct.isSetStartElapsed()) {
+    optionals.set(7);
+  }
+  if (struct.isSetEndElapsed()) {
+    optionals.set(8);
+  }
+  if (struct.isSetRpc()) {
+    optionals.set(9);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(10);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(11);
+  }
+  if (struct.isSetAnnotations()) {
+    optionals.set(12);
+  }
+  if (struct.isSetDepth()) {
+    optionals.set(13);
+  }
+  if (struct.isSetNextSpanId()) {
+    optionals.set(14);
+  }
+  if (struct.isSetDestinationId()) {
+    optionals.set(15);
+  }
+  if (struct.isSetDestinationAddress()) {
+    optionals.set(16);
+  }
+  oprot.writeBitSet(optionals,17);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationId()) {
+    oprot.writeString(struct.applicationId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
+  }
+  if (struct.isSetMostTraceId()) {
+    oprot.writeI64(struct.mostTraceId);
+  }
+  if (struct.isSetLeastTraceId()) {
+    oprot.writeI64(struct.leastTraceId);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI32(struct.spanId);
+  }
+  if (struct.isSetSequence()) {
+    oprot.writeI16(struct.sequence);
+  }
+  if (struct.isSetStartElapsed()) {
+    oprot.writeI32(struct.startElapsed);
+  }
+  if (struct.isSetEndElapsed()) {
+    oprot.writeI32(struct.endElapsed);
+  }
+  if (struct.isSetRpc()) {
+    oprot.writeString(struct.rpc);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetAnnotations()) {
+{
+      oprot.writeI32(struct.annotations.size());
+      for (      Annotation _iter8 : struct.annotations) {
+        _iter8.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetDepth()) {
+    oprot.writeI32(struct.depth);
+  }
+  if (struct.isSetNextSpanId()) {
+    oprot.writeI32(struct.nextSpanId);
+  }
+  if (struct.isSetDestinationId()) {
+    oprot.writeString(struct.destinationId);
+  }
+  if (struct.isSetDestinationAddress()) {
+{
+      oprot.writeI32(struct.destinationAddress.size());
+      for (      String _iter9 : struct.destinationAddress) {
+        oprot.writeString(_iter9);
+      }
+    }
+  }
+}

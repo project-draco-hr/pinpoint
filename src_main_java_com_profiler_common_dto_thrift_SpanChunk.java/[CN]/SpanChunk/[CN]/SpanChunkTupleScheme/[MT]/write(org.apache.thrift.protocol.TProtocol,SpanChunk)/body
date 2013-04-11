@@ -1,0 +1,52 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetApplicationId()) {
+    optionals.set(1);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    optionals.set(2);
+  }
+  if (struct.isSetMostTraceId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetLeastTraceId()) {
+    optionals.set(4);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(5);
+  }
+  if (struct.isSetSpanEventList()) {
+    optionals.set(6);
+  }
+  oprot.writeBitSet(optionals,7);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationId()) {
+    oprot.writeString(struct.applicationId);
+  }
+  if (struct.isSetAgentIdentifier()) {
+    oprot.writeI16(struct.agentIdentifier);
+  }
+  if (struct.isSetMostTraceId()) {
+    oprot.writeI64(struct.mostTraceId);
+  }
+  if (struct.isSetLeastTraceId()) {
+    oprot.writeI64(struct.leastTraceId);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI32(struct.spanId);
+  }
+  if (struct.isSetSpanEventList()) {
+{
+      oprot.writeI32(struct.spanEventList.size());
+      for (      SpanEvent _iter36 : struct.spanEventList) {
+        _iter36.write(oprot);
+      }
+    }
+  }
+}

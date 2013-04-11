@@ -1,15 +1,14 @@
 {
   if (isDebug) {
     LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args,result);
-    logger.fine("JDBCScope pop:" + Thread.currentThread().getName());
+    logger.debug("JDBCScope pop:" + Thread.currentThread().getName());
   }
-  JDBCScope.popScope();
+  JDBCScope.pop();
   boolean success=InterceptorUtils.isSuccess(result);
   DatabaseInfo databaseInfo=createDatabaseInfo((String)args[0]);
   if (success) {
     this.setUrl.invoke(result,databaseInfo);
   }
-  TraceContext traceContext=DefaultTraceContext.getTraceContext();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;

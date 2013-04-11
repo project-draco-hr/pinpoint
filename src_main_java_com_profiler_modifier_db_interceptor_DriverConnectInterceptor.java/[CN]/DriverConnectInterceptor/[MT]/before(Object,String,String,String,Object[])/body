@@ -1,10 +1,9 @@
 {
   if (isDebug) {
     LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
-    logger.fine("JDBCScope push:" + Thread.currentThread().getName());
+    logger.debug("JDBCScope push:" + Thread.currentThread().getName());
   }
-  JDBCScope.pushScope();
-  TraceContext traceContext=DefaultTraceContext.getTraceContext();
+  JDBCScope.push();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;

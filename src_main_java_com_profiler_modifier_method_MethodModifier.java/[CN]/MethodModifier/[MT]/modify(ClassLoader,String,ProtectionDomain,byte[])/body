@@ -1,5 +1,5 @@
 {
-  if (logger.isLoggable(Level.INFO)) {
+  if (logger.isInfoEnabled()) {
     logger.info("Modifing. " + javassistClassName);
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
@@ -14,13 +14,12 @@
         continue;
       }
       Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.profiler.modifier.method.interceptors.MethodInterceptor");
-      setTraceContext(interceptor);
       CtClass[] paramClass=m.getParameterTypes();
       String[] params=new String[paramClass.length];
       for (int i=0; i < paramClass.length; i++) {
         params[i]=paramClass[i].getName();
       }
-      if (logger.isLoggable(Level.INFO)) {
+      if (logger.isInfoEnabled()) {
         logger.info("### c=" + javassistClassName + ", m="+ m.getName()+ ", params="+ Arrays.toString(params));
       }
       clazz.addInterceptor(m.getName(),params,interceptor);
@@ -28,7 +27,7 @@
     return clazz.toBytecode();
   }
  catch (  Exception e) {
-    logger.log(Level.WARNING,"modify fail. Cause:" + e.getMessage(),e);
+    logger.warn("modify fail. Cause:" + e.getMessage(),e);
     return null;
   }
 }

@@ -1,0 +1,27 @@
+{
+  if (tbase == null) {
+    throw new IllegalArgumentException("tbase must not be null");
+  }
+  short type=typeLookup(tbase);
+switch (type) {
+case JVM_INFO_THRIFT_DTO:
+    return JVM_INFO_THRIFT_HEADER;
+case REQUEST_DATA_LIST_THRIFT_DTO:
+  return REQUEST_DATA_LIST_THRIFT_HEADER;
+case REQUEST_THRIFT_DTO:
+return REQUEST_THRIFT_HEADER;
+case SPAN:
+return SPAN_HEADER;
+case AGENT_INFO:
+return AGENT_INFO_HEADER;
+case SPANEVENT:
+return SPANEVENT_HEADER;
+case SPANCHUNK:
+return SPANCHUNK_HEADER;
+case SQLMETADATA:
+return SQLMETADATA_HEADER;
+case APIMETADATA:
+return APIMETADATA_HEADER;
+}
+throw new TException("Unsupported type:" + tbase.getClass());
+}

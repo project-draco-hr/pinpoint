@@ -1,5 +1,5 @@
 {
-  if (logger.isLoggable(Level.INFO)) {
+  if (logger.isInfoEnabled()) {
     logger.info("Modifing. " + javassistClassName);
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
@@ -19,8 +19,8 @@
     return statementClass.toBytecode();
   }
  catch (  InstrumentException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn(this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
     }
     return null;
   }

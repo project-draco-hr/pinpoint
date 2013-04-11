@@ -7,9 +7,9 @@
       logger.fine("NewSQLParsingResult:" + parsingResult);
     }
     SqlMetaData sqlMetaData=new SqlMetaData();
-    sqlMetaData.setAgentId(Agent.getInstance().getAgentId());
-    sqlMetaData.setAgentIdentifier(Agent.getInstance().getIdentifier());
-    sqlMetaData.setStartTime(Agent.getInstance().getStartTime());
+    sqlMetaData.setAgentId(DefaultAgent.getInstance().getAgentId());
+    sqlMetaData.setAgentIdentifier(DefaultAgent.getInstance().getIdentifier());
+    sqlMetaData.setStartTime(DefaultAgent.getInstance().getStartTime());
     sqlMetaData.setHashCode(normalizedSql.hashCode());
     sqlMetaData.setSql(normalizedSql);
     this.priorityDataSender.send(sqlMetaData);

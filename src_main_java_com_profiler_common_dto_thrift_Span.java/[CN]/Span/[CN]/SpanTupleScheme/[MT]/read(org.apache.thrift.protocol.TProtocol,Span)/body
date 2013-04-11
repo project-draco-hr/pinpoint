@@ -1,0 +1,102 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(20);
+  if (incoming.get(0)) {
+    struct.agentId=iprot.readString();
+    struct.setAgentIdIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.applicationId=iprot.readString();
+    struct.setApplicationIdIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.agentIdentifier=iprot.readI16();
+    struct.setAgentIdentifierIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.mostTraceId=iprot.readI64();
+    struct.setMostTraceIdIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.leastTraceId=iprot.readI64();
+    struct.setLeastTraceIdIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.spanId=iprot.readI32();
+    struct.setSpanIdIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.parentSpanId=iprot.readI32();
+    struct.setParentSpanIdIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.startTime=iprot.readI64();
+    struct.setStartTimeIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.elapsed=iprot.readI32();
+    struct.setElapsedIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.rpc=iprot.readString();
+    struct.setRpcIsSet(true);
+  }
+  if (incoming.get(10)) {
+    struct.serviceType=iprot.readI16();
+    struct.setServiceTypeIsSet(true);
+  }
+  if (incoming.get(11)) {
+    struct.endPoint=iprot.readString();
+    struct.setEndPointIsSet(true);
+  }
+  if (incoming.get(12)) {
+    struct.remoteAddr=iprot.readString();
+    struct.setRemoteAddrIsSet(true);
+  }
+  if (incoming.get(13)) {
+{
+      org.apache.thrift.protocol.TList _list26=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<Annotation>(_list26.size);
+      for (int _i27=0; _i27 < _list26.size; ++_i27) {
+        Annotation _elem28;
+        _elem28=new Annotation();
+        _elem28.read(iprot);
+        struct.annotations.add(_elem28);
+      }
+    }
+    struct.setAnnotationsIsSet(true);
+  }
+  if (incoming.get(14)) {
+    struct.flag=iprot.readI16();
+    struct.setFlagIsSet(true);
+  }
+  if (incoming.get(15)) {
+    struct.err=iprot.readI32();
+    struct.setErrIsSet(true);
+  }
+  if (incoming.get(16)) {
+{
+      org.apache.thrift.protocol.TList _list29=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.spanEventList=new ArrayList<SpanEvent>(_list29.size);
+      for (int _i30=0; _i30 < _list29.size; ++_i30) {
+        SpanEvent _elem31;
+        _elem31=new SpanEvent();
+        _elem31.read(iprot);
+        struct.spanEventList.add(_elem31);
+      }
+    }
+    struct.setSpanEventListIsSet(true);
+  }
+  if (incoming.get(17)) {
+    struct.parentApplicationName=iprot.readString();
+    struct.setParentApplicationNameIsSet(true);
+  }
+  if (incoming.get(18)) {
+    struct.parentApplicationType=iprot.readI16();
+    struct.setParentApplicationTypeIsSet(true);
+  }
+  if (incoming.get(19)) {
+    struct.acceptorHost=iprot.readString();
+    struct.setAcceptorHostIsSet(true);
+  }
+}
