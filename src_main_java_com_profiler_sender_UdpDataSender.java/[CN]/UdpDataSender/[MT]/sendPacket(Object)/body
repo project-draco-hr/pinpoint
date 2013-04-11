@@ -7,22 +7,22 @@
     tBase=((Thriftable)dto).toThrift();
   }
  else {
-    logger.warning("sendPacket fail. invalid type:" + dto.getClass());
+    logger.warn("sendPacket fail. invalid type:" + dto.getClass());
     return;
   }
   byte[] sendData=serialize(tBase);
   if (sendData == null) {
-    logger.warning("sendData is null");
+    logger.warn("sendData is null");
     return;
   }
   DatagramPacket packet=new DatagramPacket(sendData,sendData.length);
   try {
     udpSocket.send(packet);
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("Data sent. " + dto);
+    if (logger.isInfoEnabled()) {
+      logger.info("Data sent. " + dto);
     }
   }
  catch (  IOException e) {
-    logger.log(Level.WARNING,"packet send error " + dto,e);
+    logger.warn("packet send error " + dto,e);
   }
 }

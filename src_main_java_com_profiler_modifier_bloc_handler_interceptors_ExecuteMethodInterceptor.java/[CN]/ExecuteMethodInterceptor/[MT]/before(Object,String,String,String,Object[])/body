@@ -7,7 +7,7 @@
     String requestURL=request.requestURI().toString();
     String clientIP=request.remoteAddr().toString();
     String parameters=getRequestParameter(request);
-    DefaultTraceID traceId=populateTraceIdFromRequest(request);
+    TraceID traceId=populateTraceIdFromRequest(request);
     Trace trace;
     if (traceId != null) {
       if (logger.isInfoEnabled()) {

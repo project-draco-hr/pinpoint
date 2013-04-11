@@ -1,6 +1,6 @@
 {
   if (data == null) {
-    logger.warning("putQueue(). data is null");
+    logger.warn("putQueue(). data is null");
     return false;
   }
   if (!allowInput.get()) {
@@ -8,8 +8,8 @@
   }
   boolean offer=queue.offer(data);
   if (!offer) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.warning("Drop data. queue is full. size:" + queue.size());
+    if (logger.isWarnEnabled()) {
+      logger.warn("Drop data. queue is full. size:{}",queue.size());
     }
   }
   return offer;

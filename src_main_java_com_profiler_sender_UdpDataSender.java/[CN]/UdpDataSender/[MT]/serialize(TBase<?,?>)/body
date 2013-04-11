@@ -4,8 +4,8 @@
     return serializer.serialize(header,dto);
   }
  catch (  TException e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,"Serialize fail:" + dto + " Caused:"+ e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn("Serialize fail:" + dto + " Caused:"+ e.getMessage(),e);
     }
     return null;
   }
