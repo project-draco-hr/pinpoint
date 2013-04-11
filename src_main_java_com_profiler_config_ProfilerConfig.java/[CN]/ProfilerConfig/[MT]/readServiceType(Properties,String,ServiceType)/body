@@ -1,0 +1,14 @@
+{
+  String value=prop.getProperty(propertyName);
+  ServiceType svcType;
+  if (value == null) {
+    svcType=defaultValue;
+  }
+ else {
+    svcType=ServiceType.valueOf(value);
+  }
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info(propertyName + "=" + svcType);
+  }
+  return svcType;
+}

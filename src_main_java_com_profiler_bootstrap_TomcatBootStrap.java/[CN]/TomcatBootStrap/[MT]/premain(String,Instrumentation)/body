@@ -1,0 +1,29 @@
+{
+  if (agentArgs != null) {
+    logger.info("HIPPO agentArgs:" + agentArgs);
+  }
+  if (logger.isLoggable(Level.FINE)) {
+    dumpSystemProperties();
+  }
+  ClassPathResolver classPathResolver=new ClassPathResolver();
+  boolean agentJarNotFound=classPathResolver.findAgentJar();
+  if (!agentJarNotFound) {
+    logger.severe("hippo-profiler-bootstrap-x.x.x.jar not found.");
+    return;
+  }
+  String configPath=getConfigPath(classPathResolver);
+  if (configPath == null) {
+    return;
+  }
+  try {
+    ProfilerConfig profilerConfig=new ProfilerConfig();
+    profilerConfig.readConfigFile(configPath);
+    List<URL> libUrlList=resolveLib(classPathResolver);
+    AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
+    agentClassLoader.setBootClass("com.profiler.DefaultAgent");
+    agentClassLoader.boot(agentArgs,instrumentation,profilerConfig);
+  }
+ catch (  Exception e) {
+    logger.log(Level.INFO,"hippo start fail. Caused:" + e.getMessage(),e);
+  }
+}

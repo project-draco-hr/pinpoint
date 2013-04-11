@@ -1,0 +1,14 @@
+{
+  String hippoConfigFormSystemProperty=System.getProperty("hippo.config");
+  if (hippoConfigFormSystemProperty != null) {
+    logger.info("hippo.config systemProperty found. " + hippoConfigFormSystemProperty);
+    return hippoConfigFormSystemProperty;
+  }
+  String classPathAgentConfigPath=classPathResolver.getAgentConfigPath();
+  if (classPathAgentConfigPath != null) {
+    logger.info("classpath hippo.config found. " + classPathAgentConfigPath);
+    return classPathAgentConfigPath;
+  }
+  logger.severe("hippo.config file not found.");
+  return null;
+}

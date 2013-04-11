@@ -1,0 +1,14 @@
+{
+  return libDir.listFiles(new FileFilter(){
+    @Override public boolean accept(    File pathname){
+      String path=pathname.getName();
+      for (      String extension : fileExtensionList) {
+        if (path.lastIndexOf("." + extension) != -1) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+);
+}
