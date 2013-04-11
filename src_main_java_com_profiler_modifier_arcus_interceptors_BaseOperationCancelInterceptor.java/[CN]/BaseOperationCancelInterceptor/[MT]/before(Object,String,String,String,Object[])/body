@@ -2,12 +2,12 @@
   if (isDebug) {
     LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
   }
-  AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
+  DefaultAsyncTrace asyncTrace=(DefaultAsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
-    logger.fine("asyncTrace not found ");
+    logger.debug("asyncTrace not found ");
     return;
   }
-  if (asyncTrace.getState() != AsyncTrace.STATE_INIT) {
+  if (asyncTrace.getState() != DefaultAsyncTrace.STATE_INIT) {
     return;
   }
   BaseOperationImpl baseOperation=(BaseOperationImpl)target;

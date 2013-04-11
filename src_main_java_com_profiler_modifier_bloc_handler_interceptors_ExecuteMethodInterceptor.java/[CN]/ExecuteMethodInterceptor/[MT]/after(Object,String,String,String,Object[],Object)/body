@@ -2,15 +2,13 @@
   if (isDebug) {
     LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args,result);
   }
-  DefaultTraceContext traceContext=DefaultTraceContext.getTraceContext();
-  traceContext.getActiveThreadCounter().end();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
   traceContext.detachTraceObject();
   if (trace.getStackFrameId() != 0) {
-    logger.warning("Corrupted CallStack found. StackId not Root(0)");
+    logger.warn("Corrupted CallStack found. StackId not Root(0)");
   }
   trace.recordApi(descriptor);
   trace.recordException(result);

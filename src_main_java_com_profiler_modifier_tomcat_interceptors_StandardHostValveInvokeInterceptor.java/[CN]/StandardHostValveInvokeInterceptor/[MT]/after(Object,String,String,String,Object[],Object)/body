@@ -2,7 +2,6 @@
   if (isDebug) {
     LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args,result);
   }
-  traceContext.getActiveThreadCounter().end();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
@@ -14,7 +13,7 @@
     trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
   }
   if (trace.getStackFrameId() != 0) {
-    logger.warning("Corrupted CallStack found. StackId not Root(0)");
+    logger.warn("Corrupted CallStack found. StackId not Root(0)");
   }
   trace.recordApi(descriptor);
   trace.recordException(result);

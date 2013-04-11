@@ -1,0 +1,13 @@
+{
+  logger.info("Stopping HIPPO Agent.");
+  changeStatus(AgentStatus.STOPPING);
+  this.heartBitChecker.close();
+  systemMonitor.stop();
+  agentInfo.setIsAlive(false);
+  this.priorityDataSender.send(agentInfo);
+  this.priorityDataSender.send(agentInfo);
+  this.priorityDataSender.send(agentInfo);
+  this.dataSender.stop();
+  this.priorityDataSender.stop();
+  changeStatus(AgentStatus.STOPPED);
+}

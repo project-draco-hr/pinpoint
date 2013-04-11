@@ -3,27 +3,24 @@
     LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
   }
   try {
-    traceContext.getActiveThreadCounter().start();
     HttpServletRequest request=(HttpServletRequest)args[0];
     String requestURL=request.getRequestURI();
     String remoteAddr=request.getRemoteAddr();
     TraceID traceId=populateTraceIdFromRequest(request);
-    DefaultTrace trace;
+    Trace trace;
     if (traceId != null) {
-      if (logger.isLoggable(Level.INFO)) {
+      if (logger.isInfoEnabled()) {
         logger.info("TraceID exist. continue trace. " + traceId);
-        logger.log(Level.FINE,"requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
+        logger.debug("requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
       }
-      trace=new DefaultTrace(traceId);
-      traceContext.attachTraceObject(trace);
+      trace=traceContext.continueTraceObject(traceId);
     }
  else {
-      trace=new DefaultTrace();
-      if (logger.isLoggable(Level.INFO)) {
+      trace=traceContext.newTraceObject();
+      if (logger.isInfoEnabled()) {
         logger.info("TraceID not exist. start new trace. " + trace.getTraceId());
-        logger.log(Level.FINE,"requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
+        logger.debug("requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
       }
-      traceContext.attachTraceObject(trace);
     }
     trace.markBeforeTime();
     trace.recordServiceType(ServiceType.TOMCAT);
@@ -43,8 +40,8 @@
     }
   }
  catch (  Exception e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,"Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn("Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
     }
   }
 }

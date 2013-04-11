@@ -3,29 +3,26 @@
     LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
   }
   try {
-    TraceContext traceContext=DefaultTraceContext.getTraceContext();
-    traceContext.getActiveThreadCounter().start();
     external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
     String requestURL=request.requestURI().toString();
     String clientIP=request.remoteAddr().toString();
     String parameters=getRequestParameter(request);
-    TraceID traceId=populateTraceIdFromRequest(request);
-    DefaultTrace trace;
+    DefaultTraceID traceId=populateTraceIdFromRequest(request);
+    Trace trace;
     if (traceId != null) {
-      if (logger.isLoggable(Level.INFO)) {
+      if (logger.isInfoEnabled()) {
         logger.info("TraceID exist. continue trace. " + traceId);
-        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
+        logger.debug("requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
       }
-      trace=new DefaultTrace(traceId);
-      traceContext.attachTraceObject(trace);
+      trace=traceContext.continueTraceObject(traceId);
     }
  else {
       trace=new DefaultTrace();
-      if (logger.isLoggable(Level.INFO)) {
+      if (logger.isInfoEnabled()) {
         logger.info("TraceID not exist. start new trace. " + trace.getTraceId());
-        logger.log(Level.FINE,"requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
+        logger.debug("requestUrl:" + requestURL + " clientIp"+ clientIP+ " parameter:"+ parameters);
       }
-      traceContext.attachTraceObject(trace);
+      trace=traceContext.newTraceObject();
     }
     trace.markBeforeTime();
     trace.recordServiceType(ServiceType.BLOC);
@@ -38,8 +35,8 @@
     }
   }
  catch (  Exception e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,"Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn("Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
     }
   }
 }

@@ -5,8 +5,8 @@
   logger.info("lib list:" + Arrays.toString(lib));
   AgentClassLoader agentClassLoader=new AgentClassLoader(lib);
   agentClassLoader.setBootClass("com.profiler.boot.BootClassTest");
-  agentClassLoader.boot();
-  LoggerBinder loggerBinder=agentClassLoader.initializeLoggerBinder();
+  agentClassLoader.boot("test",new DummyInstrumentation(),new ProfilerConfig());
+  LoggerBinder loggerBinder=(LoggerBinder)agentClassLoader.initializeLoggerBinder();
   com.profiler.logging.Logger test=loggerBinder.getLogger("test");
   test.info("slf4j logger test");
 }

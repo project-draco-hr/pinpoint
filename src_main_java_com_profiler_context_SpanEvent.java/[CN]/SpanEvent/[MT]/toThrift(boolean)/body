@@ -5,9 +5,9 @@
   spanEvent.setEndElapsed((int)(endTime - startTime));
   spanEvent.setSequence(sequence);
   if (!child) {
-    spanEvent.setAgentId(Agent.getInstance().getAgentId());
-    spanEvent.setApplicationId(Agent.getInstance().getApplicationName());
-    spanEvent.setAgentIdentifier(Agent.getInstance().getIdentifier());
+    spanEvent.setAgentId(DefaultAgent.getInstance().getAgentId());
+    spanEvent.setApplicationId(DefaultAgent.getInstance().getApplicationName());
+    spanEvent.setAgentIdentifier(DefaultAgent.getInstance().getIdentifier());
     TraceID parentSpanTraceID=parentSpan.getTraceID();
     spanEvent.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
     spanEvent.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
@@ -17,7 +17,7 @@
   spanEvent.setServiceType(serviceType.getCode());
   spanEvent.setEndPoint(endPoint);
   spanEvent.setDestinationId(this.destionationId);
-  List<com.profiler.common.dto.thrift.Annotation> annotationList=new ArrayList<com.profiler.common.dto.thrift.Annotation>(traceAnnotationList.size());
+  List<Annotation> annotationList=new ArrayList<Annotation>(traceAnnotationList.size());
   for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
     annotationList.add(traceAnnotation.toThrift());
   }

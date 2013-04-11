@@ -1,0 +1,27 @@
+{
+  if (profilerConfig == null) {
+    throw new NullPointerException("profilerConfig must not be null");
+  }
+  initializeLogger();
+  changeStatus(AgentStatus.INITIALIZING);
+  this.profilerConfig=profilerConfig;
+  this.serverInfo=new ServerInfo();
+  String[] paths=getTomcatlibPath();
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,this);
+  ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
+  instrumentation.addTransformer(classFileTransformerDispatcher);
+  this.machineName=NetworkUtils.getMachineName();
+  this.agentId=getId("hippo.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
+  this.applicationName=getId("hippo.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
+  this.priorityDataSender=createDataSender();
+  this.dataSender=createDataSender();
+  this.startTime=System.currentTimeMillis();
+  this.identifier=getShortIdentifier();
+  initializeTraceContext();
+  this.systemMonitor=new SystemMonitor(this.traceContext,this.profilerConfig);
+  this.systemMonitor.setDataSender(dataSender);
+  ApiMappingTable.findApiId("test",null,null);
+  this.agentInfo=createAgentInfo();
+  this.heartBitChecker=new HeartBitChecker(priorityDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
+  SingletonHolder.INSTANCE=this;
+}

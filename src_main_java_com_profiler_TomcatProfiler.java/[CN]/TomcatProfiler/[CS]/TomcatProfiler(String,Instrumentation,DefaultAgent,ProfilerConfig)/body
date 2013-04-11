@@ -1,0 +1,10 @@
+{
+  this.agentArgString=agentArgs;
+  this.profilerConfig=profilerConfig;
+  this.agent=agent;
+  String[] paths=getTomcatlibPath();
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,agent);
+  this.modifierRepository=null;
+  ClassFileTransformer classFileTransformerDispatcher=new ClassFileTransformerDispatcher(agent);
+  this.instrumentation.addTransformer(classFileTransformerDispatcher);
+}

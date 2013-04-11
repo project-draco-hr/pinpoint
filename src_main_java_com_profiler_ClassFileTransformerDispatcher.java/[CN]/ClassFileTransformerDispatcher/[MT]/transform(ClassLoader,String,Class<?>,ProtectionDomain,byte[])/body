@@ -1,0 +1,27 @@
+{
+  if (className.startsWith("java")) {
+    if (className.startsWith("/",4) || className.startsWith("x/",4)) {
+      return classFileBuffer;
+    }
+  }
+  Modifier findModifier=this.modifierRegistry.findModifier(className);
+  if (findModifier == null) {
+    if (this.profilerConfig.isProfilableClass(className)) {
+      findModifier=this.modifierRegistry.findModifier("*");
+    }
+ else {
+      return null;
+    }
+  }
+  if (isFine) {
+    logger.fine("[transform] cl" + classLoader + " className:"+ className+ " Modifier:"+ findModifier.getClass().getName());
+  }
+  String javassistClassName=className.replace('/','.');
+  try {
+    return findModifier.modify(classLoader,javassistClassName,protectionDomain,classFileBuffer);
+  }
+ catch (  Throwable e) {
+    logger.log(Level.SEVERE,"Modifier:" + findModifier.getTargetClass() + " modify fail. Cause:"+ e.getMessage(),e);
+    return null;
+  }
+}

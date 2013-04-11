@@ -1,7 +1,7 @@
 {
   loader=new TestClassLoader();
   ProfilerConfig profilerConfig=new ProfilerConfig();
-  Agent agent=new Agent(profilerConfig);
+  DefaultAgent agent=new DefaultAgent("",new DummyInstrumentation(),profilerConfig);
   MySQLNonRegisteringDriverModifier driverModifier=new MySQLNonRegisteringDriverModifier(loader.getInstrumentor(),agent);
   loader.addModifier(driverModifier);
   MySQLConnectionImplModifier connectionModifier=new MySQLConnectionImplModifier(loader.getInstrumentor(),agent);

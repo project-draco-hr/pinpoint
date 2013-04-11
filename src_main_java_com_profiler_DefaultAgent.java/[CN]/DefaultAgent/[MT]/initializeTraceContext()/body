@@ -1,0 +1,13 @@
+{
+  this.traceContext=DefaultTraceContext.getTraceContext();
+  this.traceContext.setAgentId(this.agentId);
+  this.traceContext.setApplicationId(this.applicationName);
+  this.traceContext.setPriorityDataSender(this.priorityDataSender);
+  if (profilerConfig.isSamplingElapsedTimeBaseEnable()) {
+    TimeBaseStorageFactory timeBaseStorageFactory=new TimeBaseStorageFactory(this.dataSender,this.profilerConfig);
+    this.traceContext.setStorageFactory(timeBaseStorageFactory);
+  }
+ else {
+    this.traceContext.setStorageFactory(new BypassStorageFactory(dataSender));
+  }
+}

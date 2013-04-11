@@ -4,14 +4,14 @@
   }
   AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
-    logger.fine("asyncTrace not found");
+    logger.debug("asyncTrace not found");
     return;
   }
   OperationState newState=(OperationState)args[0];
   BaseOperationImpl baseOperation=(BaseOperationImpl)target;
   if (newState == OperationState.READING) {
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("event:" + newState + " asyncTrace:"+ asyncTrace);
+    if (logger.isDebugEnabled()) {
+      logger.debug("event:" + newState + " asyncTrace:"+ asyncTrace);
     }
     if (asyncTrace.getState() != AsyncTrace.STATE_INIT) {
       return;
@@ -38,8 +38,8 @@
     asyncTrace.markAfterTime();
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("event:" + newState + " asyncTrace:"+ asyncTrace);
+    if (logger.isDebugEnabled()) {
+      logger.debug("event:" + newState + " asyncTrace:"+ asyncTrace);
     }
     boolean fire=asyncTrace.fire();
     if (!fire) {
