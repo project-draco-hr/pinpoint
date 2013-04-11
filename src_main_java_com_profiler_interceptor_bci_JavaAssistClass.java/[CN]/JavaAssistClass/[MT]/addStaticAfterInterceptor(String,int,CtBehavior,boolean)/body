@@ -21,7 +21,7 @@
     after.end();
   }
   String buildAfter=after.toString();
-  if (logger.isLoggable(Level.INFO)) {
+  if (logger.isInfoEnabled()) {
     logger.info("addStaticAfterInterceptor after behavior:" + behavior.getLongName() + " code:"+ buildAfter);
   }
   behavior.insertAfter(buildAfter);
@@ -45,7 +45,7 @@
     catchCode.end();
   }
   String buildCatch=catchCode.toString();
-  if (logger.isLoggable(Level.INFO)) {
+  if (logger.isInfoEnabled()) {
     logger.info("addStaticAfterInterceptor catch behavior:" + behavior.getLongName() + " code:"+ buildCatch);
   }
   CtClass th=instrumentor.getClassPool().get("java.lang.Throwable");

@@ -7,8 +7,8 @@
     CtMethod[] methods=cc.getDeclaredMethods();
     for (    CtMethod method : methods) {
       if (method.isEmpty()) {
-        if (logger.isLoggable(Level.FINE)) {
-          logger.fine(method.getLongName() + " is empty.");
+        if (logger.isDebugEnabled()) {
+          logger.debug("{} is empty.",method.getLongName());
         }
         continue;
       }
@@ -19,8 +19,8 @@
     return true;
   }
  catch (  Exception e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
     }
   }
   return false;

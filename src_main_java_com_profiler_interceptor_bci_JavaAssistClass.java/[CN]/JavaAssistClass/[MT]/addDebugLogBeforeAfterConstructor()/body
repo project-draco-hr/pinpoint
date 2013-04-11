@@ -7,8 +7,8 @@
     CtConstructor[] constructors=cc.getConstructors();
     for (    CtConstructor constructor : constructors) {
       if (constructor.isEmpty()) {
-        if (logger.isLoggable(Level.FINE)) {
-          logger.fine(constructor.getLongName() + " is empty.");
+        if (logger.isDebugEnabled()) {
+          logger.debug(constructor.getLongName() + " is empty.");
         }
         continue;
       }
@@ -19,8 +19,8 @@
     return true;
   }
  catch (  Exception e) {
-    if (logger.isLoggable(Level.WARNING)) {
-      logger.log(Level.WARNING,e.getMessage(),e);
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
     }
   }
   return false;

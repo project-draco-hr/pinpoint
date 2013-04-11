@@ -6,13 +6,13 @@
       String filePath=tempURL.getFile();
       try {
         classPool.appendClassPath(filePath);
-        if (logger.isLoggable(Level.INFO)) {
+        if (logger.isInfoEnabled()) {
           logger.info("Loaded " + filePath + " library.");
         }
       }
  catch (      NotFoundException e) {
-        if (logger.isLoggable(Level.WARNING)) {
-          logger.log(Level.WARNING,"lib load fail. path:" + filePath + " cl:"+ classLoader+ " Cause:"+ e.getMessage(),e);
+        if (logger.isWarnEnabled()) {
+          logger.warn("lib load fail. path:" + filePath + " cl:"+ classLoader+ " Cause:"+ e.getMessage(),e);
         }
       }
     }
