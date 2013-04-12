@@ -10,17 +10,17 @@
     tomcatLogger.info("LoggerFactory initialize end");
   }
  catch (  Exception e) {
-    logger.log(Level.INFO,"boot class not found",e);
+    logger.warn("boot class not found",e);
   }
   try {
     ProfilerConfig profilerConfig=null;
     if (!profilerConfig.isProfileEnable()) {
-      logger.warning("Profiler Agent not started. profile.enable=" + profilerConfig.isProfileEnable());
+      logger.warn("Profiler Agent not started. profile.enable=" + profilerConfig.isProfileEnable());
       return;
     }
     Agent agent=new DefaultAgent(agentArgs,instrumentation,profilerConfig);
   }
  catch (  Exception e) {
-    logger.log(Level.SEVERE,"Profiler Agent start fail. Cause:" + e.getMessage(),e);
+    logger.error("Profiler Agent start fail. Cause:" + e.getMessage(),e);
   }
 }

@@ -3,8 +3,8 @@
   String normalizedSql=parsingResult.getSql();
   boolean newValue=this.sqlCache.put(normalizedSql);
   if (newValue) {
-    if (logger.isLoggable(Level.FINE)) {
-      logger.fine("NewSQLParsingResult:" + parsingResult);
+    if (logger.isDebugEnabled()) {
+      logger.debug("NewSQLParsingResult:{}",parsingResult);
     }
     SqlMetaData sqlMetaData=new SqlMetaData();
     sqlMetaData.setAgentId(DefaultAgent.getInstance().getAgentId());

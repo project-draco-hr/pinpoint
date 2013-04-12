@@ -2,13 +2,13 @@
   LoadClass key=new LoadClass(cl,className);
   Object old=load.putIfAbsent(key,EXIST);
   if (old == null) {
-    if (logger.isLoggable(Level.INFO)) {
-      logger.info(className + " not exist from " + cl);
+    if (logger.isInfoEnabled()) {
+      logger.info("{} not exist from ",cl);
     }
     return false;
   }
-  if (logger.isLoggable(Level.INFO)) {
-    logger.info(className + " already exist from " + cl);
+  if (logger.isInfoEnabled()) {
+    logger.info("{} already exist from ",cl);
   }
   return true;
 }

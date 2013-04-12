@@ -4,10 +4,10 @@
     index--;
   }
  else {
-    Logger logger=Logger.getLogger(this.getClass().getName());
-    if (logger.isLoggable(Level.WARNING)) {
+    Logger logger=LoggerFactory.getLogger(this.getClass().getName());
+    if (logger.isWarnEnabled()) {
       Exception ex=new Exception("Profiler CallStack check. index:" + index);
-      logger.log(Level.WARNING,"invalid callStack found",ex);
+      logger.warn("invalid callStack found",ex);
     }
   }
 }

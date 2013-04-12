@@ -4,8 +4,8 @@
     logger.info("CATALINA_HOME is null");
     return null;
   }
-  if (logger.isLoggable(Level.INFO)) {
-    logger.info("CATALINA_HOME=" + catalinaHome);
+  if (logger.isInfoEnabled()) {
+    logger.info("CATALINA_HOME={}",catalinaHome);
   }
   if (profilerConfig.getServiceType() == ServiceType.BLOC) {
     return new String[]{catalinaHome + "/server/lib/catalina.jar",catalinaHome + "/common/lib/servlet-api.jar"};
