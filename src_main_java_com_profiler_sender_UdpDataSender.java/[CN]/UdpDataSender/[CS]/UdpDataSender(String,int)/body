@@ -1,5 +1,7 @@
 {
-  Assert.notNull(host,"host must not be null");
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
   this.udpSocket=createSocket(host,port);
   this.allowInput.set(true);
   this.ioThread=createIoThread();

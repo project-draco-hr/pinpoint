@@ -1,5 +1,4 @@
 {
-  DefaultTraceContext.initialize();
   HttpServletRequest request=mock(HttpServletRequest.class);
   HttpServletResponse response=mock(HttpServletResponse.class);
   when(request.getRequestURI()).thenReturn("/hellotest.nhn");
@@ -11,8 +10,9 @@
   when(request.getHeader(Header.HTTP_FLAGS.toString())).thenReturn("0");
   Enumeration<?> enumeration=mock(Enumeration.class);
   when(request.getParameterNames()).thenReturn(enumeration);
+  TraceContext traceContext=new MockTraceContextFactory().create();
   StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor();
-  interceptor.setTraceContext(DefaultTraceContext.getTraceContext());
+  interceptor.setTraceContext(traceContext);
   interceptor.before("target","classname","methodname",null,new Object[]{request,response});
   interceptor.after("target","classname","methodname",null,new Object[]{request,response},new Object());
   interceptor.before("target","classname","methodname",null,new Object[]{request,response});

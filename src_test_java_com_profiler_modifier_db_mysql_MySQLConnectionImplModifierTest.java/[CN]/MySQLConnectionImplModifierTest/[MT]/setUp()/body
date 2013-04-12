@@ -1,7 +1,8 @@
 {
-  loader=new TestClassLoader();
+  com.profiler.logging.LoggerFactory.initialize(new Slf4jLoggerBinder());
   ProfilerConfig profilerConfig=new ProfilerConfig();
   DefaultAgent agent=new DefaultAgent("",new DummyInstrumentation(),profilerConfig);
+  loader=new TestClassLoader(agent);
   MySQLNonRegisteringDriverModifier driverModifier=new MySQLNonRegisteringDriverModifier(loader.getInstrumentor(),agent);
   loader.addModifier(driverModifier);
   MySQLConnectionImplModifier connectionModifier=new MySQLConnectionImplModifier(loader.getInstrumentor(),agent);

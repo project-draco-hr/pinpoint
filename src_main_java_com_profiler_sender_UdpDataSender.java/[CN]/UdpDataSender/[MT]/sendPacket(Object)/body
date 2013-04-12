@@ -10,14 +10,15 @@
     logger.warn("sendPacket fail. invalid type:" + dto.getClass());
     return;
   }
-  byte[] sendData=serialize(tBase);
-  if (sendData == null) {
-    logger.warn("sendData is null");
+  byte[] interBufferData=serialize(tBase);
+  int interBufferSize=serializer.getInterBufferSize();
+  if (interBufferData == null) {
+    logger.warn("interBufferData is null");
     return;
   }
-  DatagramPacket packet=new DatagramPacket(sendData,sendData.length);
+  reusePacket.setData(interBufferData,0,interBufferSize);
   try {
-    udpSocket.send(packet);
+    udpSocket.send(reusePacket);
     if (logger.isInfoEnabled()) {
       logger.info("Data sent. " + dto);
     }
