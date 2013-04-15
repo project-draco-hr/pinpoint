@@ -13,7 +13,7 @@
   this.samplingElapsedTimeBaseDiscard=readBoolean(prop,"sampling.elapsedtimebase.discard",true);
   this.samplingElapsedTimeBaseDiscardTimeLimit=readLong(prop,"sampling.elapsedtimebase.discard.timelimit",1000);
   this.profileJvmCollectInterval=readInt(prop,"profile.jvm.collect.interval",1000);
-  this.heartbeatInterval=readLong(prop,"agent.heartbeat.interval",60000L);
+  this.heartbeatInterval=readLong(prop,"agent.heartbeat.interval",DEFAULT_HEART_BEAT_INTERVAL);
   this.serviceType=readServiceType(prop,"agent.servicetype",ServiceType.TOMCAT);
   String[] tmp=readString(prop,"profile.include","").split(",");
   for (  String str : tmp) {
