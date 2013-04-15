@@ -1,0 +1,11 @@
+{
+  logger.debug("UdpSenderLoop is stop. flushData");
+  while (true) {
+    Collection<Object> flushData=takeN();
+    if (flushData == null) {
+      break;
+    }
+    logger.debug("flushData {}",flushData.size());
+    sendPacket(flushData);
+  }
+}
