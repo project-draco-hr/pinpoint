@@ -1,0 +1,7 @@
+{
+  HttpServletResponse httpResponse=(HttpServletResponse)response;
+  httpResponse.setHeader("Cache-Control","no-cache");
+  httpResponse.setDateHeader("Expires",0);
+  httpResponse.setHeader("Pragma","No-cache");
+  chain.doFilter(request,response);
+}
