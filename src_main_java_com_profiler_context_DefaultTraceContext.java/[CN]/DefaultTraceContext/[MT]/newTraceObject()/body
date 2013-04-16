@@ -7,6 +7,7 @@
   Storage storage=storageFactory.createStorage();
   trace.setStorage(storage);
   trace.setTraceContext(this);
+  trace.setSampling(this.sampler.isSampling());
   threadLocal.set(trace);
   return trace;
 }

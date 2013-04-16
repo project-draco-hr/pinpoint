@@ -3,6 +3,8 @@
   this.traceContext.setAgentId(this.agentId);
   this.traceContext.setApplicationId(this.applicationName);
   this.traceContext.setPriorityDataSender(this.priorityDataSender);
+  Sampler sampler=createSampler();
+  this.traceContext.setSampler(sampler);
   if (profilerConfig.isSamplingElapsedTimeBaseEnable()) {
     TimeBaseStorageFactory timeBaseStorageFactory=new TimeBaseStorageFactory(this.dataSender,this.profilerConfig);
     this.traceContext.setStorageFactory(timeBaseStorageFactory);
