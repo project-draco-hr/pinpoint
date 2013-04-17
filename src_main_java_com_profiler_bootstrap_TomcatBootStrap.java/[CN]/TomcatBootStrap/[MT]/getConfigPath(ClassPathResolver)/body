@@ -1,14 +1,15 @@
 {
-  String hippoConfigFormSystemProperty=System.getProperty("hippo.config");
+  final String configName=ProductInfo.NAME + ".config";
+  String hippoConfigFormSystemProperty=System.getProperty(configName);
   if (hippoConfigFormSystemProperty != null) {
-    logger.info("hippo.config systemProperty found. " + hippoConfigFormSystemProperty);
+    logger.info(configName + " systemProperty found. " + hippoConfigFormSystemProperty);
     return hippoConfigFormSystemProperty;
   }
   String classPathAgentConfigPath=classPathResolver.getAgentConfigPath();
   if (classPathAgentConfigPath != null) {
-    logger.info("classpath hippo.config found. " + classPathAgentConfigPath);
+    logger.info("classpath " + configName + " found. "+ classPathAgentConfigPath);
     return classPathAgentConfigPath;
   }
-  logger.severe("hippo.config file not found.");
+  logger.severe(configName + " file not found.");
   return null;
 }
