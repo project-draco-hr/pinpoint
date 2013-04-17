@@ -1,7 +1,8 @@
 {
   if (storage == null) {
-    Logger logger=LoggerFactory.getLogger(this.getClass().getName());
-    logger.debug("storage is null. direct send");
+    if (isDebug) {
+      logger.debug("storage is null. direct send");
+    }
     return false;
   }
   storage.add(spanEvent);

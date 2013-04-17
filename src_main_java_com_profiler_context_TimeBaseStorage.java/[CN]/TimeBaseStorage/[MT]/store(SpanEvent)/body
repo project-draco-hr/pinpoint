@@ -7,15 +7,17 @@ synchronized (this) {
   }
  else {
     List<SpanEvent> flushData=null;
+    boolean add;
 synchronized (this) {
-      if (!addSpanEvent(spanEvent)) {
-        dataSender.send(spanEvent);
-        return;
-      }
-      if (storage.size() >= bufferSize) {
+      add=addSpanEvent(spanEvent);
+      if (add && storage.size() >= bufferSize) {
         flushData=storage;
         storage=new ArrayList<SpanEvent>(bufferSize + RESERVE_BUFFER_SIZE);
       }
+    }
+    if (!add) {
+      dataSender.send(spanEvent);
+      return;
     }
     if (flushData != null) {
       dataSender.send(new SpanChunk(flushData));
