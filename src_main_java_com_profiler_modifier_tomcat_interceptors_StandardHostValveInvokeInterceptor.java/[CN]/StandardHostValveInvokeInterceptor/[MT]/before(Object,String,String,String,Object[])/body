@@ -1,25 +1,28 @@
 {
   if (isDebug) {
-    LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
+    logger.beforeInterceptor(target,className,methodName,parameterDescription,args);
   }
   try {
     HttpServletRequest request=(HttpServletRequest)args[0];
+    boolean sampling=samplingEnable(request);
+    if (!sampling) {
+      traceContext.disableSampling();
+      return;
+    }
     String requestURL=request.getRequestURI();
     String remoteAddr=request.getRemoteAddr();
     TraceID traceId=populateTraceIdFromRequest(request);
     Trace trace;
     if (traceId != null) {
-      if (logger.isInfoEnabled()) {
-        logger.info("TraceID exist. continue trace. " + traceId);
-        logger.debug("requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
+      if (isDebug) {
+        logger.debug("TraceID exist. continue trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
       trace=traceContext.continueTraceObject(traceId);
     }
  else {
       trace=traceContext.newTraceObject();
-      if (logger.isInfoEnabled()) {
-        logger.info("TraceID not exist. start new trace. " + trace.getTraceId());
-        logger.debug("requestUrl:" + requestURL + ", remoteAddr:"+ remoteAddr);
+      if (isDebug) {
+        logger.debug("TraceID not exist. start new trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
     }
     trace.markBeforeTime();

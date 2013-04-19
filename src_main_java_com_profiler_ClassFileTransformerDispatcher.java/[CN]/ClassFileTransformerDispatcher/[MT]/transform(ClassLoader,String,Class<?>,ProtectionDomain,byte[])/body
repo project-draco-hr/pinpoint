@@ -7,6 +7,9 @@
   if (classLoader == agentClassLoader) {
     return null;
   }
+  if (className.startsWith("com/profiler/")) {
+    return null;
+  }
   Modifier findModifier=this.modifierRegistry.findModifier(className);
   if (findModifier == null) {
     if (this.profilerConfig.isProfilableClass(className)) {
@@ -16,15 +19,15 @@
       return null;
     }
   }
-  if (isFine) {
-    logger.debug("[transform] cl" + classLoader + " className:"+ className+ " Modifier:"+ findModifier.getClass().getName());
+  if (isDebug) {
+    logger.debug("[transform] cl:{} className:{} Modifier:{}",new Object[]{classLoader,className,findModifier.getClass().getName()});
   }
   String javassistClassName=className.replace('/','.');
   try {
     return findModifier.modify(classLoader,javassistClassName,protectionDomain,classFileBuffer);
   }
  catch (  Throwable e) {
-    logger.error("Modifier:" + findModifier.getTargetClass() + " modify fail. Cause:"+ e.getMessage(),e);
+    logger.error("Modifier:{} modify fail. Cause:{}",new Object[]{findModifier.getTargetClass(),e.getMessage(),e});
     return null;
   }
 }

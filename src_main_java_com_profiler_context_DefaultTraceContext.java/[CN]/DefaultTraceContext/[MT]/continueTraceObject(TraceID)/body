@@ -1,8 +1,5 @@
 {
-  Trace old=this.threadLocal.get();
-  if (old != null) {
-    throw new IllegalStateException("already Trace Object exist.");
-  }
+  checkBeforeTraceObject();
   DefaultTrace trace=new DefaultTrace(traceID);
   Storage storage=storageFactory.createStorage();
   trace.setStorage(storage);

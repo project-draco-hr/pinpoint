@@ -1,6 +1,6 @@
 {
   Enumeration<?> attrs=request.getParameters().getParameterNames();
-  StringBuilder params=new StringBuilder();
+  final StringBuilder params=new StringBuilder(32);
   while (attrs.hasMoreElements()) {
     String keyString=attrs.nextElement().toString();
     Object value=request.getParameters().getParameter(keyString);

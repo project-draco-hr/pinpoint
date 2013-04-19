@@ -1,3 +1,10 @@
 {
-  return threadLocal.get();
+  Trace trace=threadLocal.get();
+  if (trace == null) {
+    return null;
+  }
+  if (trace.isSampling()) {
+    return trace;
+  }
+  return null;
 }
