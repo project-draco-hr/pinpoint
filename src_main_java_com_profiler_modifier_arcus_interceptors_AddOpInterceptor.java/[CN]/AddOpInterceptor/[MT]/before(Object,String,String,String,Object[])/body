@@ -1,6 +1,6 @@
 {
   if (isDebug) {
-    LoggingUtils.logBefore(logger,target,className,methodName,parameterDescription,args);
+    logger.beforeInterceptor(target,className,methodName,parameterDescription,args);
   }
   String serviceCode=getServiceCode.invoke((MemcachedClient)target);
   Operation op=(Operation)args[1];

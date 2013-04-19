@@ -1,7 +1,7 @@
 {
   if (isDebug) {
-    LoggingUtils.logAfter(logger,target,className,methodName,parameterDescription,args,result);
-    logger.debug("JDBCScope pop:" + Thread.currentThread().getName());
+    logger.afterInterceptor(target,className,methodName,parameterDescription,args,result);
+    logger.debug("JDBCScope pop:{}",Thread.currentThread().getName());
   }
   JDBCScope.pop();
   boolean success=InterceptorUtils.isSuccess(result);
