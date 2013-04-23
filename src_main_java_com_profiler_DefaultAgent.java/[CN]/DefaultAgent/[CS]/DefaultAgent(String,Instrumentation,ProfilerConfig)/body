@@ -12,7 +12,7 @@
   this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,this);
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
   instrumentation.addTransformer(classFileTransformerDispatcher);
-  this.machineName=NetworkUtils.getMachineName();
+  this.machineName=NetworkUtils.getHostName();
   this.agentId=getId("hippo.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
   this.applicationName=getId("hippo.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
   this.priorityDataSender=createDataSender();
