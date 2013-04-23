@@ -1,15 +1,19 @@
 {
   if (data == null) {
-    logger.warn("putQueue(). data is null");
+    if (isWarn) {
+      logger.warn("putQueue(). data is null");
+    }
     return false;
   }
   if (!allowInput.get()) {
-    logger.warn("datasender is shutdown. discard data:{}",data);
+    if (isWarn) {
+      logger.warn("datasender is shutdown. discard data:{}",data);
+    }
     return false;
   }
   boolean offer=queue.offer(data);
   if (!offer) {
-    if (logger.isWarnEnabled()) {
+    if (isWarn) {
       logger.warn("Drop data. queue is full. size:{}",queue.size());
     }
   }
