@@ -36,7 +36,6 @@
         System.out.println("I am SpanHandler");
         applicationMapStatisticsCalleeDao.update(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationId(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
         applicationMapStatisticsCallerDao.update(span.getApplicationId(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
-        terminalStatistics.update(span.getApplicationId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
       }
     }
   }
