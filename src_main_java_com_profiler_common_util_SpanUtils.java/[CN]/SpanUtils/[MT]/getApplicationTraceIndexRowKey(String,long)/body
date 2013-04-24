@@ -1,3 +1,7 @@
 {
-  return getTraceIndexRowKey(applicationName,acceptedTime);
+  if (applicationName == null) {
+    throw new IllegalArgumentException("agentId must not null");
+  }
+  byte[] bApplicationName=BytesUtils.getBytes(applicationName);
+  return RowKeyUtils.concatFixedByteAndLong(bApplicationName,AGENT_NAME_MAX_LEN,TimeUtils.reverseCurrentTimeMillis(timestamp));
 }

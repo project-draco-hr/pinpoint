@@ -5,6 +5,6 @@
   byte[] applicationnameBytes=Bytes.toBytes(applicationName);
   byte[] applicationnameBytesLength=Bytes.toBytes((short)applicationnameBytes.length);
   byte[] applicationtypeBytes=Bytes.toBytes(applicationType);
-  byte[] slot=Bytes.toBytes(time);
+  byte[] slot=Bytes.toBytes(TimeUtils.reverseCurrentTimeMillis(timestamp));
   return BytesUtils.concat(applicationnameBytesLength,applicationnameBytes,applicationtypeBytes,slot);
 }
