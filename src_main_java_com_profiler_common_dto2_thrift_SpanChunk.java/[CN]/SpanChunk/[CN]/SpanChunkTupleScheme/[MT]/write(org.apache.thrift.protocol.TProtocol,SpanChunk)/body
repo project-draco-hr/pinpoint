@@ -7,27 +7,36 @@
   if (struct.isSetApplicationId()) {
     optionals.set(1);
   }
-  if (struct.isSetAgentIdentifier()) {
+  if (struct.isSetServiceType()) {
     optionals.set(2);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetAgentIdentifier()) {
     optionals.set(3);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetMostTraceId()) {
     optionals.set(4);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetLeastTraceId()) {
     optionals.set(5);
   }
-  if (struct.isSetSpanEventList()) {
+  if (struct.isSetSpanId()) {
     optionals.set(6);
   }
-  oprot.writeBitSet(optionals,7);
+  if (struct.isSetEndPoint()) {
+    optionals.set(7);
+  }
+  if (struct.isSetSpanEventList()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
   if (struct.isSetApplicationId()) {
     oprot.writeString(struct.applicationId);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
   }
   if (struct.isSetAgentIdentifier()) {
     oprot.writeI16(struct.agentIdentifier);
@@ -40,6 +49,9 @@
   }
   if (struct.isSetSpanId()) {
     oprot.writeI32(struct.spanId);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
   }
   if (struct.isSetSpanEventList()) {
 {
