@@ -3,9 +3,9 @@
   scan.setCaching(this.scanCacheSize);
   byte[] bAgent=Bytes.toBytes(agent);
   byte[] traceIndexStartKey=SpanUtils.getTraceIndexRowKey(bAgent,start);
-  scan.setStartRow(traceIndexStartKey);
   byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,end);
-  scan.setStopRow(traceIndexEndKey);
+  scan.setStartRow(traceIndexEndKey);
+  scan.setStopRow(traceIndexStartKey);
   scan.addFamily(HBaseTables.TRACE_INDEX_CF_TRACE);
   scan.setId("traceIndexScan");
   logger.debug("create scan:{}",scan);

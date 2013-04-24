@@ -1,12 +1,12 @@
 {
-  long startTime=TimeSlot.getStatisticsRowSlot(from);
-  long endTime=TimeSlot.getStatisticsRowSlot(to) + 1;
+  long startTime=TimeUtils.reverseCurrentTimeMillis(TimeSlot.getStatisticsRowSlot(from));
+  long endTime=TimeUtils.reverseCurrentTimeMillis(TimeSlot.getStatisticsRowSlot(to) + 1);
   if (logger.isDebugEnabled()) {
     SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm:ss,SSS");
     logger.debug("scan startTime:{} endTime:{}",simpleDateFormat.format(new Date(startTime)),simpleDateFormat.format(new Date(endTime)));
   }
-  byte[] startKey=Bytes.toBytes(startTime);
-  byte[] endKey=Bytes.toBytes(endTime);
+  byte[] startKey=Bytes.toBytes(endTime);
+  byte[] endKey=Bytes.toBytes(startTime);
   Scan scan=new Scan();
   scan.setCaching(this.scanCacheSize);
   scan.setStartRow(startKey);
