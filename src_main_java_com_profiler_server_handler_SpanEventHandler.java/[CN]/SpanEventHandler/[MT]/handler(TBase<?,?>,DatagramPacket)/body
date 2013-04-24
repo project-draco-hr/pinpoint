@@ -14,8 +14,8 @@
     }
     int elapsed=spanEvent.getEndElapsed();
     boolean hasException=SpanEventUtils.hasException(spanEvent);
-    System.out.println("I am SpanEventHandler");
-    System.out.println("WARN Can't generate application map information.");
+    applicationMapStatisticsCalleeDao.update(spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getApplicationId(),spanEvent.getParentServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
+    applicationMapStatisticsCallerDao.update(spanEvent.getApplicationId(),spanEvent.getParentServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),spanEvent.getParentEndPoint(),elapsed,hasException);
   }
  catch (  Exception e) {
     logger.warn("SpanEvent handle error " + e.getMessage(),e);
