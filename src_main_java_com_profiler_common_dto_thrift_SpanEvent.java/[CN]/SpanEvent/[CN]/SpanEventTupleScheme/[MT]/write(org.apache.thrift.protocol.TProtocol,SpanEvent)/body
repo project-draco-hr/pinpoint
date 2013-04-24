@@ -7,57 +7,69 @@
   if (struct.isSetApplicationId()) {
     optionals.set(1);
   }
-  if (struct.isSetAgentIdentifier()) {
+  if (struct.isSetParentServiceType()) {
     optionals.set(2);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetParentEndPoint()) {
     optionals.set(3);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetAgentIdentifier()) {
     optionals.set(4);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetMostTraceId()) {
     optionals.set(5);
   }
-  if (struct.isSetSequence()) {
+  if (struct.isSetLeastTraceId()) {
     optionals.set(6);
   }
-  if (struct.isSetStartElapsed()) {
+  if (struct.isSetSpanId()) {
     optionals.set(7);
   }
-  if (struct.isSetEndElapsed()) {
+  if (struct.isSetSequence()) {
     optionals.set(8);
   }
-  if (struct.isSetRpc()) {
+  if (struct.isSetStartElapsed()) {
     optionals.set(9);
   }
-  if (struct.isSetServiceType()) {
+  if (struct.isSetEndElapsed()) {
     optionals.set(10);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetRpc()) {
     optionals.set(11);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetServiceType()) {
     optionals.set(12);
   }
-  if (struct.isSetDepth()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(13);
   }
-  if (struct.isSetNextSpanId()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(14);
   }
-  if (struct.isSetDestinationId()) {
+  if (struct.isSetDepth()) {
     optionals.set(15);
   }
-  if (struct.isSetDestinationAddress()) {
+  if (struct.isSetNextSpanId()) {
     optionals.set(16);
   }
-  oprot.writeBitSet(optionals,17);
+  if (struct.isSetDestinationId()) {
+    optionals.set(17);
+  }
+  if (struct.isSetDestinationAddress()) {
+    optionals.set(18);
+  }
+  oprot.writeBitSet(optionals,19);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
   if (struct.isSetApplicationId()) {
     oprot.writeString(struct.applicationId);
+  }
+  if (struct.isSetParentServiceType()) {
+    oprot.writeI16(struct.parentServiceType);
+  }
+  if (struct.isSetParentEndPoint()) {
+    oprot.writeString(struct.parentEndPoint);
   }
   if (struct.isSetAgentIdentifier()) {
     oprot.writeI16(struct.agentIdentifier);

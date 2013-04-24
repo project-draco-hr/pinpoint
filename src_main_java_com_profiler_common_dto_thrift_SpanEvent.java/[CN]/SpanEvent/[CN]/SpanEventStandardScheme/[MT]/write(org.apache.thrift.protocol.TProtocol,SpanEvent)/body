@@ -82,6 +82,18 @@
     oprot.writeI32(struct.nextSpanId);
     oprot.writeFieldEnd();
   }
+  if (struct.isSetParentServiceType()) {
+    oprot.writeFieldBegin(PARENT_SERVICE_TYPE_FIELD_DESC);
+    oprot.writeI16(struct.parentServiceType);
+    oprot.writeFieldEnd();
+  }
+  if (struct.parentEndPoint != null) {
+    if (struct.isSetParentEndPoint()) {
+      oprot.writeFieldBegin(PARENT_END_POINT_FIELD_DESC);
+      oprot.writeString(struct.parentEndPoint);
+      oprot.writeFieldEnd();
+    }
+  }
   if (struct.destinationId != null) {
     if (struct.isSetDestinationId()) {
       oprot.writeFieldBegin(DESTINATION_ID_FIELD_DESC);
