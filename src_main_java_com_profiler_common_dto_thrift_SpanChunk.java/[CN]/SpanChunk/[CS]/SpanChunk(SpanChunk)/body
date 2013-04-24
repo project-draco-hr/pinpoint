@@ -1,16 +1,19 @@
 {
-  __isset_bit_vector.clear();
-  __isset_bit_vector.or(other.__isset_bit_vector);
+  __isset_bitfield=other.__isset_bitfield;
   if (other.isSetAgentId()) {
     this.agentId=other.agentId;
   }
   if (other.isSetApplicationId()) {
     this.applicationId=other.applicationId;
   }
+  this.serviceType=other.serviceType;
   this.agentIdentifier=other.agentIdentifier;
   this.mostTraceId=other.mostTraceId;
   this.leastTraceId=other.leastTraceId;
   this.spanId=other.spanId;
+  if (other.isSetEndPoint()) {
+    this.endPoint=other.endPoint;
+  }
   if (other.isSetSpanEventList()) {
     List<SpanEvent> __this__spanEventList=new ArrayList<SpanEvent>();
     for (    SpanEvent other_element : other.spanEventList) {

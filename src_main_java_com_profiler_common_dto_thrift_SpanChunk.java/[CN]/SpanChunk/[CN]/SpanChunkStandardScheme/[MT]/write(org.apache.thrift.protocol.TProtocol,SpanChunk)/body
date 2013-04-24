@@ -11,6 +11,9 @@
     oprot.writeString(struct.applicationId);
     oprot.writeFieldEnd();
   }
+  oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
+  oprot.writeI16(struct.serviceType);
+  oprot.writeFieldEnd();
   oprot.writeFieldBegin(AGENT_IDENTIFIER_FIELD_DESC);
   oprot.writeI16(struct.agentIdentifier);
   oprot.writeFieldEnd();
@@ -23,6 +26,13 @@
   oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
   oprot.writeI32(struct.spanId);
   oprot.writeFieldEnd();
+  if (struct.endPoint != null) {
+    if (struct.isSetEndPoint()) {
+      oprot.writeFieldBegin(END_POINT_FIELD_DESC);
+      oprot.writeString(struct.endPoint);
+      oprot.writeFieldEnd();
+    }
+  }
   if (struct.spanEventList != null) {
     oprot.writeFieldBegin(SPAN_EVENT_LIST_FIELD_DESC);
 {
