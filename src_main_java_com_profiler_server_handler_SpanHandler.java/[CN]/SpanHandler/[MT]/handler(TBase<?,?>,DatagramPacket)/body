@@ -11,7 +11,6 @@
     traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(span);
     if (span.getParentSpanId() == -1) {
-      clientStatisticsDao.update(span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getElapsed(),span.getErr() > 0);
       applicationMapStatisticsCalleeDao.update(span.getApplicationId(),span.getServiceType(),span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getEndPoint(),span.getElapsed(),span.getErr() > 0);
       applicationMapStatisticsCallerDao.update(span.getApplicationId(),ServiceType.CLIENT.getCode(),span.getApplicationId(),span.getServiceType(),span.getEndPoint(),span.getElapsed(),span.getErr() > 0);
     }

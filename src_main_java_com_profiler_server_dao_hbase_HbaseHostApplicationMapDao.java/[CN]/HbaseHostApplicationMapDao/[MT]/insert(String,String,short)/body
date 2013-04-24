@@ -1,6 +1,6 @@
 {
   logger.debug("Insert host-application map. host={}, applicationName={}, serviceType={}",new Object[]{host,applicationName,serviceType});
-  byte[] rowKey=Bytes.toBytes(TimeSlot.getStatisticsRowSlot(acceptedTimeService.getAcceptedTime()));
+  byte[] rowKey=Bytes.toBytes(TimeUtils.reverseCurrentTimeMillis(TimeSlot.getStatisticsRowSlot(acceptedTimeService.getAcceptedTime())));
   byte[] columnName=Bytes.toBytes(host);
   byte[] applicationNameBytes=Bytes.toBytes(applicationName);
   byte[] offsetBytes=new byte[HBaseTables.APPLICATION_NAME_MAX_LEN - applicationNameBytes.length];
