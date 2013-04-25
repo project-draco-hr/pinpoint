@@ -1,0 +1,23 @@
+{
+  String TRACEID="tr";
+  String TIME="ti";
+  String RESPONSE_TIME="re";
+  TransactionMetadataQuery query=new TransactionMetadataQuery();
+  int index=0;
+  while (true) {
+    String traceId=request.getParameter(TRACEID + index);
+    String time=request.getParameter(TIME + index);
+    String responseTime=request.getParameter(RESPONSE_TIME + index);
+    if (traceId == null || time == null || responseTime == null) {
+      break;
+    }
+    query.addQueryCondition(traceId,Long.parseLong(time),Integer.parseInt(responseTime));
+    index++;
+  }
+  if (query.size() > 0) {
+    List<SpanBo> metadata=scatter.selectTransactionMetadata(query);
+    model.addAttribute("metadata",metadata);
+  }
+  addResponseHeader(response);
+  return "transactionmetadata";
+}
