@@ -6,20 +6,20 @@
     logger.debug("internal jdbc scope. skip trace");
     return;
   }
-  if (!InterceptorUtils.isSuccess(result)) {
-    return;
-  }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
   if (target instanceof Connection) {
-    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
-    this.setUrl.invoke(result,databaseInfo);
     String sql=(String)args[0];
     ParsingResult parsingResult=trace.recordSqlInfo(sql);
-    if (parsingResult != null) {
-      this.setSql.invoke(result,parsingResult);
+    boolean success=InterceptorUtils.isSuccess(result);
+    if (success) {
+      DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+      this.setUrl.invoke(result,databaseInfo);
+      if (parsingResult != null) {
+        this.setSql.invoke(result,parsingResult);
+      }
     }
     trace.recordException(result);
   }
