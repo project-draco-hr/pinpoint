@@ -1,10 +1,18 @@
 {
   checkBeforeTraceObject();
-  DefaultTrace trace=new DefaultTrace();
-  Storage storage=storageFactory.createStorage();
-  trace.setStorage(storage);
-  trace.setTraceContext(this);
-  trace.setSampling(this.sampler.isSampling());
-  threadLocal.set(trace);
-  return trace;
+  boolean sampling=this.sampler.isSampling();
+  if (sampling) {
+    DefaultTrace trace=new DefaultTrace();
+    Storage storage=storageFactory.createStorage();
+    trace.setStorage(storage);
+    trace.setTraceContext(this);
+    trace.setSampling(sampling);
+    threadLocal.set(trace);
+    return trace;
+  }
+ else {
+    DisableTrace instance=DisableTrace.INSTANCE;
+    threadLocal.set(instance);
+    return instance;
+  }
 }

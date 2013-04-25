@@ -7,6 +7,9 @@
     boolean sampling=samplingEnable(request);
     if (!sampling) {
       traceContext.disableSampling();
+      if (isDebug) {
+        logger.debug("mark disable sampling. skip trace");
+      }
       return;
     }
     String requestURL=request.requestURI().toString();
