@@ -6,6 +6,11 @@
     logger.debug("internal jdbc scope. skip trace");
     return;
   }
+  boolean success=InterceptorUtils.isSuccess(result);
+  if (success) {
+    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+    this.setUrl.invoke(result,databaseInfo);
+  }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
@@ -13,10 +18,7 @@
   if (target instanceof Connection) {
     String sql=(String)args[0];
     ParsingResult parsingResult=trace.recordSqlInfo(sql);
-    boolean success=InterceptorUtils.isSuccess(result);
     if (success) {
-      DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
-      this.setUrl.invoke(result,databaseInfo);
       if (parsingResult != null) {
         this.setSql.invoke(result,parsingResult);
       }
