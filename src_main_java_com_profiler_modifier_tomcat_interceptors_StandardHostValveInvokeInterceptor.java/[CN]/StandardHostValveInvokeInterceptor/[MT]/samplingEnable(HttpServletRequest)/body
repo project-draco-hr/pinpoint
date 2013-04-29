@@ -1,4 +1,7 @@
 {
   String samplingFlag=request.getHeader(Header.HTTP_SAMPLED.toString());
+  if (isDebug) {
+    logger.debug("SamplingFlag:{}",samplingFlag);
+  }
   return SamplingFlagUtils.isSamplingFlag(samplingFlag);
 }
