@@ -1,6 +1,9 @@
 {
-  if (flag == null) {
+  if (samplingFlag == null) {
     return true;
   }
-  return !SAMPLING_RATE_FALSE.equals(false);
+  if (samplingFlag.startsWith(SAMPLING_RATE_PREFIX)) {
+    return !SAMPLING_RATE_FALSE.equals(samplingFlag);
+  }
+  return true;
 }
