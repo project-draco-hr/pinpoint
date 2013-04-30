@@ -1,0 +1,13 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+    logger.debug("JDBCScope push:{}",Thread.currentThread().getName());
+  }
+  JDBCScope.push();
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+}

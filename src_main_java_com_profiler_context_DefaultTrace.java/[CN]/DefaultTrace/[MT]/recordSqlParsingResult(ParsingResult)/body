@@ -1,5 +1,10 @@
 {
-  recordAttribute(AnnotationKey.SQL_ID,parsingResult.getSql().hashCode());
+  if (parsingResult == null) {
+    logger.warn("ParsingResult is null");
+    return;
+  }
+  String sql=parsingResult.getSql();
+  recordAttribute(AnnotationKey.SQL_ID,sql.hashCode());
   String output=parsingResult.getOutput();
   if (output != null && output.length() != 0) {
     recordAttribute(AnnotationKey.SQL_PARAM,output);

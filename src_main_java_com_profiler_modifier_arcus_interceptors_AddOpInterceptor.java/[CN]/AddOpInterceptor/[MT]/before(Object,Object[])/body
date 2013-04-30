@@ -1,0 +1,11 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  String serviceCode=getServiceCode.invoke((MemcachedClient)target);
+  Operation op=(Operation)args[1];
+  if (target instanceof MemcachedClient) {
+    if (serviceCode == null)     serviceCode=MEMCACHED;
+  }
+  setServiceCode.invoke(op,serviceCode);
+}

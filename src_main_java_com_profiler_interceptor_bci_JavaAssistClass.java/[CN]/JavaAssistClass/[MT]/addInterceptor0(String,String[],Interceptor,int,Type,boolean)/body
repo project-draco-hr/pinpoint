@@ -37,6 +37,15 @@
  else       if (interceptor instanceof StaticAfterInterceptor) {
         addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
       }
+ else       if (interceptor instanceof SimpleAroundInterceptor) {
+        addSimpleAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+      }
+ else       if (interceptor instanceof SimpleBeforeInterceptor) {
+        addSimpleBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+      }
+ else       if (interceptor instanceof SimpleAfterInterceptor) {
+        addSimpleAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+      }
  else {
         throw new IllegalArgumentException("unsupported");
       }

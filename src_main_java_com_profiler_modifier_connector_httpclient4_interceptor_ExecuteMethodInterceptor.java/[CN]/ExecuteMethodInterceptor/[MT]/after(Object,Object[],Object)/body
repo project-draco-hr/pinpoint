@@ -1,0 +1,13 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.recordApi(descriptor);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}

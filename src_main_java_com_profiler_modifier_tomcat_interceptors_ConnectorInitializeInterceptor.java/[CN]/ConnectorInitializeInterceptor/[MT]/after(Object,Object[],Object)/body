@@ -1,0 +1,7 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Connector connector=(Connector)target;
+  agent.addConnector(connector.getProtocol(),connector.getPort());
+}

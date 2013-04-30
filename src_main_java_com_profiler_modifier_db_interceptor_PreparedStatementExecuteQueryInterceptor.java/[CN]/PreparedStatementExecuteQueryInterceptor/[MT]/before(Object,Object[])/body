@@ -1,0 +1,34 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (JDBCScope.isInternal()) {
+    logger.debug("internal jdbc scope. skip trace");
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  try {
+    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+    trace.recordServiceType(databaseInfo.getExecuteQueryType());
+    trace.recordEndPoint(databaseInfo.getMultipleHost());
+    trace.recordDestinationId(databaseInfo.getDatabaseId());
+    trace.recordDestinationAddress(databaseInfo.getHost());
+    ParsingResult parsingResult=(ParsingResult)getSql.invoke(target);
+    trace.recordSqlParsingResult(parsingResult);
+    Map bindValue=getBindValue.invoke(target);
+    String bindString=toBindVariable(bindValue);
+    trace.recordAttribute(AnnotationKey.SQL_BINDVALUE,bindString);
+    trace.recordApi(descriptor);
+    clean(target);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+}

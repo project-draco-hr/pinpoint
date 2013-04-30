@@ -1,0 +1,13 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  AsyncTrace asyncTrace=trace.createAsyncTrace();
+  asyncTrace.markBeforeTime();
+  asyncTrace.setAttachObject(new TimeObject());
+  setAsyncTrace.invoke(target,asyncTrace);
+}

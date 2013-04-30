@@ -1,0 +1,43 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
+    boolean sampling=samplingEnable(request);
+    if (!sampling) {
+      traceContext.disableSampling();
+      if (isDebug) {
+        logger.debug("mark disable sampling. skip trace");
+      }
+      return;
+    }
+    String requestURL=request.requestURI().toString();
+    String remoteAddr=request.remoteAddr().toString();
+    TraceID traceId=populateTraceIdFromRequest(request);
+    Trace trace;
+    if (traceId != null) {
+      if (isInfo) {
+        logger.debug("TraceID exist. continue trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      trace=traceContext.continueTraceObject(traceId);
+    }
+ else {
+      if (isInfo) {
+        logger.debug("TraceID not exist. start new trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      trace=traceContext.newTraceObject();
+    }
+    trace.markBeforeTime();
+    trace.recordServiceType(ServiceType.BLOC);
+    trace.recordRpcName(requestURL);
+    trace.recordEndPoint(request.protocol().toString() + ":" + request.serverName().toString()+ ":"+ request.getServerPort());
+    trace.recordDestinationId(request.serverName().toString() + ":" + request.getServerPort());
+    trace.recordAttribute(AnnotationKey.HTTP_URL,request.requestURI().toString());
+  }
+ catch (  Throwable e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
+    }
+  }
+}

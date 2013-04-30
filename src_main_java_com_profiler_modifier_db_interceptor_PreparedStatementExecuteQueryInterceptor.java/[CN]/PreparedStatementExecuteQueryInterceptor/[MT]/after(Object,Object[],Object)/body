@@ -1,0 +1,24 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  if (JDBCScope.isInternal()) {
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordException(result);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+ finally {
+    trace.markAfterTime();
+    trace.traceBlockEnd();
+  }
+}

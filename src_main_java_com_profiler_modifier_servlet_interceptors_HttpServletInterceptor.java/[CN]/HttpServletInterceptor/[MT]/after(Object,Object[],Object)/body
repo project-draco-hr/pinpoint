@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  HttpServletRequest request=(HttpServletRequest)args[0];
+  String parameters=getRequestParameter(request);
+  if (parameters != null && parameters.length() > 0) {
+    trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+  }
+  trace.recordApi(descriptor);
+  trace.recordException(result);
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}
