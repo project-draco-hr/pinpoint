@@ -8,10 +8,10 @@
     String[] parameterType=JavaAssistUtils.getParameterType(method.getParameterTypes());
     try {
       if (interceptorId == -1) {
-        interceptorId=preparedStatement.addInterceptor(methodName,parameterType,interceptor);
+        interceptorId=preparedStatement.addInterceptor(methodName,parameterType,interceptor,Type.after);
       }
  else {
-        preparedStatement.reuseInterceptor(methodName,parameterType,interceptorId);
+        preparedStatement.reuseInterceptor(methodName,parameterType,interceptorId,Type.after);
       }
     }
  catch (    NotFoundInstrumentException e) {
