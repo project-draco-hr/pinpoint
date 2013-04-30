@@ -2,7 +2,12 @@
   after.format("java.lang.ClassLoader contextClassLoader = java.lang.Thread.currentThread().getContextClassLoader();");
   after.format("if (contextClassLoader != null) {");
   after.format("  java.lang.Class interceptorRegistryClass = contextClassLoader.loadClass(\"com.profiler.interceptor.InterceptorRegistry\");");
-  after.format("  java.lang.reflect.Method getInterceptorMethod = interceptorRegistryClass.getMethod(\"getInterceptor\", new java.lang.Class[]{ int.class });");
+  if (interceptorType == STATIC_INTERCEPTOR) {
+    after.format("  java.lang.reflect.Method getInterceptorMethod = interceptorRegistryClass.getMethod(\"getInterceptor\", new java.lang.Class[]{ int.class });");
+  }
+ else {
+    after.format("  java.lang.reflect.Method getInterceptorMethod = interceptorRegistryClass.getMethod(\"getSimpleInterceptor\", new java.lang.Class[]{ int.class });");
+  }
   after.format("  java.lang.Object[] interceptorParams = new java.lang.Object[] { java.lang.Integer.valueOf(%1$d) };",id);
   after.format("  java.lang.Object interceptor = getInterceptorMethod.invoke(interceptorRegistryClass, interceptorParams);");
 }

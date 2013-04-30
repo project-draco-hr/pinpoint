@@ -13,7 +13,17 @@
   }
   try {
     if (interceptor != null) {
-      interceptorId=InterceptorRegistry.addInterceptor(interceptor);
+      if (interceptor instanceof StaticAroundInterceptor) {
+        StaticAroundInterceptor staticAroundInterceptor=(StaticAroundInterceptor)interceptor;
+        interceptorId=InterceptorRegistry.addInterceptor(staticAroundInterceptor);
+      }
+ else       if (interceptor instanceof SimpleAroundInterceptor) {
+        SimpleAroundInterceptor simpleAroundInterceptor=(SimpleAroundInterceptor)interceptor;
+        interceptorId=InterceptorRegistry.addSimpleInterceptor(simpleAroundInterceptor);
+      }
+ else {
+        throw new InstrumentException("unsupported Interceptor Type:" + interceptor);
+      }
       if (interceptor instanceof TraceContextSupport) {
         ((TraceContextSupport)interceptor).setTraceContext(instrumentor.getAgent().getTraceContext());
       }
@@ -25,49 +35,53 @@
       }
     }
  else {
-      interceptor=InterceptorRegistry.getInterceptor(interceptorId);
+      interceptor=InterceptorRegistry.findInterceptor(interceptorId);
     }
-    if (type == Type.auto) {
-      if (interceptor instanceof StaticAroundInterceptor) {
+    if (interceptor instanceof StaticAroundInterceptor) {
+switch (type) {
+case around:
         addStaticAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
- else       if (interceptor instanceof StaticBeforeInterceptor) {
-        addStaticBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
- else       if (interceptor instanceof StaticAfterInterceptor) {
-        addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
- else       if (interceptor instanceof SimpleAroundInterceptor) {
-        addSimpleAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
- else       if (interceptor instanceof SimpleBeforeInterceptor) {
-        addSimpleBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
- else       if (interceptor instanceof SimpleAfterInterceptor) {
-        addSimpleAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-      }
+      break;
+case before:
+    addStaticBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+  break;
+case after:
+addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+case auto:
+addStaticAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+default :
+throw new UnsupportedOperationException("unsupport type");
+}
+}
+ else if (interceptor instanceof SimpleAroundInterceptor) {
+switch (type) {
+case around:
+addSimpleAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+case before:
+addSimpleBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+case after:
+addSimpleAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+case auto:
+addSimpleAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
+break;
+default :
+throw new UnsupportedOperationException("unsupport type");
+}
+}
  else {
-        throw new IllegalArgumentException("unsupported");
-      }
-    }
- else     if (type == Type.around && interceptor instanceof StaticAroundInterceptor) {
-      addStaticAroundInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-    }
- else     if (type == Type.before && interceptor instanceof StaticBeforeInterceptor) {
-      addStaticBeforeInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-    }
- else     if (type == Type.after && interceptor instanceof StaticAfterInterceptor) {
-      addStaticAfterInterceptor(methodName,interceptorId,behavior,useContextClassLoader);
-    }
- else {
-      throw new IllegalArgumentException("unsupported");
-    }
-    return interceptorId;
-  }
- catch (  NotFoundException e) {
-    throw new InstrumentException(interceptor.getClass().getSimpleName() + " add fail. Cause:" + e.getMessage(),e);
-  }
-catch (  CannotCompileException e) {
-    throw new InstrumentException(interceptor.getClass().getSimpleName() + "add fail. Cause:" + e.getMessage(),e);
-  }
+throw new IllegalArgumentException("unsupported");
+}
+return interceptorId;
+}
+ catch (NotFoundException e) {
+throw new InstrumentException(interceptor.getClass().getSimpleName() + " add fail. Cause:" + e.getMessage(),e);
+}
+catch (CannotCompileException e) {
+throw new InstrumentException(interceptor.getClass().getSimpleName() + "add fail. Cause:" + e.getMessage(),e);
+}
 }
