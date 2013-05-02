@@ -7,24 +7,26 @@
     return;
   }
   boolean success=InterceptorUtils.isSuccess(result);
+  ParsingResult parsingResult=null;
   if (success) {
     DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
     this.setUrl.invoke(result,databaseInfo);
+    String sql=(String)args[0];
+    parsingResult=traceContext.parseSql(sql);
+    if (parsingResult != null) {
+      this.setSql.invoke(result,parsingResult);
+    }
+ else {
+      if (logger.isErrorEnabled()) {
+        logger.error("sqlParsing fail. parsingResult is null sql:{}",sql);
+      }
+    }
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
-  if (target instanceof Connection) {
-    String sql=(String)args[0];
-    ParsingResult parsingResult=trace.recordSqlInfo(sql);
-    if (success) {
-      if (parsingResult != null) {
-        this.setSql.invoke(result,parsingResult);
-      }
-    }
-    trace.recordException(result);
-  }
+  trace.recordException(result);
   trace.recordApi(descriptor);
   trace.markAfterTime();
   trace.traceBlockEnd();
