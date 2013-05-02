@@ -6,11 +6,11 @@
     return (R)method.invoke(target,args);
   }
  catch (  IllegalAccessException e) {
-    logger.log(Level.WARNING,"invoke fail",e);
+    logger.warn("{} invoke fail",this.methodName,e);
     return defaultReturnValue;
   }
 catch (  InvocationTargetException e) {
-    logger.log(Level.WARNING,"invoke fail",e);
+    logger.warn("{} invoke fail",this.methodName,e);
     return defaultReturnValue;
   }
 }

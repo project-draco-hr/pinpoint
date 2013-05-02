@@ -3,7 +3,7 @@
     return aClass.getMethod(this.methodName,this.args);
   }
  catch (  NoSuchMethodException e) {
-    logger.log(Level.WARNING,this.methodName + " not found cls:" + aClass+ " Caused:"+ e.getMessage(),e);
+    logger.warn("{} not found cls:{} Caused:{}",new Object[]{this.methodName,aClass,e.getMessage(),e});
     return null;
   }
 }
