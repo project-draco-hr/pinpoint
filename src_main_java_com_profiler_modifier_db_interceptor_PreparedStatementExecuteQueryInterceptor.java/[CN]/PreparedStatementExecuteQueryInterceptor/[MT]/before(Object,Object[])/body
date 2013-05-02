@@ -22,7 +22,9 @@
     trace.recordSqlParsingResult(parsingResult);
     Map bindValue=getBindValue.invoke(target);
     String bindString=toBindVariable(bindValue);
-    trace.recordAttribute(AnnotationKey.SQL_BINDVALUE,bindString);
+    if (bindString != null && bindString.length() != 0) {
+      trace.recordAttribute(AnnotationKey.SQL_BINDVALUE,bindString);
+    }
     trace.recordApi(descriptor);
     clean(target);
   }
