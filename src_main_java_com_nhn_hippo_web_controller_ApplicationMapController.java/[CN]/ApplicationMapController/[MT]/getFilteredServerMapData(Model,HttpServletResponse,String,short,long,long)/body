@@ -1,0 +1,9 @@
+{
+  Set<TraceId> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
+  System.out.println(traceIdSet);
+  ServerCallTree map=flow.selectServerCallTree(traceIdSet);
+  model.addAttribute("nodes",map.getNodes());
+  model.addAttribute("links",map.getLinks());
+  addResponseHeader(response);
+  return "applicationmap.filtered";
+}

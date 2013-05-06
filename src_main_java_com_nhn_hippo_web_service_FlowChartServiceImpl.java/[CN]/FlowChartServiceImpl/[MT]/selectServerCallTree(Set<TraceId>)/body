@@ -1,9 +1,15 @@
 {
   StopWatch watch=new StopWatch();
   watch.start();
-  List<SpanBo> transaction=this.traceDao.selectSpans(traceId);
+  List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);
+  List<SpanBo> transaction=new ArrayList<SpanBo>();
+  for (  List<SpanBo> t : transactionList) {
+    for (    SpanBo span : t) {
+      transaction.add(span);
+    }
+  }
   Set<String> endPoints=createUniqueEndpoint(transaction);
-  ServerCallTree tree=createServerCallTree(transaction,new AgentIdNodeSelector());
+  ServerCallTree tree=createServerCallTree(transaction,new ApplicationIdNodeSelector());
   List<SpanEventBo> spanEventBoList=findRecordStatisticsSpanEventData(transaction,endPoints);
   tree.addSpanEventList(spanEventBoList);
   tree.build();
