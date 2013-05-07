@@ -1,24 +1,12 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  if (struct.agentId != null) {
-    if (struct.isSetAgentId()) {
-      oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
-      oprot.writeString(struct.agentId);
+  if (struct.agentKey != null) {
+    if (struct.isSetAgentKey()) {
+      oprot.writeFieldBegin(AGENT_KEY_FIELD_DESC);
+      struct.agentKey.write(oprot);
       oprot.writeFieldEnd();
     }
-  }
-  if (struct.applicationId != null) {
-    if (struct.isSetApplicationId()) {
-      oprot.writeFieldBegin(APPLICATION_ID_FIELD_DESC);
-      oprot.writeString(struct.applicationId);
-      oprot.writeFieldEnd();
-    }
-  }
-  if (struct.isSetAgentIdentifier()) {
-    oprot.writeFieldBegin(AGENT_IDENTIFIER_FIELD_DESC);
-    oprot.writeI16(struct.agentIdentifier);
-    oprot.writeFieldEnd();
   }
   if (struct.isSetMostTraceId()) {
     oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);

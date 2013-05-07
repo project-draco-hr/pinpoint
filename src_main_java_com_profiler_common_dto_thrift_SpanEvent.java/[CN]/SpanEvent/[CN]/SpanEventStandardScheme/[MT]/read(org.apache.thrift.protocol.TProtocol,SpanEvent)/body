@@ -8,45 +8,28 @@
     }
 switch (schemeField.id) {
 case 1:
-      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-        struct.agentId=iprot.readString();
-        struct.setAgentIdIsSet(true);
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+        struct.agentKey=new AgentKey();
+        struct.agentKey.read(iprot);
+        struct.setAgentKeyIsSet(true);
       }
  else {
         org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
       }
     break;
-case 2:
-  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-    struct.applicationId=iprot.readString();
-    struct.setApplicationIdIsSet(true);
+case 17:
+  if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+    struct.parentServiceType=iprot.readI16();
+    struct.setParentServiceTypeIsSet(true);
   }
  else {
     org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
   }
 break;
-case 17:
-if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
-struct.parentServiceType=iprot.readI16();
-struct.setParentServiceTypeIsSet(true);
-}
- else {
-org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
-}
-break;
 case 18:
 if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
 struct.parentEndPoint=iprot.readString();
 struct.setParentEndPointIsSet(true);
-}
- else {
-org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
-}
-break;
-case 3:
-if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
-struct.agentIdentifier=iprot.readI16();
-struct.setAgentIdentifierIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);

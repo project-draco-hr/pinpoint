@@ -1,24 +1,13 @@
 {
   StringBuilder sb=new StringBuilder("SpanEvent(");
   boolean first=true;
-  if (isSetAgentId()) {
-    sb.append("agentId:");
-    if (this.agentId == null) {
+  if (isSetAgentKey()) {
+    sb.append("agentKey:");
+    if (this.agentKey == null) {
       sb.append("null");
     }
  else {
-      sb.append(this.agentId);
-    }
-    first=false;
-  }
-  if (isSetApplicationId()) {
-    if (!first)     sb.append(", ");
-    sb.append("applicationId:");
-    if (this.applicationId == null) {
-      sb.append("null");
-    }
- else {
-      sb.append(this.applicationId);
+      sb.append(this.agentKey);
     }
     first=false;
   }
@@ -37,12 +26,6 @@
  else {
       sb.append(this.parentEndPoint);
     }
-    first=false;
-  }
-  if (isSetAgentIdentifier()) {
-    if (!first)     sb.append(", ");
-    sb.append("agentIdentifier:");
-    sb.append(this.agentIdentifier);
     first=false;
   }
   if (isSetMostTraceId()) {

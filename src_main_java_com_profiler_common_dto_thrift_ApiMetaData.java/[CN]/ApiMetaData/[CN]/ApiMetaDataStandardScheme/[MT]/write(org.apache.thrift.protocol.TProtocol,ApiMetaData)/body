@@ -6,11 +6,13 @@
     oprot.writeString(struct.agentId);
     oprot.writeFieldEnd();
   }
-  oprot.writeFieldBegin(AGENT_IDENTIFIER_FIELD_DESC);
-  oprot.writeI16(struct.agentIdentifier);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(START_TIME_FIELD_DESC);
-  oprot.writeI64(struct.startTime);
+  if (struct.applicationName != null) {
+    oprot.writeFieldBegin(APPLICATION_NAME_FIELD_DESC);
+    oprot.writeString(struct.applicationName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(AGENT_START_TIME_FIELD_DESC);
+  oprot.writeI64(struct.agentStartTime);
   oprot.writeFieldEnd();
   oprot.writeFieldBegin(API_ID_FIELD_DESC);
   oprot.writeI32(struct.apiId);

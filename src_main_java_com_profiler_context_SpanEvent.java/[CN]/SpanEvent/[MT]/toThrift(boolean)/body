@@ -5,11 +5,14 @@
   spanEvent.setEndElapsed((int)(endTime - startTime));
   spanEvent.setSequence(sequence);
   if (!child) {
-    spanEvent.setAgentId(DefaultAgent.getInstance().getAgentId());
-    spanEvent.setApplicationId(DefaultAgent.getInstance().getApplicationName());
+    AgentKey agentKey=new AgentKey();
+    DefaultAgent agent=DefaultAgent.getInstance();
+    agentKey.setAgentId(agent.getAgentId());
+    agentKey.setApplicationName(agent.getApplicationName());
+    agentKey.setAgentStartTime(agent.getStartTime());
+    spanEvent.setAgentKey(agentKey);
     spanEvent.setParentServiceType(parentSpan.getServiceType().getCode());
     spanEvent.setParentEndPoint(parentSpan.getEndPoint());
-    spanEvent.setAgentIdentifier(DefaultAgent.getInstance().getIdentifier());
     TraceID parentSpanTraceID=parentSpan.getTraceID();
     spanEvent.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
     spanEvent.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
