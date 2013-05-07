@@ -32,11 +32,6 @@
         apiMetaData.setKey(AnnotationKey.API_METADATA.getCode());
         apiMetaData.setValue(apiMetaDataBo);
         annotationBoList.add(apiMetaData);
-        AnnotationBo checkFail=checkIdentifier(spanAlign,apiMetaDataBo);
-        if (checkFail != null) {
-          annotationBoList.add(checkFail);
-          return;
-        }
         AnnotationBo apiAnnotation=new AnnotationBo();
         apiAnnotation.setKey(AnnotationKey.API.getCode());
         String apiInfo=getApiInfo(apiMetaDataBo);
@@ -50,17 +45,6 @@
         apiAnnotation.setValue(collisonMessage);
         annotationBoList.add(apiAnnotation);
       }
-    }
-    private AnnotationBo checkIdentifier(    SpanAlign spanAlign,    ApiMetaDataBo apiMetaDataBo){
-      short agentIdentifier=getAgentIdentifier(spanAlign);
-      short sqlIdentifier=apiMetaDataBo.getIdentifier();
-      if (agentIdentifier == sqlIdentifier) {
-        return null;
-      }
-      AnnotationBo identifierCheckFail=new AnnotationBo();
-      identifierCheckFail.setKey(AnnotationKey.ERROR_API_METADATA_IDENTIFIER_CHECK_ERROR.getCode());
-      identifierCheckFail.setValue("invalid ApiMetaInfo:" + apiMetaDataBo);
-      return identifierCheckFail;
     }
   }
 );

@@ -18,7 +18,7 @@
         return;
       }
       int hashCode=(Integer)sqlIdAnnotation.getValue();
-      List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentInfoBo.getAgentId(),agentInfoBo.getIdentifier(),hashCode,agentInfoBo.getTimestamp());
+      List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentInfoBo.getAgentId(),hashCode,agentInfoBo.getTimestamp());
       int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
@@ -34,11 +34,6 @@
           sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
           sqlMeta.setValue(sqlMetaDataBo.getSql());
           annotationBoList.add(sqlMeta);
-          AnnotationBo checkFail=checkIdentifier(spanAlign,sqlMetaDataBo);
-          if (checkFail != null) {
-            annotationBoList.add(checkFail);
-            return;
-          }
           AnnotationBo sql=new AnnotationBo();
           sql.setKey(AnnotationKey.SQL.getCode());
           sql.setValue(sqlMetaDataBo.getSql());
@@ -55,11 +50,6 @@
           sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
           sqlMeta.setValue(sqlMetaDataBo.getSql());
           annotationBoList.add(sqlMeta);
-          AnnotationBo checkFail=checkIdentifier(spanAlign,sqlMetaDataBo);
-          if (checkFail != null) {
-            annotationBoList.add(checkFail);
-            return;
-          }
           AnnotationBo sql=new AnnotationBo();
           sql.setKey(AnnotationKey.SQL.getCode());
           sql.setValue(originalSql);
@@ -72,17 +62,6 @@
         api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
         annotationBoList.add(api);
       }
-    }
-    private AnnotationBo checkIdentifier(    SpanAlign spanAlign,    SqlMetaDataBo sqlMetaDataBo){
-      short agentIdentifier=getAgentIdentifier(spanAlign);
-      short sqlIdentifier=sqlMetaDataBo.getIdentifier();
-      if (agentIdentifier == sqlIdentifier) {
-        return null;
-      }
-      AnnotationBo identifierCheckFail=new AnnotationBo();
-      identifierCheckFail.setKey(AnnotationKey.SQL.getCode());
-      identifierCheckFail.setValue("invalid SqlMetaInfo:" + sqlMetaDataBo);
-      return identifierCheckFail;
     }
   }
 );
