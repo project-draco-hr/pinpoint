@@ -1,7 +1,10 @@
 {
-  this.agentId=spanEvent.getAgentId();
-  this.applicationId=spanEvent.getApplicationId();
-  this.agentIdentifier=spanEvent.getAgentIdentifier();
+  final AgentKey agentKey=spanEvent.getAgentKey();
+  if (agentKey != null) {
+    this.agentId=agentKey.getAgentId();
+    this.applicationId=agentKey.getApplicationName();
+    this.agentStartTime=agentKey.getAgentStartTime();
+  }
   this.mostTraceId=spanEvent.getMostTraceId();
   this.leastTraceId=spanEvent.getLeastTraceId();
   this.spanId=spanEvent.getSpanId();

@@ -1,63 +1,56 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(19);
+  BitSet incoming=iprot.readBitSet(17);
   if (incoming.get(0)) {
-    struct.agentId=iprot.readString();
-    struct.setAgentIdIsSet(true);
+    struct.agentKey=new AgentKey();
+    struct.agentKey.read(iprot);
+    struct.setAgentKeyIsSet(true);
   }
   if (incoming.get(1)) {
-    struct.applicationId=iprot.readString();
-    struct.setApplicationIdIsSet(true);
-  }
-  if (incoming.get(2)) {
     struct.parentServiceType=iprot.readI16();
     struct.setParentServiceTypeIsSet(true);
   }
-  if (incoming.get(3)) {
+  if (incoming.get(2)) {
     struct.parentEndPoint=iprot.readString();
     struct.setParentEndPointIsSet(true);
   }
-  if (incoming.get(4)) {
-    struct.agentIdentifier=iprot.readI16();
-    struct.setAgentIdentifierIsSet(true);
-  }
-  if (incoming.get(5)) {
+  if (incoming.get(3)) {
     struct.mostTraceId=iprot.readI64();
     struct.setMostTraceIdIsSet(true);
   }
-  if (incoming.get(6)) {
+  if (incoming.get(4)) {
     struct.leastTraceId=iprot.readI64();
     struct.setLeastTraceIdIsSet(true);
   }
-  if (incoming.get(7)) {
+  if (incoming.get(5)) {
     struct.spanId=iprot.readI32();
     struct.setSpanIdIsSet(true);
   }
-  if (incoming.get(8)) {
+  if (incoming.get(6)) {
     struct.sequence=iprot.readI16();
     struct.setSequenceIsSet(true);
   }
-  if (incoming.get(9)) {
+  if (incoming.get(7)) {
     struct.startElapsed=iprot.readI32();
     struct.setStartElapsedIsSet(true);
   }
-  if (incoming.get(10)) {
+  if (incoming.get(8)) {
     struct.endElapsed=iprot.readI32();
     struct.setEndElapsedIsSet(true);
   }
-  if (incoming.get(11)) {
+  if (incoming.get(9)) {
     struct.rpc=iprot.readString();
     struct.setRpcIsSet(true);
   }
-  if (incoming.get(12)) {
+  if (incoming.get(10)) {
     struct.serviceType=iprot.readI16();
     struct.setServiceTypeIsSet(true);
   }
-  if (incoming.get(13)) {
+  if (incoming.get(11)) {
     struct.endPoint=iprot.readString();
     struct.setEndPointIsSet(true);
   }
-  if (incoming.get(14)) {
+  if (incoming.get(12)) {
 {
       org.apache.thrift.protocol.TList _list10=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.annotations=new ArrayList<Annotation>(_list10.size);
@@ -70,19 +63,19 @@
     }
     struct.setAnnotationsIsSet(true);
   }
-  if (incoming.get(15)) {
+  if (incoming.get(13)) {
     struct.depth=iprot.readI32();
     struct.setDepthIsSet(true);
   }
-  if (incoming.get(16)) {
+  if (incoming.get(14)) {
     struct.nextSpanId=iprot.readI32();
     struct.setNextSpanIdIsSet(true);
   }
-  if (incoming.get(17)) {
+  if (incoming.get(15)) {
     struct.destinationId=iprot.readString();
     struct.setDestinationIdIsSet(true);
   }
-  if (incoming.get(18)) {
+  if (incoming.get(16)) {
 {
       org.apache.thrift.protocol.TList _list13=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.destinationAddress=new ArrayList<String>(_list13.size);

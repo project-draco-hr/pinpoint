@@ -1,8 +1,0 @@
-{
-  String agentId=Bytes.toString(rowKey,0,AGENT_NAME_MAX_LEN).trim();
-  short identifier=readIdentifier(rowKey);
-  int apiId=readKeyCode(rowKey);
-  long startTIme=TimeUtils.recoveryCurrentTimeMillis(readTime(rowKey));
-  ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo(agentId,identifier,apiId,startTIme);
-  return apiMetaDataBo;
-}

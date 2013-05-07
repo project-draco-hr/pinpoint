@@ -1,78 +1,66 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetAgentId()) {
+  if (struct.isSetAgentKey()) {
     optionals.set(0);
   }
-  if (struct.isSetApplicationId()) {
+  if (struct.isSetParentServiceType()) {
     optionals.set(1);
   }
-  if (struct.isSetParentServiceType()) {
+  if (struct.isSetParentEndPoint()) {
     optionals.set(2);
   }
-  if (struct.isSetParentEndPoint()) {
+  if (struct.isSetMostTraceId()) {
     optionals.set(3);
   }
-  if (struct.isSetAgentIdentifier()) {
+  if (struct.isSetLeastTraceId()) {
     optionals.set(4);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetSpanId()) {
     optionals.set(5);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetSequence()) {
     optionals.set(6);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetStartElapsed()) {
     optionals.set(7);
   }
-  if (struct.isSetSequence()) {
+  if (struct.isSetEndElapsed()) {
     optionals.set(8);
   }
-  if (struct.isSetStartElapsed()) {
+  if (struct.isSetRpc()) {
     optionals.set(9);
   }
-  if (struct.isSetEndElapsed()) {
+  if (struct.isSetServiceType()) {
     optionals.set(10);
   }
-  if (struct.isSetRpc()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(11);
   }
-  if (struct.isSetServiceType()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(12);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetDepth()) {
     optionals.set(13);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetNextSpanId()) {
     optionals.set(14);
   }
-  if (struct.isSetDepth()) {
+  if (struct.isSetDestinationId()) {
     optionals.set(15);
   }
-  if (struct.isSetNextSpanId()) {
+  if (struct.isSetDestinationAddress()) {
     optionals.set(16);
   }
-  if (struct.isSetDestinationId()) {
-    optionals.set(17);
-  }
-  if (struct.isSetDestinationAddress()) {
-    optionals.set(18);
-  }
-  oprot.writeBitSet(optionals,19);
-  if (struct.isSetAgentId()) {
-    oprot.writeString(struct.agentId);
-  }
-  if (struct.isSetApplicationId()) {
-    oprot.writeString(struct.applicationId);
+  oprot.writeBitSet(optionals,17);
+  if (struct.isSetAgentKey()) {
+    struct.agentKey.write(oprot);
   }
   if (struct.isSetParentServiceType()) {
     oprot.writeI16(struct.parentServiceType);
   }
   if (struct.isSetParentEndPoint()) {
     oprot.writeString(struct.parentEndPoint);
-  }
-  if (struct.isSetAgentIdentifier()) {
-    oprot.writeI16(struct.agentIdentifier);
   }
   if (struct.isSetMostTraceId()) {
     oprot.writeI64(struct.mostTraceId);
