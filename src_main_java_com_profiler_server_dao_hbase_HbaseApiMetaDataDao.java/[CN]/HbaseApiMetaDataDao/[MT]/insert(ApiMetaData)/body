@@ -2,8 +2,8 @@
   if (logger.isDebugEnabled()) {
     logger.debug("insert:" + apiMetaData);
   }
-  String agentId=apiMetaData.getAgentId();
-  byte[] rowKey=RowKeyUtils.getApiId(agentId,apiMetaData.getAgentIdentifier(),apiMetaData.getApiId(),apiMetaData.getStartTime());
+  ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo(apiMetaData.getAgentId(),apiMetaData.getApiId(),apiMetaData.getAgentStartTime());
+  byte[] rowKey=apiMetaDataBo.toRowKey();
   Put put=new Put(rowKey);
   String api=apiMetaData.getApiInfo();
   int bufferSize=api.length() + 4 + 4;
