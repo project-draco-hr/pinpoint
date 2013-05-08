@@ -1,0 +1,23 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetApplicationName()) {
+    optionals.set(1);
+  }
+  if (struct.isSetAgentStartTime()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationName()) {
+    oprot.writeString(struct.applicationName);
+  }
+  if (struct.isSetAgentStartTime()) {
+    oprot.writeI64(struct.agentStartTime);
+  }
+}

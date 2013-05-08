@@ -1,0 +1,44 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.agentId=iprot.readString();
+        struct.setAgentIdIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+    struct.applicationName=iprot.readString();
+    struct.setApplicationNameIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.agentStartTime=iprot.readI64();
+struct.setAgentStartTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}
