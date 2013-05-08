@@ -1,0 +1,10 @@
+{
+  logger.debug("   make filter from string. {}",filterText);
+  String[] element=filterText.split(Filter.FILTER_ENTRY_DELIMETER);
+  if (element.length == 4) {
+    return new FromToFilter(element[0],element[1],element[2],element[3]);
+  }
+ else {
+    return Filter.NONE;
+  }
+}

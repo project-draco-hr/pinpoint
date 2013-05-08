@@ -1,0 +1,15 @@
+{
+  if (StringUtils.isEmpty(filterText)) {
+    return Filter.NONE;
+  }
+  logger.debug("build filter from string. {}",filterText);
+  String[] f=filterText.split(Filter.FILTER_DELIMETER);
+  Filter filter;
+  if (f.length == 1) {
+    filter=makeSingleFilter(f[0]);
+  }
+ else {
+    filter=makeChainedFilter(f);
+  }
+  return filter;
+}

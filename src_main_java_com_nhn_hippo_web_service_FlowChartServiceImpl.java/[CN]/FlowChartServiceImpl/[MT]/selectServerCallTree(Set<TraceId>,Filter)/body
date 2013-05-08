@@ -5,7 +5,9 @@
   List<SpanBo> transaction=new ArrayList<SpanBo>();
   for (  List<SpanBo> t : transactionList) {
     for (    SpanBo span : t) {
-      transaction.add(span);
+      if (filter.include(span)) {
+        transaction.add(span);
+      }
     }
   }
   Set<String> endPoints=createUniqueEndpoint(transaction);
