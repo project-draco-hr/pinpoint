@@ -1,16 +1,57 @@
 {
   boolean include=false;
-  for (  SpanBo span : transaction) {
-    if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
-      List<SpanEventBo> eventBoList=span.getSpanEventBoList();
-      for (      SpanEventBo event : eventBoList) {
-        if (toServiceCode == event.getServiceType().getCode() && toApplicationName.equals(event.getDestinationId())) {
-          include=true;
+  if (ServiceType.findServiceType(fromServiceCode) == ServiceType.CLIENT || ServiceType.findServiceType(fromServiceCode) == ServiceType.USER) {
+    for (    SpanBo span : transaction) {
+      if (toServiceCode == span.getServiceType().getCode() && toApplicationName.equals(span.getApplicationId())) {
+        include=true;
+        break;
+      }
+    }
+  }
+ else   if (ServiceType.findServiceType(toServiceCode).isUnknown()) {
+    for (    SpanBo span : transaction) {
+      if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        for (        SpanEventBo event : eventBoList) {
+          if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
+            include=true;
+            break;
+          }
+        }
+        if (include) {
           break;
         }
       }
-      if (include) {
+    }
+  }
+ else   if (ServiceType.findServiceType(toServiceCode).isWas()) {
+    int foundCounter=0;
+    for (    SpanBo span : transaction) {
+      if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+        foundCounter++;
+      }
+      if (toServiceCode == span.getServiceType().getCode() && toApplicationName.equals(span.getApplicationId())) {
+        foundCounter++;
+      }
+      if (foundCounter == 2) {
         break;
+      }
+    }
+    include=foundCounter == 2;
+  }
+ else {
+    for (    SpanBo span : transaction) {
+      if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        for (        SpanEventBo event : eventBoList) {
+          if (toServiceCode == event.getServiceType().getCode() && toApplicationName.equals(event.getDestinationId())) {
+            include=true;
+            break;
+          }
+        }
+        if (include) {
+          break;
+        }
       }
     }
   }
