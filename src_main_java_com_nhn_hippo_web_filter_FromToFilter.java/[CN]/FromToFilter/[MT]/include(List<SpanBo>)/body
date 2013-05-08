@@ -1,3 +1,19 @@
 {
-  return true;
+  boolean include=false;
+  for (  SpanBo span : transaction) {
+    if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+      List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+      for (      SpanEventBo event : eventBoList) {
+        if (toServiceCode == event.getServiceType().getCode() && toApplicationName.equals(event.getDestinationId())) {
+          include=true;
+          break;
+        }
+      }
+      if (include) {
+        break;
+      }
+    }
+  }
+  logger.debug("filter result = {}",include);
+  return include;
 }
