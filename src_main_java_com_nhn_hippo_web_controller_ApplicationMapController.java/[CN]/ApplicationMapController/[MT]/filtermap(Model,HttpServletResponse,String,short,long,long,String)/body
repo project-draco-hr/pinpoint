@@ -1,0 +1,12 @@
+{
+  model.addAttribute("applicationName",applicationName);
+  model.addAttribute("serviceType",serviceType);
+  model.addAttribute("from",from);
+  model.addAttribute("to",to);
+  model.addAttribute("fromDate",new Date(from));
+  model.addAttribute("toDate",new Date(to));
+  model.addAttribute("filterText",filterText);
+  model.addAttribute("filter",FilterBuilder.build(filterText));
+  addResponseHeader(response);
+  return "applicationmap.filtered.view";
+}
