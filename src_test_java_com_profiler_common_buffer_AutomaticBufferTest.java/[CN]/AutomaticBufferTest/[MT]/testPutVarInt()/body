@@ -1,0 +1,14 @@
+{
+  Buffer buffer=new AutomaticBuffer(0);
+  buffer.putVar(Integer.MAX_VALUE);
+  buffer.putVar(Integer.MIN_VALUE);
+  buffer.putVar(0);
+  buffer.putVar(1);
+  buffer.putVar(12345);
+  buffer.setOffset(0);
+  Assert.assertEquals(buffer.readVarInt(),Integer.MAX_VALUE);
+  Assert.assertEquals(buffer.readVarInt(),Integer.MIN_VALUE);
+  Assert.assertEquals(buffer.readVarInt(),0);
+  Assert.assertEquals(buffer.readVarInt(),1);
+  Assert.assertEquals(buffer.readVarInt(),12345);
+}
