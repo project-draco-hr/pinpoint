@@ -1,0 +1,12 @@
+{
+  while (true) {
+    if ((v & ~0x7FL) == 0) {
+      this.buffer[offset++]=(byte)v;
+      return;
+    }
+ else {
+      this.buffer[offset++]=(byte)(((int)v & 0x7F) | 0x80);
+      v>>>=7;
+    }
+  }
+}

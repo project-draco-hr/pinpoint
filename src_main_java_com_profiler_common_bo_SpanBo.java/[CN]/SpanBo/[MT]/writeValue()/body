@@ -4,20 +4,19 @@
   byte[] applicationIdBytes=BytesUtils.getBytes(applicationId);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   byte[] remoteAddrBytes=BytesUtils.getBytes(remoteAddr);
-  int bufferLength=getBufferLength(agentIDBytes.length,rpcBytes.length,applicationIdBytes.length,endPointBytes.length,remoteAddrBytes.length);
-  Buffer buffer=new FixedBuffer(bufferLength);
+  Buffer buffer=new AutomaticBuffer(256);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
-  buffer.put(agentStartTime);
+  buffer.putVar(agentStartTime);
   buffer.put(parentSpanId);
-  buffer.put(startTime);
-  buffer.put(elapsed);
+  buffer.putVar(startTime);
+  buffer.putVar(elapsed);
   buffer.put1PrefixedBytes(rpcBytes);
   buffer.put1PrefixedBytes(applicationIdBytes);
   buffer.put(serviceType.getCode());
   buffer.put1PrefixedBytes(endPointBytes);
   buffer.put1PrefixedBytes(remoteAddrBytes);
-  buffer.put(exception);
+  buffer.putSVar(exception);
   if (flag != 0) {
     buffer.put(flag);
   }
