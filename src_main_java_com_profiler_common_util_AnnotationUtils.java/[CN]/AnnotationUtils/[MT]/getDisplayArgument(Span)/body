@@ -3,7 +3,7 @@
   if (span.getServiceType() == ServiceType.ARCUS || span.getServiceType() == ServiceType.MEMCACHED) {
     return findAnnotationBo(list,AnnotationKey.ARCUS_COMMAND);
   }
-  if (span.getServiceType() == ServiceType.HTTP_CLIENT) {
+  if (span.getServiceType() == ServiceType.HTTP_CLIENT || span.getServiceType() == ServiceType.JDK_HTTPURLCONNECTOR) {
     return findAnnotationBo(list,AnnotationKey.HTTP_URL);
   }
   if (span.getServiceType() == ServiceType.MYSQL) {
