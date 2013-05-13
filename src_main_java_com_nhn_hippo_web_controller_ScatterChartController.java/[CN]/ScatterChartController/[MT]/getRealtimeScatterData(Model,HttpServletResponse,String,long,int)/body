@@ -2,7 +2,7 @@
   StopWatch watch=new StopWatch();
   watch.start("selectScatterData");
   long to=getQueryEndTime();
-  List<Dot> scatterData=scatter.selectScatterData(applicationName,from,to,limit);
+  List<Dot> scatterData=scatter.selectScatterData(applicationName,from,to,limit,Filter.NONE);
   watch.stop();
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
   model.addAttribute("scatter",scatterData);
