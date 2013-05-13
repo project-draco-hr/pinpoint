@@ -1,7 +1,16 @@
 {
-  List<List<SpanBo>> traceList=this.traceDao.selectSpans(traceIds);
+  List<List<SpanBo>> traceList;
+  if (filter == Filter.NONE) {
+    traceList=this.traceDao.selectSpans(traceIds);
+  }
+ else {
+    traceList=this.traceDao.selectAllSpans(traceIds);
+  }
   BusinessTransactions businessTransactions=new BusinessTransactions();
   for (  List<SpanBo> trace : traceList) {
+    if (!filter.include(trace)) {
+      continue;
+    }
     for (    SpanBo spanBo : trace) {
       if (applicationName.equals(spanBo.getApplicationId())) {
         businessTransactions.add(spanBo);

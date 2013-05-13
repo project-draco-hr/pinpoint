@@ -1,6 +1,7 @@
 {
   Set<TraceId> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
-  BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIdList,applicationName,from,to);
+  Filter filter=FilterBuilder.build(filterText);
+  BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIdList,applicationName,from,to,filter);
   model.addAttribute("rpcList",selectBusinessTransactions.getBusinessTransactionIterator());
   model.addAttribute("requestList",selectBusinessTransactions.getBusinessTransactionIterator());
   model.addAttribute("scatterList",selectBusinessTransactions.getBusinessTransactionIterator());
@@ -9,6 +10,8 @@
   model.addAttribute("to",new Date(to));
   model.addAttribute("urlCount",selectBusinessTransactions.getURLCount());
   model.addAttribute("totalCount",selectBusinessTransactions.getTotalCallCount());
+  model.addAttribute("filterText",filterText);
+  model.addAttribute("filter",filter);
   addResponseHeader(response);
   return "transactionList";
 }
