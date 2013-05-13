@@ -7,7 +7,7 @@
   put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
   List<Annotation> annotations=span.getAnnotations();
   if (annotations != null && annotations.size() != 0) {
-    byte[] bytes=writeBuffer(annotations);
+    byte[] bytes=writeAnnotation(annotations);
     put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
   addNestedSpanEvent(put,span);

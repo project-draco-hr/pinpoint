@@ -31,7 +31,6 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
-        System.out.println("I am SpanHandler");
         applicationMapStatisticsCalleeDao.update(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationName(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
         applicationMapStatisticsCallerDao.update(span.getApplicationName(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
       }
