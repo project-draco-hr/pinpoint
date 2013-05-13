@@ -1,0 +1,15 @@
+{
+  List<List<SpanBo>> traceList=traceDao.selectAllSpans(traceIds);
+  List<Dot> list=new ArrayList<Dot>();
+  for (  List<SpanBo> trace : traceList) {
+    if (!filter.include(trace)) {
+      continue;
+    }
+    for (    SpanBo span : trace) {
+      if (applicationName.equals(span.getApplicationId())) {
+        list.add(new Dot(span.getTraceId(),span.getCollectorAcceptTime(),span.getElapsed(),span.getException()));
+      }
+    }
+  }
+  return list;
+}
