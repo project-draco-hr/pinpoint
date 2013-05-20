@@ -1,16 +1,5 @@
 {
-  StackFrame currentStackFrame=callStack.getCurrentStackFrame();
-  int stackFrameId=currentStackFrame.getStackFrameId();
-  if (stackFrameId != stackId) {
-    if (logger.isWarnEnabled()) {
-      logger.warn("Corrupted CallStack found. StackId not matched. expected:{} current:{}",stackId,stackFrameId);
-    }
-  }
-  if (currentStackFrame instanceof RootStackFrame) {
-    logSpan(((RootStackFrame)currentStackFrame).getSpan());
-  }
- else {
-    logSpan(((SubStackFrame)currentStackFrame).getSpanEvent());
-  }
-  callStack.pop();
+  pop(stackId);
+  StackFrame popStackFrame=callStack.pop();
+  this.currentStackFrame=popStackFrame;
 }

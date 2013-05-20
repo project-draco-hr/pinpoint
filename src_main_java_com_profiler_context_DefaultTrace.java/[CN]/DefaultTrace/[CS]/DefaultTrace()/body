@@ -2,6 +2,7 @@
   DefaultTraceID traceId=DefaultTraceID.newTraceId();
   this.callStack=new CallStack(traceId);
   latestStackIndex=this.callStack.push();
-  StackFrame stackFrame=createRootStackFrame(ROOT_STACKID,callStack.getSpan());
+  StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);
+  this.currentStackFrame=stackFrame;
 }

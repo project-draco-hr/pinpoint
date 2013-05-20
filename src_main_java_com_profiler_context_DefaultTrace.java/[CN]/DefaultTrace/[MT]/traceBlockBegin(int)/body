@@ -1,10 +1,11 @@
 {
-  int currentStackIndex=callStack.push();
-  StackFrame stackFrame=createSubStackFrame(stackId);
+  final int currentStackIndex=callStack.push();
+  final StackFrame stackFrame=createSpanEventStackFrame(stackId);
   if (latestStackIndex != currentStackIndex) {
     latestStackIndex=currentStackIndex;
     SpanEvent spanEvent=((SubStackFrame)stackFrame).getSpanEvent();
     spanEvent.setDepth(latestStackIndex);
   }
   callStack.setStackFrame(stackFrame);
+  this.currentStackFrame=stackFrame;
 }
