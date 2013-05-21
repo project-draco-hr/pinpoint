@@ -1,0 +1,47 @@
+{
+  if (failed) {
+    failedCount+=callCount;
+  }
+ else {
+    successCount+=callCount;
+  }
+  if (responseTimeslot == -1) {
+    responseTimeslot=ERROR;
+  }
+ else   if (responseTimeslot == 0) {
+    responseTimeslot=SLOW;
+  }
+  long value=histogramSummary.containsKey(responseTimeslot) ? histogramSummary.get(responseTimeslot) : 0L;
+  histogramSummary.put(responseTimeslot,value + callCount);
+  if (timeseriesHistogram.containsKey(timeslot)) {
+    SortedMap<Integer,Long> eachResponseHistogram=timeseriesHistogram.get(timeslot);
+    long count=eachResponseHistogram.containsKey(responseTimeslot) ? eachResponseHistogram.get(responseTimeslot) : 0L;
+    eachResponseHistogram.put(responseTimeslot,count + callCount);
+  }
+ else {
+    SortedMap<Integer,Long> map=makeDefaultHistogram();
+    map.put(responseTimeslot,callCount);
+    timeseriesHistogram.put(timeslot,map);
+  }
+  if (timeseriesFaileureHistogram.containsKey(timeslot)) {
+    Long[] array=timeseriesFaileureHistogram.get(timeslot);
+    if (failed) {
+      array[FAILED]+=callCount;
+    }
+ else {
+      array[SUCCESS]+=callCount;
+    }
+  }
+ else {
+    Long[] array=new Long[2];
+    array[SUCCESS]=0L;
+    array[FAILED]=0L;
+    if (failed) {
+      array[FAILED]+=callCount;
+    }
+ else {
+      array[SUCCESS]+=callCount;
+    }
+    timeseriesFaileureHistogram.put(timeslot,array);
+  }
+}

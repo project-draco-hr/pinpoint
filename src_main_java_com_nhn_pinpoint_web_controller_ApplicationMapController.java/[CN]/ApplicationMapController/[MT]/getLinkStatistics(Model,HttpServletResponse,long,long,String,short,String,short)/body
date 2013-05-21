@@ -1,0 +1,15 @@
+{
+  LinkStatistics linkStatistics=flow.linkStatistics(from,to,srcApplicationName,srcServiceType,destApplicationName,destServiceType);
+  model.addAttribute("from",from);
+  model.addAttribute("to",to);
+  model.addAttribute("srcApplicationName",srcApplicationName);
+  model.addAttribute("destApplicationName",destApplicationName);
+  model.addAttribute("srcApplicationType",ServiceType.findServiceType(srcServiceType));
+  model.addAttribute("destApplicationType",ServiceType.findServiceType(destServiceType));
+  model.addAttribute("linkStatistics",linkStatistics);
+  model.addAttribute("histogramSummary",linkStatistics.getHistogramSummary().entrySet().iterator());
+  model.addAttribute("timeseriesHistogram",linkStatistics.getTimeseriesHistogram().entrySet().iterator());
+  model.addAttribute("timeseriesSuccessHistogram",linkStatistics.getTimeseriesFaileureHistogram().entrySet().iterator());
+  model.addAttribute("timeseriesFaileureHistogram",linkStatistics.getTimeseriesFaileureHistogram().entrySet().iterator());
+  return "linkStatisticsDetail";
+}

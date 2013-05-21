@@ -1,0 +1,20 @@
+{
+  List<Map<Long,Map<Short,Long>>> list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
+  LinkStatistics statistics=new LinkStatistics();
+  statistics.setDefaultHistogramSlotList(ServiceType.findServiceType(destServiceType).getHistogram().getHistogramSlotList());
+  for (  Map<Long,Map<Short,Long>> map : list) {
+    for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
+      long timestamp=entry.getKey();
+      Map<Short,Long> histogramMap=entry.getValue();
+      for (      Entry<Short,Long> histogram : histogramMap.entrySet()) {
+        if (histogram.getKey() == -1) {
+          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),true);
+        }
+ else {
+          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),false);
+        }
+      }
+    }
+  }
+  return statistics;
+}

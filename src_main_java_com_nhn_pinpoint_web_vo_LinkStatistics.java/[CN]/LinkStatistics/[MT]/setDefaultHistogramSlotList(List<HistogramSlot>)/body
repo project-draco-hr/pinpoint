@@ -1,0 +1,15 @@
+{
+  if (successCount > 0 || failedCount > 0) {
+    throw new IllegalStateException("Can't set slot list while containing the data.");
+  }
+  histogramSlotList.clear();
+  histogramSummary.clear();
+  histogramSlotList.add(ERROR);
+  histogramSummary.put(ERROR,0L);
+  histogramSlotList.add(SLOW);
+  histogramSummary.put(SLOW,0L);
+  for (  HistogramSlot slot : slotList) {
+    histogramSlotList.add(slot.getSlotTime());
+    histogramSummary.put(slot.getSlotTime(),0L);
+  }
+}
