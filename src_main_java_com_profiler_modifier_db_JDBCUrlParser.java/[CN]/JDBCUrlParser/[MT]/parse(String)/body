@@ -3,10 +3,10 @@
   if (!lowCaseURL.startsWith("jdbc:")) {
     return createUnknownDataBase(url);
   }
-  if (jdbcTypeCheck(lowCaseURL,"mysql")) {
+  if (driverTypeCheck(lowCaseURL,"mysql")) {
     return parseMysql(url);
   }
-  if (jdbcTypeCheck(lowCaseURL,"oracle")) {
+  if (driverTypeCheck(lowCaseURL,"oracle")) {
     return parseOracle(url);
   }
   return createUnknownDataBase(url);
