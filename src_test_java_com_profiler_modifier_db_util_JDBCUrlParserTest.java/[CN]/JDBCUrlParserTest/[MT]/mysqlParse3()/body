@@ -1,0 +1,8 @@
+{
+  DatabaseInfo dbInfo=JDBCUrlParser.parse("jdbc:mysql://61.74.71.31/log?useUnicode=yes&amp;characterEncoding=UTF-8");
+  Assert.assertEquals(dbInfo.getType(),ServiceType.MYSQL);
+  Assert.assertEquals(dbInfo.getHost().get(0),"61.74.71.31");
+  Assert.assertEquals(dbInfo.getDatabaseId(),"log");
+  Assert.assertEquals(dbInfo.getUrl(),"jdbc:mysql://61.74.71.31/log");
+  logger.info(dbInfo.toString());
+}

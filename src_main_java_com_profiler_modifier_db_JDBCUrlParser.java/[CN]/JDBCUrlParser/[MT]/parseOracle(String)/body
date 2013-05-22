@@ -1,3 +1,30 @@
 {
-  return null;
+  StringMaker maker=new StringMaker(url);
+  maker.after("jdbc:oracle:").after(":");
+  String description=maker.after('@').value().trim();
+  if (description.startsWith("(")) {
+    Matcher matcher=oracleRAC.matcher(description);
+    if (matcher.matches()) {
+      String host=matcher.group(1);
+      String port=matcher.group(2);
+      String databaseId=matcher.group(3);
+      for (int i=0; i < matcher.groupCount(); i++) {
+        System.out.println(i + ":" + matcher.group(i));
+      }
+      List<String> hostList=new ArrayList<String>(1);
+      hostList.add(host + ":" + port);
+      return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,databaseId);
+    }
+ else {
+      return createUnknownDataBase(url);
+    }
+  }
+ else {
+    String host=maker.before(':').value();
+    String port=maker.next().after(':').before(':').value();
+    String databaseId=maker.next().afterLast(':').value();
+    List<String> hostList=new ArrayList<String>(1);
+    hostList.add(host + ":" + port);
+    return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,databaseId);
+  }
 }
