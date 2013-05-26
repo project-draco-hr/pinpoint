@@ -1,6 +1,6 @@
 {
   System.out.println("selectCalleeStatistics. " + callerApplicationName + ", "+ callerServiceType+ ", "+ calleeApplicationName+ ", "+ calleeServiceType+ ", "+ from+ ", "+ to);
   Scan scan=createScan(callerApplicationName,callerServiceType,from,to);
-  RowMapper<Map<Long,Map<Short,Long>>> mapper=new ApplicationMapStatisticsMapper(calleeApplicationName,calleeServiceType);
+  RowMapper<Map<Long,Map<Short,Long>>> mapper=new ApplicationMapLinkStatisticsCalleeMapper(calleeApplicationName,calleeServiceType);
   return hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,mapper);
 }

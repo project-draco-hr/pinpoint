@@ -1,5 +1,11 @@
 {
-  List<Map<Long,Map<Short,Long>>> list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
+  List<Map<Long,Map<Short,Long>>> list;
+  if (ServiceType.findServiceType(destServiceType).isWas()) {
+    list=applicationMapStatisticsCallerDao.selectCallerStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
+  }
+ else {
+    list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
+  }
   LinkStatistics statistics=new LinkStatistics();
   statistics.setDefaultHistogramSlotList(ServiceType.findServiceType(destServiceType).getHistogram().getHistogramSlotList());
   for (  Map<Long,Map<Short,Long>> map : list) {

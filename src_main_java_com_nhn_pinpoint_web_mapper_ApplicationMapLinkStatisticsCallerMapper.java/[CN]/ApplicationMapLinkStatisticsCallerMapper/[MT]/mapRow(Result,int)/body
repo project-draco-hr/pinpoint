@@ -7,13 +7,13 @@
     short calleeServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
     if (this.calleeServiceType.isUnknown()) {
       if (!this.calleeApplicationName.equals(calleeApplicationName)) {
-        System.out.println("\tSKIP, DIFFERENT DEST : " + calleeApplicationName + ", "+ calleeServiceType+ ", "+ this.calleeApplicationName+ ", "+ this.calleeServiceType);
+        System.out.println("\tFIND CALLER SKIP,1, DIFFERENT DEST. fetched={" + calleeApplicationName + ", "+ ServiceType.findServiceType(calleeServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
         continue;
       }
     }
  else {
       if (!this.calleeApplicationName.equals(calleeApplicationName) || this.calleeServiceType.getCode() != calleeServiceType) {
-        System.out.println("\tSKIP, DIFFERENT DEST : " + calleeApplicationName + ", "+ calleeServiceType+ ", "+ this.calleeApplicationName+ ", "+ this.calleeServiceType);
+        System.out.println("\tFIND CALLER SKIP,2, DIFFERENT DEST. fetched={" + calleeApplicationName + ", "+ ServiceType.findServiceType(calleeServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
         continue;
       }
     }
