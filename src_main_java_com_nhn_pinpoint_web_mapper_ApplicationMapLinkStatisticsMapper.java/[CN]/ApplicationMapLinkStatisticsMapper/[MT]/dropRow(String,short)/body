@@ -1,0 +1,40 @@
+{
+  if (this.calleeServiceType.isWas() && this.callerServiceType.isWas()) {
+    logger.debug("check was to was.");
+    if (!this.callerApplicationName.equals(foundApplicationName) || this.callerServiceType.getCode() != foundServiceType) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("  DROP THE ROW,1, DIFFERENT SRC. fetched={" + foundApplicationName + ", "+ ServiceType.findServiceType(foundServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
+      }
+      return true;
+    }
+  }
+ else   if (ServiceType.CLIENT == this.callerServiceType || ServiceType.USER == this.callerServiceType) {
+    logger.debug("check client to was");
+    if (!this.calleeApplicationName.equals(foundApplicationName)) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("  DROP THE ROW,2, DIFFERENT DEST. fetched={" + foundApplicationName + ", "+ ServiceType.findServiceType(foundServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
+      }
+      return true;
+    }
+  }
+ else {
+    logger.debug("check any to any.");
+    if (this.calleeServiceType.isUnknown()) {
+      if (!this.calleeApplicationName.equals(foundApplicationName)) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("  DROP THE ROW,3, DIFFERENT DEST. fetched={" + foundApplicationName + ", "+ ServiceType.findServiceType(foundServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
+        }
+        return true;
+      }
+    }
+ else {
+      if (!this.calleeApplicationName.equals(foundApplicationName) || this.calleeServiceType.getCode() != foundServiceType) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("  DROP THE ROW,4, DIFFERENT DEST. fetched={" + foundApplicationName + ", "+ ServiceType.findServiceType(foundServiceType)+ "}, params={"+ this.calleeApplicationName+ ", "+ this.calleeServiceType+ "}");
+        }
+        return true;
+      }
+    }
+  }
+  return false;
+}

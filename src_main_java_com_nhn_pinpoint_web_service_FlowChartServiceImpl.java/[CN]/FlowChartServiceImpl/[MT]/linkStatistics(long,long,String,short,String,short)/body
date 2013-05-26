@@ -1,13 +1,20 @@
 {
   List<Map<Long,Map<Short,Long>>> list;
-  if (ServiceType.findServiceType(destServiceType).isWas()) {
+  if (ServiceType.findServiceType(srcServiceType) == ServiceType.CLIENT) {
+    logger.debug("Find 'client -> any' link statistics");
+    list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(destApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
+  }
+ else   if (ServiceType.findServiceType(destServiceType).isWas()) {
+    logger.debug("Find 'any -> was' link statistics");
     list=applicationMapStatisticsCallerDao.selectCallerStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
   }
  else {
+    logger.debug("Find 'was -> terminal' link statistics");
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
   }
   LinkStatistics statistics=new LinkStatistics();
   statistics.setDefaultHistogramSlotList(ServiceType.findServiceType(destServiceType).getHistogram().getHistogramSlotList());
+  logger.debug("Fetched statistics data=" + list);
   for (  Map<Long,Map<Short,Long>> map : list) {
     for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
       long timestamp=entry.getKey();

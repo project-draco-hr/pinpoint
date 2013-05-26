@@ -1,0 +1,30 @@
+{
+  KeyValue[] keyList=result.raw();
+  Map<Long,Map<Short,Long>> resultStat=new HashMap<Long,Map<Short,Long>>();
+  for (  KeyValue kv : keyList) {
+    byte[] qualifier=kv.getQualifier();
+    String foundApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
+    short foundServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
+    if (dropRow(foundApplicationName,foundServiceType)) {
+      continue;
+    }
+    long timestamp=ApplicationMapStatisticsUtils.getTimestampFromRowKey(kv.getRow());
+    short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
+    long requestCount=Bytes.toLong(kv.getValue());
+    if (logger.isDebugEnabled()) {
+      logger.debug("Fetched statistics. timestamp=" + timestamp + ", histogramSlot="+ histogramSlot+ ", requestCount="+ requestCount);
+    }
+    if (resultStat.containsKey(timestamp)) {
+      Map<Short,Long> map=resultStat.get(timestamp);
+      long value=(map.containsKey(histogramSlot) ? map.get(histogramSlot) + requestCount : requestCount);
+      map.put(histogramSlot,value);
+      resultStat.put(timestamp,map);
+    }
+ else {
+      Map<Short,Long> map=new TreeMap<Short,Long>();
+      map.put(histogramSlot,requestCount);
+      resultStat.put(timestamp,map);
+    }
+  }
+  return resultStat;
+}
