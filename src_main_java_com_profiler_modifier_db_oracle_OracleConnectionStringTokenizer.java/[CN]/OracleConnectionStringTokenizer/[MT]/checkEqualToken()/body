@@ -1,0 +1,10 @@
+{
+  Token token=this.nextToken();
+  if (token == null) {
+    throw new OracleConnectionStringException("parse error. token is null");
+  }
+  if (!(token == TOKEN_EQUAL_OBJECT)) {
+    throw new OracleConnectionStringException("syntax error. Expected token='=' :" + token.getToken());
+  }
+  return;
+}

@@ -1,0 +1,19 @@
+{
+  if (!normalizedUrl.startsWith(THIN)) {
+    throw new IllegalArgumentException("invalid oracle jdbc url");
+  }
+  final int thinLength=THIN.length();
+  if (normalizedUrl.startsWith(":@",thinLength)) {
+    position=thinLength + 2;
+  }
+ else   if (normalizedUrl.startsWith("@",thinLength)) {
+    position=thinLength + 1;
+  }
+ else {
+    throw new IllegalArgumentException("invalid oracle jdbc url");
+  }
+  this.tokenizer.setPosition(position);
+  this.tokenizer.parse();
+  KeyValue keyValue=readKeyValue();
+  return keyValue;
+}

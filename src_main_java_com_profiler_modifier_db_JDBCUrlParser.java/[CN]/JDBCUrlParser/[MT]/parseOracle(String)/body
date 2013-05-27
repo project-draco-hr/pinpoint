@@ -3,21 +3,16 @@
   maker.after("jdbc:oracle:").after(":");
   String description=maker.after('@').value().trim();
   if (description.startsWith("(")) {
-    Matcher matcher=oracleRAC.matcher(description);
-    if (matcher.matches()) {
-      String host=matcher.group(1);
-      String port=matcher.group(2);
-      String databaseId=matcher.group(3);
-      for (int i=0; i < matcher.groupCount(); i++) {
-        System.out.println(i + ":" + matcher.group(i));
-      }
-      List<String> hostList=new ArrayList<String>(1);
-      hostList.add(host + ":" + port);
-      return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,databaseId);
+    try {
+      OracleURLParser parser=new OracleURLParser(url);
+      KeyValue keyValue=parser.parse();
+      return createOracleDatabaseInfo(keyValue,url);
     }
- else {
-      return createUnknownDataBase(url);
+ catch (    OracleConnectionStringException ex) {
+      logger.warn("OracleConnectionStringParse Error Caused:",ex.getMessage(),ex);
+      logger.warn("OracleConnectionString parse error:{}",url);
     }
+    return createUnknownDataBase(url);
   }
  else {
     String host=maker.before(':').value();

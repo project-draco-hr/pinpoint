@@ -1,0 +1,19 @@
+{
+  List<String> hostList=new ArrayList<String>();
+  List<KeyValue> keyValueList=keyValue.getKeyValueList();
+  for (  KeyValue kv : keyValueList) {
+    if ("address".equals(kv.getKey())) {
+      KeyValue host=new KeyValue();
+      for (      KeyValue addressChild : kv.getKeyValueList()) {
+        if ("host".equals(addressChild.getKey())) {
+          host.setKey(addressChild.getValue());
+        }
+ else         if ("port".equals(addressChild.getKey())) {
+          host.setValue(addressChild.getValue());
+        }
+      }
+      hostList.add(host.getKey() + ":" + host.getValue());
+    }
+  }
+  return hostList;
+}

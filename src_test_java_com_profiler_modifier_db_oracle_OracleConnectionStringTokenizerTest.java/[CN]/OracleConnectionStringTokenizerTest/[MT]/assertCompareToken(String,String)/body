@@ -1,0 +1,12 @@
+{
+  OracleConnectionStringTokenizer oracleConnectionStringTokenizer=new OracleConnectionStringTokenizer(token);
+  oracleConnectionStringTokenizer.parse();
+  int index=0;
+  while (true) {
+    Token t=oracleConnectionStringTokenizer.nextToken();
+    if (t == null) {
+      break;
+    }
+    Assert.assertEquals(t.getToken(),parsedTokens[index++]);
+  }
+}

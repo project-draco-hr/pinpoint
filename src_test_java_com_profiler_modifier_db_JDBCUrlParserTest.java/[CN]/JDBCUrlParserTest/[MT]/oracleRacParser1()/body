@@ -3,6 +3,7 @@
   DatabaseInfo dbInfo=jdbcUrlParser.parse(rac);
   Assert.assertEquals(dbInfo.getType(),ServiceType.ORACLE);
   Assert.assertEquals(dbInfo.getHost().get(0),"1.2.3.4:1521");
+  Assert.assertEquals(dbInfo.getHost().get(1),"1.2.3.5:1522");
   Assert.assertEquals(dbInfo.getDatabaseId(),"service");
   Assert.assertEquals(dbInfo.getUrl(),rac);
   logger.info(dbInfo.toString());
