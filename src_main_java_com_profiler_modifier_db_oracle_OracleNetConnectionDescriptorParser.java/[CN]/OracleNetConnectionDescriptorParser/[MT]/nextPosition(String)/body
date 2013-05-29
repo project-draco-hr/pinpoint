@@ -1,0 +1,12 @@
+{
+  final int thinLength=driverUrl.length();
+  if (normalizedUrl.startsWith(":@",thinLength)) {
+    return thinLength + 2;
+  }
+ else   if (normalizedUrl.startsWith("@",thinLength)) {
+    return thinLength + 1;
+  }
+ else {
+    throw new IllegalArgumentException("invalid oracle jdbc url");
+  }
+}

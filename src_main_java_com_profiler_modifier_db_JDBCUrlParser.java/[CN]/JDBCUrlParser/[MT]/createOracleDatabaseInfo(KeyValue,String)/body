@@ -1,8 +1,5 @@
 {
-  if (!"description".equals(keyValue.getKey())) {
-    throw new OracleConnectionStringException("description not exist");
-  }
-  List<String> hostList=findAddress(keyValue);
-  String oracleDatabaseId=getOracleDatabaseId(keyValue);
-  return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,oracleDatabaseId);
+  Description description=new Description(keyValue);
+  List<String> jdbcHost=description.getJdbcHost();
+  return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,jdbcHost,description.getDatabaseId());
 }

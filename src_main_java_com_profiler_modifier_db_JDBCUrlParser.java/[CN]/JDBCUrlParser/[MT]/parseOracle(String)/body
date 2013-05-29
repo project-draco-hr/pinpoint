@@ -3,23 +3,9 @@
   maker.after("jdbc:oracle:").after(":");
   String description=maker.after('@').value().trim();
   if (description.startsWith("(")) {
-    try {
-      OracleURLParser parser=new OracleURLParser(url);
-      KeyValue keyValue=parser.parse();
-      return createOracleDatabaseInfo(keyValue,url);
-    }
- catch (    OracleConnectionStringException ex) {
-      logger.warn("OracleConnectionStringParse Error Caused:",ex.getMessage(),ex);
-      logger.warn("OracleConnectionString parse error:{}",url);
-    }
-    return createUnknownDataBase(url);
+    return parseNetConnectionUrl(url);
   }
  else {
-    String host=maker.before(':').value();
-    String port=maker.next().after(':').before(':').value();
-    String databaseId=maker.next().afterLast(':').value();
-    List<String> hostList=new ArrayList<String>(1);
-    hostList.add(host + ":" + port);
-    return new DatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,databaseId);
+    return parseSimpleUrl(url,maker);
   }
 }
