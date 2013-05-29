@@ -18,11 +18,11 @@
       continue;
     }
     ApplicationStatistics stat=entry.getValue();
-    Set<ApplicationStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideDependencies);
+    Set<ApplicationStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
     calleeSet.addAll(calleeSub);
-    if (!hideDependencies) {
+    if (!hideIndirectAccess) {
       for (      ApplicationStatistics eachCallee : calleeSub) {
-        Set<ApplicationStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideDependencies);
+        Set<ApplicationStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
         calleeSet.addAll(callerSub);
       }
     }
