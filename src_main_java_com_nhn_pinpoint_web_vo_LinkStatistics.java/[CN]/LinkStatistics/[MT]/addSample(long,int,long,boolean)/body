@@ -1,5 +1,5 @@
 {
-  logger.info("Add sample. timeslot=" + timeslot + ", responseTimeslot="+ responseTimeslot+ ", callCount="+ callCount+ ", failed="+ failed);
+  logger.info("Add sample. timeslot=" + timestamp + ", responseTimeslot="+ responseTimeslot+ ", callCount="+ callCount+ ", failed="+ failed);
   if (failed) {
     failedCount+=callCount;
   }
@@ -12,20 +12,24 @@
  else   if (responseTimeslot == 0) {
     responseTimeslot=SLOW;
   }
-  long value=histogramSummary.containsKey(responseTimeslot) ? histogramSummary.get(responseTimeslot) : 0L;
-  histogramSummary.put(responseTimeslot,value + callCount);
-  if (timeseriesHistogram.containsKey(timeslot)) {
-    SortedMap<Integer,Long> eachResponseHistogram=timeseriesHistogram.get(timeslot);
-    long count=eachResponseHistogram.containsKey(responseTimeslot) ? eachResponseHistogram.get(responseTimeslot) : 0L;
-    eachResponseHistogram.put(responseTimeslot,count + callCount);
-  }
+  long value=histogramSummary.containsKey(responseTimeslot) ? histogramSummary.get(responseTimeslot) + callCount : callCount;
+  histogramSummary.put(responseTimeslot,value);
+  if (responseTimeslot != ERROR && responseTimeslot != SLOW) {
+    for (int i=0; i < timeseriesValue.size(); i++) {
+      SortedMap<Long,Long> map=timeseriesValue.get(i);
+      if (i == timeseriesSlotIndex.get(responseTimeslot)) {
+        long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
+        map.put(timestamp,v);
+      }
  else {
-    SortedMap<Integer,Long> map=makeDefaultHistogram();
-    map.put(responseTimeslot,callCount);
-    timeseriesHistogram.put(timeslot,map);
+        if (!map.containsKey(timestamp)) {
+          map.put(timestamp,0L);
+        }
+      }
+    }
   }
-  if (timeseriesFaileureHistogram.containsKey(timeslot)) {
-    Long[] array=timeseriesFaileureHistogram.get(timeslot);
+  if (timeseriesFaileureHistogram.containsKey(timestamp)) {
+    Long[] array=timeseriesFaileureHistogram.get(timestamp);
     if (failed) {
       array[FAILED]+=callCount;
     }
@@ -43,6 +47,6 @@
  else {
       array[SUCCESS]+=callCount;
     }
-    timeseriesFaileureHistogram.put(timeslot,array);
+    timeseriesFaileureHistogram.put(timestamp,array);
   }
 }
