@@ -1,12 +1,13 @@
 {
   List<AnnotationBo> list=span.getAnnotationBoList();
-  if (span.getServiceType() == ServiceType.ARCUS || span.getServiceType() == ServiceType.MEMCACHED) {
+  final ServiceType serviceType=span.getServiceType();
+  if (serviceType == ServiceType.ARCUS || serviceType == ServiceType.MEMCACHED) {
     return findAnnotationBo(list,AnnotationKey.ARCUS_COMMAND);
   }
-  if (span.getServiceType() == ServiceType.HTTP_CLIENT || span.getServiceType() == ServiceType.JDK_HTTPURLCONNECTOR) {
+  if (serviceType == ServiceType.HTTP_CLIENT || serviceType == ServiceType.JDK_HTTPURLCONNECTOR) {
     return findAnnotationBo(list,AnnotationKey.HTTP_URL);
   }
-  if (span.getServiceType() == ServiceType.MYSQL) {
+  if (serviceType == ServiceType.MYSQL || serviceType == ServiceType.ORACLE || serviceType == ServiceType.MSSQL || serviceType == ServiceType.CUBRID) {
     return findAnnotationBo(list,AnnotationKey.ARGS0);
   }
   return null;
