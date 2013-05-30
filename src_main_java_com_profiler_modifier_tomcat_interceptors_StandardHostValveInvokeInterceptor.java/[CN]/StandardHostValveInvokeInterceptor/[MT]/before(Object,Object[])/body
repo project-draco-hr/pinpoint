@@ -6,6 +6,8 @@
     HttpServletRequest request=(HttpServletRequest)args[0];
     String requestURL=request.getRequestURI();
     String remoteAddr=request.getRemoteAddr();
+    String port=Integer.toString(request.getServerPort());
+    String endPoint=request.getServerName() + ":" + port;
     boolean sampling=samplingEnable(request);
     if (!sampling) {
       traceContext.disableSampling();
@@ -45,8 +47,7 @@
     trace.markBeforeTime();
     trace.recordServiceType(ServiceType.TOMCAT);
     trace.recordRpcName(requestURL);
-    int port=request.getServerPort();
-    trace.recordEndPoint(request.getServerName() + ((port > 0) ? ":" + port : ""));
+    trace.recordEndPoint(endPoint);
     trace.recordRemoteAddr(remoteAddr);
     if (traceId != null && !traceId.isRoot()) {
       String parentApplicationName=populateParentApplicationNameFromRequest(request);

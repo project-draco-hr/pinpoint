@@ -1,0 +1,30 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass oracleConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    oracleConnection.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
+    Interceptor closeConnection=new ConnectionCloseInterceptor();
+    oracleConnection.addInterceptor("close",null,closeConnection,Type.before);
+    Interceptor createStatement=new StatementCreateInterceptor();
+    oracleConnection.addInterceptor("createStatement",null,createStatement,Type.after);
+    Interceptor preparedStatement=new PreparedStatementCreateInterceptor();
+    oracleConnection.addInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatement);
+    Interceptor setAutocommit=new TransactionInterceptor();
+    oracleConnection.addInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit);
+    Interceptor commit=new TransactionInterceptor();
+    oracleConnection.addInterceptor("commit",null,commit);
+    Interceptor rollback=new TransactionInterceptor();
+    oracleConnection.addInterceptor("rollback",null,rollback);
+    printClassConvertComplete(javassistClassName);
+    return oracleConnection.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
+    return null;
+  }
+}
