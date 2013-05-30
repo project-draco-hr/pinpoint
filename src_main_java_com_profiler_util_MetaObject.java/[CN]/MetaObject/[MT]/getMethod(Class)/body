@@ -1,6 +1,8 @@
 {
   try {
-    return aClass.getMethod(this.methodName,this.args);
+    Method method=aClass.getMethod(this.methodName,this.args);
+    method.setAccessible(true);
+    return method;
   }
  catch (  NoSuchMethodException e) {
     logger.warn("{} not found cls:{} Caused:{}",new Object[]{this.methodName,aClass,e.getMessage(),e});
