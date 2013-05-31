@@ -1,0 +1,23 @@
+{
+  String agentLibPath=getAgentLibPath();
+  File libDir=new File(agentLibPath);
+  if (!libDir.exists()) {
+    logger.warning(agentLibPath + " not found");
+    return Collections.emptyList();
+  }
+  if (!libDir.isDirectory()) {
+    logger.warning(agentLibPath + " not Directory");
+    return Collections.emptyList();
+  }
+  File[] findJarList=findjar(libDir);
+  List<URL> jarURLList=new ArrayList<URL>(findJarList.length);
+  for (  File file : findJarList) {
+    URL url=toURI(file);
+    if (url != null) {
+      jarURLList.add(url);
+    }
+  }
+  URL agentDirUri=toURI(new File(agentLibPath));
+  jarURLList.add(agentDirUri);
+  return jarURLList;
+}

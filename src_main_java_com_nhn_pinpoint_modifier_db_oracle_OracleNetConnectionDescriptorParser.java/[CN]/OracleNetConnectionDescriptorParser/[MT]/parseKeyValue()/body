@@ -1,0 +1,37 @@
+{
+  this.tokenizer.checkStartToken();
+  KeyValue keyValue=new KeyValue();
+  Token literalToken=this.tokenizer.getLiteralToken();
+  keyValue.setKey(literalToken.getToken());
+  this.tokenizer.checkEqualToken();
+  boolean nonTerminalValue=false;
+  while (true) {
+    Token token=this.tokenizer.lookAheadToken();
+    if (token.getType() == OracleNetConnectionDescriptorTokenizer.TYPE_KEY_START) {
+      nonTerminalValue=true;
+      KeyValue child=parseKeyValue();
+      keyValue.addKeyValueList(child);
+      Token endCheck=this.tokenizer.lookAheadToken();
+      if (endCheck == OracleNetConnectionDescriptorTokenizer.TOKEN_KEY_END_OBJECT) {
+        this.tokenizer.nextPosition();
+        return keyValue;
+      }
+    }
+ else     if (token.getType() == OracleNetConnectionDescriptorTokenizer.TYPE_LITERAL) {
+      if (nonTerminalValue) {
+        throw new OracleConnectionStringException("Syntax error. expected token:'(' or ')' :" + token.getToken());
+      }
+      this.tokenizer.nextPosition();
+      keyValue.setValue(token.getToken());
+      this.tokenizer.checkEndToken();
+      return keyValue;
+    }
+ else     if (token.getType() == OracleNetConnectionDescriptorTokenizer.TYPE_KEY_END) {
+      this.tokenizer.nextPosition();
+      return keyValue;
+    }
+ else {
+      throw new OracleConnectionStringException("Syntax error. " + token.getToken());
+    }
+  }
+}
