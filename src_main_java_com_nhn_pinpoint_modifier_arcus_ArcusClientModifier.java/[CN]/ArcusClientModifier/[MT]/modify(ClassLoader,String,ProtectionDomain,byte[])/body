@@ -1,0 +1,17 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"SetCacheManagerInterceptor");
+    aClass.addInterceptor("setCacheManager",new String[]{"net.spy.memcached.CacheManager"},setCacheManagerInterceptor,Type.before);
+    return aClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+    return null;
+  }
+}

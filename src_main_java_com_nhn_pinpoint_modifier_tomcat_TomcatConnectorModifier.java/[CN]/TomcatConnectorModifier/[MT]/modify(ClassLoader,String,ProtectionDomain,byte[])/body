@@ -1,0 +1,18 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  try {
+    Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"ConnectorInitializeInterceptor",new Object[]{agent},new Class[]{Agent.class});
+    InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+    aClass.addInterceptor("initialize",null,interceptor);
+    printClassConvertComplete(javassistClassName);
+    return aClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+    return null;
+  }
+}

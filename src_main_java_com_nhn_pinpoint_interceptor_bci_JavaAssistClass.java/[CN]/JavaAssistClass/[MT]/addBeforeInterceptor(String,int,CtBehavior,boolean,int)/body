@@ -1,0 +1,51 @@
+{
+  String target=getTarget(behavior);
+  String parameterDescription=null;
+  if (interceptorType == STATIC_INTERCEPTOR) {
+    parameterDescription=JavaAssistUtils.getParameterDescription(behavior.getParameterTypes());
+  }
+  String parameter=getParameter(behavior);
+  CodeBuilder code=new CodeBuilder();
+  if (useContextClassLoader) {
+    code.begin();
+    beginAddFindInterceptorCode(id,code,interceptorType);
+    if (interceptorType == STATIC_INTERCEPTOR) {
+      code.format("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class};");
+    }
+ else {
+      code.format("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.Object[].class};");
+    }
+    code.format("  java.lang.reflect.Method beforeMethod = interceptor.getClass().getMethod(\"%1$s\", beforeMethodParams);","before");
+    if (interceptorType == STATIC_INTERCEPTOR) {
+      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s };",target,ctClass.getName(),methodName,parameterDescription,parameter);
+    }
+ else {
+      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, %2$s };",target,parameter);
+    }
+    code.format("  beforeMethod.invoke(interceptor, beforeParams);");
+    code.format("}");
+    code.end();
+  }
+ else {
+    code.begin();
+    if (interceptorType == STATIC_INTERCEPTOR) {
+      code.format("  %1$s interceptor = com.nhn.pinpoint.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
+      code.format("  interceptor.before(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s);",target,ctClass.getName(),methodName,parameterDescription,parameter);
+    }
+ else {
+      code.format("  %1$s interceptor = com.nhn.pinpoint.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
+      code.format("  interceptor.before(%1$s, %2$s);",target,parameter);
+    }
+    code.end();
+  }
+  String buildBefore=code.toString();
+  if (logger.isDebugEnabled()) {
+    logger.debug("addStaticBeforeInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildBefore);
+  }
+  if (behavior instanceof CtConstructor) {
+    ((CtConstructor)behavior).insertBeforeBody(buildBefore);
+  }
+ else {
+    behavior.insertBefore(buildBefore);
+  }
+}

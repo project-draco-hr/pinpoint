@@ -1,0 +1,45 @@
+{
+  com.nhn.pinpoint.common.dto.thrift.Span span=new com.nhn.pinpoint.common.dto.thrift.Span();
+  span.setAgentId(DefaultAgent.getInstance().getAgentId());
+  span.setApplicationName(DefaultAgent.getInstance().getApplicationName());
+  span.setAgentStartTime(DefaultAgent.getInstance().getStartTime());
+  span.setStartTime(startTime);
+  span.setElapsed((int)(endTime - startTime));
+  span.setMostTraceId(traceID.getId().getMostSignificantBits());
+  span.setLeastTraceId(traceID.getId().getLeastSignificantBits());
+  span.setRpc(rpc);
+  span.setServiceType(serviceType.getCode());
+  span.setSpanId(traceID.getSpanId());
+  final int parentSpanId=traceID.getParentSpanId();
+  if (parentSpanId != SpanID.NULL) {
+    span.setParentSpanId(parentSpanId);
+  }
+  span.setEndPoint(endPoint);
+  span.setRemoteAddr(remoteAddr);
+  if (exception != 0) {
+    span.setErr(exception);
+  }
+  if (parentApplicationName != null) {
+    span.setParentApplicationName(parentApplicationName);
+    span.setParentApplicationType(parentApplicationType);
+  }
+  if (acceptorHost != null) {
+    span.setAcceptorHost(acceptorHost);
+  }
+  List<Annotation> annotationList=new ArrayList<Annotation>(traceAnnotationList.size());
+  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
+    annotationList.add(traceAnnotation.toThrift());
+  }
+  span.setAnnotations(annotationList);
+  span.setFlag(traceID.getFlags());
+  List<SpanEvent> spanEventList=this.getSpanEventList();
+  if (spanEventList != null && spanEventList.size() != 0) {
+    List<com.nhn.pinpoint.common.dto.thrift.SpanEvent> tSpanEventList=new ArrayList<com.nhn.pinpoint.common.dto.thrift.SpanEvent>(spanEventList.size());
+    for (    SpanEvent spanEvent : spanEventList) {
+      com.nhn.pinpoint.common.dto.thrift.SpanEvent tSpanEvent=spanEvent.toThrift(true);
+      tSpanEventList.add(tSpanEvent);
+    }
+    span.setSpanEventList(tSpanEventList);
+  }
+  return span;
+}

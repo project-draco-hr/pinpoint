@@ -1,0 +1,37 @@
+{
+  com.nhn.pinpoint.common.dto.thrift.SpanEvent spanEvent=new com.nhn.pinpoint.common.dto.thrift.SpanEvent();
+  long parentSpanStartTime=parentSpan.getStartTime();
+  spanEvent.setStartElapsed((int)(startTime - parentSpanStartTime));
+  spanEvent.setEndElapsed((int)(endTime - startTime));
+  spanEvent.setSequence(sequence);
+  if (!child) {
+    AgentKey agentKey=new AgentKey();
+    DefaultAgent agent=DefaultAgent.getInstance();
+    agentKey.setAgentId(agent.getAgentId());
+    agentKey.setApplicationName(agent.getApplicationName());
+    agentKey.setAgentStartTime(agent.getStartTime());
+    spanEvent.setAgentKey(agentKey);
+    spanEvent.setParentServiceType(parentSpan.getServiceType().getCode());
+    spanEvent.setParentEndPoint(parentSpan.getEndPoint());
+    TraceID parentSpanTraceID=parentSpan.getTraceID();
+    spanEvent.setMostTraceId(parentSpanTraceID.getId().getMostSignificantBits());
+    spanEvent.setLeastTraceId(parentSpanTraceID.getId().getLeastSignificantBits());
+    spanEvent.setSpanId(parentSpanTraceID.getSpanId());
+  }
+  spanEvent.setRpc(rpc);
+  spanEvent.setServiceType(serviceType.getCode());
+  spanEvent.setEndPoint(endPoint);
+  spanEvent.setDestinationId(this.destionationId);
+  List<Annotation> annotationList=new ArrayList<Annotation>(traceAnnotationList.size());
+  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
+    annotationList.add(traceAnnotation.toThrift());
+  }
+  spanEvent.setAnnotations(annotationList);
+  if (depth != -1) {
+    spanEvent.setDepth(depth);
+  }
+  if (nextSpanId != -1) {
+    spanEvent.setNextSpanId(nextSpanId);
+  }
+  return spanEvent;
+}

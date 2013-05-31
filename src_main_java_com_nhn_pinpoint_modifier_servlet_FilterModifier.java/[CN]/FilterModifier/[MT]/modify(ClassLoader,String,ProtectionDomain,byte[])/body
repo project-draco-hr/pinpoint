@@ -1,0 +1,16 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    Interceptor doFilterInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"MethodInterceptor");
+    InstrumentClass servlet=byteCodeInstrumentor.getClass(javassistClassName);
+    servlet.addInterceptor("doFilter",new String[]{"javax.servlet.ServletRequest","javax.servlet.ServletResponse","javax.servlet.FilterChain"},doFilterInterceptor);
+    return servlet.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.info("modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
+}
