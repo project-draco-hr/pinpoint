@@ -1,8 +1,0 @@
-{
-  java.lang.ClassLoader contextClassLoader=java.lang.Thread.currentThread().getContextClassLoader();
-  java.lang.Class<?> interceptorRegistry=contextClassLoader.loadClass("com.profiler.interceptor.InterceptorRegistry");
-  java.lang.reflect.Method getInterceptorMethod=interceptorRegistry.getMethod("getInterceptor",new java.lang.Class[]{int.class});
-  java.lang.Object interceptor=getInterceptorMethod.invoke(interceptorRegistry,Integer.valueOf(1));
-  java.lang.reflect.Method beforeMethod=interceptor.getClass().getMethod("before",java.lang.Object.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.Object[].class);
-  beforeMethod.invoke(interceptor,null,null,null,null,null);
-}
