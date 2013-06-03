@@ -4,7 +4,7 @@
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    Interceptor doFilterInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.modifier.servlet.interceptors.MethodInterceptor");
+    Interceptor doFilterInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.modifier.method.interceptors.MethodInterceptor");
     InstrumentClass servlet=byteCodeInstrumentor.getClass(javassistClassName);
     servlet.addInterceptor("doFilter",new String[]{"javax.servlet.ServletRequest","javax.servlet.ServletResponse","javax.servlet.FilterChain"},doFilterInterceptor);
     return servlet.toBytecode();
