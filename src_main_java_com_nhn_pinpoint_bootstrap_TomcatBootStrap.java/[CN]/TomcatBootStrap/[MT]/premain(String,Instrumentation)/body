@@ -18,7 +18,7 @@
     profilerConfig.readConfigFile(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);
     AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
-    agentClassLoader.setBootClass("com.profiler.DefaultAgent");
+    agentClassLoader.setBootClass(BOOT_CLASS);
     agentClassLoader.boot(agentArgs,instrumentation,profilerConfig);
   }
  catch (  Exception e) {
