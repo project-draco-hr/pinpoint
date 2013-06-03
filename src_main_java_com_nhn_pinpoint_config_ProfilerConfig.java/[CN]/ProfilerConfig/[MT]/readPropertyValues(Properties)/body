@@ -17,14 +17,7 @@
   this.profileJvmCollectInterval=readInt(prop,"profile.jvm.collect.interval",1000);
   this.heartbeatInterval=readLong(prop,"agent.heartbeat.interval",DEFAULT_HEART_BEAT_INTERVAL);
   this.serviceType=readServiceType(prop,"agent.servicetype",ServiceType.TOMCAT);
-  String[] tmp=readString(prop,"profile.include","").split(",");
-  for (  String str : tmp) {
-    if (str.endsWith(".*")) {
-      this.profileIncludeSub.add(str.substring(0,str.length() - 2).replace('.','/') + "/");
-    }
- else {
-      this.profileInclude.add(str.trim().replace('.','/'));
-    }
-  }
+  String profileableClass=readString(prop,"profile.include","");
+  setProfilableClass(profileableClass);
   logger.info("configuration loaded successfully.");
 }

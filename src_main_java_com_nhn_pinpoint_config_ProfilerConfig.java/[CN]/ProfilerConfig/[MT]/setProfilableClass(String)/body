@@ -1,0 +1,15 @@
+{
+  if (profilableClass == null || profilableClass.length() == 0) {
+    return;
+  }
+  String[] className=profilableClass.split(",");
+  for (  String str : className) {
+    if (str.endsWith(".*")) {
+      this.profileIncludeSub.add(str.substring(0,str.length() - 2).replace('.','/') + "/");
+    }
+ else {
+      String replace=str.trim().replace('.','/');
+      this.profileInclude.add(replace);
+    }
+  }
+}
