@@ -4,6 +4,9 @@
   }
   histogramSlotList.clear();
   histogramSummary.clear();
+  timeseriesSlotIndex.clear();
+  timeseriesValue.clear();
+  timeseriesFaileureHistogram.clear();
   histogramSlotList.add(ERROR);
   histogramSummary.put(ERROR,0L);
   histogramSlotList.add(SLOW);
@@ -12,6 +15,14 @@
     histogramSlotList.add(slot.getSlotTime());
     histogramSummary.put(slot.getSlotTime(),0L);
     timeseriesSlotIndex.put(slot.getSlotTime(),timeseriesSlotIndex.size());
-    timeseriesValue.add(new TreeMap<Long,Long>());
+    timeseriesValue.add(makeDefaultTimeseriesValues());
+  }
+  timeseriesSlotIndex.put(SLOW,timeseriesSlotIndex.size());
+  timeseriesSlotIndex.put(ERROR,timeseriesSlotIndex.size());
+  timeseriesValue.add(makeDefaultTimeseriesValues());
+  timeseriesValue.add(makeDefaultTimeseriesValues());
+  long step=valueSteps();
+  for (long time=from; time <= to; time+=step) {
+    timeseriesFaileureHistogram.put(time,new Long[]{0L,0L});
   }
 }

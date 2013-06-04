@@ -14,17 +14,15 @@
   }
   long value=histogramSummary.containsKey(responseTimeslot) ? histogramSummary.get(responseTimeslot) + callCount : callCount;
   histogramSummary.put(responseTimeslot,value);
-  if (responseTimeslot != ERROR && responseTimeslot != SLOW) {
-    for (int i=0; i < timeseriesValue.size(); i++) {
-      SortedMap<Long,Long> map=timeseriesValue.get(i);
-      if (i == timeseriesSlotIndex.get(responseTimeslot)) {
-        long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
-        map.put(timestamp,v);
-      }
+  for (int i=0; i < timeseriesValue.size(); i++) {
+    SortedMap<Long,Long> map=timeseriesValue.get(i);
+    if (i == timeseriesSlotIndex.get(responseTimeslot)) {
+      long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
+      map.put(timestamp,v);
+    }
  else {
-        if (!map.containsKey(timestamp)) {
-          map.put(timestamp,0L);
-        }
+      if (!map.containsKey(timestamp)) {
+        map.put(timestamp,0L);
       }
     }
   }

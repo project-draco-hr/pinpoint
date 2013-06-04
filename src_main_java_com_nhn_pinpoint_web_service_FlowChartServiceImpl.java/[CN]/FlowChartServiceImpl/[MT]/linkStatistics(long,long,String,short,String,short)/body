@@ -12,7 +12,7 @@
     logger.debug("Find 'was -> terminal' link statistics");
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(srcApplicationName,srcServiceType,destApplicationName,destServiceType,from,to);
   }
-  LinkStatistics statistics=new LinkStatistics();
+  LinkStatistics statistics=new LinkStatistics(from,to);
   statistics.setDefaultHistogramSlotList(ServiceType.findServiceType(destServiceType).getHistogram().getHistogramSlotList());
   logger.debug("Fetched statistics data=" + list);
   for (  Map<Long,Map<Short,Long>> map : list) {

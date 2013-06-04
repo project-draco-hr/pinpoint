@@ -8,12 +8,12 @@
     short calleeServiceType=ApplicationMapStatisticsUtils.getApplicationTypeFromRowKey(kv.getRow());
     String callerApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
     short callerServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
-    logger.debug("    Fetched. " + callerApplicationName + " -> "+ calleeApplicationName);
     long requestCount=Bytes.toLong(kv.getValue());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
     String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
+    logger.debug("    Fetched. " + callerApplicationName + "["+ ServiceType.findServiceType(callerServiceType)+ "] -> "+ calleeApplicationName+ "["+ ServiceType.findServiceType(calleeServiceType)+ "] ("+ requestCount+ ")");
     if (calleeHost != null) {
       if (calleeAppHostMap.containsKey(id)) {
         calleeAppHostMap.get(id).add(calleeHost);
@@ -27,7 +27,7 @@
     if (stat.containsKey(id)) {
       ApplicationStatistics statistics=stat.get(id);
       if (isError) {
-        statistics.getHistogram().addSample((short)-1,1L);
+        statistics.getHistogram().addSample((short)-1,requestCount);
       }
  else {
         statistics.getHistogram().addSample(histogramSlot,requestCount);
@@ -36,7 +36,7 @@
  else {
       ApplicationStatistics statistics=new ApplicationStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
       if (isError) {
-        statistics.getHistogram().addSample((short)-1,1L);
+        statistics.getHistogram().addSample((short)-1,requestCount);
       }
  else {
         statistics.getHistogram().addSample(histogramSlot,requestCount);
