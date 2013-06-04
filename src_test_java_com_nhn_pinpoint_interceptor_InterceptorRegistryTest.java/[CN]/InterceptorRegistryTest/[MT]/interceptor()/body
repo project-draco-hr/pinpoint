@@ -21,7 +21,7 @@
   hello.addLocalVariable("interceptor",interceptor);
   CtClass object=p.get(Object.class.getName());
   hello.addLocalVariable("result",object);
-  hello.insertBefore("{" + "ctx = new com.nhn.pinpoint.interceptor.InterceptorContext();" + "ctx.setParameter($args);"+ "interceptor = (com.nhn.pinpoint.interceptor.AroundInterceptor) " + InterceptorRegistry.class.getName() + ".getInterceptor(1);"+ "interceptor.before(ctx);"+ "}");
+  hello.insertBefore("{" + "ctx = new InterceptorContext();" + "ctx.setParameter($args);"+ "interceptor = (AroundInterceptor) " + InterceptorRegistry.class.getName() + ".getInterceptor(1);"+ "interceptor.before(ctx);"+ "}");
   hello.addCatch("{" + " throw $e;" + "}",throwable);
   hello.insertAfter("{" + "interceptor.after(ctx); " + "}");
   hello.insertBefore(" System.out.println(\" before +  \");");

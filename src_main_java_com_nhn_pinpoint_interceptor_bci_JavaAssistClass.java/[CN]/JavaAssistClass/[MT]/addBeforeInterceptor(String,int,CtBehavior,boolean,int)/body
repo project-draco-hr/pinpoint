@@ -29,11 +29,11 @@
  else {
     code.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
-      code.format("  %1$s interceptor = com.nhn.pinpoint.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
+      code.format("  %1$s interceptor = InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
       code.format("  interceptor.before(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s);",target,ctClass.getName(),methodName,parameterDescription,parameter);
     }
  else {
-      code.format("  %1$s interceptor = com.nhn.pinpoint.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
+      code.format("  %1$s interceptor = InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
       code.format("  interceptor.before(%1$s, %2$s);",target,parameter);
     }
     code.end();

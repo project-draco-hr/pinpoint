@@ -7,6 +7,6 @@
   agentClassLoader.setBootClass("com.profiler.boot.BootClassTest");
   agentClassLoader.boot("test",new DummyInstrumentation(),new ProfilerConfig());
   LoggerBinder loggerBinder=(LoggerBinder)agentClassLoader.initializeLoggerBinder();
-  com.nhn.pinpoint.logging.Logger test=loggerBinder.getLogger("test");
+  com.nhn.pinpoint.profiler.logging.Logger test=loggerBinder.getLogger("test");
   test.info("slf4j logger test");
 }
