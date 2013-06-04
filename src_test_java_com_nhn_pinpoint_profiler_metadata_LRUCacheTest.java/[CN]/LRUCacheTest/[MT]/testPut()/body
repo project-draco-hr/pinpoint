@@ -1,0 +1,10 @@
+{
+  int cacheSize=100;
+  LRUCache LRUCache=new LRUCache(cacheSize);
+  Random random=new Random();
+  for (int i=0; i < 1000; i++) {
+    LRUCache.put(new SqlObject(String.valueOf(random.nextInt(100000))));
+  }
+  int size=LRUCache.getSize();
+  Assert.assertEquals(size,cacheSize);
+}

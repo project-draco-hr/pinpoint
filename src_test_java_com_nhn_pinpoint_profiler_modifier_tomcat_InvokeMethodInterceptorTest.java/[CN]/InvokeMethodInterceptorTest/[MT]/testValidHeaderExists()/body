@@ -1,0 +1,20 @@
+{
+  HttpServletRequest request=mock(HttpServletRequest.class);
+  HttpServletResponse response=mock(HttpServletResponse.class);
+  when(request.getRequestURI()).thenReturn("/hellotest.nhn");
+  when(request.getRemoteAddr()).thenReturn("10.0.0.1");
+  when(request.getHeader(Header.HTTP_TRACE_ID.toString())).thenReturn(UUID.randomUUID().toString());
+  when(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString())).thenReturn("PARENTSPANID");
+  when(request.getHeader(Header.HTTP_SPAN_ID.toString())).thenReturn("SPANID");
+  when(request.getHeader(Header.HTTP_SAMPLED.toString())).thenReturn("false");
+  when(request.getHeader(Header.HTTP_FLAGS.toString())).thenReturn("0");
+  Enumeration<?> enumeration=mock(Enumeration.class);
+  when(request.getParameterNames()).thenReturn(enumeration);
+  TraceContext traceContext=new MockTraceContextFactory().create();
+  StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor();
+  interceptor.setTraceContext(traceContext);
+  interceptor.before("target",new Object[]{request,response});
+  interceptor.after("target",new Object[]{request,response},new Object());
+  interceptor.before("target",new Object[]{request,response});
+  interceptor.after("target",new Object[]{request,response},new Object());
+}

@@ -1,0 +1,13 @@
+{
+  ProtectionDomain protectionDomain=AgentClassLoader.class.getProtectionDomain();
+  CodeSource codeSource=protectionDomain.getCodeSource();
+  URL location=codeSource.getLocation();
+  logger.info("lib location:" + location);
+  String path=location.getPath();
+  int dirPath=path.lastIndexOf("target/classes/");
+  if (dirPath == -1) {
+    throw new RuntimeException("target/classes/ not found");
+  }
+  String projectDir=path.substring(1,dirPath);
+  return projectDir + "src/test/lib";
+}

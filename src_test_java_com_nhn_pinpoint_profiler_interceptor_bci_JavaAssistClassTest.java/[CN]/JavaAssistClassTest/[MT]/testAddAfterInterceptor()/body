@@ -1,0 +1,27 @@
+{
+  ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("TestObject2");
+  TestAfterInterceptor callaInterceptor=new TestAfterInterceptor();
+  String callA="callA";
+  aClass.addInterceptor(callA,null,callaInterceptor);
+  TestAfterInterceptor callbInterceptor=new TestAfterInterceptor();
+  String callB="callB";
+  aClass.addInterceptor(callB,null,callbInterceptor);
+  Object testObject=aClass.toClass().newInstance();
+  Method callAMethod=testObject.getClass().getMethod(callA);
+  Object result=callAMethod.invoke(testObject);
+  Assert.assertEquals(callaInterceptor.call,1);
+  Assert.assertEquals(callaInterceptor.className,"TestObject2");
+  Assert.assertEquals(callaInterceptor.methodName,callA);
+  Assert.assertNull(callaInterceptor.args);
+  Assert.assertEquals(callaInterceptor.target,testObject);
+  Assert.assertEquals(callaInterceptor.result,result);
+  Method callBMethod=testObject.getClass().getMethod(callB);
+  callBMethod.invoke(testObject);
+  Assert.assertEquals(callbInterceptor.call,1);
+  Assert.assertEquals(callbInterceptor.className,"TestObject2");
+  Assert.assertEquals(callbInterceptor.methodName,callB);
+  Assert.assertNull(callbInterceptor.args);
+  Assert.assertEquals(callbInterceptor.target,testObject);
+  Assert.assertNull(callbInterceptor.result);
+}

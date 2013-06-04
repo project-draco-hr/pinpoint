@@ -1,0 +1,12 @@
+{
+  CtClass ctClass=pool.get("java.lang.String");
+  CtMethod subString=ctClass.getDeclaredMethod("substring",new CtClass[]{pool.get("int")});
+  System.out.println("getLongName:" + subString.getLongName());
+  System.out.println("getName:" + subString.getName());
+  System.out.println("getDescriptor:" + subString.getMethodInfo().getDescriptor());
+  System.out.println("getDescriptor2:" + subString.getMethodInfo2().getDescriptor());
+  System.out.println("getSignature:" + subString.getSignature());
+  Method substring=String.class.getMethod("substring",int.class);
+  System.out.println(substring.toString());
+  System.out.println(Arrays.toString(substring.getParameterTypes()));
+}

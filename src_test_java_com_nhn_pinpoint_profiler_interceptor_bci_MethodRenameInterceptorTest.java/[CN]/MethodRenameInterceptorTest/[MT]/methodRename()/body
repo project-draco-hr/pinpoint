@@ -1,0 +1,40 @@
+{
+  try {
+    String methodName="callA";
+    String objectName="TestObject";
+    CtClass clas=ClassPool.getDefault().get(objectName);
+    if (clas == null) {
+      System.err.println("Class " + objectName + " not found");
+    }
+ else {
+      addTiming(clas,methodName);
+      clas.writeFile("debug");
+      System.out.println("Added timing to method " + objectName + "."+ methodName);
+    }
+    Class aClass=clas.toClass();
+    Object o=aClass.newInstance();
+    Method method=o.getClass().getMethod(methodName);
+    Object invoke=method.invoke(o);
+  }
+ catch (  CannotCompileException ex) {
+    ex.printStackTrace();
+  }
+catch (  NotFoundException ex) {
+    ex.printStackTrace();
+  }
+catch (  IOException ex) {
+    ex.printStackTrace();
+  }
+catch (  InvocationTargetException e) {
+    e.printStackTrace();
+  }
+catch (  NoSuchMethodException e) {
+    e.printStackTrace();
+  }
+catch (  InstantiationException e) {
+    e.printStackTrace();
+  }
+catch (  IllegalAccessException e) {
+    e.printStackTrace();
+  }
+}

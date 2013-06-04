@@ -1,0 +1,13 @@
+{
+  ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("TestLog");
+  aClass.addDebugLogBeforeAfterMethod();
+  aClass.addDebugLogBeforeAfterConstructor();
+  Object testObject=aClass.toClass().newInstance();
+  Method test=testObject.getClass().getMethod("test",null);
+  test.invoke(testObject);
+  Method testString=testObject.getClass().getMethod("test",new Class[]{String.class});
+  testString.invoke(testObject,"method");
+  Constructor<? extends Object> constructor=testObject.getClass().getConstructor(null);
+  Object o=constructor.newInstance();
+}
