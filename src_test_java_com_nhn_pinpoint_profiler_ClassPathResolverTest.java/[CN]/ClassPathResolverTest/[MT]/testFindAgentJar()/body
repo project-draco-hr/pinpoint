@@ -1,0 +1,14 @@
+{
+  String path="D:\\nhn_source\\pinpoint_project\\deploy\\apache-tomcat-6.0.35\\bin\\bootstrap.jar;D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib/lib/javassist-3.16.1.GA.jar;" + "D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib/lib/pinpoint-commons-0.0.2.jar;;D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib/pinpoint-bootstrap-0.0.2.jar";
+  ClassPathResolver classPathResolver=new ClassPathResolver(path);
+  boolean findAgentJar=classPathResolver.findAgentJar();
+  Assert.assertTrue(findAgentJar);
+  String agentJar=classPathResolver.getAgentJarName();
+  Assert.assertEquals("pinpoint-bootstrap-0.0.2.jar",agentJar);
+  String agentPath=classPathResolver.getAgentJarFullPath();
+  Assert.assertEquals("D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib/pinpoint-bootstrap-0.0.2.jar",agentPath);
+  String agentDirPath=classPathResolver.getAgentDirPath();
+  Assert.assertEquals("D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib",agentDirPath);
+  String agentLibPath=classPathResolver.getAgentLibPath();
+  Assert.assertEquals("D:\\nhn_source\\pinpoint_project\\deploy\\agent\\agentlib" + File.separator + "lib",agentLibPath);
+}
