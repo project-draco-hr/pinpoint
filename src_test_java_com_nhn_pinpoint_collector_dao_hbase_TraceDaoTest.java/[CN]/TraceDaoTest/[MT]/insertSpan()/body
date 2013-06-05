@@ -1,7 +1,9 @@
 {
   final Span span=createSpan();
+  acceptedTimeService.accept();
   traceIndex.insert(span);
-  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(Bytes.toBytes(span.getAgentId()),HBaseTables.AGENT_NAME_MAX_LEN,span.getStartTime());
-  byte[] result=hbaseOperations.get(traceIndex.getTableName(),rowKey,Bytes.toBytes("Trace"),Bytes.toBytes("ID"),valueRowMapper);
-  Assert.assertArrayEquals(SpanUtils.getTraceId(span),result);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(Bytes.toBytes(span.getAgentId()),HBaseTables.AGENT_NAME_MAX_LEN,TimeUtils.reverseCurrentTimeMillis(acceptedTime));
+  byte[] resultRowKey=hbaseOperations.get(traceIndex.getTableName(),rowKey,Bytes.toBytes("Trace"),SpanUtils.getTraceId(span),valueRowMapper);
+  Assert.assertArrayEquals(rowKey,resultRowKey);
 }

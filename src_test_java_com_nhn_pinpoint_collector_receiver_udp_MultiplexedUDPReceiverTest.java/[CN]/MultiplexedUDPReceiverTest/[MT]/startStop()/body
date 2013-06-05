@@ -1,7 +1,7 @@
 {
   try {
     GenericApplicationContext context=ApplicationContextUtils.createContext();
-    DataReceiver receiver=new MultiplexedUDPReceiver(context);
+    DataReceiver receiver=new MultiplexedUDPReceiver(context,TomcatProfilerReceiverConfig.SERVER_UDP_LISTEN_PORT + 10);
     Future<Boolean> startLatch=receiver.start();
     startLatch.get();
     receiver.shutdown();
