@@ -1,0 +1,12 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    logger.info("trace not found");
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+}

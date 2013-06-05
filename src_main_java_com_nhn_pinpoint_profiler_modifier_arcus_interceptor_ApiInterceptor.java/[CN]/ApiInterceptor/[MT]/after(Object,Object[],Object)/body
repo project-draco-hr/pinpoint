@@ -1,0 +1,35 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    logger.info("trace not found");
+    return;
+  }
+  trace.recordApi(methodDescriptor);
+  trace.recordAttribute(AnnotationKey.ARCUS_COMMAND,getAnnotation(args));
+  String serviceCode=(String)getServiceCode.invoke(target);
+  if (serviceCode != null) {
+    trace.recordDestinationId(serviceCode);
+    trace.recordServiceType(ServiceType.ARCUS);
+  }
+ else {
+    trace.recordDestinationId("MEMCACHED");
+    trace.recordServiceType(ServiceType.MEMCACHED);
+  }
+  Operation op=(Operation)getOperation.invoke(((Future<?>)result));
+  if (op != null) {
+    MemcachedNode handlingNode=op.getHandlingNode();
+    SocketAddress socketAddress=handlingNode.getSocketAddress();
+    if (socketAddress instanceof InetSocketAddress) {
+      InetSocketAddress address=(InetSocketAddress)socketAddress;
+      trace.recordEndPoint(address.getHostName() + ":" + address.getPort());
+    }
+  }
+ else {
+    logger.info("operation not found");
+  }
+  trace.markAfterTime();
+  trace.traceBlockEnd();
+}

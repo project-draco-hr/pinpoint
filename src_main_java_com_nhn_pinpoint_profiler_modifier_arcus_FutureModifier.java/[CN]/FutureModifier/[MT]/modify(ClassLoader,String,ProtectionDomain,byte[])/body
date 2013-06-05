@@ -1,0 +1,20 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifying. " + javassistClassName);
+  }
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    aClass.addTraceVariable("__operation","__setOperation","__getOperation","net.spy.memcached.ops.Operation");
+    Interceptor futureSetOperationInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.modifier.arcus.interceptors.FutureSetOperationInterceptor");
+    aClass.addInterceptor("setOperation",new String[]{"net.spy.memcached.ops.Operation"},futureSetOperationInterceptor,Type.before);
+    Interceptor futureGetInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.modifier.arcus.interceptors.FutureGetInterceptor");
+    aClass.addInterceptor("get",new String[]{Long.TYPE.toString(),"java.util.concurrent.TimeUnit"},futureGetInterceptor,Type.around);
+    return aClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+    return null;
+  }
+}
