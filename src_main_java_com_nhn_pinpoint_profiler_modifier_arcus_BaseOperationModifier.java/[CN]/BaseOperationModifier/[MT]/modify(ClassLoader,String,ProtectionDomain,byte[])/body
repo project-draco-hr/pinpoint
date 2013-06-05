@@ -5,8 +5,6 @@
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addTraceVariable("__serviceCode","__setServiceCode","__getServiceCode","java.lang.String");
-    aClass.addTraceVariable("__asyncTrace","__setAsyncTrace","__getAsyncTrace","java.lang.Object");
-    aClass.addConstructorInterceptor(null,new BaseOperationConstructInterceptor());
     return aClass.toBytecode();
   }
  catch (  Exception e) {
