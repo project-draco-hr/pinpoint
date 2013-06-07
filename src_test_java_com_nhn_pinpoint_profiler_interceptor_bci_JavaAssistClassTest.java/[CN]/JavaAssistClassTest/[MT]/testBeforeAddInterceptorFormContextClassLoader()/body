@@ -1,6 +1,6 @@
 {
   ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
-  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("TestObjectContextClassLoader");
+  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("com.nhn.pinpoint.profiler.interceptor.bci.TestObjectContextClassLoader");
   TestBeforeInterceptor interceptor=new TestBeforeInterceptor();
   String methodName="callA";
   aClass.addInterceptorCallByContextClassLoader(methodName,null,interceptor);
@@ -8,7 +8,7 @@
   Method callA=testObject.getClass().getMethod(methodName);
   callA.invoke(testObject);
   Assert.assertEquals(interceptor.call,1);
-  Assert.assertEquals(interceptor.className,"TestObjectContextClassLoader");
+  Assert.assertEquals(interceptor.className,"com.nhn.pinpoint.profiler.interceptor.bci.TestObjectContextClassLoader");
   Assert.assertEquals(interceptor.methodName,methodName);
   Assert.assertEquals(interceptor.args,null);
   Assert.assertEquals(interceptor.target,testObject);
