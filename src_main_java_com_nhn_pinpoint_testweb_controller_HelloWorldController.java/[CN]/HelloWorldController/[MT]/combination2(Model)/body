@@ -1,7 +1,22 @@
 {
-  mysql(model);
-  arcus(model);
-  memcached(model);
+  try {
+    mysql(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  try {
+    arcus(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  try {
+    memcached(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
   randomSlowMethod();
   HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
   client.executeToBloc("http://www.naver.com/",new HashMap<String,Object>());
