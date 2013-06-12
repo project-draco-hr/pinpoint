@@ -7,7 +7,7 @@
       }
       AgentInfoBo agentInfoBo=null;
       try {
-        agentInfoBo=findAgentInfoBoBeforeStartTime(spanAlign);
+        agentInfoBo=getAgentInfoBo(spanAlign);
         logger.info("{} Agent StartTime found:{}",agentInfoBo.getAgentId(),agentInfoBo);
       }
  catch (      AgentIdNotFoundException ex) {
@@ -18,7 +18,7 @@
         return;
       }
       int apiId=(Integer)apiIdAnnotation.getValue();
-      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentInfoBo.getAgentId(),agentInfoBo.getIdentifier(),apiId,agentInfoBo.getTimestamp());
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentInfoBo.getAgentId(),agentInfoBo.getIdentifier(),apiId,agentInfoBo.getStartTime());
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();

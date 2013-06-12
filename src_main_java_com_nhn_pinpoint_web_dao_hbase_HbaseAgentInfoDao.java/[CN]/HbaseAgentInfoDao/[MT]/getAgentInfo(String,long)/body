@@ -1,0 +1,9 @@
+{
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  long reverseStartTime=TimeUtils.reverseCurrentTimeMillis(startTime);
+  byte[] rowKey=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,reverseStartTime);
+  Get get=new Get(rowKey);
+  get.addFamily(HBaseTables.AGENTINFO_CF_INFO);
+  List<AgentInfoBo> agentInfoBoList=hbaseOperations2.get(HBaseTables.AGENTINFO,get,agentInfoMapper);
+  return agentInfoBoList;
+}

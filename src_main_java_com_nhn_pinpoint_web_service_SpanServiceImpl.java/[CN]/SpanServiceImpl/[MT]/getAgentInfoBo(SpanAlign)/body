@@ -1,0 +1,9 @@
+{
+  String agentId=getAgentId(spanAlign);
+  long agentStartTime=spanAlign.getSpanBo().getAgentStartTime();
+  List<AgentInfoBo> agentInfoBo=agentInfoDao.getAgentInfo(agentId,agentStartTime);
+  if (agentInfoBo == null || agentInfoBo.size() == 0) {
+    throw new AgentIdNotFoundException(agentId,agentStartTime);
+  }
+  return agentInfoBo.get(0);
+}

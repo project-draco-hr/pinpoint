@@ -1,0 +1,12 @@
+{
+  AgentInfoBo agentInfoBo=new AgentInfoBo();
+  agentInfoBo.readValue(keyValue.getValue());
+  byte[] rowKey=keyValue.getRow();
+  String agentId=Bytes.toString(rowKey,0,HBaseTables.AGENT_NAME_MAX_LEN - 1).trim();
+  agentInfoBo.setAgentId(agentId);
+  long reverseStartTime=BytesUtils.bytesToLong(rowKey,HBaseTables.AGENT_NAME_MAX_LEN);
+  long startTime=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
+  agentInfoBo.setStartTime(startTime);
+  logger.debug("agentInfo:{}",agentInfoBo);
+  return agentInfoBo;
+}
