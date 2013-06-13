@@ -1,0 +1,33 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + javassistClassName);
+  }
+  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    if (mysqlConnection.isInterface()) {
+      return null;
+    }
+    mysqlConnection.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
+    Interceptor closeConnection=new ConnectionCloseInterceptor();
+    mysqlConnection.addInterceptor("close",null,closeConnection,Type.before);
+    Interceptor createStatement=new StatementCreateInterceptor();
+    mysqlConnection.addInterceptor("createStatement",null,createStatement,Type.after);
+    Interceptor preparedStatement=new PreparedStatementCreateInterceptor();
+    mysqlConnection.addInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatement);
+    Interceptor setAutocommit=new TransactionInterceptor();
+    mysqlConnection.addInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit);
+    Interceptor commit=new TransactionInterceptor();
+    mysqlConnection.addInterceptor("commit",null,commit);
+    Interceptor rollback=new TransactionInterceptor();
+    mysqlConnection.addInterceptor("rollback",null,rollback);
+    printClassConvertComplete(javassistClassName);
+    return mysqlConnection.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
+    return null;
+  }
+}
