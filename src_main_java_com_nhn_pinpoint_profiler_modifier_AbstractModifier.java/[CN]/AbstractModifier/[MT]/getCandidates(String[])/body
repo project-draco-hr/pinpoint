@@ -4,7 +4,17 @@
     InstrumentClass aClass=byteCodeInstrumentor.getClass(getTargetClass().replace("/","."));
     CtMethod[] declaredMethods=aClass.getDeclaredMethods();
     for (    CtMethod m : declaredMethods) {
-      if (m.getModifiers() != javassist.Modifier.PUBLIC || m.getName().startsWith("__")) {
+      boolean ignored=false;
+      if (m.getModifiers() != javassist.Modifier.PUBLIC) {
+        ignored=true;
+      }
+      for (      String ignoredPrefix : ignoredPrefixes) {
+        if (m.getName().startsWith(ignoredPrefix)) {
+          ignored=true;
+          break;
+        }
+      }
+      if (ignored) {
         continue;
       }
       String methodName=m.getName();

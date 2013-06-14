@@ -6,7 +6,8 @@
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
     aClass.addInterceptor("setCacheManager",new String[]{"net.spy.memcached.CacheManager"},setCacheManagerInterceptor,Type.before);
-    for (    Entry<String,String[]> e : getCandidates(null).entrySet()) {
+    String[] ignored=new String[]{"__","shutdown"};
+    for (    Entry<String,String[]> e : getCandidates(ignored).entrySet()) {
       Interceptor apiInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
       aClass.addInterceptor(e.getKey(),e.getValue(),apiInterceptor,Type.around);
     }

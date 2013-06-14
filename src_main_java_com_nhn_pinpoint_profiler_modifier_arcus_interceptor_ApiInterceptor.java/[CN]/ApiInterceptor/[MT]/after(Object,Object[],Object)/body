@@ -9,17 +9,19 @@
   }
   trace.recordApi(methodDescriptor);
   trace.recordAttribute(AnnotationKey.ARCUS_COMMAND,getAnnotation(args));
-  Operation op=(Operation)getOperation.invoke(((Future<?>)result));
-  if (op != null) {
-    MemcachedNode handlingNode=op.getHandlingNode();
-    SocketAddress socketAddress=handlingNode.getSocketAddress();
-    if (socketAddress instanceof InetSocketAddress) {
-      InetSocketAddress address=(InetSocketAddress)socketAddress;
-      trace.recordEndPoint(address.getHostName() + ":" + address.getPort());
+  if (result instanceof Future) {
+    Operation op=(Operation)getOperation.invoke(((Future<?>)result));
+    if (op != null) {
+      MemcachedNode handlingNode=op.getHandlingNode();
+      SocketAddress socketAddress=handlingNode.getSocketAddress();
+      if (socketAddress instanceof InetSocketAddress) {
+        InetSocketAddress address=(InetSocketAddress)socketAddress;
+        trace.recordEndPoint(address.getHostName() + ":" + address.getPort());
+      }
     }
-  }
  else {
-    logger.info("operation not found");
+      logger.info("operation not found");
+    }
   }
   String serviceCode=(String)getServiceCode.invoke(target);
   if (serviceCode != null) {
