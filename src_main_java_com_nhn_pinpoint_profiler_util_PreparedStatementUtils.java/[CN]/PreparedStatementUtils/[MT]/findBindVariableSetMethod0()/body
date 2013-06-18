@@ -13,7 +13,7 @@
       if (method.getReturnType() != void.class) {
         continue;
       }
-      if (method.getExceptionTypes().equals(SQLException.class)) {
+      if (!throwSqlException(method)) {
         continue;
       }
       bindMethod.add(method);
