@@ -1,6 +1,6 @@
 {
   KeyValue[] keyList=result.raw();
-  Map<String,ApplicationStatistics> stat=new HashMap<String,ApplicationStatistics>();
+  Map<String,TransactionFlowStatistics> stat=new HashMap<String,TransactionFlowStatistics>();
   Map<String,Set<String>> callerAppHostMap=new HashMap<String,Set<String>>();
   for (  KeyValue kv : keyList) {
     byte[] qualifier=kv.getQualifier();
@@ -25,7 +25,7 @@
       }
     }
     if (stat.containsKey(id)) {
-      ApplicationStatistics statistics=stat.get(id);
+      TransactionFlowStatistics statistics=stat.get(id);
       if (isError) {
         statistics.getHistogram().addSample((short)-1,requestCount);
       }
@@ -34,7 +34,7 @@
       }
     }
  else {
-      ApplicationStatistics statistics=new ApplicationStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
+      TransactionFlowStatistics statistics=new TransactionFlowStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
       if (isError) {
         statistics.getHistogram().addSample((short)-1,requestCount);
       }
@@ -44,7 +44,7 @@
       stat.put(id,statistics);
     }
   }
-  for (  Entry<String,ApplicationStatistics> entry : stat.entrySet()) {
+  for (  Entry<String,TransactionFlowStatistics> entry : stat.entrySet()) {
     entry.getValue().addToHosts(callerAppHostMap.get(entry.getKey()));
   }
   return stat;

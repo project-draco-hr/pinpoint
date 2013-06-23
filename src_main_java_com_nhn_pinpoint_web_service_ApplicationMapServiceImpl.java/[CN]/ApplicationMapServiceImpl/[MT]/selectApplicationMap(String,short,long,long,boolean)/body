@@ -4,9 +4,9 @@
   watch.start();
   final Set<String> callerFoundApplications=new HashSet<String>();
   final Set<String> calleeFoundApplications=new HashSet<String>();
-  Set<ApplicationStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
-  Set<ApplicationStatistics> caller=selectCaller(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
-  Set<ApplicationStatistics> data=new HashSet<ApplicationStatistics>(callee.size() + caller.size());
+  Set<TransactionFlowStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
+  Set<TransactionFlowStatistics> caller=selectCaller(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
+  Set<TransactionFlowStatistics> data=new HashSet<TransactionFlowStatistics>(callee.size() + caller.size());
   data.addAll(callee);
   data.addAll(caller);
   ApplicationMap map=new ApplicationMap(data).build();

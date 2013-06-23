@@ -1,14 +1,14 @@
 {
   if (calleeFoundApplications.contains(callerApplicationName + callerServiceType)) {
     logger.debug("ApplicationStatistics exists. Skip finding callee. " + callerApplicationName + callerServiceType);
-    return new HashSet<ApplicationStatistics>(0);
+    return new HashSet<TransactionFlowStatistics>(0);
   }
   calleeFoundApplications.add(callerApplicationName + callerServiceType);
   logger.debug("Find Callee. caller=" + callerApplicationName + ", serviceType="+ ServiceType.findServiceType(callerServiceType)+ ", hideIndirectAccess="+ hideIndirectAccess);
-  final Set<ApplicationStatistics> calleeSet=new HashSet<ApplicationStatistics>();
-  Map<String,ApplicationStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
+  final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
+  Map<String,TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
   logger.debug("     Found Callee. count=" + callee.size() + ", caller="+ callerApplicationName);
-  for (  Entry<String,ApplicationStatistics> entry : callee.entrySet()) {
+  for (  Entry<String,TransactionFlowStatistics> entry : callee.entrySet()) {
     boolean replaced=replaceApplicationInfo(entry.getValue(),from,to);
     if (!replaced) {
       fillAdditionalInfo(entry.getValue(),from,to);
@@ -17,20 +17,20 @@
     if (entry.getValue().getToServiceType().isTerminal() || entry.getValue().getToServiceType().isUnknown()) {
       continue;
     }
-    ApplicationStatistics stat=entry.getValue();
+    TransactionFlowStatistics stat=entry.getValue();
     logger.debug("     Find subCallee of " + stat.getTo());
-    Set<ApplicationStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
+    Set<TransactionFlowStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
     logger.debug("     Found subCallee. count=" + calleeSub.size() + ", caller="+ stat.getTo());
     calleeSet.addAll(calleeSub);
-    for (    ApplicationStatistics eachCallee : calleeSub) {
+    for (    TransactionFlowStatistics eachCallee : calleeSub) {
       if (hideIndirectAccess && !eachCallee.getFromServiceType().isWas()) {
         continue;
       }
       logger.debug("     Find caller of " + eachCallee.getFrom());
-      Set<ApplicationStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
+      Set<TransactionFlowStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications,hideIndirectAccess);
       logger.debug("     Found subCaller. count=" + callerSub.size() + ", callee="+ eachCallee.getFrom());
       if (hideIndirectAccess) {
-        for (        ApplicationStatistics as : callerSub) {
+        for (        TransactionFlowStatistics as : callerSub) {
           if (callerApplicationName.equals(as.getFrom()) && callerServiceType == as.getFromServiceType().getCode()) {
             calleeSet.add(as);
           }

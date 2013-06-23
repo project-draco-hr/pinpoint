@@ -1,9 +1,9 @@
 {
   Scan scan=createScan(callerApplicationName,callerServiceType,from,to);
-  List<Map<String,ApplicationStatistics>> found=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,applicationMapStatisticsCalleeMapper);
-  Map<String,ApplicationStatistics> result=new HashMap<String,ApplicationStatistics>();
-  for (  Map<String,ApplicationStatistics> map : found) {
-    for (    Entry<String,ApplicationStatistics> entry : map.entrySet()) {
+  List<Map<String,TransactionFlowStatistics>> found=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,applicationMapStatisticsCalleeMapper);
+  Map<String,TransactionFlowStatistics> result=new HashMap<String,TransactionFlowStatistics>();
+  for (  Map<String,TransactionFlowStatistics> map : found) {
+    for (    Entry<String,TransactionFlowStatistics> entry : map.entrySet()) {
       if (result.containsKey(entry.getKey())) {
         result.get(entry.getKey()).mergeWith(entry.getValue());
       }

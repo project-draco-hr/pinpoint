@@ -1,6 +1,6 @@
 {
   if (built)   return this;
-  for (  ApplicationStatistics stat : data) {
+  for (  TransactionFlowStatistics stat : data) {
     if (!stat.getFromServiceType().isRpcClient()) {
       addApplication(new Application(makeApplicationId(stat.getFrom(),stat.getFromServiceType()),stat.getFrom(),stat.getFromServiceType(),null,null));
     }
@@ -15,7 +15,7 @@
   for (  Entry<String,Application> entry : applications.entrySet()) {
     entry.getValue().setSequence(index++);
   }
-  for (  ApplicationStatistics stat : data) {
+  for (  TransactionFlowStatistics stat : data) {
     Application from=findApplication(stat.getFrom(),stat.getFromServiceType());
     Application to=findApplication(stat.getTo(),stat.getToServiceType());
     if (to == null) {
