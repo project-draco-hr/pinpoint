@@ -1,0 +1,13 @@
+{
+  if (applicationName == null) {
+    throw new IllegalArgumentException("applicationName is null.");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("[UpdatingApplicationMapStatistics] " + applicationName + ", "+ ServiceType.findServiceType(serviceType)+ ", "+ agentId+ ", "+ elapsed+ ", "+ isError);
+  }
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
+  final byte[] rowKey=ApplicationStatisticsUtils.makeRowKey(applicationName,serviceType,rowTimeSlot);
+  byte[] columnName=ApplicationStatisticsUtils.makeColumnName(serviceType,agentId,elapsed,isError);
+  hbaseTemplate.incrementColumnValue(APPLICATION_STATISTICS,rowKey,APPLICATION_STATISTICS_CF_COUNTER,columnName,1L);
+}
