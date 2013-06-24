@@ -1,0 +1,14 @@
+{
+  if (agentId == null) {
+    agentId="";
+  }
+  byte[] slotNumber;
+  if (isError) {
+    slotNumber=HBaseTables.TERMINAL_STATISTICS_CQ_ERROR_SLOT;
+  }
+ else {
+    slotNumber=findResponseHistogramSlotNo(serviceType,elapsed);
+  }
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  return BytesUtils.concat(slotNumber,agentIdBytes);
+}
