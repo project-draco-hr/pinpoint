@@ -1,0 +1,21 @@
+{
+  KeyValue[] keyList=result.raw();
+  ApplicationStatistics stat=null;
+  for (  KeyValue kv : keyList) {
+    byte[] qualifier=kv.getQualifier();
+    String applicationName=ApplicationStatisticsUtils.getApplicationNameFromRowKey(kv.getRow());
+    short serviceType=ApplicationStatisticsUtils.getApplicationTypeFromRowKey(kv.getRow());
+    long requestCount=Bytes.toLong(kv.getValue());
+    short histogramSlot=ApplicationStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
+    if (logger.isDebugEnabled()) {
+      logger.debug("applicationName=" + applicationName + ", serviceType="+ serviceType+ ", requestCount="+ requestCount+ ", histogramSlot="+ histogramSlot);
+    }
+    if (stat == null) {
+      stat=new ApplicationStatistics(applicationName,serviceType);
+      stat.makeId();
+    }
+    stat.addValue(histogramSlot,requestCount);
+  }
+  logger.debug("Fetched applicationStatistics. {}",stat);
+  return stat;
+}

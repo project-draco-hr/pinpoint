@@ -1,0 +1,15 @@
+{
+  if (this.equals(applicationStatistics)) {
+    successCount+=applicationStatistics.getSuccessCount();
+    failedCount+=applicationStatistics.getFailedCount();
+    hosts.addAll(applicationStatistics.getHosts());
+    agents.addAll(applicationStatistics.getAgents());
+    for (    Entry<Integer,Long> entry : applicationStatistics.getValues().entrySet()) {
+      addValue(entry.getKey(),entry.getValue());
+    }
+    return this;
+  }
+ else {
+    throw new IllegalArgumentException("Can't merge with different link.");
+  }
+}

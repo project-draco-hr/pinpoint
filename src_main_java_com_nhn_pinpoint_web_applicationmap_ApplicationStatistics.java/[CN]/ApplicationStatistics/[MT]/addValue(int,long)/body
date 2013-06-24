@@ -1,0 +1,16 @@
+{
+  if (slot == -1) {
+    successCount+=value;
+    slot=SLOT_NO_ERROR;
+  }
+ else   if (slot == 0) {
+    failedCount+=value;
+    slot=SLOT_NO_SLOW;
+  }
+ else {
+    successCount+=value;
+  }
+  long v=(values.containsKey(slot) ? values.get(slot) : 0L);
+  v+=value;
+  values.put(slot,v);
+}
