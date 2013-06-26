@@ -1,6 +1,6 @@
 {
   return execute(tableName,new TableCallback<T>(){
-    @Override public T doInTable(    HTable htable) throws Throwable {
+    @Override public T doInTable(    HTableInterface htable) throws Throwable {
       Result result=htable.get(get);
       return mapper.mapRow(result,0);
     }

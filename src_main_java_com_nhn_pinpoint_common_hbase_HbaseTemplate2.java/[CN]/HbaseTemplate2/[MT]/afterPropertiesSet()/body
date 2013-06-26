@@ -1,3 +1,5 @@
 {
-  this.hTablePool=new HTablePool(getConfiguration(),this.hTablePoolSize);
+  Configuration configuration=getConfiguration();
+  Assert.notNull(configuration," a valid configuration is required");
+  this.pooledHTableFactory=new PooledHTableFactory(configuration,poolSize);
 }

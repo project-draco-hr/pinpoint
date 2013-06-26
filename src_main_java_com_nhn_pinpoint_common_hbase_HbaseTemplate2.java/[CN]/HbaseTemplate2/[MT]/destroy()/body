@@ -1,4 +1,5 @@
 {
-  logger.info("hTablePool.close()");
-  this.hTablePool.close();
+  if (pooledHTableFactory != null) {
+    this.pooledHTableFactory.destroy();
+  }
 }

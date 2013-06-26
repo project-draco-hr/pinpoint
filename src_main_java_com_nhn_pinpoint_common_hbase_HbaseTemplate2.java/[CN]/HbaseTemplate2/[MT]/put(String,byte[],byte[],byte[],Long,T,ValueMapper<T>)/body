@@ -1,6 +1,6 @@
 {
   execute(tableName,new TableCallback<T>(){
-    @Override public T doInTable(    HTable htable) throws Throwable {
+    @Override public T doInTable(    HTableInterface htable) throws Throwable {
       Put put=new Put(rowName);
       byte[] bytes=mapper.mapValue(value);
       if (familyName != null) {

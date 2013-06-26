@@ -7,10 +7,12 @@
     Assert.fail("exceptions");
   }
  catch (  HbaseSystemException e) {
-    if (!(e.getCause().getCause() instanceof TableNotFoundException)) {
+    if (!(e.getCause() instanceof TableNotFoundException)) {
       System.out.println(e.getCause());
       Assert.fail("unexpected exception :" + e.getCause());
     }
   }
-  hbaseTemplate2.destroy();
+ finally {
+    hbaseTemplate2.destroy();
+  }
 }
