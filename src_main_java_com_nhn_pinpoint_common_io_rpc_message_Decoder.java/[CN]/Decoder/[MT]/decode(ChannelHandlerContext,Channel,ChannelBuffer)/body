@@ -1,0 +1,15 @@
+{
+  if (buffer.readableBytes() < 2) {
+    return null;
+  }
+  buffer.markReaderIndex();
+  short packetType=buffer.readShort();
+switch (packetType) {
+case PacketHeader.APPLICATION_SEND:
+    return readSend(packetType,buffer);
+case PacketHeader.APPLICATION_REQUEST:
+  return readRequest(packetType,buffer);
+default :
+}
+return null;
+}

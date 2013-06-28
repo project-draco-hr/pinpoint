@@ -1,0 +1,12 @@
+{
+  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  try {
+    pinpointSocketFactory.connect("localhost",10234);
+    Assert.fail();
+  }
+ catch (  SocketException e) {
+  }
+ finally {
+    pinpointSocketFactory.release();
+  }
+}

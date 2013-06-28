@@ -1,0 +1,16 @@
+{
+  if (ready) {
+    return;
+  }
+  long timeout=getTimeout();
+  if (timeout <= 0) {
+    this.ready=true;
+    return;
+  }
+  try {
+    latch.await(timeout,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+}

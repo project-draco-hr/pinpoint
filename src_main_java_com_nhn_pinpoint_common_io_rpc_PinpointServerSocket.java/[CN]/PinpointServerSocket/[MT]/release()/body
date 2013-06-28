@@ -1,0 +1,16 @@
+{
+synchronized (this) {
+    if (released) {
+      return;
+    }
+    released=true;
+  }
+  if (serverChannel != null) {
+    ChannelFuture close=serverChannel.close();
+    close.awaitUninterruptibly();
+    serverChannel=null;
+  }
+  if (bootstrap != null) {
+    bootstrap.releaseExternalResources();
+  }
+}

@@ -1,0 +1,7 @@
+{
+  int requestId=this.messageId.getAndIncrement();
+  request.setRequestId(requestId);
+  MessageFuture future=new MessageFuture();
+  this.requestMap.put(requestId,future);
+  return future;
+}

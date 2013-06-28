@@ -1,0 +1,10 @@
+{
+  InetSocketAddress address=new InetSocketAddress(host,port);
+  ChannelFuture connectFuture=bootstrap.connect(address);
+  connectFuture.awaitUninterruptibly();
+  if (!connectFuture.isSuccess()) {
+    throw new SocketException("connect fail.",connectFuture.getCause());
+  }
+  channel=connectFuture.getChannel();
+  return new PinpointSocket(channel);
+}

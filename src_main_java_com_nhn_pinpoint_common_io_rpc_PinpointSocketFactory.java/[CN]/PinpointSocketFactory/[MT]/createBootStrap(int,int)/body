@@ -1,0 +1,6 @@
+{
+  ExecutorService boss=Executors.newFixedThreadPool(bossCount);
+  ExecutorService worker=Executors.newFixedThreadPool(workerCount);
+  NioClientSocketChannelFactory nioClientSocketChannelFactory=new NioClientSocketChannelFactory(boss,worker);
+  return new ClientBootstrap(nioClientSocketChannelFactory);
+}

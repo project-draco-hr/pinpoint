@@ -1,0 +1,7 @@
+{
+  ensureOpen();
+  RequestPacket request=new RequestPacket(bytes);
+  MessageFuture messageFuture=registerRequest(request);
+  this.channel.write(request);
+  return messageFuture;
+}
