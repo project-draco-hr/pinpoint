@@ -1,5 +1,7 @@
 {
   ChannelPipeline pipeline=Channels.pipeline();
   pipeline.addLast("decoder",new Decoder());
+  pipeline.addLast("encoder",new Encoder());
+  pipeline.addLast("handler",serverSocket);
   return pipeline;
 }

@@ -1,0 +1,25 @@
+{
+  final Object message=e.getMessage();
+  if (message instanceof ResponsePacket) {
+    final ResponsePacket responsePacket=(ResponsePacket)message;
+    final int requestId=responsePacket.getRequestId();
+    final MessageFuture messageFuture=requestMap.findMessageFuture(requestId);
+    if (messageFuture == null) {
+      logger.warn("messageFuture not found:{}, channel:{}",responsePacket,e.getChannel());
+      return;
+    }
+ else {
+      logger.debug("responsePacket arrived packet:{}, channel:{}",responsePacket,e.getChannel());
+    }
+    ResponseMessage response=new ResponseMessage();
+    response.setMessage(responsePacket.getPayload());
+    messageFuture.readyMessage(response);
+    return;
+  }
+ else {
+    if (message instanceof RequestPacket) {
+      RequestPacket rp=(RequestPacket)message;
+    }
+    logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+  }
+}

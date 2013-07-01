@@ -3,13 +3,15 @@
     return null;
   }
   buffer.markReaderIndex();
-  short packetType=buffer.readShort();
+  final short packetType=buffer.readShort();
 switch (packetType) {
 case PacketHeader.APPLICATION_SEND:
     return readSend(packetType,buffer);
 case PacketHeader.APPLICATION_REQUEST:
   return readRequest(packetType,buffer);
-default :
+case PacketHeader.APPLICATION_RESPONSE:
+return readResponse(packetType,buffer);
 }
+logger.error("invalid packetType received. packetType:{}, connection:{}",packetType,channel.getRemoteAddress());
 return null;
 }

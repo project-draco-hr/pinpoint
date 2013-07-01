@@ -1,0 +1,14 @@
+{
+  if (buffer.readableBytes() < 8) {
+    buffer.resetReaderIndex();
+    return null;
+  }
+  final int messageId=buffer.readInt();
+  ChannelBuffer payload=PayloadPacket.readPayload(buffer);
+  if (payload == null) {
+    return null;
+  }
+  ResponsePacket responsePacket=new ResponsePacket(payload.array());
+  responsePacket.setRequestId(messageId);
+  return responsePacket;
+}

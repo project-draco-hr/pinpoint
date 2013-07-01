@@ -1,7 +1,16 @@
 {
   ensureOpen();
   RequestPacket request=new RequestPacket(bytes);
-  MessageFuture messageFuture=registerRequest(request);
-  this.channel.write(request);
+  final MessageFuture messageFuture=this.socketRequestHandler.register(request);
+  ChannelFuture write=this.channel.write(request);
+  write.addListener(new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (!future.isSuccess()) {
+        Throwable cause=future.getCause();
+        messageFuture.setFailure(cause);
+      }
+    }
+  }
+);
   return messageFuture;
 }

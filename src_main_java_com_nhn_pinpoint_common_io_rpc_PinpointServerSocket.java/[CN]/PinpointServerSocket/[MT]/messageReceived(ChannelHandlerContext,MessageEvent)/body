@@ -1,0 +1,12 @@
+{
+  Object message=e.getMessage();
+  if (message instanceof SendPacket) {
+    handleSend((SendPacket)message,e.getChannel());
+  }
+ else   if (message instanceof RequestPacket) {
+    handleRequest((RequestPacket)message,e.getChannel());
+  }
+ else {
+    logger.error("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
+  }
+}

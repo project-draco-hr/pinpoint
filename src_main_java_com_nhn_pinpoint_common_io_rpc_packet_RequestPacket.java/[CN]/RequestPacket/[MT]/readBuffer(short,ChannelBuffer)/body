@@ -3,14 +3,12 @@
     buffer.resetReaderIndex();
     return null;
   }
-  int messageIdIndex=buffer.readerIndex();
-  buffer.skipBytes(4);
-  ChannelBuffer payload=PayloadPacket.readPayload(buffer);
+  final int messageId=buffer.readInt();
+  final ChannelBuffer payload=PayloadPacket.readPayload(buffer);
   if (payload == null) {
     return null;
   }
-  int messageId=buffer.getInt(messageIdIndex);
-  RequestPacket requestPacket=new RequestPacket(payload.array());
+  final RequestPacket requestPacket=new RequestPacket(payload.array());
   requestPacket.setRequestId(messageId);
   return requestPacket;
 }

@@ -1,8 +1,10 @@
 {
-  if (released) {
-    return;
+synchronized (this) {
+    if (released) {
+      return;
+    }
+    released=true;
   }
-  released=true;
   if (bootstrap != null) {
     bootstrap.releaseExternalResources();
   }

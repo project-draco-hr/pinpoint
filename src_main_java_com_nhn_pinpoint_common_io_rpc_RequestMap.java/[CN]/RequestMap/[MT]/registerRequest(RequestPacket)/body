@@ -1,0 +1,10 @@
+{
+  final int requestId=getNextRequestId();
+  request.setRequestId(requestId);
+  final MessageFuture future=new MessageFuture();
+  final MessageFuture old=this.requestMap.put(requestId,future);
+  if (old != null) {
+    logger.warn("unexpected error. old future exist:{}",old);
+  }
+  return future;
+}

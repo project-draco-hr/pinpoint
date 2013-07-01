@@ -4,5 +4,13 @@
   }
  catch (  InterruptedException e) {
     Thread.currentThread().interrupt();
+    throw new SocketException(e);
+  }
+  if (!channelFuture.isSuccess()) {
+    final Throwable cause=channelFuture.getCause();
+    throw new SocketException(cause);
+  }
+ else {
+    throw new SocketException("io timeout");
   }
 }
