@@ -4,13 +4,12 @@ synchronized (this) {
       return false;
     }
     this.ready=true;
-    this.cause=cause;
+    this.message=message;
     if (waiters > 0) {
       notifyAll();
     }
   }
   cancelTimout();
-  notifyFailureHandle();
   notifyListener();
   return true;
 }

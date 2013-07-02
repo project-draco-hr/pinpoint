@@ -3,7 +3,7 @@
   if (message instanceof ResponsePacket) {
     final ResponsePacket responsePacket=(ResponsePacket)message;
     final int requestId=responsePacket.getRequestId();
-    final MessageFuture messageFuture=requestMap.findMessageFuture(requestId);
+    final MessageFuture messageFuture=requestMap.removeMessageFuture(requestId);
     if (messageFuture == null) {
       logger.warn("messageFuture not found:{}, channel:{}",responsePacket,e.getChannel());
       return;
@@ -13,7 +13,7 @@
     }
     ResponseMessage response=new ResponseMessage();
     response.setMessage(responsePacket.getPayload());
-    messageFuture.readyMessage(response);
+    messageFuture.setMessage(response);
     return;
   }
  else {

@@ -4,12 +4,11 @@ synchronized (this) {
       return false;
     }
     this.ready=true;
-    this.cause=cause;
+    this.cause=new RuntimeException("timeout");
     if (waiters > 0) {
       notifyAll();
     }
   }
-  cancelTimout();
   notifyFailureHandle();
   notifyListener();
   return true;
