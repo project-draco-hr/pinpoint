@@ -2,27 +2,18 @@
   if (successCount > 0 || failedCount > 0) {
     throw new IllegalStateException("Can't set slot list while containing the data.");
   }
-  histogramSlotList.clear();
   histogramSummary.clear();
   timeseriesSlotIndex.clear();
-  timeseriesValue.clear();
-  timeseriesFaileureHistogram.clear();
-  histogramSlotList.add(ERROR);
-  histogramSummary.put(ERROR,0L);
-  histogramSlotList.add(SLOW);
-  histogramSummary.put(SLOW,0L);
+  timeseriesValueList.clear();
+  histogramSummary.put(SLOT_SLOW,0L);
+  histogramSummary.put(SLOT_ERROR,0L);
   for (  HistogramSlot slot : slotList) {
-    histogramSlotList.add(slot.getSlotTime());
     histogramSummary.put(slot.getSlotTime(),0L);
     timeseriesSlotIndex.put(slot.getSlotTime(),timeseriesSlotIndex.size());
-    timeseriesValue.add(makeDefaultTimeseriesValues());
+    timeseriesValueList.add(makeEmptyTimeseriesValueMap());
   }
-  timeseriesSlotIndex.put(SLOW,timeseriesSlotIndex.size());
-  timeseriesSlotIndex.put(ERROR,timeseriesSlotIndex.size());
-  timeseriesValue.add(makeDefaultTimeseriesValues());
-  timeseriesValue.add(makeDefaultTimeseriesValues());
-  long step=valueSteps();
-  for (long time=from; time <= to; time+=step) {
-    timeseriesFaileureHistogram.put(time,new Long[]{0L,0L});
-  }
+  timeseriesSlotIndex.put(SLOT_SLOW,timeseriesSlotIndex.size());
+  timeseriesSlotIndex.put(SLOT_ERROR,timeseriesSlotIndex.size());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
 }

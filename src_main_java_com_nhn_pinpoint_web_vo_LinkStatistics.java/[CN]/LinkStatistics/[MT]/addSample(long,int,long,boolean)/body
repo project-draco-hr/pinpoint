@@ -1,5 +1,6 @@
 {
   logger.info("Add sample. timeslot=" + timestamp + ", responseTimeslot="+ responseTimeslot+ ", callCount="+ callCount+ ", failed="+ failed);
+  timestamp=refineTimestamp(timestamp);
   if (failed) {
     failedCount+=callCount;
   }
@@ -7,15 +8,15 @@
     successCount+=callCount;
   }
   if (responseTimeslot == -1) {
-    responseTimeslot=ERROR;
+    responseTimeslot=SLOT_ERROR;
   }
  else   if (responseTimeslot == 0) {
-    responseTimeslot=SLOW;
+    responseTimeslot=SLOT_SLOW;
   }
   long value=histogramSummary.containsKey(responseTimeslot) ? histogramSummary.get(responseTimeslot) + callCount : callCount;
   histogramSummary.put(responseTimeslot,value);
-  for (int i=0; i < timeseriesValue.size(); i++) {
-    SortedMap<Long,Long> map=timeseriesValue.get(i);
+  for (int i=0; i < timeseriesValueList.size(); i++) {
+    SortedMap<Long,Long> map=timeseriesValueList.get(i);
     if (i == timeseriesSlotIndex.get(responseTimeslot)) {
       long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
       map.put(timestamp,v);
@@ -25,26 +26,5 @@
         map.put(timestamp,0L);
       }
     }
-  }
-  if (timeseriesFaileureHistogram.containsKey(timestamp)) {
-    Long[] array=timeseriesFaileureHistogram.get(timestamp);
-    if (failed) {
-      array[FAILED]+=callCount;
-    }
- else {
-      array[SUCCESS]+=callCount;
-    }
-  }
- else {
-    Long[] array=new Long[2];
-    array[SUCCESS]=0L;
-    array[FAILED]=0L;
-    if (failed) {
-      array[FAILED]+=callCount;
-    }
- else {
-      array[SUCCESS]+=callCount;
-    }
-    timeseriesFaileureHistogram.put(timestamp,array);
   }
 }

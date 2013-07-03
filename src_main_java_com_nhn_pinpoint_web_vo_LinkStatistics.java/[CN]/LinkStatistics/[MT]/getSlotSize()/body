@@ -1,0 +1,18 @@
+{
+  long diff=to - from;
+  long size;
+  if (diff < SIX_HOURS) {
+    size=ONE_MINUTE * 5L;
+  }
+ else   if (diff < ONE_DAY) {
+    size=ONE_MINUTE * 10L;
+  }
+ else   if (diff < ONE_DAY * 2) {
+    size=ONE_MINUTE * 15L;
+  }
+ else {
+    size=ONE_MINUTE * 20L;
+  }
+  logger.debug("slot size=" + size);
+  return size;
+}
