@@ -3,9 +3,9 @@
     buffer.resetReaderIndex();
     return null;
   }
-  int payloadLength=buffer.readInt();
+  final int payloadLength=buffer.readInt();
   if (payloadLength <= 0) {
-    return ChannelBuffers.buffer(0);
+    return EMPTY_BUFFER;
   }
   if (buffer.readableBytes() < payloadLength) {
     buffer.resetReaderIndex();

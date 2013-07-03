@@ -3,7 +3,7 @@
   if (message instanceof ResponsePacket) {
     final ResponsePacket responsePacket=(ResponsePacket)message;
     final int requestId=responsePacket.getRequestId();
-    final MessageFuture messageFuture=requestMap.removeMessageFuture(requestId);
+    final MessageFuture messageFuture=requestProcessor.removeMessageFuture(requestId);
     if (messageFuture == null) {
       logger.warn("messageFuture not found:{}, channel:{}",responsePacket,e.getChannel());
       return;
@@ -16,10 +16,11 @@
     messageFuture.setMessage(response);
     return;
   }
+ else   if (message instanceof RequestPacket) {
+    RequestPacket rp=(RequestPacket)message;
+    return;
+  }
  else {
-    if (message instanceof RequestPacket) {
-      RequestPacket rp=(RequestPacket)message;
-    }
     logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
   }
 }

@@ -1,5 +1,9 @@
 {
+  if (this.channel == null) {
+    throw new PinpointSocketException("channel is null");
+  }
   if (!(this.state.compareAndSet(STATE_INIT,STATE_RUN))) {
     throw new IllegalStateException("invalid open state:" + state.get());
   }
+  this.streamPacketDispatcher.setChannel(channel);
 }

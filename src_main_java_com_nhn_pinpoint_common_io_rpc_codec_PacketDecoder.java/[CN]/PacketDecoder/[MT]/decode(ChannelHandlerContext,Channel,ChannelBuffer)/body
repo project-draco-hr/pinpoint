@@ -1,0 +1,28 @@
+{
+  if (buffer.readableBytes() < 2) {
+    return null;
+  }
+  buffer.markReaderIndex();
+  final short packetType=buffer.readShort();
+switch (packetType) {
+case PacketType.APPLICATION_SEND:
+    return readSend(packetType,buffer);
+case PacketType.APPLICATION_REQUEST:
+  return readRequest(packetType,buffer);
+case PacketType.APPLICATION_RESPONSE:
+return readResponse(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE:
+return readStreamCreate(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CLOSE:
+return readStreamClose(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+return readStreamCreateSuccess(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+return readStreamCreateFail(packetType,buffer);
+case PacketType.APPLICATION_STREAM_RESPONSE:
+return readStreamResponse(packetType,buffer);
+}
+logger.error("invalid packetType received. packetType:{}, connection:{}",packetType,channel.getRemoteAddress());
+channel.close();
+return null;
+}

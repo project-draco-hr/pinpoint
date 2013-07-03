@@ -1,4 +1,7 @@
 {
+  if (listener == null) {
+    throw new NullPointerException("listener");
+  }
   boolean alreadyReady=false;
 synchronized (this) {
     if (ready) {
@@ -9,6 +12,7 @@ synchronized (this) {
     }
   }
   if (alreadyReady) {
-    listener.onComplete(this);
+    fireOnComplete(listener);
   }
+  return !alreadyReady;
 }

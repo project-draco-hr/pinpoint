@@ -4,7 +4,7 @@
   }
  catch (  InterruptedException e) {
     Thread.currentThread().interrupt();
-    throw new SocketException(e);
+    throw new PinpointSocketException(e);
   }
   boolean success=channelFuture.isSuccess();
   if (success) {
@@ -13,11 +13,10 @@
  else {
     final Throwable cause=channelFuture.getCause();
     if (cause != null) {
-      throw new SocketException(cause);
+      throw new PinpointSocketException(cause);
     }
  else {
-      boolean cancel=channelFuture.cancel();
-      throw new SocketException("io timeout");
+      throw new PinpointSocketException("io timeout");
     }
   }
 }

@@ -1,0 +1,10 @@
+{
+  final int channelId=allocateChannelId();
+  StreamChannel streamChannel=new StreamChannel(channelId);
+  StreamChannel old=channelMap.put(channelId,streamChannel);
+  if (old != null) {
+    throw new IllegalStateException("already channelId exist:" + channelId + " streamChannel:"+ old);
+  }
+  streamChannel.setStreamPacketDispatcher(this);
+  return streamChannel;
+}

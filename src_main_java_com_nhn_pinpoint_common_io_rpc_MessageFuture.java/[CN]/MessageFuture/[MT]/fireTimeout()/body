@@ -4,7 +4,7 @@ synchronized (this) {
       return false;
     }
     this.ready=true;
-    this.cause=new RuntimeException("timeout");
+    this.cause=new PinpointSocketException("timeout");
     if (waiters > 0) {
       notifyAll();
     }

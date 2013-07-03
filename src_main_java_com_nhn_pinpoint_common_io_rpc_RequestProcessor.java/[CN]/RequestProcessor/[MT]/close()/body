@@ -1,0 +1,15 @@
+{
+  final PinpointSocketException closed=new PinpointSocketException("connection closed");
+  final HashedWheelTimer timer=this.timer;
+  if (timer != null) {
+    Set<Timeout> stop=timer.stop();
+    for (    Timeout timeout : stop) {
+      MessageFuture future=(MessageFuture)timeout.getTask();
+      future.setFailure(closed);
+    }
+  }
+  for (  Map.Entry<Integer,MessageFuture> entry : requestMap.entrySet()) {
+    entry.getValue().setFailure(closed);
+  }
+  this.requestMap.clear();
+}
