@@ -1,0 +1,9 @@
+{
+  SortedMap<String,AgentStatus> statusMap=new TreeMap<String,AgentStatus>();
+  for (  String agentId : agentIdList) {
+    AgentInfoBo agentInfo=monitor.getAgentInfo(agentId);
+    statusMap.put(agentId,new AgentStatus(agentInfo));
+  }
+  model.addAttribute("statusMap",statusMap);
+  return "agentstatus";
+}
