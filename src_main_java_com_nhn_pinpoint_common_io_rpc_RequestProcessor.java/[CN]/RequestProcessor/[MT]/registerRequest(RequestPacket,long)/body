@@ -1,12 +1,13 @@
 {
   final int requestId=getNextRequestId();
   request.setRequestId(requestId);
-  final MessageFuture future=new MessageFuture(requestId,timeoutMillis);
-  final MessageFuture old=this.requestMap.put(requestId,future);
+  final DefaultFuture<ResponseMessage> future=new DefaultFuture<ResponseMessage>(timeoutMillis);
+  final Future old=this.requestMap.put(requestId,future);
   if (old != null) {
     throw new PinpointSocketException("unexpected error. old future exist:" + old + " id:"+ requestId);
   }
-  future.setFailureHandle(this);
+  FailureEventHandler removeTable=createFailureEventHandler(requestId);
+  future.setFailureEventHandler(removeTable);
   addTimeoutTask(timeoutMillis,future);
   return future;
 }

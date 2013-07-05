@@ -4,11 +4,9 @@
   final PinpointSocket pinpointSocket=new PinpointSocket();
   connectFuture.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
-      if (future.isSuccess()) {
-        Channel channel=future.getChannel();
-        ChannelPipeline pipeline=channel.getPipeline();
-        pipeline.addLast("requestHandler",pinpointSocket.getSocketRequestHandler());
-      }
+      Channel channel=future.getChannel();
+      ChannelPipeline pipeline=channel.getPipeline();
+      pipeline.addLast("logic",pinpointSocket);
     }
   }
 );

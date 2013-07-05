@@ -1,0 +1,18 @@
+{
+  final Object message=e.getMessage();
+  if (message instanceof ResponsePacket) {
+    requestResponseManager.messageReceived((ResponsePacket)message,e.getChannel());
+    return;
+  }
+ else   if (message instanceof RequestPacket) {
+    requestResponseManager.messageReceived((RequestPacket)message,e.getChannel());
+    return;
+  }
+ else   if (message instanceof StreamCreateResultPacket) {
+    streamChannelManager.messageReceived((StreamCreateResultPacket)message,e.getChannel());
+    return;
+  }
+ else {
+    logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+  }
+}

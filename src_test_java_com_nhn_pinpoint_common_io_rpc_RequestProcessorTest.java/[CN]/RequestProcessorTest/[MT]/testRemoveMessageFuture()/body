@@ -2,9 +2,9 @@
   RequestProcessor requestProcessor=new RequestProcessor(10);
   try {
     RequestPacket packet=new RequestPacket(1,new byte[0]);
-    MessageFuture messageFuture=requestProcessor.registerRequest(packet,2000);
-    messageFuture.setFailure(new RuntimeException());
-    MessageFuture nullFuture=requestProcessor.removeMessageFuture(packet.getRequestId());
+    DefaultFuture future=requestProcessor.registerRequest(packet,2000);
+    future.setFailure(new RuntimeException());
+    Future nullFuture=requestProcessor.removeMessageFuture(packet.getRequestId());
     Assert.assertNull(nullFuture);
   }
   finally {

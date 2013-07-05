@@ -1,0 +1,13 @@
+{
+  FailureEventHandler failureEventHandler=new FailureEventHandler(){
+    @Override public boolean fireFailure(){
+      DefaultFuture<ResponseMessage> future=RequestProcessor.this.removeMessageFuture(requestId);
+      if (future != null) {
+        return true;
+      }
+      return false;
+    }
+  }
+;
+  return failureEventHandler;
+}

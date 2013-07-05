@@ -1,7 +1,7 @@
 {
   ensureOpen();
   RequestPacket request=new RequestPacket(bytes);
-  final MessageFuture messageFuture=this.socketRequestHandler.register(request,this.timeoutMillis);
+  final DefaultFuture<ResponseMessage> messageFuture=this.requestResponseManager.register(request,this.timeoutMillis);
   ChannelFuture write=this.channel.write(request);
   write.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
