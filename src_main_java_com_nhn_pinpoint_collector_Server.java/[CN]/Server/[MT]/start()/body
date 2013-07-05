@@ -3,7 +3,8 @@
   context=createContext();
   boolean successfullyStarted=true;
   logger.info("Starting MultiplexedUDPReceiver receive UDP Thread.");
-  mulplexDataReceiver=new MultiplexedUDPReceiver(context);
+  MultiplexedPacketHandler multiplexedPacketHandlerBean=ApplicationContextUtils.getMultiplexedPacketHandler(context);
+  mulplexDataReceiver=new MultiplexedUDPReceiver(multiplexedPacketHandlerBean);
   Future<Boolean> startFuture=mulplexDataReceiver.start();
   try {
     successfullyStarted&=startFuture.get();

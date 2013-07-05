@@ -4,37 +4,9 @@
   }
   startLatch.countDown();
   while (state.get()) {
-    boolean success=false;
-    DatagramPacket packet=null;
-    try {
-      byte[] buffer=pool.getBuffer();
-      packet=new DatagramPacket(buffer,AcceptedSize);
-      try {
-        socket.receive(packet);
-      }
- catch (      SocketTimeoutException e) {
-        continue;
-      }
-      if (logger.isDebugEnabled()) {
-        logger.debug("DatagramPacket SocketAddress:" + packet.getSocketAddress() + " read size:"+ packet.getLength());
-        if (logger.isTraceEnabled()) {
-          logger.trace("dump packet:" + PacketUtils.dumpDatagramPacket(packet));
-        }
-      }
-      success=true;
-    }
- catch (    IOException e) {
-      if (state.get() == false) {
-      }
- else {
-        logger.error(e.getMessage(),e);
-      }
+    DatagramPacket packet=read0();
+    if (packet == null) {
       continue;
-    }
- finally {
-      if (!success) {
-        pool.returnPacket(packet.getData());
-      }
     }
     if (logger.isDebugEnabled()) {
       logger.debug("pool getActiveCount:{}",worker.getActiveCount());
