@@ -2,7 +2,7 @@
   if (buf == null) {
     throw new NullPointerException("buf must not be null");
   }
-  if (buf.length < offset + 8) {
+  if (buf.length < offset + LONG_BYTE_LENGTH) {
     throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 8));
   }
   buf[offset++]=(byte)(value >> 56);
