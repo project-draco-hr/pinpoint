@@ -1,4 +1,7 @@
 {
+  if (!state.compareAndSet(RUN,CLOSED)) {
+    return;
+  }
   StreamChannelManager streamChannelManager=this.streamChannelManager;
   if (streamChannelManager != null) {
     streamChannelManager.closeChannel(channelId);

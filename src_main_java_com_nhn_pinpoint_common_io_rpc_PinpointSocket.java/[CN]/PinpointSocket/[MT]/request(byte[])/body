@@ -1,4 +1,7 @@
 {
+  if (bytes == null) {
+    throw new NullPointerException("bytes");
+  }
   ensureOpen();
   RequestPacket request=new RequestPacket(bytes);
   final DefaultFuture<ResponseMessage> messageFuture=this.requestResponseManager.register(request,this.timeoutMillis);

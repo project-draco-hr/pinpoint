@@ -1,15 +1,24 @@
 {
   Object message=e.getMessage();
-  if (message instanceof SendPacket) {
-    listener.handleSend((SendPacket)message,e.getChannel());
-  }
- else   if (message instanceof RequestPacket) {
-    listener.handleRequest((RequestPacket)message,e.getChannel());
-  }
- else   if (message instanceof StreamPacket) {
-    listener.handleStream((StreamPacket)message,e.getChannel());
-  }
- else {
-    logger.error("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
-  }
+  if (message instanceof Packet) {
+    final Packet packet=(Packet)message;
+    final short packetType=packet.getPacketType();
+switch (packetType) {
+case PacketType.APPLICATION_SEND:
+      listener.handleSend((SendPacket)message,e.getChannel());
+    return;
+case PacketType.APPLICATION_REQUEST:
+  listener.handleRequest((RequestPacket)message,e.getChannel());
+return;
+case PacketType.APPLICATION_STREAM_CREATE:
+case PacketType.APPLICATION_STREAM_CLOSE:
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+case PacketType.APPLICATION_STREAM_RESPONSE:
+listener.handleStream((StreamPacket)message,e.getChannel());
+return;
+default :
+logger.error("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
+}
+}
 }

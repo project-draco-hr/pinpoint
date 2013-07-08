@@ -1,10 +1,10 @@
 {
   if (!state.compareAndSet(NONE,OPEN)) {
-    throw new IllegalStateException("invalid state");
+    throw new IllegalStateException("invalid state:" + state.get());
   }
   StreamCreatePacket streamCreatePacket=new StreamCreatePacket(channelId,bytes);
-  final DefaultFuture<StreamChannel> future=new DefaultFuture<StreamChannel>();
-  future.setFailureEventHandler(new FailureEventHandler(){
+  this.openLatch=new DefaultFuture<StreamCreateResponse>();
+  openLatch.setFailureEventHandler(new FailureEventHandler(){
     @Override public boolean fireFailure(){
       streamChannelManager.closeChannel(channelId);
       return false;
@@ -23,5 +23,5 @@
   if (!state.compareAndSet(OPEN,OPEN_AWAIT)) {
     throw new IllegalStateException("invalid state");
   }
-  return future;
+  return openLatch;
 }

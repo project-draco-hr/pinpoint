@@ -1,3 +1,16 @@
 {
-  return true;
+  final short packetType=packet.getPacketType();
+switch (packetType) {
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+    logger.info("APPLICATION_STREAM_CREATE_SUCCESS");
+  StreamCreateResponse success=new StreamCreateResponse(true);
+success.setMessage(packet.getPayload());
+return openChannel(RUN,success);
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+logger.info("APPLICATION_STREAM_CREATE_FAIL");
+StreamCreateResponse failResult=new StreamCreateResponse(false);
+failResult.setMessage(packet.getPayload());
+return openChannel(CLOSED,failResult);
+}
+return false;
 }

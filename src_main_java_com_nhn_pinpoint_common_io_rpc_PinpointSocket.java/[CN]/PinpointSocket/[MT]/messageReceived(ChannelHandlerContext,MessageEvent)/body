@@ -1,18 +1,24 @@
 {
   final Object message=e.getMessage();
-  if (message instanceof ResponsePacket) {
-    requestResponseManager.messageReceived((ResponsePacket)message,e.getChannel());
+  if (message instanceof Packet) {
+    Packet packet=(Packet)message;
+    final short packetType=packet.getPacketType();
+switch (packetType) {
+case PacketType.APPLICATION_RESPONSE:
+      requestResponseManager.messageReceived((ResponsePacket)message,e.getChannel());
     return;
-  }
- else   if (message instanceof RequestPacket) {
-    requestResponseManager.messageReceived((RequestPacket)message,e.getChannel());
-    return;
-  }
- else   if (message instanceof StreamCreateResultPacket) {
-    streamChannelManager.messageReceived((StreamCreateResultPacket)message,e.getChannel());
-    return;
-  }
- else {
-    logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
-  }
+case PacketType.APPLICATION_REQUEST:
+  requestResponseManager.messageReceived((RequestPacket)message,e.getChannel());
+return;
+case PacketType.APPLICATION_STREAM_CREATE:
+case PacketType.APPLICATION_STREAM_CLOSE:
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+case PacketType.APPLICATION_STREAM_RESPONSE:
+streamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
+return;
+default :
+logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+}
+}
 }
