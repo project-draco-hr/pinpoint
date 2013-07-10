@@ -2,10 +2,10 @@
   if (!state.compareAndSet(RUN,CLOSED)) {
     return false;
   }
-  ClientStreamChannelManager clientStreamChannelManager=this.clientStreamChannelManager;
-  if (clientStreamChannelManager != null) {
-    clientStreamChannelManager.closeChannel(channelId);
-    this.clientStreamChannelManager=null;
+  StreamChannelManager streamChannelManager=this.streamChannelManager;
+  if (streamChannelManager != null) {
+    streamChannelManager.closeChannel(channelId);
+    this.streamChannelManager=null;
   }
   return true;
 }

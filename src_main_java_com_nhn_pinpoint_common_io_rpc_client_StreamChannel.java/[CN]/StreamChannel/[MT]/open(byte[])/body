@@ -6,7 +6,7 @@
   this.openLatch=new DefaultFuture<StreamCreateResponse>();
   openLatch.setFailureEventHandler(new FailureEventHandler(){
     @Override public boolean fireFailure(){
-      clientStreamChannelManager.closeChannel(channelId);
+      streamChannelManager.closeChannel(channelId);
       return false;
     }
   }

@@ -4,11 +4,11 @@
   }
  catch (  InterruptedException e) {
     Thread.currentThread().interrupt();
-    throw new PinpointSocketException(e);
+    return channelFuture.isSuccess();
   }
   boolean success=channelFuture.isSuccess();
   if (success) {
-    return;
+    return true;
   }
  else {
     final Throwable cause=channelFuture.getCause();
