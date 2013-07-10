@@ -1,5 +1,6 @@
 {
   List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
+  Integer annotationSeq=spanAlignList.size() + 1;
   for (  SpanAlign spanAlign : spanAlignList) {
     if (spanAlign.isSpan()) {
       SpanBo spanBo=spanAlign.getSpanBo();
@@ -9,22 +10,22 @@
       String method=AnnotationUtils.findApiAnnotation(spanBo.getAnnotationBoList());
       if (method != null) {
         ApiDescription apiDescription=apiDescriptionParser.parse(method);
-        Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
+        Record record=new Record(spanAlign.getDepth(),spanAlign.getSequence(),spanAlign.getParentSequence(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
       }
  else {
         AnnotationKey apiMetaDataError=AnnotationUtils.getApiMetaDataError(spanBo.getAnnotationBoList());
-        Record record=new Record(spanAlign.getDepth(),true,apiMetaDataError.getValue(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
+        Record record=new Record(spanAlign.getDepth(),spanAlign.getSequence(),spanAlign.getParentSequence(),true,apiMetaDataError.getValue(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null);
         record.setSimpleClassName("");
         record.setFullApiDescription("");
         recordList.add(record);
       }
-      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBo.getAnnotationBoList());
+      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,annotationSeq++,spanAlign.getSequence(),spanBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
       if (spanBo.getRemoteAddr() != null) {
-        Record remoteAddress=createParameterRecord(spanAlign.getDepth() + 1,"REMOTE_ADDRESS",spanBo.getRemoteAddr());
+        Record remoteAddress=createParameterRecord(spanAlign.getDepth() + 1,annotationSeq++,spanAlign.getSequence(),"REMOTE_ADDRESS",spanBo.getRemoteAddr());
         recordList.add(remoteAddress);
       }
     }
@@ -37,7 +38,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
+        Record record=new Record(spanAlign.getDepth(),spanAlign.getSequence(),spanAlign.getParentSequence(),true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
@@ -47,12 +48,12 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),true,apiMetaDataError.getValue(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
+        Record record=new Record(spanAlign.getDepth(),spanAlign.getSequence(),spanAlign.getParentSequence(),true,apiMetaDataError.getValue(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId);
         record.setSimpleClassName("");
         record.setFullApiDescription(method);
         recordList.add(record);
       }
-      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanEventBo.getAnnotationBoList());
+      List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,annotationSeq++,spanAlign.getSequence(),spanEventBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
     }
   }
