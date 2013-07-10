@@ -1,0 +1,28 @@
+{
+  ChannelContext context=(ChannelContext)channel.getAttachment();
+  if (packet instanceof StreamCreatePacket) {
+    try {
+      ServerStreamChannel streamChannel=context.createChannel(packet.getChannelId(),channel);
+      boolean success=streamChannel.receiveChannelCreate((StreamCreatePacket)packet);
+      if (success) {
+        messageListener.handleStream(packet,streamChannel);
+      }
+    }
+ catch (    PinpointSocketException e) {
+      logger.warn("channel create fail. channel:{} Caused:{}",channel,e);
+    }
+  }
+ else   if (packet instanceof StreamClosePacket) {
+    ServerStreamChannel streamChannel=context.createChannel(packet.getChannelId(),channel);
+    boolean close=streamChannel.close();
+    if (close) {
+      messageListener.handleStream(packet,streamChannel);
+    }
+ else {
+      logger.warn("invalid streamClosePacket. already close. channel:{} Caused:{}",channel);
+    }
+  }
+ else {
+    logger.warn("invalid streamPacket. channel:{} Caused:{}",channel);
+  }
+}

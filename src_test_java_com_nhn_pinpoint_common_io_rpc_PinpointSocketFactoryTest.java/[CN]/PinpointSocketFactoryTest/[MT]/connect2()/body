@@ -1,0 +1,40 @@
+{
+  PinpointServerSocket ss=new PinpointServerSocket();
+  ss.setMessageListener(new TestSeverMessageListener());
+  ss.bind("localhost",10234);
+  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  try {
+    PinpointSocket socket=pinpointSocketFactory.connect("localhost",10234);
+    socket.send(new byte[20]);
+    byte[] bytes=new byte[10];
+    bytes[0]=1;
+    Future<ResponseMessage> request=socket.request(bytes);
+    request.await();
+    ResponseMessage message=request.getResult();
+    Assert.assertArrayEquals(message.getMessage(),bytes);
+    socket.sendSync(new byte[20]);
+    StreamChannel streamChannel=socket.createStreamChannel();
+    byte[] openBytes=new byte[31];
+    final CountDownLatch latch=new CountDownLatch(3);
+    final List<byte[]> list=Collections.synchronizedList(new ArrayList<byte[]>());
+    streamChannel.setStreamChannelMessageListener(new StreamChannelMessageListener(){
+      @Override public void handleStream(      StreamChannel streamChannel,      byte[] bytes){
+        list.add(bytes);
+        latch.countDown();
+      }
+    }
+);
+    Future<StreamCreateResponse> open=streamChannel.open(new byte[31]);
+    open.await();
+    StreamCreateResponse response=open.getResult();
+    Assert.assertTrue(response.isSuccess());
+    Assert.assertArrayEquals(response.getMessage(),openBytes);
+    latch.await();
+    Assert.assertEquals(list.size(),3);
+    socket.close();
+  }
+  finally {
+    pinpointSocketFactory.release();
+    ss.close();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  final int channelId=streamPacket.getChannelId();
+  final StreamChannel streamChannel=findStreamChannel(channelId);
+  if (streamChannel == null) {
+    logger.warn("streamChannel not found. channelId:{}",streamPacket.getChannelId());
+    return false;
+  }
+  return streamChannel.receiveStreamPacket(streamPacket);
+}

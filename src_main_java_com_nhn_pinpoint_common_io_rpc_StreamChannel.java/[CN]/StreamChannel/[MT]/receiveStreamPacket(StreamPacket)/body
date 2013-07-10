@@ -11,6 +11,13 @@ logger.info("APPLICATION_STREAM_CREATE_FAIL");
 StreamCreateResponse failResult=new StreamCreateResponse(false);
 failResult.setMessage(packet.getPayload());
 return openChannel(CLOSED,failResult);
+case PacketType.APPLICATION_STREAM_RESPONSE:
+logger.info("APPLICATION_STREAM_RESPONSE");
+StreamResponsePacket streamResponsePacket=(StreamResponsePacket)packet;
+StreamChannelMessageListener streamChannelMessageListener=this.streamChannelMessageListener;
+if (streamChannelMessageListener != null) {
+streamChannelMessageListener.handleStream(this,streamResponsePacket.getPayload());
+}
 }
 return false;
 }

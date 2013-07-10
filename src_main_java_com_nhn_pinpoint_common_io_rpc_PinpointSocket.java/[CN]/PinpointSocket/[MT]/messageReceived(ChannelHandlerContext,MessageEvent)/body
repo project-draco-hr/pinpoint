@@ -15,10 +15,10 @@ case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-streamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
+clientStreamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
 return;
 default :
-logger.error("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+logger.warn("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
 }
 }
 }

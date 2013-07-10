@@ -6,12 +6,12 @@
   this.openLatch=new DefaultFuture<StreamCreateResponse>();
   openLatch.setFailureEventHandler(new FailureEventHandler(){
     @Override public boolean fireFailure(){
-      streamChannelManager.closeChannel(channelId);
+      clientStreamChannelManager.closeChannel(channelId);
       return false;
     }
   }
 );
-  ChannelFuture channelFuture=this.streamChannelManager.writeStreamPacket(streamCreatePacket);
+  ChannelFuture channelFuture=this.channel.write(streamCreatePacket);
   channelFuture.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
       if (!future.isSuccess()) {

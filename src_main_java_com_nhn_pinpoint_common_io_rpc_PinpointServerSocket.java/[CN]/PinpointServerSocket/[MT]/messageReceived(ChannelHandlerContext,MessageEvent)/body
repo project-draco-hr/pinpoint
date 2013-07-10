@@ -3,22 +3,29 @@
   if (message instanceof Packet) {
     final Packet packet=(Packet)message;
     final short packetType=packet.getPacketType();
+    final Channel channel=e.getChannel();
 switch (packetType) {
 case PacketType.APPLICATION_SEND:
-      listener.handleSend((SendPacket)message,e.getChannel());
-    return;
+      logger.debug("messsageReceived:{} channel:{}",message,channel);
+    messageListener.handleSend((SendPacket)message,channel);
+  return;
 case PacketType.APPLICATION_REQUEST:
-  listener.handleRequest((RequestPacket)message,e.getChannel());
+logger.debug("messsageReceived:{} channel:{}",message,channel);
+messageListener.handleRequest((RequestPacket)message,e.getChannel());
 return;
 case PacketType.APPLICATION_STREAM_CREATE:
 case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-listener.handleStream((StreamPacket)message,e.getChannel());
+logger.debug("messsageReceived:{} channel:{}",message,channel);
+handleStreamPacket((StreamPacket)message,e.getChannel());
 return;
 default :
-logger.error("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
+logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
 }
+}
+ else {
+logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
 }
 }
