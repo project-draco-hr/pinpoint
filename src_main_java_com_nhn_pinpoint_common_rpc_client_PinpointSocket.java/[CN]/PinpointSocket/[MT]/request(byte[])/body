@@ -4,7 +4,8 @@
   }
   ensureOpen();
   RequestPacket request=new RequestPacket(bytes);
-  final DefaultFuture<ResponseMessage> messageFuture=this.requestResponseManager.register(request,this.timeoutMillis);
+  final Channel channel=this.channel;
+  final DefaultFuture<ResponseMessage> messageFuture=getRequestManger(channel).register(request,this.timeoutMillis);
   ChannelFuture write=this.channel.write(request);
   write.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {

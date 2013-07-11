@@ -2,6 +2,9 @@
   if (!state.compareAndSet(STATE_RUN,STATE_CLOSED)) {
     return;
   }
-  this.requestResponseManager.close();
-  this.channel.close();
+  Channel channel=this.channel;
+  ChannelContext ctx=getChannelContext(channel);
+  ctx.getRequestManager().close();
+  ctx.getStreamChannelManager().close();
+  channel.close();
 }

@@ -1,0 +1,8 @@
+{
+  if (!state.compareAndSet(RUN,CLOSED)) {
+    return false;
+  }
+  StreamClosePacket closePacket=new StreamClosePacket(this.channelId);
+  this.channel.write(closePacket);
+  return true;
+}
