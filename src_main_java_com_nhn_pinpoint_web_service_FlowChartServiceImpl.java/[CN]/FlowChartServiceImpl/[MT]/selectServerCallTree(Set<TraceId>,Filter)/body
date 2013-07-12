@@ -2,17 +2,17 @@
   StopWatch watch=new StopWatch();
   watch.start();
   List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);
-  List<SpanBo> transaction=new ArrayList<SpanBo>();
+  List<SpanBo> filteredTransaction=new ArrayList<SpanBo>();
   for (  List<SpanBo> t : transactionList) {
     if (filter.include(t)) {
       for (      SpanBo span : t) {
-        transaction.add(span);
+        filteredTransaction.add(span);
       }
     }
   }
-  Set<String> endPoints=createUniqueEndpoint(transaction);
-  ServerCallTree tree=createServerCallTree(transaction,new ApplicationIdNodeSelector());
-  List<SpanEventBo> spanEventBoList=findRecordStatisticsSpanEventData(transaction,endPoints);
+  Set<String> endPoints=createUniqueEndpoint(filteredTransaction);
+  ServerCallTree tree=createServerCallTree(filteredTransaction,new ApplicationIdNodeSelector());
+  List<SpanEventBo> spanEventBoList=findRecordStatisticsSpanEventData(filteredTransaction,endPoints);
   tree.addSpanEventList(spanEventBoList);
   tree.build();
   watch.stop();

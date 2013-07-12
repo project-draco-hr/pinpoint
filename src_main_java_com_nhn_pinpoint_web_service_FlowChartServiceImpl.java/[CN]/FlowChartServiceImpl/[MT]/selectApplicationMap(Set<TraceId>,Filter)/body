@@ -1,0 +1,74 @@
+{
+  StopWatch watch=new StopWatch();
+  watch.start();
+  List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);
+  Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
+  Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
+  Map<Integer,SpanBo> transactionSpanMap=new HashMap<Integer,SpanBo>();
+  for (  List<SpanBo> transaction : transactionList) {
+    if (!filter.include(transaction)) {
+      continue;
+    }
+    transactionSpanMap.clear();
+    for (    SpanBo span : transaction) {
+      transactionSpanMap.put(span.getSpanId(),span);
+    }
+    for (    SpanBo span : transaction) {
+      String from, to;
+      ServiceType fromServiceType, toServiceType;
+      SpanBo parentSpan=transactionSpanMap.get(span.getParentSpanId());
+      if (span.isRoot() || parentSpan == null) {
+        from=ServiceType.CLIENT.toString() + "-" + span.getApplicationId();
+        fromServiceType=ServiceType.CLIENT;
+      }
+ else {
+        from=parentSpan.getApplicationId();
+        fromServiceType=parentSpan.getServiceType();
+      }
+      to=span.getApplicationId();
+      toServiceType=span.getServiceType();
+      if (!toServiceType.isRecordStatistics()) {
+        continue;
+      }
+      String statId=TransactionFlowStatistics.makeId(from,fromServiceType,to,toServiceType);
+      TransactionFlowStatistics stat=(statisticsMap.containsKey(statId) ? statisticsMap.get(statId) : new TransactionFlowStatistics(from,fromServiceType,to,toServiceType));
+      ResponseHistogram histogram=stat.getHistogram();
+      int slot=toServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
+      histogram.addSample((short)slot,1);
+      statisticsData.add(stat);
+      statisticsMap.put(statId,stat);
+      List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
+      if (spanEventBoList == null || spanEventBoList.isEmpty()) {
+        continue;
+      }
+      from=span.getApplicationId();
+      fromServiceType=span.getServiceType();
+      for (      SpanEventBo spanEvent : spanEventBoList) {
+        to=spanEvent.getDestinationId();
+        toServiceType=spanEvent.getServiceType();
+        if (!toServiceType.isRecordStatistics()) {
+          continue;
+        }
+        if (toServiceType.isRpcClient()) {
+          if (transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
+            continue;
+          }
+ else {
+            toServiceType=ServiceType.UNKNOWN_CLOUD;
+          }
+        }
+        String statId2=TransactionFlowStatistics.makeId(from,fromServiceType,to,toServiceType);
+        TransactionFlowStatistics stat2=(statisticsMap.containsKey(statId2) ? statisticsMap.get(statId2) : new TransactionFlowStatistics(from,fromServiceType,to,toServiceType));
+        ResponseHistogram histogram2=stat2.getHistogram();
+        int slot2=toServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
+        histogram2.addSample((short)slot2,1);
+        statisticsData.add(stat2);
+        statisticsMap.put(statId2,stat2);
+      }
+    }
+  }
+  ApplicationMap map=new ApplicationMap(statisticsData).build();
+  watch.stop();
+  logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
+  return map;
+}
