@@ -4,5 +4,8 @@
     logger.debug("channelClosed {}",channel);
   }
   final ChannelContext channelContext=getChannelContext(channel);
+  if (!channelContext.isClosePacketReceived()) {
+    logger.info("Unexpected Client channelClosed {}",channel);
+  }
   channelContext.closeAllStreamChannel();
 }

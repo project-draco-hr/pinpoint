@@ -25,6 +25,11 @@ case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
   handleStreamPacket((StreamPacket)message,channel);
 return;
+case PacketType.CONTROL_CLOSE:
+{
+closeChannel(channel);
+return;
+}
 default :
 logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
 }

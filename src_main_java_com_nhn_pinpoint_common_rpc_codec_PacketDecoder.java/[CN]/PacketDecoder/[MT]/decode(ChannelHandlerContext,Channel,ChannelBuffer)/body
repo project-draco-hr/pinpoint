@@ -21,6 +21,8 @@ case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 return readStreamCreateFail(packetType,buffer);
 case PacketType.APPLICATION_STREAM_RESPONSE:
 return readStreamResponse(packetType,buffer);
+case PacketType.CONTROL_CLOSE:
+return readControlClose(packetType,buffer);
 }
 logger.error("invalid packetType received. packetType:{}, connection:{}",packetType,channel.getRemoteAddress());
 channel.close();
