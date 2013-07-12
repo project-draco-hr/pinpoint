@@ -1,11 +1,3 @@
 {
-  if (!state.compareAndSet(RUN,CLOSED)) {
-    return false;
-  }
-  ServerStreamChannelManager serverStreamChannelManager=this.serverStreamChannelManager;
-  if (serverStreamChannelManager != null) {
-    serverStreamChannelManager.closeChannel(channelId);
-    this.serverStreamChannelManager=null;
-  }
-  return true;
+  return close0(true);
 }

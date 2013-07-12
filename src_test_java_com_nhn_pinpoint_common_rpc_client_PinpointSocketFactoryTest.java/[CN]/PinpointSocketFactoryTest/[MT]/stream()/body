@@ -8,7 +8,7 @@
     PinpointSocket socket=pinpointSocketFactory.connect("localhost",10234);
     StreamChannel streamChannel=socket.createStreamChannel();
     byte[] openBytes=TestByteUtils.createRandomByte(30);
-    RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(3);
+    RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
     streamChannel.setStreamChannelMessageListener(clientListener);
     Future<StreamCreateResponse> open=streamChannel.open(openBytes);
     open.await();

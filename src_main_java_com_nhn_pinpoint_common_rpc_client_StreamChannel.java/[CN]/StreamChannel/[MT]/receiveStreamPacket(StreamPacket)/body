@@ -2,21 +2,35 @@
   final short packetType=packet.getPacketType();
 switch (packetType) {
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
-    logger.info("APPLICATION_STREAM_CREATE_SUCCESS");
+    logger.debug("APPLICATION_STREAM_CREATE_SUCCESS {}",channel);
   StreamCreateResponse success=new StreamCreateResponse(true);
 success.setMessage(packet.getPayload());
 return openChannel(RUN,success);
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
-logger.info("APPLICATION_STREAM_CREATE_FAIL");
+logger.debug("APPLICATION_STREAM_CREATE_FAIL {}",channel);
 StreamCreateResponse failResult=new StreamCreateResponse(false);
 failResult.setMessage(packet.getPayload());
 return openChannel(CLOSED,failResult);
 case PacketType.APPLICATION_STREAM_RESPONSE:
-logger.info("APPLICATION_STREAM_RESPONSE");
+{
+logger.debug("APPLICATION_STREAM_RESPONSE {}",channel);
 StreamResponsePacket streamResponsePacket=(StreamResponsePacket)packet;
 StreamChannelMessageListener streamChannelMessageListener=this.streamChannelMessageListener;
 if (streamChannelMessageListener != null) {
-streamChannelMessageListener.handleStream(this,streamResponsePacket.getPayload());
+streamChannelMessageListener.handleStreamResponse(this,streamResponsePacket.getPayload());
+}
+return true;
+}
+case PacketType.APPLICATION_STREAM_CLOSE:
+{
+logger.debug("APPLICATION_STREAM_CLOSE {}",channel);
+this.closeInternal();
+StreamClosePacket streamClosePacket=(StreamClosePacket)packet;
+StreamChannelMessageListener streamChannelMessageListener=this.streamChannelMessageListener;
+if (streamChannelMessageListener != null) {
+streamChannelMessageListener.handleClose(this,streamClosePacket.getPayload());
+}
+return true;
 }
 }
 return false;

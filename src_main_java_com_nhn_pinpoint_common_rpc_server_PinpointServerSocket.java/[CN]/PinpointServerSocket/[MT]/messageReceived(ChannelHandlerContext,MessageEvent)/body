@@ -8,13 +8,13 @@
 switch (packetType) {
 case PacketType.APPLICATION_SEND:
 {
-        SocketChannel socketChannel=getChannelContext(e.getChannel()).getSocketChannel();
+        SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
         messageListener.handleSend((SendPacket)message,socketChannel);
         return;
       }
 case PacketType.APPLICATION_REQUEST:
 {
-      SocketChannel socketChannel=getChannelContext(e.getChannel()).getSocketChannel();
+      SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
       messageListener.handleRequest((RequestPacket)message,socketChannel);
       return;
     }
@@ -23,7 +23,7 @@ case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-  handleStreamPacket((StreamPacket)message,e.getChannel());
+  handleStreamPacket((StreamPacket)message,channel);
 return;
 default :
 logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());

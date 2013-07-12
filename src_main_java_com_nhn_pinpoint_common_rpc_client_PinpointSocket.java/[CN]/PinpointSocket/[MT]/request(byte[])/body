@@ -6,7 +6,7 @@
   RequestPacket request=new RequestPacket(bytes);
   final Channel channel=this.channel;
   final DefaultFuture<ResponseMessage> messageFuture=getRequestManger(channel).register(request,this.timeoutMillis);
-  ChannelFuture write=this.channel.write(request);
+  ChannelFuture write=channel.write(request);
   write.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
       if (!future.isSuccess()) {
