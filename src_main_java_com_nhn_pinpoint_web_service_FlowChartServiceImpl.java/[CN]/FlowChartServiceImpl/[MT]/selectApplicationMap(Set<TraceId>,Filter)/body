@@ -30,7 +30,7 @@
       if (!toServiceType.isRecordStatistics()) {
         continue;
       }
-      String statId=TransactionFlowStatistics.makeId(from,fromServiceType,to,toServiceType);
+      String statId=TransactionFlowStatisticsUtils.makeId(from,fromServiceType,to,toServiceType);
       TransactionFlowStatistics stat=(statisticsMap.containsKey(statId) ? statisticsMap.get(statId) : new TransactionFlowStatistics(from,fromServiceType,to,toServiceType));
       ResponseHistogram histogram=stat.getHistogram();
       int slot=toServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
@@ -57,7 +57,7 @@
             toServiceType=ServiceType.UNKNOWN_CLOUD;
           }
         }
-        String statId2=TransactionFlowStatistics.makeId(from,fromServiceType,to,toServiceType);
+        String statId2=TransactionFlowStatisticsUtils.makeId(from,fromServiceType,to,toServiceType);
         TransactionFlowStatistics stat2=(statisticsMap.containsKey(statId2) ? statisticsMap.get(statId2) : new TransactionFlowStatistics(from,fromServiceType,to,toServiceType));
         ResponseHistogram histogram2=stat2.getHistogram();
         int slot2=toServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
