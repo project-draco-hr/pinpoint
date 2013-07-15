@@ -1,0 +1,10 @@
+{
+  List<Long> list=values.get(id);
+  if (list == null) {
+    list=makeDefaultValueList();
+  }
+  int index=TimeWindowUtils.getWindowIndex(from,windowSize,timestamp);
+  long value=list.get(index) + count;
+  list.add(index,value);
+  values.put(id,list);
+}

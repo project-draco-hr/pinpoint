@@ -1,6 +1,6 @@
 {
   logger.info("Add sample. timeslot=" + timestamp + ", responseTimeslot="+ responseTimeslot+ ", callCount="+ callCount+ ", failed="+ failed);
-  timestamp=refineTimestamp(timestamp);
+  timestamp=TimeWindowUtils.refineTimestamp(from,to,timestamp);
   if (failed) {
     failedCount+=callCount;
   }
