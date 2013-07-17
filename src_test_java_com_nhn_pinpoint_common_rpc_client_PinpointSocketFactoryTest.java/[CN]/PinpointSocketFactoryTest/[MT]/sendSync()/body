@@ -5,7 +5,9 @@
   PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
   try {
     PinpointSocket socket=pinpointSocketFactory.connect("localhost",10234);
+    logger.info("send1");
     socket.send(new byte[20]);
+    logger.info("send2");
     socket.sendSync(new byte[20]);
     socket.close();
   }

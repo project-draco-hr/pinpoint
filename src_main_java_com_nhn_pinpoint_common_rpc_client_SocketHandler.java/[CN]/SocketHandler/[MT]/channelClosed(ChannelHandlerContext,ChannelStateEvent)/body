@@ -1,0 +1,16 @@
+{
+  logger.debug("channelClosed {}",e.getChannel());
+  int currentState=state.get();
+  if (currentState == STATE_CLOSED) {
+    logger.debug("channelClosed state:CLOSED {}",e.getValue());
+    return;
+  }
+  if (currentState == STATE_RUN || currentState == STATE_RECONNECT) {
+    if (currentState == STATE_RUN) {
+      state.set(STATE_RECONNECT);
+    }
+    logger.info("UnexpectedChannelClosed. reconnect channel:{}, {}, state:{}",new Object[]{e.getChannel(),socketAddress,state.get()});
+    this.pinpointSocketFactory.reconnect(this.pinpointSocket,this.socketAddress);
+    return;
+  }
+}

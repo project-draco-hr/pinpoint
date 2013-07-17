@@ -1,12 +1,4 @@
 {
-  if (!state.compareAndSet(STATE_RUN,STATE_CLOSED)) {
-    return;
-  }
-  final Channel channel=this.channel;
-  ClosePacket closePacket=new ClosePacket();
-  channel.write(closePacket);
-  ChannelContext ctx=getChannelContext(channel);
-  ctx.getRequestManager().close();
-  ctx.getStreamChannelManager().close();
-  channel.close();
+  closed=true;
+  socketHandler.close();
 }

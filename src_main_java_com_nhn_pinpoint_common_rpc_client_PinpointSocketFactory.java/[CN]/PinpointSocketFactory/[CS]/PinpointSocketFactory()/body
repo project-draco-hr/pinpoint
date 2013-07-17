@@ -3,4 +3,5 @@
   setOptions(bootstrap);
   addPipeline(bootstrap);
   this.bootstrap=bootstrap;
+  this.reconnector=Executors.newScheduledThreadPool(1,PinpointThreadFactory.createThreadFactory("socket-reconnector",true));
 }

@@ -1,0 +1,10 @@
+{
+  Channel channel=e.getChannel();
+  if (logger.isDebugEnabled()) {
+    logger.debug("channelOpen {}",channel);
+  }
+  ChannelContext context=createContext();
+  context.setSocketHandler(this);
+  channel.setAttachment(context);
+  this.channel=channel;
+}

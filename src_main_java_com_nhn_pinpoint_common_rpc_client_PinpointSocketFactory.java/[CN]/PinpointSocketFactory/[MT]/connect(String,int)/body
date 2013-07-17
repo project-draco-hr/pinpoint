@@ -1,21 +1,6 @@
 {
-  InetSocketAddress address=new InetSocketAddress(host,port);
-  ChannelFuture connectFuture=bootstrap.connect(address);
-  final PinpointSocket pinpointSocket=new PinpointSocket();
-  connectFuture.addListener(new ChannelFutureListener(){
-    @Override public void operationComplete(    ChannelFuture future) throws Exception {
-      Channel channel=future.getChannel();
-      ChannelPipeline pipeline=channel.getPipeline();
-      pipeline.addLast("logic",pinpointSocket);
-    }
-  }
-);
-  connectFuture.awaitUninterruptibly();
-  if (!connectFuture.isSuccess()) {
-    throw new PinpointSocketException("connect fail.",connectFuture.getCause());
-  }
-  Channel channel=connectFuture.getChannel();
-  pinpointSocket.setChannel(channel);
-  pinpointSocket.open();
+  SocketAddress address=new InetSocketAddress(host,port);
+  SocketHandler pinpoint=connectSocketHandler(address);
+  PinpointSocket pinpointSocket=new PinpointSocket(pinpoint);
   return pinpointSocket;
 }

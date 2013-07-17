@@ -1,20 +1,3 @@
 {
-  if (bytes == null) {
-    throw new NullPointerException("bytes");
-  }
-  ensureOpen();
-  RequestPacket request=new RequestPacket(bytes);
-  final Channel channel=this.channel;
-  final DefaultFuture<ResponseMessage> messageFuture=getRequestManger(channel).register(request,this.timeoutMillis);
-  ChannelFuture write=channel.write(request);
-  write.addListener(new ChannelFutureListener(){
-    @Override public void operationComplete(    ChannelFuture future) throws Exception {
-      if (!future.isSuccess()) {
-        Throwable cause=future.getCause();
-        messageFuture.setFailure(cause);
-      }
-    }
-  }
-);
-  return messageFuture;
+  return socketHandler.request(bytes);
 }
