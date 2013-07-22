@@ -7,7 +7,7 @@
       if (future.isSuccess()) {
         Channel channel=future.getChannel();
         logger.warn("reconnect success {}, {}",socketAddress,channel);
-        SocketHandler socketHandler=getPinpointSocket(channel);
+        SocketHandler socketHandler=getSocketHandler(channel);
         socketHandler.setPinpointSocketFactory(PinpointSocketFactory.this);
         pinpointSocket.replaceSocketHandler(socketHandler);
       }

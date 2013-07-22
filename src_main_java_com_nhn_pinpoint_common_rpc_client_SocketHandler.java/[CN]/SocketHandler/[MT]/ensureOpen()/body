@@ -1,7 +1,13 @@
 {
   final int currentState=state.get();
-  if (currentState != STATE_RUN) {
-    logger.info("state{}",currentState);
+  if (currentState == STATE_RUN) {
+    return;
+  }
+  if (currentState == STATE_CLOSED) {
     throw new PinpointSocketException("already closed");
   }
+ else   if (currentState == STATE_RECONNECT) {
+    throw new PinpointSocketException("reconnecting...");
+  }
+  throw new PinpointSocketException("invalid socket state:" + currentState);
 }

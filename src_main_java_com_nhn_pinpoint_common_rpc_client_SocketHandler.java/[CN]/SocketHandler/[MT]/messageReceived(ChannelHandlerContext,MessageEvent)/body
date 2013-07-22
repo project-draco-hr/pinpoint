@@ -1,22 +1,21 @@
 {
   final Object message=e.getMessage();
-  final ChannelContext channelContext=getChannelContext(e.getChannel());
   if (message instanceof Packet) {
     Packet packet=(Packet)message;
     final short packetType=packet.getPacketType();
 switch (packetType) {
 case PacketType.APPLICATION_RESPONSE:
-      channelContext.getRequestManager().messageReceived((ResponsePacket)message,e.getChannel());
+      this.requestManager.messageReceived((ResponsePacket)message,e.getChannel());
     return;
 case PacketType.APPLICATION_REQUEST:
-  channelContext.getRequestManager().messageReceived((RequestPacket)message,e.getChannel());
+  this.requestManager.messageReceived((RequestPacket)message,e.getChannel());
 return;
 case PacketType.APPLICATION_STREAM_CREATE:
 case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-channelContext.getStreamChannelManager().messageReceived((StreamPacket)message,e.getChannel());
+this.streamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
 return;
 default :
 logger.warn("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());

@@ -1,0 +1,13 @@
+{
+  RequestManager requestManager=new RequestManager(10);
+  try {
+    RequestPacket packet=new RequestPacket(1,new byte[0]);
+    DefaultFuture future=requestManager.register(packet,2000);
+    future.setFailure(new RuntimeException());
+    Future nullFuture=requestManager.removeMessageFuture(packet.getRequestId());
+    Assert.assertNull(nullFuture);
+  }
+  finally {
+    requestManager.close();
+  }
+}
