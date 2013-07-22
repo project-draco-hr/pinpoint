@@ -54,6 +54,7 @@
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
       tr.add(statId,span.getCollectorAcceptTime(),span.getElapsed(),1L);
+      tr.add(span.getApplicationId(),span.getCollectorAcceptTime(),span.getElapsed(),1L);
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
       if (spanEventBoList == null || spanEventBoList.isEmpty()) {
         continue;
@@ -83,6 +84,7 @@
         statisticsData.add(stat2);
         statisticsMap.put(statId2,stat2);
         tr.add(statId2,span.getStartTime() + spanEvent.getStartElapsed(),spanEvent.getEndElapsed(),1L);
+        tr.add(spanEvent.getDestinationId(),span.getCollectorAcceptTime(),span.getElapsed(),1L);
       }
     }
   }
