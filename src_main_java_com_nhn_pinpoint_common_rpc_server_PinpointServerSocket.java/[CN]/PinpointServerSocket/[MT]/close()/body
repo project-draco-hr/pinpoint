@@ -7,10 +7,11 @@ synchronized (this) {
   }
   if (serverChannel != null) {
     ChannelFuture close=serverChannel.close();
-    close.awaitUninterruptibly();
+    close.awaitUninterruptibly(3000,TimeUnit.MILLISECONDS);
     serverChannel=null;
   }
   if (bootstrap != null) {
     bootstrap.releaseExternalResources();
+    bootstrap=null;
   }
 }
