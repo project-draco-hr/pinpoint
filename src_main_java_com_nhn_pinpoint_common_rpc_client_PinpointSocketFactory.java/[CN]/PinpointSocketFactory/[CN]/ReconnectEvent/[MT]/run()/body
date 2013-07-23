@@ -12,8 +12,10 @@
         pinpointSocket.replaceSocketHandler(socketHandler);
       }
  else {
-        logger.warn("reconnect fail. {} Caused:{}",new Object[]{socketAddress,future.getCause().getMessage(),future.getCause()});
-        reconnect(pinpointSocket,socketAddress);
+        if (!pinpointSocket.isClosed()) {
+          logger.warn("reconnect fail. {} Caused:{}",new Object[]{socketAddress,future.getCause().getMessage(),future.getCause()});
+          reconnect(pinpointSocket,socketAddress);
+        }
       }
     }
   }

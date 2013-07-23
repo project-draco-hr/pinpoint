@@ -1,6 +1,6 @@
 {
   logger.error("UnexpectedError happened. event:{}",e,e.getCause());
-  state.set(STATE_CLOSED);
+  state.setState(State.CLOSED);
   Channel channel=e.getChannel();
   if (channel.isConnected()) {
     channel.close();

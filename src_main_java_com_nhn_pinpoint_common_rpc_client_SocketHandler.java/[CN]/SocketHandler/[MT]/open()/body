@@ -1,5 +1,6 @@
 {
-  if (!(this.state.compareAndSet(STATE_INIT,STATE_RUN))) {
-    throw new IllegalStateException("invalid open state:" + state.get());
+  if (!state.changeRun()) {
+    throw new IllegalStateException("invalid open state:" + state.getString());
   }
+  requestManager.timerStart();
 }
