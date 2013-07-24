@@ -6,10 +6,14 @@
   try {
     InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
     LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);
-    StandardServiceStartInterceptor start=new StandardServiceStartInterceptor(lifeCycleEventListener);
-    standardService.addInterceptor("start",null,start);
-    StandardServiceStopInterceptor stop=new StandardServiceStopInterceptor(lifeCycleEventListener);
-    standardService.addInterceptor("stop",null,stop);
+    if (standardService.hasDeclaredMethod("start",null) && standardService.hasDeclaredMethod("stop",null)) {
+      standardService.addInterceptor("start",null,new StandardServiceStartInterceptor(lifeCycleEventListener));
+      standardService.addInterceptor("stop",null,new StandardServiceStopInterceptor(lifeCycleEventListener));
+    }
+ else     if (standardService.hasDeclaredMethod("startInternal",null) && standardService.hasDeclaredMethod("stopInternal",null)) {
+      standardService.addInterceptor("startInternal",null,new StandardServiceStartInterceptor(lifeCycleEventListener));
+      standardService.addInterceptor("stopInternal",null,new StandardServiceStopInterceptor(lifeCycleEventListener));
+    }
     return standardService.toBytecode();
   }
  catch (  InstrumentException e) {

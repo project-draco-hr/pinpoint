@@ -1,7 +1,7 @@
 {
   try {
-    CatalinaAwaitInterceptor catalinaAwaitInterceptor=new CatalinaAwaitInterceptor(agent);
     InstrumentClass aClass=this.byteCodeInstrumentor.getClass(javassistClassName);
+    CatalinaAwaitInterceptor catalinaAwaitInterceptor=new CatalinaAwaitInterceptor(agent);
     aClass.addInterceptor("await",null,catalinaAwaitInterceptor);
     printClassConvertComplete(javassistClassName);
     return aClass.toBytecode();
