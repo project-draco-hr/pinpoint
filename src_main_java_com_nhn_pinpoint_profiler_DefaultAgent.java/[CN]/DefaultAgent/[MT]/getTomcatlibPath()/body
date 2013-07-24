@@ -7,10 +7,17 @@
   if (logger.isInfoEnabled()) {
     logger.info("CATALINA_HOME={}",catalinaHome);
   }
-  if (profilerConfig.getServiceType() == ServiceType.BLOC) {
+  File f1=new File(catalinaHome + "/server/lib/catalina.jar");
+  File f2=new File(catalinaHome + "/common/lib/servlet-api.jar");
+  if (f1.exists() && f2.exists() && f1.isFile()&& f2.isFile()) {
     return new String[]{catalinaHome + "/server/lib/catalina.jar",catalinaHome + "/common/lib/servlet-api.jar"};
   }
  else {
-    return new String[]{catalinaHome + "/lib/servlet-api.jar",catalinaHome + "/lib/catalina.jar"};
+    if (profilerConfig.getServiceType() == ServiceType.BLOC) {
+      return new String[]{catalinaHome + "/server/lib/catalina.jar",catalinaHome + "/common/lib/servlet-api.jar"};
+    }
+ else {
+      return new String[]{catalinaHome + "/lib/servlet-api.jar",catalinaHome + "/lib/catalina.jar"};
+    }
   }
 }
