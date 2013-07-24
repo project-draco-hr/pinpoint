@@ -3,5 +3,6 @@
   setOptions(bootstrap);
   addPipeline(bootstrap);
   this.bootstrap=bootstrap;
-  this.reconnector=Executors.newScheduledThreadPool(1,PinpointThreadFactory.createThreadFactory("socket-reconnector",true));
+  this.reconnector=new HashedWheelTimer(100,TimeUnit.MILLISECONDS);
+  this.reconnector.start();
 }

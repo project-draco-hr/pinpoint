@@ -1,4 +1,6 @@
 {
-  logger.info("socketHandler:{},",socketHandler);
+  if (socketHandler == null) {
+    return returnFailureFuture();
+  }
   return socketHandler.request(bytes);
 }

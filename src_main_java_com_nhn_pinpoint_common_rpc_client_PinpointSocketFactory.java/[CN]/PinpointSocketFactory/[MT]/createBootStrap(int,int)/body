@@ -1,4 +1,5 @@
 {
+  logger.debug("createBootStrap boss:{}, worker:{}",bossCount,workerCount);
   ExecutorService boss=Executors.newFixedThreadPool(bossCount,PinpointThreadFactory.createThreadFactory("socket-boss",true));
   ExecutorService worker=Executors.newFixedThreadPool(workerCount,PinpointThreadFactory.createThreadFactory("socket-worker",true));
   NioClientSocketChannelFactory nioClientSocketChannelFactory=new NioClientSocketChannelFactory(boss,worker);

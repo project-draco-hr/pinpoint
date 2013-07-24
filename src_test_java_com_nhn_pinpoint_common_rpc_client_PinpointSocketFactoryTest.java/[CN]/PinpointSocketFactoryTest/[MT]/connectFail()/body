@@ -1,7 +1,8 @@
 {
   PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
   try {
-    pinpointSocketFactory.connectSocketHandler("localhost",10234);
+    InetSocketAddress address=new InetSocketAddress("localhost",10234);
+    pinpointSocketFactory.connectSocketHandler(address);
     Assert.fail();
   }
  catch (  PinpointSocketException e) {

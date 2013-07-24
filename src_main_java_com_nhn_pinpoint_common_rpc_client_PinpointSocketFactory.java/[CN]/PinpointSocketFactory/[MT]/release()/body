@@ -8,5 +8,5 @@ synchronized (this) {
   if (bootstrap != null) {
     bootstrap.releaseExternalResources();
   }
-  List<Runnable> reconnectEvent=this.reconnector.shutdownNow();
+  Set<Timeout> stop=this.reconnector.stop();
 }
