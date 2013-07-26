@@ -1,0 +1,10 @@
+{
+  Key key=new Key(Bytes.concat(rowKey,columnName));
+  Map<Key,Value> c=getMaster();
+  if (c.containsKey(key)) {
+    c.get(key).addValue(value);
+  }
+ else {
+    c.put(key,new Value(rowKey,columnName,value));
+  }
+}

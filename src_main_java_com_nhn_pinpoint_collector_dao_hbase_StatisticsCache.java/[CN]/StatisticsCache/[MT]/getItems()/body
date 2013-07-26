@@ -1,0 +1,17 @@
+{
+  getSlave().clear();
+  master^=true;
+  List<Value> list=new ArrayList<Value>();
+  Set<Entry<Key,Value>> entrySet=getSlave().entrySet();
+  for (  Entry<Key,Value> entry : entrySet) {
+    Value itm=entry.getValue();
+    if (threshold < itm.getValue()) {
+      list.add(itm);
+    }
+ else {
+      add(itm.getRowKey(),itm.getColumnName(),itm.getValue());
+    }
+  }
+  getSlave().clear();
+  return list;
+}
