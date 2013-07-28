@@ -1,20 +1,5 @@
 {
-  executor.execute(new Worker(applicationMapStatisticsCalleeDao));
-  executor.execute(new Worker(applicationMapStatisticsCallerDao));
-  executor.execute(new Worker(applicationMapStatisticsDao));
-  Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
-    @Override public void run(){
-      logger.debug("Flush all statistics.");
-      if (applicationMapStatisticsDao != null) {
-        applicationMapStatisticsDao.flushAll();
-      }
-      if (applicationMapStatisticsCallerDao != null) {
-        applicationMapStatisticsCallerDao.flushAll();
-      }
-      if (applicationMapStatisticsCalleeDao != null) {
-        applicationMapStatisticsCalleeDao.flushAll();
-      }
-    }
-  }
-));
+  executor.scheduleAtFixedRate(new Worker(applicationMapStatisticsCalleeDao),0L,1000L,TimeUnit.MILLISECONDS);
+  executor.scheduleAtFixedRate(new Worker(applicationMapStatisticsCallerDao),0L,1000L,TimeUnit.MILLISECONDS);
+  executor.scheduleAtFixedRate(new Worker(applicationMapStatisticsDao),0L,1000L,TimeUnit.MILLISECONDS);
 }

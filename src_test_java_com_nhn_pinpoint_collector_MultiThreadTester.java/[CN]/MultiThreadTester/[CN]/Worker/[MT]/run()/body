@@ -1,0 +1,31 @@
+{
+  try {
+    startLatch.await();
+  }
+ catch (  InterruptedException e) {
+    Assert.fail(e.getMessage());
+  }
+  Random random=new Random();
+  while (true) {
+    if (id == 0) {
+      List<Value> items;
+      if (random.nextBoolean()) {
+        items=cache.getItems();
+      }
+ else {
+        items=cache.getAllItems();
+      }
+      for (      Value v : items) {
+        Assert.assertNotNull(v);
+      }
+    }
+ else     if (id == 1) {
+      System.out.println(cache.size());
+    }
+ else {
+      byte[] b=new byte[1];
+      random.nextBytes(b);
+      cache.add(b,b,1L);
+    }
+  }
+}

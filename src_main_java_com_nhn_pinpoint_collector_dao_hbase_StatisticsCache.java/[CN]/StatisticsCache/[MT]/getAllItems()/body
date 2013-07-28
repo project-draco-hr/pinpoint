@@ -1,12 +1,8 @@
 {
-  getSlave().clear();
-  master^=true;
-  List<Value> list=new ArrayList<Value>();
-  Set<Entry<Key,Value>> entrySet=getSlave().entrySet();
+  List<Value> result=new ArrayList<Value>();
+  Set<Entry<Key,Value>> entrySet=cache.entrySet();
   for (  Entry<Key,Value> entry : entrySet) {
-    Value itm=entry.getValue();
-    list.add(itm);
+    result.add(cache.remove(entry.getKey()));
   }
-  getSlave().clear();
-  return list;
+  return result;
 }
