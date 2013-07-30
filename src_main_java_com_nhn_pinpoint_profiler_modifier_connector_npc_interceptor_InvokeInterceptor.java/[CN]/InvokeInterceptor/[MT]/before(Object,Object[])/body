@@ -1,0 +1,36 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    logger.warn("Trace object is null");
+    return;
+  }
+  final com.nhncorp.lucy.npc.connector.NpcHessianConnector self=(com.nhncorp.lucy.npc.connector.NpcHessianConnector)target;
+  String objectName;
+  String methodName;
+  Charset charset;
+  Object params;
+  if (args.length == 3) {
+    objectName=(String)args[0];
+    methodName=(String)args[1];
+    charset=self.getDefaultCharset();
+    params=args[2];
+  }
+ else   if (args.length == 4) {
+    objectName=(String)args[0];
+    methodName=(String)args[1];
+    charset=(Charset)args[2];
+    params=args[3];
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  TraceID nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  trace.recordServiceType(ServiceType.NPC_CLIENT);
+  InetSocketAddress serverAddress=getServerAddress.invoke(target);
+  int port=serverAddress.getPort();
+  trace.recordDestinationId(serverAddress.getHostName() + ((port > 0) ? ":" + port : ""));
+  trace.recordAttribute(AnnotationKey.NPC_URL,serverAddress.toString());
+}
