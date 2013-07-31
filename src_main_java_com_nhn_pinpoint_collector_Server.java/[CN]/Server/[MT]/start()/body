@@ -1,23 +1,17 @@
 {
   logger.info("Initializing server components.");
-  context=createContext();
-  logger.info("Starting MultiplexedUDPReceiver receive UDP Thread.");
-  MultiplexedPacketHandler multiplexedPacketHandlerBean=ApplicationContextUtils.getMultiplexedPacketHandler(context);
-  mulplexDataReceiver=new MultiplexedUDPReceiver(multiplexedPacketHandlerBean);
-  Future<Boolean> startFuture=mulplexDataReceiver.start();
-  boolean successfullyStarted=true;
   try {
-    successfullyStarted=startFuture.get();
+    context=createContext();
+    DispatchHandler dispatchHandler=ApplicationContextUtils.getDispatchHandler(context);
+    CollectorConfiguration configuration=new CollectorConfiguration();
+    configuration.readConfigFile();
+    tcpServerStart(configuration,dispatchHandler);
+    udpServerStart(configuration,dispatchHandler);
   }
- catch (  Exception e) {
-    startFuture.cancel(true);
-    logger.error("Failed to start multiplexDataReceiver.");
-  }
-  if (successfullyStarted) {
-    logger.info("Server started successfully.");
-  }
- else {
-    logger.warn("Server started incompletely.");
+ catch (  Exception ex) {
+    logger.error("pinpoint collector start fail. Caused:{}",ex.getMessage(),ex);
+    shutdown();
+    return;
   }
   addShutdownHook();
 }

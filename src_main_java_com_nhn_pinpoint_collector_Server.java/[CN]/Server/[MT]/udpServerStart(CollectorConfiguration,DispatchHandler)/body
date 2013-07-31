@@ -1,0 +1,19 @@
+{
+  logger.info("Starting UDPReceiver.");
+  udpDataReceiver=new UDPReceiver(dispatchHandler,configuration.getCollectorUdpListenPort());
+  Future<Boolean> startFuture=udpDataReceiver.start();
+  boolean successfullyStarted=true;
+  try {
+    successfullyStarted=startFuture.get();
+  }
+ catch (  Exception e) {
+    startFuture.cancel(true);
+    logger.error("Failed to start multiplexDataReceiver.");
+  }
+  if (successfullyStarted) {
+    logger.info("Server started successfully.");
+  }
+ else {
+    logger.warn("Server started incompletely.");
+  }
+}

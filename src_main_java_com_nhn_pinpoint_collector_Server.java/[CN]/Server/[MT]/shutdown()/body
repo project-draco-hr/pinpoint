@@ -1,8 +1,13 @@
 {
-  if (mulplexDataReceiver != null) {
-    logger.info("Shutdown MultiplexedUDPReceiver Receive UDP Thread.");
-    mulplexDataReceiver.shutdown();
-    logger.info("Shutdown MultiplexedUDPReceiver complete.");
+  if (tcpReceiver != null) {
+    logger.info("Shutdown TCPReceiver.");
+    tcpReceiver.stop();
+    logger.info("Shutdown TCPReceiver complete.");
+  }
+  if (udpDataReceiver != null) {
+    logger.info("Shutdown UDPReceiver.");
+    udpDataReceiver.shutdown();
+    logger.info("Shutdown UDPReceiver complete.");
   }
   if (context != null) {
     context.close();
