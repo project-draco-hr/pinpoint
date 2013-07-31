@@ -4,8 +4,10 @@
   }
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    InstrumentClass resultSetClass=byteCodeInstrumentor.getClass(javassistClassName);
-    return resultSetClass.toBytecode();
+    InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    mysqlConnection.addInterceptor("connect",new String[]{"java.lang.String","java.util.Properties"},new DriverConnectInterceptor());
+    printClassConvertComplete(javassistClassName);
+    return mysqlConnection.toBytecode();
   }
  catch (  InstrumentException e) {
     if (logger.isWarnEnabled()) {

@@ -1,10 +1,8 @@
 {
-  Modifier cubridStatementModifier=new CubridStatementModifier(byteCodeInstrumentor,agent);
-  addModifier(cubridStatementModifier);
-  Modifier cubridPreparedStatementModifier=new CubridPreparedStatementModifier(byteCodeInstrumentor,agent);
-  addModifier(cubridPreparedStatementModifier);
-  Modifier cubridResultSetModifier=new CubridResultSetModifier(byteCodeInstrumentor,agent);
-  addModifier(cubridResultSetModifier);
-  Modifier cubridUStatementModifier=new CubridUStatementModifier(byteCodeInstrumentor,agent);
-  addModifier(cubridUStatementModifier);
+  addModifier(new CubridConnectionModifier(byteCodeInstrumentor,agent));
+  addModifier(new CubridDriverModifier(byteCodeInstrumentor,agent));
+  addModifier(new CubridStatementModifier(byteCodeInstrumentor,agent));
+  addModifier(new CubridPreparedStatementModifier(byteCodeInstrumentor,agent));
+  addModifier(new CubridResultSetModifier(byteCodeInstrumentor,agent));
+  addModifier(new CubridUStatementModifier(byteCodeInstrumentor,agent));
 }

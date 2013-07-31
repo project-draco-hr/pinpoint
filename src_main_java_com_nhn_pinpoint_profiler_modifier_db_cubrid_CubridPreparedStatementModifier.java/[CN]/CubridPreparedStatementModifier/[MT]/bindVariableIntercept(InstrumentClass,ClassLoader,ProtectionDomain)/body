@@ -1,0 +1,23 @@
+{
+  ExcludeBindVariableFilter exclude=new ExcludeBindVariableFilter(excludes);
+  List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
+  Interceptor interceptor=new PreparedStatementBindVariableInterceptor();
+  int interceptorId=-1;
+  for (  Method method : bindMethod) {
+    String methodName=method.getName();
+    String[] parameterType=JavaAssistUtils.getParameterType(method.getParameterTypes());
+    try {
+      if (interceptorId == -1) {
+        interceptorId=preparedStatement.addInterceptor(methodName,parameterType,interceptor);
+      }
+ else {
+        preparedStatement.reuseInterceptor(methodName,parameterType,interceptorId);
+      }
+    }
+ catch (    NotFoundInstrumentException e) {
+      if (logger.isTraceEnabled()) {
+        logger.trace("bindVariable api not found. Cause:" + e.getMessage(),e);
+      }
+    }
+  }
+}
