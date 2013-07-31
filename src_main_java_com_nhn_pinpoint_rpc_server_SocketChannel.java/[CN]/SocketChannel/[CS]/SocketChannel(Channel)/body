@@ -1,0 +1,14 @@
+{
+  if (channel == null) {
+    throw new NullPointerException("channel");
+  }
+  this.channel=channel;
+  this.responseWriteFail=new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (!future.isSuccess()) {
+        logger.warn("responseWriteFail. {}",channel);
+      }
+    }
+  }
+;
+}

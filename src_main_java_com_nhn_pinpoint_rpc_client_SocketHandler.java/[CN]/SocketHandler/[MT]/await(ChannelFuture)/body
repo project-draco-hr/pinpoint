@@ -1,0 +1,22 @@
+{
+  try {
+    channelFuture.await(3000,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+    return channelFuture.isSuccess();
+  }
+  boolean success=channelFuture.isSuccess();
+  if (success) {
+    return true;
+  }
+ else {
+    final Throwable cause=channelFuture.getCause();
+    if (cause != null) {
+      throw new PinpointSocketException(cause);
+    }
+ else {
+      throw new PinpointSocketException("io timeout");
+    }
+  }
+}

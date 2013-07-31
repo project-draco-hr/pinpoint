@@ -1,0 +1,12 @@
+{
+synchronized (this) {
+    if (released) {
+      return;
+    }
+    released=true;
+  }
+  if (bootstrap != null) {
+    bootstrap.releaseExternalResources();
+  }
+  Set<Timeout> stop=this.reconnector.stop();
+}

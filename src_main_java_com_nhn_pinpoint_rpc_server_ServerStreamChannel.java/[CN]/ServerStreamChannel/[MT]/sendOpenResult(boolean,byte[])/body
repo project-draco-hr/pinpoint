@@ -1,0 +1,18 @@
+{
+  if (success) {
+    if (!state.compareAndSet(OPEN_ARRIVED,RUN)) {
+      return false;
+    }
+    StreamCreateSuccessPacket streamCreateSuccessPacket=new StreamCreateSuccessPacket(channelId,bytes);
+    this.channel.write(streamCreateSuccessPacket);
+    return true;
+  }
+ else {
+    if (!state.compareAndSet(OPEN_ARRIVED,CLOSED)) {
+      return false;
+    }
+    StreamCreateFailPacket streamCreateFailPacket=new StreamCreateFailPacket(channelId,bytes);
+    this.channel.write(streamCreateFailPacket);
+    return true;
+  }
+}

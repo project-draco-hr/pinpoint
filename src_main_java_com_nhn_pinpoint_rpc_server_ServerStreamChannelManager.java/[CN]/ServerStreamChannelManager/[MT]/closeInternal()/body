@@ -1,0 +1,9 @@
+{
+  final boolean debugEnabled=logger.isDebugEnabled();
+  for (  Map.Entry<Integer,ServerStreamChannel> streamChannel : this.channelMap.entrySet()) {
+    streamChannel.getValue().closeInternal();
+    if (debugEnabled) {
+      logger.debug("ServerStreamChannel.closeInternal() id:{}, {}",streamChannel.getKey(),channel);
+    }
+  }
+}

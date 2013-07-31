@@ -1,0 +1,24 @@
+{
+  logger.warn("try reconnect {}",socketAddress);
+  final ChannelFuture channelFuture=connectAsync(socketAddress);
+  channelFuture.addListener(new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (future.isSuccess()) {
+        Channel channel=future.getChannel();
+        logger.warn("reconnect success {}, {}",socketAddress,channel);
+        SocketHandler socketHandler=getSocketHandler(channel);
+        socketHandler.setPinpointSocketFactory(PinpointSocketFactory.this);
+        socketHandler.open();
+        pinpointSocket.replaceSocketHandler(socketHandler);
+      }
+ else {
+        future.getChannel().close();
+        if (!pinpointSocket.isClosed()) {
+          logger.warn("reconnect fail. {} Caused:{}",new Object[]{socketAddress,future.getCause().getMessage(),future.getCause()});
+          reconnect(pinpointSocket,socketAddress);
+        }
+      }
+    }
+  }
+);
+}

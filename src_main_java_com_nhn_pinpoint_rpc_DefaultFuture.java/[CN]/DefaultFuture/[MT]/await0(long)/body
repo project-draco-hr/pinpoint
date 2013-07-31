@@ -1,0 +1,22 @@
+{
+  if (timeoutMillis < 0) {
+    throw new IllegalArgumentException("timeoutMillis must not be negative :" + timeoutMillis);
+  }
+synchronized (this) {
+    if (ready) {
+      return true;
+    }
+    try {
+      this.waiters++;
+      wait(timeoutMillis);
+      return ready;
+    }
+ catch (    InterruptedException e) {
+      Thread.currentThread().interrupt();
+      return ready;
+    }
+ finally {
+      this.waiters--;
+    }
+  }
+}
