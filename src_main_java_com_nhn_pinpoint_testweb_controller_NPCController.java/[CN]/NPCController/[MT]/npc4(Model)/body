@@ -1,7 +1,12 @@
 {
+  NpcHessianConnector connector=null;
   try {
     InetSocketAddress serverAddress=new InetSocketAddress("127.0.0.1",5000);
-    NpcHessianConnector connector=new NpcHessianConnector(serverAddress,true);
+    ConnectionFactory npcConnectionFactory=new NpcConnectionFactory();
+    npcConnectionFactory.setTimeout(1000L);
+    npcConnectionFactory.setAddress(serverAddress);
+    npcConnectionFactory.setLightWeight(true);
+    connector=npcConnectionFactory.create();
     Map<String,Object> params=new HashMap<String,Object>();
     params.put("message","hello pinpoint");
     InvocationFuture future=connector.invoke("welcome/com.nhncorp.lucy.bloc.welcome.EchoBO","execute",params);
@@ -11,6 +16,9 @@
   }
  catch (  Exception e) {
     e.printStackTrace();
+  }
+ finally {
+    connector.dispose();
   }
   return "npc";
 }
