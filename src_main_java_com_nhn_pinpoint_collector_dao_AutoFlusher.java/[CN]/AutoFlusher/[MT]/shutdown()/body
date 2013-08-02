@@ -1,0 +1,7 @@
+{
+  logger.info("Shutdown auto flusher.");
+  shutdownExecutor();
+  for (  CachedStatisticsDao dao : cachedStatisticsDaoList) {
+    dao.flushAll();
+  }
+}

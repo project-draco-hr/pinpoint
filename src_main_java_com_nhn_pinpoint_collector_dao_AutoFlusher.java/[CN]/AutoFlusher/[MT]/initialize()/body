@@ -1,0 +1,11 @@
+{
+  if (cachedStatisticsDaoList == null || cachedStatisticsDaoList.isEmpty()) {
+    return;
+  }
+  ThreadFactory threadFactory=PinpointThreadFactory.createThreadFactory(this.getClass().getSimpleName());
+  executor=Executors.newScheduledThreadPool(cachedStatisticsDaoList.size(),threadFactory);
+  for (  CachedStatisticsDao dao : cachedStatisticsDaoList) {
+    executor.scheduleAtFixedRate(new Worker(dao),0L,1000L,TimeUnit.MILLISECONDS);
+  }
+  logger.info("Auto flusher initialized.");
+}
