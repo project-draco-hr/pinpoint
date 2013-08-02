@@ -2,6 +2,7 @@
   try {
     DatagramSocket datagramSocket=new DatagramSocket();
     datagramSocket.setSoTimeout(1000 * 5);
+    datagramSocket.setSendBufferSize(1024 * 64);
     InetSocketAddress serverAddress=new InetSocketAddress(host,port);
     datagramSocket.connect(serverAddress);
     return datagramSocket;

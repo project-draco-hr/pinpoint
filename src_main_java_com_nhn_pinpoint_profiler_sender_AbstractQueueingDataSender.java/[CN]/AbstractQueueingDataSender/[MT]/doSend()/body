@@ -1,11 +1,12 @@
 {
-  drain:   while (true) {
+  drainStartEntry:   while (true) {
     try {
       if (isShutdown()) {
         break;
       }
-      Collection<Object> dtoList=takeN();
-      if (dtoList != null) {
+      Collection<Object> dtoList=getDrainQueue();
+      int drainSize=takeN(dtoList,this.maxDrainSize);
+      if (drainSize > 0) {
         sendPacketN(dtoList);
         continue;
       }
@@ -16,12 +17,12 @@
         Object dto=takeOne();
         if (dto != null) {
           sendPacket(dto);
-          continue drain;
+          continue drainStartEntry;
         }
       }
     }
  catch (    Throwable th) {
-      logger.warn("UdpSenderLoop->Unexpected Error. Cause:{}",th.getMessage(),th);
+      logger.warn("{} doSend->Unexpected Error. Cause:{}",new Object[]{senderName,th.getMessage(),th});
     }
   }
   flushQueue();

@@ -1,9 +1,8 @@
 {
+  super(1024,"UdpDataSender");
   if (host == null) {
     throw new NullPointerException("host must not be null");
   }
-  this.udpSocket=createSocket(host,port);
-  this.allowInput.set(true);
-  this.ioThread=createIoThread();
   logger.info("UdpDataSender initialized. host={}, port={}",host,port);
+  this.udpSocket=createSocket(host,port);
 }

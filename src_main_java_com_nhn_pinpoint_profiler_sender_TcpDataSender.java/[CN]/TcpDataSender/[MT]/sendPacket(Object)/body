@@ -1,0 +1,21 @@
+{
+  TBase<?,?> tBase;
+  if (dto instanceof TBase) {
+    tBase=(TBase<?,?>)dto;
+  }
+ else   if (dto instanceof Thriftable) {
+    tBase=((Thriftable)dto).toThrift();
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",dto.getClass());
+    return;
+  }
+  byte[] copy=serialize(tBase);
+  try {
+    ChannelFuture ioWriteCheck=(ChannelFuture)this.socket.sendAsync(copy);
+    ioWriteCheck.addListener(writeFailFutureListener);
+  }
+ catch (  Exception e) {
+    logger.warn("tcp send fail. Caused:{}",e.getMessage(),e);
+  }
+}

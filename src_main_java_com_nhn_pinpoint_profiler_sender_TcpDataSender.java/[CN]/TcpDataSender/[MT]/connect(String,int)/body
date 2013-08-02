@@ -1,0 +1,14 @@
+{
+  for (int i=0; i < connectRetryCount; i++) {
+    try {
+      this.socket=pinpointSocketFactory.connect(host,port);
+      logger.info("tcp connect success:{}/{}",host,port);
+      return;
+    }
+ catch (    PinpointSocketException e) {
+      logger.warn("tcp connect fail:{}/{} try reconnect, retryCount:{}",new Object[]{host,port,i});
+    }
+  }
+  logger.warn("change background tcp connect mode  {}/{} ",host,port);
+  this.socket=pinpointSocketFactory.scheduledConnect(host,port);
+}

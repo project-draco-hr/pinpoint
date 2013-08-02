@@ -1,0 +1,11 @@
+{
+  try {
+    return serializer.serialize(dto);
+  }
+ catch (  TException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Serialize fail:{} Caused:{}",new Object[]{dto,e.getMessage(),e});
+    }
+    return null;
+  }
+}

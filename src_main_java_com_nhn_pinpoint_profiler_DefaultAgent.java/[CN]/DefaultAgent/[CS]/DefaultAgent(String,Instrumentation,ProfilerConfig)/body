@@ -15,7 +15,7 @@
   this.machineName=NetworkUtils.getHostName();
   this.agentId=getId("pinpoint.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
   this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
-  this.priorityDataSender=createDataSender();
+  this.priorityDataSender=createTcpDataSender();
   this.dataSender=createDataSender();
   this.startTime=System.currentTimeMillis();
   this.identifier=getShortIdentifier();
