@@ -1,0 +1,15 @@
+{
+  this.pinpointServerSocket.setMessageListener(new ServerMessageListener(){
+    @Override public void handleSend(    SendPacket sendPacket,    SocketChannel channel){
+      worker.execute(new Dispatch(sendPacket.getPayload(),channel.getRemoteAddress()));
+    }
+    @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
+      logger.warn("unsupported requestPacket received {}",requestPacket);
+    }
+    @Override public void handleStream(    StreamPacket streamPacket,    ServerStreamChannel streamChannel){
+      logger.warn("unsupported streamPacket received {}",streamPacket);
+    }
+  }
+);
+  this.pinpointServerSocket.bind("127.0.0.1",port);
+}

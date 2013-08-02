@@ -1,0 +1,25 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Waiting agent data on {}",this.socket.getLocalSocketAddress());
+  }
+  startLatch.countDown();
+  while (state.get()) {
+    DatagramPacket packet=read0();
+    if (packet == null) {
+      continue;
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("pool getActiveCount:{}",worker.getActiveCount());
+    }
+    try {
+      worker.execute(new DispatchPacket(packet));
+    }
+ catch (    RejectedExecutionException ree) {
+      final int error=rejectedExecutionCount.getAndIncrement();
+      final int mod=10;
+      if ((error % mod) == 0) {
+        logger.warn("RejectedExecutionCount={}",error);
+      }
+    }
+  }
+}

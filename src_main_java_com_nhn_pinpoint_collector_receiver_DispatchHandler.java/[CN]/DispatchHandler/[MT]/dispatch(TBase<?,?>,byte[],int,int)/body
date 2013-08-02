@@ -1,0 +1,20 @@
+{
+  acceptedTimeService.accept();
+  SimpleHandler simpleHandler=getSimpleHandler(tBase);
+  if (simpleHandler != null) {
+    if (logger.isTraceEnabled()) {
+      logger.trace("simpleHandler name:{}",simpleHandler.getClass().getName());
+    }
+    simpleHandler.handler(tBase);
+    return;
+  }
+  Handler handler=getHandler(tBase);
+  if (handler != null) {
+    if (logger.isTraceEnabled()) {
+      logger.trace("handler name:{}",handler.getClass().getName());
+    }
+    handler.handler(tBase,packet,offset,length);
+    return;
+  }
+  throw new UnsupportedOperationException("Handler not found. Unknown type of data received. tBase=" + tBase);
+}

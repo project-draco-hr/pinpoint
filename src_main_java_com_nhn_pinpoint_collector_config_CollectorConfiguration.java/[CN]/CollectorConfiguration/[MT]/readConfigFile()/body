@@ -1,0 +1,17 @@
+{
+  String configFileName=System.getProperty(CONFIG_FILE_PROPERTY_NAME);
+  if (configFileName == null) {
+    logger.warn("Property is not set. Using default values. PROPERTY_NAME={}, defaultValue={}",CONFIG_FILE_PROPERTY_NAME,this);
+    return;
+  }
+  try {
+    Properties prop=PropertyUtils.readProperties(configFileName);
+    setPropertyValues(prop);
+  }
+ catch (  FileNotFoundException fe) {
+    logger.error("File '{}' is not exists. Please check configuration.",configFileName,fe);
+  }
+catch (  Exception e) {
+    logger.error("File '{}' error. Please check configuration.",configFileName,e);
+  }
+}
