@@ -1,0 +1,15 @@
+{
+  if (socket.isClosed()) {
+    return;
+  }
+  TimerTask pingTask=new TimerTask(){
+    @Override public void run(    Timeout timeout) throws Exception {
+      if (socket.isClosed()) {
+        return;
+      }
+      socket.sendPing();
+    }
+  }
+;
+  timer.newTimeout(pingTask,pingDelay,TimeUnit.MILLISECONDS);
+}

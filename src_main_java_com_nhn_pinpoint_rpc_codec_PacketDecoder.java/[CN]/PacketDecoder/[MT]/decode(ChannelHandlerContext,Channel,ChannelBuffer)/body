@@ -23,6 +23,10 @@ case PacketType.APPLICATION_STREAM_RESPONSE:
 return readStreamResponse(packetType,buffer);
 case PacketType.CONTROL_CLOSE:
 return readControlClose(packetType,buffer);
+case PacketType.CONTROL_PING:
+return readPing(packetType,buffer);
+case PacketType.CONTROL_PONG:
+return readPong(packetType,buffer);
 }
 logger.error("invalid packetType received. packetType:{}, channel:{}",packetType,channel);
 channel.close();

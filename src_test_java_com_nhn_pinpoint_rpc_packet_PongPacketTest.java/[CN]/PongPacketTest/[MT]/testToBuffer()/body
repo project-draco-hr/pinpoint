@@ -1,0 +1,6 @@
+{
+  PongPacket pongPacket=new PongPacket();
+  ChannelBuffer channelBuffer=pongPacket.toBuffer();
+  short pongCode=channelBuffer.readShort();
+  Assert.assertEquals(PacketType.CONTROL_PONG,pongCode);
+}

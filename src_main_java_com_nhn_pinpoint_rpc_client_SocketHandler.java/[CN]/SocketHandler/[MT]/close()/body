@@ -1,10 +1,13 @@
 {
-  if (!state.changeClosed()) {
+  int currentState=this.state.getState();
+  if (currentState == State.CLOSED) {
+    return;
+  }
+  if (!this.state.changeClosed(currentState)) {
     return;
   }
   final Channel channel=this.channel;
-  ClosePacket closePacket=new ClosePacket();
-  channel.write(closePacket);
+  sendClosedPacket(channel);
   this.requestManager.close();
   this.streamChannelManager.close();
   channel.close();

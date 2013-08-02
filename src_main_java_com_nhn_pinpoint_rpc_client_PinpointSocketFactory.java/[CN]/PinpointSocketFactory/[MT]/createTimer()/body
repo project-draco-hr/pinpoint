@@ -1,0 +1,6 @@
+{
+  ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName() + "Timer");
+  HashedWheelTimer timer=new HashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS);
+  timer.start();
+  return timer;
+}
