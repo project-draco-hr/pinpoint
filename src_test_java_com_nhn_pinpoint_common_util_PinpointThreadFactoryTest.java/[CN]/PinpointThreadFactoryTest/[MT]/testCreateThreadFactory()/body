@@ -1,0 +1,14 @@
+{
+  final AtomicInteger test=new AtomicInteger(0);
+  PinpointThreadFactory pinpoint=new PinpointThreadFactory("pinpoint");
+  Thread thread=pinpoint.newThread(new Runnable(){
+    @Override public void run(){
+      test.getAndIncrement();
+    }
+  }
+);
+  thread.start();
+  thread.join();
+  Assert.assertEquals(test.get(),1);
+  logger.info(thread.getName());
+}
