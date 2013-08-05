@@ -21,10 +21,10 @@
     }
   }
  catch (  IOException e) {
-    if (state.get() == false) {
+    if (!state.get()) {
     }
  else {
-      logger.error(e.getMessage(),e);
+      logger.error("IoError, Caused:",e.getMessage(),e);
     }
     return null;
   }
