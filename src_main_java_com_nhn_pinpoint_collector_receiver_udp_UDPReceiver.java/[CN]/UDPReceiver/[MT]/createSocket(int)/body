@@ -1,6 +1,7 @@
 {
   try {
     DatagramSocket so=new DatagramSocket(port);
+    so.setReceiveBufferSize(1024 * 64);
     so.setSoTimeout(1000 * 10);
     return so;
   }

@@ -1,6 +1,6 @@
 {
   logger.info("Starting UDPReceiver.");
-  udpDataReceiver=new UDPReceiver(dispatchHandler,configuration.getCollectorUdpListenPort());
+  this.udpDataReceiver=crateUdpReceiver(configuration,dispatchHandler);
   Future<Boolean> startFuture=udpDataReceiver.start();
   boolean successfullyStarted=true;
   try {

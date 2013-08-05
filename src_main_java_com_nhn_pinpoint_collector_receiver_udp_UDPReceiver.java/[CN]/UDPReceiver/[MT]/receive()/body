@@ -15,7 +15,7 @@
       worker.execute(new DispatchPacket(packet));
     }
  catch (    RejectedExecutionException ree) {
-      final int error=rejectedExecutionCount.getAndIncrement();
+      final int error=rejectedExecutionCount.incrementAndGet();
       final int mod=10;
       if ((error % mod) == 0) {
         logger.warn("RejectedExecutionCount={}",error);
