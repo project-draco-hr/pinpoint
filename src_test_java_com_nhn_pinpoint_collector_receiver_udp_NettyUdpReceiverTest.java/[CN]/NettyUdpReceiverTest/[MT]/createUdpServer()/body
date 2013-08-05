@@ -1,0 +1,22 @@
+{
+  DatagramChannelFactory udpFactory=new NioDatagramChannelFactory(Executors.newCachedThreadPool(),4);
+  ChannelPipelineFactory pipelineFactory=new ChannelPipelineFactory(){
+    @Override public ChannelPipeline getPipeline() throws Exception {
+      ChannelPipeline pipeline=Channels.pipeline();
+      pipeline.addLast("test",new SimpleChannelHandler(){
+        @Override public void messageReceived(        ChannelHandlerContext ctx,        MessageEvent e) throws Exception {
+          String name=Thread.currentThread().getName();
+          System.out.println("sleep-------------------" + name);
+          Thread.sleep(10000);
+          logger.info("messageReceived thread-{} message:",Thread.currentThread().getName());
+        }
+      }
+);
+      return pipeline;
+    }
+  }
+;
+  ConnectionlessBootstrap udpBootstrap=new ConnectionlessBootstrap(udpFactory);
+  udpBootstrap.setPipelineFactory(pipelineFactory);
+  return udpBootstrap;
+}

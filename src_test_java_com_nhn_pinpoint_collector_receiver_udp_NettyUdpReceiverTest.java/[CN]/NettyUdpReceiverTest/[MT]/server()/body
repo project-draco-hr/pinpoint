@@ -1,0 +1,20 @@
+{
+  final ConnectionlessBootstrap udpServer=createUdpServer();
+  Thread thread=new Thread(new Runnable(){
+    @Override public void run(){
+      udpServer.bind(new InetSocketAddress("127.0.0.1",PORT));
+      try {
+        System.out.println("server-await");
+        latch.await();
+      }
+ catch (      InterruptedException e) {
+      }
+    }
+  }
+);
+  thread.start();
+  Thread.sleep(1000);
+  System.out.println("start--------");
+  start();
+  latch.countDown();
+}
