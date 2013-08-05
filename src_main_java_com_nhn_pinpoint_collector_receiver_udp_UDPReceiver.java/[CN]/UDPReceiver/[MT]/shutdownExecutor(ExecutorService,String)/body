@@ -1,0 +1,10 @@
+{
+  executor.shutdown();
+  try {
+    executor.awaitTermination(3000,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    logger.info("{}.shutdown() Interrupted",executorName,e);
+    Thread.currentThread().interrupt();
+  }
+}

@@ -1,14 +1,14 @@
 {
   if (logger.isInfoEnabled()) {
-    logger.info("Waiting agent data on {}",this.socket.getLocalSocketAddress());
+    logger.info("start ioThread localAddress:{}, IoThread:{}",this.socket.getLocalSocketAddress(),Thread.currentThread().getName());
   }
-  startLatch.countDown();
+  final boolean debugEnabled=logger.isDebugEnabled();
   while (state.get()) {
     DatagramPacket packet=read0();
     if (packet == null) {
       continue;
     }
-    if (logger.isDebugEnabled()) {
+    if (debugEnabled) {
       logger.debug("pool getActiveCount:{}",worker.getActiveCount());
     }
     try {
@@ -21,5 +21,8 @@
         logger.warn("RejectedExecutionCount={}",error);
       }
     }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("stop ioThread localAddress:{}, IoThread:{}",this.socket.getLocalSocketAddress(),Thread.currentThread().getName());
   }
 }

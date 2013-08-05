@@ -4,8 +4,7 @@
     DispatchHandler multiplexedPacketHandler=ApplicationContextUtils.getDispatchHandler(context);
     CollectorConfiguration config=new CollectorConfiguration();
     DataReceiver receiver=new UDPReceiver(multiplexedPacketHandler,config.getCollectorUdpListenPort() + 10);
-    Future<Boolean> startLatch=receiver.start();
-    startLatch.get();
+    receiver.start();
     receiver.shutdown();
     context.close();
   }

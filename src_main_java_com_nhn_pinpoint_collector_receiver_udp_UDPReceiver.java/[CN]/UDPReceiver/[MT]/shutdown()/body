@@ -2,11 +2,6 @@
   logger.info("Shutting down UDP Packet reader.");
   state.set(false);
   socket.close();
-  worker.shutdown();
-  try {
-    worker.awaitTermination(10,TimeUnit.SECONDS);
-  }
- catch (  InterruptedException e) {
-    Thread.currentThread().interrupt();
-  }
+  shutdownExecutor(io,"IoExecutor");
+  shutdownExecutor(worker,"WorkerExecutor");
 }

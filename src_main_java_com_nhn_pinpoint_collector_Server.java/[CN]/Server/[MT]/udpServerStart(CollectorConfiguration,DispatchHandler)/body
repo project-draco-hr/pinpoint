@@ -1,19 +1,6 @@
 {
   logger.info("Starting UDPReceiver.");
   this.udpDataReceiver=crateUdpReceiver(configuration,dispatchHandler);
-  Future<Boolean> startFuture=udpDataReceiver.start();
-  boolean successfullyStarted=true;
-  try {
-    successfullyStarted=startFuture.get();
-  }
- catch (  Exception e) {
-    startFuture.cancel(true);
-    logger.error("Failed to start multiplexDataReceiver.");
-  }
-  if (successfullyStarted) {
-    logger.info("Server started successfully.");
-  }
- else {
-    logger.warn("Server started incompletely.");
-  }
+  this.udpDataReceiver.start();
+  logger.info("Server started successfully.");
 }
