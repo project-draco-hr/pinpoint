@@ -1,0 +1,9 @@
+{
+  if (dispatchHandler == null) {
+    throw new NullPointerException("dispatchHandler must not be null");
+  }
+  this.socket=createSocket(configuration.getCollectorUdpListenPort(),configuration.getUdpReceiveBufferSize());
+  this.dispatchHandler=dispatchHandler;
+  this.datagramPacketPool=new FixedPool<DatagramPacket>(new DatagramPacketFactory(),getPacketPoolSize(configuration));
+  this.worker=ExecutorFactory.newFixedThreadPool(configuration.getUdpWorkerThread(),configuration.getUdpWorkerQueueSize(),"Pinpoint-UDP-Worker",true);
+}

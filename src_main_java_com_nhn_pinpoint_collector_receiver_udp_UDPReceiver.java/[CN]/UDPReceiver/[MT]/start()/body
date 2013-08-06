@@ -3,7 +3,7 @@
     throw new RuntimeException("socket create fail");
   }
   logger.info("UDP Packet reader:{} started.",CpuUtils.workerCount());
-  for (int i=0; i < CpuUtils.workerCount(); i++) {
+  for (int i=0; i < ioThreadSize; i++) {
     io.execute(new Runnable(){
       @Override public void run(){
         receive();

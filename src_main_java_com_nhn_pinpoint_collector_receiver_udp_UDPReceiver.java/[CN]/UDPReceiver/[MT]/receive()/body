@@ -1,7 +1,8 @@
 {
   if (logger.isInfoEnabled()) {
-    logger.info("start ioThread localAddress:{}, IoThread:{}",this.socket.getLocalSocketAddress(),Thread.currentThread().getName());
+    logger.info("start ioThread localAddress:{}, IoThread:{}",socket.getLocalAddress(),Thread.currentThread().getName());
   }
+  final SocketAddress localSocketAddress=socket.getLocalSocketAddress();
   final boolean debugEnabled=logger.isDebugEnabled();
   while (state.get()) {
     DatagramPacket packet=read0();
@@ -23,6 +24,6 @@
     }
   }
   if (logger.isInfoEnabled()) {
-    logger.info("stop ioThread localAddress:{}, IoThread:{}",this.socket.getLocalSocketAddress(),Thread.currentThread().getName());
+    logger.info("stop ioThread localAddress:{}, IoThread:{}",localSocketAddress,Thread.currentThread().getName());
   }
 }
