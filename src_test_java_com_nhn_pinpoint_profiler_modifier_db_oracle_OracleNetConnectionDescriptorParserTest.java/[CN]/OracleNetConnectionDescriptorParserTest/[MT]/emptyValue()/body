@@ -1,8 +1,0 @@
-{
-  String rac="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=)" + "(CONNECT_DATA=(SERVICE_NAME=)))";
-  OracleNetConnectionDescriptorParser parser=new OracleNetConnectionDescriptorParser(rac);
-  KeyValue keyValue=parser.parse();
-  logger.info(keyValue.toString());
-  Description des=new Description(keyValue);
-  Assert.assertEquals(des.getServiceName(),null);
-}
