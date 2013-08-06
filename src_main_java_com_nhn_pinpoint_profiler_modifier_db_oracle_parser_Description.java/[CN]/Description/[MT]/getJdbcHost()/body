@@ -1,0 +1,12 @@
+{
+  List<String> hostList=new ArrayList<String>();
+  for (  Address address : addressList) {
+    String host=address.getHost();
+    String port=address.getPort();
+    if (port == null) {
+      port="1521";
+    }
+    hostList.add(host + ":" + port);
+  }
+  return hostList;
+}

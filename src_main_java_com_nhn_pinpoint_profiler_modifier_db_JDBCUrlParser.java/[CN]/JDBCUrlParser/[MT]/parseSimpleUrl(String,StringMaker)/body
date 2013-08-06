@@ -1,0 +1,8 @@
+{
+  String host=maker.before(':').value();
+  String port=maker.next().after(':').before(':','/').value();
+  String databaseId=maker.next().afterLast(':','/').value();
+  List<String> hostList=new ArrayList<String>(1);
+  hostList.add(host + ":" + port);
+  return new DefaultDatabaseInfo(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url,url,hostList,databaseId);
+}
