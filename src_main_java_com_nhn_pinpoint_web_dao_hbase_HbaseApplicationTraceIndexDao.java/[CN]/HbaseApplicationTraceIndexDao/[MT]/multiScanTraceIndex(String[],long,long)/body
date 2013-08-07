@@ -1,8 +1,0 @@
-{
-  final List<Scan> multiScan=new ArrayList<Scan>(applicationNames.length);
-  for (  String agent : applicationNames) {
-    Scan scan=createScan(agent,start,end);
-    multiScan.add(scan);
-  }
-  return hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,multiScan,traceIndexMapper);
-}
