@@ -1,0 +1,13 @@
+{
+  Scan[] scans=rowKeyDistributor.getDistributedScans(originalScan);
+  for (int i=0; i < scans.length; i++) {
+    Scan scan=scans[i];
+    scan.setId(originalScan.getId() + "-" + i);
+    scan.setCaching(originalScan.getCaching());
+  }
+  ResultScanner[] scanner=new ResultScanner[scans.length];
+  for (int i=0; i < scans.length; i++) {
+    scanner[i]=htable.getScanner(scans[i]);
+  }
+  return new DistributedScanner(rowKeyDistributor,scanner);
+}

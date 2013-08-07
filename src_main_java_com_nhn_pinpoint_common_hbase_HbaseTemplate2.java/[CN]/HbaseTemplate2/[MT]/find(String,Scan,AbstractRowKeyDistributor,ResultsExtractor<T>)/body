@@ -1,0 +1,29 @@
+{
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    HTableInterface htable) throws Throwable {
+      boolean debugEnabled=logger.isDebugEnabled();
+      long beforeCreateDistributeScan=0;
+      if (debugEnabled) {
+        beforeCreateDistributeScan=System.currentTimeMillis();
+      }
+      ResultScanner scanner=createDistributeScanner(htable,scan,rowKeyDistributor);
+      if (debugEnabled) {
+        logger.debug("DistributeScanner createTime:{}",(System.currentTimeMillis() - beforeCreateDistributeScan));
+      }
+      long beforeDistributeScan=0;
+      if (debugEnabled) {
+        beforeDistributeScan=System.currentTimeMillis();
+      }
+      try {
+        return action.extractData(scanner);
+      }
+  finally {
+        scanner.close();
+        if (debugEnabled) {
+          logger.debug("DistributeScanner scanTime:{}",(System.currentTimeMillis() - beforeDistributeScan));
+        }
+      }
+    }
+  }
+);
+}
