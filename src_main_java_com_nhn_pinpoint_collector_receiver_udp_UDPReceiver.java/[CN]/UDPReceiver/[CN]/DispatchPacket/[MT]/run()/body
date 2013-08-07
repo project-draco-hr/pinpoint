@@ -1,4 +1,5 @@
 {
+  Timer.Context time=timer.time();
   HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
   try {
     TBase<?,?> tBase=deserializer.deserialize(packet.getData());
@@ -22,5 +23,6 @@ catch (  Exception e) {
   }
  finally {
     datagramPacketPool.returnObject(packet);
+    time.stop();
   }
 }
