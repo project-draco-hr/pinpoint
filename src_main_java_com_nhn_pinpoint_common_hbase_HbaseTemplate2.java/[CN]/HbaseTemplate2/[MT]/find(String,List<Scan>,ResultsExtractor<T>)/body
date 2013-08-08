@@ -1,8 +1,8 @@
 {
   return execute(tableName,new TableCallback<List<T>>(){
     @Override public List<T> doInTable(    HTableInterface htable) throws Throwable {
-      List<T> result=new ArrayList<T>(scans.size());
-      for (      Scan scan : scans) {
+      List<T> result=new ArrayList<T>(scanList.size());
+      for (      Scan scan : scanList) {
         ResultScanner scanner=htable.getScanner(scan);
         try {
           T t=action.extractData(scanner);

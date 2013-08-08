@@ -2,7 +2,25 @@
   List<T> rs=new ArrayList<T>();
   int rowNum=0;
   for (  Result result : results) {
-    rs.add(this.rowMapper.mapRow(result,rowNum++));
+    T t=this.rowMapper.mapRow(result,rowNum++);
+    if (t instanceof Collection) {
+      rowNum+=((Collection)t).size();
+    }
+ else     if (t instanceof Map) {
+      rowNum+=((Map)t).size();
+    }
+ else     if (t == null) {
+    }
+ else     if (t.getClass().isArray()) {
+      rowNum+=Array.getLength(t);
+    }
+ else {
+      rowNum++;
+    }
+    rs.add(t);
+    if (rowNum >= limit) {
+      break;
+    }
   }
   return rs;
 }

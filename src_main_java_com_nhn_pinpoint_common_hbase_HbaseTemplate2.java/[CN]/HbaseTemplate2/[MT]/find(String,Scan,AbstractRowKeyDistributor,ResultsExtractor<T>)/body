@@ -1,7 +1,7 @@
 {
   return execute(tableName,new TableCallback<T>(){
     @Override public T doInTable(    HTableInterface htable) throws Throwable {
-      boolean debugEnabled=logger.isDebugEnabled();
+      final boolean debugEnabled=logger.isDebugEnabled();
       long beforeCreateDistributeScan=0;
       if (debugEnabled) {
         beforeCreateDistributeScan=System.currentTimeMillis();
