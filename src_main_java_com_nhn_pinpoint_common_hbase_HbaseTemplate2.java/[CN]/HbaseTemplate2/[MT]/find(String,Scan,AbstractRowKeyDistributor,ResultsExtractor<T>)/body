@@ -2,17 +2,17 @@
   return execute(tableName,new TableCallback<T>(){
     @Override public T doInTable(    HTableInterface htable) throws Throwable {
       final boolean debugEnabled=logger.isDebugEnabled();
-      long beforeCreateDistributeScan=0;
+      StopWatch watch=null;
       if (debugEnabled) {
-        beforeCreateDistributeScan=System.currentTimeMillis();
+        watch=new StopWatch();
+        watch.start();
       }
       ResultScanner scanner=createDistributeScanner(htable,scan,rowKeyDistributor);
       if (debugEnabled) {
-        logger.debug("DistributeScanner createTime:{}",(System.currentTimeMillis() - beforeCreateDistributeScan));
+        logger.debug("DistributeScanner createTime:{}",watch.stop());
       }
-      long beforeDistributeScan=0;
       if (debugEnabled) {
-        beforeDistributeScan=System.currentTimeMillis();
+        watch.start();
       }
       try {
         return action.extractData(scanner);
@@ -20,7 +20,7 @@
   finally {
         scanner.close();
         if (debugEnabled) {
-          logger.debug("DistributeScanner scanTime:{}",(System.currentTimeMillis() - beforeDistributeScan));
+          logger.debug("DistributeScanner scanTime:{}",watch.stop());
         }
       }
     }
