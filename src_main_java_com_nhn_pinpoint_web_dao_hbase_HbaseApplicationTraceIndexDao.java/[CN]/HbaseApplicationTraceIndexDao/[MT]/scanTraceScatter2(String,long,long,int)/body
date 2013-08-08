@@ -1,22 +1,10 @@
 {
   logger.debug("scanTraceScatter2");
   Scan scan=createScan(applicationName,start,end);
-  List<Dot> list=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,new ResultsExtractor<List<Dot>>(){
-    @Override public List<Dot> extractData(    ResultScanner results) throws Exception {
-      List<Dot> list=new ArrayList<Dot>();
-      for (      Result result : results) {
-        if (result == null) {
-          continue;
-        }
-        List<Dot> dots=traceIndexScatterMapper.mapRow(result,0);
-        list.addAll(dots);
-        if (list.size() >= limit) {
-          break;
-        }
-      }
-      return list;
-    }
+  List<List<Dot>> dotListList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexScatterMapper);
+  List<Dot> mergeList=new ArrayList<Dot>(limit + 10);
+  for (  List<Dot> dotList : dotListList) {
+    mergeList.addAll(dotList);
   }
-);
-  return list;
+  return mergeList;
 }
