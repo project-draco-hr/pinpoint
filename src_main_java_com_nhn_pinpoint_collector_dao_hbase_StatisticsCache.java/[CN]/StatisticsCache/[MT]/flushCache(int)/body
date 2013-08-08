@@ -1,0 +1,21 @@
+{
+  try {
+    cacheLock.lock();
+    if (cache.size() <= checkSize) {
+      return;
+    }
+    Set<Entry<Key,Value>> entrySet=cache.entrySet();
+    for (    Entry<Key,Value> entry : entrySet) {
+      Value v=cache.remove(entry.getKey());
+      if (v != null) {
+        flushHandler.handleValue(v);
+      }
+    }
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+  }
+ finally {
+    cacheLock.unlock();
+  }
+}

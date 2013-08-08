@@ -1,10 +1,12 @@
 {
-  Key key=new Key(Bytes.concat(rowKey,columnName));
-  Value v=cache.putIfAbsent(key,new Value(rowKey,columnName,value));
-  if (v != null) {
-    return v.addValue(value);
+  try {
+    Key key=new Key(Bytes.concat(rowKey,columnName));
+    if (add(key,rowKey,columnName,value)) {
+      return;
+    }
+    flush();
   }
- else {
-    return value;
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
   }
 }

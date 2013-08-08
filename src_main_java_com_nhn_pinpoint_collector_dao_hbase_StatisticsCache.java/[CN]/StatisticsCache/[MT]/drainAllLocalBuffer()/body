@@ -1,0 +1,15 @@
+{
+  try {
+    bufferListLock.lock();
+    for (    Map<Key,Value> buffer : bufferList) {
+      if (buffer == null) {
+        continue;
+      }
+      addValues(buffer);
+      buffer.clear();
+    }
+  }
+  finally {
+    bufferListLock.unlock();
+  }
+}

@@ -1,0 +1,29 @@
+{
+  for (int i=0; i < THREAD_COUNT; i++) {
+    executor.submit(new Worker());
+  }
+  long start=System.currentTimeMillis();
+  startLatch.countDown();
+  try {
+    stopLatch.await();
+  }
+ catch (  InterruptedException e) {
+    Assert.fail(e.getMessage());
+  }
+  try {
+    Thread.sleep(1000L);
+  }
+ catch (  InterruptedException e) {
+    Assert.fail(e.getMessage());
+  }
+  cache.flushAll();
+  long elapsed=System.currentTimeMillis() - start;
+  System.out.println("");
+  System.out.println("-----------------------------------");
+  System.out.println("TEST COUNT=" + TEST_COUNT);
+  System.out.println("RESULT EXPECTED=" + TEST_COUNT * THREAD_COUNT);
+  System.out.println("RESULT=" + resultValue.get());
+  System.out.println("ELAPSED=" + elapsed + "ms");
+  System.out.println("-----------------------------------");
+  Assert.assertEquals(TEST_COUNT * THREAD_COUNT,resultValue.get());
+}

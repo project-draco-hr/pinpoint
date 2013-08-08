@@ -1,13 +1,8 @@
 {
-  for (int i=0; i < THREAD_COUNT; i++) {
-    executor.execute(new Worker(i));
+  int testCount=1;
+  for (int i=1; i <= testCount; i++) {
+    initialize();
+    doTest();
+    System.out.println("PASSED (" + i + "/"+ testCount+ ")");
   }
-  startLatch.countDown();
-  try {
-    stopLatch.await();
-  }
- catch (  InterruptedException e) {
-    Assert.fail(e.getMessage());
-  }
-  System.out.println("DONE");
 }

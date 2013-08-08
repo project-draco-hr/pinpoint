@@ -1,0 +1,32 @@
+{
+  if (executor != null) {
+    executor.shutdownNow();
+  }
+  executor=Executors.newFixedThreadPool(THREAD_COUNT,new ThreadFactory(){
+    @Override public Thread newThread(    Runnable runnable){
+      Thread t=new Thread(runnable);
+      t.setName("UnitTest");
+      t.setDaemon(true);
+      return t;
+    }
+  }
+);
+  resultValue=new AtomicLong(0);
+  startLatch=new CountDownLatch(1);
+  stopLatch=new CountDownLatch(THREAD_COUNT);
+  cache=new StatisticsCache(100,new StatisticsCache.FlushHandler(){
+    @Override public void handleValue(    Value value){
+      resultValue.addAndGet(value.getLongValue());
+    }
+    @Override public void handleValue(    Increment increment){
+      Map<byte[],NavigableMap<byte[],Long>> familyMap=increment.getFamilyMap();
+      for (      Entry<byte[],NavigableMap<byte[],Long>> entry : familyMap.entrySet()) {
+        NavigableMap<byte[],Long> innerMap=entry.getValue();
+        for (        Entry<byte[],Long> innerEntry : innerMap.entrySet()) {
+          resultValue.addAndGet(innerEntry.getValue());
+        }
+      }
+    }
+  }
+);
+}

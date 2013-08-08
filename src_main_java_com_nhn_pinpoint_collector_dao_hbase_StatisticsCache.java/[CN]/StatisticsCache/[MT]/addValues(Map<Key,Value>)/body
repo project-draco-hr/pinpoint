@@ -1,0 +1,19 @@
+{
+  try {
+    cacheLock.lock();
+    for (    Entry<Key,Value> entry : valueMap.entrySet()) {
+      Key key=entry.getKey();
+      Value value=cache.get(key);
+      if (value == null) {
+        value=entry.getValue();
+      }
+ else {
+        value.addValue(entry.getValue().getLongValue());
+      }
+      cache.put(key,value);
+    }
+  }
+  finally {
+    cacheLock.unlock();
+  }
+}
