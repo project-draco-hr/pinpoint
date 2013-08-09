@@ -3,7 +3,7 @@
     GenericApplicationContext context=ApplicationContextUtils.createContext();
     DispatchHandler multiplexedPacketHandler=ApplicationContextUtils.getDispatchHandler(context);
     CollectorConfiguration config=new CollectorConfiguration();
-    config.setCollectorUdpListenPort(config.getCollectorUdpListenPort());
+    config.setCollectorUdpListenPort(config.getCollectorUdpListenPort() + 10);
     config.setUdpWorkerThread(1);
     config.setUdpWorkerQueueSize(1);
     DataReceiver receiver=new UDPReceiver(multiplexedPacketHandler,config);

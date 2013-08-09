@@ -4,11 +4,10 @@
   }
   try {
     Span span=(Span)tbase;
-    if (logger.isInfoEnabled()) {
-      logger.info("Received SPAN={}",span);
+    if (logger.isDebugEnabled()) {
+      logger.debug("Received SPAN={}",span);
     }
     traceDao.insert(span);
-    traceIndexDao.insert(span);
     applicationTraceIndexDao.insert(span);
     statisticsHandler.updateApplication(span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
     if (span.getParentSpanId() == -1) {
@@ -24,7 +23,7 @@
     }
     List<SpanEvent> spanEventList=span.getSpanEventList();
     if (spanEventList != null) {
-      logger.info("handle spanEvent size:{}",spanEventList.size());
+      logger.debug("handle spanEvent size:{}",spanEventList.size());
       for (      SpanEvent spanEvent : spanEventList) {
         ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
@@ -39,6 +38,6 @@
     }
   }
  catch (  Exception e) {
-    logger.warn("Span handle error " + e.getMessage(),e);
+    logger.warn("Span handle error. Caused:{}",e.getMessage(),e);
   }
 }
