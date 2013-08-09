@@ -10,7 +10,8 @@
   Map<Integer,SpanBo> spanMap=new HashMap<Integer,SpanBo>();
   List<SpanEventBo> spanEventBoList=new ArrayList<SpanEventBo>();
   for (  KeyValue kv : keyList) {
-    if (kv.getFamilyLength() == HBaseTables.TRACES_CF_SPAN.length) {
+    byte[] family=kv.getFamily();
+    if (Bytes.equals(family,HBaseTables.TRACES_CF_SPAN)) {
       SpanBo spanBo=new SpanBo();
       spanBo.setMostTraceId(most);
       spanBo.setLeastTraceId(least);
@@ -23,7 +24,7 @@
       spanList.add(spanBo);
       spanMap.put(spanBo.getSpanId(),spanBo);
     }
- else     if (kv.getFamilyLength() == HBaseTables.TRACES_CF_TERMINALSPAN.length) {
+ else     if (Bytes.equals(family,HBaseTables.TRACES_CF_TERMINALSPAN)) {
       SpanEventBo spanEventBo=new SpanEventBo();
       spanEventBo.setMostTraceId(most);
       spanEventBo.setLeastTraceId(least);
