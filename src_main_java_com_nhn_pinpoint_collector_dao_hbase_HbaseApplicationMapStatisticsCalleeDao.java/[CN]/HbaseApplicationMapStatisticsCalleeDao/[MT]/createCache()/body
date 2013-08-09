@@ -1,0 +1,11 @@
+{
+  return new StatisticsCache(new FlushHandler(){
+    @Override public void handleValue(    Value value){
+      hbaseTemplate.incrementColumnValue(APPLICATION_MAP_STATISTICS_CALLEE,value.getRowKey(),APPLICATION_MAP_STATISTICS_CALLEE_CF_COUNTER,value.getColumnName(),value.getLongValue());
+    }
+    @Override public void handleValue(    Increment increment){
+      hbaseTemplate.increment(APPLICATION_MAP_STATISTICS_CALLEE,increment);
+    }
+  }
+);
+}
