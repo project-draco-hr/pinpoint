@@ -1,0 +1,8 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  com.nhncorp.lucy.npc.connector.NpcConnectorOption option=(com.nhncorp.lucy.npc.connector.NpcConnectorOption)args[0];
+  InetSocketAddress address=option.getAddress();
+  setAddress.invoke(target,address);
+}

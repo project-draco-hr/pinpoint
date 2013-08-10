@@ -5,13 +5,12 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass connectorClass=byteCodeInstrumentor.getClass(javassistClassName);
-    connectorClass.addTraceVariable("__serverAddress","__setServerAddress","__getServerAddress","java.net.InetSocketAddress");
-    Interceptor connectInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.ConnectInterceptor");
-    connectorClass.addInterceptor("connect",new String[]{"boolean"},connectInterceptor);
-    Interceptor interceptor1=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.InvokeInterceptor");
-    connectorClass.addInterceptor("invoke",new String[]{"java.lang.String","java.lang.String","java.nio.charset.Charset","java.lang.Object[]"},interceptor1);
-    connectorClass.addConstructorInterceptor(new String[]{"java.net.InetSocketAddress","boolean","boolean","boolean","java.nio.charset.Charset","long"},new NpcHessianConnectorInterceptor());
-    connectorClass.addConstructorInterceptor(new String[]{"java.net.InetSocketAddress","com.nhncorp.lucy.npc.connector.ConnectionFactory"},new NpcHessianConnectorInterceptor());
+    if (connectorClass.hasDeclaredMethod("createConnecor",new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"})) {
+      Interceptor connectInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor");
+      connectorClass.addInterceptor("createConnecor",new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"},connectInterceptor);
+    }
+    Interceptor invokeInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor");
+    connectorClass.addInterceptor("invoke",new String[]{"java.lang.String","java.lang.String","java.nio.charset.Charset","java.lang.Object[]"},invokeInterceptor);
     return connectorClass.toBytecode();
   }
  catch (  Throwable e) {
