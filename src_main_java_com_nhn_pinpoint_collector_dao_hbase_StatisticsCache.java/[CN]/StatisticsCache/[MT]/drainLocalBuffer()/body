@@ -1,6 +1,7 @@
 {
+  logger.debug("drain local buffer");
   Map<Key,Value> buffer=bufferMap.get();
-  if (buffer != null) {
+  if (buffer != null && buffer.size() >= bufferSize) {
     addValues(buffer);
     buffer.clear();
   }

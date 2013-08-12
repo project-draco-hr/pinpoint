@@ -1,5 +1,6 @@
 {
   try {
+    logger.debug("drain all local buffer");
     bufferListLock.lock();
     for (    Map<Key,Value> buffer : bufferList) {
       if (buffer == null) {
@@ -9,7 +10,10 @@
       buffer.clear();
     }
   }
-  finally {
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+  }
+ finally {
     bufferListLock.unlock();
   }
 }

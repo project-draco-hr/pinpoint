@@ -2,7 +2,16 @@
   Map<Key,Value> buffer=bufferMap.get();
   if (buffer == null) {
     buffer=new HashMap<StatisticsCache.Key,StatisticsCache.Value>(bufferSize);
-    bufferList.add(buffer);
+    try {
+      bufferListLock.lock();
+      bufferList.add(buffer);
+    }
+ catch (    Exception e) {
+      logger.error(e.getMessage(),e);
+    }
+ finally {
+      bufferListLock.unlock();
+    }
     bufferMap.set(buffer);
   }
   return buffer;
