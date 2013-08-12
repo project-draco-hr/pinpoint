@@ -2,7 +2,25 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  com.nhncorp.lucy.npc.connector.NpcConnectorOption option=(com.nhncorp.lucy.npc.connector.NpcConnectorOption)args[0];
-  InetSocketAddress address=option.getAddress();
-  setAddress.invoke(target,address);
+  if (target instanceof KeepAliveNpcHessianConnector) {
+    if (args.length == 4) {
+      if (args[0] instanceof InetSocketAddress) {
+        setServerAddress.invoke(target,(InetSocketAddress)args[0]);
+      }
+    }
+ else     if (args.length == 1) {
+      if (args[0] instanceof NpcConnectorOption) {
+        NpcConnectorOption option=(NpcConnectorOption)args[0];
+        InetSocketAddress address=option.getAddress();
+        setServerAddress.invoke(target,address);
+      }
+    }
+  }
+ else {
+    if (args[0] instanceof NpcConnectorOption) {
+      NpcConnectorOption option=(NpcConnectorOption)args[0];
+      InetSocketAddress address=option.getAddress();
+      setServerAddress.invoke(target,address);
+    }
+  }
 }
