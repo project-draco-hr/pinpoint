@@ -1,0 +1,8 @@
+{
+  Map<T,MutableLong> old=null;
+synchronized (this) {
+    old=this.map;
+    this.map=new HashMap<T,MutableLong>();
+  }
+  return old;
+}
