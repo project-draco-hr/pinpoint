@@ -2,5 +2,13 @@
   if (!useBulk) {
     throw new IllegalStateException();
   }
-  cache.flushAll();
+  logger.trace("flush StatisticsKey");
+  Map<StatisticsKey,ConcurrentCounterMap.LongAdder> flush=this.counter.remove();
+  for (  Map.Entry<StatisticsKey,ConcurrentCounterMap.LongAdder> entry : flush.entrySet()) {
+    StatisticsKey key=entry.getKey();
+    byte[] rowKey=key.getRowKey();
+    byte[] columnName=key.getColumnName();
+    long increment=entry.getValue().get();
+    increment(rowKey,columnName,increment);
+  }
 }

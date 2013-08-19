@@ -2,5 +2,29 @@
   if (!useBulk) {
     throw new IllegalStateException();
   }
-  cache.flushAll();
+  logger.trace("flush CallerKey");
+  Map<CallerRowKey,List<CallerKey>> rowkeyMerge=new HashMap<CallerRowKey,List<CallerKey>>();
+  Map<CallerKey,ConcurrentCounterMap.LongAdder> flush=this.counter.remove();
+  for (  Map.Entry<CallerKey,ConcurrentCounterMap.LongAdder> entry : flush.entrySet()) {
+    final CallerKey callerKey=entry.getKey();
+    callerKey.setCounter(entry.getValue().get());
+    List<CallerKey> callerKeyList=rowkeyMerge.get(callerKey.getCallerRowKey());
+    if (callerKeyList == null) {
+      ArrayList<CallerKey> list=new ArrayList<CallerKey>();
+      list.add(callerKey);
+      rowkeyMerge.put(callerKey.getCallerRowKey(),list);
+    }
+ else {
+      callerKeyList.add(callerKey);
+    }
+  }
+  for (  Map.Entry<CallerRowKey,List<CallerKey>> callerRowKeyListEntry : rowkeyMerge.entrySet()) {
+    CallerRowKey key=callerRowKeyListEntry.getKey();
+    Increment increment=new Increment(key.getRowKey());
+    for (    CallerKey callerKey : callerRowKeyListEntry.getValue()) {
+      increment.addColumn(APPLICATION_MAP_STATISTICS_CALLER_CF_COUNTER,callerKey.getColumnName(),callerKey.getCounter());
+    }
+    logger.trace("flush CallerKey cf size:{}",callerRowKeyListEntry.getValue().size());
+    hbaseTemplate.increment(APPLICATION_MAP_STATISTICS_CALLER,increment);
+  }
 }

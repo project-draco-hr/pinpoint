@@ -1,8 +1,8 @@
 {
-  Map<T,MutableLong> old=null;
+  Map<T,LongAdder> old=null;
 synchronized (this) {
     old=this.map;
-    this.map=new HashMap<T,MutableLong>();
+    this.map=new HashMap<T,LongAdder>();
   }
   return old;
 }

@@ -1,4 +1,4 @@
 {
-  final int mod=entrySelector.getAndIncrement() % concurrencyLevel;
+  final int mod=Math.abs(entrySelector.getAndIncrement() % concurrencyLevel);
   return entryArray[mod];
 }

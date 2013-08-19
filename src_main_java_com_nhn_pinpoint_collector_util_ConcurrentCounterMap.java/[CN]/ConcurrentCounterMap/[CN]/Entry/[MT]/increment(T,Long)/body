@@ -1,9 +1,9 @@
 {
-  MutableLong mutableLong=map.get(key);
-  if (mutableLong == null) {
-    map.put(key,new MutableLong(increment));
+  LongAdder longAdder=map.get(key);
+  if (longAdder == null) {
+    map.put(key,new LongAdder(increment));
   }
  else {
-    mutableLong.increment(increment);
+    longAdder.increment(increment);
   }
 }
