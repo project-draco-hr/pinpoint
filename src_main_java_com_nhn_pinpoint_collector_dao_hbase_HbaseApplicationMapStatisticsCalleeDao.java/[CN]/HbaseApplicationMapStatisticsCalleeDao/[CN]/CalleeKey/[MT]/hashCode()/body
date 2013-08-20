@@ -1,4 +1,7 @@
 {
+  if (hashCode != 0) {
+    return hashCode;
+  }
   int result=calleeApplicationName != null ? calleeApplicationName.hashCode() : 0;
   result=31 * result + (int)calleeServiceType;
   result=31 * result + (int)(rowTimeSlot ^ (rowTimeSlot >>> 32));
@@ -7,6 +10,6 @@
   result=31 * result + (calleeHost != null ? calleeHost.hashCode() : 0);
   result=31 * result + elapsed;
   result=31 * result + (isError ? 1 : 0);
-  result=31 * result + hashCode;
+  hashCode=result;
   return result;
 }
