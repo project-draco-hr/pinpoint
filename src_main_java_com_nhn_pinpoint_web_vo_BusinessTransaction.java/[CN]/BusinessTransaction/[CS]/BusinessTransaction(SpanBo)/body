@@ -6,4 +6,7 @@
   Trace trace=new Trace(traceIdString,elapsed,span.getCollectorAcceptTime(),span.getException());
   this.traces.add(trace);
   calls++;
+  if (span.getException() > 0) {
+    error++;
+  }
 }
