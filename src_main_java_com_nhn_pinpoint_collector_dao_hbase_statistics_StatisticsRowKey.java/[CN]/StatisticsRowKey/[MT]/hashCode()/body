@@ -1,0 +1,10 @@
+{
+  if (hash != 0) {
+    return hash;
+  }
+  int result=applicationName.hashCode();
+  result=31 * result + (int)applicationType;
+  result=31 * result + (int)(rowTimeSlot ^ (rowTimeSlot >>> 32));
+  hash=result;
+  return result;
+}

@@ -13,13 +13,16 @@
   }
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
+  short calleeSlotNumber=ApplicationMapStatisticsUtils.getSlotNumber(calleeServiceType,elapsed,isError);
+  RowKey callerRowKey=new CallRowKey(callerApplicationName,callerServiceType,rowTimeSlot);
+  ColumnName calleeColumnName=new CallColumnName(calleeServiceType,calleeApplicationName,callerHost,calleeSlotNumber);
   if (useBulk) {
-    CallerKey callerKey=new CallerKey(callerApplicationName,callerServiceType,rowTimeSlot,calleeServiceType,calleeApplicationName,callerHost,elapsed,isError);
-    counter.increment(callerKey,1L);
+    RowInfo rowInfo=new DefaultRowInfo(callerRowKey,calleeColumnName);
+    counter.increment(rowInfo,1L);
   }
  else {
-    final byte[] rowKey=ApplicationMapStatisticsUtils.makeRowKey(callerApplicationName,callerServiceType,rowTimeSlot);
-    byte[] columnName=ApplicationMapStatisticsUtils.makeColumnName(calleeServiceType,calleeApplicationName,callerHost,elapsed,isError);
+    final byte[] rowKey=callerRowKey.getRowKey();
+    byte[] columnName=calleeColumnName.getColumnName();
     increment(rowKey,columnName,1L);
   }
 }

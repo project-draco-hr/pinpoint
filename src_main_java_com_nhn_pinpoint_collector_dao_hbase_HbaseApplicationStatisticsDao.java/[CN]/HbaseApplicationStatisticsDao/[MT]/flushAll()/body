@@ -2,13 +2,12 @@
   if (!useBulk) {
     throw new IllegalStateException();
   }
-  logger.trace("flush StatisticsKey");
-  Map<StatisticsKey,ConcurrentCounterMap.LongAdder> flush=this.counter.remove();
-  for (  Map.Entry<StatisticsKey,ConcurrentCounterMap.LongAdder> entry : flush.entrySet()) {
-    StatisticsKey key=entry.getKey();
-    byte[] rowKey=key.getRowKey();
-    byte[] columnName=key.getColumnName();
-    long increment=entry.getValue().get();
-    increment(rowKey,columnName,increment);
+  Map<RowInfo,ConcurrentCounterMap.LongAdder> remove=this.counter.remove();
+  List<Increment> merge=rowKeyMerge.createBulkIncrement(remove);
+  if (merge.size() != 0) {
+    logger.debug("flush {} Increment:{}",this.getClass().getSimpleName(),merge.size());
+  }
+  for (  Increment increment : merge) {
+    hbaseTemplate.increment(APPLICATION_STATISTICS,increment);
   }
 }

@@ -1,0 +1,9 @@
+{
+  final List<Map<T,LongAdder>> copy=new ArrayList<Map<T,LongAdder>>(entryArray.length);
+  for (int i=0; i < entryArray.length; i++) {
+    Entry<T> tEntry=entryArray[i];
+    Map<T,LongAdder> remove=tEntry.remove();
+    copy.add(remove);
+  }
+  return copy;
+}
