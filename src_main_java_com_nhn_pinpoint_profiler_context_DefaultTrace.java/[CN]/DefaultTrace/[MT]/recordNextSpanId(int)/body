@@ -4,7 +4,7 @@
     logger.warn("OMG. Something's going wrong. Current stackframe is root Span. nextSpanId={}",spanId);
   }
  else {
-    SpanEvent spanEvent=((SubStackFrame)currentStackFrame).getSpanEvent();
+    SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
     spanEvent.setNextSpanId(spanId);
   }
 }

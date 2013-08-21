@@ -3,7 +3,7 @@
   final StackFrame stackFrame=createSpanEventStackFrame(stackId);
   if (latestStackIndex != currentStackIndex) {
     latestStackIndex=currentStackIndex;
-    SpanEvent spanEvent=((SubStackFrame)stackFrame).getSpanEvent();
+    SpanEvent spanEvent=((SpanEventStackFrame)stackFrame).getSpanEvent();
     spanEvent.setDepth(latestStackIndex);
   }
   callStack.setStackFrame(stackFrame);
