@@ -1,8 +1,9 @@
 {
   Timer.Context time=timer.time();
   HeaderTBaseDeserializer deserializer=this.deserializer.get();
+  TBase<?,?> tBase=null;
   try {
-    TBase<?,?> tBase=deserializer.deserialize(packet.getData());
+    tBase=deserializer.deserialize(packet.getData());
     dispatchHandler.dispatch(tBase,packet.getData(),Header.HEADER_SIZE,packet.getLength());
   }
  catch (  TException e) {
@@ -15,7 +16,7 @@
   }
 catch (  Exception e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{}",new Object[]{packet.getSocketAddress(),e.getMessage(),e});
+      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tbase:{}",new Object[]{packet.getSocketAddress(),e.getMessage(),e,tBase});
     }
     if (logger.isDebugEnabled()) {
       logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));

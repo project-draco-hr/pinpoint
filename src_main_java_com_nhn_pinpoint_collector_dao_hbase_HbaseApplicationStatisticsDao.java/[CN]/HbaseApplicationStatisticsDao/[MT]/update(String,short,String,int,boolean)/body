@@ -5,6 +5,9 @@
   if (logger.isDebugEnabled()) {
     logger.debug("[UpdatingApplicationMapStatistics] " + applicationName + ", "+ ServiceType.findServiceType(serviceType)+ ", "+ agentId+ ", "+ elapsed+ ", "+ isError);
   }
+  if (agentId == null) {
+    agentId="";
+  }
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   RowKey statisticsRowKey=new StatisticsRowKey(applicationName,serviceType,rowTimeSlot);
