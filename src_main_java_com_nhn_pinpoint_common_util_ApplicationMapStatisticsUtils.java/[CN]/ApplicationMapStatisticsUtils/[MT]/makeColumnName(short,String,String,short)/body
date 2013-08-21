@@ -6,15 +6,9 @@
     destHost="";
   }
   byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
-  byte[] slotNumber;
-  if (isError) {
-    slotNumber=HBaseTables.STATISTICS_CQ_ERROR_SLOT;
-  }
- else {
-    slotNumber=findResponseHistogramSlotNo(serviceType,elapsed);
-  }
+  byte[] slotNumberBytes=Bytes.toBytes(slotNumber);
   byte[] applicationNameBytes=Bytes.toBytes(applicationName);
   byte[] applicationNameLenBytes=Bytes.toBytes((short)applicationNameBytes.length);
   byte[] destHostBytes=Bytes.toBytes(destHost);
-  return BytesUtils.concat(serviceTypeBytes,slotNumber,applicationNameLenBytes,applicationNameBytes,destHostBytes);
+  return BytesUtils.concat(serviceTypeBytes,slotNumberBytes,applicationNameLenBytes,applicationNameBytes,destHostBytes);
 }
