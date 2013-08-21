@@ -6,8 +6,12 @@
   if (trace == null) {
     return;
   }
-  trace.recordApi(descriptor);
-  trace.recordException(result);
-  trace.markAfterTime();
-  trace.traceBlockEnd();
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
 }

@@ -26,9 +26,13 @@
   if (trace == null) {
     return;
   }
-  trace.recordSqlParsingResult(parsingResult);
-  trace.recordException(result);
-  trace.recordApi(descriptor);
-  trace.markAfterTime();
-  trace.traceBlockEnd();
+  try {
+    trace.recordSqlParsingResult(parsingResult);
+    trace.recordException(result);
+    trace.recordApi(descriptor);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
 }

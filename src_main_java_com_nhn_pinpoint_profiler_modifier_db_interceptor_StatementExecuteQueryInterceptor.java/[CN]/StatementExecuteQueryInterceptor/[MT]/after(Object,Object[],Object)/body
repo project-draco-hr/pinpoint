@@ -9,14 +9,18 @@
   if (trace == null) {
     return;
   }
-  trace.recordApi(descriptor);
-  trace.recordException(result);
-  if (args.length > 0) {
-    Object arg=args[0];
-    if (arg instanceof String) {
-      trace.recordSqlInfo((String)arg);
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(result);
+    if (args.length > 0) {
+      Object arg=args[0];
+      if (arg instanceof String) {
+        trace.recordSqlInfo((String)arg);
+      }
     }
+    trace.markAfterTime();
   }
-  trace.markAfterTime();
-  trace.traceBlockEnd();
+  finally {
+    trace.traceBlockEnd();
+  }
 }

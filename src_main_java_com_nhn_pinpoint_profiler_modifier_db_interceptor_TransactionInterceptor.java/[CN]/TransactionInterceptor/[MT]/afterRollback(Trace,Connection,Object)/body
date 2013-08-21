@@ -8,6 +8,7 @@
     trace.recordApi(descriptor);
     trace.recordException(result);
     trace.recordException(result);
+    trace.markAfterTime();
   }
  catch (  Exception e) {
     if (logger.isWarnEnabled()) {
@@ -15,7 +16,6 @@
     }
   }
  finally {
-    trace.markAfterTime();
     trace.traceBlockEnd();
   }
 }

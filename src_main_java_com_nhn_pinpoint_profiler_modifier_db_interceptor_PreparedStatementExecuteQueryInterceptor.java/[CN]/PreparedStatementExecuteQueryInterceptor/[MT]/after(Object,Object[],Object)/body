@@ -11,14 +11,9 @@
   }
   try {
     trace.recordException(result);
-  }
- catch (  Exception e) {
-    if (logger.isWarnEnabled()) {
-      logger.warn(e.getMessage(),e);
-    }
-  }
- finally {
     trace.markAfterTime();
+  }
+  finally {
     trace.traceBlockEnd();
   }
 }
