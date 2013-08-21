@@ -25,6 +25,8 @@
   trace.recordServiceType(ServiceType.JDK_HTTPURLCONNECTOR);
   String host=request.getURL().getHost();
   int port=request.getURL().getPort();
-  trace.recordDestinationId(host + ((port > 0) ? ":" + port : ""));
+  String endpoint=getEndpoint(host,port);
+  trace.recordEndPoint(endpoint);
+  trace.recordDestinationId(endpoint);
   trace.recordAttribute(AnnotationKey.HTTP_URL,request.getURL().toString());
 }
