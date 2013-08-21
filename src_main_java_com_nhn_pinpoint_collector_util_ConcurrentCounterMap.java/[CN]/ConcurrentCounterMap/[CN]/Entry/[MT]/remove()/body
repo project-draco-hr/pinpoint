@@ -1,7 +1,10 @@
 {
-  Map<T,LongAdder> old=null;
+  Map<T,LongAdder> old;
 synchronized (this) {
     old=this.map;
+    if (old.isEmpty()) {
+      return EMPTY;
+    }
     this.map=new HashMap<T,LongAdder>();
   }
   return old;
