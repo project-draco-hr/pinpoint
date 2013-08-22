@@ -8,7 +8,7 @@
   }
  catch (  TException e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",new Object[]{packet.getSocketAddress(),e.getMessage(),e});
+      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",packet.getSocketAddress(),e.getMessage(),e);
     }
     if (logger.isDebugEnabled()) {
       logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));
@@ -16,7 +16,7 @@
   }
 catch (  Exception e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tBase:{}",new Object[]{packet.getSocketAddress(),e.getMessage(),tBase,e});
+      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tBase:{}",packet.getSocketAddress(),e.getMessage(),tBase,e);
     }
     if (logger.isDebugEnabled()) {
       logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));
