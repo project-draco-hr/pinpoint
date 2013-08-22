@@ -1,19 +1,13 @@
 {
-  drainStartEntry:   while (true) {
+  drainStartEntry:   while (isRun()) {
     try {
-      if (isShutdown()) {
-        break;
-      }
       Collection<Object> dtoList=getDrainQueue();
       int drainSize=takeN(dtoList,this.maxDrainSize);
       if (drainSize > 0) {
         doExecute(dtoList);
         continue;
       }
-      while (true) {
-        if (isShutdown()) {
-          break;
-        }
+      while (isRun()) {
         Object dto=takeOne();
         if (dto != null) {
           doExecute(dto);
