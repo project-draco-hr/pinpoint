@@ -7,7 +7,5 @@
   if (merge.size() != 0) {
     logger.debug("flush {} Increment:{}",this.getClass().getSimpleName(),merge.size());
   }
-  for (  Increment increment : merge) {
-    hbaseTemplate.increment(APPLICATION_MAP_STATISTICS_CALLEE,increment);
-  }
+  hbaseTemplate.increment(APPLICATION_MAP_STATISTICS_CALLEE,merge);
 }
