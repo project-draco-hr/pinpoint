@@ -1,6 +1,6 @@
 {
   logger.info("Starting UDPReceiver.");
-  this.udpDataReceiver=crateUdpReceiver(configuration,dispatchHandler);
+  this.udpDataReceiver=context.getBean("udpReceiver",UDPReceiver.class);
   this.udpDataReceiver.start();
   logger.info("Server started successfully.");
 }

@@ -1,9 +1,10 @@
 {
-  if (dispatchHandler == null) {
-    throw new NullPointerException("dispatchHandler must not be null");
-  }
-  this.socket=createSocket(configuration.getCollectorUdpListenPort(),configuration.getUdpSocketReceiveBufferSize());
   this.dispatchHandler=dispatchHandler;
-  this.datagramPacketPool=new FixedPool<DatagramPacket>(new DatagramPacketFactory(),getPacketPoolSize(configuration));
-  this.worker=ExecutorFactory.newFixedThreadPool(configuration.getUdpWorkerThread(),configuration.getUdpWorkerQueueSize(),"Pinpoint-UDP-Worker",true);
+  this.configuration=configuration;
+  try {
+    afterPropertiesSet();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException("udpReceiver create fail. Caused:" + e.getMessage(),e);
+  }
 }

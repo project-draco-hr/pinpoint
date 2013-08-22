@@ -1,13 +1,9 @@
 {
   try {
     GenericApplicationContext context=ApplicationContextUtils.createContext();
-    DispatchHandler multiplexedPacketHandler=ApplicationContextUtils.getDispatchHandler(context);
-    CollectorConfiguration config=new CollectorConfiguration();
-    config.setCollectorUdpListenPort(config.getCollectorUdpListenPort() + 10);
-    config.setUdpWorkerThread(1);
-    config.setUdpWorkerQueueSize(1);
-    DataReceiver receiver=new UDPReceiver(multiplexedPacketHandler,config);
+    DataReceiver receiver=context.getBean("udpReceiver",UDPReceiver.class);
     receiver.start();
+    Thread.sleep(1000);
     receiver.shutdown();
     context.close();
   }
