@@ -1,0 +1,13 @@
+{
+  this.sendLatch=new CountDownLatch(2);
+  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  try {
+    sender.send(new ApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
+    sender.send(new ApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
+    boolean received=sendLatch.await(1000,TimeUnit.MILLISECONDS);
+    Assert.assertTrue(received);
+  }
+  finally {
+    sender.stop();
+  }
+}
