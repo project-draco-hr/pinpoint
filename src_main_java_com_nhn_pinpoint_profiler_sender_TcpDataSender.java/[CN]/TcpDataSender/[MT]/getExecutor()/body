@@ -1,0 +1,13 @@
+{
+  AsyncQueueingExecutor executor=new AsyncQueueingExecutor(1024 * 5,"Pinpoint-TcpDataExecutor");
+  executor.setListener(new AsyncQueueingExecutorListener(){
+    @Override public void execute(    Collection<Object> dtoList){
+      sendPacketN(dtoList);
+    }
+    @Override public void execute(    Object dto){
+      sendPacket(dto);
+    }
+  }
+);
+  return executor;
+}

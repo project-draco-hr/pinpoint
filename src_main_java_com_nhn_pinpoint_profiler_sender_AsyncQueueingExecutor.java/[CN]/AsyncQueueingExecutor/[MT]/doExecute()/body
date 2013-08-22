@@ -1,0 +1,29 @@
+{
+  drainStartEntry:   while (true) {
+    try {
+      if (isShutdown()) {
+        break;
+      }
+      Collection<Object> dtoList=getDrainQueue();
+      int drainSize=takeN(dtoList,this.maxDrainSize);
+      if (drainSize > 0) {
+        doExecute(dtoList);
+        continue;
+      }
+      while (true) {
+        if (isShutdown()) {
+          break;
+        }
+        Object dto=takeOne();
+        if (dto != null) {
+          doExecute(dto);
+          continue drainStartEntry;
+        }
+      }
+    }
+ catch (    Throwable th) {
+      logger.warn("{} doExecute(). Unexpected Error. Cause:{}",new Object[]{executorName,th.getMessage(),th});
+    }
+  }
+  flushQueue();
+}

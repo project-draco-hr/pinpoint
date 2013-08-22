@@ -1,0 +1,14 @@
+{
+  isRun.set(false);
+  if (!isEmpty()) {
+    logger.info("Wait 5 seconds. Flushing queued data.");
+  }
+  try {
+    ioThread.join(5000);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+    logger.info("{} stopped incompletely.",executorName);
+  }
+  logger.info("{} stopped.",executorName);
+}
