@@ -8,6 +8,9 @@
   if (logger.isDebugEnabled()) {
     logger.debug("[UpdatingApplicationMapStatisticsCallee] " + callerApplicationName + " ("+ ServiceType.findServiceType(callerServiceType)+ ")["+ calleeHost+ "] -> "+ calleeApplicationName+ " ("+ ServiceType.findServiceType(calleeServiceType)+ ")");
   }
+  if (calleeHost == null) {
+    calleeHost="";
+  }
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   RowKey calleeRowKey=new CallRowKey(calleeApplicationName,calleeServiceType,rowTimeSlot);
