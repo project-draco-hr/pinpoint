@@ -1,11 +1,29 @@
 {
-  Future<Boolean> future=null;
+  int rand=new Random().nextInt(100);
+  String key="pinpoint:testkey-" + rand;
+  Future<Boolean> setFuture=null;
   try {
-    future=arcus.set("pinpoint:testkey",10,"Hello, pinpoint.");
-    future.get(1000L,TimeUnit.MILLISECONDS);
+    setFuture=arcus.set(key,10,"Hello, pinpoint." + rand);
+    setFuture.get(1000L,TimeUnit.MILLISECONDS);
   }
  catch (  Exception e) {
-    if (future != null)     future.cancel(true);
+    if (setFuture != null)     setFuture.cancel(true);
+  }
+  Future<Object> getFuture=null;
+  try {
+    getFuture=arcus.asyncGet(key);
+    getFuture.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (getFuture != null)     getFuture.cancel(true);
+  }
+  Future<Boolean> delFuture=null;
+  try {
+    delFuture=arcus.delete(key);
+    delFuture.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (delFuture != null)     delFuture.cancel(true);
   }
   return "arcus";
 }
