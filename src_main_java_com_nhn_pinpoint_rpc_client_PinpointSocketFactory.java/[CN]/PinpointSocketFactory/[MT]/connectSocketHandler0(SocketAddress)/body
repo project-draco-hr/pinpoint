@@ -2,7 +2,6 @@
   ChannelFuture connectFuture=bootstrap.connect(address);
   connectFuture.awaitUninterruptibly();
   if (!connectFuture.isSuccess()) {
-    connectFuture.getChannel().close();
     throw new PinpointSocketException("connect fail.",connectFuture.getCause());
   }
   Channel channel=connectFuture.getChannel();

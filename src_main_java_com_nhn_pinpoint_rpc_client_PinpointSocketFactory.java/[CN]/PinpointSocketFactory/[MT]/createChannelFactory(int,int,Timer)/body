@@ -1,0 +1,7 @@
+{
+  ExecutorService boss=Executors.newCachedThreadPool(new PinpointThreadFactory("Pinpoint-Client-Boss",true));
+  NioClientBossPool bossPool=new NioClientBossPool(boss,bossCount,timer,ThreadNameDeterminer.CURRENT);
+  ExecutorService worker=Executors.newCachedThreadPool(new PinpointThreadFactory("Pinpoint-Client-Worker",true));
+  NioWorkerPool workerPool=new NioWorkerPool(worker,workerCount,ThreadNameDeterminer.CURRENT);
+  return new NioClientSocketChannelFactory(bossPool,workerPool);
+}
