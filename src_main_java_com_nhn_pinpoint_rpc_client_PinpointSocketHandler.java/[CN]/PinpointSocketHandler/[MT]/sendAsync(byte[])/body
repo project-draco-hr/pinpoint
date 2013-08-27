@@ -8,7 +8,10 @@
     @Override public void operationComplete(    ChannelFuture channelfuture) throws Exception {
       boolean success=channelfuture.isSuccess();
       if (success) {
-        future.setResult(Boolean.TRUE);
+        future.setResult(null);
+      }
+ else {
+        future.setFailure(channelfuture.getCause());
       }
     }
   }
