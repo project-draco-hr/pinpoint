@@ -1,5 +1,6 @@
 {
-  RequestManager requestManager=new RequestManager(10);
+  HashedWheelTimer timer=getTimer();
+  RequestManager requestManager=new RequestManager(timer);
   try {
     RequestPacket packet=new RequestPacket(new byte[0]);
     Future future=requestManager.register(packet,50);
@@ -11,5 +12,6 @@
   }
   finally {
     requestManager.close();
+    timer.stop();
   }
 }

@@ -24,6 +24,8 @@ return readStreamResponse(packetType,buffer);
 case PacketType.CONTROL_CLOSE:
 return readControlClose(packetType,buffer);
 case PacketType.CONTROL_PING:
+logger.debug("receive ping. send pong. {}",channel);
+channel.write(PongPacket.PONG_PACKET);
 return readPing(packetType,buffer);
 case PacketType.CONTROL_PONG:
 return readPong(packetType,buffer);

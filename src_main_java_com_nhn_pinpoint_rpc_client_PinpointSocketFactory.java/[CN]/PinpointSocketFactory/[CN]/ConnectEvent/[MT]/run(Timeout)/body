@@ -1,10 +1,16 @@
 {
-  logger.warn("try reconnect {}",socketAddress);
-  final ChannelFuture channelFuture=connectAsync(socketAddress);
+  if (timeout.isCancelled()) {
+    return;
+  }
+  if (pinpointSocket.isClosed()) {
+    logger.debug("pinpointSocket is already closed.");
+    return;
+  }
+  logger.warn("try reconnect. connectAddress:{}",socketAddress);
+  final ChannelFuture channelFuture=bootstrap.connect(socketAddress);
   Channel channel=channelFuture.getChannel();
   final SocketHandler socketHandler=getSocketHandler(channel);
-  socketHandler.setPinpointSocketFactory(PinpointSocketFactory.this);
-  socketHandler.setSocketAddress(socketAddress);
+  socketHandler.setConnectSocketAddress(socketAddress);
   socketHandler.setPinpointSocket(pinpointSocket);
   channelFuture.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
@@ -12,16 +18,18 @@
         Channel channel=future.getChannel();
         logger.warn("reconnect success {}, {}",socketAddress,channel);
         socketHandler.open();
-        pinpointSocket.replaceSocketHandler(socketHandler);
+        pinpointSocket.reconnectSocketHandler(socketHandler);
       }
  else {
         if (!pinpointSocket.isClosed()) {
-          Throwable cause=future.getCause();
-          logger.warn("reconnect fail. {} Caused:{}",socketAddress,cause.getMessage(),cause);
+          if (logger.isWarnEnabled()) {
+            Throwable cause=future.getCause();
+            logger.warn("reconnect fail. {} Caused:{}",socketAddress,cause.getMessage(),cause);
+          }
           reconnect(pinpointSocket,socketAddress);
         }
  else {
-          logger.info("pinpointSocket is closed");
+          logger.info("pinpointSocket is closed. stop reconnect.");
         }
       }
     }

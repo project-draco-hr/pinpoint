@@ -1,0 +1,19 @@
+{
+  logger.debug("close() call");
+  int currentState=this.state.getState();
+  if (currentState == State.CLOSED) {
+    logger.debug("already close()");
+    return;
+  }
+  logger.debug("close() start");
+  if (!this.state.changeClosed(currentState)) {
+    logger.debug("close() invalid state");
+    return;
+  }
+  logger.debug("close() state change complete");
+  final Channel channel=this.channel;
+  sendClosedPacket(channel);
+  releaseResource();
+  channel.close();
+  logger.debug("close() complete");
+}

@@ -6,7 +6,8 @@ synchronized (this) {
     closed=true;
   }
   SocketHandler socketHandler=this.socketHandler;
-  if (socketHandler != null) {
-    socketHandler.close();
+  if (socketHandler == null) {
+    return;
   }
+  socketHandler.close();
 }

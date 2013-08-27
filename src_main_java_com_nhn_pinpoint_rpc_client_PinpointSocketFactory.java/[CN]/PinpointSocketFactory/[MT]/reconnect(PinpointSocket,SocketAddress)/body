@@ -1,5 +1,4 @@
 {
   ConnectEvent connectEvent=new ConnectEvent(pinpointSocket,socketAddress);
-  reconnect(connectEvent);
-  return;
+  timer.newTimeout(connectEvent,reconnectDelay,TimeUnit.MILLISECONDS);
 }
