@@ -12,8 +12,8 @@
   }
   byte[] copy=serialize(tBase);
   try {
-    ChannelFuture ioWriteCheck=(ChannelFuture)this.socket.sendAsync(copy);
-    ioWriteCheck.addListener(writeFailFutureListener);
+    Future ioWriteCheck=this.socket.sendAsync(copy);
+    ioWriteCheck.setListener(writeFailFutureListener);
   }
  catch (  Exception e) {
     logger.warn("tcp send fail. Caused:{}",e.getMessage(),e);
