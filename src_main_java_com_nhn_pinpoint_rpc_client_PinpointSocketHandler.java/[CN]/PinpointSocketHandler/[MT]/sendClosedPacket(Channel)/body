@@ -3,6 +3,7 @@
     logger.debug("channel already closed. skip sendClosedPacket() {}",channel);
     return;
   }
+  logger.debug("write ClosePacket");
   ClosePacket closePacket=new ClosePacket();
   ChannelFuture write=channel.write(closePacket);
   write.addListener(new ChannelFutureListener(){
@@ -16,4 +17,5 @@
     }
   }
 );
+  write.awaitUninterruptibly(3000,TimeUnit.MILLISECONDS);
 }
