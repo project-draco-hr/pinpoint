@@ -2,8 +2,10 @@
   ChannelPipeline pipeline=Channels.pipeline();
   pipeline.addLast("encoder",new PacketEncoder());
   pipeline.addLast("decoder",new PacketDecoder());
-  PinpointSocketHandler pinpointSocketHandler=new PinpointSocketHandler(pinpointSocketFactory);
-  pipeline.addLast("writeTimeout",new WriteTimeoutHandler(pinpointSocketHandler.getTimer(),3));
+  long pingDelay=pinpointSocketFactory.getPingDelay();
+  long timeoutMillis=pinpointSocketFactory.getTimeoutMillis();
+  PinpointSocketHandler pinpointSocketHandler=new PinpointSocketHandler(pinpointSocketFactory,pingDelay,timeoutMillis);
+  pipeline.addLast("writeTimeout",new WriteTimeoutHandler(pinpointSocketHandler.getChannelTimer(),3000,TimeUnit.MILLISECONDS));
   pipeline.addLast("socketHandler",pinpointSocketHandler);
   return pipeline;
 }

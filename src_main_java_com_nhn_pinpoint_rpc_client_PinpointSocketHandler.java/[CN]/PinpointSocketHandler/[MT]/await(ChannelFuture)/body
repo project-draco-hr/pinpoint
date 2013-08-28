@@ -1,6 +1,6 @@
 {
   try {
-    channelFuture.await(3000,TimeUnit.MILLISECONDS);
+    channelFuture.await(timeoutMillis,TimeUnit.MILLISECONDS);
   }
  catch (  InterruptedException e) {
     Thread.currentThread().interrupt();
@@ -21,7 +21,14 @@
       throw new PinpointSocketException("io timeout");
     }
  else {
-      channelFuture.isSuccess();
+      boolean success=channelFuture.isSuccess();
+      if (success) {
+        return;
+      }
+ else {
+        final Throwable cause=channelFuture.getCause();
+        throw new PinpointSocketException(cause);
+      }
     }
   }
 }

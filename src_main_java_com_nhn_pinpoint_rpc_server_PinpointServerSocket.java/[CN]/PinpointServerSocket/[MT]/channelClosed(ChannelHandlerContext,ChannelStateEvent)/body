@@ -1,13 +1,18 @@
 {
   final Channel channel=e.getChannel();
   final ChannelContext channelContext=getChannelContext(channel);
-  if (!channelContext.isClosePacketReceived()) {
-    logger.warn("Unexpected Client channelClosed {}",channel);
+  if (channelContext.isClosePacketReceived()) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("client channelClosed. ClosePacket already received. {}",channel);
+    }
+  }
+ else   if (released) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("client channelClosed. server shutdown. {}",channel);
+    }
   }
  else {
-    if (logger.isDebugEnabled()) {
-      logger.debug("server channelClosed {}",channel);
-    }
+    logger.warn("Unexpected Client channelClosed {}",channel);
   }
   channelContext.closeAllStreamChannel();
 }

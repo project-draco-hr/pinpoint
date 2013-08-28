@@ -1,7 +1,7 @@
 {
   final int requestId=getNextRequestId();
   requestPacket.setRequestId(requestId);
-  final DefaultFuture<ResponseMessage> future=new DefaultFuture<ResponseMessage>(timeoutMillis);
+  final ChannelWriteFailListenableFuture<ResponseMessage> future=new ChannelWriteFailListenableFuture<ResponseMessage>(timeoutMillis);
   final DefaultFuture old=this.requestMap.put(requestId,future);
   if (old != null) {
     throw new PinpointSocketException("unexpected error. old future exist:" + old + " id:"+ requestId);

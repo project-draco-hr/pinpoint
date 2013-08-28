@@ -9,7 +9,7 @@
     if (currentState == State.RUN) {
       state.setState(State.RECONNECT);
     }
-    logger.info("UnexpectedChannelClosed. try reconnect channel:{}, {}, state:{}",e.getChannel(),connectSocketAddress,state.getString());
+    logger.info("channelClosed() UnexpectedChannelClosed. state:{} try reconnect channel:{}, connectSocketAddress:{}",state.getString(),e.getChannel(),connectSocketAddress);
     this.pinpointSocketFactory.reconnect(this.pinpointSocket,this.connectSocketAddress);
     return;
   }

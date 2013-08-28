@@ -2,5 +2,6 @@
   if (bytes == null) {
     throw new NullPointerException("bytes");
   }
-  send0(bytes);
+  ChannelFuture future=send0(bytes);
+  future.addListener(sendWriteFailFutureListener);
 }

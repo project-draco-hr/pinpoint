@@ -10,16 +10,8 @@
   }
   RequestPacket request=new RequestPacket(bytes);
   final Channel channel=this.channel;
-  final DefaultFuture<ResponseMessage> messageFuture=this.requestManager.register(request,this.timeoutMillis);
+  final ChannelWriteFailListenableFuture<ResponseMessage> messageFuture=this.requestManager.register(request,this.timeoutMillis);
   ChannelFuture write=channel.write(request);
-  write.addListener(new ChannelFutureListener(){
-    @Override public void operationComplete(    ChannelFuture future) throws Exception {
-      if (!future.isSuccess()) {
-        Throwable cause=future.getCause();
-        messageFuture.setFailure(cause);
-      }
-    }
-  }
-);
+  write.addListener(messageFuture);
   return messageFuture;
 }

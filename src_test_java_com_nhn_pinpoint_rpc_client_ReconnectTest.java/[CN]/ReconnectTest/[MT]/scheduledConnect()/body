@@ -2,9 +2,10 @@
   final PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
   pinpointSocketFactory.setReconnectDelay(2000);
   PinpointSocket socket=null;
+  PinpointServerSocket serverSocket=null;
   try {
     socket=pinpointSocketFactory.scheduledConnect("localhost",10234);
-    PinpointServerSocket serverSocket=new PinpointServerSocket();
+    serverSocket=new PinpointServerSocket();
     serverSocket.setMessageListener(new TestSeverMessageListener());
     serverSocket.bind("localhost",10234);
     Thread.sleep(3000);
@@ -20,5 +21,8 @@
       socket.close();
     }
     pinpointSocketFactory.release();
+    if (serverSocket != null) {
+      serverSocket.close();
+    }
   }
 }

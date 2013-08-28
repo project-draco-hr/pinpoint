@@ -1,5 +1,19 @@
 {
+  if (!channel.isConnected()) {
+    logger.debug("channel already closed. skip sendClosedPacket() {}",channel);
+    return;
+  }
   ClosePacket closePacket=new ClosePacket();
   ChannelFuture write=channel.write(closePacket);
-  write.awaitUninterruptibly(3000,TimeUnit.MILLISECONDS);
+  write.addListener(new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (!future.isSuccess()) {
+        logger.warn("ClosePacket write fail. channel:{}",future.getCause(),future.getCause());
+      }
+ else {
+        logger.debug("ClosePacket write success. channel:{}",future.getChannel());
+      }
+    }
+  }
+);
 }

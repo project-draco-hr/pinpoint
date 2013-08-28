@@ -2,19 +2,8 @@
   if (bytes == null) {
     throw new NullPointerException("bytes");
   }
-  final DefaultFuture future=new DefaultFuture(timeoutMillis);
   ChannelFuture channelFuture=send0(bytes);
-  channelFuture.addListener(new ChannelFutureListener(){
-    @Override public void operationComplete(    ChannelFuture channelfuture) throws Exception {
-      boolean success=channelfuture.isSuccess();
-      if (success) {
-        future.setResult(null);
-      }
- else {
-        future.setFailure(channelfuture.getCause());
-      }
-    }
-  }
-);
+  final ChannelWriteCompleteListenableFuture future=new ChannelWriteCompleteListenableFuture(timeoutMillis);
+  channelFuture.addListener(future);
   return future;
 }

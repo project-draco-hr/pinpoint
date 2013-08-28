@@ -1,4 +1,7 @@
 {
+  if (socketHandler == null) {
+    throw new NullPointerException("socketHandler must not be null");
+  }
   if (closed) {
     logger.warn("reconnectSocketHandler(). socketHandler force close.");
     socketHandler.close();
