@@ -1,0 +1,18 @@
+{
+  PinpointServerSocket server=new PinpointServerSocket();
+  server.setMessageListener(new ServerMessageListener(){
+    @Override public void handleSend(    SendPacket sendPacket,    SocketChannel channel){
+      logger.info("handleSend:{}",sendPacket);
+      send++;
+    }
+    @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
+      logger.info("handleRequest:{}",requestPacket);
+    }
+    @Override public void handleStream(    StreamPacket streamPacket,    ServerStreamChannel streamChannel){
+      logger.info("handleStreamPacket:{}",streamPacket);
+    }
+  }
+);
+  server.bind(HOST,PORT);
+  return server;
+}

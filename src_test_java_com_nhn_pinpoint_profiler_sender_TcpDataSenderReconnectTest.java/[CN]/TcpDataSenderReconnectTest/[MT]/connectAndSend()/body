@@ -1,0 +1,16 @@
+{
+  PinpointServerSocket old=serverStart();
+  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  Thread.sleep(500);
+  old.close();
+  Thread.sleep(500);
+  logger.info("Server start------------------");
+  PinpointServerSocket pinpointServerSocket=serverStart();
+  Thread.sleep(5000);
+  logger.info("sendMessage------------------");
+  sender.send(new ApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
+  Thread.sleep(500);
+  logger.info("sender stop------------------");
+  sender.stop();
+  pinpointServerSocket.close();
+}
