@@ -1,0 +1,41 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetHostname()) {
+    optionals.set(0);
+  }
+  if (struct.isSetIp()) {
+    optionals.set(1);
+  }
+  if (struct.isSetPorts()) {
+    optionals.set(2);
+  }
+  if (struct.isSetAgentId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetStatistics()) {
+    optionals.set(4);
+  }
+  if (struct.isSetTimestamp()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
+  if (struct.isSetHostname()) {
+    oprot.writeString(struct.hostname);
+  }
+  if (struct.isSetIp()) {
+    oprot.writeString(struct.ip);
+  }
+  if (struct.isSetPorts()) {
+    oprot.writeString(struct.ports);
+  }
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetStatistics()) {
+    oprot.writeString(struct.statistics);
+  }
+  if (struct.isSetTimestamp()) {
+    oprot.writeI64(struct.timestamp);
+  }
+}
