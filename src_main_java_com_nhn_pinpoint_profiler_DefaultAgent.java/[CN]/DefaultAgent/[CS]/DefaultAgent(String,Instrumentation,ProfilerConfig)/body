@@ -20,10 +20,11 @@
   this.startTime=System.currentTimeMillis();
   this.identifier=getShortIdentifier();
   initializeTraceContext();
-  this.systemMonitor=new SystemMonitor(this.traceContext,this.profilerConfig);
-  this.systemMonitor.setDataSender(dataSender);
   ApiMappingTable.findApiId("test",null,null);
   this.agentInfo=createAgentInfo();
   this.heartBitChecker=new HeartBitChecker(priorityDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
+  this.agentStatMonitor=new AgentStatMonitor(this.traceContext,this.profilerConfig);
+  this.agentStatMonitor.setDataSender(this.dataSender);
+  this.agentStatMonitor.setAgentInfo(this.agentInfo);
   SingletonHolder.INSTANCE=this;
 }

@@ -1,0 +1,14 @@
+{
+  if (agentStat == null) {
+    logger.debug("AgentInfo is not found");
+    return;
+  }
+  try {
+    this.agentStat.setTimestamp(System.currentTimeMillis());
+    this.agentStat.setStatistics(this.monitorRegistry.getMonitorsAsJson());
+    dataSender.send(agentStat);
+  }
+ catch (  Exception e) {
+    logger.warn("AgentStat collect failed : {}",e.getMessage());
+  }
+}

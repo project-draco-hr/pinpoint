@@ -2,7 +2,7 @@
   logger.info("Stopping " + ProductInfo.CAMEL_NAME + " Agent.");
   changeStatus(AgentStatus.STOPPING);
   this.heartBitChecker.close();
-  systemMonitor.stop();
+  this.agentStatMonitor.shutdown();
   agentInfo.setIsAlive(false);
   this.priorityDataSender.send(agentInfo);
   this.priorityDataSender.send(agentInfo);
