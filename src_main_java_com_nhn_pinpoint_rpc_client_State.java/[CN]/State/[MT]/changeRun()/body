@@ -1,3 +1,10 @@
 {
-  return this.state.compareAndSet(INIT,RUN);
+  final int current=state.get();
+  if (current == INIT) {
+    return this.state.compareAndSet(INIT,RUN);
+  }
+ else   if (current == INIT_RECONNECT) {
+    return this.state.compareAndSet(INIT_RECONNECT,RUN);
+  }
+  throw new IllegalStateException("InvalidState current:" + getString(current) + " change:"+ getString(RUN));
 }

@@ -1,4 +1,9 @@
 {
   Throwable cause=e.getCause();
-  logger.warn("exceptionCaught() UnexpectedError happened. state:{} Caused:{}",state.getString(),cause.getMessage(),cause);
+  if (state.getState() == State.INIT_RECONNECT) {
+    logger.info("exceptionCaught() reconnect fail. state:{} {} Caused:{}",state.getString(),e.getChannel(),cause.getMessage(),cause);
+  }
+ else {
+    logger.warn("exceptionCaught() UnexpectedError happened. state:{} {} Caused:{}",state.getString(),e.getChannel(),cause.getMessage(),cause);
+  }
 }

@@ -2,12 +2,11 @@
   if (address == null) {
     throw new NullPointerException("address");
   }
-  ChannelFuture connectFuture=bootstrap.connect(address);
   SocketHandler socketHandler=getSocketHandler(connectFuture.getChannel());
   socketHandler.setConnectSocketAddress(address);
   connectFuture.awaitUninterruptibly();
   if (!connectFuture.isSuccess()) {
-    throw new PinpointSocketException("connect fail.",connectFuture.getCause());
+    throw new PinpointSocketException("connect fail. " + address,connectFuture.getCause());
   }
   socketHandler.open();
   return socketHandler;

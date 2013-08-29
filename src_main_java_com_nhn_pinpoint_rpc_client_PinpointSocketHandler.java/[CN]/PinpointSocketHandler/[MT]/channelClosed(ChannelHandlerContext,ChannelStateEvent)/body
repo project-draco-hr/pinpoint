@@ -1,17 +1,23 @@
 {
   final int currentState=state.getState();
   if (currentState == State.CLOSED) {
-    logger.debug("channelClosed() state:{} {}",state.getString(currentState),ctx.getChannel());
+    logger.debug("channelClosed() normal. state:{} {}",state.getString(currentState),e.getChannel());
     return;
   }
-  releaseResource();
-  if (currentState == State.RUN || currentState == State.RECONNECT) {
+ else   if (currentState == State.INIT_RECONNECT) {
+    logger.debug("channelClosed() reconnect fail. state:{} {}",state.getString(currentState),e.getChannel());
+  }
+ else   if (currentState == State.RUN || currentState == State.RECONNECT) {
     if (currentState == State.RUN) {
+      logger.debug("change state=reconnect");
       state.setState(State.RECONNECT);
     }
     logger.info("channelClosed() UnexpectedChannelClosed. state:{} try reconnect channel:{}, connectSocketAddress:{}",state.getString(),e.getChannel(),connectSocketAddress);
     this.pinpointSocketFactory.reconnect(this.pinpointSocket,this.connectSocketAddress);
     return;
   }
-  logger.info("channelClosed() UnexpectedChannelClosed. channel:{}",e.getChannel());
+ else {
+    logger.info("channelClosed() UnexpectedChannelClosed. state:{} {}",state.getString(currentState),e.getChannel());
+  }
+  releaseResource();
 }

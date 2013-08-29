@@ -14,6 +14,9 @@
   final Channel channel=this.channel;
   sendClosedPacket(channel);
   releaseResource();
-  channel.close().awaitUninterruptibly();
+  logger.debug("channel.close()");
+  ChannelFuture channelFuture=channel.close();
+  channelFuture.addListener(new WriteFailFutureListener(logger,"close() event fail."));
+  channelFuture.awaitUninterruptibly();
   logger.debug("close() complete");
 }
