@@ -1,14 +1,26 @@
 {
   if (built)   return this;
+  Map<String,Set<AgentInfoBo>> agentMap=new HashMap<String,Set<AgentInfoBo>>();
+  for (  TransactionFlowStatistics stat : data) {
+    if (stat.getToAgentSet() != null) {
+      String key=makeApplicationId(stat.getTo(),stat.getToServiceType());
+      if (agentMap.containsKey(key)) {
+        agentMap.get(key).addAll(stat.getToAgentSet());
+      }
+ else {
+        agentMap.put(key,stat.getToAgentSet());
+      }
+    }
+  }
   for (  TransactionFlowStatistics stat : data) {
     if (!stat.getFromServiceType().isRpcClient()) {
-      addApplication(new Application(makeApplicationId(stat.getFrom(),stat.getFromServiceType()),stat.getFrom(),stat.getFromServiceType(),null));
+      addApplication(new Application(makeApplicationId(stat.getFrom(),stat.getFromServiceType()),stat.getFrom(),stat.getFromServiceType(),null,agentMap.get(makeApplicationId(stat.getFrom(),stat.getFromServiceType()))));
     }
     if (!stat.getToServiceType().isRpcClient()) {
-      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList()));
+      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null));
     }
     if (!applicationNames.contains(stat.getTo())) {
-      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList()));
+      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList(),agentMap.get(makeApplicationId(stat.getFrom(),stat.getFromServiceType()))));
     }
   }
   int index=0;
