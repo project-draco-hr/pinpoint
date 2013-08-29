@@ -1,0 +1,26 @@
+{
+  Map<String,String[]> params=req.getParameterMap();
+  if (params.containsKey("agentId")) {
+    String agentId=params.get("agentId")[0];
+    String json=statServer.getStore().getStatByAgentId(agentId);
+    if (json != null) {
+      jsonpCallback(req,res,json);
+    }
+ else {
+      jsonpCallback(req,res,"{\"error\": \"not found : " + agentId + "\"}");
+    }
+  }
+ else   if (params.containsKey("ipport")) {
+    String ipport=params.get("ipport")[0];
+    String json=statServer.getStore().getStatByIpPort(ipport);
+    if (json != null) {
+      jsonpCallback(req,res,json);
+    }
+ else {
+      jsonpCallback(req,res,"{\"error\": \"not found : " + ipport + "\"}");
+    }
+  }
+ else {
+    jsonpCallback(req,res,statServer.getStore().toJson());
+  }
+}

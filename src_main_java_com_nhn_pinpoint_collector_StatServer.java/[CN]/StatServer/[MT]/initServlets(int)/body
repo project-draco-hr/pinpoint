@@ -1,9 +1,10 @@
 {
-  MetricsServlet metricsServlet=new MetricsServlet(registry);
-  ServletHolder servletHolder=new ServletHolder(metricsServlet);
   contextHandler=new ServletContextHandler();
   contextHandler.setContextPath("/");
-  contextHandler.addServlet(servletHolder,"/stats");
+  ServletHolder metricsServletHolder=new ServletHolder(metricsServlet);
+  contextHandler.addServlet(metricsServletHolder,"/stats");
+  ServletHolder storeServletHolder=new ServletHolder(agentStatServlet);
+  contextHandler.addServlet(storeServletHolder,"/agents");
   server=new Server(port);
   server.setHandler(contextHandler);
 }

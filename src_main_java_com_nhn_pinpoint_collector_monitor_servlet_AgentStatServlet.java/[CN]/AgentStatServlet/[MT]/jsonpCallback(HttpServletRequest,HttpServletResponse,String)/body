@@ -1,0 +1,17 @@
+{
+  Map<String,String[]> params=req.getParameterMap();
+  if (params.containsKey("callback")) {
+    res.setContentType("text/javascript;charset=UTF-8");
+    ServletOutputStream out=res.getOutputStream();
+    out.write(new String(params.get("callback")[0] + "(").getBytes());
+    out.write(json.getBytes());
+    out.write(CALLBACK_CLOSE);
+    out.close();
+  }
+ else {
+    res.setContentType("text/json;charset=UTF-8");
+    ServletOutputStream out=res.getOutputStream();
+    out.write(json.getBytes());
+    out.close();
+  }
+}
