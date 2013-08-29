@@ -1,7 +1,7 @@
 {
   List<String> regions=new ArrayList<String>();
   int width=256 / traceRegionNumber;
-  for (int onebyte=0; onebyte < 256; onebyte+=width) {
+  for (int onebyte=width; onebyte < 256; onebyte+=width) {
     String region="\\x" + Integer.toString((onebyte & 0xff) + 0x100,16).substring(1);
     for (int i=0; i < 15; i++) {
       region+="\\x00";

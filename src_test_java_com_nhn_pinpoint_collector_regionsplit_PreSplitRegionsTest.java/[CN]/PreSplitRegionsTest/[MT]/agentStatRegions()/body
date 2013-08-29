@@ -1,6 +1,6 @@
 {
   List<String> regions=new ArrayList<String>();
-  OneByteSimpleHash hash=new OneByteSimpleHash(traceIndexRegionNumber);
+  OneByteSimpleHash hash=new OneByteSimpleHash(agentStatRegionNumber);
   for (  byte[] each : hash.getAllPossiblePrefixes()) {
     byte onebyte=each[0];
     if (onebyte == 0) {
@@ -12,5 +12,5 @@
     }
     regions.add(region);
   }
-  printCommand(traceIndexFormat,regions);
+  printCommand(agentStatFormat,regions);
 }
