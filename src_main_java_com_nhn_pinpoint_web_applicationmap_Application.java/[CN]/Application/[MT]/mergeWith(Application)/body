@@ -1,4 +1,11 @@
 {
-  this.hosts.addAll(application.getHosts());
-  this.agents.addAll(application.getAgents());
+  for (  Entry<String,Host> entry : application.getHostList().entrySet()) {
+    Host host=hostList.get(entry.getKey());
+    if (host != null) {
+      host.mergeWith(entry.getValue());
+    }
+ else {
+      hostList.put(entry.getKey(),entry.getValue());
+    }
+  }
 }

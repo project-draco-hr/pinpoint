@@ -1,6 +1,13 @@
 {
   if (this.from.equals(relation.getFrom()) && this.to.equals(relation.getTo())) {
-    this.histogram.mergeWith(relation.getHistogram());
+    for (    Entry<String,Host> entry : relation.getHostList().entrySet()) {
+      if (this.hostList.containsKey(entry.getKey())) {
+        this.hostList.get(entry.getKey()).mergeWith(entry.getValue());
+      }
+ else {
+        this.hostList.put(entry.getKey(),entry.getValue());
+      }
+    }
   }
  else {
     throw new IllegalArgumentException("Can't merge.");

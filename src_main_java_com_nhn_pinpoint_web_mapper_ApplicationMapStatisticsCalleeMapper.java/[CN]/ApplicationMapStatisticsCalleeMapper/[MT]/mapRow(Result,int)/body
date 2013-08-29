@@ -1,7 +1,6 @@
 {
   KeyValue[] keyList=result.raw();
   Map<String,TransactionFlowStatistics> stat=new HashMap<String,TransactionFlowStatistics>();
-  Map<String,Set<String>> callerAppHostMap=new HashMap<String,Set<String>>();
   for (  KeyValue kv : keyList) {
     byte[] qualifier=kv.getQualifier();
     String callerApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(kv.getRow());
@@ -10,42 +9,19 @@
     short calleeServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
-    String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
+    String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
     String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
     logger.debug("    Fetched. " + callerApplicationName + "["+ ServiceType.findServiceType(callerServiceType)+ "] -> "+ calleeApplicationName+ "["+ ServiceType.findServiceType(calleeServiceType)+ "] ("+ requestCount+ ")");
-    if (callerHost != null) {
-      if (callerAppHostMap.containsKey(id)) {
-        callerAppHostMap.get(id).add(callerHost);
-      }
- else {
-        Set<String> set=new HashSet<String>();
-        set.add(callerHost);
-        callerAppHostMap.put(id,set);
-      }
-    }
     if (stat.containsKey(id)) {
       TransactionFlowStatistics statistics=stat.get(id);
-      if (isError) {
-        statistics.getHistogram().addSample((short)-1,requestCount);
-      }
- else {
-        statistics.getHistogram().addSample(histogramSlot,requestCount);
-      }
+      statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
     }
  else {
       TransactionFlowStatistics statistics=new TransactionFlowStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
-      if (isError) {
-        statistics.getHistogram().addSample((short)-1,requestCount);
-      }
- else {
-        statistics.getHistogram().addSample(histogramSlot,requestCount);
-      }
+      statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
       stat.put(id,statistics);
     }
-  }
-  for (  Entry<String,TransactionFlowStatistics> entry : stat.entrySet()) {
-    entry.getValue().addToHosts(callerAppHostMap.get(entry.getKey()));
   }
   return stat;
 }

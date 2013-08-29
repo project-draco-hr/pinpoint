@@ -3,8 +3,6 @@
   this.fromServiceType=ServiceType.findServiceType(fromServiceType);
   this.to=to;
   this.toServiceType=ServiceType.findServiceType(toServiceType);
-  this.histogram=new ResponseHistogram(ServiceType.findServiceType(toServiceType));
-  this.toHosts=new HashSet<String>();
-  this.toAgents=new HashSet<AgentInfoBo>();
+  this.toHostList=new HashMap<String,Host>();
   this.id=TransactionFlowStatisticsUtils.makeId(this.from,this.fromServiceType,this.to,this.toServiceType);
 }

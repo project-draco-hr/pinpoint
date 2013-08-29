@@ -34,23 +34,8 @@
       }
       String statId=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
       TransactionFlowStatistics stat=(statisticsMap.containsKey(statId) ? statisticsMap.get(statId) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-      ResponseHistogram histogram=stat.getHistogram();
       int slot=destServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
-      histogram.addSample((short)slot,1);
-      stat.addToHost(span.getEndPoint());
-      String agentId=span.getAgentId();
-      AgentInfoBo agentInfo=null;
-      if (agentInfoCache.containsKey(agentId)) {
-        agentInfo=agentInfoCache.get(agentId);
-      }
- else {
-        List<AgentInfoBo> agentInfoList=agentInfoDao.getAgentInfo(agentId,span.getAgentStartTime());
-        if (!agentInfoList.isEmpty()) {
-          agentInfo=agentInfoList.get(0);
-        }
-        agentInfoCache.put(agentId,agentInfo);
-      }
-      stat.addToAgent(agentInfo);
+      stat.addSample(dest,destServiceType.getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
       tr.add(statId,span.getCollectorAcceptTime(),span.getElapsed(),1L);
@@ -77,10 +62,8 @@
         }
         String statId2=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
         TransactionFlowStatistics stat2=(statisticsMap.containsKey(statId2) ? statisticsMap.get(statId2) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-        ResponseHistogram histogram2=stat2.getHistogram();
         int slot2=destServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
-        histogram2.addSample((short)slot2,1);
-        stat2.addToHost(spanEvent.getEndPoint());
+        stat2.addSample((dest == null) ? spanEvent.getEndPoint() : dest,destServiceType.getCode(),(short)slot,1);
         statisticsData.add(stat2);
         statisticsMap.put(statId2,stat2);
         tr.add(statId2,span.getStartTime() + spanEvent.getStartElapsed(),spanEvent.getEndElapsed(),1L);
