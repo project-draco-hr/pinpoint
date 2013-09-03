@@ -1,0 +1,14 @@
+{
+  if (result == null) {
+    return Collections.emptyList();
+  }
+  KeyValue[] raw=result.raw();
+  List<AgentStat> list=new ArrayList<AgentStat>(raw.length);
+  TDeserializer deserializer=new TDeserializer(factory);
+  for (  KeyValue kv : raw) {
+    AgentStat each=new AgentStat();
+    deserializer.deserialize(each,kv.getValue());
+    list.add(each);
+  }
+  return list;
+}

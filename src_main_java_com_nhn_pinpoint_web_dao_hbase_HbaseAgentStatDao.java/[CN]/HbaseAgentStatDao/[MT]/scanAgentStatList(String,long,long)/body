@@ -1,0 +1,17 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("scanAgentStat : agentId={}, start={}, end={}",agentId,start,end);
+  }
+  if (end < start) {
+    logger.error("invalid parameter : agentId={}, start={}, end={}",agentId,start,end);
+    return Collections.emptyList();
+  }
+  Scan scan=createScan(agentId,start,end);
+  List<List<AgentStat>> intermediate=hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,agentStatMapper);
+  int expectedSize=(int)((end - start) / 5000);
+  List<AgentStat> merged=new ArrayList<AgentStat>(expectedSize);
+  for (  List<AgentStat> each : intermediate) {
+    merged.addAll(each);
+  }
+  return merged;
+}

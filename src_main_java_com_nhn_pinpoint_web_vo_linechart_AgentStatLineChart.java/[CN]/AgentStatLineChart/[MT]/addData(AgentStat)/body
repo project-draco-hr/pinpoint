@@ -1,0 +1,28 @@
+{
+  if (data == null) {
+    return;
+  }
+  _Fields type=data.getSetField();
+  Object typeObject=data.getFieldValue(type);
+switch (type) {
+case CMS:
+    StatWithCmsCollector stat=(StatWithCmsCollector)typeObject;
+  for (  StatWithCmsCollector._Fields each : StatWithCmsCollector.metaDataMap.keySet()) {
+    Object fieldValue=stat.getFieldValue(each);
+    if (!(fieldValue instanceof Long)) {
+      continue;
+    }
+    if (!charts.containsKey(each.getFieldName())) {
+      charts.put(each.getFieldName(),new TimestampToValue());
+    }
+    TimestampToValue chart=charts.get(each.getFieldName());
+    chart.addData(stat.getTimestamp(),(Long)fieldValue);
+  }
+break;
+case G1:
+break;
+case PARALLEL:
+break;
+}
+this.type=type.getFieldName();
+}
