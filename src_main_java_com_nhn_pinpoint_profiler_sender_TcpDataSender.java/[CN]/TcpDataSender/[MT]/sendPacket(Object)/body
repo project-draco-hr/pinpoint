@@ -1,19 +1,55 @@
 {
   TBase<?,?> tBase;
+  boolean request=false;
   if (dto instanceof TBase) {
     tBase=(TBase<?,?>)dto;
   }
  else   if (dto instanceof Thriftable) {
     tBase=((Thriftable)dto).toThrift();
   }
+ else   if (dto instanceof RequestMarker) {
+    tBase=((RequestMarker)dto).getTBase();
+    request=true;
+  }
  else {
-    logger.warn("sendPacket fail. invalid type:{}",dto.getClass());
+    logger.warn("sendPacket fail. invalid dto type:{}",dto.getClass());
     return;
   }
   byte[] copy=serialize(tBase);
+  if (copy == null) {
+    return;
+  }
   try {
-    Future ioWriteCheck=this.socket.sendAsync(copy);
-    ioWriteCheck.setListener(writeFailFutureListener);
+    if (request) {
+      Future<ResponseMessage> response=this.socket.request(copy);
+      response.setListener(new FutureListener<ResponseMessage>(){
+        @Override public void onComplete(        Future<ResponseMessage> future){
+          if (future.isSuccess()) {
+            TBase<?,?> response=deserialize(future);
+            if (response instanceof Result) {
+              Result result=(Result)response;
+              if (result.isSuccess()) {
+                logger.debug("result ok");
+              }
+ else {
+                logger.warn("request fail. Caused:{}",result.getMessage());
+              }
+            }
+ else {
+              logger.warn("Invalid ResponseMessage. {}",response);
+            }
+          }
+ else {
+            logger.warn("request send fail");
+          }
+        }
+      }
+);
+    }
+ else {
+      Future ioWriteCheck=this.socket.sendAsync(copy);
+      ioWriteCheck.setListener(writeFailFutureListener);
+    }
   }
  catch (  Exception e) {
     logger.warn("tcp send fail. Caused:{}",e.getMessage(),e);
