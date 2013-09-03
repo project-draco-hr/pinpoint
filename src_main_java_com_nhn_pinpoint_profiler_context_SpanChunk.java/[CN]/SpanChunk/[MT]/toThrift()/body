@@ -1,5 +1,5 @@
 {
-  com.nhn.pinpoint.common.dto.thrift.SpanChunk tSpanChunk=new com.nhn.pinpoint.common.dto.thrift.SpanChunk();
+  com.nhn.pinpoint.thrift.dto.SpanChunk tSpanChunk=new com.nhn.pinpoint.thrift.dto.SpanChunk();
   SpanEvent first=spanEventList.get(0);
   Span parentSpan=first.getParentSpan();
   DefaultAgent agent=DefaultAgent.getInstance();
@@ -12,7 +12,7 @@
   tSpanChunk.setLeastTraceId(id.getLeastSignificantBits());
   tSpanChunk.setSpanId(parentSpan.getTraceID().getSpanId());
   tSpanChunk.setEndPoint(parentSpan.getEndPoint());
-  List<com.nhn.pinpoint.common.dto.thrift.SpanEvent> tSpanEvent=createSpanEvent(spanEventList);
+  List<com.nhn.pinpoint.thrift.dto.SpanEvent> tSpanEvent=createSpanEvent(spanEventList);
   tSpanChunk.setSpanEventList(tSpanEvent);
   return tSpanChunk;
 }

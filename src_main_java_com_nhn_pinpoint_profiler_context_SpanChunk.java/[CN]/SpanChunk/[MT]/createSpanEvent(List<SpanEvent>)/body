@@ -1,7 +1,7 @@
 {
-  List<com.nhn.pinpoint.common.dto.thrift.SpanEvent> result=new ArrayList<com.nhn.pinpoint.common.dto.thrift.SpanEvent>(spanEventList.size());
+  List<com.nhn.pinpoint.thrift.dto.SpanEvent> result=new ArrayList<com.nhn.pinpoint.thrift.dto.SpanEvent>(spanEventList.size());
   for (  SpanEvent spanEvent : spanEventList) {
-    com.nhn.pinpoint.common.dto.thrift.SpanEvent tSpanEvent=new com.nhn.pinpoint.common.dto.thrift.SpanEvent();
+    com.nhn.pinpoint.thrift.dto.SpanEvent tSpanEvent=new com.nhn.pinpoint.thrift.dto.SpanEvent();
     long parentSpanStartTime=spanEvent.getParentSpan().getStartTime();
     tSpanEvent.setStartElapsed((int)(spanEvent.getStartTime() - parentSpanStartTime));
     tSpanEvent.setEndElapsed((int)(spanEvent.getEndTime() - spanEvent.getStartTime()));
