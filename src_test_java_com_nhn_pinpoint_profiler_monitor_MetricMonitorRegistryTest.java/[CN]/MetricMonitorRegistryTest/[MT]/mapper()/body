@@ -1,0 +1,13 @@
+{
+  AgentStat agentStat=new AgentStat();
+  MetricRegistry r=registry.getRegistry();
+  Map<String,Gauge> map=r.getGauges();
+  for (  Entry<_Fields,FieldMetaData> each : AgentStat.metaDataMap.entrySet()) {
+    System.out.println(toMetricName(each.getKey().name()));
+    Gauge value=map.get(toMetricName(each.getKey().name()));
+    if (value != null) {
+      agentStat.setFieldValue(each.getKey(),value.getValue());
+    }
+  }
+  System.out.println(agentStat);
+}

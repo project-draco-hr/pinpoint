@@ -5,11 +5,5 @@
   this.monitorRegistry=new MetricMonitorRegistry();
   this.monitorRegistry.registerJvmMemoryMonitor(new MonitorName("jvm","memory"));
   this.monitorRegistry.registerJvmGcMonitor(new MonitorName("jvm","gc"));
-  if (agentInfo != null) {
-    this.agentStat=new AgentStat();
-    this.agentStat.setHostname(agentInfo.getHostname());
-    this.agentStat.setIp(agentInfo.getIp());
-    this.agentStat.setPorts(agentInfo.getPorts());
-    this.agentStat.setAgentId(agentInfo.getAgentId());
-  }
+  this.monitorMapper=new MetricMonitorMapper();
 }

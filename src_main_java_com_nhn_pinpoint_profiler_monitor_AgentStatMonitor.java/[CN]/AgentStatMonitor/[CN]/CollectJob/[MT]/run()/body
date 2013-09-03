@@ -1,11 +1,19 @@
 {
-  if (agentStat == null) {
-    logger.debug("AgentInfo is not found");
+  if (agentInfo != null && this.agentStat == null) {
+    if (this.monitorRegistry.getRegistry().getNames().contains("jvm.gc.ConcurrentMarkSweep.count")) {
+      logger.info("found : CMS collector");
+      StatWithCmsCollector cms=new StatWithCmsCollector();
+      cms.setAgentId(agentInfo.getAgentId());
+      this.agentStat=new AgentStat();
+      this.agentStat.setCms(cms);
+    }
+  }
+  if (this.agentStat == null) {
+    logger.info("AgentStat is not available");
     return;
   }
   try {
-    this.agentStat.setTimestamp(System.currentTimeMillis());
-    this.agentStat.setStatistics(this.monitorRegistry.getMonitorsAsJson());
+    this.monitorMapper.map(this.monitorRegistry,this.agentStat);
     dataSender.send(agentStat);
   }
  catch (  Exception e) {
