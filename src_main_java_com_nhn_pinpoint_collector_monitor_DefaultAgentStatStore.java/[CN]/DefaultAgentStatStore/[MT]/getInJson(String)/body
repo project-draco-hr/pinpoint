@@ -1,0 +1,14 @@
+{
+  String result=null;
+  try {
+    AgentStat agentStat=map.get(agentId);
+    if (agentStat != null) {
+      Object typeObject=agentStat.getFieldValue(agentStat.getSetField());
+      result=jsonMapper.writeValueAsString(typeObject);
+    }
+  }
+ catch (  Exception e) {
+    logger.error("failed to serialze the object to JSON : {}",e.getMessage());
+  }
+  return result;
+}

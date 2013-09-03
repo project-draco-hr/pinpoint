@@ -1,0 +1,17 @@
+{
+  String result=null;
+  _Fields type=agentStat.getSetField();
+  Object typeObject=agentStat.getFieldValue();
+switch (type) {
+case CMS:
+    result=((StatWithCmsCollector)typeObject).getAgentId();
+  break;
+case G1:
+result=((StatWithG1Collector)typeObject).getAgentId();
+break;
+case PARALLEL:
+result=((StatWithParallelCollector)typeObject).getAgentId();
+break;
+}
+return result;
+}

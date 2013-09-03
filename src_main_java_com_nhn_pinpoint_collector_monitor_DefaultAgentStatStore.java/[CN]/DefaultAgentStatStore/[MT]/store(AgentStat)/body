@@ -1,6 +1,10 @@
 {
-  mapAgentId.put(agentStat.getAgentId(),agentStat);
-  logger.info("{} -> {}",agentStat.getAgentId(),agentStat);
-  mapIpPort.put(agentStat.getIp() + "." + agentStat.getPorts(),agentStat);
-  logger.info("{} -> {}",agentStat.getIp() + "." + agentStat.getPorts(),agentStat);
+  String agentId=AgentStatSupport.getAgentId(agentStat);
+  if (agentId != null) {
+    map.put(agentId,agentStat);
+    logger.info("{} -> {}",agentId,agentStat);
+  }
+ else {
+    logger.info("invalid AgentStat : {}",agentStat);
+  }
 }
