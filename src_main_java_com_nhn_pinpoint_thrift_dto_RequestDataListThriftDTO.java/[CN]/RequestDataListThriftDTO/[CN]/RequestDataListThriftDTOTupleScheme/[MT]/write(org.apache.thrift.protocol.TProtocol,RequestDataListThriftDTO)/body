@@ -1,0 +1,28 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetRequestHashCode()) {
+    optionals.set(1);
+  }
+  if (struct.isSetRequestDataList()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetRequestHashCode()) {
+    oprot.writeI32(struct.requestHashCode);
+  }
+  if (struct.isSetRequestDataList()) {
+{
+      oprot.writeI32(struct.requestDataList.size());
+      for (      RequestDataThriftDTO _iter4 : struct.requestDataList) {
+        _iter4.write(oprot);
+      }
+    }
+  }
+}

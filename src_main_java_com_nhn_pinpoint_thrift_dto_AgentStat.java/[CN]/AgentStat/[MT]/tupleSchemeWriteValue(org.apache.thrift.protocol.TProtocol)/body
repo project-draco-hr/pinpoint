@@ -1,0 +1,18 @@
+{
+switch (setField_) {
+case CMS:
+    StatWithCmsCollector cms=(StatWithCmsCollector)value_;
+  cms.write(oprot);
+return;
+case G1:
+StatWithG1Collector g1=(StatWithG1Collector)value_;
+g1.write(oprot);
+return;
+case PARALLEL:
+StatWithParallelCollector parallel=(StatWithParallelCollector)value_;
+parallel.write(oprot);
+return;
+default :
+throw new IllegalStateException("Cannot write union with unknown field " + setField_);
+}
+}

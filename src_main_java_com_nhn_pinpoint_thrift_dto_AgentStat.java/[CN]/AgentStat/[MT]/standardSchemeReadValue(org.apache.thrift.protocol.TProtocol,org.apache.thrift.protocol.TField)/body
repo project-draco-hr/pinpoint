@@ -1,0 +1,46 @@
+{
+  _Fields setField=_Fields.findByThriftId(field.id);
+  if (setField != null) {
+switch (setField) {
+case CMS:
+      if (field.type == CMS_FIELD_DESC.type) {
+        StatWithCmsCollector cms;
+        cms=new StatWithCmsCollector();
+        cms.read(iprot);
+        return cms;
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+        return null;
+      }
+case G1:
+    if (field.type == G1_FIELD_DESC.type) {
+      StatWithG1Collector g1;
+      g1=new StatWithG1Collector();
+      g1.read(iprot);
+      return g1;
+    }
+ else {
+      org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+      return null;
+    }
+case PARALLEL:
+  if (field.type == PARALLEL_FIELD_DESC.type) {
+    StatWithParallelCollector parallel;
+    parallel=new StatWithParallelCollector();
+    parallel.read(iprot);
+    return parallel;
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+    return null;
+  }
+default :
+throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
+}
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+}

@@ -1,0 +1,49 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(9);
+  if (incoming.get(0)) {
+    struct.agentId=iprot.readString();
+    struct.setAgentIdIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.applicationName=iprot.readString();
+    struct.setApplicationNameIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.agentStartTime=iprot.readI64();
+    struct.setAgentStartTimeIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.serviceType=iprot.readI16();
+    struct.setServiceTypeIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.mostTraceId=iprot.readI64();
+    struct.setMostTraceIdIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.leastTraceId=iprot.readI64();
+    struct.setLeastTraceIdIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.spanId=iprot.readI32();
+    struct.setSpanIdIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.endPoint=iprot.readString();
+    struct.setEndPointIsSet(true);
+  }
+  if (incoming.get(8)) {
+{
+      org.apache.thrift.protocol.TList _list37=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.spanEventList=new ArrayList<SpanEvent>(_list37.size);
+      for (int _i38=0; _i38 < _list37.size; ++_i38) {
+        SpanEvent _elem39;
+        _elem39=new SpanEvent();
+        _elem39.read(iprot);
+        struct.spanEventList.add(_elem39);
+      }
+    }
+    struct.setSpanEventListIsSet(true);
+  }
+}

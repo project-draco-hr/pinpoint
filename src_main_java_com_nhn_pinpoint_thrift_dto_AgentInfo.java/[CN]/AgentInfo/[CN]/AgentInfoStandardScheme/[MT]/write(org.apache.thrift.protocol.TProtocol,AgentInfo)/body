@@ -1,0 +1,43 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.hostname != null) {
+    oprot.writeFieldBegin(HOSTNAME_FIELD_DESC);
+    oprot.writeString(struct.hostname);
+    oprot.writeFieldEnd();
+  }
+  if (struct.ip != null) {
+    oprot.writeFieldBegin(IP_FIELD_DESC);
+    oprot.writeString(struct.ip);
+    oprot.writeFieldEnd();
+  }
+  if (struct.ports != null) {
+    oprot.writeFieldBegin(PORTS_FIELD_DESC);
+    oprot.writeString(struct.ports);
+    oprot.writeFieldEnd();
+  }
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.applicationName != null) {
+    oprot.writeFieldBegin(APPLICATION_NAME_FIELD_DESC);
+    oprot.writeString(struct.applicationName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
+  oprot.writeI16(struct.serviceType);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(IS_ALIVE_FIELD_DESC);
+  oprot.writeBool(struct.isAlive);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(IDENTIFIER_FIELD_DESC);
+  oprot.writeI16(struct.identifier);
+  oprot.writeFieldEnd();
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
