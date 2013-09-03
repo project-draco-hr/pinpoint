@@ -1,11 +1,13 @@
 {
   final StringBuilder sb=new StringBuilder(64);
   sb.append("TraceSendPacket");
+  sb.append("{traceId=").append(traceId);
+  sb.append(", ");
   if (payload == null) {
-    sb.append("{payload=null}");
+    sb.append("payload=null}");
   }
  else {
-    sb.append("{payloadLength=").append(payload.length);
+    sb.append("payloadLength=").append(payload.length);
     sb.append('}');
   }
   return sb.toString();

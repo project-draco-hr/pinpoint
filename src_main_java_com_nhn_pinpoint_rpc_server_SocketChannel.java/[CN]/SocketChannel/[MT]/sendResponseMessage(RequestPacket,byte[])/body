@@ -1,0 +1,8 @@
+{
+  if (requestPacket == null) {
+    throw new NullPointerException("requestPacket must not be null");
+  }
+  ResponsePacket responsePacket=new ResponsePacket(requestPacket.getRequestId(),responseMessage);
+  ChannelFuture write=this.channel.write(responsePacket);
+  write.addListener(responseWriteFail);
+}
