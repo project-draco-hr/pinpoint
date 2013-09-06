@@ -1,5 +1,6 @@
 {
   byte[] temp=new byte[bytes.length - 8];
   System.arraycopy(bytes,0,temp,0,bytes.length - 8);
-  return new String(temp).trim();
+  String string=BytesUtils.toString(temp);
+  return BytesUtils.safeTrim(string);
 }

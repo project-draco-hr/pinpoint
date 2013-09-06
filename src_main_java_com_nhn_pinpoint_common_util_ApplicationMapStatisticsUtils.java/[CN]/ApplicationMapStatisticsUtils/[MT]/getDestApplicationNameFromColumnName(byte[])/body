@@ -1,3 +1,5 @@
 {
-  return new String(bytes,6,BytesUtils.bytesToShort(bytes,4)).trim();
+  final short length=BytesUtils.bytesToShort(bytes,4);
+  String string=BytesUtils.toString(bytes,6,length);
+  return BytesUtils.safeTrim(string);
 }

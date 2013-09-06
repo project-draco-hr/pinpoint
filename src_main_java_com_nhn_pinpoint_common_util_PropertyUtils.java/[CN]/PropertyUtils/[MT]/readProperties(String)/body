@@ -1,14 +1,26 @@
 {
   Properties properties=new Properties();
-  FileReader fileReader=new FileReader(propertyPath);
+  InputStream in=null;
+  Reader reader=null;
   try {
-    properties.load(fileReader);
+    in=new FileInputStream(propertyPath);
+    reader=new InputStreamReader(in,"UTF-8");
+    properties.load(reader);
   }
   finally {
-    try {
-      fileReader.close();
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ignore) {
+      }
     }
- catch (    IOException e) {
+    if (reader != null) {
+      try {
+        reader.close();
+      }
+ catch (      IOException ignore) {
+      }
     }
   }
   return properties;

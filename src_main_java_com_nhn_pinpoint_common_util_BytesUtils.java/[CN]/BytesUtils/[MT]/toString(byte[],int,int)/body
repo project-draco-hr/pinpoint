@@ -1,0 +1,15 @@
+{
+  if (bytes == null) {
+    return null;
+  }
+  if (length == 0) {
+    return "";
+  }
+  try {
+    return new String(bytes,offset,length,UTF8);
+  }
+ catch (  UnsupportedEncodingException e) {
+    LOGGER.log(Level.SEVERE,"UTF-8 encoding fail.",e);
+    return null;
+  }
+}
