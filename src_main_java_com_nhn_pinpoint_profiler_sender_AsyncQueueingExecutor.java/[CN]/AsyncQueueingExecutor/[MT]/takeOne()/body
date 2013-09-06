@@ -1,8 +1,9 @@
 {
   try {
-    return queue.poll(2,TimeUnit.SECONDS);
+    return queue.poll(1000 * 2,TimeUnit.MILLISECONDS);
   }
  catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
     return null;
   }
 }

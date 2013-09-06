@@ -1,3 +1,9 @@
 {
-  return String.format("agentHash=%s, ip=%s, connectors=%s, uptime=%s, isAlive=%s",agentHashCode,hostip,connectors,uptime,isAlive);
+  final StringBuilder sb=new StringBuilder("ServerInfo{");
+  sb.append("hostip='").append(hostip).append('\'');
+  sb.append(", connectors=").append(connectors);
+  sb.append(", isAlive=").append(isAlive);
+  sb.append(", uptime=").append(uptime);
+  sb.append('}');
+  return sb.toString();
 }

@@ -1,6 +1,9 @@
 {
+  if (executorName == null) {
+    throw new NullPointerException("executorName must not be null");
+  }
   this.executorName=executorName;
   this.queue=new LinkedBlockingQueue<Object>(queueSize);
   this.threadFactory=new PinpointThreadFactory(executorName,true);
-  this.ioThread=this.createIoThread();
+  this.executeThread=this.createExecuteThread();
 }

@@ -14,14 +14,14 @@
     TraceID traceId=populateTraceIdFromRequest(request);
     Trace trace;
     if (traceId != null) {
-      if (logger.isInfoEnabled()) {
+      if (isDebug) {
         logger.debug("TraceID exist. continue trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
       trace=traceContext.continueTraceObject(traceId);
     }
  else {
       trace=traceContext.newTraceObject();
-      if (logger.isInfoEnabled()) {
+      if (isDebug) {
         logger.debug("TraceID not exist. start new trace. {} requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
     }
@@ -35,7 +35,7 @@
   }
  catch (  Throwable e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("Tomcat StandardHostValve trace start fail. Caused:" + e.getMessage(),e);
+      logger.warn("Tomcat StandardHostValve trace start fail. Caused:{}",e.getMessage(),e);
     }
   }
 }

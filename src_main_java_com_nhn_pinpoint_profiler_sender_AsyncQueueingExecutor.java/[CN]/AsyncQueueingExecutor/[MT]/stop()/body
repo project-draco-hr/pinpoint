@@ -3,12 +3,13 @@
   if (!isEmpty()) {
     logger.info("Wait 5 seconds. Flushing queued data.");
   }
+  executeThread.interrupt();
   try {
-    ioThread.join(5000);
+    executeThread.join(5000);
   }
  catch (  InterruptedException e) {
     Thread.currentThread().interrupt();
-    logger.info("{} stopped incompletely.",executorName);
+    logger.warn("{} stopped incompletely.",executorName);
   }
   logger.info("{} stopped.",executorName);
 }
