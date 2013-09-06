@@ -1,8 +1,8 @@
 {
-  if (!this.state.isRun()) {
+  if (!isRun()) {
     return;
   }
-  logger.debug("sendPing {}",channel);
+  logger.debug("sendPingInternal {}",channel);
   ChannelFuture write=this.channel.write(PingPacket.PING_PACKET);
   write.addListener(pingWriteFailFutureListener);
 }

@@ -1,15 +1,3 @@
 {
-  this.channelTimer.newTimeout(new TimerTask(){
-    @Override public void run(    Timeout timeout) throws Exception {
-      if (timeout.isCancelled()) {
-        return;
-      }
-      if (isClosed()) {
-        return;
-      }
-      sendPingInternal();
-      registerPing();
-    }
-  }
-,pingDelay,TimeUnit.MILLISECONDS);
+  this.channelTimer.newTimeout(new PingTask(),pingDelay,TimeUnit.MILLISECONDS);
 }
