@@ -1,0 +1,23 @@
+{
+  if (retryMessage == null) {
+    throw new NullPointerException("retryMessage must not be null");
+  }
+  final int retryCount=retryMessage.getRetryCount();
+  if (retryCount >= this.maxRetry) {
+    logger.warn("discard retry message. retryCount:{}",retryCount);
+    return;
+  }
+  final int queueSize=queue.size();
+  if (queueSize >= capacity) {
+    logger.warn("discard retry message. queueSize:{}",queueSize);
+    return;
+  }
+  if (queueSize >= halfCapacity && retryCount >= 1) {
+    logger.warn("discard retry message. retryCount:{}",retryCount);
+    return;
+  }
+  final boolean offer=this.queue.offer(retryMessage);
+  if (!offer) {
+    logger.warn("offer() fail. discard retry message. retryCount:{}",retryCount);
+  }
+}

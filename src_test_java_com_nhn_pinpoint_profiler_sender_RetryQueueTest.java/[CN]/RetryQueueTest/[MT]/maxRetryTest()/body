@@ -1,0 +1,9 @@
+{
+  RetryQueue retryQueue=new RetryQueue(3,2);
+  RetryMessage retryMessage=new RetryMessage(0,new byte[0]);
+  retryMessage.fail();
+  retryMessage.fail();
+  retryQueue.add(retryMessage);
+  retryQueue.add(retryMessage);
+  Assert.assertEquals(retryQueue.size(),0);
+}

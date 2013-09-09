@@ -1,0 +1,28 @@
+{
+  final Future<ResponseMessage> response=this.socket.request(requestPacket);
+  response.setListener(new FutureListener<ResponseMessage>(){
+    @Override public void onComplete(    Future<ResponseMessage> future){
+      if (future.isSuccess()) {
+        TBase<?,?> response=deserialize(future);
+        if (response instanceof Result) {
+          Result result=(Result)response;
+          if (result.isSuccess()) {
+            logger.debug("result success");
+          }
+ else {
+            logger.warn("request fail. Caused:{}",result.getMessage());
+            retryRequest(requestPacket,retryCount);
+          }
+        }
+ else {
+          logger.warn("Invalid ResponseMessage. {}",response);
+        }
+      }
+ else {
+        logger.warn("request fail. Caused:{}",future.getCause().getMessage(),future.getCause());
+        retryRequest(requestPacket,retryCount);
+      }
+    }
+  }
+);
+}

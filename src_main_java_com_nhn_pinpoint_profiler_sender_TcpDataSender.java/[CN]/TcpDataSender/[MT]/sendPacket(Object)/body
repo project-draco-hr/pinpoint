@@ -12,7 +12,7 @@
     request=true;
   }
  else {
-    logger.warn("sendPacket fail. invalid dto type:{}",dto.getClass());
+    logger.error("sendPacket fail. invalid dto type:{}",dto.getClass());
     return;
   }
   byte[] copy=serialize(tBase);
@@ -21,34 +21,10 @@
   }
   try {
     if (request) {
-      Future<ResponseMessage> response=this.socket.request(copy);
-      response.setListener(new FutureListener<ResponseMessage>(){
-        @Override public void onComplete(        Future<ResponseMessage> future){
-          if (future.isSuccess()) {
-            TBase<?,?> response=deserialize(future);
-            if (response instanceof Result) {
-              Result result=(Result)response;
-              if (result.isSuccess()) {
-                logger.debug("result ok");
-              }
- else {
-                logger.warn("request fail. Caused:{}",result.getMessage());
-              }
-            }
- else {
-              logger.warn("Invalid ResponseMessage. {}",response);
-            }
-          }
- else {
-            logger.warn("request send fail");
-          }
-        }
-      }
-);
+      doRequest(copy,0);
     }
  else {
-      Future ioWriteCheck=this.socket.sendAsync(copy);
-      ioWriteCheck.setListener(writeFailFutureListener);
+      doSend(copy);
     }
   }
  catch (  Exception e) {
