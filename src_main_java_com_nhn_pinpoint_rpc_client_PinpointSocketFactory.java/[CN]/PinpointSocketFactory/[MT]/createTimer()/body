@@ -1,6 +1,5 @@
 {
-  ThreadFactory threadFactory=new PinpointThreadFactory("Pinpoint-SocketFactory-Timer",true);
-  HashedWheelTimer timer=new HashedWheelTimer(threadFactory,ThreadNameDeterminer.CURRENT,100,TimeUnit.MILLISECONDS,512);
+  HashedWheelTimer timer=TimerFactory.createHashedWheelTimer("Pinpoint-SocketFactory-Timer",100,TimeUnit.MILLISECONDS,512);
   timer.start();
   return timer;
 }
