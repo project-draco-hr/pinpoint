@@ -28,16 +28,27 @@
     }
     first=false;
   }
-  if (isSetMostTraceId()) {
+  if (isSetTraceAgentId()) {
     if (!first)     sb.append(", ");
-    sb.append("mostTraceId:");
-    sb.append(this.mostTraceId);
+    sb.append("traceAgentId:");
+    if (this.traceAgentId == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.traceAgentId);
+    }
     first=false;
   }
-  if (isSetLeastTraceId()) {
+  if (isSetTraceAgentStartTime()) {
     if (!first)     sb.append(", ");
-    sb.append("leastTraceId:");
-    sb.append(this.leastTraceId);
+    sb.append("traceAgentStartTime:");
+    sb.append(this.traceAgentStartTime);
+    first=false;
+  }
+  if (isSetTraceTransactionId()) {
+    if (!first)     sb.append(", ");
+    sb.append("traceTransactionId:");
+    sb.append(this.traceTransactionId);
     first=false;
   }
   if (isSetSpanId()) {

@@ -36,9 +36,9 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 4:
-if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-struct.mostTraceId=iprot.readI64();
-struct.setMostTraceIdIsSet(true);
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.traceAgentId=iprot.readString();
+struct.setTraceAgentIdIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
@@ -46,14 +46,23 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 break;
 case 5:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-struct.leastTraceId=iprot.readI64();
-struct.setLeastTraceIdIsSet(true);
+struct.traceAgentStartTime=iprot.readI64();
+struct.setTraceAgentStartTimeIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 6:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.traceTransactionId=iprot.readI64();
+struct.setTraceTransactionIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 7:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.spanId=iprot.readI32();
 struct.setSpanIdIsSet(true);
@@ -62,7 +71,7 @@ struct.setSpanIdIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 7:
+case 8:
 if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
 struct.sequence=iprot.readI16();
 struct.setSequenceIsSet(true);
@@ -71,7 +80,7 @@ struct.setSequenceIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 8:
+case 9:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.startElapsed=iprot.readI32();
 struct.setStartElapsedIsSet(true);
@@ -80,7 +89,7 @@ struct.setStartElapsedIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 9:
+case 10:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.endElapsed=iprot.readI32();
 struct.setEndElapsedIsSet(true);
@@ -89,7 +98,7 @@ struct.setEndElapsedIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 10:
+case 11:
 if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
 struct.rpc=iprot.readString();
 struct.setRpcIsSet(true);

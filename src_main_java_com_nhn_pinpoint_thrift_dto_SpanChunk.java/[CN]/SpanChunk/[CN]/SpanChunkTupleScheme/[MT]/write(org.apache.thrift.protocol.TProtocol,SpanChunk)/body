@@ -13,22 +13,25 @@
   if (struct.isSetServiceType()) {
     optionals.set(3);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetTraceAgentId()) {
     optionals.set(4);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetTraceAgentStartTime()) {
     optionals.set(5);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetTraceTransactionId()) {
     optionals.set(6);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetSpanId()) {
     optionals.set(7);
   }
-  if (struct.isSetSpanEventList()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(8);
   }
-  oprot.writeBitSet(optionals,9);
+  if (struct.isSetSpanEventList()) {
+    optionals.set(9);
+  }
+  oprot.writeBitSet(optionals,10);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -41,11 +44,14 @@
   if (struct.isSetServiceType()) {
     oprot.writeI16(struct.serviceType);
   }
-  if (struct.isSetMostTraceId()) {
-    oprot.writeI64(struct.mostTraceId);
+  if (struct.isSetTraceAgentId()) {
+    oprot.writeString(struct.traceAgentId);
   }
-  if (struct.isSetLeastTraceId()) {
-    oprot.writeI64(struct.leastTraceId);
+  if (struct.isSetTraceAgentStartTime()) {
+    oprot.writeI64(struct.traceAgentStartTime);
+  }
+  if (struct.isSetTraceTransactionId()) {
+    oprot.writeI64(struct.traceTransactionId);
   }
   if (struct.isSetSpanId()) {
     oprot.writeI32(struct.spanId);

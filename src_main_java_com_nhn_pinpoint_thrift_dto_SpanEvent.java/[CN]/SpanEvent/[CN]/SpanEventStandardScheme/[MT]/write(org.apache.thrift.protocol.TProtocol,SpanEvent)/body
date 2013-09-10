@@ -8,14 +8,21 @@
       oprot.writeFieldEnd();
     }
   }
-  if (struct.isSetMostTraceId()) {
-    oprot.writeFieldBegin(MOST_TRACE_ID_FIELD_DESC);
-    oprot.writeI64(struct.mostTraceId);
+  if (struct.traceAgentId != null) {
+    if (struct.isSetTraceAgentId()) {
+      oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
+      oprot.writeString(struct.traceAgentId);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.isSetTraceAgentStartTime()) {
+    oprot.writeFieldBegin(TRACE_AGENT_START_TIME_FIELD_DESC);
+    oprot.writeI64(struct.traceAgentStartTime);
     oprot.writeFieldEnd();
   }
-  if (struct.isSetLeastTraceId()) {
-    oprot.writeFieldBegin(LEAST_TRACE_ID_FIELD_DESC);
-    oprot.writeI64(struct.leastTraceId);
+  if (struct.isSetTraceTransactionId()) {
+    oprot.writeFieldBegin(TRACE_TRANSACTION_ID_FIELD_DESC);
+    oprot.writeI64(struct.traceTransactionId);
     oprot.writeFieldEnd();
   }
   if (struct.isSetSpanId()) {

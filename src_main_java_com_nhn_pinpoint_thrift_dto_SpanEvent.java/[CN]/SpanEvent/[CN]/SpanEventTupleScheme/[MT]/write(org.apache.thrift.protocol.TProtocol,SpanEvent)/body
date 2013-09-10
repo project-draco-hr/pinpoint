@@ -10,49 +10,52 @@
   if (struct.isSetParentEndPoint()) {
     optionals.set(2);
   }
-  if (struct.isSetMostTraceId()) {
+  if (struct.isSetTraceAgentId()) {
     optionals.set(3);
   }
-  if (struct.isSetLeastTraceId()) {
+  if (struct.isSetTraceAgentStartTime()) {
     optionals.set(4);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetTraceTransactionId()) {
     optionals.set(5);
   }
-  if (struct.isSetSequence()) {
+  if (struct.isSetSpanId()) {
     optionals.set(6);
   }
-  if (struct.isSetStartElapsed()) {
+  if (struct.isSetSequence()) {
     optionals.set(7);
   }
-  if (struct.isSetEndElapsed()) {
+  if (struct.isSetStartElapsed()) {
     optionals.set(8);
   }
-  if (struct.isSetRpc()) {
+  if (struct.isSetEndElapsed()) {
     optionals.set(9);
   }
-  if (struct.isSetServiceType()) {
+  if (struct.isSetRpc()) {
     optionals.set(10);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetServiceType()) {
     optionals.set(11);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(12);
   }
-  if (struct.isSetDepth()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(13);
   }
-  if (struct.isSetNextSpanId()) {
+  if (struct.isSetDepth()) {
     optionals.set(14);
   }
-  if (struct.isSetDestinationId()) {
+  if (struct.isSetNextSpanId()) {
     optionals.set(15);
   }
-  if (struct.isSetDestinationAddress()) {
+  if (struct.isSetDestinationId()) {
     optionals.set(16);
   }
-  oprot.writeBitSet(optionals,17);
+  if (struct.isSetDestinationAddress()) {
+    optionals.set(17);
+  }
+  oprot.writeBitSet(optionals,18);
   if (struct.isSetAgentKey()) {
     struct.agentKey.write(oprot);
   }
@@ -62,11 +65,14 @@
   if (struct.isSetParentEndPoint()) {
     oprot.writeString(struct.parentEndPoint);
   }
-  if (struct.isSetMostTraceId()) {
-    oprot.writeI64(struct.mostTraceId);
+  if (struct.isSetTraceAgentId()) {
+    oprot.writeString(struct.traceAgentId);
   }
-  if (struct.isSetLeastTraceId()) {
-    oprot.writeI64(struct.leastTraceId);
+  if (struct.isSetTraceAgentStartTime()) {
+    oprot.writeI64(struct.traceAgentStartTime);
+  }
+  if (struct.isSetTraceTransactionId()) {
+    oprot.writeI64(struct.traceTransactionId);
   }
   if (struct.isSetSpanId()) {
     oprot.writeI32(struct.spanId);

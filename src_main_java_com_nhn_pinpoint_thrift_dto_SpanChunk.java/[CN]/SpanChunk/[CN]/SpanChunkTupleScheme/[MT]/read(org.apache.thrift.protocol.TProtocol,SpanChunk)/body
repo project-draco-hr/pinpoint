@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(9);
+  BitSet incoming=iprot.readBitSet(10);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -18,22 +18,26 @@
     struct.setServiceTypeIsSet(true);
   }
   if (incoming.get(4)) {
-    struct.mostTraceId=iprot.readI64();
-    struct.setMostTraceIdIsSet(true);
+    struct.traceAgentId=iprot.readString();
+    struct.setTraceAgentIdIsSet(true);
   }
   if (incoming.get(5)) {
-    struct.leastTraceId=iprot.readI64();
-    struct.setLeastTraceIdIsSet(true);
+    struct.traceAgentStartTime=iprot.readI64();
+    struct.setTraceAgentStartTimeIsSet(true);
   }
   if (incoming.get(6)) {
+    struct.traceTransactionId=iprot.readI64();
+    struct.setTraceTransactionIdIsSet(true);
+  }
+  if (incoming.get(7)) {
     struct.spanId=iprot.readI32();
     struct.setSpanIdIsSet(true);
   }
-  if (incoming.get(7)) {
+  if (incoming.get(8)) {
     struct.endPoint=iprot.readString();
     struct.setEndPointIsSet(true);
   }
-  if (incoming.get(8)) {
+  if (incoming.get(9)) {
 {
       org.apache.thrift.protocol.TList _list37=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.spanEventList=new ArrayList<SpanEvent>(_list37.size);
