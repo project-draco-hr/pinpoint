@@ -1,14 +1,13 @@
 {
-  if (traceId == null) {
+  if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  final int agentIdIndex=traceId.indexOf(AGENT_DELIMITER);
+  final int agentIdIndex=transactionId.indexOf(AGENT_DELIMITER);
   if (agentIdIndex == -1) {
-    throw new IllegalArgumentException("transactionId delimiter not found:" + traceId);
+    throw new IllegalArgumentException("transactionId delimiter not found:" + transactionId);
   }
-  this.agentId=traceId.substring(0,agentIdIndex);
-  String ids=traceId.substring(agentIdIndex + 1,traceId.length());
-  String[] strings=TransactionIdUtils.parseTraceId(ids);
-  this.agentStartTime=TransactionIdUtils.parseMostId(strings);
-  this.transactionId=TransactionIdUtils.parseLeastId(strings);
+  String[] parseId=TransactionIdUtils.parseTransactionId(transactionId);
+  this.agentId=parseId[0];
+  this.agentStartTime=Long.parseLong(parseId[1]);
+  this.transactionSequence=Long.parseLong(parseId[2]);
 }

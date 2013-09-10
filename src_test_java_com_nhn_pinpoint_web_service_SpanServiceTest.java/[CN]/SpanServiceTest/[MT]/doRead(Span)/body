@@ -1,5 +1,5 @@
 {
-  TransactionId traceId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionId());
+  TransactionId traceId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
   List<SpanAlign> sort=spanService.selectSpan(traceId);
   for (  SpanAlign spanAlign : sort) {
     logger.info("depth:{} {}",spanAlign.getDepth(),spanAlign.getSpanBo());
