@@ -5,10 +5,10 @@
   if (logger.isTraceEnabled()) {
     logger.trace("scan(selectTraceIdsFromApplicationTraceIndex) {}, {}, {}",new Object[]{applicationName,from,to});
   }
-  List<List<TraceId>> traceIdList=this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to);
-  Set<TraceId> result=new HashSet<TraceId>();
-  for (  List<TraceId> list : traceIdList) {
-    for (    TraceId traceId : list) {
+  List<List<TransactionId>> traceIdList=this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to);
+  Set<TransactionId> result=new HashSet<TransactionId>();
+  for (  List<TransactionId> list : traceIdList) {
+    for (    TransactionId traceId : list) {
       result.add(traceId);
       logger.trace("traceid:{}",traceId);
     }

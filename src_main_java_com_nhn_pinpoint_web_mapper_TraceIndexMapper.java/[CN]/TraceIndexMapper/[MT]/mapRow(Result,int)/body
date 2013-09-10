@@ -3,14 +3,11 @@
     return Collections.emptyList();
   }
   KeyValue[] raw=result.raw();
-  List<TraceId> traceIdList=new ArrayList<TraceId>(raw.length);
+  List<TransactionId> traceIdList=new ArrayList<TransactionId>(raw.length);
   for (  KeyValue kv : raw) {
     byte[] buffer=kv.getBuffer();
     int qualifierOffset=kv.getQualifierOffset();
-    String agentId=BytesUtils.toStringAndRightTrim(buffer,qualifierOffset,HBaseTables.AGENT_NAME_MAX_LEN);
-    long agentStartTime=BytesUtils.bytesToLong(buffer,qualifierOffset + HBaseTables.AGENT_NAME_MAX_LEN);
-    long transactionId=BytesUtils.bytesToLong(buffer,qualifierOffset + BytesUtils.LONG_BYTE_LENGTH + HBaseTables.AGENT_NAME_MAX_LEN);
-    TraceId traceId=new TraceId(agentId,agentStartTime,transactionId);
+    TransactionId traceId=new TransactionId(buffer,qualifierOffset);
     traceIdList.add(traceId);
   }
   return traceIdList;

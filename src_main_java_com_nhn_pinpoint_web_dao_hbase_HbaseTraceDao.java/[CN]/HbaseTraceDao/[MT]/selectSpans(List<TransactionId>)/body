@@ -1,0 +1,10 @@
+{
+  List<Get> gets=new ArrayList<Get>(traceIdList.size());
+  for (  TransactionId traceId : traceIdList) {
+    byte[] traceIdBytes=traceId.getBytes();
+    Get get=new Get(traceIdBytes);
+    get.addFamily(HBaseTables.TRACES_CF_SPAN);
+    gets.add(get);
+  }
+  return template2.get(HBaseTables.TRACES,gets,spanMapper);
+}

@@ -1,6 +1,6 @@
 {
   Span span=createRootSpan();
-  logger.debug("id:{}",new TraceId(span.getTraceAgentId(),span.getAgentStartTime(),span.getTraceTransactionId()));
+  logger.debug("id:{}",new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionId()));
   insert(span);
   deleteSpans.add(span);
   Span subSpan1=createSpanEvent(span);

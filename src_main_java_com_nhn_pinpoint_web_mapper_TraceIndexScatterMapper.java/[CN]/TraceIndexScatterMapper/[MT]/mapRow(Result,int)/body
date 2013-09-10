@@ -15,7 +15,7 @@
     String traceAgentId=BytesUtils.toStringAndRightTrim(buffer,qualifierOffset,HBaseTables.AGENT_NAME_MAX_LEN);
     long traceAgentStartTime=BytesUtils.bytesToLong(buffer,qualifierOffset + HBaseTables.AGENT_NAME_MAX_LEN);
     long traceTransactionId=BytesUtils.bytesToLong(buffer,qualifierOffset + BytesUtils.LONG_BYTE_LENGTH + HBaseTables.AGENT_NAME_MAX_LEN);
-    String traceId=TraceIdUtils.formatString(traceAgentId,traceAgentStartTime,traceTransactionId);
+    String traceId=TransactionIdUtils.formatString(traceAgentId,traceAgentStartTime,traceTransactionId);
     Dot dot=new Dot(traceId,acceptedTime,elapsed,exceptionCode);
     list.add(dot);
   }

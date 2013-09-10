@@ -1,9 +1,9 @@
 {
   logger.debug("scanTraceScatterTraceIdList");
   Scan scan=createScan(applicationName,start,end);
-  List<TraceId> list=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,new ResultsExtractor<List<TraceId>>(){
-    @Override public List<TraceId> extractData(    ResultScanner results) throws Exception {
-      List<TraceId> list=new ArrayList<TraceId>();
+  List<TransactionId> list=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,new ResultsExtractor<List<TransactionId>>(){
+    @Override public List<TransactionId> extractData(    ResultScanner results) throws Exception {
+      List<TransactionId> list=new ArrayList<TransactionId>();
       for (      Result result : results) {
         if (result == null) {
           continue;
