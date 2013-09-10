@@ -16,7 +16,7 @@
       SpanBo spanBo=new SpanBo();
       spanBo.setTraceAgentId(traceAgentId);
       spanBo.setTraceAgentStartTime(traceAgentStartTime);
-      spanBo.setTraceTransactionId(traceTrasnactionId);
+      spanBo.setTraceTransactionSequence(traceTrasnactionId);
       spanBo.setCollectorAcceptTime(kv.getTimestamp());
       spanBo.setSpanID(Bytes.toInt(kv.getBuffer(),kv.getQualifierOffset()));
       spanBo.readValue(kv.getBuffer(),kv.getValueOffset());
@@ -30,7 +30,7 @@
       SpanEventBo spanEventBo=new SpanEventBo();
       spanEventBo.setTraceAgentId(traceAgentId);
       spanEventBo.setTraceAgentStartTime(traceAgentStartTime);
-      spanEventBo.setTraceTransactionId(traceTrasnactionId);
+      spanEventBo.setTraceTransactionSequence(traceTrasnactionId);
       int spanId=Bytes.toInt(kv.getBuffer(),kv.getQualifierOffset());
       final int spanIdOffset=4;
       short sequence=Bytes.toShort(kv.getBuffer(),kv.getQualifierOffset() + spanIdOffset);

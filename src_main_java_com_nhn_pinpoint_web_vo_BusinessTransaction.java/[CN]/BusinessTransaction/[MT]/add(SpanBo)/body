@@ -7,7 +7,7 @@
   if (minTime > elapsed) {
     minTime=elapsed;
   }
-  String traceIdString=TransactionIdUtils.formatString(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionId());
+  String traceIdString=TransactionIdUtils.formatString(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
   Trace trace=new Trace(traceIdString,elapsed,span.getCollectorAcceptTime(),span.getException());
   this.traces.add(trace);
   if (span.getException() > 0) {
