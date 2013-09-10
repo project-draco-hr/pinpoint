@@ -1,5 +1,5 @@
 {
-  logger.debug("scanTraceScatterTraceIdList");
+  logger.debug("scanTraceScatterTransactionIdList");
   Scan scan=createScan(applicationName,start,end);
   List<TransactionId> list=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,new ResultsExtractor<List<TransactionId>>(){
     @Override public List<TransactionId> extractData(    ResultScanner results) throws Exception {

@@ -1,5 +1,5 @@
 {
-  Get get=new Get(traceId.getBytes());
+  Get get=new Get(transactionId.getBytes());
   get.addFamily(HBaseTables.TRACES_CF_SPAN);
   get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
   return template2.get(HBaseTables.TRACES,get,spanMapper);

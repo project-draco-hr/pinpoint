@@ -1,6 +1,6 @@
 {
-  List<Get> gets=new ArrayList<Get>(traceIdSet.size());
-  for (  TransactionId traceId : traceIdSet) {
+  List<Get> gets=new ArrayList<Get>(transactionIdList.size());
+  for (  TransactionId traceId : transactionIdList) {
     Get get=new Get(traceId.getBytes());
     get.addFamily(HBaseTables.TRACES_CF_SPAN);
     get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
