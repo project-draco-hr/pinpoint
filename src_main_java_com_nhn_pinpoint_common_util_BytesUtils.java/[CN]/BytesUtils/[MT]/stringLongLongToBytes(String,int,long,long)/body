@@ -1,0 +1,17 @@
+{
+  if (string == null) {
+    throw new NullPointerException("string must not be null");
+  }
+  if (maxStringSize < 0) {
+    throw new IllegalArgumentException("maxStringSize");
+  }
+  final byte[] stringBytes=getBytes(string);
+  if (stringBytes.length > maxStringSize) {
+    throw new IllegalArgumentException("string is max " + stringBytes.length);
+  }
+  final byte[] buffer=new byte[LONG_LONG_BYTE_LENGTH + maxStringSize];
+  writeBytes(buffer,0,stringBytes);
+  writeFirstLong0(value1,buffer,maxStringSize);
+  writeSecondLong0(value2,buffer,maxStringSize);
+  return buffer;
+}

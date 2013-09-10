@@ -1,10 +1,10 @@
 {
   if (bytes == null) {
-    put(0);
+    put((short)0);
   }
  else {
     final int length=bytes.length;
-    if (length > Short.MAX_VALUE) {
+    if (length >= SHORT_UNSIGNED_MAX) {
       throw new IllegalArgumentException("too large bytes:" + bytes.length);
     }
     put((short)length);

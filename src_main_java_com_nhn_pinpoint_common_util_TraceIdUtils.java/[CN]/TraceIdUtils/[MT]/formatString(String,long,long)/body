@@ -1,0 +1,6 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  return agentId + "=" + (digits(agentStartTime >> 32,8) + "-" + digits(agentStartTime >> 16,4)+ "-"+ digits(agentStartTime,4)+ "-"+ digits(transactionId >> 48,4)+ "-"+ digits(transactionId,12));
+}
