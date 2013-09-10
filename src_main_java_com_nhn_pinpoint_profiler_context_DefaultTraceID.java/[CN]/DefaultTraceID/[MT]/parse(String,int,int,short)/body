@@ -1,15 +1,15 @@
 {
-  if (guid == null) {
-    throw new NullPointerException("guid must not be null");
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
   }
-  final int agentIdIndex=guid.indexOf(DefaultTraceID.AGENT_DELIMITER);
+  final int agentIdIndex=transactionId.indexOf(DefaultTraceID.AGENT_DELIMITER);
   if (agentIdIndex == -1) {
-    throw new IllegalArgumentException("guid delimiter not found:" + guid);
+    throw new IllegalArgumentException("transactionId delimiter not found:" + transactionId);
   }
-  final String agentId=guid.substring(0,agentIdIndex);
-  String ids=guid.substring(agentIdIndex + 1,guid.length());
-  String[] strings=TraceIdUtils.parseTraceId(ids);
-  final long startTime=TraceIdUtils.parseMostId(strings);
-  final long transactionId=TraceIdUtils.parseLeastId(strings);
-  return new DefaultTraceID(agentId,startTime,transactionId,parentSpanID,spanID,flags);
+  final String agentId=transactionId.substring(0,agentIdIndex);
+  String ids=transactionId.substring(agentIdIndex + 1,transactionId.length());
+  String[] strings=TransactionIdUtils.parseTraceId(ids);
+  final long startTime=TransactionIdUtils.parseMostId(strings);
+  final long eachTransactionId=TransactionIdUtils.parseLeastId(strings);
+  return new DefaultTraceID(agentId,startTime,eachTransactionId,parentSpanID,spanID,flags);
 }

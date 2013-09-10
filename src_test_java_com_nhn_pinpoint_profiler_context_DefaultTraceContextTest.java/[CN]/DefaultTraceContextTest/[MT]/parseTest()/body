@@ -3,15 +3,15 @@
   long agentStartTime=System.currentTimeMillis();
   long agentTransactionCount=10;
   DefaultTraceID traceID=new DefaultTraceID(agent,agentStartTime,agentTransactionCount);
-  String id=traceID.getId();
+  String id=traceID.getTransactionId();
   logger.info("id={}",id);
   int agentIdIndex=id.indexOf(DefaultTraceID.AGENT_DELIMITER);
   String agentId=id.substring(0,agentIdIndex);
   Assert.assertEquals(agentId,agent);
   String ids=id.substring(agentIdIndex + 1,id.length());
-  String[] strings=TraceIdUtils.parseTraceId(ids);
-  long startTime=TraceIdUtils.parseMostId(strings);
+  String[] strings=TransactionIdUtils.parseTraceId(ids);
+  long startTime=TransactionIdUtils.parseMostId(strings);
   Assert.assertEquals(startTime,agentStartTime);
-  long trasnactionCount=TraceIdUtils.parseLeastId(strings);
+  long trasnactionCount=TransactionIdUtils.parseLeastId(strings);
   Assert.assertEquals(agentTransactionCount,trasnactionCount);
 }
