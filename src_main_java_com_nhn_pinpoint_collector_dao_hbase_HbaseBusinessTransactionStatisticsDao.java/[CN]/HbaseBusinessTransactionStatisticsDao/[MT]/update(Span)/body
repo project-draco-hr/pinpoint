@@ -2,7 +2,7 @@
   final long acceptedTime=acceptedTimeService.getAcceptedTime();
   long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   byte[] rowTimeSlotBytes=Bytes.toBytes(rowTimeSlot);
-  byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(span.getApplicationName(),24),rowTimeSlotBytes);
+  byte[] rowKey=BytesUtils.merge(BytesUtils.toFixedLengthBytes(span.getApplicationName(),HBaseTables.APPLICATION_NAME_MAX_LEN),rowTimeSlotBytes);
   byte[] cf;
   if (span.getErr() == 0) {
     cf=BUSINESS_TRANSACTION_STATISTICS_CF_NORMAL;
