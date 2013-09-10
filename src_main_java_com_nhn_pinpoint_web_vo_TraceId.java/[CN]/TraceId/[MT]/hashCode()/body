@@ -1,5 +1,6 @@
 {
-  int result=(int)(most ^ (most >>> 32));
-  result=31 * result + (int)(least ^ (least >>> 32));
+  int result=agentId.hashCode();
+  result=31 * result + (int)(agentStartTime ^ (agentStartTime >>> 32));
+  result=31 * result + (int)(transactionId ^ (transactionId >>> 32));
   return result;
 }

@@ -1,5 +1,6 @@
 {
-  QueryCondition condition=new QueryCondition(new TraceId(traceId),time,responseTime);
+  TraceId traceId=new TraceId(unparsedTraceId);
+  QueryCondition condition=new QueryCondition(traceId,time,responseTime);
   if (queryConditions.containsKey(condition)) {
     return;
   }

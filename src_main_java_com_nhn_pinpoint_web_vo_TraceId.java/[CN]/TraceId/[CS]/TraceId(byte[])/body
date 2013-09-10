@@ -2,9 +2,10 @@
   if (traceId == null) {
     throw new NullPointerException("traceId must not be null");
   }
-  if (traceId.length < 16) {
+  if (traceId.length < BytesUtils.LONG_LONG_BYTE_LENGTH + HBaseTables.AGENT_NAME_MAX_LEN) {
     throw new IllegalArgumentException("invalid traceId");
   }
-  this.most=BytesUtils.bytesToFirstLong(traceId);
-  this.least=BytesUtils.bytesToSecondLong(traceId);
+  this.agentId=BytesUtils.toStringAndRightTrim(traceId,0,HBaseTables.AGENT_NAME_MAX_LEN);
+  this.agentStartTime=BytesUtils.bytesToLong(traceId,HBaseTables.AGENT_NAME_MAX_LEN);
+  this.transactionId=BytesUtils.bytesToLong(traceId,BytesUtils.LONG_BYTE_LENGTH + HBaseTables.AGENT_NAME_MAX_LEN);
 }
