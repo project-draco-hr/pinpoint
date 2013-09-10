@@ -1,10 +1,10 @@
 {
   String traceId=request.getHeader(Header.HTTP_TRACE_ID.toString());
   if (traceId != null) {
-    int parentSpanID=NumberUtils.parseInteger(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanID.NULL);
-    int spanID=NumberUtils.parseInteger(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanID.NULL);
+    int parentSpanID=NumberUtils.parseInteger(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanId.NULL);
+    int spanID=NumberUtils.parseInteger(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanId.NULL);
     short flags=NumberUtils.parseShort(request.getHeader(Header.HTTP_FLAGS.toString()),(short)0);
-    TraceID id=this.traceContext.createTraceId(traceId,parentSpanID,spanID,flags);
+    TraceId id=this.traceContext.createTraceId(traceId,parentSpanID,spanID,flags);
     if (isDebug) {
       logger.debug("TraceID exist. continue trace. {}",id);
     }

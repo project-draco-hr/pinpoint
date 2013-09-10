@@ -14,7 +14,7 @@
   }
   trace.traceBlockBegin();
   trace.markBeforeTime();
-  TraceID nextId=trace.getTraceId().getNextTraceId();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
   trace.recordNextSpanId(nextId.getSpanId());
   request.setRequestProperty(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
   request.setRequestProperty(Header.HTTP_SPAN_ID.toString(),Integer.toString(nextId.getSpanId()));

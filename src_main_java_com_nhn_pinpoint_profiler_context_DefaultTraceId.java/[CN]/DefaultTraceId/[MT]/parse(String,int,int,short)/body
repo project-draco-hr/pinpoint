@@ -1,0 +1,15 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  final int agentIdIndex=transactionId.indexOf(DefaultTraceId.AGENT_DELIMITER);
+  if (agentIdIndex == -1) {
+    throw new IllegalArgumentException("transactionId delimiter not found:" + transactionId);
+  }
+  final String agentId=transactionId.substring(0,agentIdIndex);
+  String ids=transactionId.substring(agentIdIndex + 1,transactionId.length());
+  String[] strings=TransactionIdUtils.parseTraceId(ids);
+  final long startTime=TransactionIdUtils.parseMostId(strings);
+  final long eachTransactionId=TransactionIdUtils.parseLeastId(strings);
+  return new DefaultTraceId(agentId,startTime,eachTransactionId,parentSpanID,spanID,flags);
+}
