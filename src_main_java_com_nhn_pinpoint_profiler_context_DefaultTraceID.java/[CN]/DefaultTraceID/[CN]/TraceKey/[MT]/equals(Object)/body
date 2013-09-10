@@ -2,8 +2,9 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   TraceKey traceKey=(TraceKey)o;
-  if (least != traceKey.least)   return false;
-  if (most != traceKey.most)   return false;
+  if (agentStartTime != traceKey.agentStartTime)   return false;
   if (span != traceKey.span)   return false;
+  if (transactionId != traceKey.transactionId)   return false;
+  if (!agentId.equals(traceKey.agentId))   return false;
   return true;
 }

@@ -1,8 +1,8 @@
 {
   checkBeforeTraceObject();
-  boolean sampling=this.sampler.isSampling();
+  final boolean sampling=this.sampler.isSampling();
   if (sampling) {
-    DefaultTrace trace=new DefaultTrace();
+    DefaultTrace trace=new DefaultTrace(this.agentId,agentStartTime,transactionId.getAndIncrement());
     Storage storage=storageFactory.createStorage();
     trace.setStorage(storage);
     trace.setTraceContext(this);

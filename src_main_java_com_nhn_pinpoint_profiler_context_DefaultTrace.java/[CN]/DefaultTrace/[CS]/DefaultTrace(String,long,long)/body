@@ -1,5 +1,5 @@
 {
-  DefaultTraceID traceId=DefaultTraceID.newTraceId();
+  DefaultTraceID traceId=new DefaultTraceID(agentId,agentStartTime,transactionId);
   this.callStack=new CallStack(traceId);
   latestStackIndex=this.callStack.push();
   StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
