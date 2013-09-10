@@ -1,0 +1,10 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  String[] component=transactionId.split(TRANSACTION_ID_DELIMITER);
+  if (component.length != 3) {
+    throw new IllegalArgumentException("Invalid TraceId string: " + transactionId);
+  }
+  return component;
+}
