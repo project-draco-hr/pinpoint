@@ -2,12 +2,8 @@
   if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  final int agentIdIndex=transactionId.indexOf(AGENT_DELIMITER);
-  if (agentIdIndex == -1) {
-    throw new IllegalArgumentException("transactionId delimiter not found:" + transactionId);
-  }
-  String[] parseId=TransactionIdUtils.parseTransactionId(transactionId);
-  this.agentId=parseId[0];
-  this.agentStartTime=Long.parseLong(parseId[1]);
-  this.transactionSequence=Long.parseLong(parseId[2]);
+  com.nhn.pinpoint.common.util.TransactionId parsedId=TransactionIdUtils.parseTransactionId(transactionId);
+  this.agentId=parsedId.getAgentId();
+  this.agentStartTime=parsedId.getAgentStartTime();
+  this.transactionSequence=parsedId.getTransactionSequence();
 }
