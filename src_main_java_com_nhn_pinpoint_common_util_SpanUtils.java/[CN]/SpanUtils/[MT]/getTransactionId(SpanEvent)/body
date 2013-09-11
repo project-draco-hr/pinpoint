@@ -1,3 +1,6 @@
 {
+  if (spanEvent == null) {
+    throw new NullPointerException("spanEvent must not be null");
+  }
   return BytesUtils.stringLongLongToBytes(spanEvent.getTraceAgentId(),HBaseTables.AGENT_NAME_MAX_LEN,spanEvent.getTraceAgentStartTime(),spanEvent.getTraceTransactionSequence());
 }
