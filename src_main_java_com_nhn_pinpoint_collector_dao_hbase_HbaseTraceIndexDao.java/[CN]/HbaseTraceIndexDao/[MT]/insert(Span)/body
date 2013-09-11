@@ -2,6 +2,6 @@
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   byte[] agentIdTraceIndexRowKey=createRowKey(span,acceptedTime);
   Put put=new Put(agentIdTraceIndexRowKey);
-  put.add(TRACE_INDEX_CF_TRACE,SpanUtils.getTraceId(span),acceptedTime,null);
+  put.add(TRACE_INDEX_CF_TRACE,SpanUtils.getTransactionId(span),acceptedTime,null);
   hbaseTemplate.put(tableName,put);
 }

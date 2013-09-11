@@ -1,6 +1,7 @@
 {
   SpanBo spanBo=new SpanBo(span);
-  Put put=new Put(SpanUtils.getTraceId(span));
+  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
+  Put put=new Put(rowKey);
   byte[] spanValue=spanBo.writeValue();
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
   long acceptedTime=acceptedTimeService.getAcceptedTime();

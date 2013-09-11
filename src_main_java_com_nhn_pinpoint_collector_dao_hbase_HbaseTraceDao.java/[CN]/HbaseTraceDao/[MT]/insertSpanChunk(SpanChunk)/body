@@ -1,5 +1,6 @@
 {
-  Put put=new Put(SpanUtils.getTraceId(spanChunk));
+  byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunk));
+  Put put=new Put(rowKey);
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   List<SpanEvent> spanEventBoList=spanChunk.getSpanEventList();
   for (  SpanEvent spanEvent : spanEventBoList) {
