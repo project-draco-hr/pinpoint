@@ -1,7 +1,7 @@
 {
   Scan scan=new Scan();
   scan.setCaching(this.scanCacheSize);
-  byte[] bAgent=Bytes.toBytes(agent);
+  byte[] bAgent=Bytes.toBytes(applicationName);
   byte[] traceIndexStartKey=SpanUtils.getTraceIndexRowKey(bAgent,start);
   byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,end);
   scan.setStartRow(traceIndexEndKey);

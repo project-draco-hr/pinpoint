@@ -3,7 +3,7 @@
     throw new NullPointerException("applicationName");
   }
   if (logger.isTraceEnabled()) {
-    logger.trace("scan(selectTraceIdsFromApplicationTraceIndex) {}, {}, {}",new Object[]{applicationName,from,to});
+    logger.trace("scan(selectTraceIdsFromApplicationTraceIndex) {}, {}, {}",applicationName,from,to);
   }
   List<List<TransactionId>> traceIdList=this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to);
   Set<TransactionId> result=new HashSet<TransactionId>();

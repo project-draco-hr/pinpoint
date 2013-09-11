@@ -1,5 +1,5 @@
 {
-  byte[] traceIdBytes=transactionId.getBytes();
+  byte[] traceIdBytes=rowKeyDistributor.getDistributedKey(transactionId.getBytes());
   Get get=new Get(traceIdBytes);
   get.addFamily(HBaseTables.TRACES_CF_SPAN);
   get.addFamily(HBaseTables.TRACES_CF_ANNOTATION);

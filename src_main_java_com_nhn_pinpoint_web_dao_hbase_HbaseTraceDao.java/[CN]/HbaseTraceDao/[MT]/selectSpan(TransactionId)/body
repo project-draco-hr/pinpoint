@@ -1,4 +1,4 @@
 {
-  byte[] traceIdBytes=transactionId.getBytes();
+  byte[] traceIdBytes=rowKeyDistributor.getDistributedKey(transactionId.getBytes());
   return template2.get(HBaseTables.TRACES,traceIdBytes,HBaseTables.TRACES_CF_SPAN,spanMapper);
 }

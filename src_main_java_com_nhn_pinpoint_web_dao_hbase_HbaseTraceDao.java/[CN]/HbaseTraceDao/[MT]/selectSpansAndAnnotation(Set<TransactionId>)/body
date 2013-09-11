@@ -1,7 +1,8 @@
 {
   List<Get> gets=new ArrayList<Get>(transactionIdList.size());
-  for (  TransactionId traceId : transactionIdList) {
-    Get get=new Get(traceId.getBytes());
+  for (  TransactionId transactionId : transactionIdList) {
+    byte[] transactionIdBytes=this.rowKeyDistributor.getDistributedKey(transactionId.getBytes());
+    Get get=new Get(transactionIdBytes);
     get.addFamily(HBaseTables.TRACES_CF_SPAN);
     get.addFamily(HBaseTables.TRACES_CF_ANNOTATION);
     gets.add(get);

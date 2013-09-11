@@ -3,9 +3,7 @@
   if (rowKey == null) {
     return Collections.emptyList();
   }
-  String traceAgentId=BytesUtils.toStringAndRightTrim(rowKey,0,HBaseTables.AGENT_NAME_MAX_LEN);
-  long traceAgentStartTime=BytesUtils.bytesToLong(rowKey,HBaseTables.AGENT_NAME_MAX_LEN);
-  long traceTrasnactionId=BytesUtils.bytesToLong(rowKey,HBaseTables.AGENT_NAME_MAX_LEN + BytesUtils.LONG_BYTE_LENGTH);
+  final TransactionId transactionId=new TransactionId(rowKey,TransactionId.DISTRIBUTE_HASH_SIZE);
   KeyValue[] keyList=result.raw();
   List<SpanBo> spanList=new ArrayList<SpanBo>();
   Map<Integer,SpanBo> spanMap=new HashMap<Integer,SpanBo>();
@@ -14,9 +12,9 @@
     byte[] family=kv.getFamily();
     if (Bytes.equals(family,HBaseTables.TRACES_CF_SPAN)) {
       SpanBo spanBo=new SpanBo();
-      spanBo.setTraceAgentId(traceAgentId);
-      spanBo.setTraceAgentStartTime(traceAgentStartTime);
-      spanBo.setTraceTransactionSequence(traceTrasnactionId);
+      spanBo.setTraceAgentId(transactionId.getAgentId());
+      spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+      spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
       spanBo.setCollectorAcceptTime(kv.getTimestamp());
       spanBo.setSpanID(Bytes.toInt(kv.getBuffer(),kv.getQualifierOffset()));
       spanBo.readValue(kv.getBuffer(),kv.getValueOffset());
@@ -28,9 +26,9 @@
     }
  else     if (Bytes.equals(family,HBaseTables.TRACES_CF_TERMINALSPAN)) {
       SpanEventBo spanEventBo=new SpanEventBo();
-      spanEventBo.setTraceAgentId(traceAgentId);
-      spanEventBo.setTraceAgentStartTime(traceAgentStartTime);
-      spanEventBo.setTraceTransactionSequence(traceTrasnactionId);
+      spanEventBo.setTraceAgentId(transactionId.getAgentId());
+      spanEventBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+      spanEventBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
       int spanId=Bytes.toInt(kv.getBuffer(),kv.getQualifierOffset());
       final int spanIdOffset=4;
       short sequence=Bytes.toShort(kv.getBuffer(),kv.getQualifierOffset() + spanIdOffset);

@@ -1,5 +1,6 @@
 {
-  Get get=new Get(transactionId.getBytes());
+  byte[] transactionIdBytes=this.rowKeyDistributor.getDistributedKey(transactionId.getBytes());
+  Get get=new Get(transactionIdBytes);
   get.addFamily(HBaseTables.TRACES_CF_SPAN);
   get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
   return template2.get(HBaseTables.TRACES,get,spanMapper);
