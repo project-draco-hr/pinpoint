@@ -1,3 +1,8 @@
 {
-  this.scope=new NamedThreadLocal<Boolean>(scopeName);
+  this.scope=new NamedThreadLocal<Marker>(scopeName){
+    @Override protected Marker initialValue(){
+      return new Marker();
+    }
+  }
+;
 }
