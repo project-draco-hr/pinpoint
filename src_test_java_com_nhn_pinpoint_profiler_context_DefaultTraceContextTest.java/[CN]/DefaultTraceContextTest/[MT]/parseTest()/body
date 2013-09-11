@@ -5,8 +5,8 @@
   DefaultTraceId traceID=new DefaultTraceId(agent,agentStartTime,agentTransactionCount);
   String id=traceID.getTransactionId();
   logger.info("id={}",id);
-  String[] strings=TransactionIdUtils.parseTransactionId(id);
-  Assert.assertEquals(strings[0],agent);
-  Assert.assertEquals(Long.parseLong(strings[1]),agentStartTime);
-  Assert.assertEquals(Long.parseLong(strings[2]),agentTransactionCount);
+  TransactionId transactionid=TransactionIdUtils.parseTransactionId(id);
+  Assert.assertEquals(transactionid.getAgentId(),agent);
+  Assert.assertEquals(transactionid.getAgentStartTime(),agentStartTime);
+  Assert.assertEquals(transactionid.getTransactionSequence(),agentTransactionCount);
 }
