@@ -3,9 +3,6 @@
     logger.info("Send startup information to Pinpoint server via {}. agentInfo={}",dataSender.getClass().getSimpleName(),agentInfo);
   }
   dataSender.send(agentInfo);
-  dataSender.send(agentInfo);
-  dataSender.send(agentInfo);
-  this.ioThread=new Thread(heartBitCommand,ProductInfo.CAMEL_NAME + "-Agent-Heartbeat-Thread");
-  this.ioThread.setDaemon(true);
+  this.ioThread=THREAD_FACTORY.newThread(heartBitCommand);
   ioThread.start();
 }
