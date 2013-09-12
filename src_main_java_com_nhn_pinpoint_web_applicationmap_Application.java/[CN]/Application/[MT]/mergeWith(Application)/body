@@ -8,4 +8,21 @@
       hostList.put(entry.getKey(),entry.getValue());
     }
   }
+  for (  Entry<String,SortedMap<String,ServerInstance>> entry : application.getServerInstanceList().entrySet()) {
+    SortedMap<String,ServerInstance> exists=serverInstanceList.get(entry.getKey());
+    if (exists == null) {
+      serverInstanceList.put(entry.getKey(),entry.getValue());
+    }
+ else {
+      SortedMap<String,ServerInstance> srcValueMap=entry.getValue();
+      for (      Entry<String,ServerInstance> valueEntry : srcValueMap.entrySet()) {
+        if (exists.containsKey(valueEntry.getKey())) {
+          exists.get(entry.getKey()).mergeWith(valueEntry.getValue());
+        }
+ else {
+          exists.put(valueEntry.getKey(),valueEntry.getValue());
+        }
+      }
+    }
+  }
 }

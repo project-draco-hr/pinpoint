@@ -4,18 +4,7 @@
   sb.append("\"sequence\" : ").append(sequence).append(",");
   sb.append("\"applicationName\" : \"").append(applicationName).append("\",");
   sb.append("\"serviceType\" : \"").append(serviceType).append("\",");
-  sb.append("\"serviceTypeCode\" : \"").append(serviceType.getCode()).append("\",");
-  sb.append("\"agents\" : [ ");
-  if (agentSet != null) {
-    Iterator<AgentInfoBo> iterator=agentSet.iterator();
-    while (iterator.hasNext()) {
-      sb.append(iterator.next().getJson());
-      if (iterator.hasNext()) {
-        sb.append(",");
-      }
-    }
-  }
-  sb.append(" ]");
+  sb.append("\"serviceTypeCode\" : \"").append(serviceType.getCode()).append("\"");
   sb.append(" }");
   return sb.toString();
 }

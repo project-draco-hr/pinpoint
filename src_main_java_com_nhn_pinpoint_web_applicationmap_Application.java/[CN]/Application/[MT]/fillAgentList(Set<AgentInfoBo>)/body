@@ -1,0 +1,17 @@
+{
+  if (agentSet == null) {
+    return;
+  }
+  for (  AgentInfoBo agent : agentSet) {
+    String key=agent.getHostname();
+    List<AgentInfoBo> list=agentList.get(key);
+    if (list == null) {
+      List<AgentInfoBo> value=new ArrayList<AgentInfoBo>();
+      value.add(agent);
+      agentList.put(key,value);
+    }
+ else {
+      agentList.get(key).add(agent);
+    }
+  }
+}
