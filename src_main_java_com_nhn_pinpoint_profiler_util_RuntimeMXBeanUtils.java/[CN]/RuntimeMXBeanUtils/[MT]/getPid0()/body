@@ -2,6 +2,7 @@
   final String name=RUNTIME_MBEAN.getName();
   final int pidIndex=name.indexOf('@');
   if (pidIndex == -1) {
+    getLogger().log(Level.WARNING,"invalid pid name:" + name);
     return -1;
   }
   String strPid=name.substring(0,pidIndex);
