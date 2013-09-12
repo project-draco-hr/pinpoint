@@ -4,8 +4,8 @@
   this.heartBitChecker.close();
   this.agentStatMonitor.shutdown();
   agentInfo.setIsAlive(false);
-  this.priorityDataSender.request(agentInfo);
-  this.dataSender.stop();
-  this.priorityDataSender.stop();
+  this.tcpDataSender.request(agentInfo);
+  this.spanDataSender.stop();
+  this.tcpDataSender.stop();
   changeStatus(AgentStatus.STOPPED);
 }

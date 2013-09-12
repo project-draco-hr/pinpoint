@@ -15,15 +15,15 @@
   this.machineName=NetworkUtils.getHostName();
   this.agentId=getId("pinpoint.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
   this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
-  this.priorityDataSender=createTcpDataSender();
-  this.dataSender=createDataSender();
+  this.tcpDataSender=createTcpDataSender();
+  this.spanDataSender=createDataSender();
   this.startTime=System.currentTimeMillis();
   this.identifier=getShortIdentifier();
   initializeTraceContext();
   this.agentInfo=createAgentInfo();
-  this.heartBitChecker=new HeartBitChecker(priorityDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
+  this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
   this.agentStatMonitor=new AgentStatMonitor(this.traceContext,this.profilerConfig);
-  this.agentStatMonitor.setDataSender(this.dataSender);
+  this.agentStatMonitor.setDataSender(this.spanDataSender);
   this.agentStatMonitor.setAgentInfo(this.agentInfo);
   SingletonHolder.INSTANCE=this;
 }

@@ -3,15 +3,15 @@
   this.traceContext.setAgentId(this.agentId);
   this.traceContext.setApplicationId(this.applicationName);
   this.traceContext.setAgentStartTime(this.startTime);
-  this.traceContext.setPriorityDataSender(this.priorityDataSender);
+  this.traceContext.setPriorityDataSender(this.tcpDataSender);
   Sampler sampler=createSampler();
   logger.info("SamplerType:{}",sampler.getClass());
   this.traceContext.setSampler(sampler);
   if (profilerConfig.isSamplingElapsedTimeBaseEnable()) {
-    TimeBaseStorageFactory timeBaseStorageFactory=new TimeBaseStorageFactory(this.dataSender,this.profilerConfig);
+    TimeBaseStorageFactory timeBaseStorageFactory=new TimeBaseStorageFactory(this.spanDataSender,this.profilerConfig);
     this.traceContext.setStorageFactory(timeBaseStorageFactory);
   }
  else {
-    this.traceContext.setStorageFactory(new BypassStorageFactory(dataSender));
+    this.traceContext.setStorageFactory(new BypassStorageFactory(spanDataSender));
   }
 }
