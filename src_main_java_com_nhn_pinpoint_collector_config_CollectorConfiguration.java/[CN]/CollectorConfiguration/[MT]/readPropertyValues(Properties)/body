@@ -1,15 +1,15 @@
 {
-  this.collectorTcpListenIp=readString(properties,"collectorTcpListenIp",DEFAULT_LISTEN_IP);
-  this.collectorTcpListenPort=readInt(properties,"collectorTcpListenPort",collectorTcpListenPort);
-  this.collectorUdpListenIp=readString(properties,"collectorUdpListenIp",DEFAULT_LISTEN_IP);
-  this.collectorUdpListenPort=readInt(properties,"collectorUdpListenPort",collectorUdpListenPort);
-  this.udpWorkerThread=readInt(properties,"udpWorkerThread",udpWorkerThread);
-  this.udpWorkerQueueSize=readInt(properties,"udpWorkerQueueSize",udpWorkerQueueSize);
-  this.udpSocketReceiveBufferSize=readInt(properties,"udpSocketReceiveBufferSize",udpSocketReceiveBufferSize);
-  this.collectorUdpSpanListenIp=readString(properties,"collectorUdpSpanListenIp",DEFAULT_LISTEN_IP);
-  this.collectorUdpSpanListenPort=readInt(properties,"collectorUdpSpanListenPort",collectorUdpSpanListenPort);
-  this.udpSpanWorkerThread=readInt(properties,"udpSpanWorkerThread",udpSpanWorkerThread);
-  this.udpSpanWorkerQueueSize=readInt(properties,"udpSpanWorkerQueueSize",udpSpanWorkerQueueSize);
-  this.udpSpanSocketReceiveBufferSize=readInt(properties,"udpSpanSocketReceiveBufferSize",udpSpanSocketReceiveBufferSize);
-  logger.info("Pinpoint configuration successfully loaded.");
+  logger.info("pinpoint-collector.properties read.");
+  this.tcpListenIp=readString(properties,"collector.tcpListenIp",DEFAULT_LISTEN_IP);
+  this.tcpListenPort=readInt(properties,"collector.tcpListenPort",9994);
+  this.udpStatListenIp=readString(properties,"collector.udpStatListenIp",DEFAULT_LISTEN_IP);
+  this.udpStatListenPort=readInt(properties,"collector.udpStatListenPort",9995);
+  this.udpStatWorkerThread=readInt(properties,"collector.udpStatWorkerThread",128);
+  this.udpStatWorkerQueueSize=readInt(properties,"collector.udpStatWorkerQueueSize",1024);
+  this.udpStatSocketReceiveBufferSize=readInt(properties,"collector.udpStatSocketReceiveBufferSize",1024 * 4096);
+  this.udpSpanListenIp=readString(properties,"collector.udpSpanListenIp",DEFAULT_LISTEN_IP);
+  this.udpSpanListenPort=readInt(properties,"collector.udpSpanListenPort",udpSpanListenPort);
+  this.udpSpanWorkerThread=readInt(properties,"collector.udpSpanWorkerThread",256);
+  this.udpSpanWorkerQueueSize=readInt(properties,"collector.udpSpanWorkerQueueSize",1024 * 5);
+  this.udpSpanSocketReceiveBufferSize=readInt(properties,"collector.udpSpanSocketReceiveBufferSize",1024 * 4096);
 }
