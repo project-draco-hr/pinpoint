@@ -10,10 +10,10 @@
     code.begin();
     beginAddFindInterceptorCode(id,code,interceptorType);
     if (interceptorType == STATIC_INTERCEPTOR) {
-      code.format("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class};");
+      code.append("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class};");
     }
  else {
-      code.format("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.Object[].class};");
+      code.append("  java.lang.Class[] beforeMethodParams = new Class[]{java.lang.Object.class, java.lang.Object[].class};");
     }
     code.format("  java.lang.reflect.Method beforeMethod = interceptor.getClass().getMethod(\"%1$s\", beforeMethodParams);","before");
     if (interceptorType == STATIC_INTERCEPTOR) {
@@ -22,8 +22,8 @@
  else {
       code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, %2$s };",target,parameter);
     }
-    code.format("  beforeMethod.invoke(interceptor, beforeParams);");
-    code.format("}");
+    code.append("  beforeMethod.invoke(interceptor, beforeParams);");
+    code.append("}");
     code.end();
   }
  else {

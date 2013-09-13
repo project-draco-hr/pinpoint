@@ -11,10 +11,10 @@
     after.begin();
     beginAddFindInterceptorCode(id,after,interceptorType);
     if (interceptorType == STATIC_INTERCEPTOR) {
-      after.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
+      after.append("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
     }
  else {
-      after.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.Object[].class, java.lang.Object.class};");
+      after.append("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.Object[].class, java.lang.Object.class};");
     }
     after.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
     if (interceptorType == STATIC_INTERCEPTOR) {
@@ -23,7 +23,7 @@
  else {
       after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, %3$s };",target,parameter,returnType);
     }
-    after.format("  method.invoke(interceptor, methodParams);");
+    after.append("  method.invoke(interceptor, methodParams);");
     endAddFindInterceptorCode(after);
     after.end();
   }
@@ -49,10 +49,10 @@
     catchCode.begin();
     beginAddFindInterceptorCode(id,catchCode,interceptorType);
     if (interceptorType == STATIC_INTERCEPTOR) {
-      catchCode.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
+      catchCode.append("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object[].class, java.lang.Object.class};");
     }
  else {
-      catchCode.format("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.Object[].class, java.lang.Object.class};");
+      catchCode.append("  java.lang.Class[] methodArgsClassParams = new Class[]{java.lang.Object.class, java.lang.Object[].class, java.lang.Object.class};");
     }
     catchCode.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
     if (interceptorType == STATIC_INTERCEPTOR) {
@@ -61,9 +61,9 @@
  else {
       catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, (java.lang.Object) $e };",target,parameter);
     }
-    catchCode.format("  method.invoke(interceptor, methodParams);");
+    catchCode.append("  method.invoke(interceptor, methodParams);");
     endAddFindInterceptorCode(catchCode);
-    catchCode.format("  throw $e;");
+    catchCode.append("  throw $e;");
     catchCode.end();
   }
  else {
