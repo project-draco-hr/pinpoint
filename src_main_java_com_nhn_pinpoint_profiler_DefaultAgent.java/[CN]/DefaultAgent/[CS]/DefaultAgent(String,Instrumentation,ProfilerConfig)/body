@@ -1,4 +1,7 @@
 {
+  if (instrumentation == null) {
+    throw new NullPointerException("instrumentation must not be null");
+  }
   if (profilerConfig == null) {
     throw new NullPointerException("profilerConfig must not be null");
   }
@@ -15,15 +18,16 @@
   this.machineName=NetworkUtils.getHostName();
   this.agentId=getId("pinpoint.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
   this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
+  this.startTime=getVmStartTime();
+  this.identifier=getPid();
   this.tcpDataSender=createTcpDataSender();
-  this.spanDataSender=createDataSender();
-  this.startTime=System.currentTimeMillis();
-  this.identifier=getShortIdentifier();
+  this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
+  this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor");
   initializeTraceContext();
   this.agentInfo=createAgentInfo();
   this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
   this.agentStatMonitor=new AgentStatMonitor(this.traceContext,this.profilerConfig);
-  this.agentStatMonitor.setDataSender(this.spanDataSender);
+  this.agentStatMonitor.setDataSender(this.statDataSender);
   this.agentStatMonitor.setAgentInfo(this.agentInfo);
   SingletonHolder.INSTANCE=this;
 }

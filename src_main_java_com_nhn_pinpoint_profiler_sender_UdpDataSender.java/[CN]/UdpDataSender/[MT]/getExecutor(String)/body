@@ -1,5 +1,5 @@
 {
-  AsyncQueueingExecutor executor=new AsyncQueueingExecutor(1024 * 5,"Pinpoint-UdpDataExecutor");
+  AsyncQueueingExecutor executor=new AsyncQueueingExecutor(1024 * 5,senderName);
   executor.setListener(new AsyncQueueingExecutorListener(){
     @Override public void execute(    Collection<Object> dtoList){
       sendPacketN(dtoList);

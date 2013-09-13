@@ -2,7 +2,10 @@
   if (host == null) {
     throw new NullPointerException("host must not be null");
   }
+  if (threadName == null) {
+    throw new NullPointerException("threadName must not be null");
+  }
   logger.info("UdpDataSender initialized. host={}, port={}",host,port);
   this.udpSocket=createSocket(host,port);
-  this.executor=getExecutor();
+  this.executor=getExecutor(threadName);
 }
