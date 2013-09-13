@@ -3,9 +3,8 @@
   try {
     context=createContext();
     CollectorConfiguration configuration=context.getBean("collectorConfiguration",CollectorConfiguration.class);
-    DispatchHandler dispatchHandler=ApplicationContextUtils.getDispatchHandler(context);
+    DispatchHandler dispatchHandler=ApplicationContextUtils.getTcpDispatchHandler(context);
     tcpServerStart(configuration,dispatchHandler);
-    udpServerStart(context);
     statServerStart(configuration);
   }
  catch (  Exception ex) {
