@@ -1,11 +1,6 @@
 {
-  try {
-    byte[] bytes=id.getBytes("UTF-8");
-    if (bytes.length > maxlen) {
-      logger.warn("{} is too long(1~24). value={}",idName,id);
-    }
-  }
- catch (  UnsupportedEncodingException e) {
-    logger.warn("invalid agentId. Cause:" + e.getMessage(),e);
+  byte[] bytes=BytesUtils.getBytes(id);
+  if (bytes.length > maxlen) {
+    logger.warn("{} is too long(1~24). value={}",idName,id);
   }
 }

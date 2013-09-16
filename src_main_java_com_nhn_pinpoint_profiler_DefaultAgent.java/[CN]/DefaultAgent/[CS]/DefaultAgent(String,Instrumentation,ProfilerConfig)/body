@@ -16,8 +16,8 @@
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
   instrumentation.addTransformer(classFileTransformerDispatcher);
   this.machineName=NetworkUtils.getHostName();
-  this.agentId=getId("pinpoint.agentId",machineName,HBaseTables.AGENT_NAME_MAX_LEN);
-  this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",HBaseTables.APPLICATION_NAME_MAX_LEN);
+  this.agentId=getId("pinpoint.agentId",machineName,PinpointConstants.AGENT_NAME_MAX_LEN);
+  this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN);
   this.startTime=getVmStartTime();
   this.identifier=getPid();
   this.tcpDataSender=createTcpDataSender();
