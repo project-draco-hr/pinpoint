@@ -1,4 +1,7 @@
 {
+  if (continueTraceID == null) {
+    throw new NullPointerException("continueTraceID must not be null");
+  }
   this.callStack=new CallStack(continueTraceID);
   latestStackIndex=this.callStack.push();
   StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
