@@ -7,12 +7,12 @@
       try {
         classPool.appendClassPath(filePath);
         if (logger.isInfoEnabled()) {
-          logger.info("Loaded {}",filePath);
+          logger.info("Loaded classPool:{} {} ",classPool.getName(),filePath);
         }
       }
  catch (      NotFoundException e) {
         if (logger.isWarnEnabled()) {
-          logger.warn("lib load fail. path:{} cl:{} Cause:{}",new Object[]{filePath,classLoader,e.getMessage(),e});
+          logger.warn("lib load fail. path:{} cl:{} clPool:{}, Cause:{}",filePath,classLoader,classPool.getName(),e.getMessage(),e);
         }
       }
     }

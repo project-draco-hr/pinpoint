@@ -1,5 +1,5 @@
 {
-  if (logger.isInfoEnabled()) {
+  if (isInfo) {
     logger.info("defineClass class:{}, cl:{}",defineClass,classLoader);
   }
   try {
@@ -7,7 +7,7 @@
       return classLoader.loadClass(defineClass);
     }
  else {
-      CtClass clazz=classPool.get(defineClass);
+      CtClass clazz=childClassPool.get(defineClass);
       defineNestedClass(clazz,classLoader,protectedDomain);
       return clazz.toClass(classLoader,protectedDomain);
     }

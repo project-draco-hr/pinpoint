@@ -1,5 +1,6 @@
 {
-  this.classPool=createClassPool(pathNames);
+  this.rootClassPool=createClassPool(pathNames,"rootClassPool");
+  this.childClassPool=createChildClassPool(rootClassPool,"childClassPool");
   this.agent=agent;
-  checkLibrary(this.getClass().getClassLoader(),this.getClass().getName());
+  checkLibrary(this.getClass().getClassLoader(),this.rootClassPool,this.getClass().getName());
 }
