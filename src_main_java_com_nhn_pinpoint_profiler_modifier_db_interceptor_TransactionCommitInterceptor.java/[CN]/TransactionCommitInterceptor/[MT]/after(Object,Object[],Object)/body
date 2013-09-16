@@ -1,0 +1,16 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  if (JDBCScope.isInternal()) {
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (target instanceof Connection) {
+    Connection con=(Connection)target;
+    afterCommit(trace,con,result);
+  }
+}

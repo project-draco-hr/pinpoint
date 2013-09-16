@@ -14,15 +14,15 @@
     mysqlConnection.addInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatement);
     final ProfilerConfig profilerConfig=agent.getProfilerConfig();
     if (profilerConfig.isJdbcProfileMySqlSetAutoCommit()) {
-      Interceptor setAutocommit=new TransactionInterceptor(TransactionInterceptor.SET_AUTO_COMMIT);
+      Interceptor setAutocommit=new TransactionSetAutoCommitInterceptor();
       mysqlConnection.addInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit);
     }
     if (profilerConfig.isJdbcProfileMySqlCommit()) {
-      Interceptor commit=new TransactionInterceptor(TransactionInterceptor.COMMIT);
+      Interceptor commit=new TransactionCommitInterceptor();
       mysqlConnection.addInterceptor("commit",null,commit);
     }
     if (profilerConfig.isJdbcProfileMySqlRollback()) {
-      Interceptor rollback=new TransactionInterceptor(TransactionInterceptor.ROLLBACK);
+      Interceptor rollback=new TransactionRollbackInterceptor();
       mysqlConnection.addInterceptor("rollback",null,rollback);
     }
     printClassConvertComplete(javassistClassName);

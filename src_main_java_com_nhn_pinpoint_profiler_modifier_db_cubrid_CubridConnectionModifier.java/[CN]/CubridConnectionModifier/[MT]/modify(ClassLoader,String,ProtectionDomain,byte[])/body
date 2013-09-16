@@ -11,15 +11,15 @@
     cubridConnection.addInterceptor("prepareStatement",new String[]{"java.lang.String"},new PreparedStatementCreateInterceptor());
     final ProfilerConfig profilerConfig=agent.getProfilerConfig();
     if (profilerConfig.isJdbcProfileCubridSetAutoCommit()) {
-      TransactionInterceptor setAutoCommit=new TransactionInterceptor(TransactionInterceptor.SET_AUTO_COMMIT);
+      Interceptor setAutoCommit=new TransactionSetAutoCommitInterceptor();
       cubridConnection.addInterceptor("setAutoCommit",new String[]{"boolean"},setAutoCommit);
     }
     if (profilerConfig.isJdbcProfileCubridCommit()) {
-      TransactionInterceptor commit=new TransactionInterceptor(TransactionInterceptor.COMMIT);
+      Interceptor commit=new TransactionCommitInterceptor();
       cubridConnection.addInterceptor("commit",null,commit);
     }
     if (profilerConfig.isJdbcProfileCubridRollback()) {
-      TransactionInterceptor rollback=new TransactionInterceptor(TransactionInterceptor.ROLLBACK);
+      Interceptor rollback=new TransactionRollbackInterceptor();
       cubridConnection.addInterceptor("rollback",null,rollback);
     }
     printClassConvertComplete(javassistClassName);
