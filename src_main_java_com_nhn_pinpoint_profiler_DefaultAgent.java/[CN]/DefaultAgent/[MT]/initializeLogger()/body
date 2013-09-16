@@ -1,8 +1,6 @@
 {
-  Slf4jLoggerBinder binder=new Slf4jLoggerBinder();
-  logger=binder.getLogger(DefaultAgent.class.getName());
-  Logger logger=binder.getLogger(Slf4jLoggerBinder.class.getName());
-  logger.info("slf4jLoggerBinder initialized");
-  LoggerFactory.initialize(binder);
-  return binder;
+  this.binder=new Slf4jLoggerBinder();
+  PLogger pLogger=binder.getLogger(Slf4jLoggerBinder.class.getName());
+  pLogger.info("slf4jLoggerBinder initialized");
+  PLoggerFactory.initialize(binder);
 }
