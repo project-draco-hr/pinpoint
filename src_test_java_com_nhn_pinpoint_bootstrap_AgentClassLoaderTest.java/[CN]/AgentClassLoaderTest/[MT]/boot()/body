@@ -2,7 +2,7 @@
   AgentClassLoader agentClassLoader=new AgentClassLoader(new URL[0]);
   agentClassLoader.setBootClass("com.nhn.pinpoint.bootstrap.DummyAgent");
   agentClassLoader.boot("test",new DummyInstrumentation(),new ProfilerConfig());
-  LoggerBinder loggerBinder=(LoggerBinder)agentClassLoader.initializeLoggerBinder();
-  com.nhn.pinpoint.profiler.logging.Logger test=loggerBinder.getLogger("test");
+  PLoggerBinder loggerBinder=(PLoggerBinder)agentClassLoader.initializeLoggerBinder();
+  PLogger test=loggerBinder.getLogger("test");
   test.info("slf4j logger test");
 }
