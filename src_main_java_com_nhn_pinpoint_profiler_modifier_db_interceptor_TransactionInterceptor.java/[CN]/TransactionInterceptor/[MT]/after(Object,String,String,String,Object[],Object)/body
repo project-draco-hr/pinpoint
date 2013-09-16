@@ -11,14 +11,17 @@
   }
   if (target instanceof Connection) {
     Connection con=(Connection)target;
-    if ("setAutoCommit".equals(methodName)) {
+    if (apiType == SET_AUTO_COMMIT) {
       afterStartTransaction(trace,con,args,result);
     }
- else     if ("commit".equals(methodName)) {
+ else     if (apiType == COMMIT) {
       afterCommit(trace,con,result);
     }
- else     if ("rollback".equals(methodName)) {
+ else     if (apiType == ROLLBACK) {
       afterRollback(trace,con,result);
+    }
+ else {
+      throw new IllegalArgumentException("apiType:" + apiType);
     }
   }
 }
