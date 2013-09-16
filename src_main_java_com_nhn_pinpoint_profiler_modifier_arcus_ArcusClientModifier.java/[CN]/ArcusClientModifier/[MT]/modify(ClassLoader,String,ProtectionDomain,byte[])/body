@@ -7,9 +7,9 @@
     Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
     aClass.addInterceptor("setCacheManager",new String[]{"net.spy.memcached.CacheManager"},setCacheManagerInterceptor,Type.before);
     String[] ignored=new String[]{"__","shutdown"};
-    for (    Entry<String,String[]> e : getCandidates(ignored).entrySet()) {
+    for (    Method method : getCandidates(ignored)) {
       Interceptor apiInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
-      aClass.addInterceptor(e.getKey(),e.getValue(),apiInterceptor,Type.around);
+      aClass.addInterceptor(method.getMethodName(),method.getMethodParams(),apiInterceptor,Type.around);
     }
     return aClass.toBytecode();
   }

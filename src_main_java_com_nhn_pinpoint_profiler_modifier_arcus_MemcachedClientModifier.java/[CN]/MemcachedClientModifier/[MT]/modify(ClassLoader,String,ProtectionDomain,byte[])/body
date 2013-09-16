@@ -8,9 +8,9 @@
     Interceptor addOpInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.AddOpInterceptor");
     aClass.addInterceptor("addOp",new String[]{"java.lang.String","net.spy.memcached.ops.Operation"},addOpInterceptor,Type.before);
     String[] ignored=new String[]{"__","shutdown"};
-    for (    Entry<String,String[]> e : getCandidates(ignored).entrySet()) {
+    for (    Method method : getCandidates(ignored)) {
       Interceptor apiInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
-      aClass.addInterceptor(e.getKey(),e.getValue(),apiInterceptor,Type.around);
+      aClass.addInterceptor(method.getMethodName(),method.getMethodParams(),apiInterceptor,Type.around);
     }
     return aClass.toBytecode();
   }

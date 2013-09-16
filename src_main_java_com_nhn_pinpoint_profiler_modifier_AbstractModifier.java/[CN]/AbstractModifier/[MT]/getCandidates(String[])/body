@@ -1,36 +1,28 @@
 {
-  Map<String,String[]> candidates=new HashMap<String,String[]>();
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(getTargetClass().replace("/","."));
     CtMethod[] declaredMethods=aClass.getDeclaredMethods();
-    for (    CtMethod m : declaredMethods) {
-      boolean ignored=false;
+    List<Method> candidates=new ArrayList<Method>(declaredMethods.length);
+    forStart:     for (    CtMethod m : declaredMethods) {
       if (m.getModifiers() != javassist.Modifier.PUBLIC) {
-        ignored=true;
+        continue;
       }
       for (      String ignoredPrefix : ignoredPrefixes) {
         if (m.getName().startsWith(ignoredPrefix)) {
-          ignored=true;
-          break;
+          continue forStart;
         }
-      }
-      if (ignored) {
-        continue;
       }
       String methodName=m.getName();
       CtClass[] paramTypes=m.getParameterTypes();
-      List<String> params=new ArrayList<String>(5);
-      for (      CtClass c : paramTypes) {
-        params.add(c.getName());
-      }
-      String[] paramArray=new String[params.size()];
-      candidates.put(methodName,params.toArray(paramArray));
+      String[] parameterType=JavaAssistUtils.getParameterType(paramTypes);
+      candidates.add(new Method(methodName,parameterType));
     }
+    return candidates;
   }
  catch (  Exception e) {
     if (logger.isWarnEnabled()) {
       logger.warn(e.getMessage(),e);
     }
   }
-  return candidates;
+  return Collections.emptyList();
 }
