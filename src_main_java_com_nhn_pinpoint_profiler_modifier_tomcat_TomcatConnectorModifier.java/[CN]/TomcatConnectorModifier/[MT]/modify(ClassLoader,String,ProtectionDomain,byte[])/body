@@ -1,6 +1,6 @@
 {
   if (logger.isInfoEnabled()) {
-    logger.info("Modifing. " + javassistClassName);
+    logger.info("Modifing. {}",javassistClassName);
   }
   try {
     Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.ConnectorInitializeInterceptor",new Object[]{agent},new Class[]{Agent.class});
