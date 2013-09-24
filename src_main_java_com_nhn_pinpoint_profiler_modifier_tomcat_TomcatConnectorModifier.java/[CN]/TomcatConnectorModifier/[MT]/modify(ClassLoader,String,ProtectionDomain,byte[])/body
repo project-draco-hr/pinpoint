@@ -11,7 +11,9 @@
  else     if (connector.hasDeclaredMethod("initInternal",null)) {
       connector.addInterceptor("initInternal",null,interceptor);
     }
-    printClassConvertComplete(javassistClassName);
+    if (this.logger.isInfoEnabled()) {
+      this.logger.info("{} class is converted.",javassistClassName);
+    }
     return connector.toBytecode();
   }
  catch (  Exception e) {

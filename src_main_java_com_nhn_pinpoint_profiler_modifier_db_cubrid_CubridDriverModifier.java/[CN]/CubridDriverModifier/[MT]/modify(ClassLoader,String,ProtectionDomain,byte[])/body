@@ -6,7 +6,9 @@
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
     mysqlConnection.addInterceptor("connect",new String[]{"java.lang.String","java.util.Properties"},new DriverConnectInterceptor());
-    printClassConvertComplete(javassistClassName);
+    if (this.logger.isInfoEnabled()) {
+      this.logger.info("{} class is converted.",javassistClassName);
+    }
     return mysqlConnection.toBytecode();
   }
  catch (  InstrumentException e) {
