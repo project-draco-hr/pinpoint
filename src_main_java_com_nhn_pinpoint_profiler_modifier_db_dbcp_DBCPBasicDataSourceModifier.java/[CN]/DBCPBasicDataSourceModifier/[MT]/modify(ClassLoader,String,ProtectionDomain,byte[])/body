@@ -3,5 +3,16 @@
     logger.info("Modifing. {}",javassistClassName);
   }
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
-  return changeMethod(javassistClassName,classFileBuffer);
+  try {
+    InstrumentClass basicDataSource=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor interceptor=new DataSourceGetConnectionInterceptor();
+    basicDataSource.addInterceptor("getConnection",null,interceptor);
+    return basicDataSource.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+    }
+    return null;
+  }
 }

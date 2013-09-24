@@ -2,9 +2,17 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result);
   }
-  if (!InterceptorUtils.isSuccess(result)) {
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
     return;
   }
-  if (result instanceof Connection) {
+  try {
+    trace.recordServiceType(ServiceType.DBCP);
+    trace.recordApi(descriptor,null);
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
   }
 }
