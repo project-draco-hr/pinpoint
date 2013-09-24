@@ -5,13 +5,15 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass basicDataSource=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor interceptor=new DataSourceGetConnectionInterceptor();
-    basicDataSource.addInterceptor("getConnection",null,interceptor);
+    Interceptor interceptor1=new DataSourceGetConnectionInterceptor();
+    basicDataSource.addInterceptor("getConnection",null,interceptor1);
+    Interceptor interceptor2=new DataSourceGetConnectionInterceptor();
+    basicDataSource.addInterceptor("getConnection",new String[]{"java.lang.String","java.lang.String"},interceptor2);
     return basicDataSource.toBytecode();
   }
  catch (  InstrumentException e) {
     if (logger.isWarnEnabled()) {
-      logger.warn(this.getClass().getSimpleName() + " modify fail. Cause:" + e.getMessage(),e);
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
     }
     return null;
   }
