@@ -1,0 +1,10 @@
+{
+  if (type == null || registry == null || agentStat == null) {
+    return;
+  }
+  Object typeObject=null;
+  if (agentStat.getSetField() != null) {
+    typeObject=agentStat.getFieldValue(agentStat.getSetField());
+  }
+  type.map(registry,agentStat,typeObject,agentId);
+}
