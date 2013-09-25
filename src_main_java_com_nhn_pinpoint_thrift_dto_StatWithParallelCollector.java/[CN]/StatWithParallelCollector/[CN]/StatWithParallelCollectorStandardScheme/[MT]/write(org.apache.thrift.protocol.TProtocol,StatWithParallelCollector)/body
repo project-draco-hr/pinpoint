@@ -9,6 +9,58 @@
   oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
   oprot.writeI64(struct.timestamp);
   oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_TOTAL_USED_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryTotalUsed);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_TOTAL_MAX_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryTotalMax);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_HEAP_USED_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryHeapUsed);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_HEAP_MAX_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryHeapMax);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_NON_HEAP_USED_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryNonHeapUsed);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_NON_HEAP_MAX_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryNonHeapMax);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_POOLS_CODE_CACHE_USAGE_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryPoolsCodeCacheUsage);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_POOLS_PSEDEN_SPACE_USAGE_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryPoolsPSEdenSpaceUsage);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_POOLS_PSSURVIVOR_SPACE_USAGE_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryPoolsPSSurvivorSpaceUsage);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_POOLS_PSPERM_GEN_USAGE_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryPoolsPSPermGenUsage);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_MEMORY_POOLS_PSOLD_GEN_USAGE_FIELD_DESC);
+  oprot.writeI64(struct.jvmMemoryPoolsPSOldGenUsage);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_GC_PSMARK_SWEEP_COUNT_FIELD_DESC);
+  oprot.writeI64(struct.jvmGcPSMarkSweepCount);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_GC_PSMARK_SWEEP_TIME_FIELD_DESC);
+  oprot.writeI64(struct.jvmGcPSMarkSweepTime);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_GC_PSSCAVENGE_COUNT_FIELD_DESC);
+  oprot.writeI64(struct.jvmGcPSScavengeCount);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(JVM_GC_PSSCAVENGE_TIME_FIELD_DESC);
+  oprot.writeI64(struct.jvmGcPSScavengeTime);
+  oprot.writeFieldEnd();
+  if (struct.metadata != null) {
+    if (struct.isSetMetadata()) {
+      oprot.writeFieldBegin(METADATA_FIELD_DESC);
+      oprot.writeString(struct.metadata);
+      oprot.writeFieldEnd();
+    }
+  }
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }

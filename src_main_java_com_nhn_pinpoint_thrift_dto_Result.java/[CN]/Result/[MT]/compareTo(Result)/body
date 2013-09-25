@@ -3,22 +3,23 @@
     return getClass().getName().compareTo(other.getClass().getName());
   }
   int lastComparison=0;
-  lastComparison=Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+  Result typedOther=(Result)other;
+  lastComparison=Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
   if (lastComparison != 0) {
     return lastComparison;
   }
   if (isSetSuccess()) {
-    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.success,other.success);
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.success,typedOther.success);
     if (lastComparison != 0) {
       return lastComparison;
     }
   }
-  lastComparison=Boolean.valueOf(isSetMessage()).compareTo(other.isSetMessage());
+  lastComparison=Boolean.valueOf(isSetMessage()).compareTo(typedOther.isSetMessage());
   if (lastComparison != 0) {
     return lastComparison;
   }
   if (isSetMessage()) {
-    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.message,other.message);
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.message,typedOther.message);
     if (lastComparison != 0) {
       return lastComparison;
     }
