@@ -1,6 +1,6 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,args,result);
+    logger.afterInterceptor(target,null,result);
   }
   final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
@@ -8,11 +8,11 @@
   }
   try {
     trace.recordServiceType(ServiceType.DBCP);
-    if (args.length == 2) {
-      trace.recordApi(descriptor,new Object[]{args[0]});
-    }
- else {
+    if (args == null) {
       trace.recordApi(descriptor,null);
+    }
+ else     if (args.length == 2) {
+      trace.recordApi(descriptor,new Object[]{args[0]});
     }
     trace.recordException(result);
     trace.markAfterTime();
