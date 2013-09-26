@@ -1,17 +1,16 @@
 {
-  long result=0;
   _Fields type=agentStat.getSetField();
   Object typeObject=agentStat.getFieldValue();
 switch (type) {
 case CMS:
-    result=((StatWithCmsCollector)typeObject).getTimestamp();
-  break;
+    return ((StatWithCmsCollector)typeObject).getTimestamp();
 case G1:
-result=((StatWithG1Collector)typeObject).getTimestamp();
-break;
+  return ((StatWithG1Collector)typeObject).getTimestamp();
 case PARALLEL:
-result=((StatWithParallelCollector)typeObject).getTimestamp();
-break;
+return ((StatWithParallelCollector)typeObject).getTimestamp();
+case SERIAL:
+return ((StatWithSerialCollector)typeObject).getTimestamp();
+default :
+throw new RuntimeException("type not found. type:" + type);
 }
-return result;
 }
