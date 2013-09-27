@@ -1,0 +1,10 @@
+{
+  final int push=BindValueScope.push();
+  if (push != DepthScope.ZERO) {
+    if (isDebug) {
+      logger.debug("push bindValue scope. skip trace. {}",delegate.getClass());
+    }
+    return;
+  }
+  this.delegate.before(target,className,methodName,parameterDescription,args);
+}

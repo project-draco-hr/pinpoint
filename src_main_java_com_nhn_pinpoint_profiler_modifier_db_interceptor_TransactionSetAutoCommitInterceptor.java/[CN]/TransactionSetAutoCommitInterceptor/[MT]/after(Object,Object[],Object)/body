@@ -1,9 +1,6 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,className,methodName,parameterDescription,args,result);
-  }
-  if (JDBCScope.isInternal()) {
-    return;
+    logger.afterInterceptor(target,args,result);
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {

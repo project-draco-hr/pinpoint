@@ -1,0 +1,10 @@
+{
+  final int pop=BindValueScope.pop();
+  if (pop != DepthScope.ZERO) {
+    if (isDebug) {
+      logger.debug("pop bindValue scope. skip trace. {}",delegate.getClass());
+    }
+    return;
+  }
+  this.delegate.after(target,className,methodName,parameterDescription,args,result);
+}

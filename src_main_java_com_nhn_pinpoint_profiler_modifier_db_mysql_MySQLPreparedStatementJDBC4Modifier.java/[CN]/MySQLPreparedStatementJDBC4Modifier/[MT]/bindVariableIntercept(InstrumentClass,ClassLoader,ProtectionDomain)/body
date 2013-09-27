@@ -1,7 +1,7 @@
 {
   BindVariableFilter exclude=new IncludeBindVariableFilter(includes);
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
-  Interceptor interceptor=new PreparedStatementBindVariableInterceptor();
+  Interceptor interceptor=new JDBCScopeDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor());
   int interceptorId=-1;
   for (  Method method : bindMethod) {
     String methodName=method.getName();
