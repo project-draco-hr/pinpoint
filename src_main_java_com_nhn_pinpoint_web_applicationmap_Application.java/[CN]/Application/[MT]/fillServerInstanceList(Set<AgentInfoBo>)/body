@@ -1,0 +1,19 @@
+{
+  if (agentSet == null) {
+    return;
+  }
+  for (  AgentInfoBo agent : agentSet) {
+    String key=agent.getHostname();
+    MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(key);
+    ServerInstance serverInstance=new ServerInstance(agent,null);
+    if (serverInstanceMap == null) {
+      MergeableMap<String,ServerInstance> value=new MergeableTreeMap<String,ServerInstance>();
+      value.put(serverInstance.getId(),serverInstance);
+      serverInstanceList.put(key,value);
+    }
+ else {
+      MergeableMap<String,ServerInstance> map=serverInstanceList.get(key);
+      map.putOrMerge(serverInstance.getId(),serverInstance);
+    }
+  }
+}

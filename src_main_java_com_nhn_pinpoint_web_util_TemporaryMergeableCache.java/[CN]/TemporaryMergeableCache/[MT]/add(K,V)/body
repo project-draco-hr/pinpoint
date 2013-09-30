@@ -1,0 +1,14 @@
+{
+  if (cache.containsKey(key)) {
+    V v=cache.get(key);
+    if (v != null) {
+      replace(key,v.mergeWith(value));
+    }
+ else {
+      replace(key,value);
+    }
+  }
+ else {
+    replace(key,value);
+  }
+}

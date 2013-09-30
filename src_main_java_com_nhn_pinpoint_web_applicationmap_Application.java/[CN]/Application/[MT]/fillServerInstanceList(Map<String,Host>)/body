@@ -1,0 +1,19 @@
+{
+  if (hostHistogram == null) {
+    return;
+  }
+  for (  Entry<String,Host> entry : hostHistogram.entrySet()) {
+    String key=entry.getKey();
+    MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(key);
+    ServerInstance serverInstance=new ServerInstance(key,entry.getValue().getHistogram());
+    if (serverInstanceMap == null) {
+      MergeableMap<String,ServerInstance> value=new MergeableTreeMap<String,ServerInstance>();
+      value.put(serverInstance.getId(),serverInstance);
+      serverInstanceList.put(key,value);
+    }
+ else {
+      MergeableMap<String,ServerInstance> map=serverInstanceList.get(key);
+      map.putOrMerge(serverInstance.getId(),serverInstance);
+    }
+  }
+}

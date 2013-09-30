@@ -1,13 +1,11 @@
 {
   this.id=id;
-  if (serviceType == ServiceType.CLIENT) {
-    this.applicationName="CLIENT";
+  this.applicationName=(serviceType == ServiceType.CLIENT) ? "CLIENT" : applicationName;
+  this.serviceType=serviceType;
+  if (agentSet != null) {
+    fillServerInstanceList(agentSet);
   }
  else {
-    this.applicationName=applicationName;
+    fillServerInstanceList(serverList);
   }
-  this.hostList=(serverList == null) ? new HashMap<String,Host>() : serverList;
-  this.serviceType=serviceType;
-  fillAgentList(agentSet);
-  fillServerInstanceList(agentSet,hostList);
 }

@@ -1,0 +1,19 @@
+{
+  Map<String,Set<AgentInfoBo>> agentMap=new HashMap<String,Set<AgentInfoBo>>();
+  for (  TransactionFlowStatistics stat : rawData) {
+    if (stat.getToAgentSet() == null) {
+      continue;
+    }
+    String key=stat.getTo() + stat.getToServiceType();
+    if (agentMap.containsKey(key)) {
+      Set<AgentInfoBo> toAgentSet=stat.getToAgentSet();
+      if (toAgentSet != null) {
+        agentMap.get(key).addAll(stat.getToAgentSet());
+      }
+    }
+ else {
+      agentMap.put(key,stat.getToAgentSet());
+    }
+  }
+  return agentMap;
+}

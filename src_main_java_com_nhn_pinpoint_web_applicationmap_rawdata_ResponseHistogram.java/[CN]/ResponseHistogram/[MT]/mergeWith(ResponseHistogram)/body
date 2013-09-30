@@ -1,0 +1,13 @@
+{
+  if (!this.equals(histogram)) {
+    throw new IllegalArgumentException("A=" + this + ", B="+ histogram);
+  }
+  long[] otherValues=histogram.values;
+  for (int i=0; i < values.length; i++) {
+    values[i]+=otherValues[i];
+  }
+  this.totalCount+=histogram.totalCount;
+  this.errorCount+=histogram.errorCount;
+  this.slowCount+=histogram.slowCount;
+  return this;
+}

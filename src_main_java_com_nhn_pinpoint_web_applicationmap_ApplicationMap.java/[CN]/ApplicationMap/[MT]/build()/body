@@ -1,35 +1,32 @@
 {
   if (built)   return this;
-  Map<String,Set<AgentInfoBo>> agentMap=new HashMap<String,Set<AgentInfoBo>>();
-  for (  TransactionFlowStatistics stat : data) {
-    if (stat.getToAgentSet() != null) {
-      String key=makeApplicationId(stat.getTo(),stat.getToServiceType());
-      if (agentMap.containsKey(key)) {
-        agentMap.get(key).addAll(stat.getToAgentSet());
-      }
- else {
-        agentMap.put(key,stat.getToAgentSet());
-      }
-    }
-  }
-  for (  TransactionFlowStatistics stat : data) {
+  Map<String,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
+  MergeableMap<String,ResponseHistogram> hostHistogramMap=new MergeableHashMap<String,ResponseHistogram>();
+  for (  TransactionFlowStatistics stat : rawData) {
     if (!stat.getFromServiceType().isRpcClient()) {
-      addApplication(new Application(makeApplicationId(stat.getFrom(),stat.getFromServiceType()),stat.getFrom(),stat.getFromServiceType(),null,agentMap.get(makeApplicationId(stat.getFrom(),stat.getFromServiceType()))));
+      String id=stat.getFromApplicationId();
+      Set<AgentInfoBo> agentSet=agentMap.get(id);
+      addApplication(new Application(id,stat.getFrom(),stat.getFromServiceType(),null,agentSet));
     }
     if (!stat.getToServiceType().isRpcClient()) {
-      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null));
-    }
-    if (!applicationNames.contains(stat.getTo())) {
-      addApplication(new Application(makeApplicationId(stat.getTo(),stat.getToServiceType()),stat.getTo(),stat.getToServiceType(),stat.getToHostList(),agentMap.get(makeApplicationId(stat.getFrom(),stat.getFromServiceType()))));
+      String id=stat.getToApplicationId();
+      for (      Entry<String,Host> entry : stat.getToHostList().entrySet()) {
+        Host host=entry.getValue();
+        ResponseHistogram histogram=host.getHistogram();
+        ResponseHistogram value=new ResponseHistogram(histogram.getId(),histogram.getServiceType());
+        hostHistogramMap.putOrMerge(value.getId(),value.mergeWith(histogram));
+      }
+      addApplication(new Application(id,stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null));
     }
   }
-  int index=0;
   for (  Entry<String,Application> entry : applications.entrySet()) {
-    entry.getValue().setSequence(index++);
+    Application application=entry.getValue();
+    application.mapHistogram(hostHistogramMap);
   }
-  for (  TransactionFlowStatistics stat : data) {
-    Application from=findApplication(stat.getFrom(),stat.getFromServiceType());
-    Application to=findApplication(stat.getTo(),stat.getToServiceType());
+  indexingApplication();
+  for (  TransactionFlowStatistics stat : rawData) {
+    Application from=findApplication(stat.getFromApplicationId());
+    Application to=findApplication(stat.getToApplicationId());
     if (to == null) {
       continue;
     }

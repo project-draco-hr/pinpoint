@@ -1,0 +1,11 @@
+{
+  for (  Entry<String,MergeableMap<String,ServerInstance>> mapEntry : this.serverInstanceList.entrySet()) {
+    for (    Entry<String,ServerInstance> entry : mapEntry.getValue().entrySet()) {
+      ServerInstance instance=entry.getValue();
+      ResponseHistogram histogram=histogramMap.get(instance.getId());
+      if (histogram != null) {
+        instance.setHistogram(histogram);
+      }
+    }
+  }
+}
