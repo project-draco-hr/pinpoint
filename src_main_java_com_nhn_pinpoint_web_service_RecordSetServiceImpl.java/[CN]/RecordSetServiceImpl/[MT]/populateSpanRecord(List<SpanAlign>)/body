@@ -1,7 +1,7 @@
 {
   List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
   Integer annotationSeq=spanAlignList.size() + 1;
-  Deque<Integer> stack=new LinkedList<Integer>();
+  final LinkedList<Integer> stack=new LinkedList<Integer>();
   stack.add(-1);
   int prevDepth=0;
   for (int i=0; i < spanAlignList.size(); i++) {
@@ -9,6 +9,9 @@
     int parentSeq;
     int currentSeq=spanAlign.getSequence();
     int currentDepth=spanAlign.getDepth();
+    if (logger.isDebugEnabled()) {
+      logger.debug("before prevDepth:{}, currentSeq:{} currentDepth:{}",prevDepth,currentSeq,currentDepth);
+    }
     if (i == 0) {
       parentSeq=-1;
       prevDepth=currentDepth;
@@ -20,13 +23,18 @@
         stack.add(currentSeq);
       }
  else       if (prevDepth > currentDepth) {
-        stack.pollLast();
+        Integer poll=stack.pollLast();
+        logger.debug("pollLast:{}",poll);
         parentSeq=stack.getLast();
       }
  else {
-        parentSeq=stack.getLast();
+        final int parentIndex=stack.size() - 2;
+        parentSeq=stack.get(parentIndex);
       }
       prevDepth=currentDepth;
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("after parentSeq:{} prevDepth:{}, currentSeq:{} currentDepth:{}",parentSeq,prevDepth,currentSeq,currentDepth);
     }
     if (spanAlign.isSpan()) {
       SpanBo spanBo=spanAlign.getSpanBo();

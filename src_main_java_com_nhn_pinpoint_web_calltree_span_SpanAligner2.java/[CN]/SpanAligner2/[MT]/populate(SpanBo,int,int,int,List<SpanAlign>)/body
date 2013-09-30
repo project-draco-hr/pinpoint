@@ -1,5 +1,8 @@
 {
   int depth=spanDepth + 1;
+  if (logger.isDebugEnabled()) {
+    logger.info("span depth:{}",depth);
+  }
   int lastChildSequence=sequence;
   SpanAlign element=new SpanAlign(depth,parentSpan,++lastChildSequence,pSequence);
   container.add(element);
@@ -10,7 +13,15 @@
   element.setHasChild(true);
   for (  SpanEventBo spanEventBo : spanEventBoList) {
     if (spanEventBo.getDepth() != -1) {
-      depth=spanDepth + spanEventBo.getDepth() + 1;
+      depth=spanDepth + spanEventBo.getDepth();
+      if (logger.isDebugEnabled()) {
+        logger.debug("spanEvent spanEvent{} depth:{} getDepth():{}",spanEventBo.getServiceType(),depth,spanEventBo.getDepth());
+      }
+    }
+ else {
+      if (logger.isDebugEnabled()) {
+        logger.debug("spanEvent depth:{} ",depth);
+      }
     }
     lastChildSequence++;
     SpanAlign sa=new SpanAlign(depth,lastChildSequence,sequence,parentSpan,spanEventBo);
