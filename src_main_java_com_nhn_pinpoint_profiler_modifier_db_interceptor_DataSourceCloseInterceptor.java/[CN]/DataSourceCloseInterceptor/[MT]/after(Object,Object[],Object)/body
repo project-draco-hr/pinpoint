@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,null,result);
+  }
+  JDBCScope.pop();
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(ServiceType.DBCP);
+    trace.recordApi(descriptor,null);
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

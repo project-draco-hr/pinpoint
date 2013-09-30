@@ -1,0 +1,14 @@
+{
+  try {
+    InstrumentClass wrapper=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor close=new DataSourceCloseInterceptor();
+    wrapper.addInterceptor("close",null,close);
+    return wrapper.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
+    }
+    return null;
+  }
+}
