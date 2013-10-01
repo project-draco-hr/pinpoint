@@ -1,0 +1,10 @@
+{
+  final int pop=scope.pop();
+  if (pop != DepthScope.ZERO) {
+    if (isTrace) {
+      logger.trace("pop {}. skip trace. level:{} {}",new Object[]{scope.getName(),pop,delegate.getClass()});
+    }
+    return;
+  }
+  this.delegate.after(target,args,result);
+}

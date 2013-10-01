@@ -4,7 +4,9 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
-    logger.debug("trace not found");
+    if (isDebug) {
+      logger.debug("trace not found");
+    }
     return;
   }
   try {

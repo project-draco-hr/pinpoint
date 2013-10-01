@@ -2,7 +2,7 @@
   if (isDebug) {
     logger.afterInterceptor(target,null,result);
   }
-  JDBCScope.pop();
+  scope.pop();
   boolean success=InterceptorUtils.isSuccess(result);
   DatabaseInfo databaseInfo=createDatabaseInfo((String)args[0]);
   if (success) {

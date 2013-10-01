@@ -4,13 +4,15 @@
   }
   AsyncTrace asyncTrace=(AsyncTrace)getAsyncTrace.invoke(target);
   if (asyncTrace == null) {
-    logger.debug("asyncTrace not found");
+    if (isDebug) {
+      logger.debug("asyncTrace not found");
+    }
     return;
   }
   OperationState newState=(OperationState)args[0];
   BaseOperationImpl baseOperation=(BaseOperationImpl)target;
   if (newState == OperationState.READING) {
-    if (logger.isDebugEnabled()) {
+    if (isDebug) {
       logger.debug("event:{} asyncTrace:{}",newState,asyncTrace);
     }
     if (asyncTrace.getState() != AsyncTrace.STATE_INIT) {
@@ -38,7 +40,7 @@
     asyncTrace.markAfterTime();
   }
  else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
-    if (logger.isDebugEnabled()) {
+    if (isDebug) {
       logger.debug("event:{} asyncTrace:{}",newState,asyncTrace);
     }
     boolean fire=asyncTrace.fire();

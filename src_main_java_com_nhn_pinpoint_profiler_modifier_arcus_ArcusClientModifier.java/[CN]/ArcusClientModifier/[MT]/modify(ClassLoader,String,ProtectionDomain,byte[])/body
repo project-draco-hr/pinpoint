@@ -3,15 +3,18 @@
     logger.info("Modifing. {}",javassistClassName);
   }
   try {
-    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
-    aClass.addInterceptor("setCacheManager",new String[]{"net.spy.memcached.CacheManager"},setCacheManagerInterceptor,Type.before);
+    InstrumentClass arcusClient=byteCodeInstrumentor.getClass(javassistClassName);
+    final Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
+    final String[] args={"net.spy.memcached.CacheManager"};
+    arcusClient.addInterceptor("setCacheManager",args,setCacheManagerInterceptor,Type.before);
     String[] ignored=new String[]{"__","shutdown"};
-    for (    Method method : aClass.getDeclaredMethods(new ArcusMethodFilter(ignored))) {
-      Interceptor apiInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
-      aClass.addInterceptor(method.getMethodName(),method.getMethodParams(),apiInterceptor,Type.around);
+    List<Method> declaredMethods=arcusClient.getDeclaredMethods(new ArcusMethodFilter(ignored));
+    for (    Method method : declaredMethods) {
+      SimpleAroundInterceptor apiInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
+      ScopeDelegateSimpleInterceptor arcusScopeDelegateSimpleInterceptor=new ScopeDelegateSimpleInterceptor(apiInterceptor,ArcusScope.SCOPE);
+      arcusClient.addInterceptor(method.getMethodName(),method.getMethodParams(),arcusScopeDelegateSimpleInterceptor,Type.around);
     }
-    return aClass.toBytecode();
+    return arcusClient.toBytecode();
   }
  catch (  Exception e) {
     if (logger.isWarnEnabled()) {

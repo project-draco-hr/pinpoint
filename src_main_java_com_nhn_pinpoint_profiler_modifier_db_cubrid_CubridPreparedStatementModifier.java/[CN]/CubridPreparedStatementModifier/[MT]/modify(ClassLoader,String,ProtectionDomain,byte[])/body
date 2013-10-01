@@ -5,11 +5,11 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass preparedStatementClass=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor executeInterceptor=new JDBCScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor());
+    Interceptor executeInterceptor=new ScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor(),JDBCScope.SCOPE);
     preparedStatementClass.addInterceptor("execute",null,executeInterceptor);
-    Interceptor executeQueryInterceptor=new JDBCScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor());
+    Interceptor executeQueryInterceptor=new ScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor(),JDBCScope.SCOPE);
     preparedStatementClass.addInterceptor("executeQuery",null,executeQueryInterceptor);
-    Interceptor executeUpdateInterceptor=new JDBCScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor());
+    Interceptor executeUpdateInterceptor=new ScopeDelegateSimpleInterceptor(new PreparedStatementExecuteQueryInterceptor(),JDBCScope.SCOPE);
     preparedStatementClass.addInterceptor("executeUpdate",null,executeUpdateInterceptor);
     preparedStatementClass.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
     preparedStatementClass.addTraceVariable("__sql","__setSql","__getSql","java.lang.Object");

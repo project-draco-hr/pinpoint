@@ -5,16 +5,20 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass statementClass=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor executeQuery=new JDBCScopeDelegateSimpleInterceptor(new StatementExecuteQueryInterceptor());
+    Interceptor executeQuery=new ScopeDelegateSimpleInterceptor(new StatementExecuteQueryInterceptor(),JDBCScope.SCOPE);
     statementClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},executeQuery);
-    Interceptor executeUpdate1=new JDBCScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor"));
-    statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String"},executeUpdate1);
-    Interceptor executeUpdate2=new JDBCScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor"));
-    statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","int"},executeUpdate2);
-    Interceptor execute1=new JDBCScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor"));
-    statementClass.addInterceptor("execute",new String[]{"java.lang.String"},execute1);
-    Interceptor execute2=new JDBCScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor"));
-    statementClass.addInterceptor("execute",new String[]{"java.lang.String","int"},execute2);
+    SimpleAroundInterceptor executeUpdate1=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
+    Interceptor executeUpdateInterceptor1=new ScopeDelegateSimpleInterceptor(executeUpdate1,JDBCScope.SCOPE);
+    statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String"},executeUpdateInterceptor1);
+    SimpleAroundInterceptor executeUpdate2=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
+    Interceptor executeUpdateInterceptor2=new ScopeDelegateSimpleInterceptor(executeUpdate2,JDBCScope.SCOPE);
+    statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","int"},executeUpdateInterceptor2);
+    SimpleAroundInterceptor execute1=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
+    Interceptor executeInterceptor1=new ScopeDelegateSimpleInterceptor(execute1,JDBCScope.SCOPE);
+    statementClass.addInterceptor("execute",new String[]{"java.lang.String"},executeInterceptor1);
+    SimpleAroundInterceptor execute2=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
+    Interceptor executeInterceptor2=new ScopeDelegateSimpleInterceptor(execute2,JDBCScope.SCOPE);
+    statementClass.addInterceptor("execute",new String[]{"java.lang.String","int"},executeInterceptor2);
     statementClass.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
     return statementClass.toBytecode();
   }
