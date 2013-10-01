@@ -7,11 +7,9 @@
     InstrumentClass statementClass=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor executeQueryInterceptor=new ScopeDelegateSimpleInterceptor(new StatementExecuteQueryInterceptor(),JDBCScope.SCOPE);
     statementClass.addInterceptor("executeQuery",new String[]{"java.lang.String"},executeQueryInterceptor);
-    SimpleAroundInterceptor executeUpdate=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
-    Interceptor executeUpdateInterceptor=new ScopeDelegateSimpleInterceptor(executeUpdate,JDBCScope.SCOPE);
+    Interceptor executeUpdateInterceptor=new ScopeDelegateSimpleInterceptor(new StatementExecuteUpdateInterceptor(),JDBCScope.SCOPE);
     statementClass.addInterceptor("executeUpdate",new String[]{"java.lang.String","int"},executeUpdateInterceptor);
-    SimpleAroundInterceptor execute=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.db.interceptor.StatementExecuteUpdateInterceptor");
-    Interceptor executeInterceptor=new ScopeDelegateSimpleInterceptor(execute,JDBCScope.SCOPE);
+    Interceptor executeInterceptor=new ScopeDelegateSimpleInterceptor(new StatementExecuteUpdateInterceptor(),JDBCScope.SCOPE);
     statementClass.addInterceptor("execute",new String[]{"java.lang.String","int"},executeInterceptor);
     statementClass.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
     return statementClass.toBytecode();
