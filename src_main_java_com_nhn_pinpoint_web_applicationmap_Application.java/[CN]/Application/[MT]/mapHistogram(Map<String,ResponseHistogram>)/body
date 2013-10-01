@@ -2,6 +2,7 @@
   for (  Entry<String,MergeableMap<String,ServerInstance>> mapEntry : this.serverInstanceList.entrySet()) {
     for (    Entry<String,ServerInstance> entry : mapEntry.getValue().entrySet()) {
       ServerInstance instance=entry.getValue();
+      System.out.println("instance id=" + instance.getId());
       ResponseHistogram histogram=histogramMap.get(instance.getId());
       if (histogram != null) {
         instance.setHistogram(histogram);

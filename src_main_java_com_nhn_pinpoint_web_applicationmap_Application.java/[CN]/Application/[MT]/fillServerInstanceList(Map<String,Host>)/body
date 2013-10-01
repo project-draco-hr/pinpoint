@@ -3,7 +3,7 @@
     return;
   }
   for (  Entry<String,Host> entry : hostHistogram.entrySet()) {
-    String key=entry.getKey();
+    String key=entry.getKey() + entry.getValue().getServiceType();
     MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(key);
     ServerInstance serverInstance=new ServerInstance(key,entry.getValue().getHistogram());
     if (serverInstanceMap == null) {
