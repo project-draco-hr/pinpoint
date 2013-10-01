@@ -6,5 +6,6 @@
   this.applicationName=buffer.readPrefixedString();
   this.isAlive=buffer.readBoolean();
   this.identifier=buffer.readShort();
+  this.serviceType=ServiceType.findServiceType(buffer.readShort());
   return buffer.getOffset();
 }
