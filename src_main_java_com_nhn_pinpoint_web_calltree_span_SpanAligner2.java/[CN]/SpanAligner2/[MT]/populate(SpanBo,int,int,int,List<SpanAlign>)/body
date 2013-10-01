@@ -1,8 +1,9 @@
 {
+  logger.debug("populate start");
   int currentDepth=spanDepth;
   int lastChildSequence=sequence;
   if (logger.isDebugEnabled()) {
-    logger.info("span type:{} depth:{} spanDepth:{} lastChildSequence:{}",currentDepth,parentSpan.getServiceType(),spanDepth,lastChildSequence);
+    logger.debug("span type:{} depth:{} spanDepth:{} lastChildSequence:{}",currentDepth,parentSpan.getServiceType(),spanDepth,lastChildSequence);
   }
   SpanAlign element=new SpanAlign(currentDepth,parentSpan,++lastChildSequence,pSequence);
   container.add(element);
@@ -23,8 +24,10 @@
     container.add(sa);
     int nextSpanId=spanEventBo.getNextSpanId();
     if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
-      lastChildSequence=populate(spanMap.get(nextSpanId),++currentDepth,lastChildSequence,lastChildSequence,container);
+      int childDepth=currentDepth + 1;
+      lastChildSequence=populate(spanMap.get(nextSpanId),childDepth,lastChildSequence,lastChildSequence,container);
     }
   }
+  logger.debug("populate end");
   return lastChildSequence;
 }

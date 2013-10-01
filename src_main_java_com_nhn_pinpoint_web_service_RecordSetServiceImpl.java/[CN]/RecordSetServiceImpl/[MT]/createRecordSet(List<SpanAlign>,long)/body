@@ -9,7 +9,7 @@
   recordSet.setStartTime(startTime);
   long endTime=getEndTime(spanAlignList);
   recordSet.setEndTime(endTime);
-  List<Record> recordList=populateSpanRecord(spanAlignList);
+  List<Record> recordList=new SpanPopulator().populateSpanRecord(spanAlignList);
   logger.debug("RecordList:{}",recordList);
   long beginTimeStamp=focusTimeSpanBo.getStartTime();
   markFocusRecord(recordList,beginTimeStamp);
