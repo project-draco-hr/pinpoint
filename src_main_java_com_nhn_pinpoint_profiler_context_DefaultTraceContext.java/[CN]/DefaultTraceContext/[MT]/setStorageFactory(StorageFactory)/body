@@ -1,4 +1,6 @@
 {
-  Assert.notNull(storageFactory,"storageFactory myst not be null");
+  if (storageFactory == null) {
+    throw new NullPointerException("storageFactory must not be null");
+  }
   this.storageFactory=storageFactory;
 }

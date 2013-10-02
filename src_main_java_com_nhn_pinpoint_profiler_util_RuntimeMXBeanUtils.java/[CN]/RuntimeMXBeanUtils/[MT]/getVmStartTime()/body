@@ -1,13 +1,6 @@
 {
   if (START_TIME == 0) {
-    try {
-      START_TIME=RUNTIME_MBEAN.getStartTime();
-    }
- catch (    UnsupportedOperationException e) {
-      final Logger logger=getLogger();
-      logger.log(Level.WARNING,"RuntimeMXBean.getStartTime() unsupported. Caused:" + e.getMessage(),e);
-      START_TIME=System.currentTimeMillis();
-    }
+    START_TIME=getVmStartTime0();
   }
   return START_TIME;
 }
