@@ -1,5 +1,9 @@
 {
   try {
+    DatabaseInfo databaseInfo=this.getUrl.invoke(target);
+    trace.recordServiceType(databaseInfo.getType());
+    trace.recordEndPoint(databaseInfo.getMultipleHost());
+    trace.recordDestinationId(databaseInfo.getDatabaseId());
     trace.recordApi(descriptor,arg);
     trace.recordException(result);
     trace.markAfterTime();

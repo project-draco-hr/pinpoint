@@ -6,7 +6,9 @@
   ParsingResult parsingResult=null;
   if (success) {
     DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
-    this.setUrl.invoke(result,databaseInfo);
+    if (databaseInfo != null) {
+      this.setUrl.invoke(result,databaseInfo);
+    }
     String sql=(String)args[0];
     parsingResult=traceContext.parseSql(sql);
     if (parsingResult != null) {
