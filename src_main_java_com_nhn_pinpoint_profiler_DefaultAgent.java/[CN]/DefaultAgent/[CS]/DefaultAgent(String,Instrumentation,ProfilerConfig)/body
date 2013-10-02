@@ -26,8 +26,7 @@
   initializeTraceContext();
   this.agentInfo=createAgentInfo();
   this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
-  this.agentStatMonitor=new AgentStatMonitor(this.traceContext,this.profilerConfig);
-  this.agentStatMonitor.setDataSender(this.statDataSender);
+  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender);
   this.agentStatMonitor.setAgentInfo(this.agentInfo);
   SingletonHolder.INSTANCE=this;
 }

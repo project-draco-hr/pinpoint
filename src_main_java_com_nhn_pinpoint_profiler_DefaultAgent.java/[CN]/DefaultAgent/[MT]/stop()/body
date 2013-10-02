@@ -1,10 +1,10 @@
 {
   logger.info("Stopping {} Agent.",ProductInfo.CAMEL_NAME);
-  changeStatus(AgentStatus.STOPPING);
-  this.heartBitChecker.close();
-  this.agentStatMonitor.shutdown();
   agentInfo.setIsAlive(false);
   this.tcpDataSender.send(agentInfo);
+  changeStatus(AgentStatus.STOPPING);
+  this.heartBitChecker.stop();
+  this.agentStatMonitor.stop();
   this.spanDataSender.stop();
   this.statDataSender.stop();
   this.tcpDataSender.stop();

@@ -4,7 +4,8 @@
   }
   scope.pop();
   boolean success=InterceptorUtils.isSuccess(result);
-  DatabaseInfo databaseInfo=createDatabaseInfo((String)args[0]);
+  final String driverUrl=(String)args[0];
+  DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
   if (success) {
     this.setUrl.invoke(result,databaseInfo);
   }

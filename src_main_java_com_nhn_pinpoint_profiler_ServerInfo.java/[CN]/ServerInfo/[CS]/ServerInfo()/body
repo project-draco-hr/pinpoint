@@ -2,10 +2,9 @@
   try {
     InetAddress thisIp=InetAddress.getLocalHost();
     hostip=thisIp.getHostAddress();
-    uptime=System.currentTimeMillis();
   }
  catch (  UnknownHostException e) {
-    e.printStackTrace();
+    logger.warn("getLocalHost fail. Caused:{}",e.getMessage(),e);
     hostip="127.0.0.1";
   }
 }

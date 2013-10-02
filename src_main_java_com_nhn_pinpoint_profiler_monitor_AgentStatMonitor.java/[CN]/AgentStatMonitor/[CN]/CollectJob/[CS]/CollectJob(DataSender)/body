@@ -1,13 +1,9 @@
 {
   this.dataSender=dataSender;
-  this.traceContext=traceContext;
-  this.profilerConfig=profilerConfig;
   this.monitorRegistry=new MetricMonitorRegistry();
   this.monitorRegistry.registerJvmMemoryMonitor(new MonitorName(MetricMonitorValues.JVM_MEMORY));
   this.monitorRegistry.registerJvmGcMonitor(new MonitorName(MetricMonitorValues.JVM_GC));
-  if (agentInfo != null) {
-    this.agentStat=new AgentStat();
-  }
+  this.agentStat=new AgentStat();
   this.garbageCollector=new GarbageCollector();
   this.garbageCollector.setType(monitorRegistry);
   logger.info("found : {}",this.garbageCollector);
