@@ -6,10 +6,10 @@
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addTraceVariable("__operation","__setOperation","__getOperation","net.spy.memcached.ops.Operation");
     Interceptor futureSetOperationInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.FutureSetOperationInterceptor");
-    aClass.addInterceptor("setOperation",new String[]{"net.spy.memcached.ops.Operation"},futureSetOperationInterceptor,Type.before);
+    aClass.addInterceptor("setOperation",new String[]{"net.spy.memcached.ops.Operation"},futureSetOperationInterceptor);
     SimpleAroundInterceptor futureGetInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.FutureGetInterceptor");
     ScopeDelegateSimpleInterceptor arcusScopeDelegateSimpleInterceptor=new ScopeDelegateSimpleInterceptor(futureGetInterceptor,ArcusScope.SCOPE);
-    aClass.addInterceptor("get",new String[]{Long.TYPE.toString(),"java.util.concurrent.TimeUnit"},arcusScopeDelegateSimpleInterceptor,Type.around);
+    aClass.addInterceptor("get",new String[]{Long.TYPE.toString(),"java.util.concurrent.TimeUnit"},arcusScopeDelegateSimpleInterceptor);
     return aClass.toBytecode();
   }
  catch (  Exception e) {
