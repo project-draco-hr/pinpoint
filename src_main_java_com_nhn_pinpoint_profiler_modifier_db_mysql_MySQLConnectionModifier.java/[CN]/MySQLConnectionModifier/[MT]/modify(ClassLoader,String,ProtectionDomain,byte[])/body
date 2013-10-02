@@ -8,7 +8,7 @@
     if (mysqlConnection.isInterface()) {
       return null;
     }
-    mysqlConnection.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
+    mysqlConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
     Interceptor closeConnection=new ScopeDelegateSimpleInterceptor(new ConnectionCloseInterceptor(),JDBCScope.SCOPE);
     mysqlConnection.addInterceptor("close",null,closeConnection);
     Interceptor createStatement=new ScopeDelegateSimpleInterceptor(new StatementCreateInterceptor(),JDBCScope.SCOPE);

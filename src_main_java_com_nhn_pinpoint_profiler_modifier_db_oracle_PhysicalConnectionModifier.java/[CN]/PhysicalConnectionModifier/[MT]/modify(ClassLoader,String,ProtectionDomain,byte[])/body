@@ -5,7 +5,7 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass oracleConnection=byteCodeInstrumentor.getClass(javassistClassName);
-    oracleConnection.addTraceVariable("__url","__setUrl","__getUrl","java.lang.Object");
+    oracleConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
     Interceptor closeConnection=new ScopeDelegateSimpleInterceptor(new ConnectionCloseInterceptor(),JDBCScope.SCOPE);
     oracleConnection.addInterceptor("close",null,closeConnection);
     Interceptor createStatement=new ScopeDelegateSimpleInterceptor(new StatementCreateInterceptor(),JDBCScope.SCOPE);

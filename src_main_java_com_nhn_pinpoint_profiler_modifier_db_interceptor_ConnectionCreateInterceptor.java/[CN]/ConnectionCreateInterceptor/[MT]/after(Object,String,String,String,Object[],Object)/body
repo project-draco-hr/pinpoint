@@ -1,6 +1,6 @@
 {
-  if (logger.isInfoEnabled()) {
-    logger.info("after " + StringUtils.toString(target) + " "+ className+ "."+ methodName+ parameterDescription+ " args:"+ Arrays.toString(args)+ " result:"+ result);
+  if (isDebug) {
+    logger.afterInterceptor(target,className,methodName,parameterDescription,args,result);
   }
   if (!InterceptorUtils.isSuccess(result)) {
     return;
@@ -8,7 +8,6 @@
   if (result instanceof Connection) {
     Object url=args[4];
     if (url instanceof String) {
-      this.setUrl.invoke(result,url);
     }
   }
 }
