@@ -10,10 +10,10 @@
   try {
     trace.recordServiceType(ServiceType.DBCP);
     if (args == null) {
-      trace.recordApi(descriptor,null);
+      trace.recordApi(descriptor);
     }
  else     if (args.length == 2) {
-      trace.recordApi(descriptor,new Object[]{args[0]});
+      trace.recordApi(descriptor,args,0,1);
     }
     trace.recordException(result);
     trace.markAfterTime();

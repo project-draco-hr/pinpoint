@@ -1,7 +1,7 @@
 {
   if (isTrace) {
-    Thread th=Thread.currentThread();
-    logger.trace("[WRITE SpanEvent]" + spanEvent + ", Thread ID="+ th.getId()+ " Name="+ th.getName());
+    final Thread th=Thread.currentThread();
+    logger.trace("[WRITE SpanEvent]{} Thread ID={} Name={}",spanEvent,th.getId(),th.getName());
   }
   this.storage.store(spanEvent);
 }
