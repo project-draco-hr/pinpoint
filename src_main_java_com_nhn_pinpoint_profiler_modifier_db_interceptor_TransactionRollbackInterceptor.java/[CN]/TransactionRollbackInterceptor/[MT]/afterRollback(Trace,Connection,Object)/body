@@ -1,6 +1,9 @@
 {
   try {
-    final DatabaseInfo databaseInfo=this.getUrl.invoke(target);
+    DatabaseInfo databaseInfo=this.getDatabaseInfo.invoke(target);
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
     trace.recordServiceType(databaseInfo.getType());
     trace.recordEndPoint(databaseInfo.getMultipleHost());
     trace.recordDestinationId(databaseInfo.getDatabaseId());

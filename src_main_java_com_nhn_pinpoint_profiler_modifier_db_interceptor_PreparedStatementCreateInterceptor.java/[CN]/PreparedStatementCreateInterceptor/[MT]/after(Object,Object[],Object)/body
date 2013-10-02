@@ -5,7 +5,7 @@
   boolean success=InterceptorUtils.isSuccess(result);
   ParsingResult parsingResult=null;
   if (success) {
-    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+    DatabaseInfo databaseInfo=getDatabaseInfo.invoke(target);
     if (databaseInfo != null) {
       this.setUrl.invoke(result,databaseInfo);
     }

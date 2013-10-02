@@ -10,7 +10,10 @@
     return;
   }
   if (target instanceof Connection) {
-    DatabaseInfo databaseInfo=(DatabaseInfo)getUrl.invoke(target);
+    DatabaseInfo databaseInfo=getDatabaseInfo.invoke(target);
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
     setUrl.invoke(result,databaseInfo);
   }
 }
