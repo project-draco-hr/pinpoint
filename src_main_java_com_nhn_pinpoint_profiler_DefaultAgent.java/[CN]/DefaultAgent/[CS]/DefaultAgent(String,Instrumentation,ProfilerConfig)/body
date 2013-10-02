@@ -5,7 +5,8 @@
   if (profilerConfig == null) {
     throw new NullPointerException("profilerConfig must not be null");
   }
-  initializeLogger();
+  this.binder=new Slf4jLoggerBinder();
+  bindPLoggerFactory(this.binder);
   dumpSystemProperties();
   dumpConfig(profilerConfig);
   changeStatus(AgentStatus.INITIALIZING);
