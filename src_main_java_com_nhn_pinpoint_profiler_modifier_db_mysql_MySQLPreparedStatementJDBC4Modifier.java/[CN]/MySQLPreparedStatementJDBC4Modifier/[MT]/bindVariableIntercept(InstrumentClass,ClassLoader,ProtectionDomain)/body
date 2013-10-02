@@ -1,5 +1,5 @@
 {
-  BindVariableFilter exclude=new IncludeBindVariableFilter(includes);
+  BindVariableFilter exclude=new IncludeBindVariableFilter(new String[]{"setRowId","setNClob","setSQLXML"});
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
   Interceptor interceptor=new ScopeDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),JDBCScope.SCOPE);
   int interceptorId=-1;
