@@ -2,7 +2,7 @@
   if (spanAlignList == null) {
     throw new NullPointerException("spanAlignList must not be null");
   }
-  List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
+  final List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
   for (int i=0; i < spanAlignList.size(); i++) {
     SpanAlign spanAlign=spanAlignList.get(i);
     if (i == 0) {
@@ -21,7 +21,7 @@
       }
  else       if (parentDepth > currentDepth) {
         while (true) {
-          logger.debug("pop");
+          logger.trace("pop");
           stack.pop();
           SpanDepth popLast=stack.getLast();
           if (popLast.getSpanAlign().getDepth() < currentDepth) {
