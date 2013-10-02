@@ -4,12 +4,13 @@
   }
   final List<Record> recordList=new ArrayList<Record>(spanAlignList.size() * 2);
   for (int i=0; i < spanAlignList.size(); i++) {
-    SpanAlign spanAlign=spanAlignList.get(i);
+    final SpanAlign spanAlign=spanAlignList.get(i);
     if (i == 0) {
       if (!spanAlign.isSpan()) {
         throw new IllegalArgumentException("root is not span");
       }
-      stack.push(new SpanDepth(spanAlign,getNextId()));
+      final SpanDepth spanDepth=new SpanDepth(spanAlign,getNextId(),spanAlign.getSpanBo().getStartTime());
+      stack.push(spanDepth);
     }
  else {
       final SpanDepth lastSpanDepth=stack.getLast();
@@ -17,22 +18,30 @@
       final int currentDepth=spanAlign.getDepth();
       logger.debug("parentDepth:{} currentDepth:{} sequence:{}",parentDepth,currentDepth,lastSpanDepth.getId());
       if (parentDepth < spanAlign.getDepth()) {
-        stack.push(new SpanDepth(spanAlign,getNextId()));
-      }
- else       if (parentDepth > currentDepth) {
-        while (true) {
-          logger.trace("pop");
-          stack.pop();
-          SpanDepth popLast=stack.getLast();
-          if (popLast.getSpanAlign().getDepth() < currentDepth) {
-            break;
-          }
-        }
-        stack.push(new SpanDepth(spanAlign,getNextId()));
+        final SpanDepth last=stack.getLast();
+        final long beforeStartTime=getStartTime(last.getSpanAlign());
+        final SpanDepth spanDepth=new SpanDepth(spanAlign,getNextId(),beforeStartTime);
+        stack.push(spanDepth);
       }
  else {
-        stack.pop();
-        stack.push(new SpanDepth(spanAlign,getNextId()));
+        if (parentDepth > currentDepth) {
+          SpanDepth lastPopSpanDepth;
+          while (true) {
+            logger.trace("pop");
+            lastPopSpanDepth=stack.pop();
+            SpanDepth popLast=stack.getLast();
+            if (popLast.getSpanAlign().getDepth() < currentDepth) {
+              break;
+            }
+          }
+          final long beforeLastEndTime=getLastTime(lastPopSpanDepth.getSpanAlign());
+          stack.push(new SpanDepth(spanAlign,getNextId(),beforeLastEndTime));
+        }
+ else {
+          final SpanDepth before=stack.pop();
+          final long beforeLastEndTime=getLastTime(before.getSpanAlign());
+          stack.push(new SpanDepth(spanAlign,getNextId(),beforeLastEndTime));
+        }
       }
     }
     if (spanAlign.isSpan()) {
@@ -52,14 +61,14 @@
       String method=AnnotationUtils.findApiAnnotation(spanBo.getAnnotationBoList());
       if (method != null) {
         ApiDescription apiDescription=apiDescriptionParser.parse(method);
-        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null,spanAlign.isHasChild());
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
       }
  else {
         AnnotationKey apiMetaDataError=AnnotationUtils.getApiMetaDataError(spanBo.getAnnotationBoList());
-        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),null,spanAlign.isHasChild());
         record.setSimpleClassName("");
         record.setFullApiDescription("");
         recordList.add(record);
@@ -83,7 +92,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
@@ -93,7 +102,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
         record.setSimpleClassName("");
         record.setFullApiDescription(method);
         recordList.add(record);

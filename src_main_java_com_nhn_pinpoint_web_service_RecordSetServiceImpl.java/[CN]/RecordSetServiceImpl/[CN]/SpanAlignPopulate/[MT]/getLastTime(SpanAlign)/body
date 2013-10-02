@@ -1,0 +1,10 @@
+{
+  final SpanBo spanBo=spanAlign.getSpanBo();
+  if (spanAlign.isSpan()) {
+    return spanBo.getStartTime() + spanBo.getElapsed();
+  }
+ else {
+    SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+    return spanBo.getStartTime() + spanEventBo.getStartElapsed() + spanEventBo.getEndElapsed();
+  }
+}

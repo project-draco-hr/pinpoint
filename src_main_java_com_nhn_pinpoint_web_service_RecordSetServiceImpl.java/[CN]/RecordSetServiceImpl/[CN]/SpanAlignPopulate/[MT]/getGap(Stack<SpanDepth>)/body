@@ -1,0 +1,11 @@
+{
+  SpanDepth last=stack.getLast();
+  final long lastExecuteTime=last.getLastExecuteTime();
+  SpanAlign spanAlign=last.getSpanAlign();
+  if (spanAlign.isSpan()) {
+    return spanAlign.getSpanBo().getStartTime() - lastExecuteTime;
+  }
+ else {
+    return (spanAlign.getSpanBo().getStartTime() + spanAlign.getSpanEventBo().getStartElapsed()) - lastExecuteTime;
+  }
+}
