@@ -1,7 +1,9 @@
 {
   try {
-    Method method=aClass.getMethod(this.methodName,this.args);
-    method.setAccessible(true);
+    final Method method=aClass.getMethod(this.methodName,this.args);
+    if (!method.isAccessible()) {
+      method.setAccessible(true);
+    }
     return method;
   }
  catch (  NoSuchMethodException e) {
