@@ -8,8 +8,7 @@
     Interceptor addOpInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.AddOpInterceptor");
     String[] args={"java.lang.String","net.spy.memcached.ops.Operation"};
     aClass.addInterceptor("addOp",args,addOpInterceptor,Type.before);
-    String[] ignored=new String[]{"__","shutdown"};
-    final List<Method> declaredMethods=aClass.getDeclaredMethods(new ArcusMethodFilter(ignored));
+    final List<Method> declaredMethods=aClass.getDeclaredMethods(new MemcachedMethodFilter());
     for (    Method method : declaredMethods) {
       SimpleAroundInterceptor apiInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
       ScopeDelegateSimpleInterceptor arcusScopeDelegateSimpleInterceptor=new ScopeDelegateSimpleInterceptor(apiInterceptor,ArcusScope.SCOPE);

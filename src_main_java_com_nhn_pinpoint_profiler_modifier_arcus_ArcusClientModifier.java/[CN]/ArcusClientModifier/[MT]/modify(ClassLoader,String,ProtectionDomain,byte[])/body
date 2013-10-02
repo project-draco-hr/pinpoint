@@ -7,8 +7,7 @@
     final Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
     final String[] args={"net.spy.memcached.CacheManager"};
     arcusClient.addInterceptor("setCacheManager",args,setCacheManagerInterceptor,Type.before);
-    String[] ignored=new String[]{"__","shutdown"};
-    List<Method> declaredMethods=arcusClient.getDeclaredMethods(new ArcusMethodFilter(ignored));
+    List<Method> declaredMethods=arcusClient.getDeclaredMethods(new ArcusMethodFilter());
     for (    Method method : declaredMethods) {
       SimpleAroundInterceptor apiInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
       ScopeDelegateSimpleInterceptor arcusScopeDelegateSimpleInterceptor=new ScopeDelegateSimpleInterceptor(apiInterceptor,ArcusScope.SCOPE);
