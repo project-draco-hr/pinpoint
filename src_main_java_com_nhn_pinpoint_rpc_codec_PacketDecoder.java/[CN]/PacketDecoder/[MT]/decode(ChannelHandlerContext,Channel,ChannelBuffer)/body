@@ -21,8 +21,10 @@ case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 return readStreamCreateFail(packetType,buffer);
 case PacketType.APPLICATION_STREAM_RESPONSE:
 return readStreamResponse(packetType,buffer);
-case PacketType.CONTROL_CLOSE:
-return readControlClose(packetType,buffer);
+case PacketType.CONTROL_CLIENT_CLOSE:
+return readControlClientClose(packetType,buffer);
+case PacketType.CONTROL_SERVER_CLOSE:
+return readControlServerClose(packetType,buffer);
 case PacketType.CONTROL_PING:
 readPing(packetType,buffer);
 sendPong(channel);
