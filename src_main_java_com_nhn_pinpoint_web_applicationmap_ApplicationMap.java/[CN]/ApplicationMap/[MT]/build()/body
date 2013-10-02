@@ -1,7 +1,6 @@
 {
   if (built)   return this;
   Map<String,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
-  MergeableMap<String,ResponseHistogram> hostHistogramMap=new MergeableHashMap<String,ResponseHistogram>();
   for (  TransactionFlowStatistics stat : rawData) {
     if (!stat.getFromServiceType().isRpcClient()) {
       String id=stat.getFromApplicationId();
@@ -10,18 +9,8 @@
     }
     if (!stat.getToServiceType().isRpcClient()) {
       String id=stat.getToApplicationId();
-      for (      Entry<String,Host> entry : stat.getToHostList().entrySet()) {
-        Host host=entry.getValue();
-        ResponseHistogram histogram=host.getHistogram();
-        ResponseHistogram value=new ResponseHistogram(histogram.getId(),histogram.getServiceType());
-        hostHistogramMap.putOrMerge(value.getId(),value.mergeWith(histogram));
-      }
       addApplication(new Application(id,stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null));
     }
-  }
-  for (  Entry<String,Application> entry : applications.entrySet()) {
-    Application application=entry.getValue();
-    application.mapHistogram(hostHistogramMap);
   }
   indexingApplication();
   for (  TransactionFlowStatistics stat : rawData) {

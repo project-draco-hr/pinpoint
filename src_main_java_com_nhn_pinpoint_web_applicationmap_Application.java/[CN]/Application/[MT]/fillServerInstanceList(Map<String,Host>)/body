@@ -5,7 +5,7 @@
   for (  Entry<String,Host> entry : hostHistogram.entrySet()) {
     String key=entry.getKey() + entry.getValue().getServiceType();
     MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(key);
-    ServerInstance serverInstance=new ServerInstance(key,entry.getValue().getHistogram());
+    ServerInstance serverInstance=new ServerInstance(key,null);
     if (serverInstanceMap == null) {
       MergeableMap<String,ServerInstance> value=new MergeableTreeMap<String,ServerInstance>();
       value.put(serverInstance.getId(),serverInstance);
