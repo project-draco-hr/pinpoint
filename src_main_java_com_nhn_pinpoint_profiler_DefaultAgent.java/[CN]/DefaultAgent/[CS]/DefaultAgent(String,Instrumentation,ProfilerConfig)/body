@@ -17,6 +17,7 @@
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
   instrumentation.addTransformer(classFileTransformerDispatcher);
   this.agentInformation=createAgentInformation();
+  logger.info("agentInformation:{}",agentInformation);
   this.tcpDataSender=createTcpDataSender();
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor");
