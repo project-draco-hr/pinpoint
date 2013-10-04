@@ -11,13 +11,12 @@
     agentKey.setApplicationName(agentInformation.getApplicationName());
     agentKey.setAgentStartTime(agentInformation.getStartTime());
     spanEvent.setAgentKey(agentKey);
-    spanEvent.setParentServiceType(parentSpan.getServiceType().getCode());
+    spanEvent.setParentServiceType(parentSpan.getServiceType());
     spanEvent.setParentEndPoint(parentSpan.getEndPoint());
-    final TraceId parentSpanTraceID=parentSpan.getTraceID();
-    spanEvent.setTraceAgentId(parentSpanTraceID.getAgentId());
-    spanEvent.setTraceAgentStartTime(parentSpanTraceID.getAgentStartTime());
-    spanEvent.setTraceTransactionSequence(parentSpanTraceID.getTransactionSequence());
-    spanEvent.setSpanId(parentSpanTraceID.getSpanId());
+    spanEvent.setTraceAgentId(parentSpan.getTraceAgentId());
+    spanEvent.setTraceAgentStartTime(parentSpan.getTraceAgentStartTime());
+    spanEvent.setTraceTransactionSequence(parentSpan.getTraceTransactionSequence());
+    spanEvent.setSpanId(parentSpan.getSpanId());
   }
   spanEvent.setRpc(rpc);
   spanEvent.setServiceType(serviceType.getCode());

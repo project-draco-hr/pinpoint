@@ -2,7 +2,7 @@
   StackFrame currentStackFrame=this.currentStackFrame;
   if (currentStackFrame instanceof RootStackFrame) {
     Span span=((RootStackFrame)currentStackFrame).getSpan();
-    span.setServiceType(serviceType);
+    span.setServiceType(serviceType.getCode());
   }
  else {
     SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();

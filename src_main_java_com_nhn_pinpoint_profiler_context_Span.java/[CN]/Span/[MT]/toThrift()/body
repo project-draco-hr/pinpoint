@@ -1,47 +1,22 @@
 {
-  TSpan span=new TSpan();
+  recordTraceId(traceId);
   final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
-  span.setAgentId(agentInformation.getAgentId());
-  span.setApplicationName(agentInformation.getApplicationName());
-  span.setAgentStartTime(agentInformation.getStartTime());
-  span.setStartTime(startTime);
-  span.setElapsed((int)(endTime - startTime));
-  span.setTraceAgentId(traceID.getAgentId());
-  span.setTraceAgentStartTime(traceID.getAgentStartTime());
-  span.setTraceTransactionSequence(traceID.getTransactionSequence());
-  span.setRpc(rpc);
-  span.setServiceType(serviceType.getCode());
-  span.setSpanId(traceID.getSpanId());
-  final int parentSpanId=traceID.getParentSpanId();
-  if (parentSpanId != SpanId.NULL) {
-    span.setParentSpanId(parentSpanId);
-  }
-  span.setEndPoint(endPoint);
-  span.setRemoteAddr(remoteAddr);
-  if (exception != 0) {
-    span.setErr(exception);
-  }
-  if (parentApplicationName != null) {
-    span.setParentApplicationName(parentApplicationName);
-    span.setParentApplicationType(parentApplicationType);
-  }
-  if (acceptorHost != null) {
-    span.setAcceptorHost(acceptorHost);
-  }
+  this.setAgentId(agentInformation.getAgentId());
+  this.setApplicationName(agentInformation.getApplicationName());
+  this.setAgentStartTime(agentInformation.getStartTime());
   List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
   for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
     annotationList.add(traceAnnotation.toThrift());
   }
-  span.setAnnotations(annotationList);
-  span.setFlag(traceID.getFlags());
-  List<SpanEvent> spanEventList=this.getSpanEventList();
+  this.setAnnotations(annotationList);
+  List<SpanEvent> spanEventList=this.getPSpanEventList();
   if (spanEventList != null && spanEventList.size() != 0) {
     List<TSpanEvent> tSpanEventList=new ArrayList<TSpanEvent>(spanEventList.size());
     for (    SpanEvent spanEvent : spanEventList) {
       TSpanEvent tSpanEvent=spanEvent.toThrift(true);
       tSpanEventList.add(tSpanEvent);
     }
-    span.setSpanEventList(tSpanEventList);
+    this.setSpanEventList(tSpanEventList);
   }
-  return span;
+  return this;
 }

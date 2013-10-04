@@ -1,0 +1,11 @@
+{
+  this.setTraceAgentId(traceId.getAgentId());
+  this.setTraceAgentStartTime(traceId.getAgentStartTime());
+  this.setTraceTransactionSequence(traceId.getTransactionSequence());
+  this.setSpanId(traceId.getSpanId());
+  final int parentSpanId=traceId.getParentSpanId();
+  if (traceId.getParentSpanId() != SpanId.NULL) {
+    this.setParentSpanId(parentSpanId);
+  }
+  this.setFlag(traceId.getFlags());
+}

@@ -1,10 +1,10 @@
 {
   TBase<?,?> tBase;
-  if (dto instanceof TBase) {
-    tBase=(TBase<?,?>)dto;
-  }
- else   if (dto instanceof Thriftable) {
+  if (dto instanceof Thriftable) {
     tBase=((Thriftable)dto).toThrift();
+  }
+ else   if (dto instanceof TBase) {
+    tBase=(TBase<?,?>)dto;
   }
  else {
     logger.warn("sendPacket fail. invalid type:{}",dto.getClass());

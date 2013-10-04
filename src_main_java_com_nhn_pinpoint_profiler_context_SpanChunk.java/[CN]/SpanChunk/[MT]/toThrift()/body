@@ -6,12 +6,11 @@
   tSpanChunk.setAgentId(agentInformation.getAgentId());
   tSpanChunk.setApplicationName(agentInformation.getApplicationName());
   tSpanChunk.setAgentStartTime(agentInformation.getStartTime());
-  tSpanChunk.setServiceType(parentSpan.getServiceType().getCode());
-  TraceId traceID=parentSpan.getTraceID();
-  tSpanChunk.setTraceAgentId(traceID.getAgentId());
-  tSpanChunk.setTraceAgentStartTime(traceID.getAgentStartTime());
-  tSpanChunk.setTraceTransactionSequence(traceID.getTransactionSequence());
-  tSpanChunk.setSpanId(traceID.getSpanId());
+  tSpanChunk.setServiceType(parentSpan.getServiceType());
+  tSpanChunk.setTraceAgentId(parentSpan.getTraceAgentId());
+  tSpanChunk.setTraceAgentStartTime(parentSpan.getTraceAgentStartTime());
+  tSpanChunk.setTraceTransactionSequence(parentSpan.getTraceTransactionSequence());
+  tSpanChunk.setSpanId(parentSpan.getSpanId());
   tSpanChunk.setEndPoint(parentSpan.getEndPoint());
   List<TSpanEvent> tSpanEvent=createSpanEvent(spanEventList);
   tSpanChunk.setSpanEventList(tSpanEvent);
