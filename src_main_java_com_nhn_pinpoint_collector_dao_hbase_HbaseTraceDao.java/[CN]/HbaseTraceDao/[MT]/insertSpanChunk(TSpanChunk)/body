@@ -1,0 +1,13 @@
+{
+  byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunk));
+  Put put=new Put(rowKey);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  List<TSpanEvent> spanEventBoList=spanChunk.getSpanEventList();
+  for (  TSpanEvent spanEvent : spanEventBoList) {
+    SpanEventBo spanEventBo=new SpanEventBo(spanChunk,spanEvent);
+    byte[] value=spanEventBo.writeValue();
+    byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence());
+    put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+  }
+  hbaseTemplate.put(TRACES,put);
+}

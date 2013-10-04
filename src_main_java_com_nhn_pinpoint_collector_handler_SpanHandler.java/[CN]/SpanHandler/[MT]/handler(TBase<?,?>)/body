@@ -1,9 +1,9 @@
 {
-  if (!(tbase instanceof Span)) {
+  if (!(tbase instanceof TSpan)) {
     throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
   }
   try {
-    Span span=(Span)tbase;
+    TSpan span=(TSpan)tbase;
     if (logger.isDebugEnabled()) {
       logger.debug("Received SPAN={}",span);
     }
@@ -21,10 +21,10 @@
     if (span.getAcceptorHost() != null) {
       hostApplicationMapDao.insert(span.getAcceptorHost(),span.getApplicationName(),span.getServiceType());
     }
-    List<SpanEvent> spanEventList=span.getSpanEventList();
+    List<TSpanEvent> spanEventList=span.getSpanEventList();
     if (spanEventList != null) {
       logger.debug("handle spanEvent size:{}",spanEventList.size());
-      for (      SpanEvent spanEvent : spanEventList) {
+      for (      TSpanEvent spanEvent : spanEventList) {
         ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;

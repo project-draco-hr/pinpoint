@@ -1,17 +1,17 @@
 {
-  if (!(tbase instanceof SpanChunk)) {
+  if (!(tbase instanceof TSpanChunk)) {
     throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
   }
   try {
-    SpanChunk spanChunk=(SpanChunk)tbase;
+    TSpanChunk spanChunk=(TSpanChunk)tbase;
     if (logger.isDebugEnabled()) {
       logger.debug("Received SpanChunk={}",spanChunk);
     }
     traceDao.insertSpanChunk(spanChunk);
-    List<SpanEvent> spanEventList=spanChunk.getSpanEventList();
+    List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
     if (spanEventList != null) {
       logger.debug("SpanChunk Size:{}",spanEventList.size());
-      for (      SpanEvent spanEvent : spanEventList) {
+      for (      TSpanEvent spanEvent : spanEventList) {
         ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;

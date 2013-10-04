@@ -1,0 +1,11 @@
+{
+  List<AnnotationBo> boList=new ArrayList<AnnotationBo>(annotations.size());
+  for (  TAnnotation ano : annotations) {
+    AnnotationBo annotationBo=new AnnotationBo(ano);
+    boList.add(annotationBo);
+  }
+  Buffer buffer=new AutomaticBuffer(64);
+  AnnotationBoList annotationBoList=new AnnotationBoList(boList);
+  annotationBoList.writeValue(buffer);
+  return buffer.getBuffer();
+}

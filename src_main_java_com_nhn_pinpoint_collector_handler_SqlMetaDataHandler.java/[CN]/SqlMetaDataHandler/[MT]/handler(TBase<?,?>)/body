@@ -1,9 +1,9 @@
 {
-  if (!(tbase instanceof SqlMetaData)) {
+  if (!(tbase instanceof TSqlMetaData)) {
     logger.error("invalid tbase:{}",tbase);
     return null;
   }
-  SqlMetaData sqlMetaData=(SqlMetaData)tbase;
+  TSqlMetaData sqlMetaData=(TSqlMetaData)tbase;
   if (logger.isInfoEnabled()) {
     logger.info("Received SqlMetaData:{}",sqlMetaData);
   }
@@ -12,9 +12,9 @@
   }
  catch (  Exception e) {
     logger.warn("{} handler error. Caused:{}",this.getClass(),e.getMessage(),e);
-    Result result=new Result(false);
+    TResult result=new TResult(false);
     result.setMessage(e.getMessage());
     return result;
   }
-  return new Result(true);
+  return new TResult(true);
 }

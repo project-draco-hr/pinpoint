@@ -1,10 +1,10 @@
 {
-  if (!(tbase instanceof AgentInfo)) {
+  if (!(tbase instanceof TAgentInfo)) {
     logger.warn("invalid tbase:{}",tbase);
     return;
   }
   try {
-    AgentInfo agentInfo=(AgentInfo)tbase;
+    TAgentInfo agentInfo=(TAgentInfo)tbase;
     logger.debug("Received AgentInfo={}",agentInfo);
     agentInfoDao.insert(agentInfo);
     applicationIndexDao.insert(agentInfo);

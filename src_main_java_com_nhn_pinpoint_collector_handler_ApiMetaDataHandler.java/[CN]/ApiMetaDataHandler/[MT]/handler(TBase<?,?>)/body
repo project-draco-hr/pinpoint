@@ -1,9 +1,9 @@
 {
-  if (!(tbase instanceof ApiMetaData)) {
+  if (!(tbase instanceof TApiMetaData)) {
     logger.error("invalid tbase:{}",tbase);
     return null;
   }
-  ApiMetaData apiMetaData=(ApiMetaData)tbase;
+  TApiMetaData apiMetaData=(TApiMetaData)tbase;
   if (logger.isInfoEnabled()) {
     logger.info("Received ApiMetaData={}",apiMetaData);
   }
@@ -12,9 +12,9 @@
   }
  catch (  Exception e) {
     logger.warn("{} handler error. Caused:{}",this.getClass(),e.getMessage(),e);
-    Result result=new Result(false);
+    TResult result=new TResult(false);
     result.setMessage(e.getMessage());
     return result;
   }
-  return new Result(true);
+  return new TResult(true);
 }

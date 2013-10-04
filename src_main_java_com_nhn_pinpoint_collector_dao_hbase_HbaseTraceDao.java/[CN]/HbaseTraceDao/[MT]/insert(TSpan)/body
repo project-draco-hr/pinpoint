@@ -1,0 +1,16 @@
+{
+  SpanBo spanBo=new SpanBo(span);
+  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
+  Put put=new Put(rowKey);
+  byte[] spanValue=spanBo.writeValue();
+  byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
+  List<TAnnotation> annotations=span.getAnnotations();
+  if (annotations != null && annotations.size() != 0) {
+    byte[] bytes=writeAnnotation(annotations);
+    put.add(TRACES_CF_ANNOTATION,spanId,bytes);
+  }
+  addNestedSpanEvent(put,span);
+  hbaseTemplate.put(TRACES,put);
+}
