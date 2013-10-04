@@ -9,13 +9,13 @@
     this.setTraceTransactionSequence(span.getTraceTransactionSequence());
     this.setSpanId(span.getSpanId());
   }
-  if (traceAnnotationList != null) {
-    List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
-    for (    TraceAnnotation traceAnnotation : traceAnnotationList) {
-      annotationList.add(traceAnnotation.toThrift());
+  if (annotationList != null) {
+    List<TAnnotation> annotationList=new ArrayList<TAnnotation>(this.annotationList.size());
+    for (    Annotation annotation : this.annotationList) {
+      annotationList.add(annotation.toThrift());
     }
     this.setAnnotations(annotationList);
-    this.traceAnnotationList=null;
+    this.annotationList=null;
   }
   return this;
 }

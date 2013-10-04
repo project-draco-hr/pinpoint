@@ -3,12 +3,12 @@
   this.setAgentId(agentInformation.getAgentId());
   this.setApplicationName(agentInformation.getApplicationName());
   this.setAgentStartTime(agentInformation.getStartTime());
-  List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
-  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
-    annotationList.add(traceAnnotation.toThrift());
+  List<TAnnotation> annotationList=new ArrayList<TAnnotation>(this.annotationList.size());
+  for (  Annotation annotation : this.annotationList) {
+    annotationList.add(annotation.toThrift());
   }
   this.setAnnotations(annotationList);
-  this.traceAnnotationList=null;
+  this.annotationList=null;
   final List<TSpanEvent> spanEventList=this.getSpanEventList();
   if (spanEventList != null) {
     for (    TSpanEvent spanEvent : spanEventList) {
