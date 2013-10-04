@@ -1,10 +1,12 @@
 {
   StackFrame currentStackFrame=this.currentStackFrame;
   if (currentStackFrame instanceof RootStackFrame) {
-    logger.warn("OMG. Something's going wrong. Current stackframe is root Span. nextSpanId={}",spanId);
+    logger.warn("OMG. Something's going wrong. Current stackframe is root Span. nextSpanId={}",nextSpanId);
   }
  else {
     SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
-    spanEvent.setNextSpanId(spanId);
+    if (nextSpanId != -1) {
+      spanEvent.setNextSpanId(nextSpanId);
+    }
   }
 }

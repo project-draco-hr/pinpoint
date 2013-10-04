@@ -1,0 +1,15 @@
+{
+  final DefaultTraceId traceId=new DefaultTraceId("agentTime",0,0);
+  Span span=new Span(traceId);
+  span.markBeforeTime();
+  Thread.sleep(10);
+  span.markEndTime();
+  logger.debug("span:{}",span);
+  final SpanEvent spanEvent=new SpanEvent(span);
+  spanEvent.markStartTime();
+  Thread.sleep(10);
+  spanEvent.markEndTime();
+  logger.debug("spanEvent:{}",spanEvent);
+  Assert.assertEquals("startTime",span.getStartTime() + spanEvent.getStartElapsed(),spanEvent.getStartTime());
+  Assert.assertEquals("endTime",span.getStartTime() + spanEvent.getStartElapsed() + spanEvent.getEndElapsed(),spanEvent.getEndTime());
+}

@@ -1,37 +1,21 @@
 {
-  TSpanEvent spanEvent=new TSpanEvent();
-  long parentSpanStartTime=parentSpan.getStartTime();
-  spanEvent.setStartElapsed((int)(startTime - parentSpanStartTime));
-  spanEvent.setEndElapsed((int)(endTime - startTime));
-  spanEvent.setSequence(sequence);
   if (!child) {
-    TAgentKey agentKey=new TAgentKey();
-    final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
-    agentKey.setAgentId(agentInformation.getAgentId());
-    agentKey.setApplicationName(agentInformation.getApplicationName());
-    agentKey.setAgentStartTime(agentInformation.getStartTime());
-    spanEvent.setAgentKey(agentKey);
-    spanEvent.setParentServiceType(parentSpan.getServiceType());
-    spanEvent.setParentEndPoint(parentSpan.getEndPoint());
-    spanEvent.setTraceAgentId(parentSpan.getTraceAgentId());
-    spanEvent.setTraceAgentStartTime(parentSpan.getTraceAgentStartTime());
-    spanEvent.setTraceTransactionSequence(parentSpan.getTraceTransactionSequence());
-    spanEvent.setSpanId(parentSpan.getSpanId());
+    final TAgentKey tAgentKey=DefaultAgent.getInstance().getTAgentKey();
+    this.setAgentKey(tAgentKey);
+    this.setParentServiceType(span.getServiceType());
+    this.setParentEndPoint(span.getEndPoint());
+    this.setTraceAgentId(span.getTraceAgentId());
+    this.setTraceAgentStartTime(span.getTraceAgentStartTime());
+    this.setTraceTransactionSequence(span.getTraceTransactionSequence());
+    this.setSpanId(span.getSpanId());
   }
-  spanEvent.setRpc(rpc);
-  spanEvent.setServiceType(serviceType.getCode());
-  spanEvent.setEndPoint(endPoint);
-  spanEvent.setDestinationId(this.destionationId);
-  List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
-  for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
-    annotationList.add(traceAnnotation.toThrift());
+  if (traceAnnotationList != null) {
+    List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
+    for (    TraceAnnotation traceAnnotation : traceAnnotationList) {
+      annotationList.add(traceAnnotation.toThrift());
+    }
+    this.setAnnotations(annotationList);
+    this.traceAnnotationList=null;
   }
-  spanEvent.setAnnotations(annotationList);
-  if (depth != -1) {
-    spanEvent.setDepth(depth);
-  }
-  if (nextSpanId != -1) {
-    spanEvent.setNextSpanId(nextSpanId);
-  }
-  return spanEvent;
+  return this;
 }

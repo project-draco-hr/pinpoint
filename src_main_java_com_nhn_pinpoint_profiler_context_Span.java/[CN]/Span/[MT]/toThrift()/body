@@ -1,5 +1,4 @@
 {
-  recordTraceId(traceId);
   final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
   this.setAgentId(agentInformation.getAgentId());
   this.setApplicationName(agentInformation.getApplicationName());
@@ -9,14 +8,14 @@
     annotationList.add(traceAnnotation.toThrift());
   }
   this.setAnnotations(annotationList);
-  List<SpanEvent> spanEventList=this.getPSpanEventList();
-  if (spanEventList != null && spanEventList.size() != 0) {
-    List<TSpanEvent> tSpanEventList=new ArrayList<TSpanEvent>(spanEventList.size());
-    for (    SpanEvent spanEvent : spanEventList) {
-      TSpanEvent tSpanEvent=spanEvent.toThrift(true);
-      tSpanEventList.add(tSpanEvent);
+  this.traceAnnotationList=null;
+  final List<TSpanEvent> spanEventList=this.getSpanEventList();
+  if (spanEventList != null) {
+    for (    TSpanEvent spanEvent : spanEventList) {
+      if (spanEvent instanceof SpanEvent) {
+        ((SpanEvent)spanEvent).toThrift(true);
+      }
     }
-    this.setSpanEventList(tSpanEventList);
   }
   return this;
 }
