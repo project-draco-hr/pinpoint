@@ -1,5 +1,5 @@
 {
-  com.nhn.pinpoint.thrift.dto.Span span=new com.nhn.pinpoint.thrift.dto.Span();
+  TSpan span=new TSpan();
   final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
   span.setAgentId(agentInformation.getAgentId());
   span.setApplicationName(agentInformation.getApplicationName());
@@ -28,7 +28,7 @@
   if (acceptorHost != null) {
     span.setAcceptorHost(acceptorHost);
   }
-  List<Annotation> annotationList=new ArrayList<Annotation>(traceAnnotationList.size());
+  List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
   for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
     annotationList.add(traceAnnotation.toThrift());
   }
@@ -36,9 +36,9 @@
   span.setFlag(traceID.getFlags());
   List<SpanEvent> spanEventList=this.getSpanEventList();
   if (spanEventList != null && spanEventList.size() != 0) {
-    List<com.nhn.pinpoint.thrift.dto.SpanEvent> tSpanEventList=new ArrayList<com.nhn.pinpoint.thrift.dto.SpanEvent>(spanEventList.size());
+    List<TSpanEvent> tSpanEventList=new ArrayList<TSpanEvent>(spanEventList.size());
     for (    SpanEvent spanEvent : spanEventList) {
-      com.nhn.pinpoint.thrift.dto.SpanEvent tSpanEvent=spanEvent.toThrift(true);
+      TSpanEvent tSpanEvent=spanEvent.toThrift(true);
       tSpanEventList.add(tSpanEvent);
     }
     span.setSpanEventList(tSpanEventList);

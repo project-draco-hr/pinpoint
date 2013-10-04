@@ -1,7 +1,7 @@
 {
-  List<com.nhn.pinpoint.thrift.dto.SpanEvent> result=new ArrayList<com.nhn.pinpoint.thrift.dto.SpanEvent>(spanEventList.size());
+  List<TSpanEvent> result=new ArrayList<TSpanEvent>(spanEventList.size());
   for (  SpanEvent spanEvent : spanEventList) {
-    com.nhn.pinpoint.thrift.dto.SpanEvent tSpanEvent=new com.nhn.pinpoint.thrift.dto.SpanEvent();
+    TSpanEvent tSpanEvent=new TSpanEvent();
     long parentSpanStartTime=spanEvent.getParentSpan().getStartTime();
     tSpanEvent.setStartElapsed((int)(spanEvent.getStartTime() - parentSpanStartTime));
     tSpanEvent.setEndElapsed((int)(spanEvent.getEndTime() - spanEvent.getStartTime()));
@@ -10,7 +10,7 @@
     tSpanEvent.setServiceType(spanEvent.getServiceType().getCode());
     tSpanEvent.setDestinationId(spanEvent.getDestionationId());
     tSpanEvent.setEndPoint(spanEvent.getEndPoint());
-    List<Annotation> annotationList=new ArrayList<Annotation>(spanEvent.getAnnotationSize());
+    List<TAnnotation> annotationList=new ArrayList<TAnnotation>(spanEvent.getAnnotationSize());
     for (    TraceAnnotation traceAnnotation : spanEvent.getTraceAnnotationList()) {
       annotationList.add(traceAnnotation.toThrift());
     }

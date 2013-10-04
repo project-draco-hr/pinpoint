@@ -1,11 +1,11 @@
 {
-  com.nhn.pinpoint.thrift.dto.SpanEvent spanEvent=new com.nhn.pinpoint.thrift.dto.SpanEvent();
+  TSpanEvent spanEvent=new TSpanEvent();
   long parentSpanStartTime=parentSpan.getStartTime();
   spanEvent.setStartElapsed((int)(startTime - parentSpanStartTime));
   spanEvent.setEndElapsed((int)(endTime - startTime));
   spanEvent.setSequence(sequence);
   if (!child) {
-    AgentKey agentKey=new AgentKey();
+    TAgentKey agentKey=new TAgentKey();
     final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
     agentKey.setAgentId(agentInformation.getAgentId());
     agentKey.setApplicationName(agentInformation.getApplicationName());
@@ -23,7 +23,7 @@
   spanEvent.setServiceType(serviceType.getCode());
   spanEvent.setEndPoint(endPoint);
   spanEvent.setDestinationId(this.destionationId);
-  List<Annotation> annotationList=new ArrayList<Annotation>(traceAnnotationList.size());
+  List<TAnnotation> annotationList=new ArrayList<TAnnotation>(traceAnnotationList.size());
   for (  TraceAnnotation traceAnnotation : traceAnnotationList) {
     annotationList.add(traceAnnotation.toThrift());
   }

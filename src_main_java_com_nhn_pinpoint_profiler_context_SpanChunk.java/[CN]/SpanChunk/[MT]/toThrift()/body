@@ -1,5 +1,5 @@
 {
-  com.nhn.pinpoint.thrift.dto.SpanChunk tSpanChunk=new com.nhn.pinpoint.thrift.dto.SpanChunk();
+  TSpanChunk tSpanChunk=new TSpanChunk();
   SpanEvent first=spanEventList.get(0);
   Span parentSpan=first.getParentSpan();
   final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
@@ -13,7 +13,7 @@
   tSpanChunk.setTraceTransactionSequence(traceID.getTransactionSequence());
   tSpanChunk.setSpanId(traceID.getSpanId());
   tSpanChunk.setEndPoint(parentSpan.getEndPoint());
-  List<com.nhn.pinpoint.thrift.dto.SpanEvent> tSpanEvent=createSpanEvent(spanEventList);
+  List<TSpanEvent> tSpanEvent=createSpanEvent(spanEventList);
   tSpanChunk.setSpanEventList(tSpanEvent);
   return tSpanChunk;
 }
