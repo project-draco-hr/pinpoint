@@ -3,9 +3,8 @@
   final boolean sampling=this.sampler.isSampling();
   if (sampling) {
     Storage storage=storageFactory.createStorage();
-    final DefaultTrace trace=new DefaultTrace(agentInformation.getAgentId(),agentInformation.getStartTime(),this.transactionId.getAndIncrement());
+    final DefaultTrace trace=new DefaultTrace(this,agentInformation.getAgentId(),agentInformation.getStartTime(),this.transactionId.getAndIncrement());
     trace.setStorage(storage);
-    trace.setTraceContext(this);
     trace.setSampling(sampling);
     threadLocal.set(trace);
     return trace;

@@ -1,7 +1,11 @@
 {
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
   if (continueTraceID == null) {
     throw new NullPointerException("continueTraceID must not be null");
   }
+  this.traceContext=traceContext;
   this.callStack=new CallStack(continueTraceID);
   latestStackIndex=this.callStack.push();
   StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());

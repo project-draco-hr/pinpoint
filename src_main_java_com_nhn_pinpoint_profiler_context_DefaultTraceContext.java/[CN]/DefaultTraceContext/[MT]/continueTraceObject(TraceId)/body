@@ -1,9 +1,8 @@
 {
   checkBeforeTraceObject();
-  DefaultTrace trace=new DefaultTrace(traceID);
+  final DefaultTrace trace=new DefaultTrace(this,traceID);
   Storage storage=storageFactory.createStorage();
   trace.setStorage(storage);
-  trace.setTraceContext(this);
   trace.setSampling(true);
   threadLocal.set(trace);
   return trace;

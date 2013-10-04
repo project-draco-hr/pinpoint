@@ -1,6 +1,6 @@
 {
   DefaultTraceId traceID=new DefaultTraceId("agent",0,1);
-  DefaultTrace trace=new DefaultTrace(traceID);
+  DefaultTrace trace=new DefaultTrace(new DefaultTraceContext(),traceID);
   TestDataSender dataSender=new TestDataSender();
   BypassStorage bypassStorage=new BypassStorage(new LoggingDataSender());
   trace.setStorage(bypassStorage);
