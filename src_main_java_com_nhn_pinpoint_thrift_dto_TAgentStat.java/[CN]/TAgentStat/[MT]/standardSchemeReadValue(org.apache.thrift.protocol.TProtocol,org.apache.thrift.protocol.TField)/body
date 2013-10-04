@@ -1,0 +1,57 @@
+{
+  _Fields setField=_Fields.findByThriftId(field.id);
+  if (setField != null) {
+switch (setField) {
+case SERIAL:
+      if (field.type == SERIAL_FIELD_DESC.type) {
+        TStatWithSerialCollector serial;
+        serial=new TStatWithSerialCollector();
+        serial.read(iprot);
+        return serial;
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+        return null;
+      }
+case PARALLEL:
+    if (field.type == PARALLEL_FIELD_DESC.type) {
+      TStatWithParallelCollector parallel;
+      parallel=new TStatWithParallelCollector();
+      parallel.read(iprot);
+      return parallel;
+    }
+ else {
+      org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+      return null;
+    }
+case CMS:
+  if (field.type == CMS_FIELD_DESC.type) {
+    TStatWithCmsCollector cms;
+    cms=new TStatWithCmsCollector();
+    cms.read(iprot);
+    return cms;
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+    return null;
+  }
+case G1:
+if (field.type == G1_FIELD_DESC.type) {
+  TStatWithG1Collector g1;
+  g1=new TStatWithG1Collector();
+  g1.read(iprot);
+  return g1;
+}
+ else {
+  org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+  return null;
+}
+default :
+throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
+}
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+}

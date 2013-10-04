@@ -1,0 +1,94 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(18);
+  if (incoming.get(0)) {
+    struct.agentKey=new TAgentKey();
+    struct.agentKey.read(iprot);
+    struct.setAgentKeyIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.parentServiceType=iprot.readI16();
+    struct.setParentServiceTypeIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.parentEndPoint=iprot.readString();
+    struct.setParentEndPointIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.traceAgentId=iprot.readString();
+    struct.setTraceAgentIdIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.traceAgentStartTime=iprot.readI64();
+    struct.setTraceAgentStartTimeIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.traceTransactionSequence=iprot.readI64();
+    struct.setTraceTransactionSequenceIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.spanId=iprot.readI32();
+    struct.setSpanIdIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.sequence=iprot.readI16();
+    struct.setSequenceIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.startElapsed=iprot.readI32();
+    struct.setStartElapsedIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.endElapsed=iprot.readI32();
+    struct.setEndElapsedIsSet(true);
+  }
+  if (incoming.get(10)) {
+    struct.rpc=iprot.readString();
+    struct.setRpcIsSet(true);
+  }
+  if (incoming.get(11)) {
+    struct.serviceType=iprot.readI16();
+    struct.setServiceTypeIsSet(true);
+  }
+  if (incoming.get(12)) {
+    struct.endPoint=iprot.readString();
+    struct.setEndPointIsSet(true);
+  }
+  if (incoming.get(13)) {
+{
+      org.apache.thrift.protocol.TList _list10=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<TAnnotation>(_list10.size);
+      for (int _i11=0; _i11 < _list10.size; ++_i11) {
+        TAnnotation _elem12;
+        _elem12=new TAnnotation();
+        _elem12.read(iprot);
+        struct.annotations.add(_elem12);
+      }
+    }
+    struct.setAnnotationsIsSet(true);
+  }
+  if (incoming.get(14)) {
+    struct.depth=iprot.readI32();
+    struct.setDepthIsSet(true);
+  }
+  if (incoming.get(15)) {
+    struct.nextSpanId=iprot.readI32();
+    struct.setNextSpanIdIsSet(true);
+  }
+  if (incoming.get(16)) {
+    struct.destinationId=iprot.readString();
+    struct.setDestinationIdIsSet(true);
+  }
+  if (incoming.get(17)) {
+{
+      org.apache.thrift.protocol.TList _list13=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.destinationAddress=new ArrayList<String>(_list13.size);
+      for (int _i14=0; _i14 < _list13.size; ++_i14) {
+        String _elem15;
+        _elem15=iprot.readString();
+        struct.destinationAddress.add(_elem15);
+      }
+    }
+    struct.setDestinationAddressIsSet(true);
+  }
+}

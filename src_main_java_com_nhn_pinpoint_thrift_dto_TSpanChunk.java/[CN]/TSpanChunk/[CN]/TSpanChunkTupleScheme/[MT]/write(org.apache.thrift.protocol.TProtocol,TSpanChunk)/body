@@ -1,0 +1,70 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetApplicationName()) {
+    optionals.set(1);
+  }
+  if (struct.isSetAgentStartTime()) {
+    optionals.set(2);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(3);
+  }
+  if (struct.isSetTraceAgentId()) {
+    optionals.set(4);
+  }
+  if (struct.isSetTraceAgentStartTime()) {
+    optionals.set(5);
+  }
+  if (struct.isSetTraceTransactionSequence()) {
+    optionals.set(6);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(7);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(8);
+  }
+  if (struct.isSetSpanEventList()) {
+    optionals.set(9);
+  }
+  oprot.writeBitSet(optionals,10);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationName()) {
+    oprot.writeString(struct.applicationName);
+  }
+  if (struct.isSetAgentStartTime()) {
+    oprot.writeI64(struct.agentStartTime);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetTraceAgentId()) {
+    oprot.writeString(struct.traceAgentId);
+  }
+  if (struct.isSetTraceAgentStartTime()) {
+    oprot.writeI64(struct.traceAgentStartTime);
+  }
+  if (struct.isSetTraceTransactionSequence()) {
+    oprot.writeI64(struct.traceTransactionSequence);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI32(struct.spanId);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetSpanEventList()) {
+{
+      oprot.writeI32(struct.spanEventList.size());
+      for (      TSpanEvent _iter36 : struct.spanEventList) {
+        _iter36.write(oprot);
+      }
+    }
+  }
+}

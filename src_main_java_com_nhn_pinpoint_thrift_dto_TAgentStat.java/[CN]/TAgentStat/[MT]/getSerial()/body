@@ -1,0 +1,8 @@
+{
+  if (getSetField() == _Fields.SERIAL) {
+    return (TStatWithSerialCollector)getFieldValue();
+  }
+ else {
+    throw new RuntimeException("Cannot get field 'serial' because union is currently set to " + getFieldDesc(getSetField()).name);
+  }
+}

@@ -1,0 +1,123 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentKey()) {
+    optionals.set(0);
+  }
+  if (struct.isSetParentServiceType()) {
+    optionals.set(1);
+  }
+  if (struct.isSetParentEndPoint()) {
+    optionals.set(2);
+  }
+  if (struct.isSetTraceAgentId()) {
+    optionals.set(3);
+  }
+  if (struct.isSetTraceAgentStartTime()) {
+    optionals.set(4);
+  }
+  if (struct.isSetTraceTransactionSequence()) {
+    optionals.set(5);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(6);
+  }
+  if (struct.isSetSequence()) {
+    optionals.set(7);
+  }
+  if (struct.isSetStartElapsed()) {
+    optionals.set(8);
+  }
+  if (struct.isSetEndElapsed()) {
+    optionals.set(9);
+  }
+  if (struct.isSetRpc()) {
+    optionals.set(10);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(11);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(12);
+  }
+  if (struct.isSetAnnotations()) {
+    optionals.set(13);
+  }
+  if (struct.isSetDepth()) {
+    optionals.set(14);
+  }
+  if (struct.isSetNextSpanId()) {
+    optionals.set(15);
+  }
+  if (struct.isSetDestinationId()) {
+    optionals.set(16);
+  }
+  if (struct.isSetDestinationAddress()) {
+    optionals.set(17);
+  }
+  oprot.writeBitSet(optionals,18);
+  if (struct.isSetAgentKey()) {
+    struct.agentKey.write(oprot);
+  }
+  if (struct.isSetParentServiceType()) {
+    oprot.writeI16(struct.parentServiceType);
+  }
+  if (struct.isSetParentEndPoint()) {
+    oprot.writeString(struct.parentEndPoint);
+  }
+  if (struct.isSetTraceAgentId()) {
+    oprot.writeString(struct.traceAgentId);
+  }
+  if (struct.isSetTraceAgentStartTime()) {
+    oprot.writeI64(struct.traceAgentStartTime);
+  }
+  if (struct.isSetTraceTransactionSequence()) {
+    oprot.writeI64(struct.traceTransactionSequence);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI32(struct.spanId);
+  }
+  if (struct.isSetSequence()) {
+    oprot.writeI16(struct.sequence);
+  }
+  if (struct.isSetStartElapsed()) {
+    oprot.writeI32(struct.startElapsed);
+  }
+  if (struct.isSetEndElapsed()) {
+    oprot.writeI32(struct.endElapsed);
+  }
+  if (struct.isSetRpc()) {
+    oprot.writeString(struct.rpc);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetAnnotations()) {
+{
+      oprot.writeI32(struct.annotations.size());
+      for (      TAnnotation _iter8 : struct.annotations) {
+        _iter8.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetDepth()) {
+    oprot.writeI32(struct.depth);
+  }
+  if (struct.isSetNextSpanId()) {
+    oprot.writeI32(struct.nextSpanId);
+  }
+  if (struct.isSetDestinationId()) {
+    oprot.writeString(struct.destinationId);
+  }
+  if (struct.isSetDestinationAddress()) {
+{
+      oprot.writeI32(struct.destinationAddress.size());
+      for (      String _iter9 : struct.destinationAddress) {
+        oprot.writeString(_iter9);
+      }
+    }
+  }
+}

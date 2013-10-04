@@ -1,0 +1,22 @@
+{
+switch (setField_) {
+case SERIAL:
+    TStatWithSerialCollector serial=(TStatWithSerialCollector)value_;
+  serial.write(oprot);
+return;
+case PARALLEL:
+TStatWithParallelCollector parallel=(TStatWithParallelCollector)value_;
+parallel.write(oprot);
+return;
+case CMS:
+TStatWithCmsCollector cms=(TStatWithCmsCollector)value_;
+cms.write(oprot);
+return;
+case G1:
+TStatWithG1Collector g1=(TStatWithG1Collector)value_;
+g1.write(oprot);
+return;
+default :
+throw new IllegalStateException("Cannot write union with unknown field " + setField_);
+}
+}

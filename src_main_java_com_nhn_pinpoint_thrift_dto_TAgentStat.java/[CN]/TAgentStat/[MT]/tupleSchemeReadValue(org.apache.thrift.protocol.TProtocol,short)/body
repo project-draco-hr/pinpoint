@@ -1,0 +1,32 @@
+{
+  _Fields setField=_Fields.findByThriftId(fieldID);
+  if (setField != null) {
+switch (setField) {
+case SERIAL:
+      TStatWithSerialCollector serial;
+    serial=new TStatWithSerialCollector();
+  serial.read(iprot);
+return serial;
+case PARALLEL:
+TStatWithParallelCollector parallel;
+parallel=new TStatWithParallelCollector();
+parallel.read(iprot);
+return parallel;
+case CMS:
+TStatWithCmsCollector cms;
+cms=new TStatWithCmsCollector();
+cms.read(iprot);
+return cms;
+case G1:
+TStatWithG1Collector g1;
+g1=new TStatWithG1Collector();
+g1.read(iprot);
+return g1;
+default :
+throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
+}
+}
+ else {
+throw new TProtocolException("Couldn't find a field with field id " + fieldID);
+}
+}
