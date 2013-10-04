@@ -1,18 +1,18 @@
 {
-  Span span=createRootSpan();
+  TSpan span=createRootSpan();
   logger.debug("id:{}",new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence()));
   insert(span);
   deleteSpans.add(span);
-  Span subSpan1=createSpanEvent(span);
+  TSpan subSpan1=createSpanEvent(span);
   insert(subSpan1);
   deleteSpans.add(subSpan1);
-  Span subSpan1_2=createSpanEvent(span);
+  TSpan subSpan1_2=createSpanEvent(span);
   insert(subSpan1_2);
   deleteSpans.add(subSpan1_2);
-  Span subSpan2=createSpanEvent(subSpan1);
+  TSpan subSpan2=createSpanEvent(subSpan1);
   insert(subSpan2);
   deleteSpans.add(subSpan2);
-  Span subSpan3=createSpanEvent(subSpan1);
+  TSpan subSpan3=createSpanEvent(subSpan1);
   insert(subSpan3);
   deleteSpans.add(subSpan3);
   root=span;

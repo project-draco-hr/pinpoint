@@ -1,9 +1,9 @@
 {
   UUID uuid=UUID.randomUUID();
-  List<Annotation> ano=Collections.emptyList();
+  List<TAnnotation> ano=Collections.emptyList();
   long time=System.currentTimeMillis();
   int andIncrement=id.getAndIncrement();
-  Span span=new Span();
+  TSpan span=new TSpan();
   span.setAgentId("UnitTest");
   span.setApplicationName("ApplicationId");
   span.setTraceAgentId("traceAgentId");
@@ -15,8 +15,8 @@
   span.setServiceType(ServiceType.UNKNOWN.getCode());
   span.setAnnotations(ano);
   span.setParentSpanId(-1);
-  List<Annotation> annotations=new ArrayList<Annotation>();
-  Annotation annotation=new Annotation(AnnotationKey.API.getCode());
+  List<TAnnotation> annotations=new ArrayList<TAnnotation>();
+  TAnnotation annotation=new TAnnotation(AnnotationKey.API.getCode());
   annotation.setStringValue("");
   annotations.add(annotation);
   span.setAnnotations(annotations);

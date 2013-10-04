@@ -1,8 +1,8 @@
 {
-  List<Annotation> ano=Collections.emptyList();
+  List<TAnnotation> ano=Collections.emptyList();
   long time=System.currentTimeMillis();
   int andIncrement=id.getAndIncrement();
-  Span sub=new Span();
+  TSpan sub=new TSpan();
   sub.setAgentId("UnitTest");
   sub.setApplicationName("ApplicationId");
   sub.setAgentStartTime(123);
@@ -15,8 +15,8 @@
   sub.setServiceType(ServiceType.UNKNOWN.getCode());
   sub.setAnnotations(ano);
   sub.setParentSpanId(span.getSpanId());
-  List<Annotation> annotations=new ArrayList<Annotation>();
-  Annotation annotation=new Annotation(AnnotationKey.API.getCode());
+  List<TAnnotation> annotations=new ArrayList<TAnnotation>();
+  TAnnotation annotation=new TAnnotation(AnnotationKey.API.getCode());
   annotation.setStringValue("");
   annotations.add(annotation);
   sub.setAnnotations(annotations);

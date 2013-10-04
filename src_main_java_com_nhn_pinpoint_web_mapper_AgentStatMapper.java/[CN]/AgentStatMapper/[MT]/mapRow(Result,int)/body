@@ -3,10 +3,10 @@
     return Collections.emptyList();
   }
   KeyValue[] raw=result.raw();
-  List<AgentStat> list=new ArrayList<AgentStat>(raw.length);
+  List<TAgentStat> list=new ArrayList<TAgentStat>(raw.length);
   TDeserializer deserializer=new TDeserializer(factory);
   for (  KeyValue kv : raw) {
-    AgentStat each=new AgentStat();
+    TAgentStat each=new TAgentStat();
     deserializer.deserialize(each,kv.getValue());
     list.add(each);
   }
