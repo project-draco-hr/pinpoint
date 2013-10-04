@@ -3,8 +3,8 @@
   Result result=this.apiCache.put(fullName);
   if (result.isNewValue()) {
     ApiMetaData apiMetadata=new ApiMetaData();
-    apiMetadata.setAgentId(agentId);
-    apiMetadata.setAgentStartTime(agentStartTime);
+    apiMetadata.setAgentId(this.agentInformation.getAgentId());
+    apiMetadata.setAgentStartTime(this.agentInformation.getStartTime());
     apiMetadata.setApiId(result.getId());
     apiMetadata.setApiInfo(methodDescriptor.getApiDescriptor());
     apiMetadata.setLine(methodDescriptor.getLineNumber());

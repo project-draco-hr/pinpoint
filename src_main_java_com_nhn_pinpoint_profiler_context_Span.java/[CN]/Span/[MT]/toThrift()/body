@@ -1,9 +1,9 @@
 {
   com.nhn.pinpoint.thrift.dto.Span span=new com.nhn.pinpoint.thrift.dto.Span();
-  final DefaultAgent instance=DefaultAgent.getInstance();
-  span.setAgentId(instance.getAgentId());
-  span.setApplicationName(instance.getApplicationName());
-  span.setAgentStartTime(instance.getStartTime());
+  final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
+  span.setAgentId(agentInformation.getAgentId());
+  span.setApplicationName(agentInformation.getApplicationName());
+  span.setAgentStartTime(agentInformation.getStartTime());
   span.setStartTime(startTime);
   span.setElapsed((int)(endTime - startTime));
   span.setTraceAgentId(traceID.getAgentId());

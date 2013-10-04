@@ -5,15 +5,16 @@
   for (  Entry<Integer,String> entry : serverInfo.getConnectors().entrySet()) {
     ports+=" " + entry.getKey();
   }
-  AgentInfo agentInfo=new AgentInfo();
+  final AgentInfo agentInfo=new AgentInfo();
+  final AgentInformation agentInformation=this.agentInformation;
   agentInfo.setIp(ip);
-  agentInfo.setHostname(this.machineName);
+  agentInfo.setHostname(this.agentInformation.getMachineName());
   agentInfo.setPorts(ports);
-  agentInfo.setApplicationName(getApplicationName());
-  agentInfo.setAgentId(getAgentId());
-  agentInfo.setPid(this.pid);
+  agentInfo.setAgentId(agentInfo.getAgentId());
+  agentInfo.setApplicationName(agentInfo.getApplicationName());
+  agentInfo.setPid(agentInformation.getPid());
+  agentInfo.setTimestamp(agentInformation.getStartTime());
   agentInfo.setServiceType(profilerConfig.getServiceType().getCode());
   agentInfo.setIsAlive(true);
-  agentInfo.setTimestamp(this.startTime);
   return agentInfo;
 }

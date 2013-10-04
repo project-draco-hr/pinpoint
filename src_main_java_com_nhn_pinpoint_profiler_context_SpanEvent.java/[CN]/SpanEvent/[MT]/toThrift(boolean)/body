@@ -6,10 +6,10 @@
   spanEvent.setSequence(sequence);
   if (!child) {
     AgentKey agentKey=new AgentKey();
-    final DefaultAgent agent=DefaultAgent.getInstance();
-    agentKey.setAgentId(agent.getAgentId());
-    agentKey.setApplicationName(agent.getApplicationName());
-    agentKey.setAgentStartTime(agent.getStartTime());
+    final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
+    agentKey.setAgentId(agentInformation.getAgentId());
+    agentKey.setApplicationName(agentInformation.getApplicationName());
+    agentKey.setAgentStartTime(agentInformation.getStartTime());
     spanEvent.setAgentKey(agentKey);
     spanEvent.setParentServiceType(parentSpan.getServiceType().getCode());
     spanEvent.setParentEndPoint(parentSpan.getEndPoint());

@@ -1,6 +1,9 @@
 {
-  if (type == null || registry == null || agentStat == null) {
+  if (type == null || registry == null) {
     return;
+  }
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
   }
   Object typeObject=null;
   if (agentStat.getSetField() != null) {

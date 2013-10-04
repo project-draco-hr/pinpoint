@@ -16,18 +16,14 @@
   this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,this);
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
   instrumentation.addTransformer(classFileTransformerDispatcher);
-  this.machineName=NetworkUtils.getHostName();
-  this.agentId=getId("pinpoint.agentId",machineName,PinpointConstants.AGENT_NAME_MAX_LEN);
-  this.applicationName=getId("pinpoint.applicationName","UnknownApplicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN);
-  this.startTime=RuntimeMXBeanUtils.getVmStartTime();
-  this.pid=RuntimeMXBeanUtils.getPid();
+  this.agentInformation=createAgentInformation();
   this.tcpDataSender=createTcpDataSender();
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor");
-  initializeTraceContext();
+  this.traceContext=createTraceContext();
   this.agentInfo=createAgentInfo();
   this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),agentInfo);
-  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender);
-  this.agentStatMonitor.setAgentInfo(this.agentInfo);
+  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId());
+  preloadClass();
   SingletonHolder.INSTANCE=this;
 }

@@ -2,10 +2,10 @@
   com.nhn.pinpoint.thrift.dto.SpanChunk tSpanChunk=new com.nhn.pinpoint.thrift.dto.SpanChunk();
   SpanEvent first=spanEventList.get(0);
   Span parentSpan=first.getParentSpan();
-  final DefaultAgent agent=DefaultAgent.getInstance();
-  tSpanChunk.setAgentId(agent.getAgentId());
-  tSpanChunk.setApplicationName(agent.getApplicationName());
-  tSpanChunk.setAgentStartTime(agent.getStartTime());
+  final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
+  tSpanChunk.setAgentId(agentInformation.getAgentId());
+  tSpanChunk.setApplicationName(agentInformation.getApplicationName());
+  tSpanChunk.setAgentStartTime(agentInformation.getStartTime());
   tSpanChunk.setServiceType(parentSpan.getServiceType().getCode());
   TraceId traceID=parentSpan.getTraceID();
   tSpanChunk.setTraceAgentId(traceID.getAgentId());

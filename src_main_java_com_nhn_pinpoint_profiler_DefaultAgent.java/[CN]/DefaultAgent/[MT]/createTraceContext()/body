@@ -1,0 +1,16 @@
+{
+  DefaultTraceContext traceContext=new DefaultTraceContext();
+  traceContext.setAgentInformation(this.agentInformation);
+  traceContext.setPriorityDataSender(this.tcpDataSender);
+  Sampler sampler=createSampler();
+  logger.info("SamplerType:{}",sampler.getClass());
+  traceContext.setSampler(sampler);
+  if (profilerConfig.isSamplingElapsedTimeBaseEnable()) {
+    TimeBaseStorageFactory timeBaseStorageFactory=new TimeBaseStorageFactory(this.spanDataSender,this.profilerConfig);
+    traceContext.setStorageFactory(timeBaseStorageFactory);
+  }
+ else {
+    traceContext.setStorageFactory(new BypassStorageFactory(spanDataSender));
+  }
+  return traceContext;
+}
