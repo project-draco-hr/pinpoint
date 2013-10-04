@@ -2,17 +2,14 @@
   HeaderTBaseSerializer serializer=new HeaderTBaseSerializer();
   Header header=new Header();
   header.setType((short)10);
-  TJVMInfoThriftDTO jvmInfoThriftDTO=new TJVMInfoThriftDTO();
-  int activeThreadount=10;
-  jvmInfoThriftDTO.setActiveThreadCount(activeThreadount);
-  String agentId="agentId";
-  jvmInfoThriftDTO.setAgentId(agentId);
-  byte[] serialize=serializer.serialize(jvmInfoThriftDTO);
+  TAgentInfo tAgentInfo=new TAgentInfo();
+  tAgentInfo.setAgentId("agentId");
+  tAgentInfo.setHostname("host");
+  tAgentInfo.setApplicationName("applicationName");
+  byte[] serialize=serializer.serialize(tAgentInfo);
   dump(serialize);
   HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
-  TBaseLocator locator=new DefaultTBaseLocator();
-  TJVMInfoThriftDTO deserialize=(TJVMInfoThriftDTO)deserializer.deserialize(serialize);
-  logger.info("deserialize:" + deserialize.getClass());
-  Assert.assertEquals(deserialize.getActiveThreadCount(),activeThreadount);
-  Assert.assertEquals(deserialize.getAgentId(),agentId);
+  TAgentInfo deserialize=(TAgentInfo)deserializer.deserialize(serialize);
+  logger.debug("deserializer:{}",deserialize.getClass());
+  Assert.assertEquals(deserialize,tAgentInfo);
 }
