@@ -1,4 +1,7 @@
 {
+  if (!isSetStartElapsed()) {
+    throw new PinpointTraceException("startTime is not set");
+  }
   final int endElapsed=(int)(System.currentTimeMillis() - getStartTime());
   this.setEndElapsed(endElapsed);
 }
