@@ -14,7 +14,7 @@
   this.serverInfo=new ServerInfo();
   String[] paths=getTomcatlibPath();
   this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,this);
-  ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this);
+  ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
   instrumentation.addTransformer(classFileTransformerDispatcher);
   this.agentInformation=createAgentInformation();
   logger.info("agentInformation:{}",agentInformation);
