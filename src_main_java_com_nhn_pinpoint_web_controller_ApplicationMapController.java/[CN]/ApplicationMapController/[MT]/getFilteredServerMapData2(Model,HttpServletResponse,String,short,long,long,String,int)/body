@@ -1,0 +1,13 @@
+{
+  ResultWithMark<Set<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+  Filter filter=FilterBuilder.build(filterText);
+  ApplicationMap map=flow.selectApplicationMap(traceIdSet.getValue(),from,to,filter);
+  model.addAttribute("from",from);
+  model.addAttribute("to",to);
+  model.addAttribute("filter",filter);
+  model.addAttribute("lastFetchedTimestamp",traceIdSet.getMark());
+  model.addAttribute("nodes",map.getNodes());
+  model.addAttribute("links",map.getLinks());
+  model.addAttribute("timeseriesResponses",map.getTimeseriesResponses());
+  return "applicationmap.filtered2";
+}

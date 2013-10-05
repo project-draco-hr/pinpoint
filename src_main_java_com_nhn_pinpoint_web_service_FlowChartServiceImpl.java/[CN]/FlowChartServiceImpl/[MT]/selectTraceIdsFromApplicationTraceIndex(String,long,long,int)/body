@@ -1,0 +1,9 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName");
+  }
+  if (logger.isTraceEnabled()) {
+    logger.trace("scan(selectTraceIdsFromApplicationTraceIndex) {}, {}, {}",applicationName,from,to);
+  }
+  return this.applicationTraceIndexDao.scanTraceIndex(applicationName,from,to,limit);
+}

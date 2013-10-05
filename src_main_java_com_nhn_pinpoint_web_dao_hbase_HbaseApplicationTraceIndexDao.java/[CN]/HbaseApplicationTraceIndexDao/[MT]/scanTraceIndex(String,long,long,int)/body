@@ -1,0 +1,23 @@
+{
+  logger.debug("scanTraceIndex");
+  Scan scan=createScan(applicationName,start,end);
+  final ResultWithMark<Set<TransactionId>,Long> result=new ResultWithMark<Set<TransactionId>,Long>();
+  List<List<TransactionId>> traceIndexList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,new LastRowHandler(){
+    @Override public void handle(    KeyValue keyValue){
+      byte[] row=keyValue.getRow();
+      byte[] originalRow=traceIdRowKeyDistributor.getOriginalKey(row);
+      long reverseStartTime=BytesUtils.bytesToLong(originalRow,PinpointConstants.AGENT_NAME_MAX_LEN);
+      long lastRowTimestamp=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
+      result.setMark(lastRowTimestamp);
+    }
+  }
+);
+  Set<TransactionId> set=new HashSet<TransactionId>();
+  for (  List<TransactionId> list : traceIndexList) {
+    for (    TransactionId traceId : list) {
+      set.add(traceId);
+    }
+  }
+  result.setValue(set);
+  return result;
+}

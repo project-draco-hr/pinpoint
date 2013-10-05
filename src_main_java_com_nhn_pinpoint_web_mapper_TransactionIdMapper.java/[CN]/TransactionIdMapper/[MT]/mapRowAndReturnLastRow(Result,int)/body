@@ -1,0 +1,16 @@
+{
+  if (result == null) {
+    return new KeepLastRowValue<List<TransactionId>>(new ArrayList<TransactionId>(0),null);
+  }
+  KeyValue[] raw=result.raw();
+  List<TransactionId> traceIdList=new ArrayList<TransactionId>(raw.length);
+  KeyValue lastRow=null;
+  for (  KeyValue kv : raw) {
+    lastRow=kv;
+    byte[] buffer=kv.getBuffer();
+    int qualifierOffset=kv.getQualifierOffset();
+    TransactionId traceId=new TransactionId(buffer,qualifierOffset);
+    traceIdList.add(traceId);
+  }
+  return new KeepLastRowValue<List<TransactionId>>(traceIdList,lastRow);
+}

@@ -1,7 +1,7 @@
 {
-  Set<TransactionId> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
+  ResultWithMark<Set<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=FilterBuilder.build(filterText);
-  ServerCallTree map=flow.selectServerCallTree(traceIdSet,filter);
+  ServerCallTree map=flow.selectServerCallTree(traceIdSet.getValue(),filter);
   model.addAttribute("nodes",map.getNodes());
   model.addAttribute("links",map.getLinks());
   model.addAttribute("filter",filter);

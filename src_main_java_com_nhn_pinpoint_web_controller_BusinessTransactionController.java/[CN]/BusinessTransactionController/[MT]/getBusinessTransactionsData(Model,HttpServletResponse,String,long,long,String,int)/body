@@ -1,7 +1,8 @@
 {
-  Set<TransactionId> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to);
+  ResultWithMark<Set<TransactionId>,Long> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=FilterBuilder.build(filterText);
-  BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIdList,applicationName,from,to,filter);
+  BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIdList.getValue(),applicationName,from,to,filter);
+  model.addAttribute("lastFetchedTimestamp",traceIdList.getMark());
   model.addAttribute("rpcList",selectBusinessTransactions.getBusinessTransactionIterator());
   model.addAttribute("requestList",selectBusinessTransactions.getBusinessTransactionIterator());
   model.addAttribute("scatterList",selectBusinessTransactions.getBusinessTransactionIterator());
