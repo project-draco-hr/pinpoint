@@ -1,11 +1,4 @@
 {
   StackFrame currentStackFrame=this.currentStackFrame;
-  if (currentStackFrame instanceof RootStackFrame) {
-    Span span=((RootStackFrame)currentStackFrame).getSpan();
-    span.setEndPoint(endPoint);
-  }
- else {
-    SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
-    spanEvent.setEndPoint(endPoint);
-  }
+  currentStackFrame.setEndPoint(endPoint);
 }

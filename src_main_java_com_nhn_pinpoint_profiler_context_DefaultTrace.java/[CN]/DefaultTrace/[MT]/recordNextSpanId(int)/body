@@ -1,12 +1,12 @@
 {
+  if (nextSpanId != -1) {
+    return;
+  }
   StackFrame currentStackFrame=this.currentStackFrame;
-  if (currentStackFrame instanceof RootStackFrame) {
-    logger.warn("OMG. Something's going wrong. Current stackframe is root Span. nextSpanId={}",nextSpanId);
+  if (currentStackFrame instanceof SpanEventStackFrame) {
+    ((SpanEventStackFrame)currentStackFrame).setNextSpanId(nextSpanId);
   }
  else {
-    SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
-    if (nextSpanId != -1) {
-      spanEvent.setNextSpanId(nextSpanId);
-    }
+    throw new PinpointTraceException("not SpanEventStackFrame");
   }
 }

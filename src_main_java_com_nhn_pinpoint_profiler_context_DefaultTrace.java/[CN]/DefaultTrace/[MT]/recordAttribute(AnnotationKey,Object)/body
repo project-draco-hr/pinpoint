@@ -1,11 +1,4 @@
 {
   final StackFrame currentStackFrame=this.currentStackFrame;
-  if (currentStackFrame instanceof RootStackFrame) {
-    Span span=((RootStackFrame)currentStackFrame).getSpan();
-    span.addAnnotation(new Annotation(key,value));
-  }
- else {
-    SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
-    spanEvent.addAnnotation(new Annotation(key,value));
-  }
+  currentStackFrame.addAnnotation(new Annotation(key,value));
 }

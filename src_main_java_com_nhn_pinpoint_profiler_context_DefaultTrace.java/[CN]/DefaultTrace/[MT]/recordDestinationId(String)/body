@@ -1,7 +1,9 @@
 {
   StackFrame currentStackFrame=this.currentStackFrame;
   if (currentStackFrame instanceof SpanEventStackFrame) {
-    SpanEvent spanEvent=((SpanEventStackFrame)currentStackFrame).getSpanEvent();
-    spanEvent.setDestinationId(destinationId);
+    ((SpanEventStackFrame)currentStackFrame).setDestinationId(destinationId);
+  }
+ else {
+    throw new PinpointTraceException("not SpanEventStackFrame");
   }
 }

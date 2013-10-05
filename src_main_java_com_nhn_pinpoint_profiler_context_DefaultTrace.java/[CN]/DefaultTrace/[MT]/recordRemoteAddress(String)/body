@@ -1,11 +1,7 @@
 {
   StackFrame currentStackFrame=this.currentStackFrame;
   if (currentStackFrame instanceof RootStackFrame) {
-    Span span=((RootStackFrame)currentStackFrame).getSpan();
-    span.setAcceptorHost(host);
-    if (isDebug) {
-      logger.debug("Acceptor host received. host={}",host);
-    }
+    ((RootStackFrame)currentStackFrame).setRemoteAddress(remoteAddress);
   }
  else {
     throw new PinpointTraceException("not RootStackFrame");
