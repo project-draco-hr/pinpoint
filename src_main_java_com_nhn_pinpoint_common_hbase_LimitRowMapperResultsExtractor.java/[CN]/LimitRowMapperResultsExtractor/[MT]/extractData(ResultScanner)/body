@@ -1,13 +1,22 @@
 {
   List<T> rs=new ArrayList<T>();
   int rowNum=0;
+  KeepLastRowMapper<T> keepLastRowMapper=(this.rowMapper instanceof KeepLastRowMapper) ? (KeepLastRowMapper<T>)rowMapper : null;
   for (  Result result : results) {
-    T t=this.rowMapper.mapRow(result,rowNum++);
+    T t;
+    if (keepLastRowMapper == null) {
+      t=this.rowMapper.mapRow(result,rowNum++);
+    }
+ else {
+      KeepLastRowValue<T> v=keepLastRowMapper.mapRowAndReturnLastRow(result,rowNum++);
+      t=v.getValue();
+      lastestMappedKeyValue=v.getLastRow();
+    }
     if (t instanceof Collection) {
-      rowNum+=((Collection)t).size();
+      rowNum+=((Collection<?>)t).size();
     }
  else     if (t instanceof Map) {
-      rowNum+=((Map)t).size();
+      rowNum+=((Map<?,?>)t).size();
     }
  else     if (t == null) {
     }
