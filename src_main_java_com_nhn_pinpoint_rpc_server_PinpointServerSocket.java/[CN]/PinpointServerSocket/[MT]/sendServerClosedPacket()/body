@@ -1,0 +1,17 @@
+{
+  logger.info("sendServerClosedPacket start");
+  final ChannelGroupFuture write=this.channelGroup.write(new ServerClosePacket());
+  write.awaitUninterruptibly(5000,TimeUnit.MILLISECONDS);
+  if (logger.isWarnEnabled()) {
+    write.addListener(new ChannelGroupFutureListener(){
+      private final ChannelFutureListener listener=new WriteFailFutureListener(logger,"serverClosePacket write fail","serverClosePacket write success");
+      @Override public void operationComplete(      ChannelGroupFuture future) throws Exception {
+        for (        ChannelFuture channelFuture : future) {
+          channelFuture.addListener(listener);
+        }
+      }
+    }
+);
+  }
+  logger.info("sendServerClosedPacket end");
+}

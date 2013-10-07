@@ -16,7 +16,7 @@
   releaseResource();
   logger.debug("channel.close()");
   ChannelFuture channelFuture=channel.close();
-  channelFuture.addListener(new WriteFailFutureListener(logger,"close() event fail."));
+  channelFuture.addListener(new WriteFailFutureListener(logger,"close() event fail.","close() event success."));
   channelFuture.awaitUninterruptibly();
   logger.debug("close() complete");
 }

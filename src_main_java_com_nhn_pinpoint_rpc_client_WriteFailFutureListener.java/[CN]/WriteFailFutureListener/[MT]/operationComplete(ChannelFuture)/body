@@ -1,5 +1,13 @@
 {
   if (!future.isSuccess()) {
-    logger.warn("{} channel:{}",message,future.getChannel());
+    if (logger.isWarnEnabled()) {
+      final Throwable cause=future.getCause();
+      logger.warn("{} channel:{} Caused:{}",failMessage,future.getChannel(),cause.getMessage(),cause);
+    }
+  }
+ else {
+    if (logger.isDebugEnabled()) {
+      logger.debug("{} channel:{}",successMessage,future.getCause());
+    }
   }
 }
