@@ -31,7 +31,7 @@
       }
       dest=span.getApplicationId();
       destServiceType=span.getServiceType();
-      if (!destServiceType.isRecordStatistics()) {
+      if (!destServiceType.isRecordStatistics() || destServiceType.isRpcClient()) {
         continue;
       }
       String statId=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
@@ -51,7 +51,7 @@
       for (      SpanEventBo spanEvent : spanEventBoList) {
         dest=spanEvent.getDestinationId();
         destServiceType=spanEvent.getServiceType();
-        if (!destServiceType.isRecordStatistics()) {
+        if (!destServiceType.isRecordStatistics() || destServiceType.isRpcClient()) {
           continue;
         }
         if (destServiceType.isRpcClient()) {
