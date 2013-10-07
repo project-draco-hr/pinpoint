@@ -5,6 +5,7 @@ synchronized (this) {
     }
     released=true;
   }
+  pingTimer.stop();
   if (serverChannel != null) {
     ChannelFuture close=serverChannel.close();
     close.awaitUninterruptibly(3000,TimeUnit.MILLISECONDS);

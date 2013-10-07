@@ -1,10 +1,11 @@
 {
-  if (timeout.isCancelled()) {
+  if (timeout.isCancelled() || timeout.isExpired()) {
+    newPingTimeout(this);
     return;
   }
   if (isClosed()) {
     return;
   }
-  sendPingInternal();
-  registerPing();
+  writePing();
+  newPingTimeout(this);
 }
