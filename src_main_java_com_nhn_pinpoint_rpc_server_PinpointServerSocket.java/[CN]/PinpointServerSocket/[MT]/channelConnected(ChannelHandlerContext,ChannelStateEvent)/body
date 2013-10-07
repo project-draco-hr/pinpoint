@@ -3,6 +3,16 @@
   if (logger.isDebugEnabled()) {
     logger.debug("server channelConnected {}",channel);
   }
+  if (released) {
+    logger.warn("already released. channel:{}",channel);
+    channel.write(new ServerClosePacket()).addListener(new ChannelFutureListener(){
+      @Override public void operationComplete(      ChannelFuture future) throws Exception {
+        future.getChannel().close();
+      }
+    }
+);
+    return;
+  }
   prepareChannel(channel);
   super.channelConnected(ctx,e);
 }
