@@ -1,0 +1,20 @@
+{
+  logger.info("check " + propertyName);
+  final String value=System.getProperty(propertyName);
+  if (value != null) {
+    final byte[] bytes;
+    try {
+      bytes=toBytes(value);
+    }
+ catch (    UnsupportedEncodingException e) {
+      logger.warning("toBytes() fail. propertyName:" + propertyName + " propertyValue:"+ value);
+      return false;
+    }
+    if (bytes.length > maxSize) {
+      logger.warning("invalid " + propertyName + ". too large bytes. length:"+ bytes.length+ " value:"+ value);
+      return false;
+    }
+  }
+  logger.info("check success. " + propertyName + ":"+ value);
+  return true;
+}

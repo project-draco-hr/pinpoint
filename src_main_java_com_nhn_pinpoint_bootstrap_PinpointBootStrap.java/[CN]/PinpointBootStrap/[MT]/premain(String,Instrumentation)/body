@@ -8,6 +8,12 @@
     logger.severe("pinpoint-bootstrap-x.x.x.jar not found.");
     return;
   }
+  if (!checkProfilerIdSize("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
+    return;
+  }
+  if (!checkProfilerIdSize("pinpoint.applicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN)) {
+    return;
+  }
   String configPath=getConfigPath(classPathResolver);
   if (configPath == null) {
     return;
