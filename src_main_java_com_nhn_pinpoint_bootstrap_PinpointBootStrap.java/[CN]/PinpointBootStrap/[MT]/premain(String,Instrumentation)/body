@@ -25,7 +25,9 @@
     List<URL> libUrlList=resolveLib(classPathResolver);
     AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
     agentClassLoader.setBootClass(BOOT_CLASS);
+    logger.info("pinpoint agent start.");
     agentClassLoader.boot(agentArgs,instrumentation,profilerConfig);
+    logger.info("pinpoint agent start success.");
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,ProductInfo.CAMEL_NAME + " start fail. Caused:" + e.getMessage(),e);

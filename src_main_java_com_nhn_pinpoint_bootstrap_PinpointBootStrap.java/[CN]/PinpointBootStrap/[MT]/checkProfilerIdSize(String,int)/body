@@ -1,5 +1,5 @@
 {
-  logger.info("check " + propertyName);
+  logger.info("check -D" + propertyName);
   final String value=System.getProperty(propertyName);
   if (value != null) {
     final byte[] bytes;
@@ -7,14 +7,18 @@
       bytes=toBytes(value);
     }
  catch (    UnsupportedEncodingException e) {
-      logger.warning("toBytes() fail. propertyName:" + propertyName + " propertyValue:"+ value);
+      logger.severe("toBytes() fail. propertyName:" + propertyName + " propertyValue:"+ value);
       return false;
     }
     if (bytes.length > maxSize) {
-      logger.warning("invalid " + propertyName + ". too large bytes. length:"+ bytes.length+ " value:"+ value);
+      logger.severe("invalid " + propertyName + ". too large bytes. length:"+ bytes.length+ " value:"+ value);
       return false;
     }
+    logger.info("check success. -D" + propertyName + ":"+ value);
+    return true;
   }
-  logger.info("check success. " + propertyName + ":"+ value);
-  return true;
+ else {
+    logger.severe("-D" + propertyName + " is null.");
+    return false;
+  }
 }
