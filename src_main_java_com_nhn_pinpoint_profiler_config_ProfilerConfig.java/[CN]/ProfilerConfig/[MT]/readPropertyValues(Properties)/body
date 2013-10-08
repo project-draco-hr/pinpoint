@@ -28,7 +28,7 @@
   this.samplingElapsedTimeBaseDiscardTimeLimit=readLong(prop,"profiler.sampling.elapsedtimebase.discard.timelimit",1000);
   this.profileJvmCollectInterval=readInt(prop,"profiler.jvm.collect.interval",1000);
   this.heartbeatInterval=readLong(prop,"profiler.heartbeat.interval",DEFAULT_HEART_BEAT_INTERVAL);
-  this.serviceType=readServiceType(prop,"profiler.servicetype",ServiceType.TOMCAT);
+  this.applicationServerType=readServiceType(prop,"profiler.applicationservertype");
   String profileableClass=readString(prop,"profiler.include","");
   setProfilableClass(profileableClass);
   logger.info("configuration loaded successfully.");
