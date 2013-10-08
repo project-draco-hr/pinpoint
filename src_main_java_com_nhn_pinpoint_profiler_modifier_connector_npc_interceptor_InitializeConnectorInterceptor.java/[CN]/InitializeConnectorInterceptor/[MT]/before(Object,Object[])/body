@@ -2,9 +2,8 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  Trace trace=traceContext.currentRawTraceObject();
+  Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
-    logger.warn("Trace object is null");
     return;
   }
   trace.traceBlockBegin();
