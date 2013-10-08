@@ -7,9 +7,6 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received AgentStat={}",dto);
     }
-    if (statServer != null) {
-      statServer.getStore().store(dto);
-    }
     byte[] value=PacketUtils.sliceData(packet,Header.HEADER_SIZE,length);
     agentStatDao.insert(dto,value);
   }
