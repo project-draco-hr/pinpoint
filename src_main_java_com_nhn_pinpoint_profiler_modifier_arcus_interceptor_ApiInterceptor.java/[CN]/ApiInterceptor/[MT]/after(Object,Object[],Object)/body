@@ -10,8 +10,14 @@
     return;
   }
   try {
-    trace.recordApi(methodDescriptor);
-    trace.recordAttribute(AnnotationKey.ARCUS_COMMAND,getAnnotation(args));
+    final int recordIndex=parameterExtractor.extractIndex(args);
+    if (recordIndex != ParameterExtractor.NOT_FOUND) {
+      final Object recordObject=parameterExtractor.extractObject(args,recordIndex);
+      trace.recordApi(methodDescriptor,recordObject,recordIndex);
+    }
+ else {
+      trace.recordApi(methodDescriptor);
+    }
     if (result instanceof Future) {
       Operation op=(Operation)getOperation.invoke(((Future<?>)result));
       if (op != null) {

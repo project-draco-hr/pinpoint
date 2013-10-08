@@ -9,8 +9,6 @@
   }
   try {
     trace.recordApi(methodDescriptor);
-    String annotation="future.get() timeout:" + args[0] + " "+ ((TimeUnit)args[1]).name();
-    trace.recordAttribute(AnnotationKey.ARCUS_COMMAND,annotation);
     Operation op=(Operation)getOperation.invoke(target);
     if (op != null) {
       MemcachedNode handlingNode=op.getHandlingNode();
