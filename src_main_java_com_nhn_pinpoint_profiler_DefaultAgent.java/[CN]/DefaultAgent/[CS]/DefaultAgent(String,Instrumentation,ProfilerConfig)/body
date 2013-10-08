@@ -12,11 +12,14 @@
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=profilerConfig;
   this.serverInfo=new ServerInfo();
-  String[] paths=getTomcatlibPath();
-  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(paths,this);
+  ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(profilerConfig.getApplicationServerType());
+  if (!typeResolver.resolve()) {
+    throw new PinpointException("ApplicationServerType not found.");
+  }
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(typeResolver.getServerLibPath(),this);
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
   instrumentation.addTransformer(classFileTransformerDispatcher);
-  this.agentInformation=createAgentInformation();
+  this.agentInformation=createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
   this.tcpDataSender=createTcpDataSender();
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
