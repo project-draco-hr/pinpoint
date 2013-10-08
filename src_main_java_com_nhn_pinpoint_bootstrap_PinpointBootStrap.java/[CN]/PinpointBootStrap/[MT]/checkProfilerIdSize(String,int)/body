@@ -1,7 +1,8 @@
 {
   logger.info("check -D" + propertyName);
-  final String value=System.getProperty(propertyName);
+  String value=System.getProperty(propertyName);
   if (value != null) {
+    value=value.trim();
     final byte[] bytes;
     try {
       bytes=toBytes(value);
@@ -10,11 +11,15 @@
       logger.severe("toBytes() fail. propertyName:" + propertyName + " propertyValue:"+ value);
       return false;
     }
+    if (bytes.length == 0) {
+      logger.severe("invalid " + propertyName + ". agentId is empty. length:"+ bytes.length+ " value:"+ value);
+      return false;
+    }
     if (bytes.length > maxSize) {
       logger.severe("invalid " + propertyName + ". too large bytes. length:"+ bytes.length+ " value:"+ value);
       return false;
     }
-    logger.info("check success. -D" + propertyName + ":"+ value);
+    logger.info("check success. -D" + propertyName + ":"+ value+ " length:"+ bytes.length);
     return true;
   }
  else {
