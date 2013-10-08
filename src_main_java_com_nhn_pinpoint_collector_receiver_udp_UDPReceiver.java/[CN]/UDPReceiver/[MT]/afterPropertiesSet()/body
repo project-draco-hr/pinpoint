@@ -3,7 +3,7 @@
   Assert.notNull(statServer,"statServer must not be null");
   this.socket=createSocket(bindAddress,port,receiverBufferSize);
   final int packetPoolSize=getPacketPoolSize(workerThreadSize,workerThreadQueueSize);
-  this.datagramPacketPool=new FixedPool<DatagramPacket>(new DatagramPacketFactory(),packetPoolSize);
+  this.datagramPacketPool=new ObjectPool<DatagramPacket>(new DatagramPacketFactory(),packetPoolSize);
   this.worker=ExecutorFactory.newFixedThreadPool(workerThreadSize,workerThreadQueueSize,receiverName + "-Worker",true);
   this.timer=statServer.getRegistry().timer(receiverName + "-timer");
   this.rejectedCounter=statServer.getRegistry().counter(receiverName + "-rejected");
