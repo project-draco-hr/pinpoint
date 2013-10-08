@@ -2,7 +2,7 @@
   List<AnnotationBo> list=span.getAnnotationBoList();
   final ServiceType serviceType=span.getServiceType();
   if (serviceType == ServiceType.ARCUS || serviceType == ServiceType.MEMCACHED) {
-    return findAnnotationBo(list,AnnotationKey.ARCUS_COMMAND);
+    return findArgsAnnotationBo(list);
   }
   if (serviceType == ServiceType.HTTP_CLIENT || serviceType == ServiceType.JDK_HTTPURLCONNECTOR) {
     return findAnnotationBo(list,AnnotationKey.HTTP_URL);
