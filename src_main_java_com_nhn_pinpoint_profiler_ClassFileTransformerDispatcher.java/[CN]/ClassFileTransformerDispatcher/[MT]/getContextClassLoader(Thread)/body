@@ -2,7 +2,10 @@
   try {
     return thread.getContextClassLoader();
   }
- catch (  Throwable th) {
+ catch (  SecurityException se) {
+    throw se;
+  }
+catch (  Throwable th) {
     if (isDebug) {
       logger.debug("getContextClassLoader(). Caused:{}",th.getMessage(),th);
     }
