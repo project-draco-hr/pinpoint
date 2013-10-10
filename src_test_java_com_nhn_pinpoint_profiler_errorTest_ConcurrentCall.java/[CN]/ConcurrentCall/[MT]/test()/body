@@ -1,0 +1,35 @@
+{
+  ((ThreadPoolExecutor)executorService).prestartAllCoreThreads();
+  ThreadSafeClientConnManager cm=new ThreadSafeClientConnManager();
+  cm.setMaxTotal(200);
+  cm.setDefaultMaxPerRoute(200);
+  final HttpClient client=new DefaultHttpClient(cm);
+  int call=400;
+  final CountDownLatch latch=new CountDownLatch(call);
+  for (int i=0; i < call; i++) {
+    executorService.execute(new Runnable(){
+      @Override public void run(){
+        try {
+          String url=getUrl();
+          logger.info("execute {}",url);
+          final HttpGet httpGet=new HttpGet(url);
+          final HttpResponse execute=client.execute(httpGet);
+          execute.getEntity().getContent().close();
+        }
+ catch (        ClientProtocolException e) {
+          e.printStackTrace();
+        }
+catch (        IOException e) {
+          e.printStackTrace();
+        }
+ finally {
+          latch.countDown();
+        }
+      }
+    }
+);
+  }
+  latch.await();
+  executorService.shutdown();
+  cm.shutdown();
+}

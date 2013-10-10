@@ -17,6 +17,9 @@
     throw new PinpointException("ApplicationServerType not found.");
   }
   this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(typeResolver.getServerLibPath(),this);
+  if (logger.isInfoEnabled()) {
+    logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
+  }
   ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
   instrumentation.addTransformer(classFileTransformerDispatcher);
   this.agentInformation=createAgentInformation(typeResolver.getServerType());
