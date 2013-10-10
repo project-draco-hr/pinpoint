@@ -40,7 +40,7 @@
     after.end();
   }
   final String buildAfter=after.toString();
-  if (logger.isDebugEnabled()) {
+  if (isDebug) {
     logger.debug("addAfterInterceptor after behavior:{} code:{}",behavior.getLongName(),buildAfter);
   }
   behavior.insertAfter(buildAfter);
@@ -80,7 +80,7 @@
     catchCode.end();
   }
   String buildCatch=catchCode.toString();
-  if (logger.isDebugEnabled()) {
+  if (isDebug) {
     logger.debug("addAfterInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildCatch);
   }
   CtClass th=instrumentor.getClassPool().get("java.lang.Throwable");

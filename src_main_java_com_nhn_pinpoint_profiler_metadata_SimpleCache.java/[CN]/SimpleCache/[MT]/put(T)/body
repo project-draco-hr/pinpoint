@@ -1,10 +1,10 @@
 {
-  Integer find=this.cache.get(string);
+  Integer find=this.cache.get(value);
   if (find != null) {
     return new Result(false,find);
   }
   int newId=BytesUtils.decodeZigZagInt(idGen.getAndIncrement());
-  Integer before=this.cache.putIfAbsent(string,newId);
+  Integer before=this.cache.putIfAbsent(value,newId);
   if (before != null) {
     return new Result(false,before);
   }
