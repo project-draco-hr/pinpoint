@@ -20,8 +20,8 @@
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
-  ClassFileTransformerDispatcher classFileTransformerDispatcher=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
-  instrumentation.addTransformer(classFileTransformerDispatcher);
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
+  instrumentation.addTransformer(this.classFileTransformer);
   this.agentInformation=createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
   this.tcpDataSender=createTcpDataSender();
