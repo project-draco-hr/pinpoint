@@ -5,20 +5,9 @@
       if (sqlIdAnnotation == null) {
         return;
       }
-      AgentInfoBo agentInfoBo=null;
-      try {
-        agentInfoBo=getAgentInfoBo(spanAlign);
-        logger.info("{} Agent StartTime found:{}",agentInfoBo.getAgentId(),agentInfoBo);
-      }
- catch (      AgentIdNotFoundException ex) {
-        AnnotationBo agentInfoNotFound=new AnnotationBo();
-        agentInfoNotFound.setKey(AnnotationKey.SQL.getCode());
-        agentInfoNotFound.setValue("SQL-ID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
-        annotationBoList.add(agentInfoNotFound);
-        return;
-      }
+      final AgentKey agentKey=getAgentKey(spanAlign);
       int hashCode=(Integer)sqlIdAnnotation.getValue();
-      List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentInfoBo.getAgentId(),hashCode,agentInfoBo.getStartTime());
+      List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),hashCode,agentKey.getAgentStartTime());
       int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();

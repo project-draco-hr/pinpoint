@@ -5,21 +5,9 @@
       if (apiIdAnnotation == null) {
         return;
       }
-      AgentInfoBo agentInfoBo=null;
-      try {
-        agentInfoBo=getAgentInfoBo(spanAlign);
-        logger.info("{} Agent StartTime found:{}",agentInfoBo.getAgentId(),agentInfoBo);
-      }
- catch (      AgentIdNotFoundException ex) {
-        logger.warn("AgentIdNotFoundException Caused:{}",ex.getMessage(),ex);
-        AnnotationBo agentInfoNotFound=new AnnotationBo();
-        agentInfoNotFound.setKey(AnnotationKey.ERROR_API_METADATA_AGENT_INFO_NOT_FOUND.getCode());
-        agentInfoNotFound.setValue("API-DynamicID not found. Cause:agentInfo not found. agentId:" + ex.getAgentId() + " startTime:"+ ex.getStartTime());
-        annotationBoList.add(agentInfoNotFound);
-        return;
-      }
-      int apiId=(Integer)apiIdAnnotation.getValue();
-      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(agentInfoBo.getAgentId(),apiId,agentInfoBo.getStartTime(),agentInfoBo.getPid());
+      final AgentKey key=getAgentKey(spanAlign);
+      final int apiId=(Integer)apiIdAnnotation.getValue();
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),apiId,key.getAgentStartTime());
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
