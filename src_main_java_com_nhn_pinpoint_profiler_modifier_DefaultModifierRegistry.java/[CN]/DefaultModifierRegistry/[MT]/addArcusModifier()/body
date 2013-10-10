@@ -15,9 +15,9 @@
     if (arucs) {
       ArcusClientModifier arcusClientModifier=new ArcusClientModifier(byteCodeInstrumentor,agent);
       addModifier(arcusClientModifier);
+      CollectionFutureModifier collectionFutureModifier=new CollectionFutureModifier(byteCodeInstrumentor,agent);
+      addModifier(collectionFutureModifier);
     }
-    CollectionFutureModifier collectionFutureModifier=new CollectionFutureModifier(byteCodeInstrumentor,agent);
-    addModifier(collectionFutureModifier);
     GetFutureModifier getFutureModifier=new GetFutureModifier(byteCodeInstrumentor,agent);
     addModifier(getFutureModifier);
     ImmediateFutureModifier immediateFutureModifier=new ImmediateFutureModifier(byteCodeInstrumentor,agent);
