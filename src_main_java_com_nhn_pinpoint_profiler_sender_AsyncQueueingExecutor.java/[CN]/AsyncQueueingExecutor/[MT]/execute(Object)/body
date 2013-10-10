@@ -1,21 +1,20 @@
 {
-  final boolean warnEnabled=logger.isWarnEnabled();
   if (data == null) {
-    if (warnEnabled) {
+    if (isWarn) {
       logger.warn("execute(). data is null");
     }
     return false;
   }
   if (!isRun.get()) {
-    if (warnEnabled) {
-      logger.warn("{} is shutdown. discard data:{}",this.executorName,data);
+    if (isWarn) {
+      logger.warn("{} is shutdown. discard data:{}",executorName,data);
     }
     return false;
   }
   boolean offer=queue.offer(data);
   if (!offer) {
-    if (warnEnabled) {
-      logger.warn("{} Drop data. queue is full. size:{}",this.executorName,queue.size());
+    if (isWarn) {
+      logger.warn("{} Drop data. queue is full. size:{}",executorName,queue.size());
     }
   }
   return offer;
