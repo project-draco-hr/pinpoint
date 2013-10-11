@@ -1,27 +1,7 @@
 {
-  if (annotation.isSetStringValue()) {
-    return annotation.getStringValue();
+  final TAnnotationValue value=annotation.getValue();
+  if (value == null) {
+    return null;
   }
- else   if (annotation.isSetIntValue()) {
-    return annotation.getIntValue();
-  }
- else   if (annotation.isSetLongValue()) {
-    return annotation.getLongValue();
-  }
- else   if (annotation.isSetBoolValue()) {
-    return annotation.isBoolValue();
-  }
- else   if (annotation.isSetByteValue()) {
-    return annotation.getByteValue();
-  }
- else   if (annotation.isSetDoubleValue()) {
-    return annotation.getDoubleValue();
-  }
- else   if (annotation.isSetBinaryValue()) {
-    return annotation.getBinaryValue();
-  }
- else   if (annotation.isSetShortValue()) {
-    return annotation.isSetShortValue();
-  }
-  return null;
+  return value.getFieldValue();
 }
