@@ -2,7 +2,7 @@
   final List<TSpanEvent> spanEventList=getSpanEventList();
   TSpanEvent first=spanEventList.get(0);
   if (first == null) {
-    throw new IllegalStateException("fist spanEvent not found");
+    throw new IllegalStateException("first spanEvent not found");
   }
   Span parentSpan=((SpanEvent)first).getSpan();
   final AgentInformation agentInformation=DefaultAgent.getInstance().getAgentInformation();
@@ -15,7 +15,5 @@
   this.setTraceTransactionSequence(parentSpan.getTraceTransactionSequence());
   this.setSpanId(parentSpan.getSpanId());
   this.setEndPoint(parentSpan.getEndPoint());
-  List<TSpanEvent> tSpanEvent=createTSpanEvent(spanEventList);
-  this.setSpanEventList(tSpanEvent);
   return this;
 }

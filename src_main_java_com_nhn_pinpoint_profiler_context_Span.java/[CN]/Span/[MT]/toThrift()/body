@@ -3,13 +3,5 @@
   this.setAgentId(agentInformation.getAgentId());
   this.setApplicationName(agentInformation.getApplicationName());
   this.setAgentStartTime(agentInformation.getStartTime());
-  final List<TSpanEvent> spanEventList=this.getSpanEventList();
-  if (spanEventList != null) {
-    for (    TSpanEvent spanEvent : spanEventList) {
-      if (spanEvent instanceof SpanEvent) {
-        ((SpanEvent)spanEvent).toThrift(true);
-      }
-    }
-  }
   return this;
 }

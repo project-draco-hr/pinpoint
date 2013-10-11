@@ -1,3 +1,11 @@
 {
-  return toThrift(false);
+  final TAgentKey tAgentKey=DefaultAgent.getInstance().getTAgentKey();
+  this.setAgentKey(tAgentKey);
+  this.setParentServiceType(span.getServiceType());
+  this.setParentEndPoint(span.getEndPoint());
+  this.setTraceAgentId(span.getTraceAgentId());
+  this.setTraceAgentStartTime(span.getTraceAgentStartTime());
+  this.setTraceTransactionSequence(span.getTraceTransactionSequence());
+  this.setSpanId(span.getSpanId());
+  return this;
 }
