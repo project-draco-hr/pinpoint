@@ -1,0 +1,36 @@
+{
+  logger.debug("populate start");
+  int currentDepth=spanDepth;
+  if (logger.isDebugEnabled()) {
+    logger.debug("span type:{} depth:{} spanDepth:{} ",currentDepth,span.getServiceType(),spanDepth);
+  }
+  SpanAlign spanAlign=new SpanAlign(currentDepth,span);
+  container.add(spanAlign);
+  List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
+  if (spanEventBoList == null) {
+    return;
+  }
+  spanAlign.setHasChild(true);
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
+    if (spanEventBo.getDepth() != -1) {
+      currentDepth=spanDepth + spanEventBo.getDepth();
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("spanEvent type:{} depth:{} spanEventDepth:{} ",spanEventBo.getServiceType(),currentDepth,spanEventBo.getDepth());
+    }
+    SpanAlign spanEventAlign=new SpanAlign(currentDepth,span,spanEventBo);
+    container.add(spanEventAlign);
+    int nextSpanId=spanEventBo.getNextSpanId();
+    if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
+      int childDepth=currentDepth + 1;
+      SpanBo spanBo=spanMap.get(nextSpanId);
+      if (spanBo != null) {
+        populate(spanBo,childDepth,container);
+      }
+ else {
+        logger.info("nextSpanId not found. {}",nextSpanId);
+      }
+    }
+  }
+  logger.debug("populate end");
+}
