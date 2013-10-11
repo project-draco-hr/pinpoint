@@ -1,0 +1,16 @@
+{
+  CtClass testClass=pool.get("com.nhn.pinpoint.profiler.javaassist.TestClass");
+  CtMethod[] declaredMethods=testClass.getDeclaredMethods();
+  for (  CtMethod declaredMethod : declaredMethods) {
+    logger.info(declaredMethod.toString());
+    logger.info(declaredMethod.getGenericSignature());
+    logger.info(declaredMethod.getSignature());
+    logger.info("paramTypes:{}",Arrays.toString(declaredMethod.getParameterTypes()));
+    logger.info(declaredMethod.getMethodInfo2().getDescriptor());
+    logger.info(declaredMethod.getMethodInfo().getDescriptor());
+  }
+  CtMethod setb=testClass.getDeclaredMethod("setA",new CtClass[]{pool.get("int")});
+  logger.info(setb.toString());
+  CtMethod setStringArray=testClass.getDeclaredMethod("setStringArray",new CtClass[]{pool.get("java.lang.String[]")});
+  logger.info(setStringArray.toString());
+}
