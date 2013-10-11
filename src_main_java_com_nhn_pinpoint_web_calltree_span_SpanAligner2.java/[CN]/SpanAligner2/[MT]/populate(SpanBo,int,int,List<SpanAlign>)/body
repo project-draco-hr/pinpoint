@@ -3,11 +3,11 @@
   int currentDepth=spanDepth;
   int lastChildSequence=sequence;
   if (logger.isDebugEnabled()) {
-    logger.debug("span type:{} depth:{} spanDepth:{} lastChildSequence:{}",currentDepth,parentSpan.getServiceType(),spanDepth,lastChildSequence);
+    logger.debug("span type:{} depth:{} spanDepth:{} lastChildSequence:{}",currentDepth,span.getServiceType(),spanDepth,lastChildSequence);
   }
-  SpanAlign element=new SpanAlign(currentDepth,parentSpan,++lastChildSequence,pSequence);
+  SpanAlign element=new SpanAlign(currentDepth,span,++lastChildSequence);
   container.add(element);
-  List<SpanEventBo> spanEventBoList=parentSpan.getSpanEventBoList();
+  List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
   if (spanEventBoList == null) {
     return sequence;
   }
@@ -20,12 +20,12 @@
       logger.debug("spanEvent type:{} depth:{} spanEventDepth:{} lastChildSequence:{}",spanEventBo.getServiceType(),currentDepth,spanEventBo.getDepth(),lastChildSequence);
     }
     lastChildSequence++;
-    SpanAlign sa=new SpanAlign(currentDepth,lastChildSequence,sequence,parentSpan,spanEventBo);
+    SpanAlign sa=new SpanAlign(currentDepth,lastChildSequence,span,spanEventBo);
     container.add(sa);
     int nextSpanId=spanEventBo.getNextSpanId();
     if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
       int childDepth=currentDepth + 1;
-      lastChildSequence=populate(spanMap.get(nextSpanId),childDepth,lastChildSequence,lastChildSequence,container);
+      lastChildSequence=populate(spanMap.get(nextSpanId),childDepth,lastChildSequence,container);
     }
   }
   logger.debug("populate end");
