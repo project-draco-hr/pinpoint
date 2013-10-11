@@ -1,0 +1,46 @@
+{
+switch (setField) {
+case STRING_VALUE:
+    if (value instanceof String) {
+      break;
+    }
+  throw new ClassCastException("Was expecting value of type String for field 'stringValue', but got " + value.getClass().getSimpleName());
+case BOOL_VALUE:
+if (value instanceof Boolean) {
+  break;
+}
+throw new ClassCastException("Was expecting value of type Boolean for field 'boolValue', but got " + value.getClass().getSimpleName());
+case INT_VALUE:
+if (value instanceof Integer) {
+break;
+}
+throw new ClassCastException("Was expecting value of type Integer for field 'intValue', but got " + value.getClass().getSimpleName());
+case LONG_VALUE:
+if (value instanceof Long) {
+break;
+}
+throw new ClassCastException("Was expecting value of type Long for field 'longValue', but got " + value.getClass().getSimpleName());
+case SHORT_VALUE:
+if (value instanceof Short) {
+break;
+}
+throw new ClassCastException("Was expecting value of type Short for field 'shortValue', but got " + value.getClass().getSimpleName());
+case DOUBLE_VALUE:
+if (value instanceof Double) {
+break;
+}
+throw new ClassCastException("Was expecting value of type Double for field 'doubleValue', but got " + value.getClass().getSimpleName());
+case BINARY_VALUE:
+if (value instanceof ByteBuffer) {
+break;
+}
+throw new ClassCastException("Was expecting value of type ByteBuffer for field 'binaryValue', but got " + value.getClass().getSimpleName());
+case BYTE_VALUE:
+if (value instanceof Byte) {
+break;
+}
+throw new ClassCastException("Was expecting value of type Byte for field 'byteValue', but got " + value.getClass().getSimpleName());
+default :
+throw new IllegalArgumentException("Unknown field id " + setField);
+}
+}

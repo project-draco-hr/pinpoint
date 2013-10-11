@@ -1,0 +1,93 @@
+{
+  _Fields setField=_Fields.findByThriftId(field.id);
+  if (setField != null) {
+switch (setField) {
+case STRING_VALUE:
+      if (field.type == STRING_VALUE_FIELD_DESC.type) {
+        String stringValue;
+        stringValue=iprot.readString();
+        return stringValue;
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+        return null;
+      }
+case BOOL_VALUE:
+    if (field.type == BOOL_VALUE_FIELD_DESC.type) {
+      Boolean boolValue;
+      boolValue=iprot.readBool();
+      return boolValue;
+    }
+ else {
+      org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+      return null;
+    }
+case INT_VALUE:
+  if (field.type == INT_VALUE_FIELD_DESC.type) {
+    Integer intValue;
+    intValue=iprot.readI32();
+    return intValue;
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+    return null;
+  }
+case LONG_VALUE:
+if (field.type == LONG_VALUE_FIELD_DESC.type) {
+  Long longValue;
+  longValue=iprot.readI64();
+  return longValue;
+}
+ else {
+  org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+  return null;
+}
+case SHORT_VALUE:
+if (field.type == SHORT_VALUE_FIELD_DESC.type) {
+Short shortValue;
+shortValue=iprot.readI16();
+return shortValue;
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+case DOUBLE_VALUE:
+if (field.type == DOUBLE_VALUE_FIELD_DESC.type) {
+Double doubleValue;
+doubleValue=iprot.readDouble();
+return doubleValue;
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+case BINARY_VALUE:
+if (field.type == BINARY_VALUE_FIELD_DESC.type) {
+ByteBuffer binaryValue;
+binaryValue=iprot.readBinary();
+return binaryValue;
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+case BYTE_VALUE:
+if (field.type == BYTE_VALUE_FIELD_DESC.type) {
+Byte byteValue;
+byteValue=iprot.readByte();
+return byteValue;
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+default :
+throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
+}
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
+}
