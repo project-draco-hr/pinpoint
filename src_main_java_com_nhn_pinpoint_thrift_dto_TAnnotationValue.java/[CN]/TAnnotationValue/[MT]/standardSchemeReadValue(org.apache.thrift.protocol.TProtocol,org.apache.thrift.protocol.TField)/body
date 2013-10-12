@@ -82,6 +82,17 @@ return byteValue;
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
 return null;
 }
+case SQL_VALUE:
+if (field.type == SQL_VALUE_FIELD_DESC.type) {
+TSqlValue sqlValue;
+sqlValue=new TSqlValue();
+sqlValue.read(iprot);
+return sqlValue;
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,field.type);
+return null;
+}
 default :
 throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
 }

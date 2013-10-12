@@ -64,7 +64,13 @@
   if (struct.isSetAcceptorHost()) {
     optionals.set(20);
   }
-  oprot.writeBitSet(optionals,21);
+  if (struct.isSetApiId()) {
+    optionals.set(21);
+  }
+  if (struct.isSetExceptionId()) {
+    optionals.set(22);
+  }
+  oprot.writeBitSet(optionals,23);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -110,8 +116,8 @@
   if (struct.isSetAnnotations()) {
 {
       oprot.writeI32(struct.annotations.size());
-      for (      TAnnotation _iter24 : struct.annotations) {
-        _iter24.write(oprot);
+      for (      TAnnotation _iter16 : struct.annotations) {
+        _iter16.write(oprot);
       }
     }
   }
@@ -124,8 +130,8 @@
   if (struct.isSetSpanEventList()) {
 {
       oprot.writeI32(struct.spanEventList.size());
-      for (      TSpanEvent _iter25 : struct.spanEventList) {
-        _iter25.write(oprot);
+      for (      TSpanEvent _iter17 : struct.spanEventList) {
+        _iter17.write(oprot);
       }
     }
   }
@@ -137,5 +143,11 @@
   }
   if (struct.isSetAcceptorHost()) {
     oprot.writeString(struct.acceptorHost);
+  }
+  if (struct.isSetApiId()) {
+    oprot.writeI32(struct.apiId);
+  }
+  if (struct.isSetExceptionId()) {
+    oprot.writeI32(struct.exceptionId);
   }
 }

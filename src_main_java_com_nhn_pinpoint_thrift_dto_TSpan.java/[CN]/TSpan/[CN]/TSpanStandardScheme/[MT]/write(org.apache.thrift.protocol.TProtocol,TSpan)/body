@@ -15,9 +15,11 @@
   oprot.writeI64(struct.agentStartTime);
   oprot.writeFieldEnd();
   if (struct.traceAgentId != null) {
-    oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
-    oprot.writeString(struct.traceAgentId);
-    oprot.writeFieldEnd();
+    if (struct.isSetTraceAgentId()) {
+      oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
+      oprot.writeString(struct.traceAgentId);
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldBegin(TRACE_AGENT_START_TIME_FIELD_DESC);
   oprot.writeI64(struct.traceAgentStartTime);
@@ -64,15 +66,17 @@
     }
   }
   if (struct.annotations != null) {
-    oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
+    if (struct.isSetAnnotations()) {
+      oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
-      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      TAnnotation _iter22 : struct.annotations) {
-        _iter22.write(oprot);
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
+        for (        TAnnotation _iter14 : struct.annotations) {
+          _iter14.write(oprot);
+        }
+        oprot.writeListEnd();
       }
-      oprot.writeListEnd();
+      oprot.writeFieldEnd();
     }
-    oprot.writeFieldEnd();
   }
   if (struct.isSetFlag()) {
     oprot.writeFieldBegin(FLAG_FIELD_DESC);
@@ -89,8 +93,8 @@
       oprot.writeFieldBegin(SPAN_EVENT_LIST_FIELD_DESC);
 {
         oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.spanEventList.size()));
-        for (        TSpanEvent _iter23 : struct.spanEventList) {
-          _iter23.write(oprot);
+        for (        TSpanEvent _iter15 : struct.spanEventList) {
+          _iter15.write(oprot);
         }
         oprot.writeListEnd();
       }
@@ -115,6 +119,16 @@
       oprot.writeString(struct.acceptorHost);
       oprot.writeFieldEnd();
     }
+  }
+  if (struct.isSetApiId()) {
+    oprot.writeFieldBegin(API_ID_FIELD_DESC);
+    oprot.writeI32(struct.apiId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetExceptionId()) {
+    oprot.writeFieldBegin(EXCEPTION_ID_FIELD_DESC);
+    oprot.writeI32(struct.exceptionId);
+    oprot.writeFieldEnd();
   }
   oprot.writeFieldStop();
   oprot.writeStructEnd();

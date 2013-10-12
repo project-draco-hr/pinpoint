@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(18);
+  BitSet incoming=iprot.readBitSet(19);
   if (incoming.get(0)) {
     struct.agentKey=new TAgentKey();
     struct.agentKey.read(iprot);
@@ -56,13 +56,13 @@
   }
   if (incoming.get(13)) {
 {
-      org.apache.thrift.protocol.TList _list10=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
-      struct.annotations=new ArrayList<TAnnotation>(_list10.size);
-      for (int _i11=0; _i11 < _list10.size; ++_i11) {
-        TAnnotation _elem12;
-        _elem12=new TAnnotation();
-        _elem12.read(iprot);
-        struct.annotations.add(_elem12);
+      org.apache.thrift.protocol.TList _list5=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<TAnnotation>(_list5.size);
+      for (int _i6=0; _i6 < _list5.size; ++_i6) {
+        TAnnotation _elem7;
+        _elem7=new TAnnotation();
+        _elem7.read(iprot);
+        struct.annotations.add(_elem7);
       }
     }
     struct.setAnnotationsIsSet(true);
@@ -80,15 +80,11 @@
     struct.setDestinationIdIsSet(true);
   }
   if (incoming.get(17)) {
-{
-      org.apache.thrift.protocol.TList _list13=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
-      struct.destinationAddress=new ArrayList<String>(_list13.size);
-      for (int _i14=0; _i14 < _list13.size; ++_i14) {
-        String _elem15;
-        _elem15=iprot.readString();
-        struct.destinationAddress.add(_elem15);
-      }
-    }
-    struct.setDestinationAddressIsSet(true);
+    struct.apiId=iprot.readI32();
+    struct.setApiIdIsSet(true);
+  }
+  if (incoming.get(18)) {
+    struct.exceptionId=iprot.readI32();
+    struct.setExceptionIdIsSet(true);
   }
 }

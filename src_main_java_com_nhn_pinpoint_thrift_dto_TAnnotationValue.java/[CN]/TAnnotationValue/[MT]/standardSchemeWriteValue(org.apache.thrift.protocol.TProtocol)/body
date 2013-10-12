@@ -32,6 +32,10 @@ case BYTE_VALUE:
 Byte byteValue=(Byte)value_;
 oprot.writeByte(byteValue);
 return;
+case SQL_VALUE:
+TSqlValue sqlValue=(TSqlValue)value_;
+sqlValue.write(oprot);
+return;
 default :
 throw new IllegalStateException("Cannot write union with unknown field " + setField_);
 }

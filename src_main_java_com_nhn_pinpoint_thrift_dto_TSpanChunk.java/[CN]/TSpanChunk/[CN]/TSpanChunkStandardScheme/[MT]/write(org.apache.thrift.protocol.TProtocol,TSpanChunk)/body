@@ -18,9 +18,11 @@
   oprot.writeI16(struct.serviceType);
   oprot.writeFieldEnd();
   if (struct.traceAgentId != null) {
-    oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
-    oprot.writeString(struct.traceAgentId);
-    oprot.writeFieldEnd();
+    if (struct.isSetTraceAgentId()) {
+      oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
+      oprot.writeString(struct.traceAgentId);
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldBegin(TRACE_AGENT_START_TIME_FIELD_DESC);
   oprot.writeI64(struct.traceAgentStartTime);
@@ -42,8 +44,8 @@
     oprot.writeFieldBegin(SPAN_EVENT_LIST_FIELD_DESC);
 {
       oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.spanEventList.size()));
-      for (      TSpanEvent _iter35 : struct.spanEventList) {
-        _iter35.write(oprot);
+      for (      TSpanEvent _iter27 : struct.spanEventList) {
+        _iter27.write(oprot);
       }
       oprot.writeListEnd();
     }

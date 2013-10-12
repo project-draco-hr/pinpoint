@@ -52,10 +52,13 @@
   if (struct.isSetDestinationId()) {
     optionals.set(16);
   }
-  if (struct.isSetDestinationAddress()) {
+  if (struct.isSetApiId()) {
     optionals.set(17);
   }
-  oprot.writeBitSet(optionals,18);
+  if (struct.isSetExceptionId()) {
+    optionals.set(18);
+  }
+  oprot.writeBitSet(optionals,19);
   if (struct.isSetAgentKey()) {
     struct.agentKey.write(oprot);
   }
@@ -98,8 +101,8 @@
   if (struct.isSetAnnotations()) {
 {
       oprot.writeI32(struct.annotations.size());
-      for (      TAnnotation _iter8 : struct.annotations) {
-        _iter8.write(oprot);
+      for (      TAnnotation _iter4 : struct.annotations) {
+        _iter4.write(oprot);
       }
     }
   }
@@ -112,12 +115,10 @@
   if (struct.isSetDestinationId()) {
     oprot.writeString(struct.destinationId);
   }
-  if (struct.isSetDestinationAddress()) {
-{
-      oprot.writeI32(struct.destinationAddress.size());
-      for (      String _iter9 : struct.destinationAddress) {
-        oprot.writeString(_iter9);
-      }
-    }
+  if (struct.isSetApiId()) {
+    oprot.writeI32(struct.apiId);
+  }
+  if (struct.isSetExceptionId()) {
+    oprot.writeI32(struct.exceptionId);
   }
 }

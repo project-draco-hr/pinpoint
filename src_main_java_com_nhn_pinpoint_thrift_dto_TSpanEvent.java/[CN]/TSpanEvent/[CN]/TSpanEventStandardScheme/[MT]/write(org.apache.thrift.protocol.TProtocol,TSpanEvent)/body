@@ -57,15 +57,17 @@
     }
   }
   if (struct.annotations != null) {
-    oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
+    if (struct.isSetAnnotations()) {
+      oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
 {
-      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
-      for (      TAnnotation _iter6 : struct.annotations) {
-        _iter6.write(oprot);
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.annotations.size()));
+        for (        TAnnotation _iter3 : struct.annotations) {
+          _iter3.write(oprot);
+        }
+        oprot.writeListEnd();
       }
-      oprot.writeListEnd();
+      oprot.writeFieldEnd();
     }
-    oprot.writeFieldEnd();
   }
   if (struct.isSetDepth()) {
     oprot.writeFieldBegin(DEPTH_FIELD_DESC);
@@ -96,18 +98,15 @@
       oprot.writeFieldEnd();
     }
   }
-  if (struct.destinationAddress != null) {
-    if (struct.isSetDestinationAddress()) {
-      oprot.writeFieldBegin(DESTINATION_ADDRESS_FIELD_DESC);
-{
-        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.destinationAddress.size()));
-        for (        String _iter7 : struct.destinationAddress) {
-          oprot.writeString(_iter7);
-        }
-        oprot.writeListEnd();
-      }
-      oprot.writeFieldEnd();
-    }
+  if (struct.isSetApiId()) {
+    oprot.writeFieldBegin(API_ID_FIELD_DESC);
+    oprot.writeI32(struct.apiId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetExceptionId()) {
+    oprot.writeFieldBegin(EXCEPTION_ID_FIELD_DESC);
+    oprot.writeI32(struct.exceptionId);
+    oprot.writeFieldEnd();
   }
   oprot.writeFieldStop();
   oprot.writeStructEnd();

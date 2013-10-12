@@ -40,6 +40,11 @@ if (value instanceof Byte) {
 break;
 }
 throw new ClassCastException("Was expecting value of type Byte for field 'byteValue', but got " + value.getClass().getSimpleName());
+case SQL_VALUE:
+if (value instanceof TSqlValue) {
+break;
+}
+throw new ClassCastException("Was expecting value of type TSqlValue for field 'sqlValue', but got " + value.getClass().getSimpleName());
 default :
 throw new IllegalArgumentException("Unknown field id " + setField);
 }
