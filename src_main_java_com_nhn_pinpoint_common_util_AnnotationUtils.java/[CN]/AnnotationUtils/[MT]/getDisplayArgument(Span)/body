@@ -1,5 +1,8 @@
 {
   List<AnnotationBo> list=span.getAnnotationBoList();
+  if (list == null) {
+    return null;
+  }
   final ServiceType serviceType=span.getServiceType();
   if (serviceType == ServiceType.ARCUS || serviceType == ServiceType.MEMCACHED) {
     return findArgsAnnotationBo(list);

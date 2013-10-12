@@ -11,6 +11,7 @@
   this.serviceType=ServiceType.findServiceType(buffer.readShort());
   this.endPoint=buffer.read1UnsignedPrefixedString();
   this.remoteAddr=buffer.read1UnsignedPrefixedString();
+  this.apiId=buffer.readSVarInt();
   this.exception=buffer.readSVarInt();
   if (buffer.limit() == 2) {
     this.flag=buffer.readShort();

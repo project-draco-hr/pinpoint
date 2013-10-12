@@ -3,6 +3,9 @@
   this.applicationId=span.getApplicationName();
   this.agentStartTime=span.getAgentStartTime();
   this.traceAgentId=span.getTraceAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
   this.traceAgentStartTime=span.getTraceAgentStartTime();
   this.traceTransactionSequence=span.getTraceTransactionSequence();
   this.spanId=span.getSpanId();
@@ -13,6 +16,7 @@
   this.serviceType=ServiceType.findServiceType(span.getServiceType());
   this.endPoint=span.getEndPoint();
   this.flag=span.getFlag();
+  this.apiId=span.getApiId();
   this.exception=span.getErr();
   this.remoteAddr=span.getRemoteAddr();
   setAnnotationList(span.getAnnotations());
