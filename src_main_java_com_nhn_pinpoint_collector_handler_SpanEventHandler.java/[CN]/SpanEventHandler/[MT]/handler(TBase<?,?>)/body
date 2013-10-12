@@ -7,6 +7,10 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received SpanEvent={}",spanEvent);
     }
+    String traceAgentId=spanEvent.getTraceAgentId();
+    if (traceAgentId == null) {
+      spanEvent.setTraceAgentId(spanEvent.getAgentKey().getAgentId());
+    }
     traceDao.insertEvent(spanEvent);
     ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
     if (!serviceType.isRecordStatistics()) {
