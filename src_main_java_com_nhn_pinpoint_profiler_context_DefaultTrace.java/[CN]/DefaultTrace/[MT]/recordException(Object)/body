@@ -3,6 +3,7 @@
     Throwable th=(Throwable)result;
     String drop=StringUtils.drop(th.getMessage(),256);
     recordAttribute(AnnotationKey.EXCEPTION,drop);
+    recordAttribute(AnnotationKey.EXCEPTION_CLASS,th.getClass().getName());
     Span span=getCallStack().getSpan();
     if (span.getException() == 0) {
       span.setException(1);

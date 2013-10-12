@@ -3,7 +3,10 @@
   this.setAgentKey(tAgentKey);
   this.setParentServiceType(span.getServiceType());
   this.setParentEndPoint(span.getEndPoint());
-  this.setTraceAgentId(span.getTraceAgentId());
+  final String traceAgentId=span.getTraceAgentId();
+  if (!tAgentKey.getAgentId().equals(traceAgentId)) {
+    this.setTraceAgentId(traceAgentId);
+  }
   this.setTraceAgentStartTime(span.getTraceAgentStartTime());
   this.setTraceTransactionSequence(span.getTraceTransactionSequence());
   this.setSpanId(span.getSpanId());
