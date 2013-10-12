@@ -1,12 +1,14 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      AnnotationBo apiIdAnnotation=findAnnotation(annotationBoList,AnnotationKey.API_DID.getCode());
-      if (apiIdAnnotation == null) {
-        return;
-      }
       final AgentKey key=getAgentKey(spanAlign);
-      final int apiId=(Integer)apiIdAnnotation.getValue();
+      int apiId;
+      if (spanAlign.isSpan()) {
+        apiId=spanAlign.getSpanBo().getApiId();
+      }
+ else {
+        apiId=spanAlign.getSpanEventBo().getApiId();
+      }
       List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),apiId,key.getAgentStartTime());
       int size=apiMetaDataList.size();
       if (size == 0) {
