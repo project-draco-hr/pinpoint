@@ -1,0 +1,16 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(ID_FIELD_DESC);
+  oprot.writeI32(struct.id);
+  oprot.writeFieldEnd();
+  if (struct.exceptionMessage != null) {
+    if (struct.isSetExceptionMessage()) {
+      oprot.writeFieldBegin(EXCEPTION_MESSAGE_FIELD_DESC);
+      oprot.writeString(struct.exceptionMessage);
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
