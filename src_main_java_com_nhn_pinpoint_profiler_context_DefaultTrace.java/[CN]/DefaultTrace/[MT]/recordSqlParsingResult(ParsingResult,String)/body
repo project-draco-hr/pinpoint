@@ -1,0 +1,15 @@
+{
+  if (parsingResult == null) {
+    return;
+  }
+  final String sql=parsingResult.getSql();
+  final TIntStringStringValue tSqlValue=new TIntStringStringValue(sql.hashCode());
+  final String output=parsingResult.getOutput();
+  if (isNotEmpty(output)) {
+    tSqlValue.setStringValue1(output);
+  }
+  if (isNotEmpty(bindValue)) {
+    tSqlValue.setStringValue2(bindValue);
+  }
+  recordSqlParam(tSqlValue);
+}

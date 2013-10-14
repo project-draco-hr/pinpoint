@@ -5,7 +5,7 @@
     recordAttribute(AnnotationKey.EXCEPTION,drop);
     recordAttribute(AnnotationKey.EXCEPTION_CLASS,th.getClass().getName());
     final Span span=getCallStack().getSpan();
-    if (span.getErrCode() == 0) {
+    if (!span.isSetErrCode()) {
       span.setErrCode(1);
     }
   }

@@ -16,17 +16,14 @@
     trace.recordServiceType(databaseInfo.getExecuteQueryType());
     trace.recordEndPoint(databaseInfo.getMultipleHost());
     trace.recordDestinationId(databaseInfo.getDatabaseId());
-    ParsingResult parsingResult=(ParsingResult)getSql.invoke(target);
-    trace.recordSqlParsingResult(parsingResult);
+    final ParsingResult parsingResult=(ParsingResult)getSql.invoke(target);
     Map<Integer,String> bindValue=getBindValue.invoke(target);
     if (bindValue != null) {
       String bindString=toBindVariable(bindValue);
-      if (bindString != null && bindString.length() != 0) {
-        trace.recordAttribute(AnnotationKey.SQL_BINDVALUE,bindString);
-      }
+      trace.recordSqlParsingResult(parsingResult,bindString);
     }
  else {
-      logger.warn("bindValue not found.");
+      trace.recordSqlParsingResult(parsingResult);
     }
     trace.recordApi(descriptor);
     clean(target);
