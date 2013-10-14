@@ -25,8 +25,10 @@ return null;
 case CODE_TOSTRING:
 final String str=o.toString();
 return encodeString(str);
-case CODE_TINTSTRINGVALUE:
-return encodeTIntStringValue(o);
+case CODE_INT_STRING:
+return encodeIntStringValue(o);
+case CODE_INT_STRING_STRING:
+return encodeIntStringStringValue(o);
 }
 throw new IllegalArgumentException("unsupported DataType:" + typeCode + " data:"+ o);
 }

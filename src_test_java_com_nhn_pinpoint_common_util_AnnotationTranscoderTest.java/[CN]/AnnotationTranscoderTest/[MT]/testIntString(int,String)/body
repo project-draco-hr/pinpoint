@@ -1,0 +1,14 @@
+{
+  AnnotationTranscoder transcoder=new AnnotationTranscoder();
+  TIntStringValue tIntStringValue=new TIntStringValue(intValue);
+  tIntStringValue.setStringValue(stringValue);
+  byte[] encode=transcoder.encode(tIntStringValue,AnnotationTranscoder.CODE_INT_STRING);
+  IntStringValue decode=(IntStringValue)transcoder.decode(AnnotationTranscoder.CODE_INT_STRING,encode);
+  Assert.assertEquals(tIntStringValue.getIntValue(),decode.getIntValue());
+  if (stringValue != null) {
+    Assert.assertEquals(tIntStringValue.getStringValue(),decode.getStringValue());
+  }
+ else {
+    Assert.assertEquals("",decode.getStringValue());
+  }
+}
