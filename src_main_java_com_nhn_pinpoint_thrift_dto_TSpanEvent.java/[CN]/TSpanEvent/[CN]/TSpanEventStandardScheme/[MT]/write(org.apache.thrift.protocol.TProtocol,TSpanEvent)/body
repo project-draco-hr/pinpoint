@@ -103,10 +103,12 @@
     oprot.writeI32(struct.apiId);
     oprot.writeFieldEnd();
   }
-  if (struct.isSetExceptionId()) {
-    oprot.writeFieldBegin(EXCEPTION_ID_FIELD_DESC);
-    oprot.writeI32(struct.exceptionId);
-    oprot.writeFieldEnd();
+  if (struct.exceptionInfo != null) {
+    if (struct.isSetExceptionInfo()) {
+      oprot.writeFieldBegin(EXCEPTION_INFO_FIELD_DESC);
+      struct.exceptionInfo.write(oprot);
+      oprot.writeFieldEnd();
+    }
   }
   oprot.writeFieldStop();
   oprot.writeStructEnd();
