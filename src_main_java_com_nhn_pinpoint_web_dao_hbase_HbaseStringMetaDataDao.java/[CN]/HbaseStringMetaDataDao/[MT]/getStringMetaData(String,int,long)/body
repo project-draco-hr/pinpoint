@@ -1,0 +1,7 @@
+{
+  StringMetaDataBo stringMetaData=new StringMetaDataBo(agentId,stringId,time);
+  byte[] rowKey=stringMetaData.toRowKey();
+  Get get=new Get(rowKey);
+  get.addFamily(HBaseTables.STRING_METADATA_CF_STR);
+  return hbaseOperations2.get(HBaseTables.STRING_METADATA,get,stringMetaDataMapper);
+}
