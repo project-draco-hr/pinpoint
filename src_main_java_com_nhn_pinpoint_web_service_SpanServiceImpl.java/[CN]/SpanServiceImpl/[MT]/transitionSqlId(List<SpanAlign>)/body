@@ -6,8 +6,10 @@
         return;
       }
       final AgentKey agentKey=getAgentKey(spanAlign);
-      int hashCode=(Integer)sqlIdAnnotation.getValue();
-      List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),hashCode,agentKey.getAgentStartTime());
+      final IntStringStringValue sqlValue=(IntStringStringValue)sqlIdAnnotation.getValue();
+      final int hashCode=sqlValue.getIntValue();
+      final String sqlParam=sqlValue.getStringValue1();
+      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),hashCode,agentKey.getAgentStartTime());
       int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
@@ -16,9 +18,8 @@
         annotationBoList.add(api);
       }
  else       if (size == 1) {
-        AnnotationBo sqlParamAnnotationBo=findAnnotation(annotationBoList,AnnotationKey.SQL_PARAM.getCode());
         final SqlMetaDataBo sqlMetaDataBo=sqlMetaDataList.get(0);
-        if (sqlParamAnnotationBo == null) {
+        if (StringUtils.isEmpty(sqlParam)) {
           AnnotationBo sqlMeta=new AnnotationBo();
           sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
           sqlMeta.setValue(sqlMetaDataBo.getSql());
@@ -30,7 +31,7 @@
         }
  else {
           logger.debug("sqlMetaDataBo:{}",sqlMetaDataBo);
-          String outputParams=(String)sqlParamAnnotationBo.getValue();
+          String outputParams=sqlParam;
           List<String> parsedOutputParams=outputParameterParser.parseOutputParameter(outputParams);
           logger.debug("outputPrams:{}, parsedOutputPrams:{}",outputParams,parsedOutputParams);
           String originalSql=sqlParser.combineOutputParams(sqlMetaDataBo.getSql(),parsedOutputParams);
@@ -50,6 +51,13 @@
         api.setKey(AnnotationKey.SQL.getCode());
         api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
         annotationBoList.add(api);
+      }
+      final String bindValue=sqlValue.getStringValue2();
+      if (StringUtils.isNotEmpty(bindValue)) {
+        AnnotationBo bindValueAnnotation=new AnnotationBo();
+        bindValueAnnotation.setKey(AnnotationKey.SQL_BINDVALUE.getCode());
+        bindValueAnnotation.setValue(bindValue);
+        annotationBoList.add(bindValueAnnotation);
       }
     }
   }
