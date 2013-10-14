@@ -1,12 +1,12 @@
 {
   if (result instanceof Throwable) {
-    Throwable th=(Throwable)result;
-    String drop=StringUtils.drop(th.getMessage(),256);
+    final Throwable th=(Throwable)result;
+    final String drop=StringUtils.drop(th.getMessage(),256);
     recordAttribute(AnnotationKey.EXCEPTION,drop);
     recordAttribute(AnnotationKey.EXCEPTION_CLASS,th.getClass().getName());
-    Span span=getCallStack().getSpan();
-    if (span.getException() == 0) {
-      span.setException(1);
+    final Span span=getCallStack().getSpan();
+    if (span.getErrCode() == 0) {
+      span.setErrCode(1);
     }
   }
 }
