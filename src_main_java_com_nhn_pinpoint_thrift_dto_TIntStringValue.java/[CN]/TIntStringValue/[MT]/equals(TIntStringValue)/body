@@ -1,0 +1,16 @@
+{
+  if (that == null)   return false;
+  boolean this_present_intValue=true;
+  boolean that_present_intValue=true;
+  if (this_present_intValue || that_present_intValue) {
+    if (!(this_present_intValue && that_present_intValue))     return false;
+    if (this.intValue != that.intValue)     return false;
+  }
+  boolean this_present_stringValue=true && this.isSetStringValue();
+  boolean that_present_stringValue=true && that.isSetStringValue();
+  if (this_present_stringValue || that_present_stringValue) {
+    if (!(this_present_stringValue && that_present_stringValue))     return false;
+    if (!this.stringValue.equals(that.stringValue))     return false;
+  }
+  return true;
+}
