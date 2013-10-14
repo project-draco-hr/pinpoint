@@ -1,0 +1,20 @@
+{
+  if (!(tbase instanceof TStringMetaData)) {
+    logger.error("invalid tbase:{}",tbase);
+    return null;
+  }
+  TStringMetaData stringMetaData=(TStringMetaData)tbase;
+  if (logger.isInfoEnabled()) {
+    logger.info("Received StringMetaData={}",stringMetaData);
+  }
+  try {
+    stringMetaDataDao.insert(stringMetaData);
+  }
+ catch (  Exception e) {
+    logger.warn("{} handler error. Caused:{}",this.getClass(),e.getMessage(),e);
+    TResult result=new TResult(false);
+    result.setMessage(e.getMessage());
+    return result;
+  }
+  return new TResult(true);
+}
