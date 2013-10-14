@@ -1,0 +1,6 @@
+{
+  final Buffer buffer=new FixedBuffer(data);
+  final int intValue=buffer.readSVarInt();
+  final String stringValue=BytesUtils.toString(buffer.readPrefixedBytes());
+  return new IntStringValue(intValue,stringValue);
+}

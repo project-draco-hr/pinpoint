@@ -1,0 +1,15 @@
+{
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
+  }
+  while (true) {
+    if ((value & ~0x7F) == 0) {
+      buf[offset++]=(byte)value;
+      return offset;
+    }
+ else {
+      buf[offset++]=(byte)((value & 0x7F) | 0x80);
+      value>>>=7;
+    }
+  }
+}

@@ -23,8 +23,10 @@ return (byte[])o;
 case CODE_NULL:
 return null;
 case CODE_TOSTRING:
-String str=o.toString();
+final String str=o.toString();
 return encodeString(str);
+case CODE_TINTSTRINGVALUE:
+return encodeTIntStringValue(o);
 }
-throw new RuntimeException("unsupported DataType:" + typeCode + " data:"+ o);
+throw new IllegalArgumentException("unsupported DataType:" + typeCode + " data:"+ o);
 }

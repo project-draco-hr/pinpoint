@@ -6,5 +6,6 @@
     throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 2));
   }
   buf[offset++]=(byte)(value >> 8);
-  buf[offset]=(byte)(value);
+  buf[offset++]=(byte)(value);
+  return offset;
 }

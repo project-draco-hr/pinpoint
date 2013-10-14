@@ -24,6 +24,8 @@ case CODE_NULL:
 return null;
 case CODE_TOSTRING:
 return decodeString(data);
+case CODE_TINTSTRINGVALUE:
+return decodeTIntStringValue(data);
 }
-throw new RuntimeException("unsupported DataType:" + dataType);
+throw new IllegalArgumentException("unsupported DataType:" + dataType);
 }
