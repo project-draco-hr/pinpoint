@@ -1,0 +1,14 @@
+{
+  String value=prop.getProperty(propertyName).toUpperCase();
+  DumpType result;
+  try {
+    result=DumpType.valueOf(value);
+  }
+ catch (  IllegalArgumentException e) {
+    result=defaultDump;
+  }
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info(propertyName + "=" + result);
+  }
+  return result;
+}
