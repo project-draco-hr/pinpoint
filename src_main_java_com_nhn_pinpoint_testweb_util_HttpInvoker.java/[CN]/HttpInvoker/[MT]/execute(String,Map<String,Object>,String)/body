@@ -2,20 +2,21 @@
   if (null == uri) {
     return null;
   }
-  String responseBody=null;
   HttpClient httpClient=null;
   try {
     HttpPost post=new HttpPost(uri);
+    if (cookie != null) {
+      post.setHeader("Cookie",cookie);
+    }
     post.setEntity(getEntity(paramMap));
     post.setParams(getHttpParams());
     post.addHeader("Content-Type","application/json;charset=UTF-8");
     ResponseHandler<String> responseHandler=new BasicResponseHandler();
     httpClient=getHttpClient(getHttpParams());
-    responseBody=httpClient.execute(post,responseHandler);
-    return responseBody;
+    return httpClient.execute(post,responseHandler);
   }
  catch (  Exception e) {
-    e.printStackTrace();
+    logger.warn("HttpClient.execute() error. Caused:{}",e.getMessage(),e);
     return e.getMessage();
   }
  finally {
