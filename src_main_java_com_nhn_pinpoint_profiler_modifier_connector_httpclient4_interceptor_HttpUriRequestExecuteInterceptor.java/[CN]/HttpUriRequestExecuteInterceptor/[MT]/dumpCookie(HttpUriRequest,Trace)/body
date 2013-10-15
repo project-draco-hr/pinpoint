@@ -1,0 +1,7 @@
+{
+  org.apache.http.Header[] cookies=request.getHeaders("Cookie");
+  for (  org.apache.http.Header header : cookies) {
+    trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(header.getValue(),1024));
+    break;
+  }
+}

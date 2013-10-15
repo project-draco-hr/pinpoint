@@ -1,0 +1,37 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  final HttpRequest request=(HttpRequest)args[1];
+  final boolean sampling=trace.canSampled();
+  if (!sampling) {
+    if (isDebug) {
+      logger.debug("set Sampling flag=false");
+    }
+    if (request != null) {
+      request.addHeader(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+    }
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  final HttpHost host=(HttpHost)args[0];
+  if (request != null) {
+    request.addHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    request.addHeader(Header.HTTP_SPAN_ID.toString(),Integer.toString(nextId.getSpanId()));
+    request.addHeader(Header.HTTP_PARENT_SPAN_ID.toString(),Integer.toString(nextId.getParentSpanId()));
+    request.addHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    request.addHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    request.addHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+  }
+  trace.recordServiceType(ServiceType.HTTP_CLIENT);
+  int port=host.getPort();
+  String endpoint=getEndpoint(host.getHostName(),port);
+  trace.recordDestinationId(endpoint);
+}

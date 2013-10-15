@@ -1,0 +1,38 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final HttpRequest request=(HttpRequest)args[1];
+    if (request != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_URL,request.getRequestLine().getUri());
+      final boolean isException=InterceptorUtils.isThrowable(result);
+      if (cookie) {
+        if (DumpType.ALWAYS == cookieDumpType) {
+          dumpCookie(request,trace);
+        }
+ else         if (DumpType.EXCEPTION == cookieDumpType && isException) {
+          dumpCookie(request,trace);
+        }
+      }
+      if (entity) {
+        if (DumpType.ALWAYS == entityDumpType) {
+          dumpEntity(request,trace);
+        }
+ else         if (DumpType.EXCEPTION == entityDumpType && isException) {
+          dumpEntity(request,trace);
+        }
+      }
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
