@@ -12,7 +12,7 @@
   }
   try {
     HttpServletRequest request=(HttpServletRequest)args[0];
-    String parameters=getRequestParameter(request);
+    String parameters=getRequestParameter(request,64,512);
     if (parameters != null && parameters.length() > 0) {
       trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
     }
