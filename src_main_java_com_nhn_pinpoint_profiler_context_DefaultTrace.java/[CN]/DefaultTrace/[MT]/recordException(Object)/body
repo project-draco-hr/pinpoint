@@ -2,8 +2,8 @@
   if (result instanceof Throwable) {
     final Throwable th=(Throwable)result;
     final String drop=StringUtils.drop(th.getMessage(),256);
-    recordAttribute(AnnotationKey.EXCEPTION,drop);
-    recordAttribute(AnnotationKey.EXCEPTION_CLASS,th.getClass().getName());
+    final int exceptionId=traceContext.cacheString(th.getClass().getName());
+    this.currentStackFrame.setExceptionInfo(exceptionId,drop);
     final Span span=getCallStack().getSpan();
     if (!span.isSetErrCode()) {
       span.setErrCode(1);

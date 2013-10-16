@@ -9,7 +9,7 @@
   }
   try {
     trace.recordApi(methodDescriptor);
-    Operation op=(Operation)getOperation.invoke(target);
+    final Operation op=(Operation)getOperation.invoke(target);
     if (op != null) {
       MemcachedNode handlingNode=op.getHandlingNode();
       SocketAddress socketAddress=handlingNode.getSocketAddress();
@@ -30,9 +30,8 @@
       trace.recordDestinationId("MEMCACHED");
       trace.recordServiceType(ServiceType.MEMCACHED_FUTURE_GET);
     }
-    trace.recordException(op.getException());
-    if (op.isCancelled()) {
-      trace.recordAttribute(AnnotationKey.EXCEPTION,"cancelled by user");
+    if (op != null) {
+      trace.recordException(op.getException());
     }
     trace.markAfterTime();
   }
