@@ -1,0 +1,13 @@
+{
+  final CtClass superClass=clazz.getSuperclass();
+  if (superClass == null) {
+    return;
+  }
+  final int modifiers=superClass.getModifiers();
+  if (Modifier.isAbstract(modifiers)) {
+    if (isInfo) {
+      logger.info("defineAbstractSuperClass class:{} cl:{}",superClass.getName(),classLoader);
+    }
+    superClass.toClass(classLoader,protectedDomain);
+  }
+}

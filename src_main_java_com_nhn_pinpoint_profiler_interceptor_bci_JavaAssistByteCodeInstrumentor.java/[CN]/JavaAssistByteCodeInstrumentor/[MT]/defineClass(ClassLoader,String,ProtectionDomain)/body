@@ -3,13 +3,16 @@
     logger.info("defineClass class:{}, cl:{}",defineClass,classLoader);
   }
   try {
-    if (this.classLoadChecker.exist(classLoader,defineClass)) {
-      return classLoader.loadClass(defineClass);
-    }
+synchronized (classLoader) {
+      if (this.classLoadChecker.exist(classLoader,defineClass)) {
+        return classLoader.loadClass(defineClass);
+      }
  else {
-      CtClass clazz=childClassPool.get(defineClass);
-      defineNestedClass(clazz,classLoader,protectedDomain);
-      return clazz.toClass(classLoader,protectedDomain);
+        final CtClass clazz=childClassPool.get(defineClass);
+        defineAbstractSuperClass(clazz,classLoader,protectedDomain);
+        defineNestedClass(clazz,classLoader,protectedDomain);
+        return clazz.toClass(classLoader,protectedDomain);
+      }
     }
   }
  catch (  NotFoundException e) {
