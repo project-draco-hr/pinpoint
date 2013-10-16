@@ -1,0 +1,9 @@
+{
+  if (!sampling || samplingRate <= 0) {
+    return FALSE_SAMPLER;
+  }
+  if (samplingRate == 1) {
+    return TRUE_SAMPLER;
+  }
+  return new SamplingRateSampler(samplingRate);
+}
