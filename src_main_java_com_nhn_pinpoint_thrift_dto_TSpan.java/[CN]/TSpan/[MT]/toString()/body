@@ -166,10 +166,15 @@
     sb.append(this.apiId);
     first=false;
   }
-  if (isSetExceptionId()) {
+  if (isSetExceptionInfo()) {
     if (!first)     sb.append(", ");
-    sb.append("exceptionId:");
-    sb.append(this.exceptionId);
+    sb.append("exceptionInfo:");
+    if (this.exceptionInfo == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.exceptionInfo);
+    }
     first=false;
   }
   sb.append(")");

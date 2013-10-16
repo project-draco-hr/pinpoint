@@ -226,9 +226,10 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 26:
-if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-struct.exceptionId=iprot.readI32();
-struct.setExceptionIdIsSet(true);
+if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+struct.exceptionInfo=new TIntStringValue();
+struct.exceptionInfo.read(iprot);
+struct.setExceptionInfoIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
