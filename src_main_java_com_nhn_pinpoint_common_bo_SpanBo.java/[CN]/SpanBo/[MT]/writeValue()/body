@@ -4,7 +4,7 @@
   byte[] applicationIdBytes=BytesUtils.getBytes(applicationId);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   byte[] remoteAddrBytes=BytesUtils.getBytes(remoteAddr);
-  Buffer buffer=new AutomaticBuffer(256);
+  final Buffer buffer=new AutomaticBuffer(256);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
   buffer.putVar(agentStartTime);
@@ -18,6 +18,14 @@
   buffer.put1PrefixedBytes(remoteAddrBytes);
   buffer.putSVar(apiId);
   buffer.putSVar(errCode);
+  if (hasException) {
+    buffer.put(true);
+    buffer.putSVar(exceptionId);
+    buffer.putPrefixedString(exceptionMessage);
+  }
+ else {
+    buffer.put(false);
+  }
   if (flag != 0) {
     buffer.put(flag);
   }

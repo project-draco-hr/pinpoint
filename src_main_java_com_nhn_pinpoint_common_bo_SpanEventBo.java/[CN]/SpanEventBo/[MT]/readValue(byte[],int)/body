@@ -1,5 +1,5 @@
 {
-  Buffer buffer=new FixedBuffer(bytes,offset);
+  final Buffer buffer=new FixedBuffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.read1PrefixedString();
   this.applicationId=buffer.read1UnsignedPrefixedString();
@@ -13,6 +13,11 @@
   this.apiId=buffer.readSVarInt();
   this.depth=buffer.readSVarInt();
   this.nextSpanId=buffer.readInt();
+  this.hasException=buffer.readBoolean();
+  if (hasException) {
+    this.exceptionId=buffer.readSVarInt();
+    this.exceptionMessage=buffer.readPrefixedString();
+  }
   this.annotationBoList=readAnnotation(buffer);
   return buffer.getOffset();
 }

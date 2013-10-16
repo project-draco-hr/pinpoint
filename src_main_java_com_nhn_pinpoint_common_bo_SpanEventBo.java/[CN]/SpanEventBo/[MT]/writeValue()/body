@@ -4,7 +4,7 @@
   byte[] rpcBytes=BytesUtils.getBytes(rpc);
   byte[] endPointBytes=BytesUtils.getBytes(endPoint);
   byte[] destinationIdBytes=BytesUtils.getBytes(this.destinationId);
-  Buffer buffer=new AutomaticBuffer(512);
+  final Buffer buffer=new AutomaticBuffer(512);
   buffer.put(version);
   buffer.put1PrefixedBytes(agentIDBytes);
   buffer.put1PrefixedBytes(applicationIdBytes);
@@ -18,6 +18,14 @@
   buffer.putSVar(apiId);
   buffer.putSVar(depth);
   buffer.put(nextSpanId);
+  if (hasException) {
+    buffer.put(true);
+    buffer.putSVar(exceptionId);
+    buffer.putPrefixedString(exceptionMessage);
+  }
+ else {
+    buffer.put(false);
+  }
   writeAnnotation(buffer);
   return buffer.getBuffer();
 }

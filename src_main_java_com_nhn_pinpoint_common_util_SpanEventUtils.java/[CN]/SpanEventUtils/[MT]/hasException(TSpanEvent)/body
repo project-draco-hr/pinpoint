@@ -1,12 +1,6 @@
 {
-  final List<TAnnotation> annotations=spanEvent.getAnnotations();
-  if (annotations == null) {
-    return false;
-  }
-  for (  TAnnotation annotation : annotations) {
-    if (annotation.getKey() == AnnotationKey.EXCEPTION.getCode()) {
-      return true;
-    }
+  if (spanEvent.isSetExceptionInfo()) {
+    return true;
   }
   return false;
 }

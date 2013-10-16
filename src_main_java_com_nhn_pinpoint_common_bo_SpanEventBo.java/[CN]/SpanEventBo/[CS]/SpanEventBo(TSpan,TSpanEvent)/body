@@ -21,4 +21,10 @@
     this.nextSpanId=tSpanEvent.getNextSpanId();
   }
   setAnnotationBoList(tSpanEvent.getAnnotations());
+  final TIntStringValue exceptionInfo=tSpanEvent.getExceptionInfo();
+  if (exceptionInfo != null) {
+    this.hasException=true;
+    this.exceptionId=exceptionInfo.getIntValue();
+    this.exceptionMessage=exceptionInfo.getStringValue();
+  }
 }
