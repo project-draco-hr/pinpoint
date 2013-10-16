@@ -2,7 +2,7 @@
   if (uri == null) {
     return null;
   }
-  HttpHost target=null;
+  NameIntValuePair<String> target=null;
   if (uri.isAbsolute()) {
     int port=uri.getPort();
     String host=uri.getHost();
@@ -43,9 +43,8 @@
         }
       }
     }
-    String scheme=uri.getScheme();
     if (host != null) {
-      target=new HttpHost(host,port,scheme);
+      target=new NameIntValuePair<String>(host,port);
     }
   }
   return target;
