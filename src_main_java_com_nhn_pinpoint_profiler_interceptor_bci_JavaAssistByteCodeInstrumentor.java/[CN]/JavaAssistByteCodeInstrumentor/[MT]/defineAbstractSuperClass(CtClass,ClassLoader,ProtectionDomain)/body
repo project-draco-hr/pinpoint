@@ -5,6 +5,9 @@
   }
   final int modifiers=superClass.getModifiers();
   if (Modifier.isAbstract(modifiers)) {
+    if (this.classLoadChecker.exist(classLoader,superClass.getName())) {
+      return;
+    }
     if (isInfo) {
       logger.info("defineAbstractSuperClass class:{} cl:{}",superClass.getName(),classLoader);
     }
