@@ -1,0 +1,14 @@
+{
+  final List<StringMetaDataBo> metaDataList=stringMetaDataDao.getStringMetaData(agentId,cacheId,agentStartTime);
+  if (metaDataList == null || metaDataList.isEmpty()) {
+    logger.warn("StringMetaData not Found agent:{}, cacheId{}, agentStartTime:{}",agentId,cacheId,agentStartTime);
+    return null;
+  }
+  if (metaDataList.size() == 1) {
+    return metaDataList.get(0);
+  }
+ else {
+    logger.warn("stringMetaData size not 1 :{}",metaDataList);
+    return metaDataList.get(0);
+  }
+}

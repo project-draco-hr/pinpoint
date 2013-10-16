@@ -8,11 +8,11 @@
       }
       for (      AnnotationBo annotationBo : cachedStringAnnotation) {
         final int cachedArgsKey=annotationBo.getKey();
-        int stringMeataDataId=(Integer)annotationBo.getValue();
-        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(key.getAgentId(),stringMeataDataId,key.getAgentStartTime());
+        int stringMetaDataId=(Integer)annotationBo.getValue();
+        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(key.getAgentId(),stringMetaDataId,key.getAgentStartTime());
         int size=stringMetaList.size();
         if (size == 0) {
-          logger.warn("StringMetaData not Found {}/{}/{}",key.getAgentId(),stringMeataDataId,key.getAgentStartTime());
+          logger.warn("StringMetaData not Found {}/{}/{}",key.getAgentId(),stringMetaDataId,key.getAgentStartTime());
           AnnotationBo api=new AnnotationBo();
           api.setKey(AnnotationKey.ERROR_API_METADATA_NOT_FOUND.getCode());
           api.setValue("CACHED-STRING-ID not found. stringId:" + cachedArgsKey);

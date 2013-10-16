@@ -73,6 +73,10 @@
         record.setFullApiDescription("");
         recordList.add(record);
       }
+      final Record exceptionRecord=getExceptionRecord(spanAlign,spanBoSequence);
+      if (exceptionRecord != null) {
+        recordList.add(exceptionRecord);
+      }
       List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBoSequence,spanBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);
       if (spanBo.getRemoteAddr() != null) {
@@ -106,6 +110,10 @@
         record.setSimpleClassName("");
         record.setFullApiDescription(method);
         recordList.add(record);
+      }
+      final Record exceptionRecord=getExceptionRecord(spanAlign,spanBoEventSequence);
+      if (exceptionRecord != null) {
+        recordList.add(exceptionRecord);
       }
       List<Record> annotationRecord=createAnnotationRecord(spanAlign.getDepth() + 1,spanBoEventSequence,spanEventBo.getAnnotationBoList());
       recordList.addAll(annotationRecord);

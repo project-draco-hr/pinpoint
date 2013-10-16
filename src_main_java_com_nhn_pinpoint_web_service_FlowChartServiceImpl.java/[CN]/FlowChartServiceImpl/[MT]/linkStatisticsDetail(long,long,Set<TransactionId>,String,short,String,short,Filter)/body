@@ -17,17 +17,10 @@
       if (spanEventBoList == null) {
         continue;
       }
-      for (      SpanEventBo ev : spanEventBoList) {
-        if (destServiceType == ev.getServiceType().getCode() && destApplicationName.equals(ev.getDestinationId())) {
-          boolean hasException=false;
-          List<AnnotationBo> annList=ev.getAnnotationBoList();
-          for (          AnnotationBo ann : annList) {
-            if (ann.getKey() == AnnotationKey.EXCEPTION.getCode()) {
-              hasException=true;
-              break;
-            }
-          }
-          statistics.addSample(span.getStartTime() + ev.getStartElapsed(),ev.getEndElapsed(),1,hasException);
+      for (      SpanEventBo spanEventBo : spanEventBoList) {
+        if (destServiceType == spanEventBo.getServiceType().getCode() && destApplicationName.equals(spanEventBo.getDestinationId())) {
+          boolean hasException=spanEventBo.hasException();
+          statistics.addSample(span.getStartTime() + spanEventBo.getStartElapsed(),spanEventBo.getEndElapsed(),1,hasException);
           break;
         }
       }
