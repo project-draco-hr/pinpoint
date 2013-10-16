@@ -2,7 +2,7 @@
   if (request instanceof HttpEntityEnclosingRequestBase) {
     HttpEntityEnclosingRequestBase entityRequest=(HttpEntityEnclosingRequestBase)request;
     try {
-      HttpEntity entity=entityRequest.getEntity();
+      final HttpEntity entity=entityRequest.getEntity();
       if (entity != null && entity.isRepeatable() && entity.getContentLength() > 0) {
         String entityString=EntityUtils.toString(entityRequest.getEntity(),"UTF8");
         trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(entityString,1024));

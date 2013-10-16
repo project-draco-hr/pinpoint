@@ -1,7 +1,10 @@
 {
   org.apache.http.Header[] cookies=request.getHeaders("Cookie");
   for (  org.apache.http.Header header : cookies) {
-    trace.recordAttribute(AnnotationKey.HTTP_COOKIE,header.getValue());
+    final String value=header.getValue();
+    if (value != null && !value.isEmpty()) {
+      trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,1024));
+    }
     break;
   }
 }
