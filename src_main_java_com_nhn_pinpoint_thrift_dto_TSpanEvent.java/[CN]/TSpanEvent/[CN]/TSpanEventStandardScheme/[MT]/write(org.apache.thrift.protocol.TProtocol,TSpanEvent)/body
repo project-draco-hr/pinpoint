@@ -36,9 +36,11 @@
   oprot.writeFieldBegin(START_ELAPSED_FIELD_DESC);
   oprot.writeI32(struct.startElapsed);
   oprot.writeFieldEnd();
-  oprot.writeFieldBegin(END_ELAPSED_FIELD_DESC);
-  oprot.writeI32(struct.endElapsed);
-  oprot.writeFieldEnd();
+  if (struct.isSetEndElapsed()) {
+    oprot.writeFieldBegin(END_ELAPSED_FIELD_DESC);
+    oprot.writeI32(struct.endElapsed);
+    oprot.writeFieldEnd();
+  }
   if (struct.rpc != null) {
     if (struct.isSetRpc()) {
       oprot.writeFieldBegin(RPC_FIELD_DESC);

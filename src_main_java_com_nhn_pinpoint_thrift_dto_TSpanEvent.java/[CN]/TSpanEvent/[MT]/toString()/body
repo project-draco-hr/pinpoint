@@ -65,10 +65,12 @@
   sb.append("startElapsed:");
   sb.append(this.startElapsed);
   first=false;
-  if (!first)   sb.append(", ");
-  sb.append("endElapsed:");
-  sb.append(this.endElapsed);
-  first=false;
+  if (isSetEndElapsed()) {
+    if (!first)     sb.append(", ");
+    sb.append("endElapsed:");
+    sb.append(this.endElapsed);
+    first=false;
+  }
   if (isSetRpc()) {
     if (!first)     sb.append(", ");
     sb.append("rpc:");

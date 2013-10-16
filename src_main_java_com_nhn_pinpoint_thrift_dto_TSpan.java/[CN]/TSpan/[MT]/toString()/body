@@ -55,10 +55,12 @@
   sb.append("startTime:");
   sb.append(this.startTime);
   first=false;
-  if (!first)   sb.append(", ");
-  sb.append("elapsed:");
-  sb.append(this.elapsed);
-  first=false;
+  if (isSetElapsed()) {
+    if (!first)     sb.append(", ");
+    sb.append("elapsed:");
+    sb.append(this.elapsed);
+    first=false;
+  }
   if (isSetRpc()) {
     if (!first)     sb.append(", ");
     sb.append("rpc:");
