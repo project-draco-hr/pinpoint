@@ -3,7 +3,7 @@
     logger.debug("insert:{}",sqlMetaData);
   }
   SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo(sqlMetaData.getAgentId(),sqlMetaData.getAgentStartTime(),sqlMetaData.getHashCode());
-  byte[] rowKey=sqlMetaDataBo.toRowKey();
+  final byte[] rowKey=getDistributedKey(sqlMetaDataBo.toRowKey());
   Put put=new Put(rowKey);
   String sql=sqlMetaData.getSql();
   byte[] sqlBytes=Bytes.toBytes(sql);
