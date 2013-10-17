@@ -9,7 +9,7 @@
       final IntStringStringValue sqlValue=(IntStringStringValue)sqlIdAnnotation.getValue();
       final int hashCode=sqlValue.getIntValue();
       final String sqlParam=sqlValue.getStringValue1();
-      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),hashCode,agentKey.getAgentStartTime());
+      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),agentKey.getAgentStartTime(),hashCode);
       int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();

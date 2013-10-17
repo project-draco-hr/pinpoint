@@ -9,7 +9,7 @@
       for (      AnnotationBo annotationBo : cachedStringAnnotation) {
         final int cachedArgsKey=annotationBo.getKey();
         int stringMetaDataId=(Integer)annotationBo.getValue();
-        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(key.getAgentId(),stringMetaDataId,key.getAgentStartTime());
+        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(key.getAgentId(),key.getAgentStartTime(),stringMetaDataId);
         int size=stringMetaList.size();
         if (size == 0) {
           logger.warn("StringMetaData not Found {}/{}/{}",key.getAgentId(),stringMetaDataId,key.getAgentStartTime());

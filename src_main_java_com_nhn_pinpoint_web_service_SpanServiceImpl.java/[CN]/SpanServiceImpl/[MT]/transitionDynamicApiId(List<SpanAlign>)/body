@@ -3,7 +3,7 @@
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
       final AgentKey key=getAgentKey(spanAlign);
       final int apiId=getApiId(spanAlign);
-      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),apiId,key.getAgentStartTime());
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),key.getAgentStartTime(),apiId);
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
