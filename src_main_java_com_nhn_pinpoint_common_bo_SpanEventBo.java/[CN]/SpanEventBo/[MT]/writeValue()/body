@@ -1,20 +1,15 @@
 {
-  byte[] agentIDBytes=BytesUtils.getBytes(agentId);
-  byte[] applicationIdBytes=BytesUtils.getBytes(applicationId);
-  byte[] rpcBytes=BytesUtils.getBytes(rpc);
-  byte[] endPointBytes=BytesUtils.getBytes(endPoint);
-  byte[] destinationIdBytes=BytesUtils.getBytes(this.destinationId);
   final Buffer buffer=new AutomaticBuffer(512);
   buffer.put(version);
-  buffer.put1PrefixedBytes(agentIDBytes);
-  buffer.put1PrefixedBytes(applicationIdBytes);
+  buffer.putPrefixedString(agentId);
+  buffer.putPrefixedString(applicationId);
   buffer.putVar(agentStartTime);
   buffer.putVar(startElapsed);
   buffer.putVar(endElapsed);
-  buffer.put1PrefixedBytes(rpcBytes);
+  buffer.putPrefixedString(rpc);
   buffer.put(serviceType.getCode());
-  buffer.put1PrefixedBytes(endPointBytes);
-  buffer.put1PrefixedBytes(destinationIdBytes);
+  buffer.putPrefixedString(endPoint);
+  buffer.putPrefixedString(destinationId);
   buffer.putSVar(apiId);
   buffer.putSVar(depth);
   buffer.put(nextSpanId);

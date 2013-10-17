@@ -1,8 +1,8 @@
 {
   final TIntStringStringValue tIntStringStringValue=(TIntStringStringValue)o;
   final int intValue=tIntStringStringValue.getIntValue();
-  final byte[] stringValue1=BytesUtils.getBytes(tIntStringStringValue.getStringValue1());
-  final byte[] stringValue2=BytesUtils.getBytes(tIntStringStringValue.getStringValue2());
+  final byte[] stringValue1=BytesUtils.toBytes(tIntStringStringValue.getStringValue1());
+  final byte[] stringValue2=BytesUtils.toBytes(tIntStringStringValue.getStringValue2());
   final Buffer buffer=new AutomaticBuffer(stringValue1.length + stringValue2.length + 4+ 16);
   buffer.putSVar(intValue);
   buffer.putPrefixedBytes(stringValue1);

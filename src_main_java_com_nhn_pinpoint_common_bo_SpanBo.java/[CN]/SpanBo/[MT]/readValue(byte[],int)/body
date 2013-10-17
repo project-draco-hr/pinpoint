@@ -1,16 +1,16 @@
 {
   final Buffer buffer=new FixedBuffer(bytes,offset);
   this.version=buffer.readByte();
-  this.agentId=buffer.read1PrefixedString();
+  this.agentId=buffer.readPrefixedString();
   this.agentStartTime=buffer.readVarLong();
   this.parentSpanId=buffer.readInt();
   this.startTime=buffer.readVarLong();
   this.elapsed=buffer.readVarInt();
-  this.rpc=buffer.read1UnsignedPrefixedString();
-  this.applicationId=buffer.read1UnsignedPrefixedString();
+  this.rpc=buffer.readPrefixedString();
+  this.applicationId=buffer.readPrefixedString();
   this.serviceType=ServiceType.findServiceType(buffer.readShort());
-  this.endPoint=buffer.read1UnsignedPrefixedString();
-  this.remoteAddr=buffer.read1UnsignedPrefixedString();
+  this.endPoint=buffer.readPrefixedString();
+  this.remoteAddr=buffer.readPrefixedString();
   this.apiId=buffer.readSVarInt();
   this.errCode=buffer.readSVarInt();
   this.hasException=buffer.readBoolean();
