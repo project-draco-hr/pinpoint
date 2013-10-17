@@ -2,7 +2,7 @@
   checkBeforeTraceObject();
   final boolean sampling=this.sampler.isSampling();
   if (sampling) {
-    Storage storage=storageFactory.createStorage();
+    final Storage storage=storageFactory.createStorage();
     final DefaultTrace trace=new DefaultTrace(this,agentInformation.getAgentId(),agentInformation.getStartTime(),this.transactionId.getAndIncrement());
     trace.setStorage(storage);
     trace.setSampling(sampling);
@@ -10,8 +10,8 @@
     return trace;
   }
  else {
-    DisableTrace instance=DisableTrace.INSTANCE;
-    threadLocal.set(instance);
+    final DisableTrace instance=DisableTrace.INSTANCE;
+    threadLocal.set(DisableTrace.INSTANCE);
     return instance;
   }
 }

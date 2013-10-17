@@ -1,5 +1,10 @@
 {
-  this.setTraceAgentId(traceId.getAgentId());
+  if (traceId == null) {
+    throw new NullPointerException("traceId must not be null");
+  }
+  if (!this.getAgentId().equals(traceId.getAgentId())) {
+    this.setTraceAgentId(traceId.getAgentId());
+  }
   this.setTraceAgentStartTime(traceId.getAgentStartTime());
   this.setTraceTransactionSequence(traceId.getTransactionSequence());
   this.setSpanId(traceId.getSpanId());

@@ -3,8 +3,9 @@
     throw new NullPointerException("traceContext must not be null");
   }
   this.traceContext=traceContext;
-  final TraceId traceId=new DefaultTraceId(agentId,agentStartTime,transactionId);
-  this.callStack=new CallStack(traceId);
+  this.traceId=new DefaultTraceId(agentId,agentStartTime,transactionId);
+  final Span span=createSpan(traceId);
+  this.callStack=new CallStack(span);
   latestStackIndex=this.callStack.push();
   StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);

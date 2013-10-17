@@ -1,12 +1,12 @@
 {
-  ParsingResult parsingResult=this.sqlParser.normalizedSql(sql);
-  String normalizedSql=parsingResult.getSql();
-  boolean newValue=this.sqlCache.put(normalizedSql);
+  final ParsingResult parsingResult=this.sqlParser.normalizedSql(sql);
+  final String normalizedSql=parsingResult.getSql();
+  final boolean newValue=this.sqlCache.put(normalizedSql);
   if (newValue) {
     if (isDebug) {
       logger.debug("NewSQLParsingResult:{}",parsingResult);
     }
-    TSqlMetaData sqlMetaData=new TSqlMetaData();
+    final TSqlMetaData sqlMetaData=new TSqlMetaData();
     sqlMetaData.setAgentId(this.agentInformation.getAgentId());
     sqlMetaData.setAgentStartTime(this.agentInformation.getStartTime());
     sqlMetaData.setHashCode(normalizedSql.hashCode());
