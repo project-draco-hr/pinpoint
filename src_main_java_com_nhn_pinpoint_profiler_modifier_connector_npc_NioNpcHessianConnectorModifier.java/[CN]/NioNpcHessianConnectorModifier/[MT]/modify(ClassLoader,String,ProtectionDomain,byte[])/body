@@ -8,7 +8,7 @@
     connectorClass.addTraceVariable("_serverAddress","__setServerAddress","__getServerAddress","java.net.InetSocketAddress");
     Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.ConnectorConstructorInterceptor");
     connectorClass.addConstructorInterceptor(new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"},constructorInterceptor);
-    Interceptor invokeInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.InvokeInterceptor");
+    Interceptor invokeInterceptor=new InvokeInterceptor();
     connectorClass.addInterceptor("invoke",new String[]{"java.lang.String","java.lang.String","java.nio.charset.Charset","java.lang.Object[]"},invokeInterceptor);
     return connectorClass.toBytecode();
   }

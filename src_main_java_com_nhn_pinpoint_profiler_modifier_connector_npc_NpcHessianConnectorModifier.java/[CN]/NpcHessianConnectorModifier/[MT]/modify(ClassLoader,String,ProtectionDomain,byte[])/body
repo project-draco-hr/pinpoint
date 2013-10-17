@@ -9,7 +9,7 @@
       Interceptor connectInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.CreateConnectorInterceptor");
       connectorClass.addInterceptor("createConnecor",new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"},connectInterceptor);
     }
-    Interceptor invokeInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor");
+    Interceptor invokeInterceptor=new MethodInterceptor();
     connectorClass.addInterceptor("invoke",new String[]{"java.lang.String","java.lang.String","java.nio.charset.Charset","java.lang.Object[]"},invokeInterceptor);
     return connectorClass.toBytecode();
   }

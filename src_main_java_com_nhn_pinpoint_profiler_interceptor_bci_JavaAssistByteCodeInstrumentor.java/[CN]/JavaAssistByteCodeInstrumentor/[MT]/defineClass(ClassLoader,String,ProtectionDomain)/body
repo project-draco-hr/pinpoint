@@ -9,6 +9,9 @@ synchronized (classLoader) {
       }
  else {
         final CtClass clazz=childClassPool.get(defineClass);
+        if (isDebug) {
+          checkTargetClassInterface(clazz);
+        }
         defineAbstractSuperClass(clazz,classLoader,protectedDomain);
         defineNestedClass(clazz,classLoader,protectedDomain);
         return clazz.toClass(classLoader,protectedDomain);
