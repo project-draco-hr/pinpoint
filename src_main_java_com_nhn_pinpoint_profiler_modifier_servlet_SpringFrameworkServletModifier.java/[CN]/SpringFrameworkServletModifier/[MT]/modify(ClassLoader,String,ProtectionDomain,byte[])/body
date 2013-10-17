@@ -4,9 +4,9 @@
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    Interceptor doGetInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor");
+    Interceptor doGetInterceptor=new MethodInterceptor();
     setServiceType(doGetInterceptor,ServiceType.SPRING_MVC);
-    Interceptor doPostInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor");
+    Interceptor doPostInterceptor=new MethodInterceptor();
     setServiceType(doPostInterceptor,ServiceType.SPRING_MVC);
     InstrumentClass servlet=byteCodeInstrumentor.getClass(javassistClassName);
     servlet.addInterceptor("doGet",new String[]{"javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse"},doGetInterceptor);
