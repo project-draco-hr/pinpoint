@@ -32,28 +32,12 @@ unsetServiceType();
 setServiceType((Short)value);
 }
 break;
-case TRACE_AGENT_ID:
+case TRANSACTION_ID:
 if (value == null) {
-unsetTraceAgentId();
+unsetTransactionId();
 }
  else {
-setTraceAgentId((String)value);
-}
-break;
-case TRACE_AGENT_START_TIME:
-if (value == null) {
-unsetTraceAgentStartTime();
-}
- else {
-setTraceAgentStartTime((Long)value);
-}
-break;
-case TRACE_TRANSACTION_SEQUENCE:
-if (value == null) {
-unsetTraceTransactionSequence();
-}
- else {
-setTraceTransactionSequence((Long)value);
+setTransactionId((ByteBuffer)value);
 }
 break;
 case SPAN_ID:

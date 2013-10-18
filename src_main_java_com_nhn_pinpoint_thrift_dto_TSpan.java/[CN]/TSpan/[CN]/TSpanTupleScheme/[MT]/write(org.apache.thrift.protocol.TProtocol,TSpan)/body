@@ -10,67 +10,61 @@
   if (struct.isSetAgentStartTime()) {
     optionals.set(2);
   }
-  if (struct.isSetTraceAgentId()) {
+  if (struct.isSetTransactionId()) {
     optionals.set(3);
   }
-  if (struct.isSetTraceAgentStartTime()) {
+  if (struct.isSetSpanId()) {
     optionals.set(4);
   }
-  if (struct.isSetTraceTransactionSequence()) {
+  if (struct.isSetParentSpanId()) {
     optionals.set(5);
   }
-  if (struct.isSetSpanId()) {
+  if (struct.isSetStartTime()) {
     optionals.set(6);
   }
-  if (struct.isSetParentSpanId()) {
+  if (struct.isSetElapsed()) {
     optionals.set(7);
   }
-  if (struct.isSetStartTime()) {
+  if (struct.isSetRpc()) {
     optionals.set(8);
   }
-  if (struct.isSetElapsed()) {
+  if (struct.isSetServiceType()) {
     optionals.set(9);
   }
-  if (struct.isSetRpc()) {
+  if (struct.isSetEndPoint()) {
     optionals.set(10);
   }
-  if (struct.isSetServiceType()) {
+  if (struct.isSetRemoteAddr()) {
     optionals.set(11);
   }
-  if (struct.isSetEndPoint()) {
+  if (struct.isSetAnnotations()) {
     optionals.set(12);
   }
-  if (struct.isSetRemoteAddr()) {
+  if (struct.isSetFlag()) {
     optionals.set(13);
   }
-  if (struct.isSetAnnotations()) {
+  if (struct.isSetErr()) {
     optionals.set(14);
   }
-  if (struct.isSetFlag()) {
+  if (struct.isSetSpanEventList()) {
     optionals.set(15);
   }
-  if (struct.isSetErr()) {
+  if (struct.isSetParentApplicationName()) {
     optionals.set(16);
   }
-  if (struct.isSetSpanEventList()) {
+  if (struct.isSetParentApplicationType()) {
     optionals.set(17);
   }
-  if (struct.isSetParentApplicationName()) {
+  if (struct.isSetAcceptorHost()) {
     optionals.set(18);
   }
-  if (struct.isSetParentApplicationType()) {
+  if (struct.isSetApiId()) {
     optionals.set(19);
   }
-  if (struct.isSetAcceptorHost()) {
+  if (struct.isSetExceptionInfo()) {
     optionals.set(20);
   }
-  if (struct.isSetApiId()) {
-    optionals.set(21);
-  }
-  if (struct.isSetExceptionInfo()) {
-    optionals.set(22);
-  }
-  oprot.writeBitSet(optionals,23);
+  oprot.writeBitSet(optionals,21);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -80,14 +74,8 @@
   if (struct.isSetAgentStartTime()) {
     oprot.writeI64(struct.agentStartTime);
   }
-  if (struct.isSetTraceAgentId()) {
-    oprot.writeString(struct.traceAgentId);
-  }
-  if (struct.isSetTraceAgentStartTime()) {
-    oprot.writeI64(struct.traceAgentStartTime);
-  }
-  if (struct.isSetTraceTransactionSequence()) {
-    oprot.writeI64(struct.traceTransactionSequence);
+  if (struct.isSetTransactionId()) {
+    oprot.writeBinary(struct.transactionId);
   }
   if (struct.isSetSpanId()) {
     oprot.writeI32(struct.spanId);

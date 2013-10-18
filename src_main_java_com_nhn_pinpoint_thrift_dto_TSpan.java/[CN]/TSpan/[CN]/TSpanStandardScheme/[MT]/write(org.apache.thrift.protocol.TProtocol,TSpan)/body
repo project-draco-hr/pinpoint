@@ -14,19 +14,11 @@
   oprot.writeFieldBegin(AGENT_START_TIME_FIELD_DESC);
   oprot.writeI64(struct.agentStartTime);
   oprot.writeFieldEnd();
-  if (struct.traceAgentId != null) {
-    if (struct.isSetTraceAgentId()) {
-      oprot.writeFieldBegin(TRACE_AGENT_ID_FIELD_DESC);
-      oprot.writeString(struct.traceAgentId);
-      oprot.writeFieldEnd();
-    }
+  if (struct.transactionId != null) {
+    oprot.writeFieldBegin(TRANSACTION_ID_FIELD_DESC);
+    oprot.writeBinary(struct.transactionId);
+    oprot.writeFieldEnd();
   }
-  oprot.writeFieldBegin(TRACE_AGENT_START_TIME_FIELD_DESC);
-  oprot.writeI64(struct.traceAgentStartTime);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(TRACE_TRANSACTION_SEQUENCE_FIELD_DESC);
-  oprot.writeI64(struct.traceTransactionSequence);
-  oprot.writeFieldEnd();
   oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
   oprot.writeI32(struct.spanId);
   oprot.writeFieldEnd();
