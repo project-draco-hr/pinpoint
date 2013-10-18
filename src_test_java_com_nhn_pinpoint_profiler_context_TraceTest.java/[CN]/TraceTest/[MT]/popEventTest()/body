@@ -2,8 +2,7 @@
   DefaultTraceId traceID=new DefaultTraceId("agent",0,1);
   DefaultTrace trace=new DefaultTrace(new DefaultTraceContext(),traceID);
   TestDataSender dataSender=new TestDataSender();
-  BypassStorage bypassStorage=new BypassStorage(new LoggingDataSender());
-  trace.setStorage(bypassStorage);
+  trace.setStorage(new SpanStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   trace.traceRootBlockEnd();
   logger.info(String.valueOf(dataSender.event));
 }

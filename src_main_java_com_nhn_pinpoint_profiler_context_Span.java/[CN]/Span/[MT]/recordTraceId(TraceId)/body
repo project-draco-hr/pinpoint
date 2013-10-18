@@ -6,11 +6,13 @@
   if (agentId == null) {
     throw new NullPointerException("agentId must not be null");
   }
-  if (!this.getAgentId().equals(traceId.getAgentId())) {
-    this.setTraceAgentId(traceId.getAgentId());
+  final String transactionAgentId=traceId.getAgentId();
+  if (!agentId.equals(transactionAgentId)) {
+    this.setTransactionId(TransactionIdUtils.formatBytes(transactionAgentId,traceId.getAgentStartTime(),traceId.getTransactionSequence()));
   }
-  this.setTraceAgentStartTime(traceId.getAgentStartTime());
-  this.setTraceTransactionSequence(traceId.getTransactionSequence());
+ else {
+    this.setTransactionId(TransactionIdUtils.formatBytes(null,traceId.getAgentStartTime(),traceId.getTransactionSequence()));
+  }
   this.setSpanId(traceId.getSpanId());
   final int parentSpanId=traceId.getParentSpanId();
   if (traceId.getParentSpanId() != SpanId.NULL) {

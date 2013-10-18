@@ -1,7 +1,6 @@
 {
   DefaultTrace trace=new DefaultTrace(new DefaultTraceContext(),"agent",0,1);
-  BypassStorage bypassStorage=new BypassStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER);
-  trace.setStorage(bypassStorage);
+  trace.setStorage(new SpanStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   Assert.assertEquals(0,trace.getCallStackDepth());
   trace.traceBlockBegin();
   Assert.assertEquals(1,trace.getCallStackDepth());
