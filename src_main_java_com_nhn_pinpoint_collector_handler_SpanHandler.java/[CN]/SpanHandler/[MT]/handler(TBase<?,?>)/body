@@ -7,10 +7,6 @@
     if (logger.isDebugEnabled()) {
       logger.debug("Received SPAN={}",span);
     }
-    String traceAgentId=span.getTraceAgentId();
-    if (traceAgentId == null) {
-      span.setTraceAgentId(span.getAgentId());
-    }
     traceDao.insert(span);
     applicationTraceIndexDao.insert(span);
     statisticsHandler.updateApplication(span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
