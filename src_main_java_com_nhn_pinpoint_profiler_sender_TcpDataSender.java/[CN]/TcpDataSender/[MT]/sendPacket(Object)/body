@@ -1,10 +1,7 @@
 {
   TBase<?,?> tBase;
   boolean request=false;
-  if (dto instanceof Thriftable) {
-    tBase=((Thriftable)dto).toThrift();
-  }
- else   if (dto instanceof TBase) {
+  if (dto instanceof TBase) {
     tBase=(TBase<?,?>)dto;
   }
  else   if (dto instanceof RequestMarker) {

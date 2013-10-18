@@ -1,14 +1,14 @@
 {
   drainStartEntry:   while (isRun()) {
     try {
-      Collection<Object> dtoList=getDrainQueue();
+      Collection<T> dtoList=getDrainQueue();
       int drainSize=takeN(dtoList,this.maxDrainSize);
       if (drainSize > 0) {
         doExecute(dtoList);
         continue;
       }
       while (isRun()) {
-        Object dto=takeOne();
+        T dto=takeOne();
         if (dto != null) {
           doExecute(dto);
           continue drainStartEntry;

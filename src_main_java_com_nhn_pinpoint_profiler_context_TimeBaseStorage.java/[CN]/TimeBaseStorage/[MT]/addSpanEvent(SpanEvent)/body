@@ -1,10 +1,10 @@
 {
   if (storage == null) {
-    if (isDebug) {
-      logger.debug("storage is null. direct send");
+    if (logger.isErrorEnabled()) {
+      logger.error("storage is null. direct send");
     }
-    return false;
+    return;
   }
   storage.add(spanEvent);
-  return true;
+  return;
 }

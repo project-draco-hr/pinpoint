@@ -9,18 +9,15 @@ synchronized (this) {
     List<SpanEvent> flushData=null;
     boolean add;
 synchronized (this) {
-      add=addSpanEvent(spanEvent);
-      if (add && storage.size() >= bufferSize) {
+      addSpanEvent(spanEvent);
+      if (storage.size() >= bufferSize) {
         flushData=storage;
         storage=new ArrayList<SpanEvent>(bufferSize + RESERVE_BUFFER_SIZE);
       }
     }
-    if (!add) {
-      dataSender.send((Thriftable)spanEvent);
-      return;
-    }
     if (flushData != null) {
-      dataSender.send((Thriftable)new SpanChunk(flushData));
+      final SpanChunk spanChunk=spanChunkFactory.create(flushData);
+      dataSender.send(spanChunk);
     }
   }
 }

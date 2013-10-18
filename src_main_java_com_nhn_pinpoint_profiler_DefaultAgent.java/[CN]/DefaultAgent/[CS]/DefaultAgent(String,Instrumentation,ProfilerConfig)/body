@@ -27,11 +27,9 @@
   this.tcpDataSender=createTcpDataSender();
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor");
-  this.traceContext=createTraceContext();
   this.tAgentInfo=createTAgentInfo();
-  this.tAgentKey=createTAgentKey();
+  this.traceContext=createTraceContext();
   this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),tAgentInfo);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId());
-  SingletonHolder.INSTANCE=this;
   preLoadClass();
 }

@@ -6,8 +6,8 @@
   this.traceId=new DefaultTraceId(agentId,agentStartTime,transactionId);
   final Span span=createSpan(traceId);
   this.callStack=new CallStack(span);
-  latestStackIndex=this.callStack.push();
-  StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
+  this.latestStackIndex=this.callStack.push();
+  final StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
   this.callStack.setStackFrame(stackFrame);
   this.currentStackFrame=stackFrame;
 }

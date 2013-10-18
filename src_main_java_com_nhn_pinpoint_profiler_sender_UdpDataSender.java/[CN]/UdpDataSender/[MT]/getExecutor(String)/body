@@ -1,10 +1,10 @@
 {
-  AsyncQueueingExecutor executor=new AsyncQueueingExecutor(1024 * 5,senderName);
-  executor.setListener(new AsyncQueueingExecutorListener(){
-    @Override public void execute(    Collection<Object> dtoList){
+  final AsyncQueueingExecutor<TBase<?,?>> executor=new AsyncQueueingExecutor<TBase<?,?>>(1024 * 5,senderName);
+  executor.setListener(new AsyncQueueingExecutorListener<TBase<?,?>>(){
+    @Override public void execute(    Collection<TBase<?,?>> dtoList){
       sendPacketN(dtoList);
     }
-    @Override public void execute(    Object dto){
+    @Override public void execute(    TBase<?,?> dto){
       sendPacket(dto);
     }
   }

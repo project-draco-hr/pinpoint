@@ -1,0 +1,12 @@
+{
+  TBase<?,?>[] dataList=(TBase<?,?>[])dtoList.toArray();
+  final int size=dtoList.size();
+  for (int i=0; i < size; i++) {
+    try {
+      sendPacket(dataList[i]);
+    }
+ catch (    Throwable th) {
+      logger.warn("Unexpected Error. Cause:" + th.getMessage(),th);
+    }
+  }
+}
