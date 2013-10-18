@@ -2,9 +2,13 @@
   this.agentId=tSpan.getAgentId();
   this.applicationId=tSpan.getApplicationName();
   this.agentStartTime=tSpan.getAgentStartTime();
-  this.traceAgentId=tSpan.getTraceAgentId();
-  this.traceAgentStartTime=tSpan.getTraceAgentStartTime();
-  this.traceTransactionSequence=tSpan.getTraceTransactionSequence();
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(tSpan.getTransactionId());
+  this.traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
+  this.traceAgentStartTime=transactionId.getAgentStartTime();
+  this.traceTransactionSequence=transactionId.getTransactionSequence();
   this.spanId=tSpan.getSpanId();
   this.sequence=tSpanEvent.getSequence();
   this.startElapsed=tSpanEvent.getStartElapsed();

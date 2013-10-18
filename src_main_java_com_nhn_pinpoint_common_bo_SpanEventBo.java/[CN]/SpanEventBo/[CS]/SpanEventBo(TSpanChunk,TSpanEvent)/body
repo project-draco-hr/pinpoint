@@ -2,9 +2,13 @@
   this.agentId=spanChunk.getAgentId();
   this.applicationId=spanChunk.getApplicationName();
   this.agentStartTime=spanChunk.getAgentStartTime();
-  this.traceAgentId=spanChunk.getTraceAgentId();
-  this.traceAgentStartTime=spanChunk.getTraceAgentStartTime();
-  this.traceTransactionSequence=spanChunk.getTraceTransactionSequence();
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(spanChunk.getTransactionId());
+  this.traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
+  this.traceAgentStartTime=transactionId.getAgentStartTime();
+  this.traceTransactionSequence=transactionId.getTransactionSequence();
   this.spanId=spanChunk.getSpanId();
   this.sequence=spanEvent.getSequence();
   this.startElapsed=spanEvent.getStartElapsed();
