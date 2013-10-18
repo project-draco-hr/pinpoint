@@ -6,9 +6,8 @@
   TSpan span=new TSpan();
   span.setAgentId("UnitTest");
   span.setApplicationName("ApplicationId");
-  span.setTraceAgentId("traceAgentId");
-  span.setTraceAgentStartTime(System.currentTimeMillis());
-  span.setTraceTransactionSequence(0);
+  byte[] bytes=TransactionIdUtils.formatBytes("traceAgentId",System.currentTimeMillis(),0);
+  span.setTransactionId(bytes);
   span.setStartTime(time);
   span.setElapsed(5);
   span.setRpc("RPC");

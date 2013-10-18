@@ -1,6 +1,7 @@
 {
   TSpan span=createRootSpan();
-  logger.debug("id:{}",new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence()));
+  com.nhn.pinpoint.common.util.TransactionId id=TransactionIdUtils.parseTransactionId(span.getTransactionId());
+  logger.debug("id:{}",new TransactionId(id.getAgentId(),id.getAgentStartTime(),id.getTransactionSequence()));
   insert(span);
   deleteSpans.add(span);
   TSpan subSpan1=createSpanEvent(span);
