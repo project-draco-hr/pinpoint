@@ -1,6 +1,7 @@
 {
   DefaultTraceId traceID=new DefaultTraceId("agent",0,1);
-  DefaultTrace trace=new DefaultTrace(new DefaultTraceContext(),traceID);
+  DefaultTraceContext defaultTraceConetxt=getDefaultTraceConetxt();
+  DefaultTrace trace=new DefaultTrace(defaultTraceConetxt,traceID);
   TestDataSender dataSender=new TestDataSender();
   trace.setStorage(new SpanStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
   trace.traceRootBlockEnd();

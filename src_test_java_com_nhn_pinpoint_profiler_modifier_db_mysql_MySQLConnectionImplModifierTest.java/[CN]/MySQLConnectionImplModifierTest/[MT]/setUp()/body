@@ -1,6 +1,8 @@
 {
+  System.setProperty("catalina.home","test");
   PLoggerFactory.initialize(new Slf4jLoggerBinder());
   ProfilerConfig profilerConfig=new ProfilerConfig();
+  profilerConfig.setApplicationServerType(ServiceType.TOMCAT);
   DefaultAgent agent=new DefaultAgent("",new DummyInstrumentation(),profilerConfig);
   loader=new TestClassLoader(agent);
   MySQLNonRegisteringDriverModifier driverModifier=new MySQLNonRegisteringDriverModifier(loader.getInstrumentor(),agent);
