@@ -26,7 +26,12 @@
     logger.warn("BusinessTransactionController Error Cause" + e.getMessage(),e);
   }
   if (jsonResult) {
-    mv.setViewName("transactionInfoJson");
+    if (viewVersion == 2) {
+      mv.setViewName("transactionInfoJsonHash");
+    }
+ else {
+      mv.setViewName("transactionInfoJson");
+    }
   }
   return mv;
 }
