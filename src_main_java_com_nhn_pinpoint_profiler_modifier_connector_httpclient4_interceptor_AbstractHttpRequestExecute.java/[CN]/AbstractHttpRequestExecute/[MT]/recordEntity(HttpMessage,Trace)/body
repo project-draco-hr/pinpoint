@@ -5,7 +5,7 @@
       final HttpEntity entity=entityRequest.getEntity();
       if (entity != null && entity.isRepeatable() && entity.getContentLength() > 0) {
         if (entitySampler.isSampling()) {
-          String entityString=EntityUtils.toString(entity,"UTF8");
+          final String entityString=entityUtilsToString(entity,"UTF8",1024);
           trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(entityString,1024));
         }
       }
