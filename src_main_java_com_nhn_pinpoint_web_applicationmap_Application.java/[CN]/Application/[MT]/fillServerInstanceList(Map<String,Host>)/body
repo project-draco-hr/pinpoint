@@ -5,16 +5,15 @@
   for (  Entry<String,Host> entry : hostHistogram.entrySet()) {
     String name=entry.getKey();
     ServiceType serviceType=entry.getValue().getServiceType();
-    String key=name;
-    MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(key);
+    MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(name);
     ServerInstance serverInstance=new ServerInstance(name,serviceType,null);
     if (serverInstanceMap == null) {
       MergeableMap<String,ServerInstance> value=new MergeableTreeMap<String,ServerInstance>();
       value.put(serverInstance.getId(),serverInstance);
-      serverInstanceList.put(key,value);
+      serverInstanceList.put(name,value);
     }
  else {
-      MergeableMap<String,ServerInstance> map=serverInstanceList.get(key);
+      MergeableMap<String,ServerInstance> map=serverInstanceList.get(name);
       map.putOrMerge(serverInstance.getId(),serverInstance);
     }
   }

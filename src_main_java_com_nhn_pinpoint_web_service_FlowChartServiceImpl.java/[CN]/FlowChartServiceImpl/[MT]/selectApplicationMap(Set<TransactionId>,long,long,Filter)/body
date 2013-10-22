@@ -2,8 +2,6 @@
   StopWatch watch=new StopWatch();
   watch.start();
   List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);
-  int fetchedTransactionCount=transactionList.size();
-  int returnTransactionCount=0;
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
   Map<Integer,SpanBo> transactionSpanMap=new HashMap<Integer,SpanBo>();
@@ -11,7 +9,6 @@
     if (!filter.include(transaction)) {
       continue;
     }
-    returnTransactionCount++;
     transactionSpanMap.clear();
     for (    SpanBo span : transaction) {
       transactionSpanMap.put(span.getSpanId(),span);
@@ -21,7 +18,7 @@
       ServiceType srcServiceType, destServiceType;
       SpanBo parentSpan=transactionSpanMap.get(span.getParentSpanId());
       if (span.isRoot() || parentSpan == null) {
-        src=ServiceType.CLIENT.toString() + "-" + span.getApplicationId();
+        src=span.getApplicationId();
         srcServiceType=ServiceType.CLIENT;
       }
  else {
