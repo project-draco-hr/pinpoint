@@ -1,27 +1,15 @@
 {
   logger.debug("scanTraceIndex");
   Scan scan=createScan(applicationName,start,end);
-  final ResultWithMark<Set<TransactionId>,Long> result=new ResultWithMark<Set<TransactionId>,Long>();
-  List<List<TransactionId>> traceIndexList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,new LastRowHandler(){
-    @Override public void handle(    KeyValue keyValue){
-      if (keyValue == null) {
-        result.setMark(-1L);
-        return;
-      }
-      byte[] row=keyValue.getRow();
-      byte[] originalRow=traceIdRowKeyDistributor.getOriginalKey(row);
-      long reverseStartTime=BytesUtils.bytesToLong(originalRow,PinpointConstants.AGENT_NAME_MAX_LEN);
-      long lastRowTimestamp=TimeUtils.recoveryCurrentTimeMillis(reverseStartTime);
-      result.setMark(lastRowTimestamp);
-    }
+  final ResultWithMark<List<TransactionId>,Long> resultWithMark=new ResultWithMark<List<TransactionId>,Long>();
+  LastRowAccessor lastRowAccessor=new LastRowAccessor();
+  List<List<TransactionId>> traceIndexList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,lastRowAccessor);
+  Long lastRowTimestamp=lastRowAccessor.getLastRowTimestamp();
+  resultWithMark.setMark(lastRowTimestamp);
+  List<TransactionId> transactionIdSum=new ArrayList<TransactionId>(128);
+  for (  List<TransactionId> transactionId : traceIndexList) {
+    transactionIdSum.addAll(transactionId);
   }
-);
-  Set<TransactionId> set=new HashSet<TransactionId>();
-  for (  List<TransactionId> list : traceIndexList) {
-    for (    TransactionId traceId : list) {
-      set.add(traceId);
-    }
-  }
-  result.setValue(set);
-  return result;
+  resultWithMark.setValue(transactionIdSum);
+  return resultWithMark;
 }

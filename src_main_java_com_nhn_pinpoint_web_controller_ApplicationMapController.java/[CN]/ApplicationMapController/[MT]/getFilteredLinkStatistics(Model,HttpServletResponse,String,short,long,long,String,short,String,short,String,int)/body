@@ -1,5 +1,5 @@
 {
-  ResultWithMark<Set<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+  ResultWithMark<List<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=FilterBuilder.build(filterText);
   LinkStatistics linkStatistics=flow.linkStatisticsDetail(from,to,traceIdSet.getValue(),srcApplicationName,srcServiceType,destApplicationName,destServiceType,filter);
   model.addAttribute("lastFetchedTimestamp",traceIdSet.getMark());

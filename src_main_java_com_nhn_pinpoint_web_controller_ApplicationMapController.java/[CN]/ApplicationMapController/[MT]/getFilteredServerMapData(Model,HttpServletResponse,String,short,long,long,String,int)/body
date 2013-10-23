@@ -1,5 +1,5 @@
 {
-  ResultWithMark<Set<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+  ResultWithMark<List<TransactionId>,Long> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=FilterBuilder.build(filterText);
   ApplicationMap map=flow.selectApplicationMap(traceIdSet.getValue(),from,to,filter);
   model.addAttribute("from",from);
