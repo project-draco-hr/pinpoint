@@ -19,16 +19,19 @@
   if (struct.isSetServiceType()) {
     optionals.set(5);
   }
-  if (struct.isSetIsAlive()) {
+  if (struct.isSetPid()) {
     optionals.set(6);
   }
-  if (struct.isSetTimestamp()) {
+  if (struct.isSetStartTimestamp()) {
     optionals.set(7);
   }
-  if (struct.isSetPid()) {
+  if (struct.isSetEndTimestamp()) {
     optionals.set(8);
   }
-  oprot.writeBitSet(optionals,9);
+  if (struct.isSetEndStatus()) {
+    optionals.set(9);
+  }
+  oprot.writeBitSet(optionals,10);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -47,13 +50,16 @@
   if (struct.isSetServiceType()) {
     oprot.writeI16(struct.serviceType);
   }
-  if (struct.isSetIsAlive()) {
-    oprot.writeBool(struct.isAlive);
-  }
-  if (struct.isSetTimestamp()) {
-    oprot.writeI64(struct.timestamp);
-  }
   if (struct.isSetPid()) {
     oprot.writeI32(struct.pid);
+  }
+  if (struct.isSetStartTimestamp()) {
+    oprot.writeI64(struct.startTimestamp);
+  }
+  if (struct.isSetEndTimestamp()) {
+    oprot.writeI64(struct.endTimestamp);
+  }
+  if (struct.isSetEndStatus()) {
+    oprot.writeI32(struct.endStatus);
   }
 }

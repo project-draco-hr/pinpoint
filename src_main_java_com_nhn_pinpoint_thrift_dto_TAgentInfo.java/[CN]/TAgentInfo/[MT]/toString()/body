@@ -50,17 +50,25 @@
   sb.append(this.serviceType);
   first=false;
   if (!first)   sb.append(", ");
-  sb.append("isAlive:");
-  sb.append(this.isAlive);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("timestamp:");
-  sb.append(this.timestamp);
-  first=false;
-  if (!first)   sb.append(", ");
   sb.append("pid:");
   sb.append(this.pid);
   first=false;
+  if (!first)   sb.append(", ");
+  sb.append("startTimestamp:");
+  sb.append(this.startTimestamp);
+  first=false;
+  if (isSetEndTimestamp()) {
+    if (!first)     sb.append(", ");
+    sb.append("endTimestamp:");
+    sb.append(this.endTimestamp);
+    first=false;
+  }
+  if (isSetEndStatus()) {
+    if (!first)     sb.append(", ");
+    sb.append("endStatus:");
+    sb.append(this.endStatus);
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

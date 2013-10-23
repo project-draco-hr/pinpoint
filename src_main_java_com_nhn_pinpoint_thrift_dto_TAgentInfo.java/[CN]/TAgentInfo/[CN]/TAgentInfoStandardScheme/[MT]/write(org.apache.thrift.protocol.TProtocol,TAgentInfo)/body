@@ -29,15 +29,22 @@
   oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
   oprot.writeI16(struct.serviceType);
   oprot.writeFieldEnd();
-  oprot.writeFieldBegin(IS_ALIVE_FIELD_DESC);
-  oprot.writeBool(struct.isAlive);
-  oprot.writeFieldEnd();
-  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
-  oprot.writeI64(struct.timestamp);
-  oprot.writeFieldEnd();
   oprot.writeFieldBegin(PID_FIELD_DESC);
   oprot.writeI32(struct.pid);
   oprot.writeFieldEnd();
+  oprot.writeFieldBegin(START_TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.startTimestamp);
+  oprot.writeFieldEnd();
+  if (struct.isSetEndTimestamp()) {
+    oprot.writeFieldBegin(END_TIMESTAMP_FIELD_DESC);
+    oprot.writeI64(struct.endTimestamp);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetEndStatus()) {
+    oprot.writeFieldBegin(END_STATUS_FIELD_DESC);
+    oprot.writeI32(struct.endStatus);
+    oprot.writeFieldEnd();
+  }
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }

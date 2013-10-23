@@ -62,9 +62,9 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 7:
-if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-struct.isAlive=iprot.readBool();
-struct.setIsAliveIsSet(true);
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.pid=iprot.readI32();
+struct.setPidIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
@@ -72,17 +72,26 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 break;
 case 8:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-struct.timestamp=iprot.readI64();
-struct.setTimestampIsSet(true);
+struct.startTimestamp=iprot.readI64();
+struct.setStartTimestampIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 9:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.endTimestamp=iprot.readI64();
+struct.setEndTimestampIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 10:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-struct.pid=iprot.readI32();
-struct.setPidIsSet(true);
+struct.endStatus=iprot.readI32();
+struct.setEndStatusIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
