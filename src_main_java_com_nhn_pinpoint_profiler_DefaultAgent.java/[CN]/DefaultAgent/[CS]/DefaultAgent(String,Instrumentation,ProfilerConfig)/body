@@ -24,10 +24,10 @@
   instrumentation.addTransformer(this.classFileTransformer);
   this.agentInformation=createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
+  this.tAgentInfo=createTAgentInfo();
   this.tcpDataSender=createTcpDataSender();
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor");
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor");
-  this.tAgentInfo=createTAgentInfo();
   this.traceContext=createTraceContext();
   this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),tAgentInfo);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId());
