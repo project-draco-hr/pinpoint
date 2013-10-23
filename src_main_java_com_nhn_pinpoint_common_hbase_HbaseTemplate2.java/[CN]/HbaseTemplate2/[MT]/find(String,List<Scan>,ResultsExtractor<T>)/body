@@ -3,7 +3,7 @@
     @Override public List<T> doInTable(    HTableInterface htable) throws Throwable {
       List<T> result=new ArrayList<T>(scanList.size());
       for (      Scan scan : scanList) {
-        ResultScanner scanner=htable.getScanner(scan);
+        final ResultScanner scanner=htable.getScanner(scan);
         try {
           T t=action.extractData(scanner);
           result.add(t);

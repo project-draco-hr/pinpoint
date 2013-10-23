@@ -1,11 +1,13 @@
 {
-  Buffer buffer=new FixedBuffer(value);
-  this.ip=buffer.readPrefixedString();
+  final Buffer buffer=new FixedBuffer(value);
   this.hostname=buffer.readPrefixedString();
+  this.ip=buffer.readPrefixedString();
   this.ports=buffer.readPrefixedString();
   this.applicationName=buffer.readPrefixedString();
-  this.isAlive=buffer.readBoolean();
-  this.pid=buffer.readInt();
   this.serviceType=ServiceType.findServiceType(buffer.readShort());
+  this.pid=buffer.readInt();
+  this.startTime=buffer.readLong();
+  this.endTimeStamp=buffer.readLong();
+  this.endStatus=buffer.readInt();
   return buffer.getOffset();
 }

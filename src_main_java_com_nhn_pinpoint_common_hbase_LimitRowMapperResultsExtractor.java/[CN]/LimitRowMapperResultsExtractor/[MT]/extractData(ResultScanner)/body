@@ -1,17 +1,10 @@
 {
-  List<T> rs=new ArrayList<T>();
+  final List<T> rs=new ArrayList<T>();
   int rowNum=0;
-  KeepLastRowMapper<T> keepLastRowMapper=(this.rowMapper instanceof KeepLastRowMapper) ? (KeepLastRowMapper<T>)rowMapper : null;
+  Result lastResult=null;
   for (  Result result : results) {
-    T t;
-    if (keepLastRowMapper == null) {
-      t=this.rowMapper.mapRow(result,rowNum++);
-    }
- else {
-      KeepLastRowValue<T> v=keepLastRowMapper.mapRowAndReturnLastRow(result,rowNum++);
-      t=v.getValue();
-      lastestMappedKeyValue=v.getLastRow();
-    }
+    final T t=this.rowMapper.mapRow(result,rowNum++);
+    lastResult=result;
     if (t instanceof Collection) {
       rowNum+=((Collection<?>)t).size();
     }
@@ -31,5 +24,6 @@
       break;
     }
   }
+  eventHandler.handleLastResult(lastResult);
   return rs;
 }
