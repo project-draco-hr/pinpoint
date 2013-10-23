@@ -6,8 +6,17 @@
     scan.setCaching(originalScan.getCaching());
   }
   ResultScanner[] scanner=new ResultScanner[scans.length];
-  for (int i=0; i < scans.length; i++) {
-    scanner[i]=htable.getScanner(scans[i]);
+  boolean success=false;
+  try {
+    for (int i=0; i < scans.length; i++) {
+      scanner[i]=htable.getScanner(scans[i]);
+    }
+    success=true;
+  }
+  finally {
+    if (!success) {
+      closeScanner(scanner);
+    }
   }
   return new DistributedScanner(rowKeyDistributor,scanner);
 }
