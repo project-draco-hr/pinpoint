@@ -13,12 +13,12 @@
     Long lastRowTimestamp=lastRowAccessor.getLastRowTimestamp();
     resultWithMark.setMark(lastRowTimestamp);
     if (logger.isDebugEnabled()) {
-      logger.debug("lastRowTimestamp lastTime:{}",new Date(lastRowTimestamp));
+      logger.debug("lastRowTimestamp lastTime:{}",DateUtils.longToDateStr(lastRowTimestamp));
     }
   }
  else {
     if (logger.isDebugEnabled()) {
-      logger.debug("scanner start lastTime:{}",new Date(end));
+      logger.debug("scanner start lastTime:{}",DateUtils.longToDateStr(start));
     }
     resultWithMark.setMark(start);
   }
