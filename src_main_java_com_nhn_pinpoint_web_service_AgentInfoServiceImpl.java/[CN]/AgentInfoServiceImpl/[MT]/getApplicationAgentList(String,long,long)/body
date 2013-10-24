@@ -1,13 +1,13 @@
 {
   String[] agentIdList=applicationIndexDao.selectAgentIds(applicationName);
+  logger.debug("agentIdList={}",Arrays.toString(agentIdList));
   if (agentIdList == null || agentIdList.length == 0) {
     logger.debug("agentIdList is empty. applicationName={}, from={}",applicationName,from);
     return new TreeMap<String,List<AgentInfoBo>>();
   }
-  logger.debug("agentIdList={}",Arrays.toString(agentIdList));
   SortedMap<String,List<AgentInfoBo>> result=new TreeMap<String,List<AgentInfoBo>>();
   for (  String agentId : agentIdList) {
-    List<AgentInfoBo> agentInfoList=agentInfoDao.getAgentInfo(agentId,from);
+    List<AgentInfoBo> agentInfoList=agentInfoDao.getAgentInfo(agentId,from,to);
     if (agentInfoList.isEmpty()) {
       logger.debug("agentinfolist is empty. agentid={}, from={}",agentId,from);
       continue;
