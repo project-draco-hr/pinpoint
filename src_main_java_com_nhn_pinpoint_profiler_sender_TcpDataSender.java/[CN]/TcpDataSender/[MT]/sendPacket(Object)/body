@@ -1,27 +1,26 @@
 {
-  TBase<?,?> tBase;
-  boolean request=false;
-  if (dto instanceof TBase) {
-    tBase=(TBase<?,?>)dto;
-  }
- else   if (dto instanceof RequestMarker) {
-    tBase=((RequestMarker)dto).getTBase();
-    request=true;
-  }
- else {
-    logger.error("sendPacket fail. invalid dto type:{}",dto.getClass());
-    return;
-  }
-  byte[] copy=serialize(tBase);
-  if (copy == null) {
-    return;
-  }
   try {
-    if (request) {
-      doRequest(copy,0);
+    if (dto instanceof TBase) {
+      TBase<?,?> tBase=(TBase<?,?>)dto;
+      byte[] copy=serialize(tBase);
+      if (copy == null) {
+        return;
+      }
+      doSend(copy);
+    }
+ else     if (dto instanceof RequestMarker) {
+      RequestMarker requestMarker=(RequestMarker)dto;
+      TBase<?,?> tBase=requestMarker.getTBase();
+      int retry=requestMarker.getRetryCount();
+      byte[] copy=serialize(tBase);
+      if (copy == null) {
+        return;
+      }
+      doRequest(copy,retry);
     }
  else {
-      doSend(copy);
+      logger.error("sendPacket fail. invalid dto type:{}",dto.getClass());
+      return;
     }
   }
  catch (  Exception e) {
