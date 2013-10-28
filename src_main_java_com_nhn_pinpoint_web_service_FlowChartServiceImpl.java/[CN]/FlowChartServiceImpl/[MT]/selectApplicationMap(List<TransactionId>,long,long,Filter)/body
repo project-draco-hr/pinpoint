@@ -1,6 +1,7 @@
 {
   StopWatch watch=new StopWatch();
   watch.start();
+  SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
   List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
@@ -36,14 +37,6 @@
       stat.addSample(dest,destServiceType.getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
-      System.out.println("\n----------------------------------");
-      System.out.println("src\t\t" + src);
-      System.out.println("srcType\t\t" + srcServiceType);
-      System.out.println("dest\t\t" + dest);
-      System.out.println("destType\t" + destServiceType);
-      System.out.println("span\t\t" + span);
-      System.out.println("stat\t\t" + stat);
-      System.out.println("----------------------------------\n\n");
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
       if (spanEventBoList == null || spanEventBoList.isEmpty()) {
         continue;
@@ -70,14 +63,6 @@
         stat2.addSample((dest == null) ? spanEvent.getEndPoint() : dest,destServiceType.getCode(),(short)slot2,1);
         statisticsData.add(stat2);
         statisticsMap.put(statId2,stat2);
-        System.out.println("\n\t----------------------------------");
-        System.out.println("\tsrc\t\t" + src);
-        System.out.println("\tsrcType\t\t" + srcServiceType);
-        System.out.println("\tdest\t\t" + dest);
-        System.out.println("\tdestType\t\t" + destServiceType);
-        System.out.println("\tspanEv\t\t" + spanEvent);
-        System.out.println("\tstat\t\t" + stat2);
-        System.out.println("\t----------------------------------\n\n");
       }
     }
   }
