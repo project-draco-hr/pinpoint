@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(10);
+  BitSet incoming=iprot.readBitSet(11);
   if (incoming.get(0)) {
     struct.hostname=iprot.readString();
     struct.setHostnameIsSet(true);
@@ -30,14 +30,18 @@
     struct.setPidIsSet(true);
   }
   if (incoming.get(7)) {
+    struct.version=iprot.readString();
+    struct.setVersionIsSet(true);
+  }
+  if (incoming.get(8)) {
     struct.startTimestamp=iprot.readI64();
     struct.setStartTimestampIsSet(true);
   }
-  if (incoming.get(8)) {
+  if (incoming.get(9)) {
     struct.endTimestamp=iprot.readI64();
     struct.setEndTimestampIsSet(true);
   }
-  if (incoming.get(9)) {
+  if (incoming.get(10)) {
     struct.endStatus=iprot.readI32();
     struct.setEndStatusIsSet(true);
   }

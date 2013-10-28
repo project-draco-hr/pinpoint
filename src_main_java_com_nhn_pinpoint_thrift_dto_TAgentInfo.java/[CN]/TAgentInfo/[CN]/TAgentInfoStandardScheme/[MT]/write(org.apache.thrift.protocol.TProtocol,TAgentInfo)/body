@@ -32,6 +32,11 @@
   oprot.writeFieldBegin(PID_FIELD_DESC);
   oprot.writeI32(struct.pid);
   oprot.writeFieldEnd();
+  if (struct.version != null) {
+    oprot.writeFieldBegin(VERSION_FIELD_DESC);
+    oprot.writeString(struct.version);
+    oprot.writeFieldEnd();
+  }
   oprot.writeFieldBegin(START_TIMESTAMP_FIELD_DESC);
   oprot.writeI64(struct.startTimestamp);
   oprot.writeFieldEnd();

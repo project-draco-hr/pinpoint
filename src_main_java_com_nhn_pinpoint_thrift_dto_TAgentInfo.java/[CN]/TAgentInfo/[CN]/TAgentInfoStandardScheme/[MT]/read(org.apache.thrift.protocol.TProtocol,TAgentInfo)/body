@@ -71,6 +71,15 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
 case 8:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.version=iprot.readString();
+struct.setVersionIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 10:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
 struct.startTimestamp=iprot.readI64();
 struct.setStartTimestampIsSet(true);
@@ -79,7 +88,7 @@ struct.setStartTimestampIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 9:
+case 11:
 if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
 struct.endTimestamp=iprot.readI64();
 struct.setEndTimestampIsSet(true);
@@ -88,7 +97,7 @@ struct.setEndTimestampIsSet(true);
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 break;
-case 10:
+case 12:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
 struct.endStatus=iprot.readI32();
 struct.setEndStatusIsSet(true);
