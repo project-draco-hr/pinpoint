@@ -7,17 +7,24 @@ case CODE_BOOLEAN_TRUE:
 case CODE_BOOLEAN_FALSE:
 return Boolean.FALSE;
 case CODE_INT:
-return tu.decodeInt(data);
+{
+final Buffer buffer=new FixedBuffer(data);
+return buffer.readSVarInt();
+}
 case CODE_LONG:
-return tu.decodeLong(data);
+{
+final Buffer buffer=new FixedBuffer(data);
+return buffer.readSVarLong();
+}
 case CODE_BYTE:
-return tu.decodeByte(data);
+return data[0];
 case CODE_SHORT:
-return tu.decodeShort(data);
+final Buffer buffer=new FixedBuffer(data);
+return (short)buffer.readSVarInt();
 case CODE_FLOAT:
-return Float.intBitsToFloat(tu.decodeInt(data));
+return Float.intBitsToFloat(BytesUtils.bytesToInt(data,0));
 case CODE_DOUBLE:
-return Double.longBitsToDouble(tu.decodeLong(data));
+return Double.longBitsToDouble(BytesUtils.bytesToLong(data,0));
 case CODE_BYTEARRAY:
 return data;
 case CODE_NULL:
