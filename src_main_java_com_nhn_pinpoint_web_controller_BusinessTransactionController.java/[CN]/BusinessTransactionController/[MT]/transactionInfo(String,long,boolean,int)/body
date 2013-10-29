@@ -3,7 +3,8 @@
   final TransactionId traceId=new TransactionId(traceIdParam);
   ModelAndView mv=new ModelAndView("transactionInfo");
   try {
-    List<SpanAlign> spanAligns=this.spanService.selectSpan(traceId);
+    final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
+    List<SpanAlign> spanAligns=spanResult.getSpanAlign();
     if (spanAligns.isEmpty()) {
       mv.addObject("errorCode",9);
       mv.setViewName("error");
@@ -21,6 +22,7 @@
     mv.addObject("timeline",recordSet.getRecordList());
     mv.addObject("callstackStart",recordSet.getStartTime());
     mv.addObject("callstackEnd",recordSet.getEndTime());
+    mv.addObject("completeState",spanResult.getCompleteTypeString());
   }
  catch (  Exception e) {
     logger.warn("BusinessTransactionController Error Cause" + e.getMessage(),e);

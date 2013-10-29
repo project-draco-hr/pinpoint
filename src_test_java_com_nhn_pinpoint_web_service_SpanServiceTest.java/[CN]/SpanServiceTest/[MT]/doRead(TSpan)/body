@@ -1,7 +1,8 @@
 {
   com.nhn.pinpoint.common.util.TransactionId id=TransactionIdUtils.parseTransactionId(span.getTransactionId());
   TransactionId traceId=new TransactionId(id.getAgentId(),id.getAgentStartTime(),id.getTransactionSequence());
-  List<SpanAlign> sort=spanService.selectSpan(traceId);
+  SpanResult spanResult=spanService.selectSpan(traceId,System.currentTimeMillis());
+  List<SpanAlign> sort=spanResult.getSpanAlign();
   for (  SpanAlign spanAlign : sort) {
     logger.info("depth:{} {}",spanAlign.getDepth(),spanAlign.getSpanBo());
   }

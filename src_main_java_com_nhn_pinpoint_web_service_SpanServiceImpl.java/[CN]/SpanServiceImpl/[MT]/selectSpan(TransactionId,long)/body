@@ -1,12 +1,13 @@
 {
   List<SpanBo> spans=traceDao.selectSpanAndAnnotation(transactionId);
   if (spans == null || spans.isEmpty()) {
-    return Collections.emptyList();
+    return new SpanResult(SpanAligner2.FAIL_MATCH,Collections.<SpanAlign>emptyList());
   }
-  List<SpanAlign> order=order(spans);
+  SpanResult result=order(spans,selectedSpanHint);
+  List<SpanAlign> order=result.getSpanAlign();
   transitionDynamicApiId(order);
   transitionSqlId(order);
   transitionCachedString(order);
   transitionException(order);
-  return order;
+  return result;
 }
