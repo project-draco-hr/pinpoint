@@ -16,23 +16,23 @@
     logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",matchSize,root,spans);
     throw new IllegalStateException("parentSpanId(-1) collision. size:" + matchSize);
   }
-  final List<SpanBo> startTimeMatcher=new ArrayList<SpanBo>();
+  final List<SpanBo> collectorAcceptTimeMatcher=new ArrayList<SpanBo>();
   for (  SpanBo span : spans) {
-    if (span.getCollectorAcceptTime() == selectedSpanStartTime) {
-      startTimeMatcher.add(span);
+    if (span.getCollectorAcceptTime() == collectorAcceptTime) {
+      collectorAcceptTimeMatcher.add(span);
     }
   }
-  final int startMatchSize=startTimeMatcher.size();
+  final int startMatchSize=collectorAcceptTimeMatcher.size();
   if (startMatchSize == 1) {
-    final SpanBo spanBo=startTimeMatcher.get(0);
-    logger.info("startTime span found startTime match:{}",spanBo);
+    final SpanBo spanBo=collectorAcceptTimeMatcher.get(0);
+    logger.info("collectorAcceptTime span found startTime match:{}",spanBo);
     matchType=START_TIME_MATCH;
     return spanBo.getSpanId();
   }
   if (startMatchSize > 1) {
-    logger.warn("startTime match collision. size:{} selectedSpanStartTime:{} span:{} allSpan:{}",startMatchSize,selectedSpanStartTime,startMatchSize,spans);
-    throw new IllegalStateException("startTime match collision size:" + startMatchSize + " selectedSpanStartTime:"+ selectedSpanStartTime);
+    logger.warn("collectorAcceptTime match collision. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spans);
+    throw new IllegalStateException("startTime match collision size:" + startMatchSize + " collectorAcceptTime:"+ collectorAcceptTime);
   }
-  logger.warn("startTime match not found. size:{} selectedSpanStartTime:{} span:{} allSpan:{}",startMatchSize,selectedSpanStartTime,startMatchSize,spans);
-  throw new IllegalStateException("startTime match not found startTime size:" + startMatchSize + " selectedSpanStartTime:"+ selectedSpanStartTime);
+  logger.warn("collectorAcceptTime match not found. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spans);
+  throw new IllegalStateException("startTime match not found startTime size:" + startMatchSize + " collectorAcceptTime:"+ collectorAcceptTime);
 }

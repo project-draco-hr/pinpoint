@@ -1,7 +1,15 @@
 {
-  Map<Integer,SpanBo> spanMap=new HashMap<Integer,SpanBo>();
+  final Map<Integer,List<SpanBo>> spanMap=new HashMap<Integer,List<SpanBo>>();
   for (  SpanBo span : spans) {
-    spanMap.put(span.getSpanId(),span);
+    List<SpanBo> spanBoList=spanMap.get(span.getSpanId());
+    if (spanBoList == null) {
+      spanBoList=new ArrayList<SpanBo>();
+      spanBoList.add(span);
+      spanMap.put(span.getSpanId(),spanBoList);
+    }
+ else {
+      spanBoList.add(span);
+    }
   }
   return spanMap;
 }

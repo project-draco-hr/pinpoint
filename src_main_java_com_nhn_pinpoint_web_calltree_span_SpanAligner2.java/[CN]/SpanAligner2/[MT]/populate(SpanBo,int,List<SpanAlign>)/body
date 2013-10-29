@@ -23,7 +23,8 @@
     int nextSpanId=spanEventBo.getNextSpanId();
     if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
       int childDepth=currentDepth + 1;
-      SpanBo spanBo=spanMap.get(nextSpanId);
+      SpanBo spanBo=spanMap.get(nextSpanId).get(0);
+      logger.info("remote spanEvent:{} spanBo:{}",spanEventBo,spanBo);
       if (spanBo != null) {
         populate(spanBo,childDepth,container);
       }
