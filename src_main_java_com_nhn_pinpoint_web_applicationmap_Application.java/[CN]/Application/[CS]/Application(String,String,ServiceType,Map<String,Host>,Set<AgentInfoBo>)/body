@@ -3,10 +3,10 @@
   this.id=id;
   this.applicationName=(serviceType == ServiceType.CLIENT) ? "CLIENT" : applicationName;
   this.serviceType=serviceType;
-  if (agentSet != null) {
-    fillServerInstanceList(agentSet);
+  if (serverList != null) {
+    this.serverList.putAll(serverList);
   }
- else {
-    fillServerInstanceList(serverList);
+  if (agentSet != null) {
+    this.agentSet.addAll(agentSet);
   }
 }

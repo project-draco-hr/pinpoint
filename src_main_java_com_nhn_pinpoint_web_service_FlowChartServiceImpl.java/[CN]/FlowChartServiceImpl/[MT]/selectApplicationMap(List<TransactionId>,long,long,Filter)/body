@@ -66,6 +66,11 @@
       }
     }
   }
+  Iterator<TransactionFlowStatistics> iterator=statisticsData.iterator();
+  while (iterator.hasNext()) {
+    TransactionFlowStatistics stat=iterator.next();
+    fillAdditionalInfo(stat,from,to);
+  }
   ApplicationMap map=new ApplicationMap(statisticsData).build();
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
