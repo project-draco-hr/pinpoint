@@ -5,16 +5,16 @@
       root.add(span);
     }
   }
-  final int matchSize=root.size();
-  if (matchSize == 1) {
+  final int rootSpanBoSize=root.size();
+  if (rootSpanBoSize == 1) {
     final SpanBo spanBo=root.get(0);
-    logger.debug("root span found best match:{}",spanBo);
+    logger.debug("root span found. best match:{}",spanBo);
     matchType=BEST_MATCH;
     return spanBo.getSpanId();
   }
-  if (matchSize > 1) {
-    logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",matchSize,root,spans);
-    throw new IllegalStateException("parentSpanId(-1) collision. size:" + matchSize);
+  if (rootSpanBoSize > 1) {
+    logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",rootSpanBoSize,root,spans);
+    throw new IllegalStateException("parentSpanId(-1) collision. size:" + rootSpanBoSize);
   }
   final List<SpanBo> collectorAcceptTimeMatcher=new ArrayList<SpanBo>();
   for (  SpanBo span : spans) {

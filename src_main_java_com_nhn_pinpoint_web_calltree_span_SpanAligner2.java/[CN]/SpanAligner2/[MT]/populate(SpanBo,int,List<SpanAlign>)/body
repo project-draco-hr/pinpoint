@@ -20,16 +20,16 @@
     }
     SpanAlign spanEventAlign=new SpanAlign(currentDepth,span,spanEventBo);
     container.add(spanEventAlign);
-    int nextSpanId=spanEventBo.getNextSpanId();
-    if (nextSpanId != ROOT && spanMap.containsKey(nextSpanId)) {
+    final int nextSpanId=spanEventBo.getNextSpanId();
+    final List<SpanBo> nextSpanBoList=spanIdMap.remove(nextSpanId);
+    if (nextSpanId != ROOT && nextSpanBoList != null) {
       int childDepth=currentDepth + 1;
-      SpanBo spanBo=spanMap.get(nextSpanId).get(0);
-      logger.info("remote spanEvent:{} spanBo:{}",spanEventBo,spanBo);
+      SpanBo spanBo=getNextSpan(span,spanEventBo,nextSpanBoList);
       if (spanBo != null) {
         populate(spanBo,childDepth,container);
       }
  else {
-        logger.info("nextSpanId not found. {}",nextSpanId);
+        logger.debug("nextSpanId not found. {}",nextSpanId);
       }
     }
   }
