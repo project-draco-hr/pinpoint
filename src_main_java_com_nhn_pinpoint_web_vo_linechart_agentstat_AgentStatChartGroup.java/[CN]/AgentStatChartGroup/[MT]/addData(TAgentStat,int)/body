@@ -1,0 +1,67 @@
+{
+  if (data == null) {
+    return;
+  }
+  _Fields type=data.getSetField();
+  Object typeObject=data.getFieldValue(type);
+switch (type) {
+case CMS:
+    TStatWithCmsCollector cms=(TStatWithCmsCollector)typeObject;
+  for (  TStatWithCmsCollector._Fields each : TStatWithCmsCollector.metaDataMap.keySet()) {
+    Object fieldValue=cms.getFieldValue(each);
+    if (!(fieldValue instanceof Long)) {
+      continue;
+    }
+    if (!charts.containsKey(each.getFieldName())) {
+      charts.put(each.getFieldName(),new SampledLineChart(sampleRate));
+    }
+    LineChart chart=charts.get(each.getFieldName());
+    chart.addPoint(new Long[]{cms.getTimestamp(),(Long)fieldValue});
+  }
+break;
+case G1:
+TStatWithG1Collector g1=(TStatWithG1Collector)typeObject;
+for (TStatWithG1Collector._Fields each : TStatWithG1Collector.metaDataMap.keySet()) {
+Object fieldValue=g1.getFieldValue(each);
+if (!(fieldValue instanceof Long)) {
+continue;
+}
+if (!charts.containsKey(each.getFieldName())) {
+charts.put(each.getFieldName(),new SampledLineChart(sampleRate));
+}
+LineChart chart=charts.get(each.getFieldName());
+chart.addPoint(new Long[]{g1.getTimestamp(),(Long)fieldValue});
+}
+break;
+case PARALLEL:
+TStatWithParallelCollector parallel=(TStatWithParallelCollector)typeObject;
+for (TStatWithParallelCollector._Fields each : TStatWithParallelCollector.metaDataMap.keySet()) {
+Object fieldValue=parallel.getFieldValue(each);
+if (!(fieldValue instanceof Long)) {
+continue;
+}
+if (!charts.containsKey(each.getFieldName())) {
+charts.put(each.getFieldName(),new SampledLineChart(sampleRate));
+}
+LineChart chart=charts.get(each.getFieldName());
+Long[] point=new Long[]{parallel.getTimestamp(),(Long)fieldValue};
+chart.addPoint(point);
+}
+break;
+case SERIAL:
+TStatWithG1Collector serial=(TStatWithG1Collector)typeObject;
+for (TStatWithG1Collector._Fields each : TStatWithG1Collector.metaDataMap.keySet()) {
+Object fieldValue=serial.getFieldValue(each);
+if (!(fieldValue instanceof Long)) {
+continue;
+}
+if (!charts.containsKey(each.getFieldName())) {
+charts.put(each.getFieldName(),new SampledLineChart(sampleRate));
+}
+LineChart chart=charts.get(each.getFieldName());
+chart.addPoint(new Long[]{serial.getTimestamp(),(Long)fieldValue});
+}
+break;
+}
+this.type=type.getFieldName();
+}
