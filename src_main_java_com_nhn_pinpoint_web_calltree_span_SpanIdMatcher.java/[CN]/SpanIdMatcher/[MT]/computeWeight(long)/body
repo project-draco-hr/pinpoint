@@ -1,0 +1,13 @@
+{
+  List<WeightSpanBo> weightSpanList=new ArrayList<WeightSpanBo>();
+  for (  SpanBo next : nextSpanBoList) {
+    long startTime=next.getStartTime();
+    long distance=startTime - spanEventBoStartTime;
+    long weightDistance=getWeightDistance(distance);
+    if (weightDistance > MAX_EXCLUDE_WEIGHT) {
+      continue;
+    }
+    weightSpanList.add(new WeightSpanBo(weightDistance,next));
+  }
+  return weightSpanList;
+}

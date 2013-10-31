@@ -1,0 +1,31 @@
+{
+  List<WeightSpanBo> weightSpanList=computeWeight(spanEventBoStartTime);
+  if (weightSpanList.size() == 0) {
+    return null;
+  }
+  Collections.sort(weightSpanList,new Comparator(){
+    @Override public int compare(    Object o1,    Object o2){
+      WeightSpanBo wSpan1=(WeightSpanBo)o1;
+      WeightSpanBo wSpan2=(WeightSpanBo)o2;
+      final long spanWeight1=wSpan1.getWeight();
+      final long spanWeight2=wSpan2.getWeight();
+      if (spanWeight1 < spanWeight2) {
+        return -1;
+      }
+ else {
+        if (spanWeight1 == spanWeight2) {
+          return 0;
+        }
+ else {
+          return 1;
+        }
+      }
+    }
+  }
+);
+  SpanBo minWeight=getMinWeight(weightSpanList);
+  if (minWeight != null) {
+    nextSpanBoList.remove(minWeight);
+  }
+  return minWeight;
+}
