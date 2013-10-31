@@ -1,29 +1,33 @@
 {
+  logger.debug("fetch scatter data FROM={}, TO={}, LIMIT={}, FILTER={}",from,to,limit,filterText);
   StopWatch watch=new StopWatch();
   watch.start("selectScatterData");
   List<Dot> scatterData;
   if (filterText == null) {
     scatterData=scatter.selectScatterData(applicationName,from,to,limit);
     if (scatterData.isEmpty()) {
-      model.addAttribute("queryStart",-1);
-      model.addAttribute("queryEnd",-1);
+      model.addAttribute("resultFrom",-1);
+      model.addAttribute("resultTo",-1);
     }
  else {
-      model.addAttribute("queryStart",from);
-      model.addAttribute("queryEnd",scatterData.get(scatterData.size() - 1).getTimestamp());
+      model.addAttribute("resultFrom",scatterData.get(scatterData.size() - 1).getTimestamp());
+      model.addAttribute("resultTo",to);
     }
   }
  else {
-    ResultWithMark<List<TransactionId>,Long> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-    SortedSet<TransactionId> traceIds=new TreeSet<TransactionId>(traceIdList.getValue());
-    scatterData=scatter.selectScatterData(traceIds,applicationName,FilterBuilder.build(filterText));
-    if (traceIds.isEmpty()) {
-      model.addAttribute("queryStart",-1);
-      model.addAttribute("queryEnd",-1);
+    ResultWithMark<List<TransactionId>,Long> traceIdWithMark=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+    List<TransactionId> traceIdList=traceIdWithMark.getValue();
+    logger.debug("selected traceidList {}",traceIdList);
+    SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
+    logger.debug("selectScatterData with {}",traceIdSet);
+    scatterData=scatter.selectScatterData(traceIdSet,applicationName,FilterBuilder.build(filterText));
+    if (traceIdList.isEmpty()) {
+      model.addAttribute("resultFrom",-1);
+      model.addAttribute("resultTo",-1);
     }
  else {
-      model.addAttribute("queryStart",from);
-      model.addAttribute("queryEnd",scatterData.get(scatterData.size() - 1).getTimestamp());
+      model.addAttribute("resultFrom",traceIdWithMark.getMark());
+      model.addAttribute("resultTo",to);
     }
   }
   watch.stop();
