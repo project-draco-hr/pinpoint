@@ -9,21 +9,22 @@
       model.addAttribute("queryEnd",-1);
     }
  else {
-      model.addAttribute("queryStart",scatterData.get(0).getTimestamp());
+      model.addAttribute("queryStart",from);
       model.addAttribute("queryEnd",scatterData.get(scatterData.size() - 1).getTimestamp());
     }
   }
  else {
-    List<TransactionId> traceIds=scatter.selectScatterTraceIdList(applicationName,from,to,limit);
+    ResultWithMark<List<TransactionId>,Long> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+    SortedSet<TransactionId> traceIds=new TreeSet<TransactionId>(traceIdList.getValue());
+    scatterData=scatter.selectScatterData(traceIds,applicationName,FilterBuilder.build(filterText));
     if (traceIds.isEmpty()) {
       model.addAttribute("queryStart",-1);
       model.addAttribute("queryEnd",-1);
     }
  else {
-      model.addAttribute("queryStart",((TraceIdWithTime)traceIds.get(0)).getAcceptedTime());
-      model.addAttribute("queryEnd",((TraceIdWithTime)traceIds.get(traceIds.size() - 1)).getAcceptedTime());
+      model.addAttribute("queryStart",from);
+      model.addAttribute("queryEnd",scatterData.get(scatterData.size() - 1).getTimestamp());
     }
-    scatterData=scatter.selectScatterData(traceIds,applicationName,FilterBuilder.build(filterText));
   }
   watch.stop();
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());

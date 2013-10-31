@@ -1,7 +1,0 @@
-{
-  final byte[] buffer=kv.getBuffer();
-  long reverseAcceptedTime=BytesUtils.bytesToLong(buffer,HBaseTables.APPLICATION_NAME_MAX_LEN + HBaseTables.APPLICATION_TRACE_INDEX_ROW_DISTRIBUTE_SIZE);
-  long acceptedTime=TimeUtils.recoveryCurrentTimeMillis(reverseAcceptedTime);
-  final int qualifierOffset=kv.getQualifierOffset();
-  return new TraceIdWithTime(buffer,qualifierOffset,acceptedTime);
-}
