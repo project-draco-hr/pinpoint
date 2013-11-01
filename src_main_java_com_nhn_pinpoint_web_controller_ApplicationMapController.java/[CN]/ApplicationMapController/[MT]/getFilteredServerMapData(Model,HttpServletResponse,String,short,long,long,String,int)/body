@@ -6,6 +6,9 @@
   model.addAttribute("to",to);
   model.addAttribute("filter",filter);
   model.addAttribute("lastFetchedTimestamp",limitedScanResult.getLimitedTime());
+  if (logger.isDebugEnabled()) {
+    logger.debug("getFilteredServerMapData range scan(limit:{}) from~to:{} ~ {} lastFetchedTimestamp:{}",limit,DateUtils.longToDateStr(from),DateUtils.longToDateStr(to),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()));
+  }
   model.addAttribute("nodes",map.getNodes());
   model.addAttribute("links",map.getLinks());
   return "applicationmap.filtered2";
