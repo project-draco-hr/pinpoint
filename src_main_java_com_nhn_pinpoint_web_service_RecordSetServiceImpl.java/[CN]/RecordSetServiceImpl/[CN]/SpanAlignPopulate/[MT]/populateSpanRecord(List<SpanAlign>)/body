@@ -86,6 +86,7 @@
     }
  else {
       SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+      SpanBo spanBo=spanAlign.getSpanBo();
       String argument=getDisplayArgument(spanEventBo);
       final int spanBoEventSequence=stack.getLast().getId();
       final int parentSequence=stack.getParent().getId();
@@ -96,7 +97,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),destinationId,spanAlign.isHasChild());
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
@@ -106,7 +107,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanEventBo.getDestinationId(),spanEventBo.getServiceType(),destinationId,spanAlign.isHasChild());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getValue(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanBo.getApplicationId(),spanBo.getServiceType(),destinationId,spanAlign.isHasChild());
         record.setSimpleClassName("");
         record.setFullApiDescription(method);
         recordList.add(record);
