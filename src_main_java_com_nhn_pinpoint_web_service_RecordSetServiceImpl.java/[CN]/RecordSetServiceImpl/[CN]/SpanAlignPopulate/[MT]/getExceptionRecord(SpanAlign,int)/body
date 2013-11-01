@@ -3,14 +3,14 @@
     final SpanBo spanBo=spanAlign.getSpanBo();
     if (spanBo.hasException()) {
       String simpleExceptionClass=getSimpleExceptionName(spanBo.getExceptionClass());
-      return new Record(spanAlign.getDepth() + 1,getNextId(),parentSequence,false,simpleExceptionClass,spanBo.getExceptionMessage(),0L,0L,0,null,null,null,null,false);
+      return new Record(spanAlign.getDepth() + 1,getNextId(),parentSequence,false,simpleExceptionClass,spanBo.getExceptionMessage(),0L,0L,0,null,null,null,null,false,false);
     }
   }
  else {
     final SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
     if (spanEventBo.hasException()) {
       String simpleExceptionClass=getSimpleExceptionName(spanEventBo.getExceptionClass());
-      return new Record(spanAlign.getDepth() + 1,getNextId(),parentSequence,false,simpleExceptionClass,spanEventBo.getExceptionMessage(),0L,0L,0,null,null,null,null,false);
+      return new Record(spanAlign.getDepth() + 1,getNextId(),parentSequence,false,simpleExceptionClass,spanEventBo.getExceptionMessage(),0L,0L,0,null,null,null,null,false,true);
     }
   }
   return null;
