@@ -1,17 +1,17 @@
 {
   logger.debug("scanTraceIndex");
   Scan scan=createScan(applicationName,start,end);
-  final ResultWithMark<List<TransactionId>,Long> resultWithMark=new ResultWithMark<List<TransactionId>,Long>();
+  final LimitedScanResult<List<TransactionId>> limitedScanResult=new LimitedScanResult<List<TransactionId>>();
   LastRowAccessor lastRowAccessor=new LastRowAccessor();
   List<List<TransactionId>> traceIndexList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,lastRowAccessor);
   List<TransactionId> transactionIdSum=new ArrayList<TransactionId>(128);
   for (  List<TransactionId> transactionId : traceIndexList) {
     transactionIdSum.addAll(transactionId);
   }
-  resultWithMark.setValue(transactionIdSum);
+  limitedScanResult.setScanData(transactionIdSum);
   if (transactionIdSum.size() >= limit) {
     Long lastRowTimestamp=lastRowAccessor.getLastRowTimestamp();
-    resultWithMark.setMark(lastRowTimestamp);
+    limitedScanResult.setLimitedTime(lastRowTimestamp);
     if (logger.isDebugEnabled()) {
       logger.debug("lastRowTimestamp lastTime:{}",DateUtils.longToDateStr(lastRowTimestamp));
     }
@@ -20,7 +20,7 @@
     if (logger.isDebugEnabled()) {
       logger.debug("scanner start lastTime:{}",DateUtils.longToDateStr(start));
     }
-    resultWithMark.setMark(start);
+    limitedScanResult.setLimitedTime(start);
   }
-  return resultWithMark;
+  return limitedScanResult;
 }

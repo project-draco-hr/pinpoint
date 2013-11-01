@@ -7,10 +7,10 @@
       crashKey.add(transactionId);
     }
   }
-  if (transactionIdList.size() != 0) {
-    Set<TransactionId> transactionIds=filterMap.keySet();
-    logger.info("transactionId crash found. original:{} filer:{} crashKey:{}",transactionIdList.size(),filterMap.size(),crashKey);
-    return transactionIds;
+  if (crashKey.size() != 0) {
+    Set<TransactionId> filteredTrasnactionId=filterMap.keySet();
+    logger.info("transactionId crash found. original:{} filter:{} crashKey:{}",transactionIdList.size(),filteredTrasnactionId.size(),crashKey);
+    return filteredTrasnactionId;
   }
   return transactionIdList;
 }

@@ -15,8 +15,8 @@
     }
   }
  else {
-    ResultWithMark<List<TransactionId>,Long> traceIdWithMark=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-    List<TransactionId> traceIdList=traceIdWithMark.getValue();
+    LimitedScanResult<List<TransactionId>> traceIdWithMark=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+    List<TransactionId> traceIdList=traceIdWithMark.getScanData();
     logger.debug("selected traceidList {}",traceIdList);
     SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
     logger.debug("selectScatterData with {}",traceIdSet);
@@ -26,7 +26,7 @@
       model.addAttribute("resultTo",-1);
     }
  else {
-      model.addAttribute("resultFrom",traceIdWithMark.getMark());
+      model.addAttribute("resultFrom",traceIdWithMark.getLimitedTime());
       model.addAttribute("resultTo",to);
     }
   }
