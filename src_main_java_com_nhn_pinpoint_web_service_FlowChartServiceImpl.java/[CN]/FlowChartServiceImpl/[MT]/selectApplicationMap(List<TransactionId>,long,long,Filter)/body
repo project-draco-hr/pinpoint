@@ -1,7 +1,7 @@
 {
   StopWatch watch=new StopWatch();
   watch.start();
-  Collection<TransactionId> filterdList=filter(transactionIdList);
+  Collection<TransactionId> filterdList=recursiveCallFilter(transactionIdList);
   List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(filterdList);
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
@@ -66,9 +66,7 @@
       }
     }
   }
-  Iterator<TransactionFlowStatistics> iterator=statisticsData.iterator();
-  while (iterator.hasNext()) {
-    TransactionFlowStatistics stat=iterator.next();
+  for (  TransactionFlowStatistics stat : statisticsData) {
     fillAdditionalInfo(stat,from,to);
   }
   ApplicationMap map=new ApplicationMap(statisticsData).build();
