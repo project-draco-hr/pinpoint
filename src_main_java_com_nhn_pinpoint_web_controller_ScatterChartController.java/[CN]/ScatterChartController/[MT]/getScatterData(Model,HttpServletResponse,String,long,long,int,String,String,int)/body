@@ -20,7 +20,7 @@
     logger.debug("selected traceidList {}",traceIdList);
     SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
     logger.debug("selectScatterData with {}",traceIdSet);
-    scatterData=scatter.selectScatterData(traceIdSet,applicationName,FilterBuilder.build(filterText));
+    scatterData=scatter.selectScatterData(traceIdSet,applicationName,filterBuilder.build(filterText));
     if (traceIdList.isEmpty()) {
       model.addAttribute("resultFrom",-1);
       model.addAttribute("resultTo",-1);

@@ -1,6 +1,6 @@
 {
   LimitedScanResult<List<TransactionId>> traceIdList=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-  Filter filter=FilterBuilder.build(filterText);
+  Filter filter=filterBuilder.build(filterText);
   BusinessTransactions selectBusinessTransactions=flow.selectBusinessTransactions(traceIdList.getScanData(),applicationName,from,to,filter);
   model.addAttribute("lastFetchedTimestamp",traceIdList.getLimitedTime());
   model.addAttribute("rpcList",selectBusinessTransactions.getBusinessTransactionIterator());
