@@ -12,9 +12,9 @@
     }
     mv.addObject("spanList",spanAligns);
     mv.addObject("traceId",traceId);
-    ServerCallTree callTree=this.flow.selectServerCallTree(traceId);
-    mv.addObject("nodes",callTree.getNodes());
-    mv.addObject("links",callTree.getLinks());
+    ApplicationMap map=flow.selectApplicationMap(traceId);
+    mv.addObject("nodes",map.getNodes());
+    mv.addObject("links",map.getLinks());
     RecordSet recordSet=this.recordSetService.createRecordSet(spanAligns,focusTimestamp);
     mv.addObject("recordSet",recordSet);
     mv.addObject("applicationName",recordSet.getApplicationName());
