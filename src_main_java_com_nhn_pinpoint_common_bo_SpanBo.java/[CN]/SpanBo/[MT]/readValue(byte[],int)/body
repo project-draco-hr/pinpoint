@@ -18,8 +18,6 @@
     this.exceptionId=buffer.readSVarInt();
     this.exceptionMessage=buffer.readPrefixedString();
   }
-  if (buffer.limit() == 2) {
-    this.flag=buffer.readShort();
-  }
+  this.flag=buffer.readShort();
   return buffer.getOffset();
 }
