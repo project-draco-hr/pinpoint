@@ -14,7 +14,7 @@
     this.setTransactionId(TransactionIdUtils.formatBytes(null,traceId.getAgentStartTime(),traceId.getTransactionSequence()));
   }
   this.setSpanId(traceId.getSpanId());
-  final int parentSpanId=traceId.getParentSpanId();
+  final long parentSpanId=traceId.getParentSpanId();
   if (traceId.getParentSpanId() != SpanId.NULL) {
     this.setParentSpanId(parentSpanId);
   }
