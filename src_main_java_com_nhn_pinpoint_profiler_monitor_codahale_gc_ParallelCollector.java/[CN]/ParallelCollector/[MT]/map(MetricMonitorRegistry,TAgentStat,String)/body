@@ -1,0 +1,15 @@
+{
+  MetricRegistry r=registry.getRegistry();
+  TJvmGc gc=agentStat.getGc();
+  if (gc == null) {
+    gc=new TJvmGc();
+    agentStat.setGc(gc);
+  }
+  gc.setType(TJvmGcType.PARALLEL);
+  gc.setJvmMemoryHeapMax(MetricMonitorValues.getLong(r,JVM_MEMORY_HEAP_MAX));
+  gc.setJvmMemoryHeapUsed(MetricMonitorValues.getLong(r,JVM_MEMORY_HEAP_USED));
+  gc.setJvmMemoryNonHeapMax(MetricMonitorValues.getLong(r,JVM_MEMORY_NONHEAP_MAX));
+  gc.setJvmMemoryNonHeapUsed(MetricMonitorValues.getLong(r,JVM_MEMORY_NONHEAP_USED));
+  gc.setJvmGcOldCount(MetricMonitorValues.getLong(r,JVM_GC_PS_MS_COUNT));
+  gc.setJvmGcOldTime(MetricMonitorValues.getLong(r,JVM_GC_PS_MS_TIME));
+}

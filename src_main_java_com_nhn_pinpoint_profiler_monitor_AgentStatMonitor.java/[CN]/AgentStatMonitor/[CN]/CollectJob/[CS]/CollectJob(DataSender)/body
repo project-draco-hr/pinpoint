@@ -4,7 +4,10 @@
   this.monitorRegistry.registerJvmMemoryMonitor(new MonitorName(MetricMonitorValues.JVM_MEMORY));
   this.monitorRegistry.registerJvmGcMonitor(new MonitorName(MetricMonitorValues.JVM_GC));
   this.agentStat=new TAgentStat();
+  this.agentStat.setAgentId(agentId);
   this.garbageCollector=new GarbageCollector();
   this.garbageCollector.setType(monitorRegistry);
-  logger.info("found : {}",this.garbageCollector);
+  if (logger.isInfoEnabled()) {
+    logger.info("found : {}",this.garbageCollector);
+  }
 }
