@@ -2,18 +2,5 @@
   if (agentStat == null) {
     throw new NullPointerException("agentStat must not be null");
   }
-  _Fields type=agentStat.getSetField();
-  Object typeObject=agentStat.getFieldValue();
-switch (type) {
-case CMS:
-    return ((TStatWithCmsCollector)typeObject).getAgentId();
-case G1:
-  return ((TStatWithG1Collector)typeObject).getAgentId();
-case PARALLEL:
-return ((TStatWithParallelCollector)typeObject).getAgentId();
-case SERIAL:
-return ((TStatWithSerialCollector)typeObject).getAgentId();
-default :
-throw new RuntimeException("type not found. type:" + type);
-}
+  return agentStat.getAgentId();
 }
