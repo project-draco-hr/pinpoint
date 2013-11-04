@@ -1,0 +1,19 @@
+{
+switch (field) {
+case TYPE:
+    return getType();
+case JVM_MEMORY_HEAP_USED:
+  return Long.valueOf(getJvmMemoryHeapUsed());
+case JVM_MEMORY_HEAP_MAX:
+return Long.valueOf(getJvmMemoryHeapMax());
+case JVM_MEMORY_NON_HEAP_USED:
+return Long.valueOf(getJvmMemoryNonHeapUsed());
+case JVM_MEMORY_NON_HEAP_MAX:
+return Long.valueOf(getJvmMemoryNonHeapMax());
+case JVM_GC_OLD_COUNT:
+return Long.valueOf(getJvmGcOldCount());
+case JVM_GC_OLD_TIME:
+return Long.valueOf(getJvmGcOldTime());
+}
+throw new IllegalStateException();
+}

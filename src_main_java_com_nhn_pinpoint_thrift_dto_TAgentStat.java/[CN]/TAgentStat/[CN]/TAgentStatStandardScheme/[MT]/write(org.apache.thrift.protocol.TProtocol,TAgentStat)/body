@@ -1,0 +1,31 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(START_TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.startTimestamp);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.timestamp);
+  oprot.writeFieldEnd();
+  if (struct.gc != null) {
+    if (struct.isSetGc()) {
+      oprot.writeFieldBegin(GC_FIELD_DESC);
+      struct.gc.write(oprot);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.metadata != null) {
+    if (struct.isSetMetadata()) {
+      oprot.writeFieldBegin(METADATA_FIELD_DESC);
+      oprot.writeString(struct.metadata);
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

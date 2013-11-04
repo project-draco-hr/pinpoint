@@ -1,7 +1,58 @@
 {
-  int lastComparison=org.apache.thrift.TBaseHelper.compareTo(getSetField(),other.getSetField());
-  if (lastComparison == 0) {
-    return org.apache.thrift.TBaseHelper.compareTo(getFieldValue(),other.getFieldValue());
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
   }
-  return lastComparison;
+  int lastComparison=0;
+  TAgentStat typedOther=(TAgentStat)other;
+  lastComparison=Boolean.valueOf(isSetAgentId()).compareTo(typedOther.isSetAgentId());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetAgentId()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.agentId,typedOther.agentId);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetStartTimestamp()).compareTo(typedOther.isSetStartTimestamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetStartTimestamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.startTimestamp,typedOther.startTimestamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetTimestamp()).compareTo(typedOther.isSetTimestamp());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetTimestamp()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.timestamp,typedOther.timestamp);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetGc()).compareTo(typedOther.isSetGc());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetGc()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.gc,typedOther.gc);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetMetadata()).compareTo(typedOther.isSetMetadata());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetMetadata()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.metadata,typedOther.metadata);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
 }
