@@ -6,7 +6,7 @@
   String[] ret=new String[raw.length];
   int index=0;
   for (  KeyValue kv : raw) {
-    ret[index++]=new String(kv.getQualifier(),"UTF-8");
+    ret[index++]=BytesUtils.toString(kv.getQualifier());
   }
   return ret[0];
 }
