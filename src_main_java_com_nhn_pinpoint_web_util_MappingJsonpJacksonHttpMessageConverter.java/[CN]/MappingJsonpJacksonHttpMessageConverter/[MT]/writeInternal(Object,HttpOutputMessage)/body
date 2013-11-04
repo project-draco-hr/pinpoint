@@ -1,0 +1,18 @@
+{
+  JsonGenerator jsonGenerator=getJsonGenerator(outputMessage);
+  try {
+    String callbackParam=getRequestParam(DEFAULT_CALLBACK_PARAMETER);
+    if (callbackParam == null || "".equals(callbackParam)) {
+      callbackParam=DEFAULT_CALLBACK_PARAMETER;
+    }
+    jsonGenerator.writeRaw(callbackParam);
+    jsonGenerator.writeRaw(cbPrefix);
+    getObjectMapper().writeValue(jsonGenerator,object);
+    jsonGenerator.writeRaw(cbSuffix);
+    jsonGenerator.writeRaw(cbEnd);
+    jsonGenerator.flush();
+  }
+ catch (  JsonProcessingException e) {
+    throw new HttpMessageNotWritableException("Could not write JSON:" + e.getMessage(),e);
+  }
+}

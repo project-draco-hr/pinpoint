@@ -14,13 +14,5 @@
   for (  TAgentStat each : agentStatList) {
     chart.addData(each,sampleRate);
   }
-  response.setContentType("text/javascript; charset=UTF-8");
-  PrintWriter out=response.getWriter();
-  if (jsonpCallback != null) {
-    out.write(jsonpCallback + "(" + jsonObjectMapper.writeValueAsString(chart)+ ")");
-  }
- else {
-    out.write(jsonObjectMapper.writeValueAsString(chart));
-  }
-  out.close();
+  return chart;
 }
