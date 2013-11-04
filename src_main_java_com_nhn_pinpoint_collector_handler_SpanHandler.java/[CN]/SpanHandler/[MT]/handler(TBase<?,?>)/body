@@ -9,7 +9,6 @@
     }
     traceDao.insert(span);
     applicationTraceIndexDao.insert(span);
-    statisticsHandler.updateApplication(span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
     if (span.getParentSpanId() == -1) {
       statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.CLIENT.getCode(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
       statisticsHandler.updateCaller(span.getApplicationName(),ServiceType.CLIENT.getCode(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
@@ -31,7 +30,6 @@
         }
         int elapsed=spanEvent.getEndElapsed();
         boolean hasException=SpanEventUtils.hasException(spanEvent);
-        statisticsHandler.updateApplication(spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
         statisticsHandler.updateCallee(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationName(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
         statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
       }
