@@ -12,10 +12,10 @@
     }
     mv.addObject("spanList",spanAligns);
     mv.addObject("traceId",traceId);
-    ApplicationMap map=flow.selectApplicationMap(traceId);
+    ApplicationMap map=filteredApplicationMapService.selectApplicationMap(traceId);
     mv.addObject("nodes",map.getNodes());
     mv.addObject("links",map.getLinks());
-    RecordSet recordSet=this.recordSetService.createRecordSet(spanAligns,focusTimestamp);
+    RecordSet recordSet=this.transactionInfoService.createRecordSet(spanAligns,focusTimestamp);
     mv.addObject("recordSet",recordSet);
     mv.addObject("applicationName",recordSet.getApplicationName());
     mv.addObject("callstack",recordSet.getRecordList());

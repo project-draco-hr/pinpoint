@@ -1,0 +1,8 @@
+{
+  LimitedScanResult<List<TransactionId>> traceIdSet=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+  Filter filter=filterBuilder.build(filterText);
+  LinkStatistics linkStatistics=filteredApplicationMapService.linkStatistics(from,to,traceIdSet.getScanData(),srcApplicationName,srcServiceType,destApplicationName,destServiceType,filter);
+  model.addAttribute("lastFetchedTimestamp",traceIdSet.getLimitedTime());
+  model.addAttribute("linkStatistics",linkStatistics);
+  return "linkStatisticsDetail";
+}

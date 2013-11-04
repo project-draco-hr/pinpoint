@@ -1,8 +1,0 @@
-{
-  LimitedScanResult<List<TransactionId>> traceIdSet=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-  Filter filter=filterBuilder.build(filterText);
-  LinkStatistics linkStatistics=flow.linkStatisticsDetail(from,to,traceIdSet.getScanData(),srcApplicationName,srcServiceType,destApplicationName,destServiceType,filter);
-  model.addAttribute("lastFetchedTimestamp",traceIdSet.getLimitedTime());
-  model.addAttribute("linkStatistics",linkStatistics);
-  return "linkStatisticsDetail";
-}
