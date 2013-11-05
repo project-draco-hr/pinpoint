@@ -7,7 +7,7 @@
   for (  KeyValue kv : raw) {
     byte[] buffer=kv.getBuffer();
     int qualifierOffset=kv.getQualifierOffset();
-    TransactionId traceId=new TransactionId(buffer,qualifierOffset);
+    TransactionId traceId=parseVarTransactionId(buffer,qualifierOffset);
     traceIdList.add(traceId);
     logger.debug("found traceId {}",traceId);
   }
