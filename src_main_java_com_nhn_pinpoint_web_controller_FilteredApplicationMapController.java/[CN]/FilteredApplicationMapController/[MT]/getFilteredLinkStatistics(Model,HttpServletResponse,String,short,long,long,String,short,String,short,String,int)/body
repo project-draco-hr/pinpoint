@@ -2,7 +2,16 @@
   LimitedScanResult<List<TransactionId>> traceIdSet=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=filterBuilder.build(filterText);
   LinkStatistics linkStatistics=filteredApplicationMapService.linkStatistics(from,to,traceIdSet.getScanData(),srcApplicationName,srcServiceType,destApplicationName,destServiceType,filter);
-  model.addAttribute("lastFetchedTimestamp",traceIdSet.getLimitedTime());
+  model.addAttribute("from",from);
+  model.addAttribute("to",to);
+  model.addAttribute("srcApplicationName",srcApplicationName);
+  model.addAttribute("destApplicationName",destApplicationName);
+  model.addAttribute("srcApplicationType",ServiceType.findServiceType(srcServiceType));
+  model.addAttribute("destApplicationType",ServiceType.findServiceType(destServiceType));
   model.addAttribute("linkStatistics",linkStatistics);
+  model.addAttribute("histogramSummary",linkStatistics.getHistogramSummary().entrySet().iterator());
+  model.addAttribute("timeseriesSlotIndex",linkStatistics.getTimeseriesSlotIndex().entrySet().iterator());
+  model.addAttribute("timeseriesValue",linkStatistics.getTimeseriesValue());
+  model.addAttribute("lastFetchedTimestamp",traceIdSet.getLimitedTime());
   return "linkStatisticsDetail";
 }
