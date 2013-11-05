@@ -1,9 +1,0 @@
-{
-  if (hBaseAdminTemplate == null) {
-    throw new RuntimeException("hBaseAdminTemplate is required");
-  }
-  String tableName=traceIndex.getTableName();
-  HTableDescriptor testTrace=new HTableDescriptor(traceIndex.getTableName());
-  testTrace.addFamily(new HColumnDescriptor(TRACE));
-  hBaseAdminTemplate.createTableIfNotExist(testTrace);
-}

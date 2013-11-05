@@ -1,10 +1,11 @@
 {
   try {
-    GenericApplicationContext context=ApplicationContextUtils.createContext();
-    DataReceiver receiver=context.getBean("udpSpanReceiver",UDPReceiver.class);
-    Thread.sleep(1000);
-    receiver.shutdown();
-    context.close();
+    DataReceiver receiver=new UDPReceiver("test",new DispatchHandler(){
+      @Override public TBase dispatch(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
+        return null;
+      }
+    }
+,"127.0.0.1",10999,1024,1,10);
   }
  catch (  Exception e) {
     e.printStackTrace();
