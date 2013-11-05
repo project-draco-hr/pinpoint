@@ -7,7 +7,7 @@
   long acceptedTime=acceptedTimeService.getAcceptedTime();
   put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
   List<TAnnotation> annotations=span.getAnnotations();
-  if (annotations != null && annotations.size() != 0) {
+  if (CollectionUtils.isNotEmpty(annotations)) {
     byte[] bytes=writeAnnotation(annotations);
     put.add(TRACES_CF_ANNOTATION,spanId,bytes);
   }
