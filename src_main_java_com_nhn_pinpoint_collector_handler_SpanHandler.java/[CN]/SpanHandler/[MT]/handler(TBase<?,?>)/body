@@ -17,23 +17,8 @@
       logger.debug("Received parent application name. {}",span.getParentApplicationName());
       statisticsHandler.updateCaller(span.getParentApplicationName(),span.getParentApplicationType(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
     }
-    if (span.getAcceptorHost() != null) {
-      hostApplicationMapDao.insert(span.getAcceptorHost(),span.getApplicationName(),span.getServiceType());
-    }
-    List<TSpanEvent> spanEventList=span.getSpanEventList();
-    if (spanEventList != null) {
-      logger.debug("handle spanEvent size:{}",spanEventList.size());
-      for (      TSpanEvent spanEvent : spanEventList) {
-        ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
-        if (!serviceType.isRecordStatistics()) {
-          continue;
-        }
-        int elapsed=spanEvent.getEndElapsed();
-        boolean hasException=SpanEventUtils.hasException(spanEvent);
-        statisticsHandler.updateCallee(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationName(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
-        statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
-      }
-    }
+    insertAcceptorHost(span);
+    insertStatistics(span);
   }
  catch (  Exception e) {
     logger.warn("Span handle error. Caused:{}. Span:{}",e.getMessage(),tbase,e);
