@@ -1,7 +1,7 @@
 {
   LimitedScanResult<List<TransactionId>> limitedScanResult=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
   Filter filter=filterBuilder.build(filterText);
-  ApplicationMap map=filteredApplicationMapService.selectApplicationMap(limitedScanResult.getScanData(),filter);
+  ApplicationMap map=filteredApplicationMapService.selectApplicationMap(limitedScanResult.getScanData(),from,to,filter);
   model.addAttribute("from",from);
   model.addAttribute("to",to);
   model.addAttribute("filter",filter);
@@ -11,5 +11,6 @@
   }
   model.addAttribute("nodes",map.getNodes());
   model.addAttribute("links",map.getLinks());
+  model.addAttribute("timeseriesResponses",map.getTimeseriesResponse());
   return "applicationmap.filtered";
 }

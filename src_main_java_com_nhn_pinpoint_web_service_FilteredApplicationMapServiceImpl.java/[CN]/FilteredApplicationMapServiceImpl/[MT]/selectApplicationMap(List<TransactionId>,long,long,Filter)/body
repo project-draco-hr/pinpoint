@@ -6,6 +6,7 @@
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
   Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
+  TimeseriesResponses tr=new TimeseriesResponses(from,to);
   for (  List<SpanBo> transaction : transactionList) {
     if (!filter.include(transaction)) {
       continue;
@@ -43,6 +44,8 @@
       stat.addSample(dest,destServiceType.getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
+      tr.add(statId,span.getCollectorAcceptTime(),span.getElapsed(),1L);
+      tr.add(span.getApplicationId(),span.getCollectorAcceptTime(),span.getElapsed(),1L);
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
       if (spanEventBoList == null || spanEventBoList.isEmpty()) {
         continue;
@@ -75,6 +78,8 @@
         stat2.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
         statisticsData.add(stat2);
         statisticsMap.put(statId2,stat2);
+        tr.add(statId2,span.getStartTime() + spanEvent.getStartElapsed(),spanEvent.getEndElapsed(),1L);
+        tr.add(spanEvent.getDestinationId(),span.getCollectorAcceptTime(),span.getElapsed(),1L);
       }
     }
   }
@@ -82,6 +87,7 @@
     fillAdditionalInfo(stat);
   }
   ApplicationMap map=new ApplicationMap(statisticsData).build();
+  map.setTimeseriesResponse(tr);
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
   return map;
