@@ -2,13 +2,9 @@
   if (successCount > 0 || failedCount > 0) {
     throw new IllegalStateException("Can't set slot list while containing the data.");
   }
-  histogramSummary.clear();
   timeseriesSlotIndex.clear();
   timeseriesValueList.clear();
-  histogramSummary.put(SLOT_SLOW,0L);
-  histogramSummary.put(SLOT_ERROR,0L);
   for (  HistogramSlot slot : slotList) {
-    histogramSummary.put(slot.getSlotTime(),0L);
     timeseriesSlotIndex.put(slot.getSlotTime(),timeseriesSlotIndex.size());
     timeseriesValueList.add(makeEmptyTimeseriesValueMap());
   }

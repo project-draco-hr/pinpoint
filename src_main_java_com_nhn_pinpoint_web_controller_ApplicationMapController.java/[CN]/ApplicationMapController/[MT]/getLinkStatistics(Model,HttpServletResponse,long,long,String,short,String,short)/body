@@ -7,9 +7,9 @@
   model.addAttribute("srcApplicationType",ServiceType.findServiceType(srcServiceType));
   model.addAttribute("destApplicationType",ServiceType.findServiceType(destServiceType));
   model.addAttribute("linkStatistics",linkStatistics);
-  model.addAttribute("histogramSummary",linkStatistics.getHistogramSummary().entrySet().iterator());
   model.addAttribute("timeseriesSlotIndex",linkStatistics.getTimeseriesSlotIndex().entrySet().iterator());
   model.addAttribute("timeseriesValue",linkStatistics.getTimeseriesValue());
-  model.addAttribute("lastFetchedTimestamp",-1);
+  model.addAttribute("resultFrom",from);
+  model.addAttribute("resultTo",to);
   return "linkStatistics";
 }
