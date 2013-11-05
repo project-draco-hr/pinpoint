@@ -1,10 +1,11 @@
 {
-  int elapsedTime=span.getElapsed();
-  byte[] value=new byte[8];
-  BytesUtils.writeInt(elapsedTime,value,0);
-  BytesUtils.writeInt(span.getErr(),value,4);
+  final Buffer buffer=new AutomaticBuffer(10 + AGENT_NAME_MAX_LEN);
+  buffer.putVar(span.getElapsed());
+  buffer.putSVar(span.getErr());
+  buffer.putPrefixedString(span.getAgentId());
+  final byte[] value=buffer.getBuffer();
   long acceptedTime=acceptedTimeService.getAcceptedTime();
-  byte[] distributedKey=crateRowKey(span,acceptedTime);
+  final byte[] distributedKey=crateRowKey(span,acceptedTime);
   Put put=new Put(distributedKey);
   put.add(APPLICATION_TRACE_INDEX_CF_TRACE,SpanUtils.getTransactionId(span),acceptedTime,value);
   hbaseTemplate.put(APPLICATION_TRACE_INDEX,put);
