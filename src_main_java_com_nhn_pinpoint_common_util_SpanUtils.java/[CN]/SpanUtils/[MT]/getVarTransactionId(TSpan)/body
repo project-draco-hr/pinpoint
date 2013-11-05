@@ -1,0 +1,16 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  final byte[] transactionIdBytes=span.getTransactionId();
+  TransactionId transactionId=TransactionIdUtils.parseTransactionId(transactionIdBytes);
+  String agentId=transactionId.getAgentId();
+  if (agentId == null) {
+    agentId=span.getAgentId();
+  }
+  final Buffer buffer=new AutomaticBuffer(32);
+  buffer.putPrefixedString(agentId);
+  buffer.putSVar(transactionId.getAgentStartTime());
+  buffer.putVar(transactionId.getTransactionSequence());
+  return buffer.getBuffer();
+}
