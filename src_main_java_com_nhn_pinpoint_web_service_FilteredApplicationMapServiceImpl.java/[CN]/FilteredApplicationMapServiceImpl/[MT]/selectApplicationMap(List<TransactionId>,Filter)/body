@@ -33,7 +33,13 @@
       }
       String statId=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
       TransactionFlowStatistics stat=(statisticsMap.containsKey(statId) ? statisticsMap.get(statId) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-      int slot=destServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
+      int slot;
+      if (span.hasException()) {
+        slot=Histogram.ERROR_SLOT.getSlotTime();
+      }
+ else {
+        slot=destServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
+      }
       stat.addSample(dest,destServiceType.getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
@@ -59,7 +65,13 @@
         }
         String statId2=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
         TransactionFlowStatistics stat2=(statisticsMap.containsKey(statId2) ? statisticsMap.get(statId2) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-        int slot2=destServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
+        int slot2;
+        if (spanEvent.hasException()) {
+          slot2=Histogram.ERROR_SLOT.getSlotTime();
+        }
+ else {
+          slot2=destServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
+        }
         stat2.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
         statisticsData.add(stat2);
         statisticsMap.put(statId2,stat2);
