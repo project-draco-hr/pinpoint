@@ -1,0 +1,10 @@
+{
+  if (bytes == null) {
+    throw new NullPointerException("bytes must not be null");
+  }
+  final Buffer buffer=new FixedBuffer(bytes,offset);
+  String agentId=buffer.readPrefixedString();
+  long agentStartTime=buffer.readSVarLong();
+  long transactionSequence=buffer.readVarLong();
+  return new TransactionId(agentId,agentStartTime,transactionSequence);
+}
