@@ -1,9 +1,4 @@
 {
-  String cacheKey=host + applicationName + serviceType;
-  if (cache.containsKey(cacheKey)) {
-    logger.debug("Skip insert host-application map. host={}, applicationName={}, serviceType={}",host,applicationName,serviceType);
-    return;
-  }
   logger.debug("Insert host-application map. host={}, applicationName={}, serviceType={}",host,applicationName,serviceType);
   byte[] rowKey=Bytes.toBytes(TimeUtils.reverseCurrentTimeMillis(TimeSlot.getStatisticsRowSlot(acceptedTimeService.getAcceptedTime())));
   byte[] columnName=Bytes.toBytes(host);
@@ -12,11 +7,4 @@
   byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
   byte[] value=BytesUtils.concat(applicationNameBytes,offsetBytes,serviceTypeBytes);
   hbaseTemplate.put(HOST_APPLICATION_MAP,rowKey,HOST_APPLICATION_MAP_CF_MAP,columnName,value);
-  if (System.currentTimeMillis() - lastUpdated > 5000) {
-    cache.clear();
-  }
- else {
-    cache.put(cacheKey,1);
-  }
-  lastUpdated=System.currentTimeMillis();
 }
