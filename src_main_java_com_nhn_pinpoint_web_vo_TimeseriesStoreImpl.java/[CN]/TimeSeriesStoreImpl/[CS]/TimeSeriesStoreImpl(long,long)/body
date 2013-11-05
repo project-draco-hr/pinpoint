@@ -1,0 +1,10 @@
+{
+  this.from=from;
+  this.to=to;
+  windowSize=TimeWindowUtils.getWindowSize(from,to);
+  windowCount=(int)(to - from) / windowSize;
+  logger.debug("window size {}, window count {}",windowSize,windowCount);
+  for (long t=from; t <= to; t+=windowSize) {
+    this.time.add(t);
+  }
+}

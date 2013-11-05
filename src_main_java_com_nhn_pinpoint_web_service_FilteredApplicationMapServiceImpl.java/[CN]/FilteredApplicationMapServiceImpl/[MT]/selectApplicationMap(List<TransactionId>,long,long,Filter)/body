@@ -6,7 +6,7 @@
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
   Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
-  TimeseriesResponses tr=new TimeseriesResponses(from,to);
+  TimeSeriesStore tr=TimeSeriesStoreImpl.getInstance(from,to);
   for (  List<SpanBo> transaction : transactionList) {
     if (!filter.include(transaction)) {
       continue;
@@ -87,7 +87,7 @@
     fillAdditionalInfo(stat);
   }
   ApplicationMap map=new ApplicationMap(statisticsData).build();
-  map.setTimeseriesResponse(tr);
+  map.setTimeSeriesStore(tr);
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
   return map;
