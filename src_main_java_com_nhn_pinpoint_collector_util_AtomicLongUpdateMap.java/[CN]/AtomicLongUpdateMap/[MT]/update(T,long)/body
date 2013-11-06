@@ -1,0 +1,19 @@
+{
+  if (cacheKey == null) {
+    throw new NullPointerException("cacheKey must not be null");
+  }
+  final AtomicLong hitSlot=cache.get(cacheKey);
+  if (hitSlot == null) {
+    final AtomicLong newTime=new AtomicLong(time);
+    final AtomicLong oldTime=cache.putIfAbsent(cacheKey,newTime);
+    if (oldTime == null) {
+      return true;
+    }
+ else {
+      return updateTime(time,oldTime);
+    }
+  }
+ else {
+    return updateTime(time,hitSlot);
+  }
+}

@@ -1,24 +1,8 @@
 {
   final long statisticsRowSlot=getSlotTime();
   final CacheKey cacheKey=new CacheKey(host,applicationName,serviceType);
-  final AtomicLong hitSlot=cache.get(cacheKey);
-  if (hitSlot == null) {
-    final AtomicLong newTime=new AtomicLong(statisticsRowSlot);
-    final AtomicLong oldTime=cache.putIfAbsent(cacheKey,newTime);
-    if (oldTime == null) {
-      insertHost(host,applicationName,serviceType,statisticsRowSlot);
-    }
- else {
-      boolean update=updateTime(statisticsRowSlot,oldTime);
-      if (update) {
-        insertHost(host,applicationName,serviceType,statisticsRowSlot);
-      }
-    }
-  }
- else {
-    boolean update=updateTime(statisticsRowSlot,hitSlot);
-    if (update) {
-      insertHost(host,applicationName,serviceType,statisticsRowSlot);
-    }
+  final boolean update=updater.update(cacheKey,statisticsRowSlot);
+  if (update) {
+    insertHost(host,applicationName,serviceType,statisticsRowSlot);
   }
 }
