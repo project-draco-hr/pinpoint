@@ -1,4 +1,7 @@
 {
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
   Scan scan=createScan(agentId,currentTime);
   AgentInfoBo agentInfoBo=hbaseOperations2.find(HBaseTables.AGENTINFO,scan,new ResultsExtractor<AgentInfoBo>(){
     @Override public AgentInfoBo extractData(    ResultScanner results) throws Exception {

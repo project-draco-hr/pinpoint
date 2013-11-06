@@ -1,4 +1,7 @@
 {
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
   StringMetaDataBo stringMetaData=new StringMetaDataBo(agentId,time,stringId);
   byte[] rowKey=getDistributedKey(stringMetaData.toRowKey());
   Get get=new Get(rowKey);

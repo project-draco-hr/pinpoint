@@ -1,6 +1,9 @@
 {
+  if (spanList == null) {
+    throw new NullPointerException("spanList must not be null");
+  }
   final List<SpanBo> root=new ArrayList<SpanBo>();
-  for (  SpanBo span : spans) {
+  for (  SpanBo span : spanList) {
     if (span.getParentSpanId() == ROOT) {
       root.add(span);
     }
@@ -13,11 +16,11 @@
     return spanBo.getSpanId();
   }
   if (rootSpanBoSize > 1) {
-    logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",rootSpanBoSize,root,spans);
+    logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",rootSpanBoSize,root,spanList);
     throw new IllegalStateException("parentSpanId(-1) collision. size:" + rootSpanBoSize);
   }
   final List<SpanBo> collectorAcceptTimeMatcher=new ArrayList<SpanBo>();
-  for (  SpanBo span : spans) {
+  for (  SpanBo span : spanList) {
     if (span.getCollectorAcceptTime() == collectorAcceptTime) {
       collectorAcceptTimeMatcher.add(span);
     }
@@ -30,9 +33,9 @@
     return spanBo.getSpanId();
   }
   if (startMatchSize > 1) {
-    logger.warn("collectorAcceptTime match collision. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spans);
+    logger.warn("collectorAcceptTime match collision. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spanList);
     throw new IllegalStateException("startTime match collision size:" + startMatchSize + " collectorAcceptTime:"+ collectorAcceptTime);
   }
-  logger.warn("collectorAcceptTime match not found. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spans);
+  logger.warn("collectorAcceptTime match not found. size:{} collectorAcceptTime:{} allSpan:{}",startMatchSize,collectorAcceptTime,spanList);
   throw new IllegalStateException("startTime match not found startTime size:" + startMatchSize + " collectorAcceptTime:"+ collectorAcceptTime);
 }

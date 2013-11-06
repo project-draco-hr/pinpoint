@@ -1,6 +1,7 @@
 {
-  LimitedScanResult<List<TransactionId>> limitedScanResult=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-  Filter filter=filterBuilder.build(filterText);
+  limit=LimitUtils.checkRange(limit);
+  final LimitedScanResult<List<TransactionId>> limitedScanResult=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
+  final Filter filter=filterBuilder.build(filterText);
   ApplicationMap map=filteredApplicationMapService.selectApplicationMap(limitedScanResult.getScanData(),from,to,filter);
   model.addAttribute("from",from);
   model.addAttribute("to",to);
