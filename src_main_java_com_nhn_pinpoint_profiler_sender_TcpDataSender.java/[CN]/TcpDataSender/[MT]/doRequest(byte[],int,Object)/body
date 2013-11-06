@@ -10,8 +10,8 @@
             logger.debug("result success");
           }
  else {
-            logger.warn("request fail. Caused:{}",result.getMessage());
-            retryRequest(requestPacket,retryCount);
+            logger.warn("request fail. clazz:{} Caused:{}",targetClass,result.getMessage());
+            retryRequest(requestPacket,retryCount,targetClass.getClass().getSimpleName());
           }
         }
  else {
@@ -19,8 +19,8 @@
         }
       }
  else {
-        logger.warn("request fail. Caused:{}",future.getCause().getMessage(),future.getCause());
-        retryRequest(requestPacket,retryCount);
+        logger.warn("request fail. clazz:{} Caused:{}",targetClass,future.getCause().getMessage(),future.getCause());
+        retryRequest(requestPacket,retryCount,targetClass.getClass().getSimpleName());
       }
     }
   }

@@ -10,13 +10,13 @@
     }
  else     if (dto instanceof RequestMarker) {
       RequestMarker requestMarker=(RequestMarker)dto;
-      TBase<?,?> tBase=requestMarker.getTBase();
+      final TBase<?,?> tBase=requestMarker.getTBase();
       int retry=requestMarker.getRetryCount();
       byte[] copy=serialize(tBase);
       if (copy == null) {
         return;
       }
-      doRequest(copy,retry);
+      doRequest(copy,retry,tBase);
     }
  else {
       logger.error("sendPacket fail. invalid dto type:{}",dto.getClass());
