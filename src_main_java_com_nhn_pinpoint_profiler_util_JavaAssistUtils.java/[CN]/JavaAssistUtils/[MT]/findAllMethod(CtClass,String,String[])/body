@@ -1,4 +1,10 @@
 {
+  if (ctClass == null) {
+    throw new NullPointerException("ctClass must not be null");
+  }
+  if (methodName == null) {
+    throw new NullPointerException("methodName must not be null");
+  }
   CtClass[] params=getCtParameter(args,ctClass.getClassPool());
   String paramDescriptor=Descriptor.ofParameters(params);
   CtMethod[] methods=ctClass.getMethods();

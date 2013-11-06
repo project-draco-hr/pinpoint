@@ -2,12 +2,15 @@
   if (bytes == null) {
     return "null";
   }
-  int iMax=bytes.length - 1;
-  int iLimit=limit - 1;
-  if (iMax > iLimit) {
-    iMax=iLimit;
+  if (limit < 0) {
+    throw new IllegalArgumentException("negative limit:" + limit);
   }
-  if (iMax == -1) {
+  int bytesMaxLength=bytes.length - 1;
+  final int maxLimit=limit - 1;
+  if (bytesMaxLength > maxLimit) {
+    bytesMaxLength=maxLimit;
+  }
+  if (bytesMaxLength == -1) {
     if (bytes.length == 0) {
       return "[]";
     }
@@ -15,20 +18,17 @@
       return "[...(" + bytes.length + ")]";
     }
   }
-  StringBuilder sb=new StringBuilder();
+  final StringBuilder sb=new StringBuilder();
   sb.append('[');
   for (int i=0; ; i++) {
     sb.append(bytes[i]);
-    if (i == iMax) {
-      if (iMax < iLimit) {
+    if (i == bytesMaxLength) {
+      if ((bytes.length - 1) <= maxLimit) {
         return sb.append(']').toString();
       }
  else {
-        if (i > 0) {
-        }
-        sb.append(", ");
-        sb.append("...(");
-        sb.append(bytes.length);
+        sb.append(", ...(");
+        sb.append(bytes.length - (i + 1));
         sb.append(")]");
         return sb.toString();
       }

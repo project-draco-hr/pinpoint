@@ -1,12 +1,17 @@
 {
-  final SpanChunk spanChunk=new SpanChunk(flushData);
-  final List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
-  final SpanEvent first=(SpanEvent)spanEventList.get(0);
+  if (flushData == null) {
+    throw new NullPointerException("flushData must not be null");
+  }
+  if (flushData.size() > 0) {
+    throw new IllegalArgumentException("flushData.size() > 0 " + flushData.size());
+  }
+  final SpanEvent first=flushData.get(0);
   if (first == null) {
     throw new IllegalStateException("first spanEvent not found");
   }
   final Span parentSpan=first.getSpan();
   final String agentId=this.agentInformation.getAgentId();
+  final SpanChunk spanChunk=new SpanChunk(flushData);
   spanChunk.setAgentId(agentId);
   spanChunk.setApplicationName(this.agentInformation.getApplicationName());
   spanChunk.setAgentStartTime(this.agentInformation.getStartTime());
