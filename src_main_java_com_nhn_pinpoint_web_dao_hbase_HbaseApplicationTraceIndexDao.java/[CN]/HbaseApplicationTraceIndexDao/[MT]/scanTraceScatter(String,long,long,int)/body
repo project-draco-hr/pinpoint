@@ -1,5 +1,8 @@
 {
-  logger.debug("scanTraceScatter2");
+  if (limit < 0) {
+    throw new IllegalArgumentException("negative limit:" + limit);
+  }
+  logger.debug("scanTraceScatter");
   Scan scan=createScan(applicationName,start,end);
   List<List<Dot>> dotListList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexScatterMapper);
   List<Dot> mergeList=new ArrayList<Dot>(limit + 10);

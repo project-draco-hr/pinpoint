@@ -1,4 +1,7 @@
 {
+  if (limit < 0) {
+    throw new IllegalArgumentException("negative limit:" + limit);
+  }
   logger.debug("scanTraceIndex");
   Scan scan=createScan(applicationName,start,end);
   final LimitedScanResult<List<TransactionId>> limitedScanResult=new LimitedScanResult<List<TransactionId>>();
