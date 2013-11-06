@@ -1,11 +1,11 @@
 {
-  logger.debug("add sample key={}, timestamp={} responseTime={}, count={}",key,timestamp,responseTime,count);
+  logger.debug("add sample key={}, timestamp={} responseTimeSlot={}, count={}",key,timestamp,responseTimeslot,callCount,isFailed);
   List<Long> list=values.get(key);
   if (list == null) {
     list=makeDefaultValueList();
   }
   int index=TimeWindowUtils.getWindowIndex(from,windowSize,timestamp);
-  long value=list.get(index) + count;
+  long value=list.get(index) + callCount;
   list.set(index,value);
   values.put(key,list);
 }

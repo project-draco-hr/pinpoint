@@ -1,0 +1,13 @@
+{
+  if (!enabled) {
+    logger.debug("store is not enabled.");
+    return;
+  }
+  logger.debug("add sample key={}, timestamp={} responseTimeSlot={}, count={}",key,timestamp,responseTimeslot,callCount,isFailed);
+  LinkStatistics stat=data.get(key);
+  if (stat == null) {
+    stat=makeNewLinkStatistics();
+    data.put(key,stat);
+  }
+  stat.addSample(timestamp,responseTimeslot,callCount,isFailed);
+}
