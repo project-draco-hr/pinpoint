@@ -4,7 +4,7 @@
   }
   final List<TransactionId> transactionIdList=query.getTransactionIdList();
   final List<List<SpanBo>> selectedSpans=traceDao.selectSpans(transactionIdList);
-  List<SpanBo> result=new ArrayList<SpanBo>(query.size());
+  final List<SpanBo> result=new ArrayList<SpanBo>(query.size());
   int index=0;
   for (  List<SpanBo> spans : selectedSpans) {
     if (spans.size() == 0) {
@@ -14,10 +14,10 @@
     }
  else {
       for (      SpanBo span : spans) {
-        final TransactionMetadataQuery.QueryCondition queryCondition=query.getQueryConditionByIndex(index);
+        final TransactionMetadataQuery.QueryCondition filterQueryCondition=query.getQueryConditionByIndex(index);
         final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
-        final TransactionMetadataQuery.QueryCondition key=new TransactionMetadataQuery.QueryCondition(transactionId,span.getCollectorAcceptTime(),span.getElapsed());
-        if (queryCondition.equals(key)) {
+        final TransactionMetadataQuery.QueryCondition queryConditionKey=new TransactionMetadataQuery.QueryCondition(transactionId,span.getCollectorAcceptTime(),span.getElapsed());
+        if (queryConditionKey.equals(filterQueryCondition)) {
           result.add(span);
         }
       }
