@@ -1,8 +1,12 @@
 {
-  TransactionId traceId=new TransactionId(unparsedTraceId);
-  QueryCondition condition=new QueryCondition(traceId,time,responseTime);
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  TransactionId traceId=new TransactionId(transactionId);
+  QueryCondition condition=new QueryCondition(traceId,collectorAcceptTime,responseTime);
   if (queryConditions.containsKey(condition)) {
     return;
   }
-  queryConditions.put(condition,null);
+  queryConditions.put(condition,V);
+  queryConditionList.add(condition);
 }

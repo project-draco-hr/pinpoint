@@ -1,13 +1,9 @@
 {
-  if (this == obj)   return true;
-  if (obj == null)   return false;
-  if (getClass() != obj.getClass())   return false;
-  QueryCondition other=(QueryCondition)obj;
-  if (responseTime != other.responseTime)   return false;
-  if (time != other.time)   return false;
-  if (traceId == null) {
-    if (other.traceId != null)     return false;
-  }
- else   if (!traceId.equals(other.traceId))   return false;
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  QueryCondition that=(QueryCondition)o;
+  if (collectorAcceptorTime != that.collectorAcceptorTime)   return false;
+  if (responseTime != that.responseTime)   return false;
+  if (!transactionId.equals(that.transactionId))   return false;
   return true;
 }

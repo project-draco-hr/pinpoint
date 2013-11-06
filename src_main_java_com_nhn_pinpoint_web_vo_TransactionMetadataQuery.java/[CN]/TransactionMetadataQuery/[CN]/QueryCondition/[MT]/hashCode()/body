@@ -1,8 +1,6 @@
 {
-  final int prime=31;
-  int result=1;
-  result=prime * result + responseTime;
-  result=prime * result + (int)(time ^ (time >>> 32));
-  result=prime * result + ((traceId == null) ? 0 : traceId.hashCode());
+  int result=transactionId.hashCode();
+  result=31 * result + (int)(collectorAcceptorTime ^ (collectorAcceptorTime >>> 32));
+  result=31 * result + responseTime;
   return result;
 }
