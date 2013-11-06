@@ -4,7 +4,7 @@
   ModelAndView mv=new ModelAndView("transactionInfo");
   try {
     final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
-    List<SpanAlign> spanAligns=spanResult.getSpanAlign();
+    List<SpanAlign> spanAligns=spanResult.getSpanAlignList();
     if (spanAligns.isEmpty()) {
       mv.addObject("errorCode",9);
       mv.setViewName("error");
