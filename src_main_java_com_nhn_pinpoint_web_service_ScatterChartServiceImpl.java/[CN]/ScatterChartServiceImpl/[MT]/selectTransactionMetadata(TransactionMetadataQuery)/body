@@ -1,4 +1,7 @@
 {
+  if (query == null) {
+    throw new NullPointerException("query must not be null");
+  }
   List<List<SpanBo>> selectedSpans=traceDao.selectSpans(query.getTraceIds());
   List<SpanBo> result=new ArrayList<SpanBo>(query.size());
   for (  List<SpanBo> spans : selectedSpans) {

@@ -1,4 +1,10 @@
 {
+  if (traceIds == null) {
+    throw new NullPointerException("traceIds must not be null");
+  }
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
   List<List<SpanBo>> traceList=traceDao.selectAllSpans(traceIds);
   List<Dot> list=new ArrayList<Dot>();
   for (  List<SpanBo> trace : traceList) {

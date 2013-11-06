@@ -1,4 +1,13 @@
 {
+  if (srcApplicationName == null) {
+    throw new NullPointerException("srcApplicationName must not be null");
+  }
+  if (destApplicationName == null) {
+    throw new NullPointerException("destApplicationName must not be null");
+  }
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
   StopWatch watch=new StopWatch();
   watch.start();
   List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(traceIdSet);

@@ -1,4 +1,10 @@
 {
+  if (srcApplicationName == null) {
+    throw new NullPointerException("srcApplicationName must not be null");
+  }
+  if (destApplicationName == null) {
+    throw new NullPointerException("destApplicationName must not be null");
+  }
   List<Map<Long,Map<Short,Long>>> list;
   if (ServiceType.findServiceType(srcServiceType) == ServiceType.CLIENT) {
     logger.debug("Find 'client -> any' link statistics");

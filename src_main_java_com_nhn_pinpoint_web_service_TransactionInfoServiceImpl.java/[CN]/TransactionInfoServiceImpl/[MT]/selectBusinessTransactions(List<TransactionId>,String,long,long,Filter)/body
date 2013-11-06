@@ -1,4 +1,10 @@
 {
+  if (traceIds == null) {
+    throw new NullPointerException("traceIds must not be null");
+  }
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
   List<List<SpanBo>> traceList;
   if (filter == Filter.NONE) {
     traceList=this.traceDao.selectSpans(traceIds);
