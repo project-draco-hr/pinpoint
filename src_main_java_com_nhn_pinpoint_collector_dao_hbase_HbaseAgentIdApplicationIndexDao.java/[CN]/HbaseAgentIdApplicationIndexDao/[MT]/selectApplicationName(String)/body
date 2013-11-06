@@ -1,4 +1,7 @@
 {
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
   byte[] rowKey=Bytes.toBytes(agentId);
   Get get=new Get(rowKey);
   get.addFamily(AGENTID_APPLICATION_INDEX_CF_APPLICATION);

@@ -1,12 +1,12 @@
 {
   if (calleeApplicationName == null) {
-    throw new IllegalArgumentException("calleeApplicationName is null.");
+    throw new NullPointerException("calleeApplicationName must not be null");
   }
   if (callerApplicationName == null) {
-    throw new IllegalArgumentException("callerApplicationName is null.");
+    throw new NullPointerException("callerApplicationName must not be null");
   }
   if (logger.isDebugEnabled()) {
-    logger.debug("[UpdatingApplicationMapStatisticsCaller] " + callerApplicationName + " ("+ ServiceType.findServiceType(callerServiceType)+ ")["+ callerHost+ "] -> "+ calleeApplicationName+ " ("+ ServiceType.findServiceType(calleeServiceType)+ ")");
+    logger.debug("[UpdatingApplicationMapStatisticsCaller] {} ({})[{}] -> {} ()",callerApplicationName,ServiceType.findServiceType(callerServiceType),callerHost,calleeApplicationName,ServiceType.findServiceType(calleeServiceType));
   }
   if (callerHost == null) {
     callerHost="";
