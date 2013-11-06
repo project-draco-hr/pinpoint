@@ -1,11 +1,14 @@
 {
-  if (traceIds == null) {
-    throw new NullPointerException("traceIds must not be null");
+  if (transactionIdList == null) {
+    throw new NullPointerException("transactionIdList must not be null");
   }
   if (applicationName == null) {
     throw new NullPointerException("applicationName must not be null");
   }
-  List<List<SpanBo>> traceList=traceDao.selectAllSpans(traceIds);
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
+  final List<List<SpanBo>> traceList=traceDao.selectAllSpans(transactionIdList);
   List<Dot> list=new ArrayList<Dot>();
   for (  List<SpanBo> trace : traceList) {
     if (!filter.include(trace)) {
