@@ -2,6 +2,9 @@
   if (bytes == null) {
     return null;
   }
+  if (offset < 0) {
+    throw new IllegalArgumentException("negative offset:" + offset);
+  }
   if (length == 0) {
     return "";
   }

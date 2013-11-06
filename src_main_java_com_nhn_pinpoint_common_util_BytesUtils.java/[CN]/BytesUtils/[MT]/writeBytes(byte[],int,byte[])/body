@@ -5,5 +5,8 @@
   if (stringBytes == null) {
     throw new NullPointerException("stringBytes must not be null");
   }
+  if (offset < 0) {
+    throw new IllegalArgumentException("negative offset:" + offset);
+  }
   System.arraycopy(stringBytes,0,buffer,offset,stringBytes.length);
 }

@@ -2,6 +2,9 @@
   if (buf == null) {
     throw new NullPointerException("buf must not be null");
   }
+  if (offset < 0) {
+    throw new IllegalArgumentException("negative offset:" + offset);
+  }
   if (buf.length < offset + SHORT_BYTE_LENGTH) {
     throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 2));
   }
