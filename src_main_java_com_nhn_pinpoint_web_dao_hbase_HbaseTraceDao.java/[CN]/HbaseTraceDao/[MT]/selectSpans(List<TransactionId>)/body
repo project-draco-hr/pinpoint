@@ -1,10 +1,13 @@
 {
-  List<Get> gets=new ArrayList<Get>(transactionIdList.size());
+  if (transactionIdList == null) {
+    throw new NullPointerException("transactionIdList must not be null");
+  }
+  final List<Get> getList=new ArrayList<Get>(transactionIdList.size());
   for (  TransactionId traceId : transactionIdList) {
     byte[] traceIdBytes=rowKeyDistributor.getDistributedKey(traceId.getBytes());
     Get get=new Get(traceIdBytes);
     get.addFamily(HBaseTables.TRACES_CF_SPAN);
-    gets.add(get);
+    getList.add(get);
   }
-  return template2.get(HBaseTables.TRACES,gets,spanMapper);
+  return template2.get(HBaseTables.TRACES,getList,spanMapper);
 }
