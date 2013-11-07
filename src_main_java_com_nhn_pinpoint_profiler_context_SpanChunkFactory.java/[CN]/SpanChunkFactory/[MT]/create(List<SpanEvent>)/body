@@ -2,12 +2,12 @@
   if (flushData == null) {
     throw new NullPointerException("flushData must not be null");
   }
-  if (flushData.size() > 0) {
-    throw new IllegalArgumentException("flushData.size() > 0 " + flushData.size());
+  if (flushData.size() < 1) {
+    throw new IllegalArgumentException("flushData.size() < 1 size:" + flushData.size());
   }
   final SpanEvent first=flushData.get(0);
   if (first == null) {
-    throw new IllegalStateException("first spanEvent not found");
+    throw new IllegalStateException("first SpanEvent is null");
   }
   final Span parentSpan=first.getSpan();
   final String agentId=this.agentInformation.getAgentId();
