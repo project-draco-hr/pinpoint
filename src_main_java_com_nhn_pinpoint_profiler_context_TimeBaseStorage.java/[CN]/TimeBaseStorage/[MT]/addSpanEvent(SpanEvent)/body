@@ -1,10 +1,10 @@
 {
+  final List<SpanEvent> storage=this.storage;
   if (storage == null) {
     if (logger.isErrorEnabled()) {
-      logger.error("storage is null. direct send");
+      logger.error("storage is null. discard spanEvent:{}",spanEvent);
     }
     return;
   }
   storage.add(spanEvent);
-  return;
 }

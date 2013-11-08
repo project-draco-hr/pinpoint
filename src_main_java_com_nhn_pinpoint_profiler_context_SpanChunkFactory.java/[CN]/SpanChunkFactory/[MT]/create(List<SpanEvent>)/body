@@ -2,8 +2,9 @@
   if (flushData == null) {
     throw new NullPointerException("flushData must not be null");
   }
-  if (flushData.size() < 1) {
-    throw new IllegalArgumentException("flushData.size() < 1 size:" + flushData.size());
+  final int size=flushData.size();
+  if (size < 1) {
+    throw new IllegalArgumentException("flushData.size() < 1 size:" + size);
   }
   final SpanEvent first=flushData.get(0);
   if (first == null) {

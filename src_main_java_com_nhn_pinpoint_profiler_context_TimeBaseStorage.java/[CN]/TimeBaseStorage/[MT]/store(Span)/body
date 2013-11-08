@@ -5,7 +5,9 @@
 synchronized (this) {
         this.storage=null;
       }
-      logger.debug("discard spanEvent");
+      if (isDebug) {
+        logger.debug("discard spanEvent");
+      }
       dataSender.send(span);
     }
  else {
