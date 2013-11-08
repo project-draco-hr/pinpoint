@@ -1,6 +1,6 @@
 {
   String rac="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE=on)" + "(ADDRESS=(PROTOCOL=TCP)(HOST=1.2.3.4) (PORT=1521))" + "(ADDRESS=(PROTOCOL=TCP)(HOST=1.2.3.5) (PORT=1522))"+ "(CONNECT_DATA=(SERVICE_NAME=service)))";
-  DefaultDatabaseInfo dbInfo=jdbcUrlParser.parse(rac);
+  DatabaseInfo dbInfo=jdbcUrlParser.parse(rac);
   Assert.assertEquals(dbInfo.getType(),ServiceType.ORACLE);
   Assert.assertEquals(dbInfo.getHost().get(0),"1.2.3.4:1521");
   Assert.assertEquals(dbInfo.getHost().get(1),"1.2.3.5:1522");
