@@ -6,7 +6,7 @@
   Map<Long,List<AnnotationBo>> annotationList=new HashMap<Long,List<AnnotationBo>>();
   for (  KeyValue kv : keyList) {
     final byte[] bytes=kv.getBuffer();
-    Buffer buffer=new FixedBuffer(bytes,kv.getQualifierOffset());
+    Buffer buffer=new OffsetFixedBuffer(bytes,kv.getQualifierOffset());
     long spanId=buffer.readLong();
     if (Bytes.equals(kv.getFamily(),HBaseTables.TRACES_CF_ANNOTATION)) {
       int valueLength=kv.getValueLength();

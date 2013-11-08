@@ -1,7 +1,7 @@
 {
   final byte[] buffer=kv.getBuffer();
   final int valueOffset=kv.getValueOffset();
-  final Buffer valueBuffer=new FixedBuffer(buffer,valueOffset);
+  final Buffer valueBuffer=new OffsetFixedBuffer(buffer,valueOffset);
   int elapsed=valueBuffer.readVarInt();
   int exceptionCode=valueBuffer.readSVarInt();
   String agentId=valueBuffer.readPrefixedString();
