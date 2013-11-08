@@ -2,20 +2,28 @@
   if (agentArgs != null) {
     logger.info(ProductInfo.CAMEL_NAME + " agentArgs:" + agentArgs);
   }
+  final boolean duplicated=checkDuplicateLoadState();
+  if (duplicated) {
+    return;
+  }
   ClassPathResolver classPathResolver=new ClassPathResolver();
   boolean agentJarNotFound=classPathResolver.findAgentJar();
   if (!agentJarNotFound) {
     logger.severe("pinpoint-bootstrap-x.x.x.jar not found.");
+    loadStateChange(BOOT_STRAP_LOAD_STATE_ERROR);
     return;
   }
   if (!checkProfilerIdSize("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
+    loadStateChange(BOOT_STRAP_LOAD_STATE_ERROR);
     return;
   }
   if (!checkProfilerIdSize("pinpoint.applicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN)) {
+    loadStateChange(BOOT_STRAP_LOAD_STATE_ERROR);
     return;
   }
   String configPath=getConfigPath(classPathResolver);
   if (configPath == null) {
+    loadStateChange(BOOT_STRAP_LOAD_STATE_ERROR);
     return;
   }
   saveLogFilePath(classPathResolver);
@@ -28,8 +36,10 @@
     logger.info("pinpoint agent start.");
     agentClassLoader.boot(agentArgs,instrumentation,profilerConfig);
     logger.info("pinpoint agent start success.");
+    loadStateChange(BOOT_STRAP_LOAD_STATE_COMPLETE);
   }
  catch (  Exception e) {
     logger.log(Level.SEVERE,ProductInfo.CAMEL_NAME + " start fail. Caused:" + e.getMessage(),e);
+    loadStateChange(BOOT_STRAP_LOAD_STATE_ERROR);
   }
 }
