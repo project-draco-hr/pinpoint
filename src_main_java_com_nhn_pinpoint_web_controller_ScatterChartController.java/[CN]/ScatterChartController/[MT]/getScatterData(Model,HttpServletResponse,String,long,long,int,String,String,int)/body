@@ -17,8 +17,8 @@
   }
  else {
     final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,from,to,limit);
-    List<TransactionId> traceIdList=limitedScanResult.getScanData();
-    logger.debug("selected traceidList {}",traceIdList);
+    final List<TransactionId> traceIdList=limitedScanResult.getScanData();
+    logger.trace("selected transactionId {}",traceIdList);
     SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
     logger.debug("selectScatterData with {}",traceIdSet);
     Filter filter=filterBuilder.build(filterText);

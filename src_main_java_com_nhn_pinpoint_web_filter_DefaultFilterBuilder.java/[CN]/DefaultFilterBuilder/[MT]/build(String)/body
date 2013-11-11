@@ -3,13 +3,13 @@
     return Filter.NONE;
   }
   logger.debug("build filter from string. {}",filterText);
-  String[] f=filterText.split(Filter.FILTER_DELIMETER);
+  final String[] parsedFilterString=FILTER_DELIMETER.split(filterText);
   Filter filter;
-  if (f.length == 1) {
-    filter=makeSingleFilter(f[0]);
+  if (parsedFilterString.length == 1) {
+    filter=makeSingleFilter(parsedFilterString[0]);
   }
  else {
-    filter=makeChainedFilter(f);
+    filter=makeChainedFilter(parsedFilterString);
   }
   return filter;
 }
