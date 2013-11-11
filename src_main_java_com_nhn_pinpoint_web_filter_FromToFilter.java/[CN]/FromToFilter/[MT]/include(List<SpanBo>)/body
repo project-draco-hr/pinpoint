@@ -1,16 +1,16 @@
 {
   boolean include=false;
-  if (ServiceType.findServiceType(fromServiceCode) == ServiceType.CLIENT || ServiceType.findServiceType(fromServiceCode) == ServiceType.USER) {
+  if (fromServiceCode == ServiceType.CLIENT || fromServiceCode == ServiceType.USER) {
     for (    SpanBo span : transaction) {
-      if (span.isRoot() && toServiceCode == span.getServiceType().getCode() && toApplicationName.equals(span.getApplicationId())) {
+      if (span.isRoot() && toServiceCode == span.getServiceType() && toApplicationName.equals(span.getApplicationId())) {
         include=true;
         break;
       }
     }
   }
- else   if (ServiceType.findServiceType(toServiceCode).isUnknown()) {
+ else   if (toServiceCode.isUnknown()) {
     for (    SpanBo span : transaction) {
-      if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+      if (fromServiceCode == span.getServiceType() && fromApplicationName.equals(span.getApplicationId())) {
         List<SpanEventBo> eventBoList=span.getSpanEventBoList();
         if (eventBoList == null) {
           continue;
@@ -27,14 +27,14 @@
       }
     }
   }
- else   if (ServiceType.findServiceType(toServiceCode).isWas()) {
+ else   if (toServiceCode.isWas()) {
     for (    SpanBo srcSpan : transaction) {
-      if (fromServiceCode == srcSpan.getServiceType().getCode() && fromApplicationName.equals(srcSpan.getApplicationId())) {
+      if (fromServiceCode == srcSpan.getServiceType() && fromApplicationName.equals(srcSpan.getApplicationId())) {
         for (        SpanBo destSpan : transaction) {
           if (destSpan.getParentSpanId() != srcSpan.getSpanId()) {
             continue;
           }
-          if (toServiceCode == destSpan.getServiceType().getCode() && toApplicationName.equals(destSpan.getApplicationId())) {
+          if (toServiceCode == destSpan.getServiceType() && toApplicationName.equals(destSpan.getApplicationId())) {
             include=true;
             break;
           }
@@ -47,13 +47,13 @@
   }
  else {
     for (    SpanBo span : transaction) {
-      if (fromServiceCode == span.getServiceType().getCode() && fromApplicationName.equals(span.getApplicationId())) {
+      if (fromServiceCode == span.getServiceType() && fromApplicationName.equals(span.getApplicationId())) {
         List<SpanEventBo> eventBoList=span.getSpanEventBoList();
         if (eventBoList == null) {
           continue;
         }
         for (        SpanEventBo event : eventBoList) {
-          if (toServiceCode == event.getServiceType().getCode() && toApplicationName.equals(event.getDestinationId())) {
+          if (toServiceCode == event.getServiceType() && toApplicationName.equals(event.getDestinationId())) {
             include=true;
             break;
           }

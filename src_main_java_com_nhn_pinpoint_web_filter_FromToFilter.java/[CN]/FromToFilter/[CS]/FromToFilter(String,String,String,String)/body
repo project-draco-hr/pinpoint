@@ -1,6 +1,12 @@
 {
-  this.fromServiceCode=ServiceType.parse(fromServiceType).getCode();
+  if (fromApplicationName == null) {
+    throw new NullPointerException("fromApplicationName must not be null");
+  }
+  if (toApplicationName == null) {
+    throw new NullPointerException("toApplicationName must not be null");
+  }
+  this.fromServiceCode=ServiceType.parse(fromServiceType);
   this.fromApplicationName=fromApplicationName;
-  this.toServiceCode=ServiceType.parse(toServiceType).getCode();
+  this.toServiceCode=ServiceType.parse(toServiceType);
   this.toApplicationName=toApplicationName;
 }
