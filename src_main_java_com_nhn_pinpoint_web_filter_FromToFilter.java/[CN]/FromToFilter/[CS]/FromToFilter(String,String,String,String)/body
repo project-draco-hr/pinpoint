@@ -5,8 +5,14 @@
   if (toApplicationName == null) {
     throw new NullPointerException("toApplicationName must not be null");
   }
-  this.fromServiceCode=ServiceType.parse(fromServiceType);
+  this.fromServiceCode=ServiceType.findDesc(fromServiceType);
+  if (fromServiceCode == null) {
+    throw new IllegalArgumentException("fromServiceCode not found. fromServiceType:" + fromServiceType);
+  }
   this.fromApplicationName=fromApplicationName;
-  this.toServiceCode=ServiceType.parse(toServiceType);
+  this.toServiceCode=ServiceType.findDesc(toServiceType);
+  if (toServiceCode == null) {
+    throw new IllegalArgumentException("toServiceCode not found. toServiceCode:" + toServiceType);
+  }
   this.toApplicationName=toApplicationName;
 }
