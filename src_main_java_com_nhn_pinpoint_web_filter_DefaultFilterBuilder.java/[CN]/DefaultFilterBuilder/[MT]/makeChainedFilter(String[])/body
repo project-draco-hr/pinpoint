@@ -1,5 +1,7 @@
 {
-  logger.debug("   make chained filter.");
+  if (logger.isDebugEnabled()) {
+    logger.debug("make chained filter. {}",Arrays.toString(filterTexts));
+  }
   FilterChain chain=new FilterChain();
   for (  String s : filterTexts) {
     chain.addFilter(makeSingleFilter(s));

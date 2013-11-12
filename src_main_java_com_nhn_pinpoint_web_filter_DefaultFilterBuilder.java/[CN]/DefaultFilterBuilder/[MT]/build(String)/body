@@ -4,12 +4,10 @@
   }
   logger.debug("build filter from string. {}",filterText);
   final String[] parsedFilterString=FILTER_DELIMETER.split(filterText);
-  Filter filter;
   if (parsedFilterString.length == 1) {
-    filter=makeSingleFilter(parsedFilterString[0]);
+    return makeSingleFilter(parsedFilterString[0]);
   }
  else {
-    filter=makeChainedFilter(parsedFilterString);
+    return makeChainedFilter(parsedFilterString);
   }
-  return filter;
 }

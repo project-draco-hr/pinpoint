@@ -2,12 +2,12 @@
   if (filterText == null) {
     throw new NullPointerException("filterText must not be null");
   }
-  logger.debug("   make filter from string. {}",filterText);
+  logger.debug("make filter from string. {}",filterText);
   final String[] element=FILTER_ENTRY_DELIMETER.split(filterText);
   if (element.length == 4) {
     return new FromToFilter(element[0],element[1],element[2],element[3]);
   }
  else {
-    return Filter.NONE;
+    throw new IllegalArgumentException("Invalid filterText:" + filterText);
   }
 }
