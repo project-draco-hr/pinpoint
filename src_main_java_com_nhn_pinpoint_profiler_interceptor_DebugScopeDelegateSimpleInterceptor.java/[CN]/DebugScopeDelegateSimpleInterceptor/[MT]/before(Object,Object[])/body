@@ -1,0 +1,10 @@
+{
+  final int push=scope.push();
+  if (push != DepthScope.ZERO) {
+    if (isDebug) {
+      logger.debug("push {}. skip trace. level:{} {}",new Object[]{scope.getName(),push,delegate.getClass()});
+    }
+    return;
+  }
+  this.delegate.before(target,args);
+}

@@ -9,24 +9,24 @@
       return null;
     }
     mysqlConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
-    Interceptor closeConnection=new ScopeDelegateSimpleInterceptor(new ConnectionCloseInterceptor(),JDBCScope.SCOPE);
-    mysqlConnection.addInterceptor("close",null,closeConnection);
-    Interceptor createStatement=new ScopeDelegateSimpleInterceptor(new StatementCreateInterceptor(),JDBCScope.SCOPE);
-    mysqlConnection.addInterceptor("createStatement",null,createStatement);
-    Interceptor preparedStatement=new ScopeDelegateSimpleInterceptor(new PreparedStatementCreateInterceptor(),JDBCScope.SCOPE);
-    mysqlConnection.addInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatement);
+    Interceptor closeConnection=new ConnectionCloseInterceptor();
+    mysqlConnection.addScopeInterceptor("close",null,closeConnection,JDBCScope.SCOPE);
+    Interceptor createStatement=new StatementCreateInterceptor();
+    mysqlConnection.addScopeInterceptor("createStatement",null,createStatement,JDBCScope.SCOPE);
+    Interceptor preparedStatement=new PreparedStatementCreateInterceptor();
+    mysqlConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatement,JDBCScope.SCOPE);
     final ProfilerConfig profilerConfig=agent.getProfilerConfig();
     if (profilerConfig.isJdbcProfileMySqlSetAutoCommit()) {
-      Interceptor setAutocommit=new ScopeDelegateSimpleInterceptor(new TransactionSetAutoCommitInterceptor(),JDBCScope.SCOPE);
-      mysqlConnection.addInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit);
+      Interceptor setAutocommit=new TransactionSetAutoCommitInterceptor();
+      mysqlConnection.addScopeInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit,JDBCScope.SCOPE);
     }
     if (profilerConfig.isJdbcProfileMySqlCommit()) {
-      Interceptor commit=new ScopeDelegateSimpleInterceptor(new TransactionCommitInterceptor(),JDBCScope.SCOPE);
-      mysqlConnection.addInterceptor("commit",null,commit);
+      Interceptor commit=new TransactionCommitInterceptor();
+      mysqlConnection.addScopeInterceptor("commit",null,commit,JDBCScope.SCOPE);
     }
     if (profilerConfig.isJdbcProfileMySqlRollback()) {
-      Interceptor rollback=new ScopeDelegateSimpleInterceptor(new TransactionRollbackInterceptor(),JDBCScope.SCOPE);
-      mysqlConnection.addInterceptor("rollback",null,rollback);
+      Interceptor rollback=new TransactionRollbackInterceptor();
+      mysqlConnection.addScopeInterceptor("rollback",null,rollback,JDBCScope.SCOPE);
     }
     if (this.logger.isInfoEnabled()) {
       this.logger.info("{} class is converted.",javassistClassName);
