@@ -15,7 +15,9 @@
     String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
     String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
-    logger.debug("    Fetched. {}[{}] -> {}[{}] ({})",callerApplicationName,ServiceType.findServiceType(callerServiceType),calleeApplicationName,ServiceType.findServiceType(calleeServiceType),requestCount);
+    if (logger.isDebugEnabled()) {
+      logger.debug("    Fetched. {}[{}] -> {}[{}] ({})",callerApplicationName,ServiceType.findServiceType(callerServiceType),calleeApplicationName,ServiceType.findServiceType(calleeServiceType),requestCount);
+    }
     if (stat.containsKey(id)) {
       TransactionFlowStatistics statistics=stat.get(id);
       statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
