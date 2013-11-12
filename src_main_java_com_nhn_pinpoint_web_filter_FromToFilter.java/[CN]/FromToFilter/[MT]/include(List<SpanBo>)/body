@@ -1,10 +1,8 @@
 {
-  boolean include=false;
   if (includeServiceType(fromServiceCode,ServiceType.CLIENT) || includeServiceType(fromServiceCode,ServiceType.USER)) {
     for (    SpanBo span : transaction) {
       if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
-        include=true;
-        break;
+        return true;
       }
     }
   }
@@ -17,12 +15,8 @@
         }
         for (        SpanEventBo event : eventBoList) {
           if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
-            include=true;
-            break;
+            return true;
           }
-        }
-        if (include) {
-          break;
         }
       }
     }
@@ -35,12 +29,8 @@
             continue;
           }
           if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
-            include=true;
-            break;
+            return true;
           }
-        }
-        if (include) {
-          break;
         }
       }
     }
@@ -54,16 +44,11 @@
         }
         for (        SpanEventBo event : eventBoList) {
           if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
-            include=true;
-            break;
+            return true;
           }
-        }
-        if (include) {
-          break;
         }
       }
     }
   }
-  logger.debug("filter result = {}",include);
-  return include;
+  return false;
 }
