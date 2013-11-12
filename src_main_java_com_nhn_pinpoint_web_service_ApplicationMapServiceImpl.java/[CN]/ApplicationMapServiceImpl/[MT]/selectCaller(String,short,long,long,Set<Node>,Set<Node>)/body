@@ -1,9 +1,10 @@
 {
-  if (callerFoundApplications.contains(calleeApplicationName + calleeServiceType)) {
+  final Node key=new Node(calleeApplicationName,ServiceType.findServiceType(calleeServiceType));
+  if (callerFoundApplications.contains(key)) {
     logger.debug("ApplicationStatistics exists. Skip finding caller. {} {}",calleeApplicationName,calleeServiceType);
     return new HashSet<TransactionFlowStatistics>(0);
   }
-  callerFoundApplications.add(calleeApplicationName + calleeServiceType);
+  callerFoundApplications.add(key);
   if (logger.isDebugEnabled()) {
     logger.debug("Find Caller. callee={}, serviceType={}",calleeApplicationName,ServiceType.findServiceType(calleeServiceType));
   }
