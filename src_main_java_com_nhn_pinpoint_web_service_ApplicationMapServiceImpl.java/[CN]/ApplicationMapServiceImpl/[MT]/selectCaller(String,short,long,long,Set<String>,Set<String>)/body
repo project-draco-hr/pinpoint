@@ -1,13 +1,15 @@
 {
   if (callerFoundApplications.contains(calleeApplicationName + calleeServiceType)) {
-    logger.debug("ApplicationStatistics exists. Skip finding caller. " + calleeApplicationName + calleeServiceType);
+    logger.debug("ApplicationStatistics exists. Skip finding caller. {} {}",calleeApplicationName,calleeServiceType);
     return new HashSet<TransactionFlowStatistics>(0);
   }
   callerFoundApplications.add(calleeApplicationName + calleeServiceType);
-  logger.debug("Find Caller. callee=" + calleeApplicationName + ", serviceType="+ ServiceType.findServiceType(calleeServiceType));
+  if (logger.isDebugEnabled()) {
+    logger.debug("Find Caller. callee={}, serviceType={}",calleeApplicationName,ServiceType.findServiceType(calleeServiceType));
+  }
   final Set<TransactionFlowStatistics> callerSet=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplicationName,calleeServiceType,from,to);
-  logger.debug("     Found Caller. count=" + caller.size() + ", callee="+ calleeApplicationName);
+  logger.debug("     Found Caller. count={}, callee={}",caller.size(),calleeApplicationName);
   for (  Entry<String,TransactionFlowStatistics> entry : caller.entrySet()) {
     fillAdditionalInfo(entry.getValue(),from,to);
     callerSet.add(entry.getValue());

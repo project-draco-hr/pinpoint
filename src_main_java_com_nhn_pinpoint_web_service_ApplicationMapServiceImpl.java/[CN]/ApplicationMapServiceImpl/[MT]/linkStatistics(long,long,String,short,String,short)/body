@@ -20,7 +20,7 @@
   }
   LinkStatistics statistics=new LinkStatistics(from,to);
   statistics.setDefaultHistogramSlotList(ServiceType.findServiceType(destServiceType).getHistogram().getHistogramSlotList());
-  logger.debug("Fetched statistics data=" + list);
+  logger.debug("Fetched statistics data={}",list);
   for (  Map<Long,Map<Short,Long>> map : list) {
     for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
       long timestamp=entry.getKey();

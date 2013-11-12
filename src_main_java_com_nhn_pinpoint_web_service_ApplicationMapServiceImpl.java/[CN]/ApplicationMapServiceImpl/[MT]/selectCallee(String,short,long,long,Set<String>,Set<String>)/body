@@ -1,13 +1,17 @@
 {
   if (calleeFoundApplications.contains(callerApplicationName + callerServiceType)) {
-    logger.debug("ApplicationStatistics exists. Skip finding callee. " + callerApplicationName + callerServiceType);
+    logger.debug("ApplicationStatistics exists. Skip finding callee. {} {} ",callerApplicationName,callerServiceType);
     return new HashSet<TransactionFlowStatistics>(0);
   }
   calleeFoundApplications.add(callerApplicationName + callerServiceType);
-  logger.debug("Find Callee. caller=" + callerApplicationName + ", serviceType="+ ServiceType.findServiceType(callerServiceType));
+  if (logger.isDebugEnabled()) {
+    logger.debug("Find Callee. caller={}, serviceType={}",callerApplicationName,ServiceType.findServiceType(callerServiceType));
+  }
   final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
   Map<String,TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
-  logger.debug("     Found Callee. count=" + callee.size() + ", caller="+ callerApplicationName);
+  if (logger.isDebugEnabled()) {
+    logger.debug("     Found Callee. count={}, caller={}",callee.size(),callerApplicationName);
+  }
   for (  Entry<String,TransactionFlowStatistics> entry : callee.entrySet()) {
     boolean replaced=replaceApplicationInfo(entry.getValue(),from,to);
     if (!replaced) {
@@ -18,14 +22,14 @@
       continue;
     }
     TransactionFlowStatistics stat=entry.getValue();
-    logger.debug("     Find subCallee of " + stat.getTo());
+    logger.debug("     Find subCallee of {}",stat.getTo());
     Set<TransactionFlowStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
-    logger.debug("     Found subCallee. count=" + calleeSub.size() + ", caller="+ stat.getTo());
+    logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getTo());
     calleeSet.addAll(calleeSub);
     for (    TransactionFlowStatistics eachCallee : calleeSub) {
-      logger.debug("     Find caller of " + eachCallee.getFrom());
+      logger.debug("     Find caller of {}",eachCallee.getFrom());
       Set<TransactionFlowStatistics> callerSub=selectCaller(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
-      logger.debug("     Found subCaller. count=" + callerSub.size() + ", callee="+ eachCallee.getFrom());
+      logger.debug("     Found subCaller. count={}, callee={}",callerSub.size(),eachCallee.getFrom());
       calleeSet.addAll(callerSub);
     }
   }
