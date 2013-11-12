@@ -1,0 +1,13 @@
+{
+  SpanBo parentSpan=transactionSpanMap.get(span.getParentSpanId());
+  if (span.isRoot() || parentSpan == null) {
+    String src=span.getApplicationId();
+    ServiceType srcServiceType=ServiceType.CLIENT;
+    return new Node(src,srcServiceType);
+  }
+ else {
+    String src=parentSpan.getApplicationId();
+    ServiceType serviceType=parentSpan.getServiceType();
+    return new Node(src,serviceType);
+  }
+}

@@ -7,95 +7,46 @@
   }
   StopWatch watch=new StopWatch();
   watch.start();
-  Collection<TransactionId> filterdList=recursiveCallFilter(transactionIdList);
-  List<List<SpanBo>> transactionList=this.traceDao.selectAllSpans(filterdList);
+  final Collection<TransactionId> recursiveFilterList=recursiveCallFilter(transactionIdList);
+  final List<List<SpanBo>> originalList=this.traceDao.selectAllSpans(recursiveFilterList);
+  final List<List<SpanBo>> filterList=filterList2(originalList,filter);
   Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
-  Map<String,TransactionFlowStatistics> statisticsMap=new HashMap<String,TransactionFlowStatistics>();
-  Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
-  TimeSeriesStore tr=new TimeSeriesStoreImpl2(from,to);
-  for (  List<SpanBo> transaction : transactionList) {
-    if (!filter.include(transaction)) {
-      continue;
-    }
-    transactionSpanMap.clear();
+  Map<NodeId,TransactionFlowStatistics> statisticsMap=new HashMap<NodeId,TransactionFlowStatistics>();
+  final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(from,to);
+  for (  List<SpanBo> transaction : filterList) {
+    final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>(transactionIdList.size());
     for (    SpanBo span : transaction) {
-      transactionSpanMap.put(span.getSpanId(),span);
+      final SpanBo old=transactionSpanMap.put(span.getSpanId(),span);
+      logger.warn("duplicated span found:{}",old);
     }
     for (    SpanBo span : transaction) {
-      String src;
-      String dest;
-      ServiceType srcServiceType;
-      ServiceType destServiceType;
-      SpanBo parentSpan=transactionSpanMap.get(span.getParentSpanId());
-      if (span.isRoot() || parentSpan == null) {
-        src=span.getApplicationId();
-        srcServiceType=ServiceType.CLIENT;
-      }
- else {
-        src=parentSpan.getApplicationId();
-        srcServiceType=parentSpan.getServiceType();
-      }
-      dest=span.getApplicationId();
-      destServiceType=span.getServiceType();
-      if (!destServiceType.isRecordStatistics() || destServiceType.isRpcClient()) {
+      final Node srcNode=createNode(span,transactionSpanMap);
+      final Node destNode=new Node(span.getApplicationId(),span.getServiceType());
+      if (destNode.isLink()) {
         continue;
       }
-      String statId=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
-      TransactionFlowStatistics stat=(statisticsMap.containsKey(statId) ? statisticsMap.get(statId) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-      int slot;
-      if (span.hasException()) {
-        slot=Histogram.ERROR_SLOT.getSlotTime();
+      final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
+      TransactionFlowStatistics stat;
+      if (statisticsMap.containsKey(statId)) {
+        stat=statisticsMap.get(statId);
       }
  else {
-        slot=destServiceType.getHistogram().findHistogramSlot(span.getElapsed()).getSlotTime();
+        stat=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),destNode.getName(),destNode.getServiceType());
       }
-      stat.addSample(dest,destServiceType.getCode(),(short)slot,1);
+      final int slot=getHistogramSlot(span,destNode.getServiceType());
+      stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);
-      tr.add(statId,span.getCollectorAcceptTime(),slot,1L,span.hasException());
-      tr.add(span.getApplicationId(),span.getCollectorAcceptTime(),slot,1L,span.hasException());
-      List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
-      if (spanEventBoList == null || spanEventBoList.isEmpty()) {
-        continue;
-      }
-      src=span.getApplicationId();
-      srcServiceType=span.getServiceType();
-      for (      SpanEventBo spanEvent : spanEventBoList) {
-        dest=spanEvent.getDestinationId();
-        destServiceType=spanEvent.getServiceType();
-        if (!destServiceType.isRecordStatistics()) {
-          continue;
-        }
-        if (destServiceType.isRpcClient()) {
-          if (transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
-            continue;
-          }
- else {
-            destServiceType=ServiceType.UNKNOWN_CLOUD;
-          }
-        }
-        String statId2=TransactionFlowStatisticsUtils.makeId(src,srcServiceType,dest,destServiceType);
-        TransactionFlowStatistics stat2=(statisticsMap.containsKey(statId2) ? statisticsMap.get(statId2) : new TransactionFlowStatistics(src,srcServiceType,dest,destServiceType));
-        int slot2;
-        if (spanEvent.hasException()) {
-          slot2=Histogram.ERROR_SLOT.getSlotTime();
-        }
- else {
-          slot2=destServiceType.getHistogram().findHistogramSlot(spanEvent.getEndElapsed()).getSlotTime();
-        }
-        stat2.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
-        statisticsData.add(stat2);
-        statisticsMap.put(statId2,stat2);
-        tr.add(statId2,span.getStartTime() + spanEvent.getStartElapsed(),slot2,1L,spanEvent.hasException());
-        tr.add(spanEvent.getDestinationId(),span.getCollectorAcceptTime(),slot2,1L,spanEvent.hasException());
-      }
+      timeSeriesStore.add(statId,span.getCollectorAcceptTime(),slot,1L,span.hasException());
+      timeSeriesStore.add(new SimpleNodeId(span.getApplicationId()),span.getCollectorAcceptTime(),slot,1L,span.hasException());
+      addNodeFromSpanEvent(statisticsData,statisticsMap,timeSeriesStore,transactionSpanMap,span);
     }
   }
   for (  TransactionFlowStatistics stat : statisticsData) {
     fillAdditionalInfo(stat);
   }
   ApplicationMap map=new ApplicationMap(statisticsData).build();
-  map.setTimeSeriesStore(tr);
+  map.setTimeSeriesStore(timeSeriesStore);
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
   return map;
