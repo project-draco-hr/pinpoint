@@ -1,21 +1,28 @@
 {
   if (built)   return this;
-  Map<String,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
+  Map<NodeId,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
   for (  TransactionFlowStatistics stat : rawData) {
     if (!stat.getFromServiceType().isRpcClient()) {
-      String id=stat.getFromApplicationId();
+      NodeId id=stat.getFromApplicationId();
       Set<AgentInfoBo> agentSet=agentMap.get(id);
-      addApplication(new Application(id,stat.getFrom(),stat.getFromServiceType(),null,agentSet));
+      Application application=new Application(id,stat.getFrom(),stat.getFromServiceType(),null,agentSet);
+      logger.info("add Application:{}",application);
+      addApplication(application);
     }
     if (!stat.getToServiceType().isRpcClient()) {
-      String id=stat.getToApplicationId();
-      addApplication(new Application(id,stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null));
+      NodeId to=stat.getToApplicationId();
+      NodeId from=stat.getFromApplicationId();
+      Application application=new Application(to,stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null);
+      logger.info("add Application:{}",application);
+      addApplication(application);
     }
   }
   indexingApplication();
   for (  TransactionFlowStatistics stat : rawData) {
-    Application from=findApplication(stat.getFromApplicationId());
-    Application to=findApplication(stat.getToApplicationId());
+    NodeId fromApplicationId=stat.getFromApplicationId();
+    Application from=findApplication(fromApplicationId);
+    NodeId toApplicationId=stat.getToApplicationId();
+    Application to=findApplication(toApplicationId);
     if (to == null) {
       continue;
     }
@@ -25,10 +32,11 @@
       }
     }
  else {
+      logger.info("from:{}, to:{}",from,to);
       addRelation(new ApplicationRelation(from,to,stat.getToHostList()));
     }
   }
-  for (  Entry<String,Application> app : applications.entrySet()) {
+  for (  Entry<NodeId,Application> app : applications.entrySet()) {
     app.getValue().build();
   }
   built=true;

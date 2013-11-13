@@ -1,8 +1,6 @@
 {
-  this.from=from;
-  this.fromServiceType=ServiceType.findServiceType(fromServiceType);
-  this.to=to;
-  this.toServiceType=ServiceType.findServiceType(toServiceType);
+  final Node fromNode=new Node(from,ServiceType.findServiceType(fromServiceType));
+  final Node toNode=new Node(to,ServiceType.findServiceType(toServiceType));
+  this.nodeId=new ComplexNodeId(fromNode,toNode);
   this.toHostList=new HashMap<String,Host>();
-  this.id=TransactionFlowStatisticsUtils.makeId(this.from,this.fromServiceType,this.to,this.toServiceType);
 }

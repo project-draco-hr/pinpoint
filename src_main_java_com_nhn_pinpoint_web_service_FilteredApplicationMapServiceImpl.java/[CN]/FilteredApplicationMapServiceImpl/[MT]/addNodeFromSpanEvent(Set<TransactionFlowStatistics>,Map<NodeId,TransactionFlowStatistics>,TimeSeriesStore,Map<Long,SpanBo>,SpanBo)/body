@@ -31,7 +31,7 @@
     statisticsData.add(stat2);
     statisticsMap.put(spanEventStatId,stat2);
     timeSeriesStore.add(spanEventStatId,span.getStartTime() + spanEvent.getStartElapsed(),slot2,1L,spanEvent.hasException());
-    NodeId key=new SimpleNodeId(spanEvent.getDestinationId());
+    NodeId key=new ComplexNodeId(Node.EMPTY,new Node(spanEvent.getDestinationId(),spanEvent.getServiceType()));
     timeSeriesStore.add(key,span.getCollectorAcceptTime(),slot2,1L,spanEvent.hasException());
   }
 }

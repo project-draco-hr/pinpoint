@@ -5,7 +5,9 @@
   if (to == null) {
     throw new NullPointerException("to must not be null");
   }
-  this.id=from.getId() + to.getId();
+  SimpleNodeId fromId=(SimpleNodeId)from.getId();
+  SimpleNodeId toId=(SimpleNodeId)to.getId();
+  this.id=new ComplexNodeId(fromId.getKey(),toId.getKey());
   this.from=from;
   this.to=to;
   this.hostList=hostList;

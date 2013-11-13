@@ -1,11 +1,13 @@
 {
   if (this.equals(applicationStatistics)) {
     for (    Entry<String,Host> entry : applicationStatistics.getToHostList().entrySet()) {
-      if (this.toHostList.containsKey(entry.getKey())) {
-        this.toHostList.get(entry.getKey()).mergeWith(entry.getValue());
+      final String key=entry.getKey();
+      final Host host=this.toHostList.get(key);
+      if (host != null) {
+        host.mergeWith(entry.getValue());
       }
  else {
-        this.toHostList.put(entry.getKey(),entry.getValue());
+        this.toHostList.put(key,entry.getValue());
       }
     }
     return this;
