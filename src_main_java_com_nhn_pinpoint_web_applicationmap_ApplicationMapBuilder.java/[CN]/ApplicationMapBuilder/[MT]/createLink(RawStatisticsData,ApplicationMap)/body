@@ -1,0 +1,22 @@
+{
+  final List<ApplicationRelation> result=new ArrayList<ApplicationRelation>();
+  for (  TransactionFlowStatistics stat : rawData) {
+    NodeId fromApplicationId=stat.getFromApplicationId();
+    Application from=nodeMap.findApplication(fromApplicationId);
+    NodeId toApplicationId=stat.getToApplicationId();
+    Application to=nodeMap.findApplication(toApplicationId);
+    if (to == null) {
+      continue;
+    }
+    ApplicationRelation link=new ApplicationRelation(from,to,stat.getToHostList());
+    if (to.getServiceType().isRpcClient()) {
+      if (!nodeMap.containsApplicationName(to.getApplicationName())) {
+        result.add(link);
+      }
+    }
+ else {
+      result.add(link);
+    }
+  }
+  return result;
+}

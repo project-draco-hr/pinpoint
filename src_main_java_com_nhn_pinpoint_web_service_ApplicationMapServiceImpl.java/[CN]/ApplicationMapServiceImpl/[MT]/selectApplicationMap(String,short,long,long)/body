@@ -12,7 +12,7 @@
   Set<TransactionFlowStatistics> data=new HashSet<TransactionFlowStatistics>(callee.size() + caller.size());
   data.addAll(callee);
   data.addAll(caller);
-  ApplicationMap map=new ApplicationMap(data).build();
+  ApplicationMap map=new ApplicationMapBuilder().build(data);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
   return map;

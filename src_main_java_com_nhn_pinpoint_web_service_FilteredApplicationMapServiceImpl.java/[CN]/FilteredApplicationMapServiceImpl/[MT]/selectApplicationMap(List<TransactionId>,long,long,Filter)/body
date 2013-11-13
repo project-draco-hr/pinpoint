@@ -48,7 +48,7 @@
   for (  TransactionFlowStatistics stat : statisticsData) {
     fillAdditionalInfo(stat);
   }
-  ApplicationMap map=new ApplicationMap(statisticsData).build();
+  ApplicationMap map=new ApplicationMapBuilder().build(statisticsData);
   map.setTimeSeriesStore(timeSeriesStore);
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());

@@ -1,0 +1,15 @@
+{
+  if (transactionFlowStatistics == null) {
+    throw new NullPointerException("rawData must not be null");
+  }
+  final RawStatisticsData rawData=new RawStatisticsData(transactionFlowStatistics);
+  final ApplicationMap nodeMap=new ApplicationMap();
+  Map<NodeId,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
+  final List<Application> application=createApplication(rawData,nodeMap,agentMap);
+  nodeMap.addApplication(application);
+  nodeMap.indexingApplication();
+  List<ApplicationRelation> link=createLink(rawData,nodeMap);
+  nodeMap.addRelation(link);
+  nodeMap.buildApplication();
+  return nodeMap;
+}
