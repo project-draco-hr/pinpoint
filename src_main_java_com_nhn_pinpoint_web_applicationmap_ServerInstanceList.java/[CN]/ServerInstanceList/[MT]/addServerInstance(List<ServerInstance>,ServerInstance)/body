@@ -1,0 +1,11 @@
+{
+  final String serverId=serverInstance.getId();
+  for (  ServerInstance node : nodeList) {
+    boolean equalsNode=node.getId().equals(serverId);
+    if (equalsNode) {
+      node.addHistogram(serverInstance);
+      return;
+    }
+  }
+  nodeList.add(serverInstance);
+}

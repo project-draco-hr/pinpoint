@@ -1,0 +1,19 @@
+{
+  if (agentSet == null) {
+    return;
+  }
+  for (  AgentInfoBo agent : agentSet) {
+    final String hostName=agent.getHostname();
+    final List<ServerInstance> find=serverInstanceList.get(hostName);
+    if (find == null) {
+      List<ServerInstance> newNode=new ArrayList<ServerInstance>();
+      final ServerInstance serverInstance=new ServerInstance(agent);
+      newNode.add(serverInstance);
+      serverInstanceList.put(hostName,newNode);
+    }
+ else {
+      final ServerInstance serverInstance=new ServerInstance(agent);
+      addServerInstance(find,serverInstance);
+    }
+  }
+}
