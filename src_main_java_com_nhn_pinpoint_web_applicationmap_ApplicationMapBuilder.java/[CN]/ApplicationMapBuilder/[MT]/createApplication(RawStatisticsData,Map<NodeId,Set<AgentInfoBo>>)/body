@@ -2,8 +2,8 @@
   final List<Application> result=new ArrayList<Application>();
   for (  TransactionFlowStatistics stat : rawData) {
     if (!stat.getFromServiceType().isRpcClient()) {
-      NodeId id=stat.getFromApplicationId();
-      Set<AgentInfoBo> agentSet=agentMap.get(id);
+      final NodeId id=stat.getFromApplicationId();
+      final Set<AgentInfoBo> agentSet=agentMap.get(id);
       Application application=new Application(id,stat.getFrom(),stat.getFromServiceType(),null,agentSet);
       result.add(application);
     }

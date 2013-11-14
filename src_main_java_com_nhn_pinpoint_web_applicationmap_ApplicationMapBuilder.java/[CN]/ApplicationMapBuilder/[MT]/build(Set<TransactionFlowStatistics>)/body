@@ -5,7 +5,7 @@
   final RawStatisticsData rawData=new RawStatisticsData(transactionFlowStatistics);
   final ApplicationMap nodeMap=new ApplicationMap();
   Map<NodeId,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
-  final List<Application> application=createApplication(rawData,nodeMap,agentMap);
+  final List<Application> application=createApplication(rawData,agentMap);
   nodeMap.addApplication(application);
   nodeMap.indexingApplication();
   List<ApplicationRelation> link=createLink(rawData,nodeMap);
