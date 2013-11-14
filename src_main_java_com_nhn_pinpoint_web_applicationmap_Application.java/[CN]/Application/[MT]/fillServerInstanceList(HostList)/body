@@ -2,11 +2,10 @@
   if (hostHistogram == null) {
     return;
   }
-  for (  Entry<String,Host> entry : hostHistogram.entrySet()) {
-    String instanceName=entry.getKey();
-    int pos=instanceName.indexOf(':');
-    String hostName=(pos > 0) ? instanceName.substring(0,pos) : instanceName;
-    ServiceType serviceType=entry.getValue().getServiceType();
+  for (  Host host : hostHistogram.getHostList()) {
+    String instanceName=host.getHost();
+    String hostName=getHostName(instanceName);
+    ServiceType serviceType=host.getServiceType();
     ServerInstance serverInstance=new ServerInstance(instanceName,serviceType,null);
     MergeableMap<String,ServerInstance> serverInstanceMap=serverInstanceList.get(hostName);
     if (serverInstanceMap == null) {

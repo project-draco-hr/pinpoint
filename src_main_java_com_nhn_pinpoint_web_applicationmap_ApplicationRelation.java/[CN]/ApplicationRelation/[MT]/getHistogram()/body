@@ -1,11 +1,11 @@
 {
   ResponseHistogram result=null;
-  for (  Entry<String,Host> entry : hostList.entrySet()) {
+  for (  Host host : hostList.getHostList()) {
     if (result == null) {
-      ResponseHistogram histogram=entry.getValue().getHistogram();
+      ResponseHistogram histogram=host.getHistogram();
       result=new ResponseHistogram(histogram.getId(),histogram.getServiceType());
     }
-    result.mergeWith(entry.getValue().getHistogram());
+    result.mergeWith(host.getHistogram());
   }
   return result;
 }

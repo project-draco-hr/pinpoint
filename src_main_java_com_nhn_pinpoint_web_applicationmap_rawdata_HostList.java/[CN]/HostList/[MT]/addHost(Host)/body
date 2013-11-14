@@ -1,0 +1,13 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  final String hostName=host.getHost();
+  final Host find=this.hostMap.get(hostName);
+  if (find != null) {
+    find.add(host);
+  }
+ else {
+    hostMap.put(hostName,host);
+  }
+}

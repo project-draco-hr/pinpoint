@@ -1,0 +1,15 @@
+{
+  if (hostName == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  final Host find=hostMap.get(hostName);
+  if (find != null) {
+    final ResponseHistogram histogram=find.getHistogram();
+    histogram.addSample(slot,value);
+  }
+ else {
+    final Host host=new Host(hostName,ServiceType.findServiceType(serviceTypeCode));
+    host.getHistogram().addSample(slot,value);
+    hostMap.put(hostName,host);
+  }
+}

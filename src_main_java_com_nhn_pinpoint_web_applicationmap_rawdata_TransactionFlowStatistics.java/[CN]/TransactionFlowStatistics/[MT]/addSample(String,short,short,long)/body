@@ -2,13 +2,5 @@
   if (hostname == null || hostname.length() == 0) {
     hostname="UNKNOWNHOST";
   }
-  final Host find=toHostList.get(hostname);
-  if (find != null) {
-    find.getHistogram().addSample(slot,value);
-  }
- else {
-    Host host=new Host(hostname,ServiceType.findServiceType(serviceTypeCode));
-    host.getHistogram().addSample(slot,value);
-    toHostList.put(hostname,host);
-  }
+  this.toHostList.addHost(hostname,serviceTypeCode,slot,value);
 }
