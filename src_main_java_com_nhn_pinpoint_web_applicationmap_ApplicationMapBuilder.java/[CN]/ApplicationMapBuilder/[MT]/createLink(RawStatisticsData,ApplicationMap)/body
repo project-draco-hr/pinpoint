@@ -1,9 +1,9 @@
 {
   final List<ApplicationRelation> result=new ArrayList<ApplicationRelation>();
-  for (  TransactionFlowStatistics stat : rawData) {
-    NodeId fromApplicationId=stat.getFromApplicationId();
+  for (  TransactionFlowStatistics stat : rawData.getRawData()) {
+    final NodeId fromApplicationId=stat.getFromApplicationId();
     Application from=nodeMap.findApplication(fromApplicationId);
-    NodeId toApplicationId=stat.getToApplicationId();
+    final NodeId toApplicationId=stat.getToApplicationId();
     Application to=nodeMap.findApplication(toApplicationId);
     if (to == null) {
       continue;
