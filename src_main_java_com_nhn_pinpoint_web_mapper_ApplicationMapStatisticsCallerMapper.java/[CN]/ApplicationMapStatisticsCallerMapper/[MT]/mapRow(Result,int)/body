@@ -5,17 +5,20 @@
   KeyValue[] keyList=result.raw();
   Map<String,TransactionFlowStatistics> stat=new HashMap<String,TransactionFlowStatistics>();
   for (  KeyValue kv : keyList) {
-    byte[] qualifier=kv.getQualifier();
-    String calleeApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(kv.getRow());
-    short calleeServiceType=ApplicationMapStatisticsUtils.getApplicationTypeFromRowKey(kv.getRow());
+    final byte[] row=kv.getRow();
+    String calleeApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(row);
+    short calleeServiceType=ApplicationMapStatisticsUtils.getApplicationTypeFromRowKey(row);
+    final byte[] qualifier=kv.getQualifier();
     String callerApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
     short callerServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
-    String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
-    logger.debug("    Fetched. " + callerApplicationName + "["+ ServiceType.findServiceType(callerServiceType)+ "] -> "+ calleeApplicationName+ "["+ ServiceType.findServiceType(calleeServiceType)+ "] ("+ requestCount+ ")");
+    if (logger.isDebugEnabled()) {
+      logger.debug("    Fetched. {}[{}] -> {}[{}] ({})",callerApplicationName,ServiceType.findServiceType(callerServiceType),calleeApplicationName,ServiceType.findServiceType(calleeServiceType),requestCount);
+    }
+    final String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
     if (stat.containsKey(id)) {
       TransactionFlowStatistics statistics=stat.get(id);
       statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
