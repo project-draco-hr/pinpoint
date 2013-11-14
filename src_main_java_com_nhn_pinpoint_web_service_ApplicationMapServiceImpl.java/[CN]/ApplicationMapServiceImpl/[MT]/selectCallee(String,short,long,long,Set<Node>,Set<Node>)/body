@@ -9,20 +9,19 @@
     logger.debug("Find Callee. caller={}, serviceType={}",callerApplicationName,ServiceType.findServiceType(callerServiceType));
   }
   final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
-  Map<String,TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
+  List<TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
   if (logger.isDebugEnabled()) {
     logger.debug("     Found Callee. count={}, caller={}",callee.size(),callerApplicationName);
   }
-  for (  Entry<String,TransactionFlowStatistics> entry : callee.entrySet()) {
-    boolean replaced=replaceApplicationInfo(entry.getValue(),from,to);
+  for (  TransactionFlowStatistics stat : callee) {
+    boolean replaced=replaceApplicationInfo(stat,from,to);
     if (!replaced) {
-      fillAdditionalInfo(entry.getValue(),from,to);
-      calleeSet.add(entry.getValue());
+      fillAdditionalInfo(stat,from,to);
+      calleeSet.add(stat);
     }
-    if (entry.getValue().getToServiceType().isTerminal() || entry.getValue().getToServiceType().isUnknown()) {
+    if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
       continue;
     }
-    TransactionFlowStatistics stat=entry.getValue();
     logger.debug("     Find subCallee of {}",stat.getTo());
     Set<TransactionFlowStatistics> calleeSub=selectCallee(stat.getTo(),stat.getToServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
     logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getTo());

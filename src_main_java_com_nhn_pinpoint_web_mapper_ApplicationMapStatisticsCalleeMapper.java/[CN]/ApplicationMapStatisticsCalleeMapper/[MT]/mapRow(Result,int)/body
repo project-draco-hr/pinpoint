@@ -1,9 +1,9 @@
 {
   if (result.isEmpty()) {
-    return Collections.emptyMap();
+    return Collections.emptyList();
   }
-  KeyValue[] keyList=result.raw();
-  Map<String,TransactionFlowStatistics> stat=new HashMap<String,TransactionFlowStatistics>();
+  final KeyValue[] keyList=result.raw();
+  final List<TransactionFlowStatistics> stat=new ArrayList<TransactionFlowStatistics>(keyList.length + 10);
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
     String callerApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(row);
@@ -19,15 +19,9 @@
       logger.debug("    Fetched. {}[{}] -> {}[{}] ({})",callerApplicationName,ServiceType.findServiceType(callerServiceType),calleeApplicationName,ServiceType.findServiceType(calleeServiceType),requestCount);
     }
     final String id=callerApplicationName + callerServiceType + calleeApplicationName+ calleeServiceType;
-    if (stat.containsKey(id)) {
-      TransactionFlowStatistics statistics=stat.get(id);
-      statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
-    }
- else {
-      TransactionFlowStatistics statistics=new TransactionFlowStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
-      statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
-      stat.put(id,statistics);
-    }
+    TransactionFlowStatistics statistics=new TransactionFlowStatistics(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
+    statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
+    stat.add(statistics);
   }
   return stat;
 }

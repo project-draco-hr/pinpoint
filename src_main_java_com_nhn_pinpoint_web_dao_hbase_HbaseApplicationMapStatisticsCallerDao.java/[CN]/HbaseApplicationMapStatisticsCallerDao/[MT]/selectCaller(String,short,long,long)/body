@@ -1,18 +1,18 @@
 {
   Scan scan=createScan(calleeApplicationName,calleeServiceType,from,to);
-  List<Map<String,TransactionFlowStatistics>> found=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLER,scan,applicationMapStatisticsCallerMapper);
-  Map<String,TransactionFlowStatistics> result=new HashMap<String,TransactionFlowStatistics>();
-  for (  Map<String,TransactionFlowStatistics> map : found) {
-    for (    Entry<String,TransactionFlowStatistics> entry : map.entrySet()) {
-      final String key=entry.getKey();
-      final TransactionFlowStatistics find=result.get(key);
+  List<List<TransactionFlowStatistics>> foundListList=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLER,scan,applicationMapStatisticsCallerMapper);
+  final Map<TransactionFlowStatisticsKey,TransactionFlowStatistics> result=new HashMap<TransactionFlowStatisticsKey,TransactionFlowStatistics>();
+  for (  List<TransactionFlowStatistics> foundList : foundListList) {
+    for (    TransactionFlowStatistics found : foundList) {
+      final TransactionFlowStatisticsKey key=new TransactionFlowStatisticsKey(found);
+      TransactionFlowStatistics find=result.get(key);
       if (find != null) {
-        find.add(entry.getValue());
+        find.add(found);
       }
  else {
-        result.put(key,entry.getValue());
+        result.put(key,found);
       }
     }
   }
-  return result;
+  return new ArrayList<TransactionFlowStatistics>(result.values());
 }

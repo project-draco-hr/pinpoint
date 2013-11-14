@@ -9,12 +9,11 @@
     logger.debug("Find Caller. callee={}, serviceType={}",calleeApplicationName,ServiceType.findServiceType(calleeServiceType));
   }
   final Set<TransactionFlowStatistics> callerSet=new HashSet<TransactionFlowStatistics>();
-  Map<String,TransactionFlowStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplicationName,calleeServiceType,from,to);
+  final List<TransactionFlowStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplicationName,calleeServiceType,from,to);
   logger.debug("     Found Caller. count={}, callee={}",caller.size(),calleeApplicationName);
-  for (  Entry<String,TransactionFlowStatistics> entry : caller.entrySet()) {
-    fillAdditionalInfo(entry.getValue(),from,to);
-    callerSet.add(entry.getValue());
-    TransactionFlowStatistics stat=entry.getValue();
+  for (  TransactionFlowStatistics stat : caller) {
+    fillAdditionalInfo(stat,from,to);
+    callerSet.add(stat);
     Set<TransactionFlowStatistics> callerSub=selectCaller(stat.getFrom(),stat.getFromServiceType().getCode(),from,to,calleeFoundApplications,callerFoundApplications);
     callerSet.addAll(callerSub);
     for (    TransactionFlowStatistics eachCallee : callerSub) {
