@@ -5,7 +5,8 @@
   final String hostName=host.getHost();
   final Host find=this.hostMap.get(hostName);
   if (find != null) {
-    find.add(host);
+    final ResponseHistogram histogram=find.getHistogram();
+    histogram.add(host.getHistogram());
   }
  else {
     hostMap.put(hostName,host);

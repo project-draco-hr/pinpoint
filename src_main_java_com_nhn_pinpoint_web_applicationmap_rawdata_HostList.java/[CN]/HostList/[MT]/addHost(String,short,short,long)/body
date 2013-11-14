@@ -9,7 +9,8 @@
   }
  else {
     final Host host=new Host(hostName,ServiceType.findServiceType(serviceTypeCode));
-    host.getHistogram().addSample(slot,value);
+    final ResponseHistogram histogram=host.getHistogram();
+    histogram.addSample(slot,value);
     hostMap.put(hostName,host);
   }
 }
