@@ -4,12 +4,12 @@
     if (!stat.getFromServiceType().isRpcClient()) {
       final NodeId id=stat.getFromApplicationId();
       final Set<AgentInfoBo> agentSet=agentMap.get(id);
-      Application application=new Application(id,stat.getFrom(),stat.getFromServiceType(),null,agentSet);
+      Application application=new Application(id,stat.getFrom(),stat.getFromServiceType(),agentSet);
       result.add(application);
     }
     if (!stat.getToServiceType().isRpcClient()) {
       NodeId to=stat.getToApplicationId();
-      Application application=new Application(to,stat.getTo(),stat.getToServiceType(),stat.getToHostList(),null);
+      Application application=new Application(to,stat.getTo(),stat.getToServiceType(),stat.getToHostList());
       result.add(application);
     }
   }
