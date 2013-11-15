@@ -1,13 +1,14 @@
 {
-  if (application == null) {
-    throw new NullPointerException("application must not be null");
+  if (source == null) {
+    throw new NullPointerException("source must not be null");
   }
-  final NodeId id=application.getId();
+  final NodeId id=source.getId();
   final Application find=nodeMap.get(id);
   if (find != null) {
-    find.add(application);
+    find.add(source);
   }
  else {
+    final Application application=source.deepCopy();
     nodeMap.put(id,application);
   }
 }

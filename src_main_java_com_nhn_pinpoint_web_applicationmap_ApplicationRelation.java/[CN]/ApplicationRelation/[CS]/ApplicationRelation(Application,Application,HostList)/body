@@ -1,14 +1,3 @@
 {
-  if (from == null) {
-    throw new NullPointerException("from must not be null");
-  }
-  if (to == null) {
-    throw new NullPointerException("to must not be null");
-  }
-  SimpleNodeId fromId=(SimpleNodeId)from.getId();
-  SimpleNodeId toId=(SimpleNodeId)to.getId();
-  this.id=new ComplexNodeId(fromId.getKey(),toId.getKey());
-  this.from=from;
-  this.to=to;
-  this.hostList=hostList;
+  this(createKey(from,to),from,to,hostList);
 }

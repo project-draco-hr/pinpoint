@@ -1,6 +1,9 @@
 {
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
   this.serviceType=serviceType;
   this.histogram=serviceType.getHistogram();
   int size=histogram.getHistogramSlotList().size();
-  values=new long[size];
+  this.values=new long[size];
 }

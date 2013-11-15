@@ -5,11 +5,11 @@
   final RawStatisticsData rawData=new RawStatisticsData(transactionFlowStatistics);
   final ApplicationMap nodeMap=new ApplicationMap();
   Map<NodeId,Set<AgentInfoBo>> agentMap=rawData.getAgentMap();
-  final List<Application> application=createApplication(rawData,agentMap);
-  nodeMap.addApplication(application);
+  final List<Application> sourceNode=createSourceApplication(rawData,agentMap);
+  nodeMap.addApplication(sourceNode);
   nodeMap.indexingApplication();
-  List<ApplicationRelation> link=createLink(rawData,nodeMap);
-  nodeMap.addRelation(link);
+  List<ApplicationRelation> sourceLink=createSourceLink(rawData,nodeMap);
+  nodeMap.addRelation(sourceLink);
   nodeMap.buildApplication();
   return nodeMap;
 }
