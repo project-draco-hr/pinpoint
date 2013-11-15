@@ -1,6 +1,8 @@
 {
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
   logger.debug("merge application a={}, b={}",this.id,application.id);
-  logger.debug("addApplication");
   this.hostList.addHostList(application.hostList);
   if (application.agentSet != null) {
     this.agentSet.addAll(application.agentSet);
