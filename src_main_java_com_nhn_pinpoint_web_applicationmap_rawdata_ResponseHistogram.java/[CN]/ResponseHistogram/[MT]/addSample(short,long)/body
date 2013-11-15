@@ -1,13 +1,13 @@
 {
   totalCount+=value;
-  if (slot == 0) {
+  if (slot == HistogramSchema.SLOW_SLOT.getSlotTime()) {
     slowCount+=value;
   }
- else   if (slot == -1) {
+ else   if (slot == HistogramSchema.ERROR_SLOT.getSlotTime()) {
     errorCount+=value;
     return;
   }
-  int histogramSlotIndex=histogram.getHistogramSlotIndex(slot);
+  final int histogramSlotIndex=histogramSchema.getHistogramSlotIndex(slot);
   if (histogramSlotIndex == -1) {
     logger.debug("Can't find slot={} value={} serviceType={}",slot,value,serviceType);
     return;
