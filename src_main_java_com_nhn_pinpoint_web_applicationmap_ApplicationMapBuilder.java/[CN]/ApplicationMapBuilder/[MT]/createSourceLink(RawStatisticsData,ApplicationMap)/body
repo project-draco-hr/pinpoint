@@ -8,7 +8,8 @@
     if (to == null) {
       continue;
     }
-    ApplicationRelation link=new ApplicationRelation(from,to,stat.getToHostList());
+    HostList toHostList=stat.getToHostList();
+    ApplicationRelation link=new ApplicationRelation(from,to,toHostList);
     if (to.getServiceType().isRpcClient()) {
       if (!nodeMap.containsApplicationName(to.getApplicationName())) {
         result.add(link);
