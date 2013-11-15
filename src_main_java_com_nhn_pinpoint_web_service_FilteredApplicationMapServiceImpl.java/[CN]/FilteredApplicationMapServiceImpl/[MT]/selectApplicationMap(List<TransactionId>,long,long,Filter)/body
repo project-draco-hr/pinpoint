@@ -24,15 +24,12 @@
     for (    SpanBo span : transaction) {
       final Node srcNode=createNode(span,transactionSpanMap);
       final Node destNode=new Node(span.getApplicationId(),span.getServiceType());
-      if (destNode.isLink()) {
+      if (!destNode.getServiceType().isRecordStatistics() || destNode.getServiceType().isRpcClient()) {
         continue;
       }
       final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
-      TransactionFlowStatistics stat;
-      if (statisticsMap.containsKey(statId)) {
-        stat=statisticsMap.get(statId);
-      }
- else {
+      TransactionFlowStatistics stat=statisticsMap.get(statId);
+      if (stat == null) {
         stat=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),destNode.getName(),destNode.getServiceType());
       }
       final int slot=getHistogramSlot(span,destNode.getServiceType());

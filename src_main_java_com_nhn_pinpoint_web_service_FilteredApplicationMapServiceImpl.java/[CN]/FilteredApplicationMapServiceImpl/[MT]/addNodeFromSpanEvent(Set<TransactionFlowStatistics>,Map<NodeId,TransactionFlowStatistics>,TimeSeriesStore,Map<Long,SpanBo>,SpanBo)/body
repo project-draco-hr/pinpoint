@@ -19,17 +19,14 @@
       }
     }
     final NodeId spanEventStatId=new ComplexNodeId(srcNode,new Node(dest,destServiceType));
-    TransactionFlowStatistics stat2;
-    if (statisticsMap.containsKey(spanEventStatId)) {
-      stat2=statisticsMap.get(spanEventStatId);
-    }
- else {
-      stat2=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),dest,destServiceType);
+    TransactionFlowStatistics statistics=statisticsMap.get(spanEventStatId);
+    if (statistics == null) {
+      statistics=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),dest,destServiceType);
     }
     final int slot2=getHistogramSlot(spanEvent,destServiceType);
-    stat2.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
-    statisticsData.add(stat2);
-    statisticsMap.put(spanEventStatId,stat2);
+    statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
+    statisticsData.add(statistics);
+    statisticsMap.put(spanEventStatId,statistics);
     timeSeriesStore.add(spanEventStatId,span.getStartTime() + spanEvent.getStartElapsed(),slot2,1L,spanEvent.hasException());
     NodeId key=new ComplexNodeId(Node.EMPTY,new Node(spanEvent.getDestinationId(),spanEvent.getServiceType()));
     timeSeriesStore.add(key,span.getCollectorAcceptTime(),slot2,1L,spanEvent.hasException());
