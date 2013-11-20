@@ -1,0 +1,13 @@
+{
+  int rand=new Random().nextInt(100);
+  String key="pinpoint:demo-" + rand;
+  Future<Object> getFuture=null;
+  try {
+    getFuture=arcus.asyncGet(key);
+    getFuture.get(1000L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    if (getFuture != null)     getFuture.cancel(true);
+    throw new RuntimeException(e);
+  }
+}
