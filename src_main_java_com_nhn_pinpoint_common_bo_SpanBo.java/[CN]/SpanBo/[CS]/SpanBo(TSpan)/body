@@ -23,13 +23,11 @@
   this.apiId=span.getApiId();
   this.errCode=span.getErr();
   this.remoteAddr=span.getRemoteAddr();
-  if (span.isSetErr()) {
+  final TIntStringValue exceptionInfo=span.getExceptionInfo();
+  if (exceptionInfo != null) {
     this.hasException=true;
-    final TIntStringValue exceptionInfo=span.getExceptionInfo();
-    if (exceptionInfo != null) {
-      this.exceptionId=exceptionInfo.getIntValue();
-      this.exceptionMessage=exceptionInfo.getStringValue();
-    }
+    this.exceptionId=exceptionInfo.getIntValue();
+    this.exceptionMessage=exceptionInfo.getStringValue();
   }
   setAnnotationList(span.getAnnotations());
 }
