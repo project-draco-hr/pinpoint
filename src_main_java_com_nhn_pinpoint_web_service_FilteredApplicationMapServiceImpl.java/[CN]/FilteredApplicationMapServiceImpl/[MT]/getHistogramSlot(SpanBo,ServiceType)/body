@@ -1,3 +1,4 @@
 {
-  return getHistogramSlot(span.hasException(),span.getElapsed(),serviceType);
+  boolean allException=span.getErrCode() != 0;
+  return getHistogramSlot(allException,span.getElapsed(),serviceType);
 }
