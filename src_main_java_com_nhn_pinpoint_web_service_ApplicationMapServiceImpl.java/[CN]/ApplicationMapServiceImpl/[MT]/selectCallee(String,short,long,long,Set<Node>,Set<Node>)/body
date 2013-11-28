@@ -6,12 +6,12 @@
   }
   calleeFoundApplications.add(key);
   if (logger.isDebugEnabled()) {
-    logger.debug("Find Callee. caller={}, serviceType={}",callerApplicationName,ServiceType.findServiceType(callerServiceType));
+    logger.debug("Finding Callee. caller={}, serviceType={}",callerApplicationName,ServiceType.findServiceType(callerServiceType));
   }
   final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
   List<TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplicationName,callerServiceType,from,to);
   if (logger.isDebugEnabled()) {
-    logger.debug("     Found Callee. count={}, caller={}",callee.size(),callerApplicationName);
+    logger.debug("Found Callee. count={}, caller={}",callee.size(),callerApplicationName);
   }
   for (  TransactionFlowStatistics stat : callee) {
     boolean replaced=replaceApplicationInfo(stat,from,to);

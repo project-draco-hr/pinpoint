@@ -8,7 +8,9 @@
   final Set<Node> callerFoundApplications=new HashSet<Node>();
   final Set<Node> calleeFoundApplications=new HashSet<Node>();
   Set<TransactionFlowStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  logger.debug("Result of finding callee {}",callee);
   Set<TransactionFlowStatistics> caller=selectCaller(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  logger.debug("Result of finding caller {}",caller);
   Set<TransactionFlowStatistics> data=new HashSet<TransactionFlowStatistics>(callee.size() + caller.size());
   data.addAll(callee);
   data.addAll(caller);
