@@ -1,0 +1,41 @@
+{
+  if (fromApplicationName == null) {
+    throw new NullPointerException("fromApplicationName must not be null");
+  }
+  if (toApplicationName == null) {
+    throw new NullPointerException("toApplicationName must not be null");
+  }
+  this.fromServiceCode=ServiceType.findDesc(fromServiceType);
+  if (fromServiceCode == null) {
+    throw new IllegalArgumentException("fromServiceCode not found. fromServiceType:" + fromServiceType);
+  }
+  this.fromApplicationName=fromApplicationName;
+  this.toServiceCode=ServiceType.findDesc(toServiceType);
+  if (toServiceCode == null) {
+    throw new IllegalArgumentException("toServiceCode not found. toServiceCode:" + toServiceType);
+  }
+  this.toApplicationName=toApplicationName;
+  if (condition == null) {
+    throw new NullPointerException("compare condition must not be null");
+  }
+  String[] conditions=condition.split(",");
+  if (conditions.length == 4) {
+    fromResponseTime=Long.valueOf(conditions[0]);
+    fromCondition=CompareOperators.valueOf(conditions[1]);
+    toResponseTime=Long.valueOf(conditions[2]);
+    toCondition=CompareOperators.valueOf(conditions[3]);
+    findError=false;
+  }
+ else {
+    if ("ERR".equals(condition)) {
+      findError=true;
+    }
+ else {
+      throw new IllegalArgumentException("invalid conditions:" + condition);
+    }
+    fromResponseTime=0;
+    fromCondition=CompareOperators.GT;
+    toResponseTime=Long.MAX_VALUE;
+    toCondition=CompareOperators.LT;
+  }
+}
