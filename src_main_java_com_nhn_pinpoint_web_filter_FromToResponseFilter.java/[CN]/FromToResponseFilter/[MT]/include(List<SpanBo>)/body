@@ -3,7 +3,7 @@
     for (    SpanBo span : transaction) {
       if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
         if (findError) {
-          return span.getErrCode() > 0;
+          return span.getErrCode() > 0 && checkResponseCondition(span.getElapsed());
         }
  else {
           return checkResponseCondition(span.getElapsed());
@@ -21,7 +21,7 @@
         for (        SpanEventBo event : eventBoList) {
           if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
             if (findError) {
-              return event.hasException();
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
  else {
               return checkResponseCondition(event.getEndElapsed());
@@ -40,7 +40,7 @@
           }
           if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
             if (findError) {
-              return destSpan.getErrCode() > 0;
+              return destSpan.getErrCode() > 0 && checkResponseCondition(destSpan.getElapsed());
             }
  else {
               return checkResponseCondition(destSpan.getElapsed());
@@ -60,7 +60,7 @@
         for (        SpanEventBo event : eventBoList) {
           if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
             if (findError) {
-              return event.hasException();
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
  else {
               return checkResponseCondition(event.getEndElapsed());
