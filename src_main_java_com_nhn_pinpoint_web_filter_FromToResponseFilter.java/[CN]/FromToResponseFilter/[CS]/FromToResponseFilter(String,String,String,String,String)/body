@@ -19,23 +19,19 @@
     throw new NullPointerException("compare condition must not be null");
   }
   String[] conditions=condition.split(",");
-  if (conditions.length == 4) {
+  if (conditions.length == 2) {
     fromResponseTime=Long.valueOf(conditions[0]);
-    fromCondition=CompareOperators.valueOf(conditions[1]);
     toResponseTime=Long.valueOf(conditions[2]);
-    toCondition=CompareOperators.valueOf(conditions[3]);
     findError=false;
   }
  else {
-    if ("ERR".equals(condition)) {
+    if ("error".equals(condition)) {
       findError=true;
     }
  else {
       throw new IllegalArgumentException("invalid conditions:" + condition);
     }
     fromResponseTime=0;
-    fromCondition=CompareOperators.GT;
     toResponseTime=Long.MAX_VALUE;
-    toCondition=CompareOperators.LT;
   }
 }
