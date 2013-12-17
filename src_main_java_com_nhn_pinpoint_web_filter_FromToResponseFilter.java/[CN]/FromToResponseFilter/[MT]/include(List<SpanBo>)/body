@@ -6,7 +6,7 @@
           return span.getErrCode() > 0 && checkResponseCondition(span.getElapsed());
         }
  else {
-          return checkResponseCondition(span.getElapsed());
+          return span.getErrCode() == 0 && checkResponseCondition(span.getElapsed());
         }
       }
     }
@@ -24,7 +24,7 @@
               return event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
  else {
-              return checkResponseCondition(event.getEndElapsed());
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
           }
         }
@@ -43,7 +43,7 @@
               return destSpan.getErrCode() > 0 && checkResponseCondition(destSpan.getElapsed());
             }
  else {
-              return checkResponseCondition(destSpan.getElapsed());
+              return destSpan.getErrCode() == 0 && checkResponseCondition(destSpan.getElapsed());
             }
           }
         }
@@ -63,7 +63,7 @@
               return event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
  else {
-              return checkResponseCondition(event.getEndElapsed());
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
             }
           }
         }
