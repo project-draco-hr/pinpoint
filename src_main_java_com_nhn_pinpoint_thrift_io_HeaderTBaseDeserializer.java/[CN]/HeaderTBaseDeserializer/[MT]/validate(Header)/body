@@ -1,6 +1,8 @@
 {
-  boolean accepted=HeaderUtils.validateSignature(header.getSignature());
-  if (!accepted) {
+  final byte signature=header.getSignature();
+  final int result=HeaderUtils.validateSignature(signature);
+  if (result == HeaderUtils.FAIL) {
     throw new TException("Invalid Signature:" + header);
   }
+  return result;
 }
