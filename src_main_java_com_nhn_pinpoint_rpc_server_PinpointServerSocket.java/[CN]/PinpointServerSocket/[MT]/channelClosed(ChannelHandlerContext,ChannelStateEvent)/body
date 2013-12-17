@@ -12,7 +12,13 @@
     }
   }
  else {
-    logger.warn("Unexpected Client channelClosed {}",channel);
+    boolean check=checkIgnoreAddress(channel);
+    if (check) {
+      logger.warn("Unexpected Client channelClosed {}",channel);
+    }
+ else {
+      logger.debug("Unexpected checkAddress channelClosed {}",channel);
+    }
   }
   channelContext.closeAllStreamChannel();
 }

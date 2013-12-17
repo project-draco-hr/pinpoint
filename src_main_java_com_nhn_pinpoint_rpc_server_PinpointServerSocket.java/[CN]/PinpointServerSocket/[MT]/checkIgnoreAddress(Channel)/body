@@ -1,0 +1,14 @@
+{
+  if (ignoreAddress == null) {
+    return true;
+  }
+  final InetSocketAddress remoteAddress=(InetSocketAddress)channel.getRemoteAddress();
+  if (remoteAddress == null) {
+    return true;
+  }
+  InetAddress address=remoteAddress.getAddress();
+  if (ignoreAddress.equals(address)) {
+    return false;
+  }
+  return true;
+}
