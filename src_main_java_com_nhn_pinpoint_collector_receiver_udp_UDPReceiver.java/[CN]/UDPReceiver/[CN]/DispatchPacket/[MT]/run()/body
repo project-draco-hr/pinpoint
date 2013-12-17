@@ -4,6 +4,13 @@
   TBase<?,?> tBase=null;
   try {
     tBase=deserializer.deserialize(packet.getData());
+    if (tBase instanceof L4Packet) {
+      if (logger.isDebugEnabled()) {
+        L4Packet packet=(L4Packet)tBase;
+        logger.debug("udp l4 packet {}",packet.getHeader());
+      }
+      return;
+    }
     dispatchHandler.dispatch(tBase,packet.getData(),Header.HEADER_SIZE,packet.getLength());
   }
  catch (  TException e) {

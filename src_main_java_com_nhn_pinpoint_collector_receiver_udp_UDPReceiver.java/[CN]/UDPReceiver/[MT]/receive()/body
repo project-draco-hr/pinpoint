@@ -9,6 +9,12 @@
     if (packet == null) {
       continue;
     }
+    if (packet.getLength() == 0) {
+      if (debugEnabled) {
+        logger.debug("length is 0 ip:{}, port:{}",packet.getAddress(),packet.getPort());
+      }
+      return;
+    }
     if (debugEnabled) {
       logger.debug("pool getActiveCount:{}",worker.getActiveCount());
     }
