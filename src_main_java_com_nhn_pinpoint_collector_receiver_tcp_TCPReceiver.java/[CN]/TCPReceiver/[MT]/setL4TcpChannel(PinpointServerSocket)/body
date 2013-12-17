@@ -1,0 +1,12 @@
+{
+  if (l4ip == null) {
+    return;
+  }
+  try {
+    InetAddress inetAddress=InetAddress.getByName(l4ip);
+    pinpointServerSocket.setIgnoreAddress(inetAddress);
+  }
+ catch (  UnknownHostException e) {
+    logger.warn("l4ip error {}",l4ip,e);
+  }
+}
