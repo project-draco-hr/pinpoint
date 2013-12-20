@@ -1,5 +1,5 @@
 {
-  if (ignoreAddress == null) {
+  if (ignoreAddressList == null) {
     return true;
   }
   final InetSocketAddress remoteAddress=(InetSocketAddress)channel.getRemoteAddress();
@@ -7,8 +7,10 @@
     return true;
   }
   InetAddress address=remoteAddress.getAddress();
-  if (ignoreAddress.equals(address)) {
-    return false;
+  for (  InetAddress ignore : ignoreAddressList) {
+    if (ignore.equals(address)) {
+      return false;
+    }
   }
   return true;
 }
