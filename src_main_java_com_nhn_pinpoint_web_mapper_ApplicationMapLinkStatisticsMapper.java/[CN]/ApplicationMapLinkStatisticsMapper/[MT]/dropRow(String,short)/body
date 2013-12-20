@@ -8,7 +8,7 @@
       return true;
     }
   }
- else   if (ServiceType.CLIENT == this.callerServiceType || ServiceType.USER == this.callerServiceType) {
+ else   if (this.callerServiceType.isUser()) {
     logger.debug("check client to was");
     if (!this.calleeApplicationName.equals(foundApplicationName)) {
       if (logger.isDebugEnabled()) {
