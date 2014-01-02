@@ -1,4 +1,5 @@
 {
-  final int mod=MathUtils.fastAbs(entrySelector.getAndIncrement()) % concurrencyLevel;
+  final int selectKey=MathUtils.fastAbs(entrySelector.getAndIncrement());
+  final int mod=selectKey % concurrencyLevel;
   return entryArray[mod];
 }
