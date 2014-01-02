@@ -1,0 +1,14 @@
+{
+  if (sourceLink == null) {
+    throw new NullPointerException("sourceLink must not be null");
+  }
+  final NodeId id=sourceLink.getId();
+  final Link find=this.linkMap.get(id);
+  if (find != null) {
+    find.add(sourceLink);
+  }
+ else {
+    Link copy=sourceLink.deepCopy();
+    this.linkMap.put(id,copy);
+  }
+}
