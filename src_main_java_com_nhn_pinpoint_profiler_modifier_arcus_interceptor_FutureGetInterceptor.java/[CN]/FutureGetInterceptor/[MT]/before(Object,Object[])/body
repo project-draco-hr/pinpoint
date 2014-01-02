@@ -2,12 +2,12 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     if (isDebug) {
-      logger.debug("TraceID not exist. start new trace.");
+      logger.debug("TraceID not exist.");
     }
-    trace=traceContext.newTraceObject();
+    return;
   }
   trace.traceBlockBegin();
   trace.markBeforeTime();
