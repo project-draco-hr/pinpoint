@@ -1,3 +1,8 @@
 {
-  dao.flushAll();
+  try {
+    dao.flushAll();
+  }
+ catch (  Throwable th) {
+    logger.error("AutoFlusherWorker failed.",th);
+  }
 }
