@@ -5,13 +5,13 @@
   if (callerApplicationName == null) {
     throw new NullPointerException("callerApplicationName must not be null");
   }
-  if (logger.isDebugEnabled()) {
+  if (logger.isTraceEnabled()) {
     logger.trace("[UpdatingApplicationMapStatisticsCallee] calleeApplicationName={}({}), calleeHost={}, callerApplicationName={}({})",calleeApplicationName,ServiceType.findServiceType(calleeServiceType),calleeHost,callerApplicationName,ServiceType.findServiceType(callerServiceType));
+  }
+  if (logger.isDebugEnabled()) {
     logger.debug("[UpdatingApplicationMapStatisticsCallee] {} ({}) -> {} ({})[{}]",calleeApplicationName,ServiceType.findServiceType(calleeServiceType),callerApplicationName,ServiceType.findServiceType(callerServiceType),calleeHost);
   }
-  if (calleeHost == null) {
-    calleeHost="";
-  }
+  calleeHost=StringUtils.defaultString(calleeHost);
   final long acceptedTime=acceptedTimeService.getAcceptedTime();
   final long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
   final RowKey calleeRowKey=new CallRowKey(calleeApplicationName,calleeServiceType,rowTimeSlot);
