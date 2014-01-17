@@ -9,8 +9,8 @@
     if (!serviceType.isRecordStatistics()) {
       continue;
     }
-    int elapsed=spanEvent.getEndElapsed();
-    boolean hasException=SpanEventUtils.hasException(spanEvent);
+    final int elapsed=spanEvent.getEndElapsed();
+    final boolean hasException=SpanEventUtils.hasException(spanEvent);
     statisticsHandler.updateCallee(spanEvent.getDestinationId(),serviceType.getCode(),span.getApplicationName(),span.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
     statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getEndPoint(),elapsed,hasException);
   }

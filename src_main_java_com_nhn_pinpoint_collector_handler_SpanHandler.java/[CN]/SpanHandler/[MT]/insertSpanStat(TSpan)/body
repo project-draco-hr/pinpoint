@@ -1,10 +1,17 @@
 {
+  final boolean isError=span.getErr() != 0;
+  int bugCheck=0;
   if (span.getParentSpanId() == -1) {
-    statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
-    statisticsHandler.updateCaller(span.getApplicationName(),ServiceType.USER.getCode(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
+    statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),isError);
+    statisticsHandler.updateCaller(span.getApplicationName(),ServiceType.USER.getCode(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
+    bugCheck++;
   }
   if (span.getParentApplicationName() != null) {
     logger.debug("Received parent application name. {}",span.getParentApplicationName());
-    statisticsHandler.updateCaller(span.getParentApplicationName(),span.getParentApplicationType(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),span.getErr() > 0);
+    statisticsHandler.updateCaller(span.getParentApplicationName(),span.getParentApplicationType(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
+    bugCheck++;
+  }
+  if (bugCheck != 1) {
+    logger.warn("ambiguous span found(bug). span:{}",span);
   }
 }
