@@ -1,0 +1,10 @@
+{
+  if (fromToFilter.include(transaction)) {
+    for (    SpanBo span : transaction) {
+      if (span.isRoot() && match(span.getRpc())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
