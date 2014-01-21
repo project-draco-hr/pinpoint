@@ -5,6 +5,9 @@
   }
   this.agentJarName=parseAgentJar(matcher);
   this.agentJarFullPath=parseAgentJarPath(classPath,agentJarName);
+  if (agentJarFullPath == null) {
+    return false;
+  }
   this.agentDirPath=parseAgentDirPath(agentJarFullPath);
   return true;
 }

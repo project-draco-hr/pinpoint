@@ -9,12 +9,14 @@
     logger.warning(agentLibPath + " not Directory");
     return Collections.emptyList();
   }
-  File[] findJarList=findjar(libDir);
-  List<URL> jarURLList=new ArrayList<URL>(findJarList.length);
-  for (  File file : findJarList) {
-    URL url=toURI(file);
-    if (url != null) {
-      jarURLList.add(url);
+  final List<URL> jarURLList=new ArrayList<URL>();
+  final File[] findJarList=findjar(libDir);
+  if (findJarList != null) {
+    for (    File file : findJarList) {
+      URL url=toURI(file);
+      if (url != null) {
+        jarURLList.add(url);
+      }
     }
   }
   URL agentDirUri=toURI(new File(agentLibPath));
