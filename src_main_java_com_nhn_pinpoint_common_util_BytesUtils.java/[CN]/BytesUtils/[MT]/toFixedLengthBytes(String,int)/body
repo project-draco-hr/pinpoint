@@ -1,5 +1,11 @@
 {
-  byte[] b1=toBytes(str);
+  if (length < 0) {
+    throw new IllegalArgumentException("negative length:" + length);
+  }
+  final byte[] b1=toBytes(str);
+  if (b1 == null) {
+    return new byte[length];
+  }
   if (b1.length > length) {
     throw new IllegalArgumentException("String is longer then target length of bytes.");
   }
