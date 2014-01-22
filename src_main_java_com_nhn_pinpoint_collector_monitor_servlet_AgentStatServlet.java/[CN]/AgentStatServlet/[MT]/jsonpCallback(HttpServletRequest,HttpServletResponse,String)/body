@@ -6,14 +6,14 @@
     String callback=StringEscapeUtils.escapeHtml4(params.get("callback")[0]);
     out.write(BytesUtils.toBytes(callback));
     out.write(CALLBACK_START);
-    out.write(json.getBytes());
+    out.write(BytesUtils.toBytes(json));
     out.write(CALLBACK_CLOSE);
     out.close();
   }
  else {
     res.setContentType("text/json;charset=UTF-8");
     ServletOutputStream out=res.getOutputStream();
-    out.write(json.getBytes());
+    out.write(BytesUtils.toBytes(json));
     out.close();
   }
 }
