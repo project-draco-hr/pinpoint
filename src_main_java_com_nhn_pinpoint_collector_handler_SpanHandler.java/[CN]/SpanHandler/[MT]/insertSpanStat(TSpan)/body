@@ -2,7 +2,7 @@
   final boolean isError=span.getErr() != 0;
   int bugCheck=0;
   if (span.getParentSpanId() == -1) {
-    statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),isError);
+    statisticsHandler.updateCaller(span.getApplicationName(),ServiceType.USER.getCode(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
     statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),isError);
     bugCheck++;
   }
