@@ -3,12 +3,12 @@
   int bugCheck=0;
   if (span.getParentSpanId() == -1) {
     statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),isError);
-    statisticsHandler.updateCallee(span.getApplicationName(),ServiceType.USER.getCode(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
+    statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getApplicationName(),ServiceType.USER.getCode(),span.getAgentId(),span.getElapsed(),isError);
     bugCheck++;
   }
   if (span.getParentApplicationName() != null) {
     logger.debug("Received parent application name. {}",span.getParentApplicationName());
-    statisticsHandler.updateCallee(span.getParentApplicationName(),span.getParentApplicationType(),span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
+    statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getParentApplicationName(),span.getParentApplicationType(),span.getAgentId(),span.getElapsed(),isError);
     bugCheck++;
   }
   if (bugCheck != 1) {

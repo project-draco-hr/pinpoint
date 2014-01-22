@@ -12,14 +12,14 @@
     if (spanEventList != null) {
       logger.debug("SpanChunk Size:{}",spanEventList.size());
       for (      TSpanEvent spanEvent : spanEventList) {
-        ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
+        final ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
         if (!serviceType.isRecordStatistics()) {
           continue;
         }
-        int elapsed=spanEvent.getEndElapsed();
-        boolean hasException=SpanEventUtils.hasException(spanEvent);
+        final int elapsed=spanEvent.getEndElapsed();
+        final boolean hasException=SpanEventUtils.hasException(spanEvent);
         statisticsHandler.updateCaller(spanEvent.getDestinationId(),serviceType.getCode(),spanChunk.getApplicationName(),spanChunk.getServiceType(),spanEvent.getEndPoint(),elapsed,hasException);
-        statisticsHandler.updateCallee(spanChunk.getApplicationName(),spanChunk.getServiceType(),spanEvent.getDestinationId(),spanEvent.getServiceType(),spanChunk.getEndPoint(),elapsed,hasException);
+        statisticsHandler.updateCallee(spanEvent.getDestinationId(),spanEvent.getServiceType(),spanChunk.getApplicationName(),spanChunk.getServiceType(),spanChunk.getEndPoint(),elapsed,hasException);
       }
     }
   }
