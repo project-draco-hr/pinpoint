@@ -1,15 +1,40 @@
 {
-  ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
-  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("com.nhn.pinpoint.profiler.interceptor.bci.TestObject");
-  TestBeforeInterceptor interceptor=new TestBeforeInterceptor();
-  String methodName="callA";
-  aClass.addInterceptor(methodName,null,interceptor);
-  Object testObject=createInstance(aClass);
-  Method callA=testObject.getClass().getMethod(methodName);
+  final TestClassLoader loader=getTestClassLoader();
+  final String javassistClassName="com.nhn.pinpoint.profiler.interceptor.bci.TestObject";
+  final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getAgent()){
+    @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
+      try {
+        logger.info("modify cl:{}",classLoader);
+        InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+        interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestBeforeInterceptor");
+        logger.info(this.interceptor.getClass().getClassLoader().toString());
+        String methodName="callA";
+        aClass.addInterceptor(methodName,null,(Interceptor)interceptor);
+        return aClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+    @Override public Object getInterceptor(){
+      return interceptor;
+    }
+  }
+;
+  testModifier.setTargetClass(javassistClassName);
+  loader.addModifier(testModifier);
+  loader.initialize();
+  Class testObjectClazz=loader.loadClass(javassistClassName);
+  final String methodName="callA";
+  logger.info("class:{}",testObjectClazz.toString());
+  final Object testObject=testObjectClazz.newInstance();
+  Method callA=testObjectClazz.getMethod(methodName);
   callA.invoke(testObject);
-  Assert.assertEquals(interceptor.call,1);
-  Assert.assertEquals(interceptor.className,"com.nhn.pinpoint.profiler.interceptor.bci.TestObject");
-  Assert.assertEquals(interceptor.methodName,methodName);
-  Assert.assertEquals(interceptor.args,null);
-  Assert.assertEquals(interceptor.target,testObject);
+  Object interceptor=testModifier.getInterceptor();
+  assertEqualsIntField(interceptor,"call",1);
+  assertEqualsObjectField(interceptor,"className","com.nhn.pinpoint.profiler.interceptor.bci.TestObject");
+  assertEqualsObjectField(interceptor,"methodName",methodName);
+  assertEqualsObjectField(interceptor,"args",null);
+  assertEqualsObjectField(interceptor,"target",testObject);
 }

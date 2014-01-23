@@ -1,27 +1,53 @@
 {
-  ByteCodeInstrumentor javaAssistByteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
-  InstrumentClass aClass=javaAssistByteCodeInstrumentor.getClass("com.nhn.pinpoint.profiler.interceptor.bci.TestObject2");
-  TestAfterInterceptor callaInterceptor=new TestAfterInterceptor();
-  String callA="callA";
-  aClass.addInterceptor(callA,null,callaInterceptor);
-  TestAfterInterceptor callbInterceptor=new TestAfterInterceptor();
-  String callB="callB";
-  aClass.addInterceptor(callB,null,callbInterceptor);
-  Object testObject=createInstance(aClass);
-  Method callAMethod=testObject.getClass().getMethod(callA);
-  Object result=callAMethod.invoke(testObject);
-  Assert.assertEquals(callaInterceptor.call,1);
-  Assert.assertEquals(callaInterceptor.className,"com.nhn.pinpoint.profiler.interceptor.bci.TestObject2");
-  Assert.assertEquals(callaInterceptor.methodName,callA);
-  Assert.assertNull(callaInterceptor.args);
-  Assert.assertEquals(callaInterceptor.target,testObject);
-  Assert.assertEquals(callaInterceptor.result,result);
-  Method callBMethod=testObject.getClass().getMethod(callB);
+  final TestClassLoader loader=getTestClassLoader();
+  final String testClassObject="com.nhn.pinpoint.profiler.interceptor.bci.TestObject2";
+  final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getAgent()){
+    @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
+      try {
+        logger.info("modify cl:{}",classLoader);
+        InstrumentClass aClass=byteCodeInstrumentor.getClass(testClassObject);
+        interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestAfterInterceptor");
+        logger.info(this.interceptor.getClass().getClassLoader().toString());
+        String methodName="callA";
+        aClass.addInterceptor(methodName,null,(Interceptor)interceptor);
+        interceptor2=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestAfterInterceptor");
+        String methodName2="callB";
+        aClass.addInterceptor(methodName2,null,(Interceptor)interceptor2);
+        return aClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+    @Override public Object getInterceptor(){
+      return interceptor;
+    }
+  }
+;
+  testModifier.setTargetClass(testClassObject);
+  loader.addModifier(testModifier);
+  loader.initialize();
+  Class testObjectClazz=loader.loadClass(testClassObject);
+  final String methodName="callA";
+  logger.info("class:{}",testObjectClazz.toString());
+  final Object testObject=testObjectClazz.newInstance();
+  Method callA=testObjectClazz.getMethod(methodName);
+  Object result=callA.invoke(testObject);
+  Object interceptor=testModifier.getInterceptor();
+  assertEqualsIntField(interceptor,"call",1);
+  assertEqualsObjectField(interceptor,"className",testClassObject);
+  assertEqualsObjectField(interceptor,"methodName",methodName);
+  assertEqualsObjectField(interceptor,"args",null);
+  assertEqualsObjectField(interceptor,"target",testObject);
+  assertEqualsObjectField(interceptor,"result",result);
+  final String methodName2="callB";
+  Method callBMethod=testObject.getClass().getMethod(methodName2);
   callBMethod.invoke(testObject);
-  Assert.assertEquals(callbInterceptor.call,1);
-  Assert.assertEquals(callbInterceptor.className,"com.nhn.pinpoint.profiler.interceptor.bci.TestObject2");
-  Assert.assertEquals(callbInterceptor.methodName,callB);
-  Assert.assertNull(callbInterceptor.args);
-  Assert.assertEquals(callbInterceptor.target,testObject);
-  Assert.assertNull(callbInterceptor.result);
+  Object interceptor2=testModifier.getInterceptor2();
+  assertEqualsIntField(interceptor2,"call",1);
+  assertEqualsObjectField(interceptor2,"className",testClassObject);
+  assertEqualsObjectField(interceptor2,"methodName",methodName2);
+  assertEqualsObjectField(interceptor2,"args",null);
+  assertEqualsObjectField(interceptor2,"target",testObject);
+  assertEqualsObjectField(interceptor2,"result",null);
 }
