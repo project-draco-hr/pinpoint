@@ -7,7 +7,7 @@
     when(operation.getException()).thenReturn(null);
     when(operation.isCancelled()).thenReturn(false);
     when(future.__getOperation()).thenReturn(operation);
-    MemcachedNode node=new AsciiMemcachedNodeImpl(new InetSocketAddress(11211),null,128,null,null,null,1000L);
+    MemcachedNode node=getMockMemcachedNode();
     when(operation.getHandlingNode()).thenReturn(node);
     interceptor.before(future,new Object[]{timeout,unit});
     interceptor.after(future,new Object[]{timeout,unit},null);
