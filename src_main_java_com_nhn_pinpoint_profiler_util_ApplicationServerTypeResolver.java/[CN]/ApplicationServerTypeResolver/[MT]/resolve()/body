@@ -17,6 +17,11 @@
       resolveBloc(catalinaHome);
       return true;
     }
+ else     if (defaultType == ServiceType.STAND_ALONE) {
+      resolveStandAlone();
+      logger.info("applicationServerDefaultType:{}",defaultType);
+      return true;
+    }
  else {
       logger.warn("Invalid Default ApplicationServiceType:{} ",defaultType);
       return false;
