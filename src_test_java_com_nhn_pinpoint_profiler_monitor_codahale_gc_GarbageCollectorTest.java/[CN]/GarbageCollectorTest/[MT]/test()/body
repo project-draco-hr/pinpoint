@@ -1,11 +1,6 @@
 {
   registry.registerJvmGcMonitor(new MonitorName("jvm.gc"));
   registry.registerJvmMemoryMonitor(new MonitorName("jvm.memory"));
-  try {
-    collector.setType(registry);
-    System.out.println(collector.getType());
-  }
- catch (  Exception e) {
-    fail("should not be failed");
-  }
+  collector.setType(registry);
+  logger.debug("collector.getType():{}",collector.getType());
 }

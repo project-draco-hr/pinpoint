@@ -1,8 +1,9 @@
 {
+  if (dataSender == null) {
+    throw new NullPointerException("dataSender must not be null");
+  }
   this.dataSender=dataSender;
-  this.monitorRegistry=new MetricMonitorRegistry();
-  this.monitorRegistry.registerJvmMemoryMonitor(new MonitorName(MetricMonitorValues.JVM_MEMORY));
-  this.monitorRegistry.registerJvmGcMonitor(new MonitorName(MetricMonitorValues.JVM_GC));
+  this.monitorRegistry=createRegistry();
   this.agentStat=new TAgentStat();
   this.agentStat.setAgentId(agentId);
   this.garbageCollector=new GarbageCollector();

@@ -1,4 +1,7 @@
 {
+  if (monitorName == null) {
+    throw new NullPointerException("monitorName must not be null");
+  }
   final Meter meter=this.delegate.meter(monitorName.getName());
   return new MetricEventRateMonitor(meter);
 }
