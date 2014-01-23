@@ -1,0 +1,21 @@
+{
+  try {
+    Class<?> aClass1=aClass.toClass();
+    return aClass1.newInstance();
+  }
+ catch (  InstantiationException e) {
+    throw new InstrumentException(e.getMessage(),e);
+  }
+catch (  IllegalAccessException e) {
+    throw new InstrumentException(e.getMessage(),e);
+  }
+catch (  InstrumentException linkageError) {
+    ClassLoader contextClassLoader=Thread.currentThread().getContextClassLoader();
+    try {
+      return contextClassLoader.loadClass(aClass.getName()).newInstance();
+    }
+ catch (    Throwable e) {
+      throw new InstrumentException(e.getMessage(),e);
+    }
+  }
+}

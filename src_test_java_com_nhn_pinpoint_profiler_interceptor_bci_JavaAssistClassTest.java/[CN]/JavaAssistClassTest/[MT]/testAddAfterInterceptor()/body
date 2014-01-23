@@ -7,7 +7,7 @@
   TestAfterInterceptor callbInterceptor=new TestAfterInterceptor();
   String callB="callB";
   aClass.addInterceptor(callB,null,callbInterceptor);
-  Object testObject=aClass.toClass().newInstance();
+  Object testObject=createInstance(aClass);
   Method callAMethod=testObject.getClass().getMethod(callA);
   Object result=callAMethod.invoke(testObject);
   Assert.assertEquals(callaInterceptor.call,1);

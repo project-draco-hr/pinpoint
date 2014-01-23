@@ -4,7 +4,7 @@
   TestBeforeInterceptor interceptor=new TestBeforeInterceptor();
   String methodName="callA";
   aClass.addInterceptor(methodName,null,interceptor);
-  Object testObject=aClass.toClass().newInstance();
+  Object testObject=createInstance(aClass);
   Method callA=testObject.getClass().getMethod(methodName);
   callA.invoke(testObject);
   Assert.assertEquals(interceptor.call,1);
