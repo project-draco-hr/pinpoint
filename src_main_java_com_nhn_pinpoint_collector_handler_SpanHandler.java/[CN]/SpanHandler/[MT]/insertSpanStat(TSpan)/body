@@ -11,6 +11,7 @@
     statisticsHandler.updateCallee(span.getApplicationName(),span.getServiceType(),span.getParentApplicationName(),span.getParentApplicationType(),span.getAgentId(),span.getElapsed(),isError);
     bugCheck++;
   }
+  statisticsHandler.updateResponseTime(span.getApplicationName(),span.getServiceType(),span.getAgentId(),span.getElapsed(),isError);
   if (bugCheck != 1) {
     logger.warn("ambiguous span found(bug). span:{}",span);
   }
