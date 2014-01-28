@@ -1,0 +1,9 @@
+{
+  String value="test";
+  byte[] length=Bytes.toBytes(value.length());
+  byte[] string=Bytes.toBytes(value);
+  byte[] result=Bytes.add(length,string);
+  Buffer buffer=new FixedBuffer(result);
+  String prefixedString=buffer.read4PrefixedString();
+  Assert.assertEquals(prefixedString,value);
+}
