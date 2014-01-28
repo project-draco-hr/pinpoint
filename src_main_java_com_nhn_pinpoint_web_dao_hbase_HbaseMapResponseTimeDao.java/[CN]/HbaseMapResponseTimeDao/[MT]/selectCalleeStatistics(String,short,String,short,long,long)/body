@@ -1,0 +1,8 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("selectCalleeStatistics. {}, {}, {}, {}, {}, {}",callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType,from,to);
+  }
+  Scan scan=createScan(callerApplicationName,callerServiceType,from,to);
+  RowMapper<Map<Long,Map<Short,Long>>> mapper=new ApplicationMapLinkStatisticsMapper(callerApplicationName,callerServiceType,calleeApplicationName,calleeServiceType);
+  return hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,mapper);
+}
