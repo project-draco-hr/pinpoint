@@ -1,0 +1,8 @@
+{
+  final byte[] row=result.getRow();
+  final Buffer rowBuffer=new FixedBuffer(row);
+  String applicationName=rowBuffer.readPrefixedString();
+  short serviceType=rowBuffer.readShort();
+  long time=com.nhn.pinpoint.common.util.TimeUtils.recoveryCurrentTimeMillis(rowBuffer.readLong());
+  return new RawResponseTime(applicationName,serviceType,time);
+}

@@ -1,0 +1,6 @@
+{
+  short slotNumber=Bytes.toShort(row);
+  String agentId=Bytes.toString(row,2,row.length - 2);
+  long count=Bytes.toLong(value);
+  rawResponseTime.getHistogram().addSample(slotNumber,count);
+}

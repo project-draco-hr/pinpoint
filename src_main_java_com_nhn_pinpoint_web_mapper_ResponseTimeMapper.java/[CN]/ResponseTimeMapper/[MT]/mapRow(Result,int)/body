@@ -2,7 +2,14 @@
   if (result.isEmpty()) {
     return null;
   }
-  final byte[] row=result.getRow();
-  final Buffer rowBuffer=new FixedBuffer(row);
-  rowBuffer.readPrefixedString();
+  RawResponseTime rawResponseTime=createRawResponseTime(result);
+  for (  KeyValue keyValue : result.raw()) {
+    if (!Bytes.equals(keyValue.getFamily(),HBaseTables.APPLICATION_MAP_STATISTICS_SELF_CF_COUNTER)) {
+      return rawResponseTime;
+    }
+    final byte[] row=keyValue.getRow();
+    final byte[] value=keyValue.getValue();
+    recordColumn(rawResponseTime,row,value);
+  }
+  return rawResponseTime;
 }
