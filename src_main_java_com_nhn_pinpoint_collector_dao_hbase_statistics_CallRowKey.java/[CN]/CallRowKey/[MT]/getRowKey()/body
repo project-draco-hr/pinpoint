@@ -1,3 +1,7 @@
 {
+  final Buffer buffer=new AutomaticBuffer();
+  buffer.putPrefixedString(callApplicationName);
+  buffer.put(callServiceType);
+  buffer.put(TimeUtils.reverseCurrentTimeMillis(rowTimeSlot));
   return ApplicationMapStatisticsUtils.makeRowKey(callApplicationName,callServiceType,rowTimeSlot);
 }
