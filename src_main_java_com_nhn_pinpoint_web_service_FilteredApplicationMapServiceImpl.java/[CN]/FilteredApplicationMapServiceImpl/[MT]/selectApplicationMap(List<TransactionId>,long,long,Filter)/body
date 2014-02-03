@@ -32,7 +32,7 @@
       if (stat == null) {
         stat=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),destNode.getName(),destNode.getServiceType());
       }
-      final int slot=getHistogramSlot(span,destNode.getServiceType());
+      final short slot=getHistogramSlotTime(span,destNode.getServiceType());
       stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);
       statisticsData.add(stat);
       statisticsMap.put(statId,stat);

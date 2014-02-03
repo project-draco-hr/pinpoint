@@ -23,7 +23,7 @@
     if (statistics == null) {
       statistics=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),dest,destServiceType);
     }
-    final int slot2=getHistogramSlot(spanEvent,destServiceType);
+    final int slot2=getHistogramSlotTime(spanEvent,destServiceType);
     statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
     statisticsData.add(statistics);
     statisticsMap.put(spanEventStatId,statistics);

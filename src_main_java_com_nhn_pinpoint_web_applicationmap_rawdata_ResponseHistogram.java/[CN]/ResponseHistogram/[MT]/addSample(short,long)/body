@@ -1,15 +1,15 @@
 {
   totalCount+=value;
-  if (slot == HistogramSchema.SLOW_SLOT.getSlotTime()) {
+  if (slotTime == HistogramSchema.SLOW_SLOT.getSlotTime()) {
     slowCount+=value;
   }
- else   if (slot == HistogramSchema.ERROR_SLOT.getSlotTime()) {
+ else   if (slotTime == HistogramSchema.ERROR_SLOT.getSlotTime()) {
     errorCount+=value;
     return;
   }
-  final int histogramSlotIndex=histogramSchema.getHistogramSlotIndex(slot);
+  final int histogramSlotIndex=histogramSchema.getHistogramSlotIndex(slotTime);
   if (histogramSlotIndex == -1) {
-    logger.trace("Can't find slot={} value={} serviceType={}",slot,value,serviceType);
+    logger.trace("Can't find slotTime={} value={} serviceType={}",slotTime,value,serviceType);
     return;
   }
   values[histogramSlotIndex]+=value;
