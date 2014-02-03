@@ -3,11 +3,16 @@
     return Filter.NONE;
   }
   logger.debug("build filter from string. {}",filterText);
-  final String[] parsedFilterString=FILTER_DELIMETER.split(filterText);
-  if (parsedFilterString.length == 1) {
-    return makeSingleFilter(parsedFilterString[0]);
+  if (filterText.startsWith("{")) {
+    return makeFilterFromJson(filterText);
   }
  else {
-    return makeChainedFilter(parsedFilterString);
+    final String[] parsedFilterString=FILTER_DELIMETER.split(filterText);
+    if (parsedFilterString.length == 1) {
+      return makeSingleFilter(parsedFilterString[0]);
+    }
+ else {
+      return makeChainedFilter(parsedFilterString);
+    }
   }
 }

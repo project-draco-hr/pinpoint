@@ -2,7 +2,12 @@
   if (includeServiceType(fromServiceCode,ServiceType.USER)) {
     for (    SpanBo span : transaction) {
       if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
-        return checkResponseCondition(span.getElapsed(),span.getErrCode() > 0);
+        if (findError) {
+          return span.getErrCode() > 0 && checkResponseCondition(span.getElapsed());
+        }
+ else {
+          return span.getErrCode() == 0 && checkResponseCondition(span.getElapsed());
+        }
       }
     }
   }
@@ -15,7 +20,12 @@
         }
         for (        SpanEventBo event : eventBoList) {
           if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
-            return event.hasException() && checkResponseCondition(event.getEndElapsed(),event.hasException());
+            if (findError) {
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+ else {
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
           }
         }
       }
@@ -29,7 +39,12 @@
             continue;
           }
           if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
-            return destSpan.getErrCode() > 0 && checkResponseCondition(destSpan.getElapsed(),destSpan.getErrCode() > 0);
+            if (findError) {
+              return destSpan.getErrCode() > 0 && checkResponseCondition(destSpan.getElapsed());
+            }
+ else {
+              return destSpan.getErrCode() == 0 && checkResponseCondition(destSpan.getElapsed());
+            }
           }
         }
       }
@@ -44,7 +59,12 @@
         }
         for (        SpanEventBo event : eventBoList) {
           if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
-            return checkResponseCondition(event.getEndElapsed(),event.hasException());
+            if (findError) {
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+ else {
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
           }
         }
       }
