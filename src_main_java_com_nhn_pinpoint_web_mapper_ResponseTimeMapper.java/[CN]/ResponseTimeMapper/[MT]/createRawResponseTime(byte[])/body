@@ -1,9 +1,5 @@
 {
-  if (result.isEmpty()) {
-    return null;
-  }
-  final byte[] row=result.getRow();
-  final Buffer rowBuffer=new FixedBuffer(row);
+  final Buffer rowBuffer=new FixedBuffer(rowKey);
   String applicationName=rowBuffer.readPrefixedString();
   short serviceType=rowBuffer.readShort();
   long time=com.nhn.pinpoint.common.util.TimeUtils.recoveryCurrentTimeMillis(rowBuffer.readLong());
