@@ -3,6 +3,8 @@
     return HistogramSchema.ERROR_SLOT.getSlotTime();
   }
  else {
-    return serviceType.getHistogramSchema().findHistogramSlot(elapsedTime).getSlotTime();
+    final HistogramSchema schema=serviceType.getHistogramSchema();
+    final HistogramSlot histogramSlot=schema.findHistogramSlot(elapsedTime);
+    return histogramSlot.getSlotTime();
   }
 }
