@@ -1,10 +1,12 @@
 {
-  if (!this.equals(histogram)) {
-    throw new IllegalArgumentException("A=" + this + ", B="+ histogram);
+  if (histogram == null) {
+    throw new NullPointerException("histogram must not be null");
+  }
+  if (this.serviceType != histogram.serviceType) {
+    throw new IllegalArgumentException("this=" + this + ", histogram="+ histogram);
   }
   addValues(histogram);
   this.totalCount+=histogram.totalCount;
   this.errorCount+=histogram.errorCount;
   this.slowCount+=histogram.slowCount;
-  return this;
 }
