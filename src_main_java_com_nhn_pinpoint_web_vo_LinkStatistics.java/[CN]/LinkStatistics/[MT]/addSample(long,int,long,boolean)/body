@@ -1,5 +1,7 @@
 {
-  logger.debug("Add sample. timeslot=" + timestamp + ", responseTimeslot="+ responseTimeslot+ ", callCount="+ callCount+ ", failed="+ isFailed);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Add sample. timeslot={}, responseTimeslot={}, callCount={}, failed={}",timestamp,responseTimeslot,callCount,isFailed);
+  }
   timestamp=TimeWindowUtils.refineTimestamp(from,to,timestamp);
   if (isFailed) {
     failedCount+=callCount;
@@ -15,7 +17,7 @@
   }
   for (int i=0; i < timeseriesValueList.size(); i++) {
     SortedMap<Long,Long> map=timeseriesValueList.get(i);
-    if (i == timeseriesSlotIndex.get((short)responseTimeslot)) {
+    if (i == timeseriesSlotIndex.get(responseTimeslot)) {
       long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
       map.put(timestamp,v);
     }
