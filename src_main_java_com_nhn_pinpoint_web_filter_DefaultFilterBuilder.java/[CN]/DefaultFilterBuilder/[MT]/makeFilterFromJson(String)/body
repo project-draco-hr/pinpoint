@@ -3,7 +3,6 @@
     throw new NullPointerException("jsonText must not be null");
   }
   FilterChain chain=new FilterChain();
-  ObjectMapper om=new ObjectMapper();
   try {
     List<Map<String,Object>> list=om.readValue(jsonText,new TypeReference<List<Map<String,Object>>>(){
     }
@@ -23,9 +22,11 @@
       }
       Boolean includeFailed=value.containsKey(INCLUDE_EXCEPTION) ? Boolean.valueOf(value.get(INCLUDE_EXCEPTION).toString()) : null;
       chain.addFilter(new FromToResponseFilter(fromServiceType,fromApplicationName,toServiceType,toApplicationName,fromResponseTime,toResponseTime,includeFailed));
-      String urlPattern=value.get(REQUEST_URL_PATTERN).toString();
-      if (!StringUtils.isEmpty(urlPattern)) {
-        chain.addFilter(new URLPatternFilter(fromServiceType,fromApplicationName,toServiceType,toApplicationName,urlPattern));
+      if (value.containsKey(REQUEST_URL_PATTERN)) {
+        String urlPattern=value.get(REQUEST_URL_PATTERN).toString();
+        if (!StringUtils.isEmpty(urlPattern)) {
+          chain.addFilter(new URLPatternFilter(fromServiceType,fromApplicationName,toServiceType,toApplicationName,urlPattern));
+        }
       }
     }
   }

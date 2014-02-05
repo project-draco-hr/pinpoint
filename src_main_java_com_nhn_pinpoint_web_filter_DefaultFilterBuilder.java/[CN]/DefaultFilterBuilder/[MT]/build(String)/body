@@ -3,6 +3,12 @@
     return Filter.NONE;
   }
   logger.debug("build filter from string. {}",filterText);
+  try {
+    filterText=URLDecoder.decode(filterText,"UTF-8");
+  }
+ catch (  Exception e) {
+    throw new IllegalArgumentException(e);
+  }
   if (filterText.startsWith("[")) {
     return makeFilterFromJson(filterText);
   }

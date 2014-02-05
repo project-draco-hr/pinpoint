@@ -1,6 +1,6 @@
 {
   StringBuilder json=new StringBuilder();
-  json.append("{");
+  json.append("[{");
   json.append("\"FA\" : \"FROM_APPLICATION\",");
   json.append("\"FAT\" : \"FROM_APPLICATION_TYPE\",");
   json.append("\"TA\" : \"TO_APPLICATION\",");
@@ -9,12 +9,14 @@
   json.append("\"RT\" : 1000,");
   json.append("\"IE\" : 1,");
   json.append("\"UP\" : \"/**\"");
-  json.append("}");
+  json.append("}]");
   try {
     ObjectMapper om=new ObjectMapper();
-    Map<String,Object> readValue=om.readValue(json.toString(),new TypeReference<Map<String,Object>>(){
+    List<Map<String,Object>> list=om.readValue(json.toString(),new TypeReference<List<Map<String,Object>>>(){
     }
 );
+    Assert.assertEquals(1,list.size());
+    Map<String,Object> readValue=list.get(0);
     Assert.assertEquals("FROM_APPLICATION",readValue.get("FA"));
     Assert.assertEquals("FROM_APPLICATION_TYPE",readValue.get("FAT"));
     Assert.assertEquals("TO_APPLICATION",readValue.get("TA"));
@@ -22,8 +24,6 @@
     Assert.assertEquals(0,readValue.get("RF"));
     Assert.assertEquals(1000,readValue.get("RT"));
     Assert.assertEquals(1,readValue.get("IE"));
-    Long rt=readValue.containsKey("RT") ? Long.valueOf(readValue.get("RT").toString()) : null;
-    System.out.println(rt);
   }
  catch (  Exception e) {
     e.printStackTrace();
