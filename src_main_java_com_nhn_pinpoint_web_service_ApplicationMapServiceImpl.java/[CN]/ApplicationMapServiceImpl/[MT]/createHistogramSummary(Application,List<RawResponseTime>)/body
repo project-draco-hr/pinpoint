@@ -1,0 +1,10 @@
+{
+  final ResponseHistogramSummary summary=new ResponseHistogramSummary(application);
+  for (  RawResponseTime rawResponseTime : responseHistogram) {
+    final List<ResponseHistogram> responseHistogramList=rawResponseTime.getResponseHistogramList();
+    for (    ResponseHistogram histogram : responseHistogramList) {
+      summary.addTotal(histogram);
+    }
+  }
+  return summary;
+}

@@ -15,6 +15,7 @@
   data.addAll(callee);
   data.addAll(caller);
   ApplicationMap map=new ApplicationMapBuilder().build(data);
+  appendWasResponseTime(map,from,to);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
   return map;

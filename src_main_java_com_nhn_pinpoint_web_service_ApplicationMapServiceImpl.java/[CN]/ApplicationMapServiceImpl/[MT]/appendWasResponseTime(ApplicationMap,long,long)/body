@@ -1,0 +1,13 @@
+{
+  List<com.nhn.pinpoint.web.applicationmap.Node> nodes=map.getNodes();
+  for (  com.nhn.pinpoint.web.applicationmap.Node node : nodes) {
+    final boolean was=node.getServiceType().isWas();
+    if (!was) {
+      continue;
+    }
+    final Application application=new Application(node.getApplicationName(),node.getServiceType());
+    final List<RawResponseTime> responseHistogram=this.mapResponseDao.selectResponseTime(application,from,to);
+    ResponseHistogramSummary histogramSummary=createHistogramSummary(application,responseHistogram);
+    node.setResponseHistogramSummary(histogramSummary);
+  }
+}
