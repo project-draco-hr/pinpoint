@@ -1,41 +1,19 @@
 {
-  if (jsonText == null) {
-    throw new NullPointerException("jsonText must not be null");
+  if (StringUtils.isEmpty(jsonText)) {
+    throw new IllegalArgumentException("json string is empty");
   }
   FilterChain chain=new FilterChain();
   try {
-    List<Map<String,Object>> list=om.readValue(jsonText,new TypeReference<List<Map<String,Object>>>(){
+    List<FilterDescriptor> list=om.readValue(jsonText,new TypeReference<List<FilterDescriptor>>(){
     }
 );
-    for (    Map<String,Object> value : list) {
-      String fromApplicationName=value.get(FROM_APPLICATION).toString();
-      String fromServiceType=value.get(FROM_SERVICE_TYPE).toString();
-      String toApplicationName=value.get(TO_APPLICATION).toString();
-      String toServiceType=value.get(TO_SERVICE_TYPE).toString();
-      if (StringUtils.isEmpty(fromApplicationName) || StringUtils.isEmpty(fromServiceType) || StringUtils.isEmpty(toApplicationName)|| StringUtils.isEmpty(toServiceType)) {
+    for (    FilterDescriptor descriptor : list) {
+      if (!descriptor.isValid()) {
         throw new IllegalArgumentException("invalid json " + jsonText);
       }
-      Long fromResponseTime=value.containsKey(RESPONSE_FROM) ? Long.valueOf(value.get(RESPONSE_FROM).toString()) : null;
-      Long toResponseTime=null;
-      if (value.containsKey(RESPONSE_TO)) {
-        String v=value.get(RESPONSE_TO).toString();
-        if ("max".equals(v)) {
-          toResponseTime=Long.MAX_VALUE;
-        }
- else {
-          toResponseTime=Long.valueOf(v);
-        }
-      }
-      if ((fromResponseTime == null && toResponseTime != null) || (fromResponseTime != null && toResponseTime == null)) {
-        throw new IllegalArgumentException("invalid json " + jsonText);
-      }
-      Boolean includeFailed=value.containsKey(INCLUDE_EXCEPTION) ? Boolean.valueOf(value.get(INCLUDE_EXCEPTION).toString()) : null;
-      chain.addFilter(new FromToResponseFilter(fromServiceType,fromApplicationName,toServiceType,toApplicationName,fromResponseTime,toResponseTime,includeFailed));
-      if (value.containsKey(REQUEST_URL_PATTERN)) {
-        String urlPattern=value.get(REQUEST_URL_PATTERN).toString();
-        if (!StringUtils.isEmpty(urlPattern)) {
-          chain.addFilter(new URLPatternFilter(fromServiceType,fromApplicationName,toServiceType,toApplicationName,urlPattern));
-        }
+      chain.addFilter(new FromToResponseFilter(descriptor));
+      if (descriptor.isSetUrl()) {
+        chain.addFilter(new URLPatternFilter(descriptor));
       }
     }
   }
@@ -43,5 +21,5 @@
     logger.error(e.getMessage(),e);
     return null;
   }
-  return chain;
+  return chain.get();
 }
