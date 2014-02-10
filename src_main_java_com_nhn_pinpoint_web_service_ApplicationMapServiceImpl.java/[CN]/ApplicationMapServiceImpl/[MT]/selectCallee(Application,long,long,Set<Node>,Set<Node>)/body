@@ -9,7 +9,7 @@
     logger.debug("Finding Callee. caller={}",callerApplication);
   }
   final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
-  List<TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplication.getName(),callerApplication.getServiceTypeCode(),from,to);
+  List<TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplication,from,to);
   if (logger.isDebugEnabled()) {
     logger.debug("Found Callee. count={}, caller={}",callee.size(),callerApplication);
   }
