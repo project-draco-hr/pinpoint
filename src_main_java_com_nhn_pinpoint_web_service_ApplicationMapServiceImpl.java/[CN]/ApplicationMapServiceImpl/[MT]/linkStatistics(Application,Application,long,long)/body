@@ -13,7 +13,7 @@
   }
  else   if (destinationApplication.getServiceType().isWas()) {
     logger.debug("Find 'any -> was' link statistics");
-    list=applicationMapStatisticsCallerDao.selectCallerStatistics(sourceApplication.getName(),sourceApplication.getServiceTypeCode(),destinationApplication.getName(),destinationApplication.getServiceTypeCode(),from,to);
+    list=applicationMapStatisticsCallerDao.selectCallerStatistics(sourceApplication,destinationApplication,from,to);
   }
  else {
     logger.debug("Find 'was -> terminal' link statistics");

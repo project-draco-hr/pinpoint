@@ -9,7 +9,7 @@
     logger.debug("Finding Caller. callee={}",calleeApplication);
   }
   final Set<TransactionFlowStatistics> callerSet=new HashSet<TransactionFlowStatistics>();
-  final List<TransactionFlowStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplication.getName(),calleeApplication.getServiceTypeCode(),from,to);
+  final List<TransactionFlowStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplication,from,to);
   logger.debug("Found Caller. count={}, callee={}",caller.size(),calleeApplication);
   for (  TransactionFlowStatistics stat : caller) {
     fillAdditionalInfo(stat,from,to);
