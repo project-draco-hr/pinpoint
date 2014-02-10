@@ -1,7 +1,7 @@
 {
   SortedMap<Long,Long> map=new TreeMap<Long,Long>();
-  long windowSize=TimeWindowUtils.getWindowSize(from,to);
-  for (long time=from; time <= to; time+=windowSize) {
+  long windowSize=TimeWindowUtils.getWindowSize(range.getFrom(),range.getTo());
+  for (long time=range.getFrom(); time <= range.getTo(); time+=windowSize) {
     map.put(time,0L);
   }
   return map;

@@ -1,0 +1,48 @@
+{
+  List<com.nhn.pinpoint.web.applicationmap.Node> nodes=map.getNodes();
+  for (  com.nhn.pinpoint.web.applicationmap.Node node : nodes) {
+    if (node.getServiceType().isWas()) {
+      final Application application=new Application(node.getApplicationName(),node.getServiceType());
+      final List<RawResponseTime> responseHistogram=this.mapResponseDao.selectResponseTime(application,range);
+      ResponseHistogramSummary histogramSummary=createHistogramSummary(application,responseHistogram);
+      node.setResponseHistogramSummary(histogramSummary);
+    }
+ else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
+      Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
+      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
+      List<Link> linkList=map.getLinks();
+      for (      Link link : linkList) {
+        com.nhn.pinpoint.web.applicationmap.Node toNode=link.getTo();
+        String applicationName=toNode.getApplicationName();
+        ServiceType serviceType=toNode.getServiceType();
+        Application destination=new Application(applicationName,serviceType);
+        if (nodeApplication.equals(destination)) {
+          ResponseHistogram linkHistogram=link.getHistogram();
+          summary.addLinkHistogram(linkHistogram);
+        }
+      }
+      node.setResponseHistogramSummary(summary);
+    }
+ else     if (node.getServiceType().isUser()) {
+      Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
+      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
+      List<Link> linkList=map.getLinks();
+      for (      Link link : linkList) {
+        com.nhn.pinpoint.web.applicationmap.Node fromNode=link.getFrom();
+        String applicationName=fromNode.getApplicationName();
+        ServiceType serviceType=fromNode.getServiceType();
+        Application source=new Application(applicationName,serviceType);
+        if (nodeApplication.equals(source)) {
+          ResponseHistogram linkHistogram=link.getHistogram();
+          summary.addLinkHistogram(linkHistogram);
+        }
+      }
+      node.setResponseHistogramSummary(summary);
+    }
+ else {
+      Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
+      ResponseHistogramSummary dummy=new ResponseHistogramSummary(nodeApplication);
+      node.setResponseHistogramSummary(dummy);
+    }
+  }
+}

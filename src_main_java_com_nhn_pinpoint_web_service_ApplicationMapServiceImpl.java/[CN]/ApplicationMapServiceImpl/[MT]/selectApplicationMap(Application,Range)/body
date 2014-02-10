@@ -1,0 +1,25 @@
+{
+  if (sourceApplication == null) {
+    throw new NullPointerException("sourceApplication must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  logger.debug("SelectApplicationMap");
+  StopWatch watch=new StopWatch("applicationMapWatch");
+  watch.start();
+  final Set<Node> callerFoundApplications=new HashSet<Node>();
+  final Set<Node> calleeFoundApplications=new HashSet<Node>();
+  Set<TransactionFlowStatistics> callee=selectCallee(sourceApplication,range,calleeFoundApplications,callerFoundApplications);
+  logger.debug("Result of finding callee {}",callee);
+  Set<TransactionFlowStatistics> caller=selectCaller(sourceApplication,range,calleeFoundApplications,callerFoundApplications);
+  logger.debug("Result of finding caller {}",caller);
+  Set<TransactionFlowStatistics> data=new HashSet<TransactionFlowStatistics>(callee.size() + caller.size());
+  data.addAll(callee);
+  data.addAll(caller);
+  ApplicationMap map=new ApplicationMapBuilder().build(data);
+  appendResponseTime(map,range);
+  watch.stop();
+  logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
+  return map;
+}

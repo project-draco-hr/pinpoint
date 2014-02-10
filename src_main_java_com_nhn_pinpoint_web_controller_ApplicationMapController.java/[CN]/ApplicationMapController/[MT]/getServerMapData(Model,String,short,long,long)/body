@@ -1,7 +1,8 @@
 {
   this.dateLimit.limit(from,to);
   Application application=new Application(applicationName,serviceType);
-  ApplicationMap map=applicationMapService.selectApplicationMap(application,from,to);
+  Range range=new Range(from,to);
+  ApplicationMap map=applicationMapService.selectApplicationMap(application,range);
   model.addAttribute("nodes",map.getNodes());
   model.addAttribute("links",map.getLinks());
   return "applicationmap";

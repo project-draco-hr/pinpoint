@@ -1,8 +1,0 @@
-{
-  Scan scan=createScan(calleeApplication,from,to);
-  final List<List<TransactionFlowStatistics>> foundListList=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLER,scan,applicationMapStatisticsCallerMapper);
-  if (foundListList.isEmpty()) {
-    logger.debug("There's no caller data. {}, {}, {}",calleeApplication,from,to);
-  }
-  return merge(foundListList);
-}

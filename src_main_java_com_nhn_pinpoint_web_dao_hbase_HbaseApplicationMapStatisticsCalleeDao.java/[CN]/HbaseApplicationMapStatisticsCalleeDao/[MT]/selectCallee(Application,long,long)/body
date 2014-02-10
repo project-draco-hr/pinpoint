@@ -1,8 +1,0 @@
-{
-  Scan scan=createScan(callerApplication,from,to);
-  final List<List<TransactionFlowStatistics>> foundListList=hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,applicationMapStatisticsCalleeMapper);
-  if (foundListList.isEmpty()) {
-    logger.debug("There's no callee data. {}, {}, {}",callerApplication,from,to);
-  }
-  return merge(foundListList);
-}

@@ -1,7 +1,8 @@
 {
   final Application sourceApplication=new Application(srcApplicationName,srcServiceType);
   final Application destinationApplication=new Application(destApplicationName,destServiceType);
-  LinkStatistics linkStatistics=applicationMapService.linkStatistics(sourceApplication,destinationApplication,from,to);
+  final Range range=new Range(from,to);
+  LinkStatistics linkStatistics=applicationMapService.linkStatistics(sourceApplication,destinationApplication,range);
   model.addAttribute("from",from);
   model.addAttribute("to",to);
   model.addAttribute("srcApplication",sourceApplication);
