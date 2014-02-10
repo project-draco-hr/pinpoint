@@ -15,7 +15,7 @@
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
     if (logger.isDebugEnabled()) {
-      logger.debug("Fetched statistics. timestamp=" + timestamp + ", histogramSlot="+ histogramSlot+ ", requestCount="+ requestCount);
+      logger.debug("Fetched statistics. timestamp={}, histogramSlot={}, requestCount={}",timestamp,histogramSlot,requestCount);
     }
     if (resultStat.containsKey(timestamp)) {
       Map<Short,Long> map=resultStat.get(timestamp);
