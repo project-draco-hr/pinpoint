@@ -30,7 +30,9 @@
       final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
       TransactionFlowStatistics stat=statisticsMap.get(statId);
       if (stat == null) {
-        stat=new TransactionFlowStatistics(srcNode.getName(),srcNode.getServiceType(),destNode.getName(),destNode.getServiceType());
+        Application source=new Application(srcNode.getName(),srcNode.getServiceType());
+        Application dest=new Application(destNode.getName(),destNode.getServiceType());
+        stat=new TransactionFlowStatistics(source,dest);
       }
       final short slot=getHistogramSlotTime(span,destNode.getServiceType());
       stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);

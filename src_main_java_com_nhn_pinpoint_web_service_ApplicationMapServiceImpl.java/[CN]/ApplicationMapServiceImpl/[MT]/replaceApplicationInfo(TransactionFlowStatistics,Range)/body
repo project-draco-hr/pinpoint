@@ -4,12 +4,11 @@
     final Application app=hostApplicationMapDao.findApplicationName(stat.getTo(),range);
     if (app != null) {
       logger.debug("Application info replaced. {} => {}",stat,app);
-      stat.setTo(app.getName());
-      stat.setToServiceType(app.getServiceType());
+      stat.setToApplication(new Application(app.getName(),app.getServiceType()));
       return true;
     }
  else {
-      stat.setToServiceType(ServiceType.UNKNOWN);
+      stat.setToApplication(new Application(stat.getTo(),ServiceType.UNKNOWN));
     }
   }
   return false;
