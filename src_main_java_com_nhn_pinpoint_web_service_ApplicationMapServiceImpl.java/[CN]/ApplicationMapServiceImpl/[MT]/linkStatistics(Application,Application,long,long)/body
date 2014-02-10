@@ -6,7 +6,7 @@
     throw new NullPointerException("destinationApplication must not be null");
   }
   List<Map<Long,Map<Short,Long>>> list;
-  if (ServiceType.findServiceType(sourceApplication.getServiceTypeCode()).isUser()) {
+  if (sourceApplication.getServiceType().isUser()) {
     logger.debug("Find 'client -> any' link statistics");
     Application userApplication=new Application(destinationApplication.getName(),sourceApplication.getServiceTypeCode());
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(userApplication,destinationApplication,from,to);
