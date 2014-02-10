@@ -14,15 +14,13 @@
   for (  TransactionFlowStatistics stat : caller) {
     fillAdditionalInfo(stat,range);
     callerSet.add(stat);
-    Application application=new Application(stat.getFrom(),stat.getFromServiceType());
-    Set<TransactionFlowStatistics> callerSub=selectCaller(application,range,calleeFoundApplications,callerFoundApplications);
+    Set<TransactionFlowStatistics> callerSub=selectCaller(stat.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
     callerSet.addAll(callerSub);
     for (    TransactionFlowStatistics eachCallee : callerSub) {
       if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
         continue;
       }
-      Application eachCalleeApplication=new Application(eachCallee.getTo(),eachCallee.getToServiceType());
-      Set<TransactionFlowStatistics> calleeSub=selectCallee(eachCalleeApplication,range,calleeFoundApplications,callerFoundApplications);
+      Set<TransactionFlowStatistics> calleeSub=selectCallee(eachCallee.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
       callerSet.addAll(calleeSub);
     }
   }

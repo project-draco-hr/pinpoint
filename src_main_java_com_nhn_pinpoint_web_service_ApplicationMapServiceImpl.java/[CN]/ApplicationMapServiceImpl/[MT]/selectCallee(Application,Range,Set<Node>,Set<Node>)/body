@@ -22,16 +22,14 @@
     if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
       continue;
     }
-    logger.debug("     Find subCallee of {}",stat.getTo());
-    final Application application=new Application(stat.getTo(),stat.getToServiceType());
-    Set<TransactionFlowStatistics> calleeSub=selectCallee(application,range,calleeFoundApplications,callerFoundApplications);
-    logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getTo());
+    logger.debug("     Find subCallee of {}",stat.getToApplication());
+    Set<TransactionFlowStatistics> calleeSub=selectCallee(stat.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
+    logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getToApplication());
     calleeSet.addAll(calleeSub);
     for (    TransactionFlowStatistics eachCallee : calleeSub) {
-      logger.debug("     Find caller of {}",eachCallee.getFrom());
-      Application calleeApplication=new Application(eachCallee.getFrom(),eachCallee.getFromServiceType().getCode());
-      Set<TransactionFlowStatistics> callerSub=selectCaller(calleeApplication,range,calleeFoundApplications,callerFoundApplications);
-      logger.debug("     Found subCaller. count={}, callee={}",callerSub.size(),eachCallee.getFrom());
+      logger.debug("     Find caller of {}",eachCallee.getFromApplication());
+      Set<TransactionFlowStatistics> callerSub=selectCaller(eachCallee.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
+      logger.debug("     Found subCaller. count={}, callee={}",callerSub.size(),eachCallee.getFromApplication());
       calleeSet.addAll(callerSub);
     }
   }

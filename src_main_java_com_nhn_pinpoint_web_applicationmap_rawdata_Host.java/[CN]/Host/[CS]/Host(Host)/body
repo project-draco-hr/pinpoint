@@ -1,0 +1,9 @@
+{
+  if (copyHost == null) {
+    throw new NullPointerException("copyHost must not be null");
+  }
+  this.host=copyHost.host;
+  this.serviceType=copyHost.serviceType;
+  this.histogram=new ResponseHistogram(serviceType);
+  this.histogram.add(copyHost.histogram);
+}

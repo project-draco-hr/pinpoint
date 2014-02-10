@@ -2,10 +2,10 @@
   if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
     return;
   }
-  Set<AgentInfoBo> agentSet=selectAgents(stat.getTo());
+  Set<AgentInfoBo> agentSet=selectAgents(stat.getToApplication().getName());
   if (agentSet.isEmpty()) {
     return;
   }
   stat.addToAgentSet(agentSet);
-  logger.debug("Fill agent info. {}, {}",stat.getTo(),agentSet);
+  logger.debug("Fill agent info. {}, {}",stat.getToApplication().getName(),agentSet);
 }

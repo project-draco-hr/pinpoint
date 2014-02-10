@@ -1,6 +1,6 @@
 {
   if (stat.getToServiceType().isRpcClient()) {
-    logger.debug("Find applicationName {} {}",stat.getTo(),range);
+    logger.debug("Find applicationName {} {}",stat.getToApplication(),range);
     final Application app=hostApplicationMapDao.findApplicationName(stat.getTo(),range);
     if (app != null) {
       logger.debug("Application info replaced. {} => {}",stat,app);
@@ -8,7 +8,8 @@
       return true;
     }
  else {
-      stat.setToApplication(new Application(stat.getTo(),ServiceType.UNKNOWN));
+      Application unknown=new Application(stat.getTo(),ServiceType.UNKNOWN);
+      stat.setToApplication(unknown);
     }
   }
   return false;
