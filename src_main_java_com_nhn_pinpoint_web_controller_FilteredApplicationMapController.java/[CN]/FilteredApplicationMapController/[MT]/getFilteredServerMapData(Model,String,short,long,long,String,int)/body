@@ -1,0 +1,18 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  final Filter filter=filterBuilder.build(filterText);
+  final Range range=new Range(from,to);
+  final LimitedScanResult<List<TransactionId>> limitedScanResult=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
+  ApplicationMap map=filteredApplicationMapService.selectApplicationMap(limitedScanResult.getScanData(),range,filter);
+  model.addAttribute("from",from);
+  model.addAttribute("to",to);
+  model.addAttribute("filter",filter);
+  model.addAttribute("lastFetchedTimestamp",limitedScanResult.getLimitedTime());
+  if (logger.isDebugEnabled()) {
+    logger.debug("getFilteredServerMapData range scan(limit:{}) from~to:{} ~ {} lastFetchedTimestamp:{}",limit,DateUtils.longToDateStr(from),DateUtils.longToDateStr(to),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()));
+  }
+  model.addAttribute("nodes",map.getNodes());
+  model.addAttribute("links",map.getLinks());
+  model.addAttribute("timeseriesResponses",map.getTimeSeriesStore());
+  return "applicationmap.filtered";
+}

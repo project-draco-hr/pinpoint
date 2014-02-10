@@ -1,7 +1,8 @@
 {
   StopWatch watch=new StopWatch();
   watch.start("agentStatService.selectAgentStatList");
-  List<TAgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,from,to);
+  Range range=new Range(from,to);
+  List<TAgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,range);
   watch.stop();
   if (logger.isInfoEnabled()) {
     logger.info("getAgentStat(agentId={}, from={}, to={}) : {}ms",agentId,from,to,watch.getLastTaskTimeMillis());

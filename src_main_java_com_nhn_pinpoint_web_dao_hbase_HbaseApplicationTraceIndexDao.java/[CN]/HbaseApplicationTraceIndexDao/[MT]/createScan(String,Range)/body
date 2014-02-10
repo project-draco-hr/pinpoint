@@ -1,0 +1,13 @@
+{
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  byte[] bAgent=Bytes.toBytes(applicationName);
+  byte[] traceIndexStartKey=SpanUtils.getTraceIndexRowKey(bAgent,range.getFrom());
+  byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bAgent,range.getTo());
+  scan.setStartRow(traceIndexEndKey);
+  scan.setStopRow(traceIndexStartKey);
+  scan.addFamily(HBaseTables.APPLICATION_TRACE_INDEX_CF_TRACE);
+  scan.setId("ApplicationTraceIndexScan");
+  logger.trace("create scan:{}",scan);
+  return scan;
+}
