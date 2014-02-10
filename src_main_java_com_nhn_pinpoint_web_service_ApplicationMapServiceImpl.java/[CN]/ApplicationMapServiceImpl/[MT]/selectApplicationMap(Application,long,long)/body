@@ -1,15 +1,15 @@
 {
-  if (applicationName == null) {
-    throw new NullPointerException("applicationName must not be null");
+  if (sourceApplication == null) {
+    throw new NullPointerException("sourceApplication must not be null");
   }
   logger.debug("SelectApplicationMap");
   StopWatch watch=new StopWatch("applicationMapWatch");
   watch.start();
   final Set<Node> callerFoundApplications=new HashSet<Node>();
   final Set<Node> calleeFoundApplications=new HashSet<Node>();
-  Set<TransactionFlowStatistics> callee=selectCallee(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  Set<TransactionFlowStatistics> callee=selectCallee(sourceApplication,from,to,calleeFoundApplications,callerFoundApplications);
   logger.debug("Result of finding callee {}",callee);
-  Set<TransactionFlowStatistics> caller=selectCaller(applicationName,serviceType,from,to,calleeFoundApplications,callerFoundApplications);
+  Set<TransactionFlowStatistics> caller=selectCaller(sourceApplication,from,to,calleeFoundApplications,callerFoundApplications);
   logger.debug("Result of finding caller {}",caller);
   Set<TransactionFlowStatistics> data=new HashSet<TransactionFlowStatistics>(callee.size() + caller.size());
   data.addAll(callee);

@@ -1,0 +1,39 @@
+{
+  if (sourceApplication == null) {
+    throw new NullPointerException("sourceApplication must not be null");
+  }
+  if (destinationApplication == null) {
+    throw new NullPointerException("destinationApplication must not be null");
+  }
+  List<Map<Long,Map<Short,Long>>> list;
+  if (ServiceType.findServiceType(sourceApplication.getServiceTypeCode()).isUser()) {
+    logger.debug("Find 'client -> any' link statistics");
+    list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(destinationApplication.getName(),sourceApplication.getServiceTypeCode(),destinationApplication.getName(),destinationApplication.getServiceTypeCode(),from,to);
+  }
+ else   if (destinationApplication.getServiceType().isWas()) {
+    logger.debug("Find 'any -> was' link statistics");
+    list=applicationMapStatisticsCallerDao.selectCallerStatistics(sourceApplication.getName(),sourceApplication.getServiceTypeCode(),destinationApplication.getName(),destinationApplication.getServiceTypeCode(),from,to);
+  }
+ else {
+    logger.debug("Find 'was -> terminal' link statistics");
+    list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication.getName(),sourceApplication.getServiceTypeCode(),destinationApplication.getName(),destinationApplication.getServiceTypeCode(),from,to);
+  }
+  LinkStatistics statistics=new LinkStatistics(from,to);
+  statistics.setDefaultHistogramSlotList(destinationApplication.getServiceType().getHistogramSchema().getHistogramSlotList());
+  logger.debug("Fetched statistics data={}",list);
+  for (  Map<Long,Map<Short,Long>> map : list) {
+    for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
+      long timestamp=entry.getKey();
+      Map<Short,Long> histogramMap=entry.getValue();
+      for (      Entry<Short,Long> histogram : histogramMap.entrySet()) {
+        if (histogram.getKey() == -1) {
+          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),true);
+        }
+ else {
+          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),false);
+        }
+      }
+    }
+  }
+  return statistics;
+}
