@@ -1,8 +1,15 @@
 {
-  for (  HistogramSlot slot : histogramSlotList) {
-    if (elapsedTime <= slot.getSlotTime()) {
-      return slot;
-    }
+  if (elapsedTime == ERROR_SLOT_TIME) {
+    return errorSlot;
   }
-  return SLOW_SLOT;
+  if (this.fastSlot.getSlotTime() <= elapsedTime) {
+    return fastSlot;
+  }
+  if (this.normalSlot.getSlotTime() <= elapsedTime) {
+    return normalSlot;
+  }
+  if (this.slowSlot.getSlotTime() <= elapsedTime) {
+    return slowSlot;
+  }
+  return verySlowSlot;
 }
