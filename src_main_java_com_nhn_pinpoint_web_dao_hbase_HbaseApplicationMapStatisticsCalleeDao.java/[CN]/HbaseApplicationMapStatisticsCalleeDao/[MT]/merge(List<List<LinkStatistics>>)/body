@@ -1,0 +1,16 @@
+{
+  final Map<LinkStatisticsKey,LinkStatistics> result=new HashMap<LinkStatisticsKey,LinkStatistics>();
+  for (  List<LinkStatistics> foundList : foundListList) {
+    for (    LinkStatistics found : foundList) {
+      final LinkStatisticsKey key=new LinkStatisticsKey(found);
+      final LinkStatistics find=result.get(key);
+      if (find != null) {
+        find.add(found);
+      }
+ else {
+        result.put(key,found);
+      }
+    }
+  }
+  return new ArrayList<LinkStatistics>(result.values());
+}

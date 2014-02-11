@@ -19,7 +19,7 @@
     logger.debug("Find 'was -> terminal' link statistics");
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
   }
-  LinkStatistics statistics=new LinkStatistics(range);
+  com.nhn.pinpoint.web.vo.LinkStatistics statistics=new com.nhn.pinpoint.web.vo.LinkStatistics(range);
   HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();
   statistics.setDefaultHistogramSlotList(histogramSchema);
   logger.debug("Fetched statistics data={}",list);

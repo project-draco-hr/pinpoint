@@ -12,7 +12,7 @@
   watch.start();
   List<List<SpanBo>> originalList=this.traceDao.selectAllSpans(traceIdSet);
   List<SpanBo> filteredTransactionList=filterList(originalList,filter);
-  LinkStatistics statistics=new LinkStatistics(range);
+  com.nhn.pinpoint.web.vo.LinkStatistics statistics=new com.nhn.pinpoint.web.vo.LinkStatistics(range);
   for (  SpanBo span : filteredTransactionList) {
     if (sourceApplication.equals(span.getApplicationId(),span.getServiceType())) {
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();

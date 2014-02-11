@@ -2,18 +2,18 @@
   final Node key=new Node(callerApplication);
   if (calleeFoundApplications.contains(key)) {
     logger.debug("ApplicationStatistics exists. Skip finding callee. {} ",callerApplication);
-    return new HashSet<TransactionFlowStatistics>(0);
+    return new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>(0);
   }
   calleeFoundApplications.add(key);
   if (logger.isDebugEnabled()) {
     logger.debug("Finding Callee. caller={}",callerApplication);
   }
-  final Set<TransactionFlowStatistics> calleeSet=new HashSet<TransactionFlowStatistics>();
-  List<TransactionFlowStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplication,range);
+  final Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> calleeSet=new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
+  List<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplication,range);
   if (logger.isDebugEnabled()) {
     logger.debug("Found Callee. count={}, caller={}",callee.size(),callerApplication);
   }
-  for (  TransactionFlowStatistics stat : callee) {
+  for (  com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics stat : callee) {
     boolean replaced=replaceApplicationInfo(stat,range);
     if (!replaced) {
       fillAdditionalInfo(stat,range);
@@ -23,12 +23,12 @@
       continue;
     }
     logger.debug("     Find subCallee of {}",stat.getToApplication());
-    Set<TransactionFlowStatistics> calleeSub=selectCallee(stat.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
+    Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> calleeSub=selectCallee(stat.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
     logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getToApplication());
     calleeSet.addAll(calleeSub);
-    for (    TransactionFlowStatistics eachCallee : calleeSub) {
+    for (    com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics eachCallee : calleeSub) {
       logger.debug("     Find caller of {}",eachCallee.getFromApplication());
-      Set<TransactionFlowStatistics> callerSub=selectCaller(eachCallee.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
+      Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> callerSub=selectCaller(eachCallee.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
       logger.debug("     Found subCaller. count={}, callee={}",callerSub.size(),eachCallee.getFromApplication());
       calleeSet.addAll(callerSub);
     }

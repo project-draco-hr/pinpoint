@@ -10,8 +10,8 @@
   final Collection<TransactionId> recursiveFilterList=recursiveCallFilter(transactionIdList);
   final List<List<SpanBo>> originalList=this.traceDao.selectAllSpans(recursiveFilterList);
   final List<List<SpanBo>> filterList=filterList2(originalList,filter);
-  Set<TransactionFlowStatistics> statisticsData=new HashSet<TransactionFlowStatistics>();
-  Map<NodeId,TransactionFlowStatistics> statisticsMap=new HashMap<NodeId,TransactionFlowStatistics>();
+  Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> statisticsData=new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
+  Map<NodeId,com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> statisticsMap=new HashMap<NodeId,com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>(transactionIdList.size());
@@ -28,11 +28,11 @@
         continue;
       }
       final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
-      TransactionFlowStatistics stat=statisticsMap.get(statId);
+      com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics stat=statisticsMap.get(statId);
       if (stat == null) {
         Application source=new Application(srcNode.getName(),srcNode.getServiceType());
         Application dest=new Application(destNode.getName(),destNode.getServiceType());
-        stat=new TransactionFlowStatistics(source,dest);
+        stat=new com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics(source,dest);
       }
       final short slot=getHistogramSlotTime(span,destNode.getServiceType());
       stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);
@@ -44,7 +44,7 @@
       addNodeFromSpanEvent(statisticsData,statisticsMap,timeSeriesStore,transactionSpanMap,span);
     }
   }
-  for (  TransactionFlowStatistics stat : statisticsData) {
+  for (  com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics stat : statisticsData) {
     fillAdditionalInfo(stat);
   }
   ApplicationMap map=new ApplicationMapBuilder().build(statisticsData);

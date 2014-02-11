@@ -3,7 +3,7 @@
     return Collections.emptyList();
   }
   final KeyValue[] keyList=result.raw();
-  final List<TransactionFlowStatistics> stat=new ArrayList<TransactionFlowStatistics>(keyList.length + 10);
+  final List<LinkStatistics> stat=new ArrayList<LinkStatistics>(keyList.length + 10);
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
     String callerApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(row);
@@ -20,7 +20,7 @@
     if (logger.isDebugEnabled()) {
       logger.debug("    Fetched Callee. {} -> {} ({})",caller,callee,requestCount);
     }
-    TransactionFlowStatistics statistics=new TransactionFlowStatistics(caller,callee);
+    LinkStatistics statistics=new LinkStatistics(caller,callee);
     statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
     stat.add(statistics);
   }

@@ -1,0 +1,15 @@
+{
+  if (linkStatistics == null) {
+    throw new NullPointerException("rawData must not be null");
+  }
+  final LinkStatisticsData linkStatisticsData=new LinkStatisticsData(linkStatistics);
+  final ApplicationMap nodeMap=new ApplicationMap();
+  Map<NodeId,Set<AgentInfoBo>> agentMap=linkStatisticsData.getAgentMap();
+  final List<Node> sourceNode=createSourceNode(linkStatisticsData,agentMap);
+  nodeMap.addApplication(sourceNode);
+  nodeMap.indexingNode();
+  List<Link> sourceLink=createSourceLink(linkStatisticsData,nodeMap);
+  nodeMap.addLink(sourceLink);
+  nodeMap.buildApplication();
+  return nodeMap;
+}
