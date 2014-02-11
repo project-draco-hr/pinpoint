@@ -10,8 +10,8 @@
   final Collection<TransactionId> recursiveFilterList=recursiveCallFilter(transactionIdList);
   final List<List<SpanBo>> originalList=this.traceDao.selectAllSpans(recursiveFilterList);
   final List<List<SpanBo>> filterList=filterList2(originalList,filter);
-  Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> statisticsData=new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
-  Map<NodeId,com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> statisticsMap=new HashMap<NodeId,com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
+  Set<LinkStatistics> statisticsData=new HashSet<LinkStatistics>();
+  Map<NodeId,LinkStatistics> statisticsMap=new HashMap<NodeId,LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>(transactionIdList.size());
@@ -28,7 +28,7 @@
         continue;
       }
       final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
-      com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics stat=statisticsMap.get(statId);
+      LinkStatistics stat=statisticsMap.get(statId);
       if (stat == null) {
         Application source=new Application(srcNode.getName(),srcNode.getServiceType());
         Application dest=new Application(destNode.getName(),destNode.getServiceType());

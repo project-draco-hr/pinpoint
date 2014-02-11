@@ -19,11 +19,11 @@
       }
     }
     final NodeId spanEventStatId=new ComplexNodeId(srcNode,new Node(dest,destServiceType));
-    com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics statistics=statisticsMap.get(spanEventStatId);
+    LinkStatistics statistics=statisticsMap.get(spanEventStatId);
     if (statistics == null) {
       Application sourceApplication=new Application(srcNode.getName(),srcNode.getServiceType());
       Application destApplication=new Application(dest,destServiceType);
-      statistics=new com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics(sourceApplication,destApplication);
+      statistics=new LinkStatistics(sourceApplication,destApplication);
     }
     final int slot2=getHistogramSlotTime(spanEvent,destServiceType);
     statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
