@@ -2,8 +2,10 @@
   if (histogram == null) {
     throw new NullPointerException("histogram must not be null");
   }
-  addValues(histogram);
-  this.totalCount+=histogram.totalCount;
-  this.errorCount+=histogram.errorCount;
+  this.fastCount+=histogram.fastCount;
+  this.normalCount+=histogram.normalCount;
   this.slowCount+=histogram.slowCount;
+  this.verySlowCount+=histogram.verySlowCount;
+  this.errorCount+=histogram.errorCount;
+  this.totalCount+=histogram.totalCount;
 }

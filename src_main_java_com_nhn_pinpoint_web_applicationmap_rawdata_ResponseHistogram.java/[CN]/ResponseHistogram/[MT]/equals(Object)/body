@@ -1,11 +1,7 @@
 {
-  if (this == obj)   return true;
-  if (obj == null)   return false;
-  if (getClass() != obj.getClass())   return false;
-  ResponseHistogram other=(ResponseHistogram)obj;
-  if (histogramSchema == null) {
-    if (other.histogramSchema != null)     return false;
-  }
- else   if (!histogramSchema.equals(other.histogramSchema))   return false;
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  ResponseHistogram histogram=(ResponseHistogram)o;
+  if (serviceType != histogram.serviceType)   return false;
   return true;
 }

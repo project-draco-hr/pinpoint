@@ -1,16 +1,24 @@
 {
-  totalCount+=count;
-  if (slotTime == HistogramSchema.SLOW_SLOT.getSlotTime()) {
-    slowCount+=count;
-  }
- else   if (slotTime == HistogramSchema.ERROR_SLOT.getSlotTime()) {
-    errorCount+=count;
+  this.totalCount+=count;
+  if (slotTime == histogramSchema.getVerySlowSlot().getSlotTime()) {
+    this.verySlowCount+=count;
     return;
   }
-  final int histogramSlotIndex=histogramSchema.getHistogramSlotIndex(slotTime);
-  if (histogramSlotIndex == -1) {
-    logger.trace("Can't find slotTime={} count={} serviceType={}",slotTime,count,serviceType);
+  if (slotTime == histogramSchema.getErrorSlot().getSlotTime()) {
+    this.errorCount+=count;
     return;
   }
-  values[histogramSlotIndex]+=count;
+  if (slotTime <= histogramSchema.getFastSlot().getSlotTime()) {
+    this.fastCount+=count;
+    return;
+  }
+  if (slotTime <= histogramSchema.getNormalSlot().getSlotTime()) {
+    this.normalCount+=count;
+    return;
+  }
+  if (slotTime <= histogramSchema.getSlowSlot().getSlotTime()) {
+    this.slowCount+=count;
+    return;
+  }
+  throw new IllegalArgumentException("slot not found slotTime:" + slotTime + " count:"+ count);
 }

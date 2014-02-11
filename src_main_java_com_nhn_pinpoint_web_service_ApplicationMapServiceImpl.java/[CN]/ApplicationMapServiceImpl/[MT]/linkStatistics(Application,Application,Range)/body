@@ -20,7 +20,8 @@
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
   }
   LinkStatistics statistics=new LinkStatistics(range);
-  statistics.setDefaultHistogramSlotList(destinationApplication.getServiceType().getHistogramSchema().getHistogramSlotList());
+  HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();
+  statistics.setDefaultHistogramSlotList(histogramSchema);
   logger.debug("Fetched statistics data={}",list);
   for (  Map<Long,Map<Short,Long>> map : list) {
     for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
