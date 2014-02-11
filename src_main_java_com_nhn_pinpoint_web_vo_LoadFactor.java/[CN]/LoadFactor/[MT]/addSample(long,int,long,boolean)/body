@@ -16,7 +16,7 @@
     responseTimeslot=SLOT_VERY_SLOW;
   }
   for (int i=0; i < timeseriesValueList.size(); i++) {
-    SortedMap<Long,Long> map=timeseriesValueList.get(i);
+    Map<Long,Long> map=timeseriesValueList.get(i);
     if (i == timeseriesSlotIndex.get(responseTimeslot)) {
       long v=map.containsKey(timestamp) ? map.get(timestamp) + callCount : callCount;
       map.put(timestamp,v);

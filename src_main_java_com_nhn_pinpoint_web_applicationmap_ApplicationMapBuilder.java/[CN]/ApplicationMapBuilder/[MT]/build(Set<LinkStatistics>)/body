@@ -6,10 +6,10 @@
   final ApplicationMap nodeMap=new ApplicationMap();
   Map<NodeId,Set<AgentInfoBo>> agentMap=linkStatisticsData.getAgentMap();
   final List<Node> sourceNode=createSourceNode(linkStatisticsData,agentMap);
-  nodeMap.addApplication(sourceNode);
+  nodeMap.addNode(sourceNode);
   nodeMap.indexingNode();
   List<Link> sourceLink=createSourceLink(linkStatisticsData,nodeMap);
   nodeMap.addLink(sourceLink);
-  nodeMap.buildApplication();
+  nodeMap.buildNode();
   return nodeMap;
 }

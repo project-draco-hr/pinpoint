@@ -2,14 +2,13 @@
   final Application sourceApplication=new Application(srcApplicationName,srcServiceType);
   final Application destinationApplication=new Application(destApplicationName,destServiceType);
   final Range range=new Range(from,to);
-  LinkStatistics linkStatistics=applicationMapService.linkStatistics(sourceApplication,destinationApplication,range);
-  model.addAttribute("from",from);
-  model.addAttribute("to",to);
+  LoadFactor loadFactor=applicationMapService.linkStatistics(sourceApplication,destinationApplication,range);
+  model.addAttribute("range",range);
   model.addAttribute("srcApplication",sourceApplication);
   model.addAttribute("destApplication",destinationApplication);
-  model.addAttribute("linkStatistics",linkStatistics);
-  model.addAttribute("timeseriesSlotIndex",linkStatistics.getTimeseriesSlotIndex());
-  model.addAttribute("timeseriesValue",linkStatistics.getTimeseriesValue());
+  model.addAttribute("linkStatistics",loadFactor);
+  model.addAttribute("timeseriesSlotIndex",loadFactor.getTimeseriesSlotIndex());
+  model.addAttribute("timeseriesValue",loadFactor.getTimeseriesValue());
   model.addAttribute("resultFrom",from);
   model.addAttribute("resultTo",to);
   if (v == 2) {
