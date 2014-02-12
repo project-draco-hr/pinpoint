@@ -27,7 +27,6 @@
     }
     final int slot2=getHistogramSlotTime(spanEvent,destServiceType);
     statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slot2,1);
-    statisticsData.add(statistics);
     statisticsMap.put(spanEventStatId,statistics);
     timeSeriesStore.add(spanEventStatId,span.getStartTime() + spanEvent.getStartElapsed(),slot2,1L,spanEvent.hasException());
     NodeId key=new ComplexNodeId(Node.EMPTY,new Node(spanEvent.getDestinationId(),spanEvent.getServiceType()));

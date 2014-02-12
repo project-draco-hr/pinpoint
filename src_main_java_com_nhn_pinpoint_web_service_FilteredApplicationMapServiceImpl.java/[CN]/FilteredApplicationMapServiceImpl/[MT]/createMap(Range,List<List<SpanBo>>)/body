@@ -1,0 +1,41 @@
+{
+  final Map<NodeId,LinkStatistics> linkStatMap=new HashMap<NodeId,LinkStatistics>();
+  final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(range);
+  for (  List<SpanBo> transaction : filterList) {
+    final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
+    for (    SpanBo span : transaction) {
+      final SpanBo old=transactionSpanMap.put(span.getSpanId(),span);
+      if (old != null) {
+        logger.warn("duplicated span found:{}",old);
+      }
+    }
+    for (    SpanBo span : transaction) {
+      final Node srcNode=createNode(span,transactionSpanMap);
+      final Node destNode=new Node(span.getApplicationId(),span.getServiceType());
+      if (!destNode.getServiceType().isRecordStatistics() || destNode.getServiceType().isRpcClient()) {
+        continue;
+      }
+      final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
+      LinkStatistics stat=linkStatMap.get(statId);
+      if (stat == null) {
+        Application source=new Application(srcNode.getName(),srcNode.getServiceType());
+        Application dest=new Application(destNode.getName(),destNode.getServiceType());
+        stat=new LinkStatistics(source,dest);
+        linkStatMap.put(statId,stat);
+      }
+      final short slot=getHistogramSlotTime(span,destNode.getServiceType());
+      stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);
+      timeSeriesStore.add(statId,span.getCollectorAcceptTime(),slot,1L,span.hasException());
+      NodeId key=new ComplexNodeId(Node.EMPTY,new Node(span.getApplicationId(),span.getServiceType()));
+      timeSeriesStore.add(key,span.getCollectorAcceptTime(),slot,1L,span.hasException());
+      addNodeFromSpanEvent(linkStatMap,timeSeriesStore,transactionSpanMap,span);
+    }
+  }
+  for (  LinkStatistics stat : linkStatMap.values()) {
+    fillAdditionalInfo(stat);
+  }
+  List<LinkStatistics> linkStatisticsList=new ArrayList<LinkStatistics>(linkStatMap.values());
+  ApplicationMap map=new ApplicationMapBuilder().build(linkStatisticsList);
+  map.setTimeSeriesStore(timeSeriesStore);
+  return map;
+}
