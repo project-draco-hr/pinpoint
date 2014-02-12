@@ -1,6 +1,7 @@
 {
   final Map<NodeId,LinkStatistics> linkStatMap=new HashMap<NodeId,LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(range);
+  final Map<Application,ResponseHistogramSummary> responseHistogramSummaryMap=new HashMap<Application,ResponseHistogramSummary>();
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
     for (    SpanBo span : transaction) {
@@ -10,6 +11,7 @@
       }
     }
     for (    SpanBo span : transaction) {
+      recordSpanResponseTime(span,responseHistogramSummaryMap);
       final Node srcNode=createNode(span,transactionSpanMap);
       final Node destNode=new Node(span.getApplicationId(),span.getServiceType());
       if (!destNode.getServiceType().isRecordStatistics() || destNode.getServiceType().isRpcClient()) {
@@ -37,6 +39,6 @@
   List<LinkStatistics> linkStatisticsList=new ArrayList<LinkStatistics>(linkStatMap.values());
   ApplicationMap map=new ApplicationMapBuilder().build(linkStatisticsList);
   map.setTimeSeriesStore(timeSeriesStore);
-  map.appendResponseTime(range,this.mapResponseDao);
+  map.appendResponseTime(responseHistogramSummaryMap);
   return map;
 }
