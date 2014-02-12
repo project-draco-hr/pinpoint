@@ -18,7 +18,7 @@
   data.addAll(callee);
   data.addAll(caller);
   ApplicationMap map=new ApplicationMapBuilder().build(new ArrayList<LinkStatistics>(data));
-  appendResponseTime(map,range);
+  map.appendResponseTime(range,this.mapResponseDao);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
   return map;

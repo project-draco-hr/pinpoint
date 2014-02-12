@@ -28,7 +28,7 @@
       timeSeriesStore.add(statId,span.getCollectorAcceptTime(),slot,1L,span.hasException());
       NodeId key=new ComplexNodeId(Node.EMPTY,new Node(span.getApplicationId(),span.getServiceType()));
       timeSeriesStore.add(key,span.getCollectorAcceptTime(),slot,1L,span.hasException());
-      addNodeFromSpanEvent(linkStatMap,timeSeriesStore,transactionSpanMap,span);
+      addNodeFromSpanEvent(span,linkStatMap,timeSeriesStore,transactionSpanMap);
     }
   }
   for (  LinkStatistics stat : linkStatMap.values()) {
@@ -37,5 +37,6 @@
   List<LinkStatistics> linkStatisticsList=new ArrayList<LinkStatistics>(linkStatMap.values());
   ApplicationMap map=new ApplicationMapBuilder().build(linkStatisticsList);
   map.setTimeSeriesStore(timeSeriesStore);
+  map.appendResponseTime(range,this.mapResponseDao);
   return map;
 }

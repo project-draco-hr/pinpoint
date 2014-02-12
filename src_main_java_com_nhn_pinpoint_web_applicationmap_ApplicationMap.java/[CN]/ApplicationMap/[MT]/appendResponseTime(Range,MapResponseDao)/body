@@ -1,16 +1,16 @@
 {
-  List<com.nhn.pinpoint.web.applicationmap.Node> nodes=map.getNodes();
-  for (  com.nhn.pinpoint.web.applicationmap.Node node : nodes) {
+  List<Node> nodes=this.nodeList.getNodeList();
+  for (  Node node : nodes) {
     if (node.getServiceType().isWas()) {
       final Application application=new Application(node.getApplicationName(),node.getServiceType());
-      final List<RawResponseTime> responseHistogram=this.mapResponseDao.selectResponseTime(application,range);
+      final List<RawResponseTime> responseHistogram=mapResponseDao.selectResponseTime(application,range);
       ResponseHistogramSummary histogramSummary=createHistogramSummary(application,responseHistogram);
       node.setResponseHistogramSummary(histogramSummary);
     }
  else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
       final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
-      List<Link> linkList=map.getLinks();
+      List<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         com.nhn.pinpoint.web.applicationmap.Node toNode=link.getTo();
         String applicationName=toNode.getApplicationName();
@@ -26,7 +26,7 @@
  else     if (node.getServiceType().isUser()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
       final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
-      List<Link> linkList=map.getLinks();
+      List<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         com.nhn.pinpoint.web.applicationmap.Node fromNode=link.getFrom();
         String applicationName=fromNode.getApplicationName();
