@@ -1,0 +1,15 @@
+{
+  if (nodeKey == null) {
+    throw new NullPointerException("nodeKey must not be null");
+  }
+  if (!enabled) {
+    return;
+  }
+  logger.debug("add sample nodeKey={}, timeStamp={} responseTimeSlot={}, count={}",nodeKey,timeStamp,responseTimeSlot,callCount,isFailed);
+  LoadFactor stat=nodeData.get(nodeKey);
+  if (stat == null) {
+    stat=new LoadFactor(range);
+    nodeData.put(nodeKey,stat);
+  }
+  stat.addSample(timeStamp,responseTimeSlot,callCount,isFailed);
+}

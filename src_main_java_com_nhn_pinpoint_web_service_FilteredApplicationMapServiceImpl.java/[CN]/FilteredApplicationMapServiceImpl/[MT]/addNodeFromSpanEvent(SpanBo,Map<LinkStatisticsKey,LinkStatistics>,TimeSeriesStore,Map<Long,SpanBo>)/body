@@ -1,0 +1,35 @@
+{
+  final List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
+  if (CollectionUtils.isEmpty(spanEventBoList)) {
+    return;
+  }
+  final Application srcNode=new Application(span.getApplicationId(),span.getServiceType());
+  for (  SpanEventBo spanEvent : spanEventBoList) {
+    final String dest=spanEvent.getDestinationId();
+    ServiceType destServiceType=spanEvent.getServiceType();
+    if (!destServiceType.isRecordStatistics()) {
+      continue;
+    }
+    if (destServiceType.isRpcClient()) {
+      if (transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
+        continue;
+      }
+ else {
+        destServiceType=ServiceType.UNKNOWN;
+      }
+    }
+    final LinkStatisticsKey spanEventStatId=new LinkStatisticsKey(srcNode,new Application(dest,destServiceType));
+    LinkStatistics statistics=statisticsMap.get(spanEventStatId);
+    if (statistics == null) {
+      Application sourceApplication=new Application(srcNode.getName(),srcNode.getServiceType());
+      Application destApplication=new Application(dest,destServiceType);
+      statistics=new LinkStatistics(sourceApplication,destApplication);
+    }
+    final int slotTime=getHistogramSlotTime(spanEvent,destServiceType);
+    statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slotTime,1);
+    statisticsMap.put(spanEventStatId,statistics);
+    timeSeriesStore.addLinkStat(spanEventStatId,span.getStartTime() + spanEvent.getStartElapsed(),slotTime,1L,spanEvent.hasException());
+    Application nodeKey=new Application(spanEvent.getDestinationId(),spanEvent.getServiceType());
+    timeSeriesStore.addNodeStat(nodeKey,span.getCollectorAcceptTime(),slotTime,1L,spanEvent.hasException());
+  }
+}

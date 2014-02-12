@@ -1,0 +1,10 @@
+{
+  final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
+  for (  SpanBo span : transaction) {
+    final SpanBo old=transactionSpanMap.put(span.getSpanId(),span);
+    if (old != null) {
+      logger.warn("duplicated span found:{}",old);
+    }
+  }
+  return transactionSpanMap;
+}

@@ -1,0 +1,15 @@
+{
+  if (linkKey == null) {
+    throw new NullPointerException("linkKey must not be null");
+  }
+  if (!enabled) {
+    return;
+  }
+  logger.debug("add sample linkKey={}, timeStamp={} responseTimeSlot={}, count={}",linkKey,timeStamp,responseTimeSlot,callCount,isFailed);
+  LoadFactor stat=linkData.get(linkKey);
+  if (stat == null) {
+    stat=new LoadFactor(range);
+    linkData.put(linkKey,stat);
+  }
+  stat.addSample(timeStamp,responseTimeSlot,callCount,isFailed);
+}

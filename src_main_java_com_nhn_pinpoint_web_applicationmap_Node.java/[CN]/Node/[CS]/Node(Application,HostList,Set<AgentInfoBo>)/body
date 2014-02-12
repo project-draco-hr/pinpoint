@@ -1,0 +1,16 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  logger.debug("create node application={}, serviceType={}, agentSet={}",application,agentSet);
+  this.application=application;
+  this.hostList=new HostList();
+  this.agentSet=new HashSet<AgentInfoBo>();
+  if (hostList != null) {
+    logger.debug("createApplication");
+    this.hostList.put(hostList);
+  }
+  if (agentSet != null) {
+    this.agentSet.addAll(agentSet);
+  }
+}

@@ -1,10 +1,10 @@
 {
-  final Map<NodeId,Set<AgentInfoBo>> agentMap=new HashMap<NodeId,Set<AgentInfoBo>>();
+  final Map<Application,Set<AgentInfoBo>> agentMap=new HashMap<Application,Set<AgentInfoBo>>();
   for (  LinkStatistics stat : linkStatData) {
     if (stat.getToAgentSet() == null) {
       continue;
     }
-    NodeId key=stat.getToApplicationId();
+    Application key=stat.getToApplication();
     final Set<AgentInfoBo> agentInfoBos=agentMap.get(key);
     if (agentInfoBos != null) {
       Set<AgentInfoBo> toAgentSet=stat.getToAgentSet();

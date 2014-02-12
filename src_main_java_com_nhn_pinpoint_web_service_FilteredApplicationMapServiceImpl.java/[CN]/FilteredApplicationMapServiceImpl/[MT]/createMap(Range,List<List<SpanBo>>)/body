@@ -1,35 +1,29 @@
 {
-  final Map<NodeId,LinkStatistics> linkStatMap=new HashMap<NodeId,LinkStatistics>();
-  final TimeSeriesStore timeSeriesStore=new TimeSeriesStoreImpl2(range);
+  final Map<LinkStatisticsKey,LinkStatistics> linkStatMap=new HashMap<LinkStatisticsKey,LinkStatistics>();
+  final TimeSeriesStore timeSeriesStore=new DefaultTimeSeriesStoreImpl(range);
   final Map<Application,ResponseHistogramSummary> responseHistogramSummaryMap=new HashMap<Application,ResponseHistogramSummary>();
   for (  List<SpanBo> transaction : filterList) {
-    final Map<Long,SpanBo> transactionSpanMap=new HashMap<Long,SpanBo>();
-    for (    SpanBo span : transaction) {
-      final SpanBo old=transactionSpanMap.put(span.getSpanId(),span);
-      if (old != null) {
-        logger.warn("duplicated span found:{}",old);
-      }
-    }
+    final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
       recordSpanResponseTime(span,responseHistogramSummaryMap);
-      final Node srcNode=createNode(span,transactionSpanMap);
-      final Node destNode=new Node(span.getApplicationId(),span.getServiceType());
-      if (!destNode.getServiceType().isRecordStatistics() || destNode.getServiceType().isRpcClient()) {
+      final Application srcApplication=createApplication(span,transactionSpanMap);
+      final Application destApplication=new Application(span.getApplicationId(),span.getServiceType());
+      if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
-      final ComplexNodeId statId=new ComplexNodeId(srcNode,destNode);
-      LinkStatistics stat=linkStatMap.get(statId);
+      final LinkStatisticsKey linkKey=new LinkStatisticsKey(srcApplication,destApplication);
+      LinkStatistics stat=linkStatMap.get(linkKey);
       if (stat == null) {
-        Application source=new Application(srcNode.getName(),srcNode.getServiceType());
-        Application dest=new Application(destNode.getName(),destNode.getServiceType());
+        Application source=new Application(srcApplication.getName(),srcApplication.getServiceType());
+        Application dest=new Application(destApplication.getName(),destApplication.getServiceType());
         stat=new LinkStatistics(source,dest);
-        linkStatMap.put(statId,stat);
+        linkStatMap.put(linkKey,stat);
       }
-      final short slot=getHistogramSlotTime(span,destNode.getServiceType());
-      stat.addSample(destNode.getName(),destNode.getServiceType().getCode(),(short)slot,1);
-      timeSeriesStore.add(statId,span.getCollectorAcceptTime(),slot,1L,span.hasException());
-      NodeId key=new ComplexNodeId(Node.EMPTY,new Node(span.getApplicationId(),span.getServiceType()));
-      timeSeriesStore.add(key,span.getCollectorAcceptTime(),slot,1L,span.hasException());
+      final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
+      stat.addSample(destApplication.getName(),destApplication.getServiceType().getCode(),slotTime,1);
+      timeSeriesStore.addLinkStat(linkKey,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
+      Application node=new Application(span.getApplicationId(),span.getServiceType());
+      timeSeriesStore.addNodeStat(node,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
       addNodeFromSpanEvent(span,linkStatMap,timeSeriesStore,transactionSpanMap);
     }
   }
