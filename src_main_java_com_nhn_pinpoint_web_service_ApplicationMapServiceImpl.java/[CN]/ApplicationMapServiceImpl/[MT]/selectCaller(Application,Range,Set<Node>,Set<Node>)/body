@@ -2,25 +2,25 @@
   final Node key=new Node(calleeApplication);
   if (callerFoundApplications.contains(key)) {
     logger.debug("ApplicationStatistics exists. Skip finding caller. {}",calleeApplication);
-    return new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>(0);
+    return new HashSet<LinkStatistics>(0);
   }
   callerFoundApplications.add(key);
   if (logger.isDebugEnabled()) {
     logger.debug("Finding Caller. callee={}",calleeApplication);
   }
-  final Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> callerSet=new HashSet<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics>();
-  final List<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplication,range);
+  final Set<LinkStatistics> callerSet=new HashSet<LinkStatistics>();
+  final List<LinkStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplication,range);
   logger.debug("Found Caller. count={}, callee={}",caller.size(),calleeApplication);
-  for (  com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics stat : caller) {
+  for (  LinkStatistics stat : caller) {
     fillAdditionalInfo(stat,range);
     callerSet.add(stat);
-    Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> callerSub=selectCaller(stat.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
+    Set<LinkStatistics> callerSub=selectCaller(stat.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
     callerSet.addAll(callerSub);
-    for (    com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics eachCallee : callerSub) {
+    for (    LinkStatistics eachCallee : callerSub) {
       if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
         continue;
       }
-      Set<com.nhn.pinpoint.web.applicationmap.rawdata.LinkStatistics> calleeSub=selectCallee(eachCallee.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
+      Set<LinkStatistics> calleeSub=selectCallee(eachCallee.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
       callerSet.addAll(calleeSub);
     }
   }
