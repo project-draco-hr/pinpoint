@@ -1,5 +1,5 @@
 {
-  final Map<LinkStatisticsKey,LinkStatistics> linkStatMap=new HashMap<LinkStatisticsKey,LinkStatistics>();
+  final Map<LinkKey,LinkStatistics> linkStatMap=new HashMap<LinkKey,LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new DefaultTimeSeriesStoreImpl(range);
   final Map<Application,ResponseHistogramSummary> responseHistogramSummaryMap=new HashMap<Application,ResponseHistogramSummary>();
   for (  List<SpanBo> transaction : filterList) {
@@ -11,7 +11,7 @@
       if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
-      final LinkStatisticsKey linkKey=new LinkStatisticsKey(srcApplication,destApplication);
+      final LinkKey linkKey=new LinkKey(srcApplication,destApplication);
       LinkStatistics stat=linkStatMap.get(linkKey);
       if (stat == null) {
         Application source=new Application(srcApplication.getName(),srcApplication.getServiceType());

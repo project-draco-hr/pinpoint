@@ -1,11 +1,11 @@
 {
   if (from == null) {
-    throw new NullPointerException("from must not be null");
+    throw new NullPointerException("fromNode must not be null");
   }
   if (to == null) {
-    throw new NullPointerException("to must not be null");
+    throw new NullPointerException("toNode must not be null");
   }
-  Application fromId=from.getApplication();
-  Application toId=to.getApplication();
-  return new LinkStatisticsKey(fromId,toId);
+  final Application fromApplication=from.getApplication();
+  final Application toApplication=to.getApplication();
+  return new LinkKey(fromApplication,toApplication);
 }

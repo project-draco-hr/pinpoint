@@ -1,17 +1,17 @@
 {
   final List<Link> result=new ArrayList<Link>();
-  for (  LinkStatistics stat : rawData.getLinkStatData()) {
-    final Application fromApplicationId=stat.getFromApplication();
-    Node from=nodeMap.findApplication(fromApplicationId);
-    final Application toApplicationId=stat.getToApplication();
-    Node to=nodeMap.findApplication(toApplicationId);
-    if (to == null) {
+  for (  LinkStatistics linkStat : rawData.getLinkStatData()) {
+    final Application fromApplicationId=linkStat.getFromApplication();
+    Node fromNode=nodeMap.findApplication(fromApplicationId);
+    final Application toApplicationId=linkStat.getToApplication();
+    Node toNode=nodeMap.findApplication(toApplicationId);
+    if (toNode == null) {
       continue;
     }
-    HostList toHostList=stat.getToHostList();
-    Link link=new Link(from,to,toHostList);
-    if (to.getServiceType().isRpcClient()) {
-      if (!nodeMap.containsApplicationName(to.getApplicationName())) {
+    HostList toHostList=linkStat.getToHostList();
+    Link link=new Link(fromNode,toNode,toHostList);
+    if (toNode.getServiceType().isRpcClient()) {
+      if (!nodeMap.containsApplicationName(toNode.getApplicationName())) {
         result.add(link);
       }
     }
