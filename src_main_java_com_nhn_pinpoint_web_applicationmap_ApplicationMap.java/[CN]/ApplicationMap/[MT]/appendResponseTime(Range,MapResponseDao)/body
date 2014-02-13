@@ -2,7 +2,11 @@
   appendResponseTime(new ResponseDataSource(){
     @Override public ResponseHistogramSummary getResponseHistogramSummary(    Application application){
       final List<RawResponseTime> responseHistogram=mapResponseDao.selectResponseTime(application,range);
-      return createHistogramSummary(application,responseHistogram);
+      ResponseHistogramSummary histogramSummary=createHistogramSummary(application,responseHistogram);
+      Map<String,ResponseHistogram> agentHistogram=createAgentHistogram(application,responseHistogram);
+      histogramSummary.setAgentHistogram(agentHistogram);
+      logger.debug("agentHistogram:{}",agentHistogram);
+      return histogramSummary;
     }
   }
 );

@@ -7,13 +7,13 @@
   if (logger.isDebugEnabled()) {
     logger.debug("Finding Callee. caller={}",callerApplication);
   }
-  final Set<LinkStatistics> calleeSet=new HashSet<LinkStatistics>();
   List<LinkStatistics> callee=applicationMapStatisticsCalleeDao.selectCallee(callerApplication,range);
   if (logger.isDebugEnabled()) {
     logger.debug("Found Callee. count={}, caller={}",callee.size(),callerApplication);
   }
+  final Set<LinkStatistics> calleeSet=new HashSet<LinkStatistics>();
   for (  LinkStatistics stat : callee) {
-    boolean replaced=replaceApplicationInfo(stat,range);
+    final boolean replaced=replaceApplicationInfo(stat,range);
     if (!replaced) {
       fillAdditionalInfo(stat,range);
       calleeSet.add(stat);

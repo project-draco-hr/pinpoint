@@ -19,9 +19,9 @@
     logger.debug("Find 'was -> terminal' link statistics");
     list=applicationMapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
   }
-  LoadFactor statistics=new LoadFactor(range);
+  LoadFactor loadFactor=new LoadFactor(range);
   HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();
-  statistics.setDefaultHistogramSlotList(histogramSchema);
+  loadFactor.setDefaultHistogramSlotList(histogramSchema);
   logger.debug("Fetched statistics data={}",list);
   for (  Map<Long,Map<Short,Long>> map : list) {
     for (    Entry<Long,Map<Short,Long>> entry : map.entrySet()) {
@@ -29,13 +29,13 @@
       Map<Short,Long> histogramMap=entry.getValue();
       for (      Entry<Short,Long> histogram : histogramMap.entrySet()) {
         if (histogram.getKey() == -1) {
-          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),true);
+          loadFactor.addSample(timestamp,histogram.getKey(),histogram.getValue(),true);
         }
  else {
-          statistics.addSample(timestamp,histogram.getKey(),histogram.getValue(),false);
+          loadFactor.addSample(timestamp,histogram.getKey(),histogram.getValue(),false);
         }
       }
     }
   }
-  return statistics;
+  return loadFactor;
 }

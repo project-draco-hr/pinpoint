@@ -1,0 +1,15 @@
+{
+  Map<String,ResponseHistogram> agentHistogramSummary=new HashMap<String,ResponseHistogram>();
+  for (  RawResponseTime rawResponseTime : responseHistogram) {
+    Set<Map.Entry<String,ResponseHistogram>> agentHistogramEntry=rawResponseTime.getAgentHistogram();
+    for (    Map.Entry<String,ResponseHistogram> entry : agentHistogramEntry) {
+      ResponseHistogram agentHistogram=agentHistogramSummary.get(entry.getKey());
+      if (agentHistogram == null) {
+        agentHistogram=new ResponseHistogram(application.getServiceType());
+        agentHistogramSummary.put(entry.getKey(),agentHistogram);
+      }
+      agentHistogram.add(entry.getValue());
+    }
+  }
+  return agentHistogramSummary;
+}

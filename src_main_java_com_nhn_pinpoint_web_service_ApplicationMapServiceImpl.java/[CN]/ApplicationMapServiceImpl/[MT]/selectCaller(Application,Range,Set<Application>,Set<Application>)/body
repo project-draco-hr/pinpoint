@@ -7,9 +7,9 @@
   if (logger.isDebugEnabled()) {
     logger.debug("Finding Caller. callee={}",calleeApplication);
   }
-  final Set<LinkStatistics> callerSet=new HashSet<LinkStatistics>();
   final List<LinkStatistics> caller=applicationMapStatisticsCallerDao.selectCaller(calleeApplication,range);
   logger.debug("Found Caller. count={}, callee={}",caller.size(),calleeApplication);
+  final Set<LinkStatistics> callerSet=new HashSet<LinkStatistics>();
   for (  LinkStatistics stat : caller) {
     fillAdditionalInfo(stat,range);
     callerSet.add(stat);
