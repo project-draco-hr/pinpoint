@@ -1,0 +1,15 @@
+{
+  ResponseHistogramSummary responseHistogramSummary=responseHistogramSummaryMap.get(application);
+  if (responseHistogramSummary == null) {
+    responseHistogramSummary=new ResponseHistogramSummary(application);
+    responseHistogramSummaryMap.put(application,responseHistogramSummary);
+  }
+  ResponseHistogram histogram=new ResponseHistogram(application.getServiceType());
+  if (span.getErrCode() != 0) {
+    histogram.addElapsedTime(HistogramSchema.ERROR_SLOT_TIME);
+  }
+ else {
+    histogram.addElapsedTime(span.getElapsed());
+  }
+  responseHistogramSummary.addTotal(histogram);
+}

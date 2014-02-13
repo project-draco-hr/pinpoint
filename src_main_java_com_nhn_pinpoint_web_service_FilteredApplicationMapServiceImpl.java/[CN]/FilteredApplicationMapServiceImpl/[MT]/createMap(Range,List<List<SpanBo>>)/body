@@ -5,22 +5,20 @@
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
-      recordSpanResponseTime(span,responseHistogramSummaryMap);
-      final Application srcApplication=createApplication(span,transactionSpanMap);
+      final Application srcApplication=createSourceApplication(span,transactionSpanMap);
       final Application destApplication=new Application(span.getApplicationId(),span.getServiceType());
+      recordSpanResponseTime(destApplication,span,responseHistogramSummaryMap);
       if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
       final LinkKey linkKey=new LinkKey(srcApplication,destApplication);
-      LinkStatistics stat=linkStatMap.get(linkKey);
-      if (stat == null) {
-        Application source=new Application(srcApplication.getName(),srcApplication.getServiceType());
-        Application dest=new Application(destApplication.getName(),destApplication.getServiceType());
-        stat=new LinkStatistics(source,dest);
-        linkStatMap.put(linkKey,stat);
+      LinkStatistics linkStat=linkStatMap.get(linkKey);
+      if (linkStat == null) {
+        linkStat=new LinkStatistics(srcApplication,destApplication);
+        linkStatMap.put(linkKey,linkStat);
       }
       final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
-      stat.addSample(destApplication.getName(),destApplication.getServiceType().getCode(),slotTime,1);
+      linkStat.addSample(destApplication.getName(),destApplication.getServiceType().getCode(),slotTime,1);
       timeSeriesStore.addLinkStat(linkKey,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
       Application node=new Application(span.getApplicationId(),span.getServiceType());
       timeSeriesStore.addNodeStat(node,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
