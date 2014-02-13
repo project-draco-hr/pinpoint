@@ -1,9 +1,5 @@
 {
-  ResponseHistogramSummary responseHistogramSummary=responseHistogramSummaryMap.get(application);
-  if (responseHistogramSummary == null) {
-    responseHistogramSummary=new ResponseHistogramSummary(application);
-    responseHistogramSummaryMap.put(application,responseHistogramSummary);
-  }
+  ResponseHistogramSummary responseHistogramSummary=getResponseHistogram(application);
   Histogram histogram=new Histogram(application.getServiceType());
   if (span.getErrCode() != 0) {
     histogram.addElapsedTime(HistogramSchema.ERROR_SLOT_TIME);
