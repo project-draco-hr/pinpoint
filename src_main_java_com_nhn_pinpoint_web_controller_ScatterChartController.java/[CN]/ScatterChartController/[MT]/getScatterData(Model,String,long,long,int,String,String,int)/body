@@ -1,9 +1,9 @@
 {
   limit=LimitUtils.checkRange(limit);
-  logger.debug("fetch scatter data FROM={}, TO={}, LIMIT={}, FILTER={}",from,to,limit,filterText);
   StopWatch watch=new StopWatch();
   watch.start("selectScatterData");
   final Range range=Range.createUncheckedRange(from,to);
+  logger.debug("fetch scatter data. {}, LIMIT={}, FILTER={}",range,limit,filterText);
   List<Dot> scatterData;
   if (filterText == null) {
     scatterData=scatter.selectScatterData(applicationName,range,limit);
