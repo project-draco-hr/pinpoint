@@ -1,0 +1,11 @@
+{
+  Histogram original=new Histogram(ServiceType.TOMCAT);
+  original.addSample((short)1000,100);
+  Histogram copy=new Histogram(ServiceType.TOMCAT);
+  Assert.assertEquals(copy.getFastCount(),0);
+  copy.add(original);
+  Assert.assertEquals(original.getFastCount(),copy.getFastCount());
+  copy.addSample((short)1000,100);
+  Assert.assertEquals(original.getFastCount(),100);
+  Assert.assertEquals(copy.getFastCount(),200);
+}

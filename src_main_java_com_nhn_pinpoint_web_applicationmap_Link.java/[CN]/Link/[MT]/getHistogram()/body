@@ -1,9 +1,9 @@
 {
-  ResponseHistogram result=null;
+  Histogram result=null;
   for (  Host host : hostList.getHostList()) {
     if (result == null) {
-      ResponseHistogram histogram=host.getHistogram();
-      result=new ResponseHistogram(histogram.getServiceType());
+      Histogram histogram=host.getHistogram();
+      result=new Histogram(histogram.getServiceType());
     }
     result.add(host.getHistogram());
   }

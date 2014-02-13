@@ -4,12 +4,12 @@
   }
   final Host find=hostMap.get(hostName);
   if (find != null) {
-    final ResponseHistogram histogram=find.getHistogram();
+    final Histogram histogram=find.getHistogram();
     histogram.addSample(slot,count);
   }
  else {
     final Host host=new Host(hostName,ServiceType.findServiceType(serviceTypeCode));
-    final ResponseHistogram histogram=host.getHistogram();
+    final Histogram histogram=host.getHistogram();
     histogram.addSample(slot,count);
     hostMap.put(hostName,host);
   }

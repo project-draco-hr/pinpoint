@@ -1,0 +1,8 @@
+{
+  for (  RawResponseTime rawResponseTime : responseHistogram) {
+    final List<Histogram> histogramList=rawResponseTime.getResponseHistogramList();
+    for (    Histogram histogram : histogramList) {
+      this.addApplicationLevelHistogram(histogram);
+    }
+  }
+}

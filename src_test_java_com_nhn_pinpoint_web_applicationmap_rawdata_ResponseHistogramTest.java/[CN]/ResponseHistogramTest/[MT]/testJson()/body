@@ -1,7 +1,0 @@
-{
-  ResponseHistogram original=new ResponseHistogram(ServiceType.TOMCAT);
-  original.addSample((short)1000,100);
-  HashMap hashMap=objectMapper.readValue(original.getJson(),HashMap.class);
-  Assert.assertEquals(hashMap.get("1000"),100);
-  Assert.assertEquals(hashMap.get("5000+"),0);
-}
