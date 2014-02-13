@@ -1,13 +1,7 @@
 {
-  for (  RawResponseTime rawResponseTime : responseHistogram) {
-    Set<Map.Entry<String,Histogram>> agentHistogramEntry=rawResponseTime.getAgentHistogram();
-    for (    Map.Entry<String,Histogram> entry : agentHistogramEntry) {
-      Histogram agentHistogram=this.agentHistogram.get(entry.getKey());
-      if (agentHistogram == null) {
-        agentHistogram=new Histogram(application.getServiceType());
-        this.agentHistogram.put(entry.getKey(),agentHistogram);
-      }
-      agentHistogram.add(entry.getValue());
+  for (  RawResponseTime rawResponseTime : responseHistogramList) {
+    for (    Map.Entry<String,Histogram> entry : rawResponseTime.getAgentHistogram()) {
+      addAgentLevelHistogram(entry.getKey(),entry.getValue());
     }
   }
 }
