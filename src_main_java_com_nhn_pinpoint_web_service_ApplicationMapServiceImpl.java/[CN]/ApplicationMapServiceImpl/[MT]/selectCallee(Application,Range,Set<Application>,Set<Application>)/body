@@ -1,10 +1,9 @@
 {
-  final Node key=new Node(callerApplication);
-  if (calleeFoundApplications.contains(key)) {
+  if (calleeFoundApplications.contains(callerApplication)) {
     logger.debug("ApplicationStatistics exists. Skip finding callee. {} ",callerApplication);
     return new HashSet<LinkStatistics>(0);
   }
-  calleeFoundApplications.add(key);
+  calleeFoundApplications.add(callerApplication);
   if (logger.isDebugEnabled()) {
     logger.debug("Finding Callee. caller={}",callerApplication);
   }

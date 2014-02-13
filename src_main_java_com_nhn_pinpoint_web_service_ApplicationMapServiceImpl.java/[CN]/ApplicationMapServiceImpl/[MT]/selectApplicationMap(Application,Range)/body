@@ -8,8 +8,8 @@
   logger.debug("SelectApplicationMap");
   StopWatch watch=new StopWatch("applicationMapWatch");
   watch.start();
-  final Set<Node> callerFoundApplications=new HashSet<Node>();
-  final Set<Node> calleeFoundApplications=new HashSet<Node>();
+  final Set<Application> callerFoundApplications=new HashSet<Application>();
+  final Set<Application> calleeFoundApplications=new HashSet<Application>();
   Set<LinkStatistics> callee=selectCallee(sourceApplication,range,calleeFoundApplications,callerFoundApplications);
   logger.debug("Result of finding callee {}",callee);
   Set<LinkStatistics> caller=selectCaller(sourceApplication,range,calleeFoundApplications,callerFoundApplications);
