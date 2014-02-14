@@ -1,0 +1,36 @@
+{
+  if (calleeFoundApplications.contains(callerApplication)) {
+    logger.debug("ApplicationStatistics exists. Skip finding callee. {} ",callerApplication);
+    return new HashSet<LinkStatistics>(0);
+  }
+  calleeFoundApplications.add(callerApplication);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Finding Callee. caller={}",callerApplication);
+  }
+  List<LinkStatistics> callee=mapStatisticsCalleeDao.selectCallee(callerApplication,range);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Found Callee. count={}, caller={}",callee.size(),callerApplication);
+  }
+  final Set<LinkStatistics> calleeSet=new HashSet<LinkStatistics>();
+  for (  LinkStatistics stat : callee) {
+    final boolean replaced=replaceApplicationInfo(stat,range);
+    if (!replaced) {
+      fillAdditionalInfo(stat,range);
+      calleeSet.add(stat);
+    }
+    if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+      continue;
+    }
+    logger.debug("     Find subCallee of {}",stat.getToApplication());
+    Set<LinkStatistics> calleeSub=selectCallee(stat.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
+    logger.debug("     Found subCallee. count={}, caller={}",calleeSub.size(),stat.getToApplication());
+    calleeSet.addAll(calleeSub);
+    for (    LinkStatistics eachCallee : calleeSub) {
+      logger.debug("     Find caller of {}",eachCallee.getFromApplication());
+      Set<LinkStatistics> callerSub=selectCaller(eachCallee.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
+      logger.debug("     Found subCaller. count={}, callee={}",callerSub.size(),eachCallee.getFromApplication());
+      calleeSet.addAll(callerSub);
+    }
+  }
+  return calleeSet;
+}

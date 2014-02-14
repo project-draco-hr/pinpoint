@@ -1,0 +1,20 @@
+{
+  final Application sourceApplication=new Application(srcApplicationName,srcServiceType);
+  final Application destinationApplication=new Application(destApplicationName,destServiceType);
+  final Range range=new Range(from,to);
+  LoadFactor loadFactor=mapService.linkStatistics(sourceApplication,destinationApplication,range);
+  model.addAttribute("range",range);
+  model.addAttribute("srcApplication",sourceApplication);
+  model.addAttribute("destApplication",destinationApplication);
+  model.addAttribute("linkStatistics",loadFactor);
+  model.addAttribute("timeseriesSlotIndex",loadFactor.getTimeseriesSlotIndex());
+  model.addAttribute("timeseriesValue",loadFactor.getTimeseriesValue());
+  model.addAttribute("resultFrom",from);
+  model.addAttribute("resultTo",to);
+  if (v == 2) {
+    return "linkStatistics2";
+  }
+ else {
+    return "linkStatistics";
+  }
+}
