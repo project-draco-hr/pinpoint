@@ -3,7 +3,7 @@
     return Collections.emptyList();
   }
   final KeyValue[] keyList=result.raw();
-  final List<LinkStatistics> stat=new ArrayList<LinkStatistics>(keyList.length + 10);
+  final List<LinkStatistics> linkStatisticsList=new ArrayList<LinkStatistics>(keyList.length + 10);
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
     Application calleeApplication=readCalleeApplication(row);
@@ -18,7 +18,7 @@
     }
     LinkStatistics statistics=new LinkStatistics(callerApplication,calleeApplication);
     statistics.addSample(calleeHost,calleeApplication.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
-    stat.add(statistics);
+    linkStatisticsList.add(statistics);
   }
-  return stat;
+  return linkStatisticsList;
 }
