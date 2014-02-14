@@ -6,13 +6,9 @@
   final List<LinkStatistics> stat=new ArrayList<LinkStatistics>(keyList.length + 10);
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
-    String callerApplicationName=ApplicationMapStatisticsUtils.getApplicationNameFromRowKey(row);
-    short callerServiceType=ApplicationMapStatisticsUtils.getApplicationTypeFromRowKey(row);
-    Application caller=new Application(callerApplicationName,callerServiceType);
+    Application caller=readCallerApplication(row);
     final byte[] qualifier=kv.getQualifier();
-    String calleeApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
-    short calleeServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
-    Application callee=new Application(calleeApplicationName,calleeServiceType);
+    Application callee=readCalleeApplication(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
@@ -21,7 +17,7 @@
       logger.debug("    Fetched Callee. {} -> {} ({})",caller,callee,requestCount);
     }
     LinkStatistics statistics=new LinkStatistics(caller,callee);
-    statistics.addSample(calleeHost,calleeServiceType,(isError) ? (short)-1 : histogramSlot,requestCount);
+    statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
     stat.add(statistics);
   }
   return stat;
