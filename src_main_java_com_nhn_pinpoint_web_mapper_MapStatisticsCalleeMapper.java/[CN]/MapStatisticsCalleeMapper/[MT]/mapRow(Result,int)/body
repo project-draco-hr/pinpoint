@@ -7,18 +7,21 @@
   final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
-    Application caller=readCallerApplication(row);
+    Application calleeApplication=readCalleeApplication(row);
     final byte[] qualifier=kv.getQualifier();
-    Application callee=readCalleeApplication(qualifier);
+    Application callerApplication=readCallerApplication(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
-    String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
+    String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
     if (logger.isDebugEnabled()) {
-      logger.debug("    Fetched Callee. {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
+      logger.debug("    Fetched Callee. {} callerHost:{} -> {} (slot:{}/{}),  ",callerApplication,callerHost,calleeApplication,histogramSlot,requestCount);
     }
-    LinkStatistics statistics=getLinkStatistics(linkStatisticsMap,caller,callee);
-    statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
+    LinkStatistics statistics=getLinkStatics(linkStatisticsMap,callerApplication,calleeApplication);
+    statistics.addSample(callerHost,calleeApplication.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
+    if (logger.isDebugEnabled()) {
+      logger.debug("    Fetched Callee. statistics:{}",statistics);
+    }
   }
   return new ArrayList<LinkStatistics>(linkStatisticsMap.values());
 }

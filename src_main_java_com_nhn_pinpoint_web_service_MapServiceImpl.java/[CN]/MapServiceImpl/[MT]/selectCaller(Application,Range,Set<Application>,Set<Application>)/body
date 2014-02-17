@@ -1,25 +1,34 @@
 {
-  if (callerFoundApplications.contains(calleeApplication)) {
-    logger.debug("ApplicationStatistics exists. Skip finding caller. {}",calleeApplication);
+  if (callerFound.contains(callerApplication)) {
+    logger.debug("ApplicationStatistics exists. Skip finding caller. {} ",callerApplication);
     return new HashSet<LinkStatistics>(0);
   }
-  callerFoundApplications.add(calleeApplication);
+  callerFound.add(callerApplication);
   if (logger.isDebugEnabled()) {
-    logger.debug("Finding Caller. callee={}",calleeApplication);
+    logger.debug("Finding Caller. caller={}",callerApplication);
   }
-  final List<LinkStatistics> caller=mapStatisticsCallerDao.selectCaller(calleeApplication,range);
-  logger.debug("Found Caller. count={}, callee={}",caller.size(),calleeApplication);
+  List<LinkStatistics> caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
+  }
   final Set<LinkStatistics> callerSet=new HashSet<LinkStatistics>();
   for (  LinkStatistics stat : caller) {
-    fillAdditionalInfo(stat,range);
-    callerSet.add(stat);
-    Set<LinkStatistics> callerSub=selectCaller(stat.getFromApplication(),range,calleeFoundApplications,callerFoundApplications);
+    final boolean replaced=replaceApplicationInfo(stat,range);
+    if (!replaced) {
+      fillAdditionalInfo(stat,range);
+      callerSet.add(stat);
+    }
+    if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+      continue;
+    }
+    logger.debug("     Find subCaller of {}",stat.getToApplication());
+    Set<LinkStatistics> callerSub=selectCaller(stat.getToApplication(),range,callerFound,calleeFound);
+    logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),stat.getToApplication());
     callerSet.addAll(callerSub);
-    for (    LinkStatistics eachCallee : callerSub) {
-      if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
-        continue;
-      }
-      Set<LinkStatistics> calleeSub=selectCallee(eachCallee.getToApplication(),range,calleeFoundApplications,callerFoundApplications);
+    for (    LinkStatistics eachCaller : callerSub) {
+      logger.debug("     Find callee of {}",eachCaller.getFromApplication());
+      Set<LinkStatistics> calleeSub=selectCallee(eachCaller.getFromApplication(),range,callerFound,calleeFound);
+      logger.debug("     Found subCallee. count={}, callee={}",calleeSub.size(),eachCaller.getFromApplication());
       callerSet.addAll(calleeSub);
     }
   }

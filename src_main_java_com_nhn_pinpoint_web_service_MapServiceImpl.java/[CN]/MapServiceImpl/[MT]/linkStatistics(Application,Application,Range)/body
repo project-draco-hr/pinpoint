@@ -9,15 +9,15 @@
   if (sourceApplication.getServiceType().isUser()) {
     logger.debug("Find 'client -> any' link statistics");
     Application userApplication=new Application(destinationApplication.getName(),sourceApplication.getServiceTypeCode());
-    list=mapStatisticsCalleeDao.selectCalleeStatistics(userApplication,destinationApplication,range);
+    list=mapStatisticsCallerDao.selectCallerStatistics(userApplication,destinationApplication,range);
   }
  else   if (destinationApplication.getServiceType().isWas()) {
     logger.debug("Find 'any -> was' link statistics");
-    list=mapStatisticsCallerDao.selectCallerStatistics(sourceApplication,destinationApplication,range);
+    list=mapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
   }
  else {
     logger.debug("Find 'was -> terminal' link statistics");
-    list=mapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
+    list=mapStatisticsCallerDao.selectCallerStatistics(sourceApplication,destinationApplication,range);
   }
   LoadFactor loadFactor=new LoadFactor(range);
   HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();

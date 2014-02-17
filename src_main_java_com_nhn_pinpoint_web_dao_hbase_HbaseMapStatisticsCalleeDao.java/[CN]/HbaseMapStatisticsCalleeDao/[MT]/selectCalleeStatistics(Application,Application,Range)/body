@@ -2,7 +2,7 @@
   if (logger.isDebugEnabled()) {
     logger.debug("selectCalleeStatistics. {}, {}, {}",callerApplication,calleeApplication,range);
   }
-  Scan scan=createScan(callerApplication,range);
+  Scan scan=createScan(calleeApplication,range);
   RowMapper<Map<Long,Map<Short,Long>>> mapper=new MapLinkStatisticsMapper(callerApplication,calleeApplication);
-  return hbaseOperations2.find(HBaseTables.APPLICATION_MAP_STATISTICS_CALLEE,scan,mapper);
+  return hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapper);
 }
