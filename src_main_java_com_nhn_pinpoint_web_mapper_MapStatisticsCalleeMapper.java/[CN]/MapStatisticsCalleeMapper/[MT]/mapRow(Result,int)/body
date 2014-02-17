@@ -2,8 +2,9 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
+  logger.debug("mapRow:{}",rowNum);
   final KeyValue[] keyList=result.raw();
-  final List<LinkStatistics> linkStatisticsList=new ArrayList<LinkStatistics>(keyList.length + 10);
+  final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
   for (  KeyValue kv : keyList) {
     final byte[] row=kv.getRow();
     Application caller=readCallerApplication(row);
@@ -14,11 +15,10 @@
     String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
     if (logger.isDebugEnabled()) {
-      logger.debug("    Fetched Callee. {} -> {} ({}) calleeHost",caller,callee,requestCount,calleeHost);
+      logger.debug("    Fetched Callee. {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
     }
-    LinkStatistics statistics=new LinkStatistics(caller,callee);
+    LinkStatistics statistics=getLinkStatistics(linkStatisticsMap,caller,callee);
     statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
-    linkStatisticsList.add(statistics);
   }
-  return linkStatisticsList;
+  return new ArrayList<LinkStatistics>(linkStatisticsMap.values());
 }

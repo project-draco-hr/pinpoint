@@ -1,0 +1,9 @@
+{
+  final LinkKey key=new LinkKey(callerApplication,calleeApplication);
+  LinkStatistics statistics=linkStatisticsMap.get(key);
+  if (statistics == null) {
+    statistics=new LinkStatistics(callerApplication,calleeApplication);
+    linkStatisticsMap.put(key,statistics);
+  }
+  return statistics;
+}
