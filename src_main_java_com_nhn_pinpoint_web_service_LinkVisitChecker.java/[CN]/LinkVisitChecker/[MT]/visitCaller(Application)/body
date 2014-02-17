@@ -1,12 +1,15 @@
 {
-  final Set<Application> callerFound=this.callerFound;
-  if (callerFound.contains(caller)) {
-    logger.debug("LinkStatistics exists. Skip finding caller. {} ",caller);
-    return true;
+  if (caller == null) {
+    throw new NullPointerException("caller must not be null");
   }
-  callerFound.add(caller);
+  final boolean found=!callerFound.add(caller);
   if (logger.isDebugEnabled()) {
-    logger.debug("Finding Caller. caller={}",caller);
+    if (found) {
+      logger.debug("Finding Caller. caller={}",caller);
+    }
+ else {
+      logger.debug("LinkStatistics exists. Skip finding caller. {} ",caller);
+    }
   }
-  return false;
+  return found;
 }

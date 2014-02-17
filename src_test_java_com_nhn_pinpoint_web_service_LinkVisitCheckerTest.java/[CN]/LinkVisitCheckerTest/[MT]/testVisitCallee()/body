@@ -1,0 +1,9 @@
+{
+  LinkVisitChecker checker=new LinkVisitChecker();
+  Application testApplication=new Application("test",ServiceType.TOMCAT);
+  Assert.assertFalse(checker.visitCallee(testApplication));
+  Assert.assertTrue(checker.visitCallee(testApplication));
+  Application newApp=new Application("newApp",ServiceType.TOMCAT);
+  Assert.assertFalse(checker.visitCallee(newApp));
+  Assert.assertTrue(checker.visitCallee(newApp));
+}

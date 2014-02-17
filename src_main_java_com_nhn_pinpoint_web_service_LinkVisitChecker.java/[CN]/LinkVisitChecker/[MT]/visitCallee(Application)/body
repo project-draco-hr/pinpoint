@@ -1,12 +1,15 @@
 {
-  final Set<Application> calleeFound=this.calleeFound;
-  if (calleeFound.contains(callee)) {
-    logger.debug("LinkStatistics exists. Skip finding callee. {} ",callee);
-    return true;
+  if (callee == null) {
+    throw new NullPointerException("callee must not be null");
   }
-  calleeFound.add(callee);
+  final boolean found=!this.calleeFound.add(callee);
   if (logger.isDebugEnabled()) {
-    logger.debug("Finding Callee. callee={}",callee);
+    if (found) {
+      logger.debug("Finding Callee. callee={}",callee);
+    }
+ else {
+      logger.debug("LinkStatistics exists. Skip finding callee. {} ",callee);
+    }
   }
-  return false;
+  return found;
 }
