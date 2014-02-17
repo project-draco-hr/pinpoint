@@ -1,11 +1,6 @@
 {
-  if (calleeFound.contains(calleeApplication)) {
-    logger.debug("ApplicationStatistics exists. Skip finding callee. {}",calleeApplication);
-    return new HashSet<LinkStatistics>(0);
-  }
-  calleeFound.add(calleeApplication);
-  if (logger.isDebugEnabled()) {
-    logger.debug("Finding Callee. callee={}",calleeApplication);
+  if (linkVisitChecker.visitCallee(calleeApplication)) {
+    return Collections.emptySet();
   }
   final List<LinkStatistics> callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
   logger.debug("Found Callee. count={}, callee={}",callee.size(),calleeApplication);
@@ -13,13 +8,13 @@
   for (  LinkStatistics stat : callee) {
     fillAdditionalInfo(stat,range);
     calleeSet.add(stat);
-    Set<LinkStatistics> calleeSub=selectCallee(stat.getFromApplication(),range,callerFound,calleeFound);
+    Set<LinkStatistics> calleeSub=selectCallee(stat.getFromApplication(),range,linkVisitChecker);
     calleeSet.addAll(calleeSub);
     for (    LinkStatistics eachCallee : calleeSub) {
       if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
         continue;
       }
-      Set<LinkStatistics> callerSub=selectCaller(eachCallee.getToApplication(),range,callerFound,calleeFound);
+      Set<LinkStatistics> callerSub=selectCaller(eachCallee.getToApplication(),range,linkVisitChecker);
       calleeSet.addAll(callerSub);
     }
   }

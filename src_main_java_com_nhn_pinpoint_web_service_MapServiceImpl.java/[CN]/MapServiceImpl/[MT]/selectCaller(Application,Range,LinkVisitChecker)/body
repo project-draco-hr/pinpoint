@@ -1,11 +1,6 @@
 {
-  if (callerFound.contains(callerApplication)) {
-    logger.debug("ApplicationStatistics exists. Skip finding caller. {} ",callerApplication);
-    return new HashSet<LinkStatistics>(0);
-  }
-  callerFound.add(callerApplication);
-  if (logger.isDebugEnabled()) {
-    logger.debug("Finding Caller. caller={}",callerApplication);
+  if (linkVisitChecker.visitCaller(callerApplication)) {
+    return Collections.emptySet();
   }
   List<LinkStatistics> caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
   if (logger.isDebugEnabled()) {
@@ -22,12 +17,12 @@
       continue;
     }
     logger.debug("     Find subCaller of {}",stat.getToApplication());
-    Set<LinkStatistics> callerSub=selectCaller(stat.getToApplication(),range,callerFound,calleeFound);
+    Set<LinkStatistics> callerSub=selectCaller(stat.getToApplication(),range,linkVisitChecker);
     logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),stat.getToApplication());
     callerSet.addAll(callerSub);
     for (    LinkStatistics eachCaller : callerSub) {
       logger.debug("     Find callee of {}",eachCaller.getFromApplication());
-      Set<LinkStatistics> calleeSub=selectCallee(eachCaller.getFromApplication(),range,callerFound,calleeFound);
+      Set<LinkStatistics> calleeSub=selectCallee(eachCaller.getFromApplication(),range,linkVisitChecker);
       logger.debug("     Found subCallee. count={}, callee={}",calleeSub.size(),eachCaller.getFromApplication());
       callerSet.addAll(calleeSub);
     }

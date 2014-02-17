@@ -1,0 +1,12 @@
+{
+  final Set<Application> calleeFound=this.calleeFound;
+  if (calleeFound.contains(callee)) {
+    logger.debug("LinkStatistics exists. Skip finding callee. {} ",callee);
+    return true;
+  }
+  calleeFound.add(callee);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Finding Callee. callee={}",callee);
+  }
+  return false;
+}

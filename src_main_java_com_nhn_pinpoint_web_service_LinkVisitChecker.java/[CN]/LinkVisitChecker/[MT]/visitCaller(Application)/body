@@ -1,0 +1,12 @@
+{
+  final Set<Application> callerFound=this.callerFound;
+  if (callerFound.contains(caller)) {
+    logger.debug("LinkStatistics exists. Skip finding caller. {} ",caller);
+    return true;
+  }
+  callerFound.add(caller);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Finding Caller. caller={}",caller);
+  }
+  return false;
+}
