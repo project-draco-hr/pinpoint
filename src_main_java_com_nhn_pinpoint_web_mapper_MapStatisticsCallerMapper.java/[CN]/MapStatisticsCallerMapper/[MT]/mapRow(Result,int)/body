@@ -4,21 +4,43 @@
   }
   logger.debug("mapRow:{}",rowNum);
   final KeyValue[] keyList=result.raw();
+  final byte[] rowKey=result.getRow();
+  final long timestamp=ApplicationMapStatisticsUtils.getTimestampFromRowKey(rowKey);
+  Application caller=readCallerApplication(rowKey);
   final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
   for (  KeyValue kv : keyList) {
-    final byte[] row=kv.getRow();
-    Application caller=readCallerApplication(row);
-    final byte[] qualifier=kv.getQualifier();
-    Application callee=readCalleeApplication(qualifier);
-    long requestCount=Bytes.toLong(kv.getValue());
-    short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
-    String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
-    boolean isError=histogramSlot == (short)-1;
-    if (logger.isDebugEnabled()) {
-      logger.debug("    Fetched Caller. {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
+    final byte[] family=kv.getFamily();
+    if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER)) {
+      final byte[] qualifier=kv.getQualifier();
+      Application callee=readCalleeApplication(qualifier);
+      long requestCount=Bytes.toLong(kv.getValue());
+      short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
+      String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
+      boolean isError=histogramSlot == (short)-1;
+      if (logger.isDebugEnabled()) {
+        logger.debug("    Fetched Caller.  {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
+      }
+      LinkStatistics statistics=getLinkStatistics(linkStatisticsMap,caller,callee,timestamp);
+      statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
     }
-    LinkStatistics statistics=getLinkStatistics(linkStatisticsMap,caller,callee);
-    statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
+ else     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER)) {
+      final byte[] qualifier=kv.getQualifier();
+      final Buffer buffer=new FixedBuffer(qualifier);
+      Application callee=readCalleeApplication(buffer);
+      String calleeHost=buffer.readPrefixedString();
+      short histogramSlot=buffer.readShort();
+      String callerAgentId=buffer.readPrefixedString();
+      boolean isError=histogramSlot == (short)-1;
+      long requestCount=Bytes.toLong(kv.getValue());
+      if (logger.isDebugEnabled()) {
+        logger.debug("    Fetched Caller.(New) {} {} -> {} (slot:{}/{}) calleeHost:{}",caller,callerAgentId,callee,histogramSlot,requestCount,calleeHost);
+      }
+      LinkStatistics statistics=getLinkStatistics(linkStatisticsMap,caller,callee,timestamp);
+      statistics.addSample(calleeHost,callee.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
+    }
+ else {
+      throw new IllegalArgumentException("unknown ColumnFamily :" + Arrays.toString(family));
+    }
   }
   return new ArrayList<LinkStatistics>(linkStatisticsMap.values());
 }

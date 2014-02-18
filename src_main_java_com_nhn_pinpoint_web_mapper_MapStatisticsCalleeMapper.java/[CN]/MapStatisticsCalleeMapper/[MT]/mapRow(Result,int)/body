@@ -5,9 +5,11 @@
   logger.debug("mapRow:{}",rowNum);
   final KeyValue[] keyList=result.raw();
   final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
+  final byte[] rowKey=result.getRow();
+  final long timestamp=ApplicationMapStatisticsUtils.getTimestampFromRowKey(rowKey);
+  logger.debug("rowKey time:{}",timestamp);
+  Application calleeApplication=readCalleeApplication(rowKey);
   for (  KeyValue kv : keyList) {
-    final byte[] row=kv.getRow();
-    Application calleeApplication=readCalleeApplication(row);
     final byte[] qualifier=kv.getQualifier();
     Application callerApplication=readCallerApplication(qualifier);
     long requestCount=Bytes.toLong(kv.getValue());
@@ -17,7 +19,7 @@
     if (logger.isDebugEnabled()) {
       logger.debug("    Fetched Callee. {} callerHost:{} -> {} (slot:{}/{}),  ",callerApplication,callerHost,calleeApplication,histogramSlot,requestCount);
     }
-    LinkStatistics statistics=getLinkStatics(linkStatisticsMap,callerApplication,calleeApplication);
+    LinkStatistics statistics=getLinkStatics(linkStatisticsMap,callerApplication,calleeApplication,timestamp);
     statistics.addSample(callerHost,calleeApplication.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
     if (logger.isDebugEnabled()) {
       logger.debug("    Fetched Callee. statistics:{}",statistics);
