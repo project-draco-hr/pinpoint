@@ -1,0 +1,14 @@
+{
+  if (hash != 0) {
+    return hash;
+  }
+  int result=callerAgentId.hashCode();
+  result=31 * result + (int)calleeServiceType;
+  result=31 * result + calleeApplicationName.hashCode();
+  result=31 * result + callHost.hashCode();
+  result=31 * result + (int)columnSlotNumber;
+  result=31 * result + hash;
+  result=31 * result + (int)(callCount ^ (callCount >>> 32));
+  this.hash=result;
+  return result;
+}

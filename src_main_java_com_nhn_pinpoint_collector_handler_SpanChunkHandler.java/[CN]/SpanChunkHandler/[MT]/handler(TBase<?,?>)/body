@@ -18,7 +18,7 @@
         }
         final int elapsed=spanEvent.getEndElapsed();
         final boolean hasException=SpanEventUtils.hasException(spanEvent);
-        statisticsHandler.updateCaller(spanChunk.getApplicationName(),spanChunk.getServiceType(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
+        statisticsHandler.updateCaller(spanChunk.getApplicationName(),spanChunk.getServiceType(),spanChunk.getAgentId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
         statisticsHandler.updateCallee(spanEvent.getDestinationId(),spanEvent.getServiceType(),spanChunk.getApplicationName(),spanChunk.getServiceType(),spanChunk.getEndPoint(),elapsed,hasException);
       }
     }
