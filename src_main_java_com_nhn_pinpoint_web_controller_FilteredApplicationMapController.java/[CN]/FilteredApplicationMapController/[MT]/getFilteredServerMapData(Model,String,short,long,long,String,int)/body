@@ -2,8 +2,8 @@
   limit=LimitUtils.checkRange(limit);
   final Filter filter=filterBuilder.build(filterText);
   final Range range=new Range(from,to);
-  final LimitedScanResult<List<TransactionId>> limitedScanResult=filteredApplicationMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
-  ApplicationMap map=filteredApplicationMapService.selectApplicationMap(limitedScanResult.getScanData(),range,filter);
+  final LimitedScanResult<List<TransactionId>> limitedScanResult=filteredMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
+  ApplicationMap map=filteredMapService.selectApplicationMap(limitedScanResult.getScanData(),range,filter);
   model.addAttribute("from",from);
   model.addAttribute("to",to);
   model.addAttribute("filter",filter);

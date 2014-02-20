@@ -14,7 +14,7 @@
       final LinkKey linkKey=new LinkKey(srcApplication,destApplication);
       LinkStatistics linkStat=linkStatMap.get(linkKey);
       if (linkStat == null) {
-        linkStat=new LinkStatistics(srcApplication,destApplication);
+        linkStat=new LinkStatistics(srcApplication,destApplication,span.getCollectorAcceptTime());
         linkStatMap.put(linkKey,linkStat);
       }
       final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
