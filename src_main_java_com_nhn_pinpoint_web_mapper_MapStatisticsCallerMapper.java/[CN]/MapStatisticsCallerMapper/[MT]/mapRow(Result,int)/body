@@ -13,10 +13,10 @@
     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER)) {
       final byte[] qualifier=kv.getQualifier();
       Application callee=readCalleeApplication(qualifier);
-      long requestCount=Bytes.toLong(kv.getValue());
+      long requestCount=getValueToLong(kv);
       short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
-      String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
       boolean isError=histogramSlot == (short)-1;
+      String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
       if (logger.isDebugEnabled()) {
         logger.debug("    Fetched Caller.  {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
       }
@@ -29,9 +29,9 @@
       Application callee=readCalleeApplication(buffer);
       String calleeHost=buffer.readPrefixedString();
       short histogramSlot=buffer.readShort();
-      String callerAgentId=buffer.readPrefixedString();
       boolean isError=histogramSlot == (short)-1;
-      long requestCount=Bytes.toLong(kv.getValue());
+      String callerAgentId=buffer.readPrefixedString();
+      long requestCount=getValueToLong(kv);
       if (logger.isDebugEnabled()) {
         logger.debug("    Fetched Caller.(New) {} {} -> {} (slot:{}/{}) calleeHost:{}",caller,callerAgentId,callee,histogramSlot,requestCount,calleeHost);
       }

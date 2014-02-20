@@ -9,8 +9,7 @@
       continue;
     }
     byte[] qualifier=keyValue.getQualifier();
-    byte[] value=keyValue.getValue();
-    recordColumn(responseTime,qualifier,value);
+    recordColumn(responseTime,qualifier,keyValue.getBuffer(),keyValue.getValueOffset());
   }
   return responseTime;
 }
