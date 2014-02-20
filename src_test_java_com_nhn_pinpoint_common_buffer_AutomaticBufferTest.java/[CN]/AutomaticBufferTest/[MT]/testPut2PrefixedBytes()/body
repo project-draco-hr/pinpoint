@@ -1,0 +1,16 @@
+{
+  byte[] bytes1=new byte[2];
+  checkPut2PrefixedBytes(bytes1);
+  byte[] bytes2=new byte[0];
+  checkPut2PrefixedBytes(bytes2);
+  byte[] bytes3=new byte[Short.MAX_VALUE];
+  checkPut2PrefixedBytes(bytes3);
+  checkPut2PrefixedBytes(null);
+  try {
+    byte[] bytes4=new byte[Short.MAX_VALUE + 1];
+    checkPut2PrefixedBytes(bytes4);
+    Assert.fail("too large bytes");
+  }
+ catch (  Exception e) {
+  }
+}

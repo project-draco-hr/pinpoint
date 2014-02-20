@@ -1,0 +1,12 @@
+{
+  if (bytes == null) {
+    put((short)NULL);
+  }
+ else {
+    if (bytes.length > Short.MAX_VALUE) {
+      throw new IllegalArgumentException("too large bytes length:" + bytes.length);
+    }
+    put((short)bytes.length);
+    put(bytes);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  String test="test";
+  int endExpected=3333;
+  checkPut2PrefixedBytes(test,endExpected);
+  checkPut2PrefixedBytes(null,endExpected);
+  checkPut2PrefixedBytes("",endExpected);
+  byte[] bytes=new byte[Short.MAX_VALUE];
+  checkPut2PrefixedBytes(BytesUtils.toString(bytes),endExpected,Short.MAX_VALUE * 2);
+  try {
+    byte[] bytes2=new byte[Short.MAX_VALUE + 1];
+    checkPut2PrefixedBytes(BytesUtils.toString(bytes2),endExpected,Short.MAX_VALUE * 2);
+    Assert.fail("too large bytes");
+  }
+ catch (  Exception e) {
+  }
+}

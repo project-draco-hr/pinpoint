@@ -1,0 +1,16 @@
+{
+  Buffer buffer=new FixedBuffer(1024);
+  if (test != null) {
+    buffer.putPrefixedBytes(test.getBytes("UTF-8"));
+  }
+ else {
+    buffer.putPrefixedString(null);
+  }
+  buffer.put(expected);
+  byte[] buffer1=buffer.getBuffer();
+  Buffer actual=new FixedBuffer(buffer1);
+  String s=actual.readPrefixedString();
+  Assert.assertEquals(test,s);
+  int i=actual.readInt();
+  Assert.assertEquals(expected,i);
+}
