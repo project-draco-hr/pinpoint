@@ -5,7 +5,6 @@
   }
   final Application srcNode=new Application(span.getApplicationId(),span.getServiceType());
   for (  SpanEventBo spanEvent : spanEventBoList) {
-    final String dest=spanEvent.getDestinationId();
     ServiceType destServiceType=spanEvent.getServiceType();
     if (!destServiceType.isRecordStatistics()) {
       continue;
@@ -18,17 +17,18 @@
         destServiceType=ServiceType.UNKNOWN;
       }
     }
-    final LinkKey spanEventStatId=new LinkKey(srcNode,new Application(dest,destServiceType));
-    LinkStatistics statistics=statisticsMap.get(spanEventStatId);
-    if (statistics == null) {
+    final String dest=spanEvent.getDestinationId();
+    final LinkKey spanEventStatKey=new LinkKey(srcNode,new Application(dest,destServiceType));
+    LinkStatistics linkData=statisticsMap.get(spanEventStatKey);
+    if (linkData == null) {
       Application sourceApplication=new Application(srcNode.getName(),srcNode.getServiceType());
       Application destApplication=new Application(dest,destServiceType);
-      statistics=new LinkStatistics(sourceApplication,destApplication);
+      linkData=new LinkStatistics(sourceApplication,destApplication);
     }
     final int slotTime=getHistogramSlotTime(spanEvent,destServiceType);
-    statistics.addSample(spanEvent.getEndPoint(),destServiceType.getCode(),(short)slotTime,1);
-    statisticsMap.put(spanEventStatId,statistics);
-    timeSeriesStore.addLinkStat(spanEventStatId,span.getStartTime() + spanEvent.getStartElapsed(),slotTime,1L,spanEvent.hasException());
+    linkData.addCallData(span.getAgentId(),span.getServiceType().getCode(),spanEvent.getEndPoint(),destServiceType.getCode(),(short)slotTime,1);
+    statisticsMap.put(spanEventStatKey,linkData);
+    timeSeriesStore.addLinkStat(spanEventStatKey,span.getStartTime() + spanEvent.getStartElapsed(),slotTime,1L,spanEvent.hasException());
     Application nodeKey=new Application(spanEvent.getDestinationId(),spanEvent.getServiceType());
     timeSeriesStore.addNodeStat(nodeKey,span.getCollectorAcceptTime(),slotTime,1L,spanEvent.hasException());
   }

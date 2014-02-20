@@ -1,0 +1,9 @@
+{
+  HostList targetList=new HostList();
+  for (  Map.Entry<LinkKey,RawCallData> linkKeyRawCallDataEntry : rawCallDataMap.entrySet()) {
+    final LinkKey key=linkKeyRawCallDataEntry.getKey();
+    final RawCallData value=linkKeyRawCallDataEntry.getValue();
+    targetList.addHost(key.getToApplication(),key.getToServiceType().getCode(),value.getHistogram());
+  }
+  return targetList;
+}

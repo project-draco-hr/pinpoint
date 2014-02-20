@@ -10,6 +10,7 @@
     }
     HostList toHostList=linkStat.getToHostList();
     Link link=new Link(fromNode,toNode,toHostList);
+    link.setSourceList(linkStat.getSourceList());
     if (toNode.getServiceType().isRpcClient()) {
       if (!nodeMap.containsApplicationName(toNode.getApplicationName())) {
         result.add(link);

@@ -12,7 +12,7 @@
   for (  KeyValue kv : keyList) {
     final byte[] qualifier=kv.getQualifier();
     Application callerApplication=readCallerApplication(qualifier);
-    long requestCount=Bytes.toLong(kv.getValue());
+    long requestCount=Bytes.toLong(kv.getBuffer(),kv.getValueOffset());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
@@ -20,7 +20,7 @@
       logger.debug("    Fetched Callee. {} callerHost:{} -> {} (slot:{}/{}),  ",callerApplication,callerHost,calleeApplication,histogramSlot,requestCount);
     }
     LinkStatistics statistics=getLinkStatics(linkStatisticsMap,callerApplication,calleeApplication,timestamp);
-    statistics.addSample(callerHost,calleeApplication.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
+    statistics.addCallData(callerApplication.getName(),callerApplication.getServiceTypeCode(),callerHost,calleeApplication.getServiceTypeCode(),(isError) ? (short)-1 : histogramSlot,requestCount);
     if (logger.isDebugEnabled()) {
       logger.debug("    Fetched Callee. statistics:{}",statistics);
     }

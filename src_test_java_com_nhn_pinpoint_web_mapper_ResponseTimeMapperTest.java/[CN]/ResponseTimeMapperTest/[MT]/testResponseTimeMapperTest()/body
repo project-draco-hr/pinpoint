@@ -1,13 +1,13 @@
 {
   ResponseTimeMapper responseTimeMapper=new ResponseTimeMapper();
-  RawResponseTime rawResponseTime=new RawResponseTime("applicaionName",ServiceType.TOMCAT.getCode(),System.currentTimeMillis());
+  ResponseTime responseTime=new ResponseTime("applicaionName",ServiceType.TOMCAT.getCode(),System.currentTimeMillis());
   Buffer buffer=new AutomaticBuffer();
   HistogramSlot histogramSlot=ServiceType.TOMCAT.getHistogramSchema().findHistogramSlot(1000);
   short histogramSlotTime=histogramSlot.getSlotTime();
   buffer.put(histogramSlotTime);
   buffer.put(Bytes.toBytes("agent"));
-  responseTimeMapper.recordColumn(rawResponseTime,buffer.getBuffer(),Bytes.toBytes(1L));
-  Histogram agentHistogram=rawResponseTime.getHistogram("agent");
+  responseTimeMapper.recordColumn(responseTime,buffer.getBuffer(),Bytes.toBytes(1L));
+  Histogram agentHistogram=responseTime.getHistogram("agent");
   long fastCount=agentHistogram.getFastCount();
   Assert.assertEquals(fastCount,1);
   long normal=agentHistogram.getNormalCount();

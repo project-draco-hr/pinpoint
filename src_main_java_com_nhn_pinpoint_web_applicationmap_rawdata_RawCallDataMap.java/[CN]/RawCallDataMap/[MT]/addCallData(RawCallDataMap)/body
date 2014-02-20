@@ -1,0 +1,8 @@
+{
+  for (  Map.Entry<LinkKey,RawCallData> copyEntry : target.rawCallDataMap.entrySet()) {
+    final LinkKey key=copyEntry.getKey();
+    final RawCallData value=copyEntry.getValue();
+    RawCallData rawCallData=getRawCallData(key);
+    rawCallData.getHistogram().add(value.getHistogram());
+  }
+}

@@ -18,7 +18,7 @@
         linkStatMap.put(linkKey,linkStat);
       }
       final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
-      linkStat.addSample(destApplication.getName(),destApplication.getServiceType().getCode(),slotTime,1);
+      linkStat.addCallData(span.getAgentId(),srcApplication.getServiceTypeCode(),destApplication.getName(),destApplication.getServiceTypeCode(),slotTime,1);
       timeSeriesStore.addLinkStat(linkKey,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
       Application node=new Application(span.getApplicationId(),span.getServiceType());
       timeSeriesStore.addNodeStat(node,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
