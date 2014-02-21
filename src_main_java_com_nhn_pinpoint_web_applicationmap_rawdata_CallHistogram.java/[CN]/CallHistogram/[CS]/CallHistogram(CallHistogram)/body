@@ -1,0 +1,9 @@
+{
+  if (copyCallHistogram == null) {
+    throw new NullPointerException("copyCallHistogram must not be null");
+  }
+  this.id=copyCallHistogram.id;
+  this.serviceType=copyCallHistogram.serviceType;
+  this.histogram=new Histogram(serviceType);
+  this.histogram.add(copyCallHistogram.histogram);
+}

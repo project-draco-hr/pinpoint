@@ -1,0 +1,14 @@
+{
+  if (addCallHistogramList == null) {
+    throw new NullPointerException("callHistogram must not be null");
+  }
+  for (  CallHistogram callHistogram : addCallHistogramList.callHistogramMap.values()) {
+    final String hostName=callHistogram.getId();
+    ServiceType serviceType=callHistogram.getServiceType();
+    Application agentId=new Application(hostName,serviceType);
+    final CallHistogram old=this.callHistogramMap.put(agentId,callHistogram);
+    if (old != null) {
+      logger.warn("old key exist. key:{}, new:{} old:{}",agentId,callHistogram,old);
+    }
+  }
+}

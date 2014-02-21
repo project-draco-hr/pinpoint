@@ -3,13 +3,11 @@
     return Collections.emptyList();
   }
   logger.debug("mapRow:{}",rowNum);
-  final KeyValue[] keyList=result.raw();
+  final Buffer row=new FixedBuffer(result.getRow());
+  final Application calleeApplication=readCalleeApplication(row);
+  final long timestamp=TimeUtils.recoveryCurrentTimeMillis(row.readLong());
   final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
-  final byte[] rowKey=result.getRow();
-  final long timestamp=ApplicationMapStatisticsUtils.getTimestampFromRowKey(rowKey);
-  logger.debug("rowKey time:{}",timestamp);
-  Application calleeApplication=readCalleeApplication(rowKey);
-  for (  KeyValue kv : keyList) {
+  for (  KeyValue kv : result.raw()) {
     final byte[] qualifier=kv.getQualifier();
     Application callerApplication=readCallerApplication(qualifier);
     long requestCount=Bytes.toLong(kv.getBuffer(),kv.getValueOffset());
@@ -25,5 +23,5 @@
       logger.debug("    Fetched Callee. statistics:{}",statistics);
     }
   }
-  return new ArrayList<LinkStatistics>(linkStatisticsMap.values());
+  return linkStatisticsMap.values();
 }

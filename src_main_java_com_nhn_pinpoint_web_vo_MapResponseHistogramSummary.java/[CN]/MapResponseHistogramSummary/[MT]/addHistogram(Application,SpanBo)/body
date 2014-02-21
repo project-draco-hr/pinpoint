@@ -2,10 +2,10 @@
   ResponseHistogramSummary responseHistogramSummary=getResponseHistogram(application);
   Histogram histogram=new Histogram(application.getServiceType());
   if (span.getErrCode() != 0) {
-    histogram.addElapsedTime(HistogramSchema.ERROR_SLOT_TIME);
+    histogram.addCallCountByElapsedTime(HistogramSchema.ERROR_SLOT_TIME);
   }
  else {
-    histogram.addElapsedTime(span.getElapsed());
+    histogram.addCallCountByElapsedTime(span.getElapsed());
   }
   responseHistogramSummary.addApplicationLevelHistogram(histogram);
   responseHistogramSummary.addAgentLevelHistogram(span.getAgentId(),histogram);

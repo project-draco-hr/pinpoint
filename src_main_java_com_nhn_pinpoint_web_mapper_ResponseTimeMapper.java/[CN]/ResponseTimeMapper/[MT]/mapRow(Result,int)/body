@@ -3,7 +3,7 @@
     return null;
   }
   final byte[] rowKey=result.getRow();
-  ResponseTime responseTime=createRawResponseTime(rowKey);
+  ResponseTime responseTime=createResponseTime(rowKey);
   for (  KeyValue keyValue : result.raw()) {
     if (!Bytes.equals(keyValue.getFamily(),HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER)) {
       continue;

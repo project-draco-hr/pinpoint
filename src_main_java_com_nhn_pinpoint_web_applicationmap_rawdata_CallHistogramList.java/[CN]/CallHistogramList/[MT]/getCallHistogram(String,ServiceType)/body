@@ -1,0 +1,9 @@
+{
+  Application agentId=new Application(agent,serviceType);
+  CallHistogram callHistogram=callHistogramMap.get(agentId);
+  if (callHistogram == null) {
+    callHistogram=new CallHistogram(agent,serviceType);
+    callHistogramMap.put(agentId,callHistogram);
+  }
+  return callHistogram;
+}

@@ -1,0 +1,21 @@
+{
+  if (hostHistogram == null) {
+    return;
+  }
+  for (  CallHistogram callHistogram : hostHistogram.getHostList()) {
+    final String instanceName=callHistogram.getId();
+    final String hostName=getHostName(callHistogram.getId());
+    final ServiceType serviceType=callHistogram.getServiceType();
+    final List<ServerInstance> find=serverInstanceList.get(hostName);
+    if (find == null) {
+      final List<ServerInstance> newNode=new ArrayList<ServerInstance>();
+      final ServerInstance serverInstance=new ServerInstance(instanceName,serviceType);
+      newNode.add(serverInstance);
+      serverInstanceList.put(hostName,newNode);
+    }
+ else {
+      final ServerInstance serverInstance=new ServerInstance(instanceName,serviceType);
+      addServerInstance(find,serverInstance);
+    }
+  }
+}

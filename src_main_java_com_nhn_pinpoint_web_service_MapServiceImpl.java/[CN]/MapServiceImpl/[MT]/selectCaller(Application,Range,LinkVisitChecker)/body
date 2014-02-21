@@ -2,7 +2,7 @@
   if (linkVisitChecker.visitCaller(callerApplication)) {
     return Collections.emptySet();
   }
-  List<LinkStatistics> caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
+  Collection<LinkStatistics> caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
   if (logger.isDebugEnabled()) {
     logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
   }

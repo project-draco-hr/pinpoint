@@ -1,0 +1,11 @@
+{
+  if (agentName == null) {
+    throw new NullPointerException("agent must not be null");
+  }
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
+  CallHistogram callHistogram=getCallHistogram(agentName,serviceType);
+  final Histogram hostHistogram=callHistogram.getHistogram();
+  hostHistogram.add(histogram);
+}

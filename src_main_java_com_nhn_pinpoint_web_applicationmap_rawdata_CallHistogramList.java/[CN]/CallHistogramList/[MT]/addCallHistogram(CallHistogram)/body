@@ -1,0 +1,10 @@
+{
+  if (callHistogram == null) {
+    throw new NullPointerException("callHistogram must not be null");
+  }
+  final String hostName=callHistogram.getId();
+  ServiceType serviceType=callHistogram.getServiceType();
+  CallHistogram findCallHistogram=getCallHistogram(hostName,serviceType);
+  Histogram histogram=findCallHistogram.getHistogram();
+  histogram.add(callHistogram.getHistogram());
+}

@@ -2,7 +2,7 @@
   if (linkVisitChecker.visitCallee(calleeApplication)) {
     return Collections.emptySet();
   }
-  final List<LinkStatistics> callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
+  final Collection<LinkStatistics> callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
   logger.debug("Found Callee. count={}, callee={}",callee.size(),calleeApplication);
   final Set<LinkStatistics> calleeSet=new HashSet<LinkStatistics>();
   for (  LinkStatistics stat : callee) {

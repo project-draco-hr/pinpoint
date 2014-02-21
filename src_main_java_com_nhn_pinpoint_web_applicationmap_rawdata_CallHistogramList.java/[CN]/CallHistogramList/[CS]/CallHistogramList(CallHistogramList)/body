@@ -1,0 +1,10 @@
+{
+  if (copyCallHistogramList == null) {
+    throw new NullPointerException("copyCallHistogramList must not be null");
+  }
+  for (  Map.Entry<Application,CallHistogram> copyEntry : copyCallHistogramList.callHistogramMap.entrySet()) {
+    Application copyKey=copyEntry.getKey();
+    CallHistogram copyValue=new CallHistogram(copyEntry.getValue());
+    this.callHistogramMap.put(copyKey,copyValue);
+  }
+}

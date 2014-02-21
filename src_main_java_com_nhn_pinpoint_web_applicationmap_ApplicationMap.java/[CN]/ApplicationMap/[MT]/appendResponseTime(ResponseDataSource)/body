@@ -2,7 +2,7 @@
   if (responseDataSource == null) {
     throw new NullPointerException("responseDataSource must not be null");
   }
-  final List<Node> nodes=this.nodeList.getNodeList();
+  final Collection<Node> nodes=this.nodeList.getNodeList();
   for (  Node node : nodes) {
     if (node.getServiceType().isWas()) {
       final Application application=new Application(node.getApplicationName(),node.getServiceType());
@@ -12,7 +12,7 @@
  else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
       final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
-      List<Link> linkList=this.linkList.getLinks();
+      Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node toNode=link.getTo();
         String applicationName=toNode.getApplicationName();
@@ -28,7 +28,7 @@
  else     if (node.getServiceType().isUser()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
       final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
-      List<Link> linkList=this.linkList.getLinks();
+      Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node fromNode=link.getFrom();
         String applicationName=fromNode.getApplicationName();

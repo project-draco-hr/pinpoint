@@ -1,0 +1,15 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  logger.debug("create node application={}, agentSet={}",application,agentSet);
+  this.application=application;
+  this.callHistogramList=new CallHistogramList();
+  this.agentSet=new HashSet<AgentInfoBo>();
+  if (callHistogramList != null) {
+    this.callHistogramList.put(callHistogramList);
+  }
+  if (agentSet != null) {
+    this.agentSet.addAll(agentSet);
+  }
+}
