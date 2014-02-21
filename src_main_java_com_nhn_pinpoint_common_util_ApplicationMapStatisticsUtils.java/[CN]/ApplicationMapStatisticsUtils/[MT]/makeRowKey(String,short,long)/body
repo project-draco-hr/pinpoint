@@ -2,9 +2,12 @@
   if (applicationName == null) {
     throw new NullPointerException("applicationName must not be null");
   }
-  byte[] applicationnameBytes=Bytes.toBytes(applicationName);
-  byte[] applicationnameBytesLength=Bytes.toBytes((short)applicationnameBytes.length);
-  byte[] applicationtypeBytes=Bytes.toBytes(applicationType);
-  byte[] slot=Bytes.toBytes(TimeUtils.reverseCurrentTimeMillis(timestamp));
-  return BytesUtils.concat(applicationnameBytesLength,applicationnameBytes,applicationtypeBytes,slot);
+  final byte[] applicationNameBytes=BytesUtils.toBytes(applicationName);
+  final Buffer buffer=new AutomaticBuffer(2 + applicationNameBytes.length + 2+ 8);
+  buffer.put((short)applicationNameBytes.length);
+  buffer.put(applicationNameBytes);
+  buffer.put(applicationType);
+  long reverseTimeMillis=TimeUtils.reverseCurrentTimeMillis(timestamp);
+  buffer.put(reverseTimeMillis);
+  return buffer.getBuffer();
 }

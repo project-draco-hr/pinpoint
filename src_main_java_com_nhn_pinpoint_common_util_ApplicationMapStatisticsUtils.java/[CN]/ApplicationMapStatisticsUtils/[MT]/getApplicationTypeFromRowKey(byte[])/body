@@ -1,7 +1,3 @@
 {
-  if (bytes == null) {
-    throw new NullPointerException("bytes must not be null");
-  }
-  short applicationNameLength=BytesUtils.bytesToShort(bytes,0);
-  return BytesUtils.bytesToShort(bytes,applicationNameLength + 2);
+  return getApplicationTypeFromRowKey(bytes,0);
 }
