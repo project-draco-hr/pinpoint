@@ -1,0 +1,6 @@
+def upload(directory):
+    _create_tarball(directory)
+    print(u'Uploading {} tarball to S3... ({})'.format(friendly_name, _tarball_size(directory)))
+    key.set_contents_from_filename(_tarball_filename_for(directory))
+    print(u'{} cache successfully updated.'.format(friendly_name))
+    _delete_file_quietly(NEED_TO_UPLOAD_MARKER)
