@@ -1,3 +1,9 @@
 {
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
   this.windowSize=getWindowSize(range.getFrom(),range.getTo());
+  this.range=range;
+  this.windowRange=createWindowRange();
+  this.offset=windowRange.getFrom();
 }

@@ -1,0 +1,8 @@
+{
+  Range range=new Range(1L,TimeUnit.MINUTES.toMillis(1) + 1);
+  TimeWindow window=new TimeWindow(range);
+  Range windowRange=window.createWindowRange();
+  logger.debug("{}",windowRange);
+  Assert.assertEquals(windowRange.getFrom(),0);
+  Assert.assertEquals(windowRange.getTo(),TimeUnit.MINUTES.toMillis(1));
+}
