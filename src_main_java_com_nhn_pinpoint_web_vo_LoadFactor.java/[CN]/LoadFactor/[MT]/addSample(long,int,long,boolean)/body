@@ -2,7 +2,7 @@
   if (logger.isDebugEnabled()) {
     logger.debug("Add sample. timeslot={}, responseTimeslot={}, callCount={}, failed={}",timestamp,responseTimeslot,callCount,isFailed);
   }
-  timestamp=TimeWindowUtils.refineTimestamp(range.getFrom(),range.getTo(),timestamp);
+  timestamp=timeWindow.refineTimestamp(timestamp);
   if (isFailed) {
     failedCount+=callCount;
   }

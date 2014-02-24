@@ -1,0 +1,26 @@
+{
+  Map<String,List<TimeHistogram>> agentLevelMap=new HashMap<String,List<TimeHistogram>>();
+  for (  ResponseTime responseTime : responseHistogramList) {
+    Set<Map.Entry<String,Histogram>> agentHistogram=responseTime.getAgentHistogram();
+    for (    Map.Entry<String,Histogram> agentEntry : agentHistogram) {
+      List<TimeHistogram> histogramList=agentLevelMap.get(agentEntry.getKey());
+      if (histogramList == null) {
+        histogramList=new ArrayList<TimeHistogram>();
+        agentLevelMap.put(agentEntry.getKey(),histogramList);
+      }
+      Histogram histogram=agentEntry.getValue();
+      TimeHistogram timeHistogram=new TimeHistogram(histogram.getServiceType(),responseTime.getTimeStamp());
+      timeHistogram.getHistogram().add(histogram);
+      histogramList.add(timeHistogram);
+    }
+  }
+  sortList(agentLevelMap);
+  for (  Map.Entry<String,List<TimeHistogram>> agentListEntry : agentLevelMap.entrySet()) {
+    String agentName=agentListEntry.getKey();
+    logger.debug("------------agentName:{}",agentName);
+    List<TimeHistogram> value=agentListEntry.getValue();
+    for (    TimeHistogram histogram : value) {
+      logger.debug("time:{} histogram:{}",histogram.getTimeStamp(),histogram);
+    }
+  }
+}
