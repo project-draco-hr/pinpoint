@@ -1,0 +1,23 @@
+{
+  TimeWindow window=new TimeWindow(new Range(0L,1000));
+  logger.debug("{}",window.getWindowRange());
+  Iterator<Long> iterator=window.iterator();
+  Assert.assertEquals(iterator.next(),(Long)0L);
+  try {
+    iterator.next();
+    Assert.fail("no more element");
+  }
+ catch (  Exception e) {
+  }
+  TimeWindow window2=new TimeWindow(new Range(0L,TimeUnit.MINUTES.toMillis(1)));
+  logger.debug("{}",window2.getWindowRange());
+  Iterator<Long> iterator2=window2.iterator();
+  Assert.assertEquals(iterator2.next(),(Long)0L);
+  Assert.assertEquals(iterator2.next(),(Long)(1000 * 60L));
+  try {
+    iterator2.next();
+    Assert.fail("no more element");
+  }
+ catch (  Exception e) {
+  }
+}
