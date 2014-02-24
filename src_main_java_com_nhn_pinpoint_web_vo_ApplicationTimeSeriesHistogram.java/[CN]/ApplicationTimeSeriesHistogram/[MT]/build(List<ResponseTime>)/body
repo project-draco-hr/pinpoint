@@ -1,0 +1,21 @@
+{
+  Map<Long,TimeHistogram> applicationLevelHistogram=new HashMap<Long,TimeHistogram>();
+  for (  ResponseTime responseTime : responseHistogramList) {
+    final Long timeStamp=responseTime.getTimeStamp();
+    TimeHistogram timeHistogram=applicationLevelHistogram.get(timeStamp);
+    if (timeHistogram == null) {
+      timeHistogram=new TimeHistogram(application.getServiceType(),timeStamp);
+      applicationLevelHistogram.put(timeStamp,timeHistogram);
+    }
+    Histogram applicationResponseHistogram=responseTime.getApplicationResponseHistogram();
+    timeHistogram.getHistogram().add(applicationResponseHistogram);
+  }
+  List<TimeHistogram> histogramList=new ArrayList<TimeHistogram>(applicationLevelHistogram.values());
+  Collections.sort(histogramList,TimeHistogram.ASC_COMPARATOR);
+  this.histogramList=histogramList;
+  if (logger.isDebugEnabled()) {
+    for (    TimeHistogram histogram : this.histogramList) {
+      logger.debug("applicationLevel histogram:{}",histogram);
+    }
+  }
+}

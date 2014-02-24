@@ -3,7 +3,7 @@
     throw new NullPointerException("linkStatData must not be null");
   }
   final LinkStatisticsData linkStatisticsData=new LinkStatisticsData(linkStatistics);
-  final ApplicationMap nodeMap=new ApplicationMap();
+  final ApplicationMap nodeMap=new ApplicationMap(range);
   Map<Application,Set<AgentInfoBo>> agentMap=linkStatisticsData.getAgentMap();
   final List<Node> sourceNode=createSourceNode(linkStatisticsData,agentMap);
   nodeMap.addNode(sourceNode);
