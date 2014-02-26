@@ -1,0 +1,16 @@
+{
+  HistogramSchema histogramSchema=histogram.getServiceType().getHistogramSchema();
+  final StringBuilder sb=new StringBuilder(128);
+  sb.append("{ ");
+  appendSlotTimeAndCount(sb,histogramSchema.getFastSlot().getSlotName(),histogram.getFastCount());
+  sb.append(", ");
+  appendSlotTimeAndCount(sb,histogramSchema.getNormalSlot().getSlotName(),histogram.getNormalCount());
+  sb.append(", ");
+  appendSlotTimeAndCount(sb,histogramSchema.getSlowSlot().getSlotName(),histogram.getSlowCount());
+  sb.append(", ");
+  appendSlotTimeAndCount(sb,histogramSchema.getVerySlowSlot().getSlotName(),histogram.getVerySlowCount());
+  sb.append(", ");
+  appendSlotTimeAndCount(sb,histogramSchema.getErrorSlot().getSlotName(),histogram.getErrorCount());
+  sb.append(" }");
+  return sb.toString();
+}

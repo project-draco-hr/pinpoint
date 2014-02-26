@@ -1,4 +1,7 @@
 {
+  if (responseHistogramList == null) {
+    throw new NullPointerException("responseHistogramList must not be null");
+  }
   Map<Long,TimeHistogram> applicationLevelHistogram=new HashMap<Long,TimeHistogram>();
   for (  ResponseTime responseTime : responseHistogramList) {
     final Long timeStamp=responseTime.getTimeStamp();

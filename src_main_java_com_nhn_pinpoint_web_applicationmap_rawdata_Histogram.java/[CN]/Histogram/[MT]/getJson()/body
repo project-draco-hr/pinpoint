@@ -1,15 +1,8 @@
 {
-  final StringBuilder sb=new StringBuilder(128);
-  sb.append("{ ");
-  appendSlotTimeAndCount(sb,histogramSchema.getFastSlot().getSlotTime(),fastCount);
-  sb.append(", ");
-  appendSlotTimeAndCount(sb,histogramSchema.getNormalSlot().getSlotTime(),normalCount);
-  sb.append(", ");
-  appendSlotTimeAndCount(sb,histogramSchema.getSlowSlot().getSlotTime(),slowCount);
-  sb.append(", ");
-  appendSlotTimeAndCount(sb,histogramSchema.getSlowSlot().getSlotTime() + "+",verySlowCount);
-  sb.append(", ");
-  appendSlotTimeAndCount(sb,"error",errorCount);
-  sb.append(" }");
-  return sb.toString();
+  try {
+    return MAPPER.writeValueAsString(this);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
 }
