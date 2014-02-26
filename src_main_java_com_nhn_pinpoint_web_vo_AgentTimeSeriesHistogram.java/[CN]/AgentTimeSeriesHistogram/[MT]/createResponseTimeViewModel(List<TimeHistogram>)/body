@@ -1,0 +1,11 @@
+{
+  final List<ResponseTimeViewModel> value=new ArrayList<ResponseTimeViewModel>(5);
+  ServiceType serviceType=application.getServiceType();
+  HistogramSchema schema=serviceType.getHistogramSchema();
+  value.add(new ResponseTimeViewModel(schema.getFastSlot().getSlotName(),getColumnValue(SlotType.FAST,timeHistogramList)));
+  value.add(new ResponseTimeViewModel(schema.getNormalSlot().getSlotName(),getColumnValue(SlotType.NORMAL,timeHistogramList)));
+  value.add(new ResponseTimeViewModel(schema.getSlowSlot().getSlotName(),getColumnValue(SlotType.SLOW,timeHistogramList)));
+  value.add(new ResponseTimeViewModel(schema.getVerySlowSlot().getSlotName(),getColumnValue(SlotType.VERY_SLOW,timeHistogramList)));
+  value.add(new ResponseTimeViewModel(schema.getErrorSlot().getSlotName(),getColumnValue(SlotType.ERROR,timeHistogramList)));
+  return value;
+}

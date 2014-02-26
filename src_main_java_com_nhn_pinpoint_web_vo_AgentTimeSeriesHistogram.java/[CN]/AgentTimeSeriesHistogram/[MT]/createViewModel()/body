@@ -1,0 +1,8 @@
+{
+  final List<AgentResponseTimeViewModel> result=new ArrayList<AgentResponseTimeViewModel>();
+  for (  Map.Entry<String,List<TimeHistogram>> entry : histogramMap.entrySet()) {
+    AgentResponseTimeViewModel model=createAgentResponseTimeViewModel(entry.getKey(),entry.getValue());
+    result.add(model);
+  }
+  return result;
+}
