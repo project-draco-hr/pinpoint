@@ -1,5 +1,6 @@
 {
-  HistogramSlot histogramSlot=histogramSchema.findHistogramSlot(elapsedTime);
+  final HistogramSchema schema=serviceType.getHistogramSchema();
+  HistogramSlot histogramSlot=schema.findHistogramSlot(elapsedTime);
   short slotTime=histogramSlot.getSlotTime();
   addCallCount(slotTime,1);
 }

@@ -10,12 +10,11 @@
       }
       Histogram histogram=agentEntry.getValue();
       TimeHistogram timeHistogram=new TimeHistogram(application.getServiceType(),responseTime.getTimeStamp());
-      timeHistogram.getHistogram().add(histogram);
+      timeHistogram.add(histogram);
       histogramList.add(timeHistogram);
     }
   }
-  sortList(agentLevelMap);
-  this.histogramMap=agentLevelMap;
+  this.histogramMap=interpolation(agentLevelMap);
   if (logger.isDebugEnabled()) {
     for (    Map.Entry<String,List<TimeHistogram>> agentListEntry : agentLevelMap.entrySet()) {
       String agentName=agentListEntry.getKey();

@@ -1,0 +1,24 @@
+{
+  if (agentLevelMap.size() == 0) {
+    return agentLevelMap;
+  }
+  Map<String,List<TimeHistogram>> result=new HashMap<String,List<TimeHistogram>>();
+  for (  String key : agentLevelMap.keySet()) {
+    List<TimeHistogram> value=new ArrayList<TimeHistogram>();
+    for (    Long time : window) {
+      value.add(new TimeHistogram(application.getServiceType(),time));
+    }
+    result.put(key,value);
+  }
+  for (  Map.Entry<String,List<TimeHistogram>> entry : agentLevelMap.entrySet()) {
+    List<TimeHistogram> histogramList=entry.getValue();
+    for (    TimeHistogram timeHistogram : histogramList) {
+      long time=window.refineTimestamp(timeHistogram.getTimeStamp());
+      int windowIndex=window.getWindowIndex(time);
+      List<TimeHistogram> findSlot=result.get(entry.getKey());
+      TimeHistogram windowHistogram=findSlot.get(windowIndex);
+      windowHistogram.add(timeHistogram);
+    }
+  }
+  return result;
+}

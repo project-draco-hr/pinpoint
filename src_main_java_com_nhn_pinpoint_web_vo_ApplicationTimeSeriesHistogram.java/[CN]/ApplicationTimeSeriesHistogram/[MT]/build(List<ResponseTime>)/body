@@ -11,10 +11,10 @@
       applicationLevelHistogram.put(timeStamp,timeHistogram);
     }
     Histogram applicationResponseHistogram=responseTime.getApplicationResponseHistogram();
-    timeHistogram.getHistogram().add(applicationResponseHistogram);
+    timeHistogram.add(applicationResponseHistogram);
   }
   List<TimeHistogram> histogramList=new ArrayList<TimeHistogram>(applicationLevelHistogram.values());
-  Collections.sort(histogramList,TimeHistogram.ASC_COMPARATOR);
+  histogramList=interpolation(histogramList);
   this.histogramList=histogramList;
   if (logger.isDebugEnabled()) {
     for (    TimeHistogram histogram : this.histogramList) {

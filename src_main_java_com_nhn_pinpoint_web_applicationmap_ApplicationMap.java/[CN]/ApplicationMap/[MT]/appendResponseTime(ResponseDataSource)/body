@@ -11,7 +11,7 @@
     }
  else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
-      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
+      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication,range);
       Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node toNode=link.getTo();
@@ -27,7 +27,7 @@
     }
  else     if (node.getServiceType().isUser()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
-      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication);
+      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication,range);
       Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node fromNode=link.getFrom();
@@ -43,7 +43,7 @@
     }
  else {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
-      ResponseHistogramSummary dummy=new ResponseHistogramSummary(nodeApplication);
+      ResponseHistogramSummary dummy=new ResponseHistogramSummary(nodeApplication,range);
       node.setResponseHistogramSummary(dummy);
     }
   }

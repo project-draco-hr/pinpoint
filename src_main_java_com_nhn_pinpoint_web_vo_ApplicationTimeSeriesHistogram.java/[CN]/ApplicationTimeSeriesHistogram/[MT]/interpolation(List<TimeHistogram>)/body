@@ -1,0 +1,16 @@
+{
+  if (histogramList.size() == 0) {
+    return histogramList;
+  }
+  List<TimeHistogram> result=new ArrayList<TimeHistogram>();
+  for (  Long time : window) {
+    result.add(new TimeHistogram(application.getServiceType(),time));
+  }
+  for (  TimeHistogram timeHistogram : histogramList) {
+    long time=window.refineTimestamp(timeHistogram.getTimeStamp());
+    int windowIndex=window.getWindowIndex(time);
+    TimeHistogram windowHistogram=result.get(windowIndex);
+    windowHistogram.add(timeHistogram);
+  }
+  return result;
+}

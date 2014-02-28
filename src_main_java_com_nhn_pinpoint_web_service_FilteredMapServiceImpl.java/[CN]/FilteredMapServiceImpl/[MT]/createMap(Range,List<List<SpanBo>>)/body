@@ -1,7 +1,7 @@
 {
   final Map<LinkKey,LinkStatistics> linkStatMap=new HashMap<LinkKey,LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new DefaultTimeSeriesStoreImpl(range);
-  final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary();
+  final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
@@ -11,7 +11,6 @@
       if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
-      long spanEndTime=span.getStartTime() + span.getElapsed();
       final LinkKey linkKey=new LinkKey(srcApplication,destApplication);
       LinkStatistics linkStat=linkStatMap.get(linkKey);
       if (linkStat == null) {

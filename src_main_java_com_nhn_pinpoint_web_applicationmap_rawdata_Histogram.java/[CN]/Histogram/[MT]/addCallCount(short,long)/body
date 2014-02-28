@@ -1,22 +1,22 @@
 {
-  this.totalCount+=count;
-  if (slotTime == histogramSchema.getVerySlowSlot().getSlotTime()) {
+  HistogramSchema schema=serviceType.getHistogramSchema();
+  if (slotTime == schema.getVerySlowSlot().getSlotTime()) {
     this.verySlowCount+=count;
     return;
   }
-  if (slotTime == histogramSchema.getErrorSlot().getSlotTime()) {
+  if (slotTime == schema.getErrorSlot().getSlotTime()) {
     this.errorCount+=count;
     return;
   }
-  if (slotTime <= histogramSchema.getFastSlot().getSlotTime()) {
+  if (slotTime <= schema.getFastSlot().getSlotTime()) {
     this.fastCount+=count;
     return;
   }
-  if (slotTime <= histogramSchema.getNormalSlot().getSlotTime()) {
+  if (slotTime <= schema.getNormalSlot().getSlotTime()) {
     this.normalCount+=count;
     return;
   }
-  if (slotTime <= histogramSchema.getSlowSlot().getSlotTime()) {
+  if (slotTime <= schema.getSlowSlot().getSlotTime()) {
     this.slowCount+=count;
     return;
   }
