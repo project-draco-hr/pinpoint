@@ -2,11 +2,10 @@
   if (agentId == null) {
     throw new NullPointerException("agentId must not be null");
   }
-  final Histogram histogram=responseHistogramMap.get(agentId);
-  if (histogram != null) {
-    return histogram;
+  Histogram histogram=responseHistogramMap.get(agentId);
+  if (histogram == null) {
+    histogram=new Histogram(applicationServiceType);
+    responseHistogramMap.put(agentId,histogram);
   }
-  final Histogram newHistogram=new Histogram(applicationServiceType);
-  responseHistogramMap.put(agentId,newHistogram);
-  return newHistogram;
+  return histogram;
 }

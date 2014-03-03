@@ -7,7 +7,7 @@
     for (    SpanBo span : transaction) {
       final Application srcApplication=createSourceApplication(span,transactionSpanMap);
       final Application destApplication=new Application(span.getApplicationId(),span.getServiceType());
-      recordSpanResponseTime(destApplication,span,mapHistogramSummary);
+      recordSpanResponseTime(destApplication,span,mapHistogramSummary,span.getCollectorAcceptTime());
       if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
@@ -31,6 +31,7 @@
   Collection<LinkStatistics> linkStatisticsList=linkStatMap.values();
   ApplicationMap map=new ApplicationMapBuilder(range).build(linkStatisticsList);
   map.setTimeSeriesStore(timeSeriesStore);
+  mapHistogramSummary.build();
   map.appendResponseTime(mapHistogramSummary);
   return map;
 }

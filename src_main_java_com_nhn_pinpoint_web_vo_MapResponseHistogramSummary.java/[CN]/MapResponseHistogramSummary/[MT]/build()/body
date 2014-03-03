@@ -1,0 +1,15 @@
+{
+  final Map<Application,List<ResponseTime>> result=new HashMap<Application,List<ResponseTime>>();
+  for (  Map<Application,ResponseTime> entry : responseTimeApplicationMap.values()) {
+    for (    Map.Entry<Application,ResponseTime> applicationResponseTimeEntry : entry.entrySet()) {
+      List<ResponseTime> responseTimeList=result.get(applicationResponseTimeEntry.getKey());
+      if (responseTimeList == null) {
+        responseTimeList=new ArrayList<ResponseTime>();
+        result.put(applicationResponseTimeEntry.getKey(),responseTimeList);
+      }
+      responseTimeList.add(applicationResponseTimeEntry.getValue());
+    }
+  }
+  this.responseTimeApplicationMap=null;
+  this.result=result;
+}
