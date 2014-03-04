@@ -2,5 +2,5 @@
   if (agentId == null) {
     throw new NullPointerException("agentId must not be null");
   }
-  return RowKeyUtils.concatFixedByteAndLong(agentId,AGENT_NAME_MAX_LEN,TimeUtils.reverseCurrentTimeMillis(timestamp));
+  return RowKeyUtils.concatFixedByteAndLong(agentId,AGENT_NAME_MAX_LEN,TimeUtils.reverseTimeMillis(timestamp));
 }

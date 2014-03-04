@@ -3,5 +3,5 @@
     throw new IllegalArgumentException("agentId must not null");
   }
   final byte[] bApplicationName=BytesUtils.toBytes(applicationName);
-  return RowKeyUtils.concatFixedByteAndLong(bApplicationName,AGENT_NAME_MAX_LEN,TimeUtils.reverseCurrentTimeMillis(timestamp));
+  return RowKeyUtils.concatFixedByteAndLong(bApplicationName,AGENT_NAME_MAX_LEN,TimeUtils.reverseTimeMillis(timestamp));
 }
