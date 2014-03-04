@@ -16,7 +16,8 @@
   Set<LinkStatistics> data=new HashSet<LinkStatistics>(caller.size() + callee.size());
   data.addAll(caller);
   data.addAll(callee);
-  ApplicationMap map=new ApplicationMapBuilder(range).build(new ArrayList<LinkStatistics>(data));
+  ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
+  ApplicationMap map=builder.build(data);
   map.appendResponseTime(range,this.mapResponseDao);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
