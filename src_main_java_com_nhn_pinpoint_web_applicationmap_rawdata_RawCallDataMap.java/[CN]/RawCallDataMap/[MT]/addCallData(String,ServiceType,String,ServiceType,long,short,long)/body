@@ -1,6 +1,5 @@
 {
   LinkKey linkKey=createLinkKey(sourceAgentId,sourceServiceType,targetId,targetServiceType);
   RawCallData rawCallData=getRawCallData(linkKey);
-  final Histogram histogram=rawCallData.getHistogram();
-  histogram.addCallCount(slot,count);
+  rawCallData.addCallData(timestamp,slot,count);
 }

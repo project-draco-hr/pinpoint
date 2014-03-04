@@ -1,4 +1,5 @@
 {
+  final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
   final Map<LinkKey,LinkStatistics> linkStatMap=new HashMap<LinkKey,LinkStatistics>();
   final TimeSeriesStore timeSeriesStore=new DefaultTimeSeriesStoreImpl(range);
   final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
@@ -18,11 +19,12 @@
         linkStatMap.put(linkKey,linkStat);
       }
       final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
-      linkStat.addCallData(span.getAgentId(),srcApplication.getServiceTypeCode(),destApplication.getName(),destApplication.getServiceTypeCode(),slotTime,1);
+      long timestamp=window.refineTimestamp(span.getCollectorAcceptTime());
+      linkStat.addCallData(span.getAgentId(),srcApplication.getServiceTypeCode(),destApplication.getName(),destApplication.getServiceTypeCode(),timestamp,slotTime,1);
       timeSeriesStore.addLinkStat(linkKey,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
       Application node=new Application(span.getApplicationId(),span.getServiceType());
       timeSeriesStore.addNodeStat(node,span.getCollectorAcceptTime(),slotTime,1L,span.hasException());
-      addNodeFromSpanEvent(span,linkStatMap,timeSeriesStore,transactionSpanMap);
+      addNodeFromSpanEvent(span,window,linkStatMap,timeSeriesStore,transactionSpanMap);
     }
   }
   for (  LinkStatistics stat : linkStatMap.values()) {

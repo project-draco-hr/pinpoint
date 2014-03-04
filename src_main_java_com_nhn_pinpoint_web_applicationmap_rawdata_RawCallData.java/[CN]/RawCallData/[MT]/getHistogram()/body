@@ -1,3 +1,7 @@
 {
-  return targetHistogram;
+  Histogram histogram=new Histogram(targetServiceType);
+  for (  Histogram copy : targetHistogramTimeMap.values()) {
+    histogram.add(copy);
+  }
+  return histogram;
 }
