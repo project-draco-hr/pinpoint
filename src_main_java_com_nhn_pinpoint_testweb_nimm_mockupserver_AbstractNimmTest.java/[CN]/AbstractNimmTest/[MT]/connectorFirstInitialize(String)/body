@@ -1,0 +1,21 @@
+{
+  checkMockupServer();
+  mockUpServerSettler=new MockUpServerSettler(configFileName);
+  Thread start=new Thread(new Runnable(){
+    public void run(){
+      try {
+        Thread.sleep(1000 * 5);
+        log.info("mockserver start");
+        mockUpServerSettler.setUp();
+      }
+ catch (      Exception e) {
+        log.log(Level.SEVERE,"mockserver start error",e);
+      }
+    }
+  }
+,"mockserver start thread");
+  start.setDaemon(true);
+  start.start();
+  log.info("NimmConnector start");
+  NimmConnector.registerMMNetDriver(configFileName);
+}

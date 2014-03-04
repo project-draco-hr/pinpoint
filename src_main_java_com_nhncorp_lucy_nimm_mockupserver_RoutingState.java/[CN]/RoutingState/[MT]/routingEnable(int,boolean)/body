@@ -1,0 +1,10 @@
+{
+  AtomicBoolean routing=this.routingState.get(domainId);
+  if (routing == null) {
+    throw new RuntimeException("domainId not found:" + domainId);
+  }
+  boolean success=routing.compareAndSet(!enable,enable);
+  if (!success) {
+    throw new RuntimeException("Invalid RoutingState:" + domainId + " enable:"+ enable);
+  }
+}

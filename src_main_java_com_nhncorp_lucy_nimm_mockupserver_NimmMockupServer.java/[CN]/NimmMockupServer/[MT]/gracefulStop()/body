@@ -1,0 +1,21 @@
+{
+  broadcast(new IoSessionTask(){
+    public void execute(    IoSession ioSession){
+      sendStopSending(ioSession);
+    }
+  }
+);
+  broadcast(new IoSessionTask(){
+    public void execute(    IoSession ioSession){
+      sendBye(ioSession);
+    }
+  }
+);
+  try {
+    Thread.sleep(1000 * 2);
+  }
+ catch (  InterruptedException e) {
+    logger.log(Level.WARNING,"InterruptedException",e);
+  }
+  stop();
+}

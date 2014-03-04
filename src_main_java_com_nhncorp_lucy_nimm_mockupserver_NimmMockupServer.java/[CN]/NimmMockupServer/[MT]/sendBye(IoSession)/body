@@ -1,0 +1,7 @@
+{
+  NimmControlRecord bye=NimmControlRecord.createControlMessage(this.serverNimmAddress,this.representAddress.get(ioSession),NimmControlRecord.ControlCode.BYE,null);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("sendBye:" + ioSession + " IoSession:"+ ioSession);
+  }
+  ioSession.write(bye);
+}

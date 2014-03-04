@@ -1,0 +1,58 @@
+{
+  final NimmAddress destionationAddress=nimmRecord.getDestinationAddress();
+  int idcId=destionationAddress.getIdcId();
+  int domainId=destionationAddress.getDomainId();
+  int serverId=destionationAddress.getServerId();
+  if (idcId != 0 && serverId != 0) {
+    ClientKey ioSessionLookUpKey=new ClientKey(domainId,idcId,serverId);
+    IoSession targetIoSession=this.ioSessionLookUpMap.get(ioSessionLookUpKey);
+    if (targetIoSession == null) {
+      throw new NimmRunTimeException("idcId:" + idcId + " domainId:"+ domainId+ " serverId:"+ serverId);
+    }
+ else {
+      targetIoSession.write(nimmRecord);
+    }
+    return;
+  }
+ else   if (idcId == 0 && serverId != 0) {
+    final int connectorid=serverNimmAddress.getIdcId();
+    final ClientKey ioSessionLookUpKey=new ClientKey(domainId,connectorid,serverId);
+    final IoSession targetIoSession=this.ioSessionLookUpMap.get(ioSessionLookUpKey);
+    if (targetIoSession == null) {
+      throw new NimmRunTimeException("idcId:" + idcId + " domainId:"+ domainId+ " serverId:"+ serverId);
+    }
+ else {
+      NimmAddress unicastAddress=NimmAddress.createUnicastAddress(destionationAddress.getDomainId(),connectorid,destionationAddress.getServerId(),destionationAddress.getSocketId());
+      nimmRecord.setDestinationAddress(unicastAddress);
+      targetIoSession.write(nimmRecord);
+    }
+    return;
+  }
+ else   if (serverId == 0) {
+    if (idcId == 0) {
+      idcId=serverNimmAddress.getIdcId();
+    }
+    AnycastKey key=new AnycastKey(domainId,idcId);
+    IoSessionPair pair=null;
+    if (nimmRecord instanceof NimmApplicationRecord) {
+      pair=this.anycastTable.roundRobinSelect(key,true);
+    }
+ else {
+      if (nimmRecord instanceof NimmControlRecord.TypeLarge) {
+        pair=this.anycastTable.roundRobinSelect(key,true);
+      }
+ else {
+        pair=this.anycastTable.roundRobinSelect(key,false);
+      }
+    }
+    if (pair == null) {
+      throw new NimmRunTimeException("idcId:" + idcId + " domainId:"+ domainId+ " serverId:"+ serverId+ " Record:"+ nimmRecord);
+    }
+    NimmAddress address=pair.getAddress();
+    NimmAddress uniAddress=NimmAddress.createUnicastAddress(address.getDomainId(),address.getIdcId(),address.getServerId(),destionationAddress.getSocketId());
+    nimmRecord.setDestinationAddress(uniAddress);
+    pair.getIoSession().write(nimmRecord);
+    return;
+  }
+  throw new RuntimeException("serverid:" + serverId);
+}

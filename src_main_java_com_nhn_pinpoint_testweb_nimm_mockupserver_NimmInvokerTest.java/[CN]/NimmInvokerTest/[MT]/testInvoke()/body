@@ -1,0 +1,58 @@
+{
+  log.info("setWorker");
+  receiveSocket.setWorker(new NimmAbstractWorkerMock(){
+    @Override protected ByteBuffer responseMessage(    NimmMessage request) throws Exception {
+      log.info("message response");
+      ByteBuffer npcHessianByteBuffer=request.getMessage();
+      NpcMessage decodeCall=NpcHessianDecoder.decodeCall(npcHessianByteBuffer);
+      Call call=(Call)decodeCall.getPayload();
+      log.info("Call:" + call);
+      DefaultReturnValue result=null;
+      if (decodeCall.getNamespace() == null) {
+        result=new DefaultReturnValue("response without namespace");
+      }
+ else {
+        result=new DefaultReturnValue("response");
+      }
+      DefaultNpcMessage reply=new DefaultNpcMessage();
+      reply.setNamespace(decodeCall.getNamespace());
+      reply.setTransactionId(decodeCall.getTransactionId());
+      reply.setPayloadCharset(decodeCall.getPayloadCharset());
+      reply.setPayload(result);
+      return NpcHessianEncoder.encodeReply(reply);
+    }
+  }
+);
+  InvocationFuture future=invoker.invoke("objectName","methodName","params");
+  log.info("await");
+  future.await();
+  Reply reply=(Reply)future.getReturnValue();
+  if (reply instanceof ReturnValue) {
+    ReturnValue value=(ReturnValue)reply;
+    String message=(String)value.get();
+    if (!"response".equals(message)) {
+      throw new RuntimeException("invalid response, " + message);
+    }
+  }
+ else {
+    throw new RuntimeException("reply retrun type=" + reply);
+  }
+  future=invoker.invoke(null,"methodName","params");
+  log.info("await");
+  future.await();
+  reply=(Reply)future.getReturnValue();
+  if (reply instanceof ReturnValue) {
+    ReturnValue value=(ReturnValue)reply;
+    String message=(String)value.get();
+    if (!"response without namespace".equals(message)) {
+      throw new RuntimeException("invalid response, " + message);
+    }
+  }
+ else {
+    throw new RuntimeException("reply retrun type=" + reply);
+  }
+  if (!invoker.isValid()) {
+    throw new RuntimeException("invokoer is not valid.");
+  }
+  invoker.dispose();
+}

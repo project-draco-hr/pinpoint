@@ -1,0 +1,22 @@
+{
+  ControlCode controlCode=controlRecord.getControlCode();
+switch (controlCode) {
+case HELLO:
+    handleHello(controlRecord,ioSession);
+  break;
+case LEAVE:
+hadleLeave(ioSession);
+break;
+case START_ROUTING:
+handleStartRouting(controlRecord,ioSession);
+break;
+case STOP_ROUTING:
+handleStopRouting(controlRecord,ioSession);
+break;
+default :
+if (logger.isLoggable(Level.INFO)) {
+logger.info("controlCode:" + controlCode);
+}
+routeNimmRecord(controlRecord,ioSession);
+}
+}

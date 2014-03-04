@@ -1,0 +1,24 @@
+{
+  if (serverCatalog == null || serverCatalog.isEmpty())   return false;
+  Set<Integer> portSet=new HashSet<Integer>();
+  InetAddress localHost=null;
+  try {
+    localHost=InetAddress.getLocalHost();
+  }
+ catch (  UnknownHostException e) {
+  }
+  byte[] loopbackIP=new byte[4];
+  loopbackIP[0]=127;
+  loopbackIP[1]=loopbackIP[2]=0;
+  loopbackIP[3]=1;
+  for (  Map.Entry<String,List<ServerInformation>> catalogEntry : serverCatalog.entrySet()) {
+    for (    ServerInformation serverInfo : catalogEntry.getValue()) {
+      InetSocketAddress inetAddress=serverInfo.getInetSocketAddress();
+      if (!portSet.add(inetAddress.getPort()))       return false;
+      byte[] serverIP=inetAddress.getAddress().getAddress();
+      if (localHost != null && (localHost.getAddress().equals(serverIP)))       continue;
+ else       if (!serverIP.equals(loopbackIP))       return false;
+    }
+  }
+  return true;
+}

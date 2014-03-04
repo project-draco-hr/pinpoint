@@ -1,0 +1,15 @@
+{
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("LEAVE(Control) received IoSession:" + ioSession);
+  }
+  Iterator<Map.Entry<ClientKey,IoSession>> iter=this.ioSessionLookUpMap.entrySet().iterator();
+  while (iter.hasNext()) {
+    Map.Entry<ClientKey,IoSession> entry=iter.next();
+    if (entry.getValue().equals(ioSession)) {
+      iter.remove();
+    }
+  }
+  NimmControlRecord byeRecord=NimmControlRecord.createControlMessage(this.serverNimmAddress,this.representAddress.get(ioSession),ControlCode.BYE,null);
+  ioSession.write(byeRecord);
+  this.representAddress.remove(ioSession);
+}

@@ -1,0 +1,42 @@
+{
+  Invoker invalidInvoker=null;
+  try {
+    invalidInvoker=new NimmInvoker(null,sendSocket);
+  }
+ catch (  NullPointerException ex) {
+    String msg=ex.getMessage();
+    if (msg.indexOf("nimmBlocAddress") == -1) {
+      throw new RuntimeException("Invalid NullPointerException for nimmBlocAddress");
+    }
+  }
+catch (  Exception ex) {
+    throw new RuntimeException("Invaid Exception for nimmBlocAddress",ex);
+  }
+  try {
+    invalidInvoker=new NimmInvoker(receiveSocket.getAddress(),null);
+  }
+ catch (  NullPointerException ex) {
+    String msg=ex.getMessage();
+    if (msg.indexOf("nimmLocalSocket") == -1) {
+      throw new RuntimeException("Invalid NullPointerException for nimmLocalSocket");
+    }
+  }
+catch (  Exception ex) {
+    throw new RuntimeException("Invaid Exception for nimmLocalSocket",ex);
+  }
+  try {
+    invalidInvoker=new NimmInvoker(receiveSocket.getAddress(),sendSocket,-1000L);
+  }
+ catch (  IllegalArgumentException ex) {
+    String msg=ex.getMessage();
+    if (msg.indexOf("timeoutMillis") == -1) {
+      throw new RuntimeException("Invalid IllegalArgumentException for timeoutMillis");
+    }
+  }
+catch (  Exception ex) {
+    throw new RuntimeException("Invaid Exception for timeoutMillis - " + ex.getMessage());
+  }
+  if (invalidInvoker != null) {
+    invalidInvoker.dispose();
+  }
+}
