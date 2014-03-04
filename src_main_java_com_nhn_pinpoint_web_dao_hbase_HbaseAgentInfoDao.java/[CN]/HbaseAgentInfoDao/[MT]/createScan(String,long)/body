@@ -2,7 +2,7 @@
   Scan scan=new Scan();
   scan.setCaching(20);
   byte[] agentIdBytes=Bytes.toBytes(agentInfo);
-  long startTime=TimeUtils.reverseCurrentTimeMillis(currentTime);
+  long startTime=TimeUtils.reverseTimeMillis(currentTime);
   byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,startTime);
   scan.setStartRow(startKeyBytes);
   byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,Long.MAX_VALUE);
