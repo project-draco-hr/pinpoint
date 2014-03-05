@@ -2,11 +2,12 @@
   if (copyRawCallData == null) {
     throw new NullPointerException("copyRawCallData must not be null");
   }
-  for (  Map.Entry<Long,Histogram> copyEntry : copyRawCallData.targetHistogramTimeMap.entrySet()) {
-    Histogram histogram=targetHistogramTimeMap.get(copyEntry.getKey());
+  for (  Map.Entry<Long,TimeHistogram> copyEntry : copyRawCallData.targetHistogramTimeMap.entrySet()) {
+    final Long timeStamp=copyEntry.getKey();
+    TimeHistogram histogram=targetHistogramTimeMap.get(timeStamp);
     if (histogram == null) {
-      histogram=new Histogram(targetServiceType);
-      targetHistogramTimeMap.put(copyEntry.getKey(),histogram);
+      histogram=new TimeHistogram(targetServiceType,timeStamp);
+      targetHistogramTimeMap.put(timeStamp,histogram);
     }
     histogram.add(copyEntry.getValue());
   }

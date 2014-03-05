@@ -6,6 +6,5 @@
     throw new NullPointerException("serviceType must not be null");
   }
   CallHistogram callHistogram=getCallHistogram(agentName,serviceType);
-  final Histogram hostHistogram=callHistogram.getHistogram();
-  hostHistogram.add(histogram);
+  callHistogram.addTimeHistogram(histogramList);
 }

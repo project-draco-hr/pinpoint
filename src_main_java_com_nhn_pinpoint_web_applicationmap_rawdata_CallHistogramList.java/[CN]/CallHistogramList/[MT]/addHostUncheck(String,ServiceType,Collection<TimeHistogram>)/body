@@ -1,11 +1,10 @@
 {
   if (hostName == null) {
-    throw new NullPointerException("callHistogram must not be null");
+    throw new NullPointerException("histogram must not be null");
   }
   if (serviceType == null) {
     throw new NullPointerException("serviceType must not be null");
   }
   CallHistogram callHistogram=getCallHistogram(hostName,serviceType);
-  final Histogram hostHistogram=callHistogram.getHistogram();
-  hostHistogram.addUncheckType(histogram);
+  callHistogram.addTimeHistogramUncheckType(histogram);
 }
