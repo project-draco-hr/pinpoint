@@ -1,11 +1,7 @@
 {
-  Histogram result=null;
+  final Histogram linkHistogram=new Histogram(toNode.getServiceType());
   for (  CallHistogram callHistogram : tagetList.getCallHistogramList()) {
-    if (result == null) {
-      Histogram histogram=callHistogram.getHistogram();
-      result=new Histogram(histogram.getServiceType());
-    }
-    result.add(callHistogram.getHistogram());
+    linkHistogram.addUncheckType(callHistogram.getHistogram());
   }
-  return result;
+  return linkHistogram;
 }
