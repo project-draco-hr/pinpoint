@@ -2,6 +2,9 @@
   if (histogram == null) {
     throw new NullPointerException("histogram must not be null");
   }
+  if (serviceType.getHistogramSchema() != histogram.getServiceType().getHistogramSchema()) {
+    throw new IllegalArgumentException("schema not equals. this=" + this + ", histogram="+ histogram);
+  }
   this.fastCount+=histogram.fastCount;
   this.normalCount+=histogram.normalCount;
   this.slowCount+=histogram.slowCount;

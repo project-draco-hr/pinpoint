@@ -1,0 +1,8 @@
+{
+  TimeHistogram find=this.timeHistogramMap.get(timeHistogram.getTimeStamp());
+  if (find == null) {
+    find=new TimeHistogram(serviceType,timeHistogram.getTimeStamp());
+    this.timeHistogramMap.put(timeHistogram.getTimeStamp(),find);
+  }
+  find.add(timeHistogram);
+}
