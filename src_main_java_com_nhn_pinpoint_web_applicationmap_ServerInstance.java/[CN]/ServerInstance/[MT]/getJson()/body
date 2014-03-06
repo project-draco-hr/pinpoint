@@ -1,7 +1,7 @@
 {
   String agentInfoJson="{}";
   try {
-    agentInfoJson=objectMapper.writeValueAsString(agentInfo);
+    agentInfoJson=MAPPER.writeValueAsString(agentInfo);
   }
  catch (  Exception e) {
     throw new RuntimeException("json create fail,",e);
@@ -10,8 +10,7 @@
   sb.append("{");
   sb.append("\"name\":\"").append(name).append("\",");
   sb.append("\"serviceType\":\"").append(serviceType).append("\",");
-  sb.append("\"agentInfo\":").append((agentInfo == null) ? null : agentInfoJson).append(",");
-  sb.append("\"histogram\":").append((histogram == null) ? null : histogram.getJson());
+  sb.append("\"agentInfo\":").append((agentInfo == null) ? null : agentInfoJson);
   sb.append("}");
   return sb.toString();
 }
