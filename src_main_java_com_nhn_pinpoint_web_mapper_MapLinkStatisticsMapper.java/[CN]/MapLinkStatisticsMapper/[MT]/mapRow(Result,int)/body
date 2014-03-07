@@ -11,7 +11,7 @@
       final byte[] qualifier=kv.getQualifier();
       String foundApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
       short foundServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
-      if (dropRow(foundApplicationName,foundServiceType)) {
+      if (filter.filter(foundApplicationName,foundServiceType)) {
         continue;
       }
       short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
@@ -36,7 +36,7 @@
       final Buffer buffer=new FixedBuffer(qualifier);
       short foundServiceType=buffer.readShort();
       String foundApplicationName=buffer.readPrefixedString();
-      if (dropRow(foundApplicationName,foundServiceType)) {
+      if (filter.filter(foundApplicationName,foundServiceType)) {
         continue;
       }
       String skipCalleeHost=buffer.readPrefixedString();
