@@ -1,0 +1,43 @@
+{
+  if (foundApplication == null) {
+    throw new NullPointerException("foundApplication must not be null");
+  }
+  if (this.calleeApplication.getServiceType().isWas() && this.callerApplication.getServiceType().isWas()) {
+    logger.debug("check was to was.");
+    if (!this.callerApplication.getName().equals(foundApplication.getName()) || this.callerApplication.getServiceType() != foundApplication.getServiceType()) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("  DROP THE ROW,1, DIFFERENT SRC. fetched={}/{} , params={}",foundApplication.getName(),foundApplication.getServiceType(),calleeApplication);
+      }
+      return true;
+    }
+  }
+ else   if (this.callerApplication.getServiceType().isUser()) {
+    logger.debug("check client to was");
+    if (!this.calleeApplication.getName().equals(foundApplication.getName())) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("  DROP THE ROW,2, DIFFERENT DEST. fetched={}/{}, params={}",foundApplication.getName(),foundApplication.getServiceType(),this.calleeApplication);
+      }
+      return true;
+    }
+  }
+ else {
+    logger.debug("check any to any.");
+    if (this.calleeApplication.getServiceType().isUnknown()) {
+      if (!this.calleeApplication.getName().equals(foundApplication.getName())) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("  DROP THE ROW,3, DIFFERENT DEST. fetched={}/{}, params={}",foundApplication.getName(),foundApplication.getServiceType(),calleeApplication);
+        }
+        return true;
+      }
+    }
+ else {
+      if (!this.calleeApplication.getName().equals(foundApplication.getName()) || this.calleeApplication.getServiceType() != foundApplication.getServiceType()) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("  DROP THE ROW,4, DIFFERENT DEST. fetched={}/{}, params={}",foundApplication.getName(),foundApplication.getServiceType(),this.calleeApplication);
+        }
+        return true;
+      }
+    }
+  }
+  return false;
+}

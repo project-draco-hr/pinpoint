@@ -3,6 +3,7 @@
     logger.debug("selectCalleeStatistics. {}, {}, {}",callerApplication,calleeApplication,range);
   }
   Scan scan=createScan(calleeApplication,range);
-  RowMapper<Map<Long,Map<Short,Long>>> mapper=new MapLinkStatisticsMapper(callerApplication,calleeApplication);
+  final LinkFilter filter=new DefaultLinkFilter(callerApplication,calleeApplication);
+  RowMapper<Collection<LinkStatistics>> mapper=new MapStatisticsCalleeMapper(filter);
   return hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapper);
 }

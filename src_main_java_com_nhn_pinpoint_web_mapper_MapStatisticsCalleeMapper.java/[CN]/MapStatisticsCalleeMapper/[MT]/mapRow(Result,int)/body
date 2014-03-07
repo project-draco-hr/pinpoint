@@ -9,7 +9,10 @@
   final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
   for (  KeyValue kv : result.raw()) {
     final byte[] qualifier=kv.getQualifier();
-    Application callerApplication=readCallerApplication(qualifier);
+    final Application callerApplication=readCallerApplication(qualifier);
+    if (filter.filter(callerApplication)) {
+      continue;
+    }
     long requestCount=Bytes.toLong(kv.getBuffer(),kv.getValueOffset());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
