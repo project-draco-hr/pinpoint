@@ -28,8 +28,5 @@
     final short slotTime=getHistogramSlotTime(spanEvent,destServiceType);
     final long spanEventTimeStamp=window.refineTimestamp(span.getStartTime() + spanEvent.getStartElapsed());
     linkData.addCallData(span.getAgentId(),span.getServiceType().getCode(),spanEvent.getEndPoint(),destServiceType.getCode(),spanEventTimeStamp,slotTime,1);
-    timeSeriesStore.addLinkStat(spanEventStatKey,spanEventTimeStamp,slotTime,1L,spanEvent.hasException());
-    Application nodeKey=new Application(spanEvent.getDestinationId(),spanEvent.getServiceType());
-    timeSeriesStore.addNodeStat(nodeKey,span.getCollectorAcceptTime(),slotTime,1L,spanEvent.hasException());
   }
 }
