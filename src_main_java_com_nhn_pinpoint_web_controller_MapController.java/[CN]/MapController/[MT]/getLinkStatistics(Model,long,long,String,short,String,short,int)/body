@@ -4,8 +4,8 @@
   final Range range=new Range(from,to);
   ResponseHistogramSummary responseHistogramSummary=mapService.linkStatistics(sourceApplication,destinationApplication,range);
   model.addAttribute("range",range);
-  model.addAttribute("srcApplication",sourceApplication);
-  model.addAttribute("destApplication",destinationApplication);
+  model.addAttribute("sourceApplication",sourceApplication);
+  model.addAttribute("targetApplication",destinationApplication);
   Histogram applicationHistogram=responseHistogramSummary.getApplicationHistogram();
   model.addAttribute("linkStatistics",applicationHistogram);
   String applicationTimeSeriesHistogramJson=responseHistogramSummary.getApplicationTimeSeriesHistogramToJson();
