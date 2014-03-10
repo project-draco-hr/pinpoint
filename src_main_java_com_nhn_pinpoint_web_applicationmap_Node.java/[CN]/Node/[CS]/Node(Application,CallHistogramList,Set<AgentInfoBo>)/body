@@ -4,12 +4,6 @@
   }
   logger.debug("create node application={}, agentSet={}",application,agentSet);
   this.application=application;
-  this.callHistogramList=new CallHistogramList();
-  this.agentSet=new HashSet<AgentInfoBo>();
-  if (callHistogramList != null) {
-    this.callHistogramList.put(callHistogramList);
-  }
-  if (agentSet != null) {
-    this.agentSet.addAll(agentSet);
-  }
+  this.serverBuilder.addCallHistogramList(callHistogramList);
+  this.serverBuilder.addAgentInfo(agentSet);
 }

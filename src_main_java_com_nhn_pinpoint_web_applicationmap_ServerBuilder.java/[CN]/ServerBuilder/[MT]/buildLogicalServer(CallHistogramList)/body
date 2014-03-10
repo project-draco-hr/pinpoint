@@ -1,13 +1,11 @@
 {
-  if (hostHistogram == null) {
-    return;
-  }
+  ServerInstanceList serverInstanceList=new ServerInstanceList();
   for (  CallHistogram callHistogram : hostHistogram.getCallHistogramList()) {
     final String instanceName=callHistogram.getId();
     final String hostName=getHostName(callHistogram.getId());
     final ServiceType serviceType=callHistogram.getServiceType();
     final ServerInstance serverInstance=new ServerInstance(instanceName,serviceType);
-    List<ServerInstance> find=getServerInstanceList(hostName);
-    addServerInstance(find,serverInstance);
+    serverInstanceList.addServerInstance(hostName,serverInstance);
   }
+  return serverInstanceList;
 }

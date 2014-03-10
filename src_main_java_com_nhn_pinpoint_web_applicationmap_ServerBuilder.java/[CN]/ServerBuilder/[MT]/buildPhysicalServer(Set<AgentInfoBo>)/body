@@ -1,0 +1,9 @@
+{
+  final ServerInstanceList serverInstanceList=new ServerInstanceList();
+  for (  AgentInfoBo agent : agentSet) {
+    final String hostName=agent.getHostname();
+    final ServerInstance serverInstance=new ServerInstance(agent);
+    serverInstanceList.addServerInstance(hostName,serverInstance);
+  }
+  return serverInstanceList;
+}
