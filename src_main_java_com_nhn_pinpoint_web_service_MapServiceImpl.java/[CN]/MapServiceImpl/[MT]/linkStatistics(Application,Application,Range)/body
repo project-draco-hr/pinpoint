@@ -5,40 +5,30 @@
   if (destinationApplication == null) {
     throw new NullPointerException("destinationApplication must not be null");
   }
-  List<Collection<LinkStatistics>> list;
-  if (sourceApplication.getServiceType().isUser()) {
-    logger.debug("Find 'client -> any' link statistics");
-    Application userApplication=new Application(destinationApplication.getName(),sourceApplication.getServiceTypeCode());
-    list=mapStatisticsCallerDao.selectCallerStatistics(userApplication,destinationApplication,range);
-  }
- else   if (destinationApplication.getServiceType().isWas()) {
-    logger.debug("Find 'any -> was' link statistics");
-    list=mapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
-  }
- else {
-    logger.debug("Find 'was -> terminal' link statistics");
-    list=mapStatisticsCallerDao.selectCallerStatistics(sourceApplication,destinationApplication,range);
-  }
+  List<Collection<LinkStatistics>> list=selectLink(sourceApplication,destinationApplication,range);
+  logger.debug("Fetched statistics data={}",list);
   LoadFactor loadFactor=new LoadFactor(range);
   HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();
   loadFactor.setDefaultHistogramSlotList(histogramSchema);
-  logger.debug("Fetched statistics data={}",list);
+  MapResponseHistogramSummary responseHistogramSummary=new MapResponseHistogramSummary(range);
   for (  Collection<LinkStatistics> linkStatisticsList : list) {
     for (    LinkStatistics entry : linkStatisticsList) {
-      CallHistogramList toHostList=entry.getToHostList();
-      Collection<CallHistogram> callHistogramList=toHostList.getCallHistogramList();
+      CallHistogramList sourceList=entry.getSourceList();
+      Collection<CallHistogram> callHistogramList=sourceList.getCallHistogramList();
       for (      CallHistogram histogram : callHistogramList) {
         for (        TimeHistogram timeHistogram : histogram.getTimeHistogram()) {
-          final HistogramSchema schema=timeHistogram.getServiceType().getHistogramSchema();
-          final long timeStamp=timeHistogram.getTimeStamp();
-          loadFactor.addSample(timeStamp,schema.getFastSlot().getSlotTime(),timeHistogram.getFastCount(),false);
-          loadFactor.addSample(timeStamp,schema.getNormalSlot().getSlotTime(),timeHistogram.getNormalCount(),false);
-          loadFactor.addSample(timeStamp,schema.getSlowSlot().getSlotTime(),timeHistogram.getSlowCount(),false);
-          loadFactor.addSample(timeStamp,LoadFactor.SLOT_VERY_SLOW,timeHistogram.getVerySlowCount(),false);
-          loadFactor.addSample(timeStamp,LoadFactor.SLOT_ERROR,timeHistogram.getErrorCount(),true);
+          Application toApplication=entry.getToApplication();
+          if (toApplication.getServiceType().isRpcClient()) {
+            toApplication=new Application(toApplication.getName(),ServiceType.UNKNOWN);
+          }
+          responseHistogramSummary.addLinkHistogram(toApplication,histogram.getId(),timeHistogram);
         }
       }
     }
   }
-  return loadFactor;
+  responseHistogramSummary.build();
+  List<ResponseTime> responseTimeList=responseHistogramSummary.getResponseTimeList(destinationApplication);
+  final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(destinationApplication,range);
+  histogramSummary.createResponseHistogram(responseTimeList);
+  return histogramSummary;
 }
