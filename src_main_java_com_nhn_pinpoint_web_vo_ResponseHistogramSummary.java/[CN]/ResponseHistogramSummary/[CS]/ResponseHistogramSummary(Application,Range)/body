@@ -7,7 +7,8 @@
   }
   this.application=application;
   this.range=range;
-  this.applicationHistogram=new Histogram(application.getServiceType());
-  this.applicationTimeSeriesHistogram=new ApplicationTimeSeriesHistogram(application,range);
-  this.agentTimeSeriesHistogram=new AgentTimeSeriesHistogram(application,range);
+  this.applicationHistogram=new Histogram(this.application.getServiceType());
+  this.agentHistogramMap=new HashMap<String,Histogram>();
+  this.applicationTimeSeriesHistogram=new ApplicationTimeSeriesHistogram(this.application,this.range);
+  this.agentTimeSeriesHistogram=new AgentTimeSeriesHistogram(this.application,this.range);
 }

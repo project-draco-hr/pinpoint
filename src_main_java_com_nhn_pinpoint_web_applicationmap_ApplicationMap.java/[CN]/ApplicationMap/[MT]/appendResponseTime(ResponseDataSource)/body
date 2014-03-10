@@ -6,12 +6,12 @@
   for (  Node node : nodes) {
     if (node.getServiceType().isWas()) {
       final Application application=new Application(node.getApplicationName(),node.getServiceType());
-      ResponseHistogramSummary histogramSummary=responseDataSource.getResponseHistogramSummary(application);
-      node.setResponseHistogramSummary(histogramSummary);
+      ResponseHistogramSummary nodeHistogramSummary=responseDataSource.getResponseHistogramSummary(application);
+      node.setResponseHistogramSummary(nodeHistogramSummary);
     }
  else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
-      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication,range);
+      final ResponseHistogramSummary nodeHistogramSummary=new ResponseHistogramSummary(nodeApplication,range);
       Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node toNode=link.getTo();
@@ -20,14 +20,14 @@
         Application destination=new Application(applicationName,serviceType);
         if (nodeApplication.equals(destination)) {
           Histogram linkHistogram=link.getHistogram();
-          summary.addLinkHistogram(linkHistogram);
+          nodeHistogramSummary.addLinkHistogram(linkHistogram);
         }
       }
-      node.setResponseHistogramSummary(summary);
+      node.setResponseHistogramSummary(nodeHistogramSummary);
     }
  else     if (node.getServiceType().isUser()) {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());
-      final ResponseHistogramSummary summary=new ResponseHistogramSummary(nodeApplication,range);
+      final ResponseHistogramSummary nodeHistogramSummary=new ResponseHistogramSummary(nodeApplication,range);
       Collection<Link> linkList=this.linkList.getLinks();
       for (      Link link : linkList) {
         Node fromNode=link.getFrom();
@@ -36,10 +36,10 @@
         Application source=new Application(applicationName,serviceType);
         if (nodeApplication.equals(source)) {
           Histogram linkHistogram=link.getHistogram();
-          summary.addLinkHistogram(linkHistogram);
+          nodeHistogramSummary.addLinkHistogram(linkHistogram);
         }
       }
-      node.setResponseHistogramSummary(summary);
+      node.setResponseHistogramSummary(nodeHistogramSummary);
     }
  else {
       Application nodeApplication=new Application(node.getApplicationName(),node.getServiceType());

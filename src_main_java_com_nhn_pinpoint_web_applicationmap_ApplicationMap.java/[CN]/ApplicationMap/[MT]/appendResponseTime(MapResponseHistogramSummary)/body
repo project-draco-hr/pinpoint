@@ -2,8 +2,7 @@
   appendResponseTime(new ResponseDataSource(){
     @Override public ResponseHistogramSummary getResponseHistogramSummary(    Application application){
       List<ResponseTime> responseHistogram=mapHistogramSummary.getResponseTimeList(application);
-      final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(application,range);
-      histogramSummary.createResponseHistogram(responseHistogram);
+      final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(application,range,responseHistogram);
       return histogramSummary;
     }
   }

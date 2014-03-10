@@ -7,9 +7,6 @@
   }
   List<Collection<LinkStatistics>> list=selectLink(sourceApplication,destinationApplication,range);
   logger.debug("Fetched statistics data={}",list);
-  LoadFactor loadFactor=new LoadFactor(range);
-  HistogramSchema histogramSchema=destinationApplication.getServiceType().getHistogramSchema();
-  loadFactor.setDefaultHistogramSlotList(histogramSchema);
   MapResponseHistogramSummary responseHistogramSummary=new MapResponseHistogramSummary(range);
   for (  Collection<LinkStatistics> linkStatisticsList : list) {
     for (    LinkStatistics entry : linkStatisticsList) {
@@ -28,7 +25,6 @@
   }
   responseHistogramSummary.build();
   List<ResponseTime> responseTimeList=responseHistogramSummary.getResponseTimeList(destinationApplication);
-  final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(destinationApplication,range);
-  histogramSummary.createResponseHistogram(responseTimeList);
+  final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(destinationApplication,range,responseTimeList);
   return histogramSummary;
 }

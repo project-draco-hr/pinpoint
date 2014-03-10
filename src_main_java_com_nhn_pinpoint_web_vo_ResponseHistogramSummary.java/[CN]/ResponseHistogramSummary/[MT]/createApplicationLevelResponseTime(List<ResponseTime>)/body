@@ -1,8 +1,10 @@
 {
+  final Histogram applicationHistogram=new Histogram(this.application.getServiceType());
   for (  ResponseTime responseTime : responseHistogram) {
     final Collection<Histogram> histogramList=responseTime.getAgentResponseHistogramList();
     for (    Histogram histogram : histogramList) {
-      this.addApplicationLevelHistogram(histogram);
+      applicationHistogram.add(histogram);
     }
   }
+  return applicationHistogram;
 }
