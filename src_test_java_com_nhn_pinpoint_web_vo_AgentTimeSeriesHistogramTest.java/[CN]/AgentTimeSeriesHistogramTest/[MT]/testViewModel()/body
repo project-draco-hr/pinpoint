@@ -3,7 +3,7 @@
   AgentTimeSeriesHistogram histogram=new AgentTimeSeriesHistogram(app,new Range(0,1000 * 60));
   List<ResponseTime> responseHistogramList=createResponseTime(app,"test1","test2");
   histogram.build(responseHistogramList);
-  List<AgentResponseTimeViewModel> viewModel=histogram.createViewModel();
+  Map<String,AgentResponseTimeViewModel> viewModel=histogram.createViewModel();
   logger.debug("{}",viewModel);
   ObjectWriter writer=mapper.writerWithDefaultPrettyPrinter();
   String s=writer.writeValueAsString(viewModel);
