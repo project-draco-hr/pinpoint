@@ -4,7 +4,7 @@
   }
   FilterChain chain=new FilterChain();
   try {
-    List<FilterDescriptor> list=om.readValue(jsonText,new TypeReference<List<FilterDescriptor>>(){
+    List<FilterDescriptor> list=jsonObjectMapper.readValue(jsonText,new TypeReference<List<FilterDescriptor>>(){
     }
 );
     for (    FilterDescriptor descriptor : list) {
@@ -18,9 +18,8 @@
       }
     }
   }
- catch (  Exception e) {
-    logger.error(e.getMessage(),e);
-    return null;
+ catch (  IOException e) {
+    throw new RuntimeException(e.getMessage(),e);
   }
   return chain.get();
 }
