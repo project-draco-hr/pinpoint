@@ -1,8 +1,14 @@
 {
-  final Map<String,AgentResponseTimeViewModel> result=new HashMap<String,AgentResponseTimeViewModel>();
+  final List<AgentResponseTimeViewModel> result=new ArrayList<AgentResponseTimeViewModel>();
   for (  Map.Entry<String,List<TimeHistogram>> entry : histogramMap.entrySet()) {
     AgentResponseTimeViewModel model=createAgentResponseTimeViewModel(entry.getKey(),entry.getValue());
-    result.put(entry.getKey(),model);
+    result.add(model);
   }
+  Collections.sort(result,new Comparator<AgentResponseTimeViewModel>(){
+    @Override public int compare(    AgentResponseTimeViewModel o1,    AgentResponseTimeViewModel o2){
+      return o1.getAgentName().compareTo(o2.getAgentName());
+    }
+  }
+);
   return result;
 }

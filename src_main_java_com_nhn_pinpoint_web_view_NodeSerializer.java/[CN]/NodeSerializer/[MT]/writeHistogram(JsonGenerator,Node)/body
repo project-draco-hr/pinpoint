@@ -1,0 +1,36 @@
+{
+  final ServiceType serviceType=node.getServiceType();
+  final ResponseHistogramSummary responseHistogramSummary=node.getResponseHistogramSummary();
+  if (serviceType.isWas() || serviceType.isTerminal() || serviceType.isUnknown()|| serviceType.isUser()) {
+    Histogram applicationHistogram=responseHistogramSummary.getApplicationHistogram();
+    if (applicationHistogram == null) {
+      writeEmptyObject(jgen,"histogram");
+    }
+ else {
+      jgen.writeObjectField("histogram",applicationHistogram);
+    }
+    Map<String,Histogram> agentHistogramMap=responseHistogramSummary.getAgentHistogramMap();
+    if (agentHistogramMap == null) {
+      writeEmptyObject(jgen,"agentHistogram");
+    }
+ else {
+      jgen.writeObjectField("agentHistogram",agentHistogramMap);
+    }
+  }
+  if (serviceType.isWas()) {
+    List<ResponseTimeViewModel> applicationTimeSeriesHistogram=responseHistogramSummary.getApplicationTimeSeriesHistogram();
+    if (applicationTimeSeriesHistogram == null) {
+      writeEmptyObject(jgen,"timeSeriesHistogram");
+    }
+ else {
+      jgen.writeObjectField("timeSeriesHistogram",applicationTimeSeriesHistogram);
+    }
+    List<AgentResponseTimeViewModel> agentTimeSeriesHistogram=responseHistogramSummary.getAgentTimeSeriesHistogram();
+    if (agentTimeSeriesHistogram == null) {
+      writeEmptyObject(jgen,"agentTimeSeriesHistogram");
+    }
+ else {
+      jgen.writeObjectField("agentTimeSeriesHistogram",agentTimeSeriesHistogram);
+    }
+  }
+}
