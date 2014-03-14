@@ -13,12 +13,12 @@
     Histogram applicationResponseHistogram=responseTime.getApplicationResponseHistogram();
     timeHistogram.add(applicationResponseHistogram);
   }
-  List<TimeHistogram> histogramList=new ArrayList<TimeHistogram>(applicationLevelHistogram.values());
-  histogramList=interpolation(histogramList);
-  this.histogramList=histogramList;
+  List<TimeHistogram> histogramList=interpolation(applicationLevelHistogram.values());
   if (logger.isDebugEnabled()) {
-    for (    TimeHistogram histogram : this.histogramList) {
+    for (    TimeHistogram histogram : histogramList) {
       logger.debug("applicationLevel histogram:{}",histogram);
     }
   }
+  ApplicationTimeSeriesHistogram applicationTimeSeriesHistogram=new ApplicationTimeSeriesHistogram(application,range,histogramList);
+  return applicationTimeSeriesHistogram;
 }
