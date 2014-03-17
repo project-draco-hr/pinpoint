@@ -1,5 +1,5 @@
 {
-  final AsyncQueueingExecutor<TBase<?,?>> executor=new AsyncQueueingExecutor<TBase<?,?>>(1024 * 5,senderName);
+  final AsyncQueueingExecutor<TBase<?,?>> executor=new AsyncQueueingExecutor<TBase<?,?>>(queueSize,senderName);
   executor.setListener(new AsyncQueueingExecutorListener<TBase<?,?>>(){
     @Override public void execute(    Collection<TBase<?,?>> dtoList){
       sendPacketN(dtoList);

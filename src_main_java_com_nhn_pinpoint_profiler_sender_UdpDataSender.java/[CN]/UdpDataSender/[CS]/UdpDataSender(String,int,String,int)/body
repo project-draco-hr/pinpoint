@@ -5,7 +5,10 @@
   if (threadName == null) {
     throw new NullPointerException("threadName must not be null");
   }
+  if (queueSize <= 0) {
+    throw new IllegalArgumentException("queueSize");
+  }
   logger.info("UdpDataSender initialized. host={}, port={}",host,port);
   this.udpSocket=createSocket(host,port);
-  this.executor=getExecutor(threadName);
+  this.executor=getExecutor(threadName,queueSize);
 }
