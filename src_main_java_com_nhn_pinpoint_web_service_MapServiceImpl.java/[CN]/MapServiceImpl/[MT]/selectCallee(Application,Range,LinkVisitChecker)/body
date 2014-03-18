@@ -11,10 +11,11 @@
     LinkStatisticsData calleeSub=selectCallee(stat.getFromApplication(),range,linkVisitChecker);
     calleeSet.addLinkStatisticsData(calleeSub);
     for (    LinkStatistics eachCallee : calleeSub.getLinkStatData()) {
-      if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
+      final Application eachCalleeToApplication=eachCallee.getToApplication();
+      if (eachCalleeToApplication.getServiceType().isTerminal() || eachCalleeToApplication.getServiceType().isUnknown()) {
         continue;
       }
-      LinkStatisticsData callerSub=selectCaller(eachCallee.getToApplication(),range,linkVisitChecker);
+      LinkStatisticsData callerSub=selectCaller(eachCalleeToApplication,range,linkVisitChecker);
       calleeSet.addLinkStatisticsData(callerSub);
     }
   }

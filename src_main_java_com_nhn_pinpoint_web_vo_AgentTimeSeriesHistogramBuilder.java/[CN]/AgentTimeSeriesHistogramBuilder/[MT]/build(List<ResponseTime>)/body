@@ -14,7 +14,7 @@
       histogramList.add(timeHistogram);
     }
   }
-  this.histogramMap=interpolation(agentLevelMap);
+  Map<String,List<TimeHistogram>> histogramMap=interpolation(agentLevelMap);
   if (logger.isDebugEnabled()) {
     for (    Map.Entry<String,List<TimeHistogram>> agentListEntry : agentLevelMap.entrySet()) {
       String agentName=agentListEntry.getKey();
@@ -25,4 +25,6 @@
       }
     }
   }
+  AgentTimeSeriesHistogram agentTimeSeriesHistogram=new AgentTimeSeriesHistogram(application,range,histogramMap);
+  return agentTimeSeriesHistogram;
 }

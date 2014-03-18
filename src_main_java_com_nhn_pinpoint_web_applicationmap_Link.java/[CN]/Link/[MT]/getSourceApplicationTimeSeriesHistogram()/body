@@ -1,0 +1,15 @@
+{
+  logger.info("------------------");
+  logger.info("link{}",getLinkName());
+  ApplicationTimeSeriesHistogramBuilder builder=new ApplicationTimeSeriesHistogramBuilder(toNode.getApplication(),range);
+  ApplicationTimeSeriesHistogram applicationTimeSeriesHistogram=builder.build(rawCallDataMap.getRawCallDataMap());
+  List<ResponseTimeViewModel> viewModel=applicationTimeSeriesHistogram.createViewModel();
+  try {
+    String s=MAPPER.writeValueAsString(viewModel);
+    logger.debug("sourceApplicationHistogram:{}",s);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+  logger.info("------------------");
+}

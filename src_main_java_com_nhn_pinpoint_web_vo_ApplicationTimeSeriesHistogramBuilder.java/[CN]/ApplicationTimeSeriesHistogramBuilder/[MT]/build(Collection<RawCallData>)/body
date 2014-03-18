@@ -1,0 +1,22 @@
+{
+  Map<Long,TimeHistogram> applicationLevelHistogram=new HashMap<Long,TimeHistogram>();
+  for (  RawCallData rawCallData : rawCallDataMapList) {
+    for (    TimeHistogram timeHistogram : rawCallData.getTimeHistogram()) {
+      Long timeStamp=timeHistogram.getTimeStamp();
+      TimeHistogram histogram=applicationLevelHistogram.get(timeStamp);
+      if (histogram == null) {
+        histogram=new TimeHistogram(timeHistogram.getServiceType(),timeStamp);
+        applicationLevelHistogram.put(timeStamp,histogram);
+      }
+      histogram.add(timeHistogram);
+    }
+  }
+  List<TimeHistogram> histogramList=interpolation(applicationLevelHistogram.values());
+  if (logger.isDebugEnabled()) {
+    for (    TimeHistogram histogram : histogramList) {
+      logger.debug("applicationLevel histogram:{}",histogram);
+    }
+  }
+  ApplicationTimeSeriesHistogram applicationTimeSeriesHistogram=new ApplicationTimeSeriesHistogram(application,range,histogramList);
+  return applicationTimeSeriesHistogram;
+}

@@ -1,14 +1,14 @@
 {
   final List<Node> result=new ArrayList<Node>();
   for (  LinkStatistics linkStat : linkStatData.getLinkStatData()) {
-    if (!linkStat.getFromServiceType().isRpcClient()) {
-      final Application fromApplication=linkStat.getFromApplication();
+    final Application fromApplication=linkStat.getFromApplication();
+    if (!fromApplication.getServiceType().isRpcClient()) {
       final Set<AgentInfoBo> agentSet=agentMap.get(fromApplication);
       Node fromNode=new Node(fromApplication,agentSet);
       result.add(fromNode);
     }
-    if (!linkStat.getToServiceType().isRpcClient()) {
-      final Application toApplication=linkStat.getToApplication();
+    final Application toApplication=linkStat.getToApplication();
+    if (!toApplication.getServiceType().isRpcClient()) {
       Node toNode=new Node(toApplication,linkStat.getTargetList());
       result.add(toNode);
     }

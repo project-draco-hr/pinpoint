@@ -1,5 +1,6 @@
 {
-  if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+  final ServiceType toServiceType=stat.getToApplication().getServiceType();
+  if (toServiceType.isTerminal() || toServiceType.isUnknown()) {
     return;
   }
   Set<AgentInfoBo> agentSet=selectAgents(stat.getToApplication().getName());

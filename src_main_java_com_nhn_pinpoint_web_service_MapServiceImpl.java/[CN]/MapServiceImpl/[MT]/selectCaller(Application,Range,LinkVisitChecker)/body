@@ -13,12 +13,13 @@
       fillAdditionalInfo(stat,range);
       resultCaller.addLinkStatistics(stat);
     }
-    if (stat.getToServiceType().isTerminal() || stat.getToServiceType().isUnknown()) {
+    final Application toApplication=stat.getToApplication();
+    if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
       continue;
     }
-    logger.debug("     Find subCaller of {}",stat.getToApplication());
-    LinkStatisticsData callerSub=selectCaller(stat.getToApplication(),range,linkVisitChecker);
-    logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),stat.getToApplication());
+    logger.debug("     Find subCaller of {}",toApplication);
+    LinkStatisticsData callerSub=selectCaller(toApplication,range,linkVisitChecker);
+    logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),toApplication);
     resultCaller.addLinkStatisticsData(callerSub);
     for (    LinkStatistics eachCaller : callerSub.getLinkStatData()) {
       logger.debug("     Find callee of {}",eachCaller.getFromApplication());
