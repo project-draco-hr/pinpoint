@@ -1,8 +1,8 @@
 {
   Scan scan=createScan(callerApplication,range);
-  final List<Collection<LinkStatistics>> foundListList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,mapStatisticsCallerMapper);
-  if (foundListList.isEmpty()) {
+  final List<LinkStatisticsData> foundList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,mapStatisticsCallerMapper);
+  if (foundList.isEmpty()) {
     logger.debug("There's no caller data. {}, {}",callerApplication,range);
   }
-  return merge(foundListList);
+  return merge(foundList);
 }

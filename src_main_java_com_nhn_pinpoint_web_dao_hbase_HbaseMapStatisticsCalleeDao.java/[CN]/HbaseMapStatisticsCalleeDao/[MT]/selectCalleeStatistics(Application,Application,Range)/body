@@ -4,6 +4,6 @@
   }
   Scan scan=createScan(calleeApplication,range);
   final LinkFilter filter=new DefaultLinkFilter(callerApplication,calleeApplication);
-  RowMapper<Collection<LinkStatistics>> mapper=new MapStatisticsCalleeMapper(filter);
+  RowMapper<LinkStatisticsData> mapper=new MapStatisticsCalleeMapper(filter);
   return hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapper);
 }

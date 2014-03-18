@@ -6,7 +6,6 @@
     logger.info("fromNode:{}, to:{}, fromNode:{}, linkTo:{}",fromNode,toNode,link.getFrom(),link.getTo());
     throw new IllegalArgumentException("Can't merge.");
   }
-  CallHistogramList linkCallHistogramList=link.getTargetList();
-  this.targetList.addCallHistogram(linkCallHistogramList);
-  this.sourceList.addCallHistogram(link.getSourceList());
+  RawCallDataMap copyRawCallDataMap=link.rawCallDataMap;
+  this.rawCallDataMap.addCallData(copyRawCallDataMap);
 }

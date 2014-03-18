@@ -1,21 +1,21 @@
 {
   if (linkVisitChecker.visitCallee(calleeApplication)) {
-    return Collections.emptySet();
+    return new LinkStatisticsData();
   }
-  final Collection<LinkStatistics> callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
+  final LinkStatisticsData callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
   logger.debug("Found Callee. count={}, callee={}",callee.size(),calleeApplication);
-  final Set<LinkStatistics> calleeSet=new HashSet<LinkStatistics>();
-  for (  LinkStatistics stat : callee) {
+  final LinkStatisticsData calleeSet=new LinkStatisticsData();
+  for (  LinkStatistics stat : callee.getLinkStatData()) {
     fillAdditionalInfo(stat,range);
-    calleeSet.add(stat);
-    Set<LinkStatistics> calleeSub=selectCallee(stat.getFromApplication(),range,linkVisitChecker);
-    calleeSet.addAll(calleeSub);
-    for (    LinkStatistics eachCallee : calleeSub) {
+    calleeSet.addLinkStatistics(stat);
+    LinkStatisticsData calleeSub=selectCallee(stat.getFromApplication(),range,linkVisitChecker);
+    calleeSet.addLinkStatisticsData(calleeSub);
+    for (    LinkStatistics eachCallee : calleeSub.getLinkStatData()) {
       if (eachCallee.getToServiceType().isTerminal() || eachCallee.getToServiceType().isUnknown()) {
         continue;
       }
-      Set<LinkStatistics> callerSub=selectCaller(eachCallee.getToApplication(),range,linkVisitChecker);
-      calleeSet.addAll(callerSub);
+      LinkStatisticsData callerSub=selectCaller(eachCallee.getToApplication(),range,linkVisitChecker);
+      calleeSet.addLinkStatisticsData(callerSub);
     }
   }
   return calleeSet;

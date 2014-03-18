@@ -16,11 +16,7 @@
   }
   for (  Map.Entry<Long,TimeHistogram> copyEntry : copyRawCallData.targetHistogramTimeMap.entrySet()) {
     final Long timeStamp=copyEntry.getKey();
-    TimeHistogram histogram=targetHistogramTimeMap.get(timeStamp);
-    if (histogram == null) {
-      histogram=new TimeHistogram(targetServiceType,timeStamp);
-      targetHistogramTimeMap.put(timeStamp,histogram);
-    }
+    TimeHistogram histogram=getTimeHistogram(timeStamp);
     histogram.add(copyEntry.getValue());
   }
 }

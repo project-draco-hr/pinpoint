@@ -5,16 +5,16 @@
   if (destinationApplication == null) {
     throw new NullPointerException("destinationApplication must not be null");
   }
-  List<Collection<LinkStatistics>> list=selectLink(sourceApplication,destinationApplication,range);
+  List<LinkStatisticsData> list=selectLink(sourceApplication,destinationApplication,range);
   logger.debug("Fetched statistics data={}",list);
   MapResponseHistogramSummary responseHistogramSummary=new MapResponseHistogramSummary(range);
-  for (  Collection<LinkStatistics> linkStatisticsList : list) {
-    for (    LinkStatistics entry : linkStatisticsList) {
-      CallHistogramList sourceList=entry.getSourceList();
+  for (  LinkStatisticsData entry : list) {
+    for (    LinkStatistics linkStatistics : entry.getLinkStatData()) {
+      CallHistogramList sourceList=linkStatistics.getSourceList();
       Collection<CallHistogram> callHistogramList=sourceList.getCallHistogramList();
       for (      CallHistogram histogram : callHistogramList) {
         for (        TimeHistogram timeHistogram : histogram.getTimeHistogram()) {
-          Application toApplication=entry.getToApplication();
+          Application toApplication=linkStatistics.getToApplication();
           if (toApplication.getServiceType().isRpcClient()) {
             toApplication=new Application(toApplication.getName(),ServiceType.UNKNOWN);
           }

@@ -1,6 +1,6 @@
 {
   final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
-  final Map<LinkKey,LinkStatistics> linkStatMap=new HashMap<LinkKey,LinkStatistics>();
+  final LinkStatisticsData linkStatisticsData=new LinkStatisticsData();
   final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
@@ -11,24 +11,17 @@
       if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
         continue;
       }
-      final LinkKey linkKey=new LinkKey(srcApplication,destApplication);
-      LinkStatistics linkStat=linkStatMap.get(linkKey);
-      if (linkStat == null) {
-        linkStat=new LinkStatistics(srcApplication,destApplication);
-        linkStatMap.put(linkKey,linkStat);
-      }
       final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
       long timestamp=window.refineTimestamp(span.getCollectorAcceptTime());
-      linkStat.addCallData(span.getAgentId(),srcApplication.getServiceTypeCode(),destApplication.getName(),destApplication.getServiceTypeCode(),timestamp,slotTime,1);
-      addNodeFromSpanEvent(span,window,linkStatMap,transactionSpanMap);
+      linkStatisticsData.addCallData(srcApplication,span.getAgentId(),destApplication,destApplication.getName(),timestamp,slotTime,1);
+      addNodeFromSpanEvent(span,window,linkStatisticsData,transactionSpanMap);
     }
   }
-  for (  LinkStatistics stat : linkStatMap.values()) {
+  for (  LinkStatistics stat : linkStatisticsData.getLinkStatData()) {
     fillAdditionalInfo(stat);
   }
-  Collection<LinkStatistics> linkStatisticsList=linkStatMap.values();
   ApplicationMapBuilder applicationMapBuilder=new ApplicationMapBuilder(range);
-  ApplicationMap map=applicationMapBuilder.build(linkStatisticsList);
+  ApplicationMap map=applicationMapBuilder.build(linkStatisticsData);
   mapHistogramSummary.build();
   map.appendResponseTime(mapHistogramSummary);
   return map;

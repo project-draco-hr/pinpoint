@@ -1,8 +1,4 @@
 {
-  TimeHistogram histogram=targetHistogramTimeMap.get(timestamp);
-  if (histogram == null) {
-    histogram=new TimeHistogram(targetServiceType,timestamp);
-    targetHistogramTimeMap.put(timestamp,histogram);
-  }
+  TimeHistogram histogram=getTimeHistogram(timestamp);
   histogram.addCallCount(slot,count);
 }

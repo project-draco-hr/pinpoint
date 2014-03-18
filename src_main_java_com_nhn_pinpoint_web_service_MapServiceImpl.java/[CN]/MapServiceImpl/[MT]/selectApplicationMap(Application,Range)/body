@@ -9,13 +9,13 @@
   StopWatch watch=new StopWatch("applicationMapWatch");
   watch.start();
   LinkVisitChecker linkVisitChecker=new LinkVisitChecker();
-  Set<LinkStatistics> caller=selectCaller(sourceApplication,range,linkVisitChecker);
+  LinkStatisticsData caller=selectCaller(sourceApplication,range,linkVisitChecker);
   logger.debug("Result of finding caller {}",caller);
-  Set<LinkStatistics> callee=selectCallee(sourceApplication,range,linkVisitChecker);
+  LinkStatisticsData callee=selectCallee(sourceApplication,range,linkVisitChecker);
   logger.debug("Result of finding callee {}",callee);
-  Set<LinkStatistics> data=new HashSet<LinkStatistics>(caller.size() + callee.size());
-  data.addAll(caller);
-  data.addAll(callee);
+  LinkStatisticsData data=new LinkStatisticsData();
+  data.addLinkStatisticsData(caller);
+  data.addLinkStatisticsData(callee);
   ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
   ApplicationMap map=builder.build(data);
   map.appendResponseTime(range,this.mapResponseDao);

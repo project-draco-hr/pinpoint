@@ -6,7 +6,7 @@
     throw new NullPointerException("range must not be null");
   }
   Scan scan=createScan(calleeApplication,range);
-  List<Collection<LinkStatistics>> foundListList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapStatisticsCalleeMapper);
+  List<LinkStatisticsData> foundListList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapStatisticsCalleeMapper);
   if (foundListList.isEmpty()) {
     logger.debug("There's no caller data. {}, {}",calleeApplication,range);
   }

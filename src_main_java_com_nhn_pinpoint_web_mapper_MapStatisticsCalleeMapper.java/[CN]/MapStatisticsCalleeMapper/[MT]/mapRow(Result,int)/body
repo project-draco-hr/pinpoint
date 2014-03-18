@@ -1,12 +1,12 @@
 {
   if (result.isEmpty()) {
-    return Collections.emptyList();
+    return new LinkStatisticsData();
   }
   logger.debug("mapRow:{}",rowNum);
   final Buffer row=new FixedBuffer(result.getRow());
   final Application calleeApplication=readCalleeApplication(row);
   final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
-  final Map<LinkKey,LinkStatistics> linkStatisticsMap=new HashMap<LinkKey,LinkStatistics>();
+  final LinkStatisticsData linkStatisticsData=new LinkStatisticsData();
   for (  KeyValue kv : result.raw()) {
     final byte[] qualifier=kv.getQualifier();
     final Application callerApplication=readCallerApplication(qualifier);
@@ -20,11 +20,11 @@
     if (logger.isDebugEnabled()) {
       logger.debug("    Fetched Callee. {} callerHost:{} -> {} (slot:{}/{}),  ",callerApplication,callerHost,calleeApplication,histogramSlot,requestCount);
     }
-    LinkStatistics statistics=getLinkStatics(linkStatisticsMap,callerApplication,calleeApplication);
-    statistics.addCallData(callerApplication.getName(),callerApplication.getServiceTypeCode(),callerHost,calleeApplication.getServiceTypeCode(),timestamp,(isError) ? (short)-1 : histogramSlot,requestCount);
+    final short slotTime=(isError) ? (short)-1 : histogramSlot;
+    linkStatisticsData.addCallData(callerApplication,callerApplication.getName(),calleeApplication,callerHost,timestamp,slotTime,requestCount);
     if (logger.isDebugEnabled()) {
-      logger.debug("    Fetched Callee. statistics:{}",statistics);
+      logger.debug("    Fetched Callee. statistics:{}",linkStatisticsData);
     }
   }
-  return linkStatisticsMap.values();
+  return linkStatisticsData;
 }
