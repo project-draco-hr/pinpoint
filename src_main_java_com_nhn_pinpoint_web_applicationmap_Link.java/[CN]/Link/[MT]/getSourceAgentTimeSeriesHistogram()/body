@@ -1,15 +1,6 @@
 {
-  logger.info("------------------");
-  logger.info("link{}",getLinkName());
   AgentTimeSeriesHistogramBuilder builder=new AgentTimeSeriesHistogramBuilder(toNode.getApplication(),range);
   AgentTimeSeriesHistogram applicationTimeSeriesHistogram=builder.build(rawCallDataMap.getRawCallDataMap());
   AgentResponseTimeViewModelList agentResponseTimeViewModelList=new AgentResponseTimeViewModelList(applicationTimeSeriesHistogram.createViewModel());
-  try {
-    String s=MAPPER.writeValueAsString(agentResponseTimeViewModelList);
-    logger.debug("sourceApplicationHistogram:{}",s);
-  }
- catch (  IOException e) {
-    e.printStackTrace();
-  }
-  logger.info("------------------");
+  return agentResponseTimeViewModelList;
 }

@@ -2,7 +2,8 @@
   HistogramSchema schema=ServiceType.TOMCAT.getHistogramSchema();
   Histogram original=new Histogram(ServiceType.TOMCAT);
   original.addCallCount(schema.getFastSlot().getSlotTime(),100);
-  HashMap hashMap=objectMapper.readValue(original.getJson(),HashMap.class);
+  String json=objectMapper.writeValueAsString(original);
+  HashMap hashMap=objectMapper.readValue(json,HashMap.class);
   Assert.assertEquals(hashMap.get(schema.getFastSlot().getSlotName()),100);
   Assert.assertEquals(hashMap.get(schema.getErrorSlot().getSlotName()),0);
 }

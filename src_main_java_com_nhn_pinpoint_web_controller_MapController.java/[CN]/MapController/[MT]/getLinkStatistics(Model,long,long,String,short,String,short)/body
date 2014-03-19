@@ -8,7 +8,14 @@
   model.addAttribute("targetApplication",destinationApplication);
   Histogram applicationHistogram=responseHistogramSummary.getApplicationHistogram();
   model.addAttribute("linkStatistics",applicationHistogram);
-  String applicationTimeSeriesHistogramJson=responseHistogramSummary.getApplicationTimeSeriesHistogramToJson();
+  List<ResponseTimeViewModel> applicationTimeSeriesHistogram=responseHistogramSummary.getApplicationTimeSeriesHistogram();
+  String applicationTimeSeriesHistogramJson=null;
+  try {
+    applicationTimeSeriesHistogramJson=MAPPER.writeValueAsString(applicationTimeSeriesHistogram);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
   model.addAttribute("timeSeriesHistogram",applicationTimeSeriesHistogramJson);
   model.addAttribute("resultFrom",from);
   model.addAttribute("resultTo",to);

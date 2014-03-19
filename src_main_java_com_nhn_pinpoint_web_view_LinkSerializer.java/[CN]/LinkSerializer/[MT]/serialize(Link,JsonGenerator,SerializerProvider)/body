@@ -1,0 +1,21 @@
+{
+  jgen.writeStartObject();
+  jgen.writeStringField("id",link.getLinkName());
+  jgen.writeStringField("from",link.getFrom().getNodeName());
+  jgen.writeStringField("to",link.getTo().getNodeName());
+  writeSimpleNode("sourceInfo",link.getFrom(),jgen);
+  writeSimpleNode("targetInfo",link.getTo(),jgen);
+  Application filterApplication=link.getFilterApplication();
+  jgen.writeStringField("filterApplicationName",filterApplication.getName());
+  jgen.writeNumberField("filterApplicationServiceTypeCode",filterApplication.getServiceTypeCode());
+  Histogram histogram=link.getHistogram();
+  jgen.writeNumberField("text",histogram.getTotalCount());
+  jgen.writeNumberField("error",histogram.getErrorCount());
+  jgen.writeNumberField("slow",histogram.getSlowCount());
+  jgen.writeObjectField("histogram",histogram);
+  writeSourceHistogram(link,jgen);
+  writeTargetHosts(link,jgen);
+  String state=link.getLinkState();
+  jgen.writeStringField("category",state);
+  jgen.writeEndObject();
+}

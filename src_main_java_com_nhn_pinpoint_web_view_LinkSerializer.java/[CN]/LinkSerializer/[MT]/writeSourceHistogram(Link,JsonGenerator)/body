@@ -1,0 +1,11 @@
+{
+  jgen.writeFieldName("sourceHistogram");
+  final CallHistogramList sourceList=link.getSourceList();
+  Collection<CallHistogram> callHistogramList=sourceList.getCallHistogramList();
+  jgen.writeStartObject();
+  for (  CallHistogram callHistogram : callHistogramList) {
+    jgen.writeFieldName(callHistogram.getId());
+    jgen.writeObject(callHistogram.getHistogram());
+  }
+  jgen.writeEndObject();
+}

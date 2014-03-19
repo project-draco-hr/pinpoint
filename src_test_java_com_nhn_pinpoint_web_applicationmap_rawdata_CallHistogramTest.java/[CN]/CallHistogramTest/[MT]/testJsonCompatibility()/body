@@ -12,7 +12,9 @@
   Assert.assertEquals(callHistogram.getHistogram().getErrorCount(),3);
   String callJson=mapper.writeValueAsString(callHistogram);
   String before=originalJson(callHistogram);
+  logger.debug("callJson:{}",callJson);
   HashMap callJsonHashMap=mapper.readValue(callJson,HashMap.class);
+  logger.debug("before:{}",before);
   HashMap beforeJsonHashMap=mapper.readValue(before,HashMap.class);
   logger.debug("{} {}",callJsonHashMap,beforeJsonHashMap);
   Assert.assertEquals(callJsonHashMap,beforeJsonHashMap);
