@@ -1,11 +1,9 @@
 {
-  if (this == obj)   return true;
-  if (obj == null)   return false;
-  if (getClass() != obj.getClass())   return false;
-  ServerInstance other=(ServerInstance)obj;
-  if (id == null) {
-    if (other.id != null)     return false;
-  }
- else   if (!id.equals(other.id))   return false;
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  ServerInstance that=(ServerInstance)o;
+  if (!name.equals(that.name))   return false;
+  if (serverType != that.serverType)   return false;
+  if (serviceType != that.serviceType)   return false;
   return true;
 }
