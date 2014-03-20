@@ -1,0 +1,22 @@
+{
+  if (gauges == null) {
+    throw new NullPointerException("gauges must not be null");
+  }
+  final Gauge gauge=gauges.get(key);
+  if (gauge == null) {
+    return 0;
+  }
+  Object value=gauge.getValue();
+  if (value == null) {
+    return 0;
+  }
+ else   if (value instanceof Long) {
+    return (Long)value;
+  }
+ else   if (value instanceof Integer) {
+    return ((Integer)value).longValue();
+  }
+ else {
+    return 0;
+  }
+}
