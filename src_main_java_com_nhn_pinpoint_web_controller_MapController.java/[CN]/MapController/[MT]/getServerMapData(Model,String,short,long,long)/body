@@ -1,6 +1,7 @@
 {
   final Range range=new Range(from,to);
   this.dateLimit.limit(from,to);
+  logger.debug("range:{}",TimeUnit.MILLISECONDS.toMinutes(range.getRange()));
   Application application=new Application(applicationName,serviceType);
   ApplicationMap map=mapService.selectApplicationMap(application,range);
   return new MapWrap(map);
