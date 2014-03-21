@@ -2,9 +2,13 @@
   try {
     final TAgentStat agentStat=new TAgentStat();
     agentStat.setAgentId(agentId);
+    agentStat.setStartTimestamp(agentStartTime);
     agentStat.setTimestamp(System.currentTimeMillis());
     final TJvmGc gc=garbageCollector.collect();
     agentStat.setGc(gc);
+    if (isTrace) {
+      logger.trace("collect agentStat:{}",agentStat);
+    }
     dataSender.send(agentStat);
   }
  catch (  Exception ex) {
