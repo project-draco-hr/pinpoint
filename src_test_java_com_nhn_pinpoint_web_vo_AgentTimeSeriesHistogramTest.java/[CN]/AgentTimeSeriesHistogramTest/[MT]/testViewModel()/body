@@ -5,9 +5,9 @@
   AgentTimeSeriesHistogram histogram=builder.build(responseHistogramList);
   List<AgentResponseTimeViewModel> viewModel=histogram.createViewModel();
   logger.debug("{}",viewModel);
-  JsonFactory jsonFactory=mapper.getJsonFactory();
+  JsonFactory jsonFactory=mapper.getFactory();
   StringWriter stringWriter=new StringWriter();
-  JsonGenerator jsonGenerator=jsonFactory.createJsonGenerator(stringWriter);
+  JsonGenerator jsonGenerator=jsonFactory.createGenerator(stringWriter);
   jsonGenerator.writeStartObject();
   for (  AgentResponseTimeViewModel agentResponseTimeViewModel : viewModel) {
     jsonGenerator.writeObject(agentResponseTimeViewModel);
