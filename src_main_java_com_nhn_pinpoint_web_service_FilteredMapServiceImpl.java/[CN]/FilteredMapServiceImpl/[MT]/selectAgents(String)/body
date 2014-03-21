@@ -1,5 +1,5 @@
 {
-  String[] agentIds=applicationIndexDao.selectAgentIds(applicationId);
+  List<String> agentIds=applicationIndexDao.selectAgentIds(applicationId);
   Set<AgentInfoBo> agentSet=new HashSet<AgentInfoBo>();
   for (  String agentId : agentIds) {
     AgentInfoBo info=agentInfoDao.findAgentInfoBeforeStartTime(agentId,System.currentTimeMillis());

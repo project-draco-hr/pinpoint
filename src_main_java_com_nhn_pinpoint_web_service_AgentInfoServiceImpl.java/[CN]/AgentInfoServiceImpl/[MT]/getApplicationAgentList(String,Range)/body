@@ -2,11 +2,11 @@
   if (applicationName == null) {
     throw new NullPointerException("applicationName must not be null");
   }
-  String[] agentIdList=applicationIndexDao.selectAgentIds(applicationName);
+  final List<String> agentIdList=applicationIndexDao.selectAgentIds(applicationName);
   if (logger.isDebugEnabled()) {
-    logger.debug("agentIdList={}",Arrays.toString(agentIdList));
+    logger.debug("agentIdList={}",agentIdList);
   }
-  if (agentIdList == null || agentIdList.length == 0) {
+  if (CollectionUtils.isEmpty(agentIdList)) {
     logger.debug("agentIdList is empty. applicationName={}, {}",applicationName,range);
     return new TreeMap<String,List<AgentInfoBo>>();
   }

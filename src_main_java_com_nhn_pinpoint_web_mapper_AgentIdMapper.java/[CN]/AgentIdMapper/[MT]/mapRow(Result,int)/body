@@ -1,12 +1,12 @@
 {
   if (result.isEmpty()) {
-    return EMPTY_ARRAY;
+    return Collections.emptyList();
   }
-  KeyValue[] raw=result.raw();
-  String[] ret=new String[raw.length];
-  int index=0;
+  final KeyValue[] raw=result.raw();
+  final List<String> agentIdList=new ArrayList<String>(raw.length);
   for (  KeyValue kv : raw) {
-    ret[index++]=Bytes.toString(kv.getQualifier());
+    final String agentId=Bytes.toString(kv.getQualifier());
+    agentIdList.add(agentId);
   }
-  return ret;
+  return agentIdList;
 }

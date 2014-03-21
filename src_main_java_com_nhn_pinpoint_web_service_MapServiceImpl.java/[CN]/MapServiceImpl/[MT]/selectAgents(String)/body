@@ -2,7 +2,7 @@
   if (applicationId == null) {
     throw new NullPointerException("applicationId must not be null");
   }
-  String[] agentIds=applicationIndexDao.selectAgentIds(applicationId);
+  List<String> agentIds=applicationIndexDao.selectAgentIds(applicationId);
   Set<AgentInfoBo> agentSet=new HashSet<AgentInfoBo>();
   for (  String agentId : agentIds) {
     AgentInfoBo info=agentInfoDao.findAgentInfoBeforeStartTime(agentId,System.currentTimeMillis());
