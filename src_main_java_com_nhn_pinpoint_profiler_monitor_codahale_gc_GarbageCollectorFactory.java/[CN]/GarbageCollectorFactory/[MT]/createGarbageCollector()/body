@@ -1,0 +1,19 @@
+{
+  MetricMonitorRegistry registry=createRegistry();
+  Collection<String> keys=registry.getRegistry().getNames();
+  if (keys.contains(JVM_GC_SERIAL_MSC_COUNT)) {
+    return new SerialCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_PS_MS_COUNT)) {
+    return new ParallelCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_CMS_COUNT)) {
+    return new CmsCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_G1_OLD_COUNT)) {
+    return new G1Collector(registry);
+  }
+ else {
+    throw new RuntimeException("unknown garbage collector");
+  }
+}

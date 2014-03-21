@@ -3,11 +3,8 @@
     throw new NullPointerException("dataSender must not be null");
   }
   this.dataSender=dataSender;
-  this.monitorRegistry=createRegistry();
-  this.agentStat=new TAgentStat();
-  this.agentStat.setAgentId(agentId);
-  this.garbageCollector=new GarbageCollector();
-  this.garbageCollector.setType(monitorRegistry);
+  this.agentId=AgentStatMonitor.this.agentId;
+  this.garbageCollector=GarbageCollectorFactory.createGarbageCollector();
   if (logger.isInfoEnabled()) {
     logger.info("found : {}",this.garbageCollector);
   }

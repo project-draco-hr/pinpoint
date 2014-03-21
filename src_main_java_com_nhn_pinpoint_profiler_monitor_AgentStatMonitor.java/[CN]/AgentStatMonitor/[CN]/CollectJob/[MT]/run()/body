@@ -1,8 +1,11 @@
 {
   try {
+    final TAgentStat agentStat=new TAgentStat();
+    agentStat.setAgentId(agentId);
     agentStat.setTimestamp(System.currentTimeMillis());
-    garbageCollector.map(monitorRegistry,agentStat,agentId);
-    dataSender.send(agentStat);
+    final TJvmGc gc=this.garbageCollector.collect();
+    agentStat.setGc(gc);
+    this.dataSender.send(agentStat);
   }
  catch (  Exception ex) {
     logger.warn("AgentStat collect failed. Caused:{}",ex.getMessage(),ex);
