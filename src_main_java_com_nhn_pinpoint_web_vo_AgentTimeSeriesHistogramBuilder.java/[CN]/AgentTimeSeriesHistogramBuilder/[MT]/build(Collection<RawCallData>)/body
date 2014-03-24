@@ -4,6 +4,7 @@
     List<TimeHistogram> sourceHistogramList=agentLevelMap.get(rawCallData.getSource());
     if (sourceHistogramList == null) {
       sourceHistogramList=new ArrayList<TimeHistogram>();
+      logger.debug("-----------source:{}, target:{}",rawCallData.getSource(),rawCallData.getTarget());
       agentLevelMap.put(rawCallData.getSource(),sourceHistogramList);
     }
     sourceHistogramList.addAll(rawCallData.getTimeHistogram());

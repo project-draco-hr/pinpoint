@@ -15,13 +15,13 @@
     }
   }
   Map<String,List<TimeHistogram>> histogramMap=interpolation(agentLevelMap);
-  if (logger.isDebugEnabled()) {
+  if (logger.isTraceEnabled()) {
     for (    Map.Entry<String,List<TimeHistogram>> agentListEntry : agentLevelMap.entrySet()) {
       String agentName=agentListEntry.getKey();
-      logger.debug("agentName:{}",agentName);
+      logger.trace("agentName:{}",agentName);
       List<TimeHistogram> value=agentListEntry.getValue();
       for (      TimeHistogram histogram : value) {
-        logger.debug("histogram:{}",histogram);
+        logger.trace("histogram:{}",histogram);
       }
     }
   }
