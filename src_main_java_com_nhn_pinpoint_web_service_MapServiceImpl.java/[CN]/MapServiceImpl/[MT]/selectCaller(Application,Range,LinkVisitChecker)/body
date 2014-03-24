@@ -7,13 +7,14 @@
     logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
   }
   final LinkStatisticsData resultCaller=new LinkStatisticsData();
-  for (  LinkStatistics stat : caller.getLinkStatData()) {
-    final boolean replaced=replaceApplicationInfo(stat,range);
-    if (!replaced) {
-      fillAdditionalInfo(stat,range);
-      resultCaller.addLinkStatistics(stat);
+  for (  LinkStatistics link : caller.getLinkStatData()) {
+    final AcceptedLinkStatistics isAccepted=getRpcCallAccepted(link,range);
+    link=isAccepted.getLinkStatistics();
+    if (!isAccepted.isAccepted()) {
+      fillAdditionalInfo(link,range);
+      resultCaller.addLinkStatistics(link);
     }
-    final Application toApplication=stat.getToApplication();
+    final Application toApplication=link.getToApplication();
     if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
       continue;
     }

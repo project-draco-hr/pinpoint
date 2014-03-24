@@ -1,0 +1,19 @@
+{
+  final Application toApplication=stat.getToApplication();
+  if (toApplication.getServiceType().isRpcClient()) {
+    logger.debug("Find applicationName {} {}",toApplication,range);
+    final Application app=hostApplicationMapDao.findApplicationName(toApplication.getName(),range);
+    if (app != null) {
+      logger.debug("Application info replaced. {} => {}",stat,app);
+      Application acceptedApplication=new Application(app.getName(),app.getServiceType());
+      LinkStatistics linkStat=new LinkStatistics(stat.getFromApplication(),acceptedApplication,stat.getToAgentSet(),stat.getCallDataMap());
+      return new AcceptedLinkStatistics(true,linkStat);
+    }
+ else {
+      Application unknown=new Application(toApplication.getName(),ServiceType.UNKNOWN);
+      LinkStatistics unknownLinkStat=new LinkStatistics(stat.getFromApplication(),unknown,stat.getToAgentSet(),stat.getCallDataMap());
+      return new AcceptedLinkStatistics(false,unknownLinkStat);
+    }
+  }
+  return new AcceptedLinkStatistics(false,stat);
+}
