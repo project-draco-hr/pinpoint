@@ -1,0 +1,17 @@
+{
+  if (url == null) {
+    return null;
+  }
+  BoundRequestBuilder requestBuilder=asyncHttpClient.prepareGet(url + queriesToQueryString(queries));
+  requestBuilder=this.addHeader(requestBuilder,headers);
+  try {
+    Future<Response> f=requestBuilder.execute();
+    Response response=f.get(500L,TimeUnit.MILLISECONDS);
+    logger.debug("\n\t [GET] url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t queries \t: "+ queries+ "\n\t reponse \t: "+ response.toString());
+    return response;
+  }
+ catch (  Exception e) {
+    logger.debug("request read-timeout : url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t queries \t: "+ queries);
+    throw new RuntimeException(e);
+  }
+}

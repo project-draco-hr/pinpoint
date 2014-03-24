@@ -1,0 +1,16 @@
+{
+  if (headers == null) {
+    return requestBuilder;
+  }
+  for (  Entry<String,String> entry : headers) {
+    if (requestBuilder != null) {
+      if (!entry.getKey().equals("User-Agent")) {
+        requestBuilder.addHeader(entry.getKey(),entry.getValue());
+      }
+    }
+  }
+  if (requestBuilder != null) {
+    requestBuilder.addHeader("User-Agent",this.defaultUserAgent);
+  }
+  return requestBuilder;
+}
