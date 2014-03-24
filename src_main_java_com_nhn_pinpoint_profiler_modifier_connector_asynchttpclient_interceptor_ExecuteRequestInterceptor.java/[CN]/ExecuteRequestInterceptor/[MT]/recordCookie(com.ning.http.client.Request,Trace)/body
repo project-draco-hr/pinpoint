@@ -1,0 +1,15 @@
+{
+  if (cookieSampler.isSampling()) {
+    Collection<Cookie> cookies=httpRequest.getCookies();
+    StringBuilder sb=new StringBuilder();
+    Iterator<Cookie> iterator=cookies.iterator();
+    while (iterator.hasNext()) {
+      Cookie cookie=iterator.next();
+      sb.append(cookie.getName()).append("=").append(cookie.getValue());
+      if (iterator.hasNext()) {
+        sb.append(",");
+      }
+    }
+    trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(sb.toString(),1024));
+  }
+}

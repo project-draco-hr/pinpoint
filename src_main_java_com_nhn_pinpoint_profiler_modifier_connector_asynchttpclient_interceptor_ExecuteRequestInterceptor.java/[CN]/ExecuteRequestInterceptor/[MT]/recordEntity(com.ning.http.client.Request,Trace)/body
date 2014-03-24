@@ -1,0 +1,8 @@
+{
+  if (entitySampler.isSampling()) {
+    FluentStringsMap requestParams=httpRequest.getParams();
+    if (requestParams != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(requestParams.toString(),1024));
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  final boolean isException=InterceptorUtils.isThrowable(result);
+  if (collectCookie) {
+    if (DumpType.ALWAYS == cookieDumpType) {
+      recordCookie(httpRequest,trace);
+    }
+ else     if (DumpType.EXCEPTION == cookieDumpType && isException) {
+      recordCookie(httpRequest,trace);
+    }
+  }
+  if (collectEntity) {
+    if (DumpType.ALWAYS == entityDumpType) {
+      recordEntity(httpRequest,trace);
+    }
+ else     if (DumpType.EXCEPTION == entityDumpType && isException) {
+      recordEntity(httpRequest,trace);
+    }
+  }
+}

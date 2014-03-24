@@ -1,0 +1,37 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (args.length == 0 || !(args[0] instanceof com.ning.http.client.Request)) {
+    return;
+  }
+  final com.ning.http.client.Request httpRequest=(com.ning.http.client.Request)args[0];
+  final FluentCaseInsensitiveStringsMap httpRequestHeaders=httpRequest.getHeaders();
+  final boolean sampling=trace.canSampled();
+  if (!sampling) {
+    if (isDebug) {
+      logger.debug("set Sampling flag=false");
+    }
+    if (httpRequest != null) {
+      httpRequestHeaders.add(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+    }
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  trace.recordServiceType(ServiceType.HTTP_CLIENT);
+  if (httpRequest != null) {
+    httpRequestHeaders.add(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    httpRequestHeaders.add(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    httpRequestHeaders.add(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    httpRequestHeaders.add(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    httpRequestHeaders.add(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    httpRequestHeaders.add(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+  }
+}
