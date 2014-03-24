@@ -1,0 +1,33 @@
+{
+  Map<String,List<String>> info=new HashMap<String,List<String>>();
+  try {
+    String packaze="com.nhn.pinpoint.testweb.controller";
+    ArrayList<String> classNamesFromPackage=MainController.getClassNamesFromPackage(packaze);
+    for (    String className : classNamesFromPackage) {
+      Class<?> clazz=Class.forName(packaze + "." + className);
+      List<String> requestInfo=new ArrayList<String>();
+      Method[] methods=clazz.getDeclaredMethods();
+      for (      Method m : methods) {
+        Annotation[] annotations=m.getDeclaredAnnotations();
+        org.springframework.web.bind.annotation.RequestMapping mappingInfo=null;
+        for (        Annotation a : annotations) {
+          if (a instanceof org.springframework.web.bind.annotation.RequestMapping) {
+            mappingInfo=(org.springframework.web.bind.annotation.RequestMapping)a;
+            break;
+          }
+        }
+        if (mappingInfo != null) {
+          requestInfo.add(mappingInfo.value()[0]);
+        }
+      }
+      if (requestInfo.size() > 0) {
+        info.put(clazz.getSimpleName(),requestInfo);
+      }
+    }
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  model.addAttribute("mapping",info);
+  return "docs";
+}
