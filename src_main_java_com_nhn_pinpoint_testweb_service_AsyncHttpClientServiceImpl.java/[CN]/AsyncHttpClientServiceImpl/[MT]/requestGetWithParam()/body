@@ -1,0 +1,18 @@
+{
+  Map<String,List<String>> params=new HashMap<String,List<String>>();
+  params.put("query",new ArrayList<String>(){
+{
+      add("naver");
+    }
+  }
+);
+  params.put("where",new ArrayList<String>(){
+{
+      add("nexearch");
+    }
+  }
+);
+  Response r=httpInvoker.requestGet("http://search.naver.com/search.naver",params,null);
+  logger.debug("r={}" + r.toString());
+  return r.toString();
+}
