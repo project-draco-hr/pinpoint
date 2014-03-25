@@ -6,7 +6,7 @@
   final Buffer row=new FixedBuffer(result.getRow());
   final Application caller=readCallerApplication(row);
   final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
-  final LinkStatisticsData linkStatisticsMap=new LinkStatisticsData();
+  final LinkStatisticsData linkStatisticsData=new LinkStatisticsData();
   for (  KeyValue kv : result.raw()) {
     final byte[] family=kv.getFamily();
     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER)) {
@@ -23,7 +23,7 @@
         logger.debug("    Fetched Caller.  {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
       }
       final short slotTime=(isError) ? (short)-1 : histogramSlot;
-      linkStatisticsMap.addLinkData(caller,caller.getName(),callee,calleeHost,timestamp,slotTime,requestCount);
+      linkStatisticsData.addLinkData(caller,caller.getName(),callee,calleeHost,timestamp,slotTime,requestCount);
     }
  else     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER)) {
       final Buffer buffer=new OffsetFixedBuffer(kv.getBuffer(),kv.getQualifierOffset());
@@ -40,11 +40,11 @@
         logger.debug("    Fetched Caller.(New) {} {} -> {} (slot:{}/{}) calleeHost:{}",caller,callerAgentId,callee,histogramSlot,requestCount,calleeHost);
       }
       final short slotTime=(isError) ? (short)-1 : histogramSlot;
-      linkStatisticsMap.addLinkData(caller,callerAgentId,callee,calleeHost,timestamp,slotTime,requestCount);
+      linkStatisticsData.addLinkData(caller,callerAgentId,callee,calleeHost,timestamp,slotTime,requestCount);
     }
  else {
       throw new IllegalArgumentException("unknown ColumnFamily :" + Arrays.toString(family));
     }
   }
-  return linkStatisticsMap;
+  return linkStatisticsData;
 }
