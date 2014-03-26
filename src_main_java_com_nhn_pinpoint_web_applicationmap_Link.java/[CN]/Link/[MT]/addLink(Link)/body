@@ -2,10 +2,10 @@
   if (link == null) {
     throw new NullPointerException("link must not be null");
   }
-  if (this.fromNode.equals(link.getFrom()) && this.toNode.equals(link.getTo())) {
+  if (!(this.fromNode.equals(link.getFrom()) && this.toNode.equals(link.getTo()))) {
     logger.info("fromNode:{}, to:{}, fromNode:{}, linkTo:{}",fromNode,toNode,link.getFrom(),link.getTo());
     throw new IllegalArgumentException("Can't merge.");
   }
-  RawCallDataMap copyRawCallDataMap=link.rawCallDataMap;
-  this.rawCallDataMap.addCallData(copyRawCallDataMap);
+  this.source.addCallData(link.source);
+  this.target.addCallData(link.target);
 }

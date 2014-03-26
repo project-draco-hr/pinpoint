@@ -1,32 +1,32 @@
 {
   if (linkVisitChecker.visitCaller(callerApplication)) {
-    return new LinkStatisticsData();
+    return new LinkStatisticsDataSet();
   }
   LinkStatisticsData caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
   if (logger.isDebugEnabled()) {
     logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
   }
-  final LinkStatisticsData resultCaller=new LinkStatisticsData();
+  final LinkStatisticsDataSet resultCaller=new LinkStatisticsDataSet();
   for (  LinkStatistics link : caller.getLinkStatData()) {
     final AcceptedLinkStatistics isAccepted=getRpcCallAccepted(link,range);
     link=isAccepted.getLinkStatistics();
     if (!isAccepted.isAccepted()) {
       fillAdditionalInfo(link,range);
-      resultCaller.addLinkStatistics(link);
     }
+    resultCaller.addSourceLinkStatistics(link);
     final Application toApplication=link.getToApplication();
     if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
       continue;
     }
     logger.debug("     Find subCaller of {}",toApplication);
-    LinkStatisticsData callerSub=selectCaller(toApplication,range,linkVisitChecker);
+    LinkStatisticsDataSet callerSub=selectCaller(toApplication,range,linkVisitChecker);
     logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),toApplication);
-    resultCaller.addLinkStatisticsData(callerSub);
-    for (    LinkStatistics eachCaller : callerSub.getLinkStatData()) {
+    resultCaller.addLinkStatisticsDataSet(callerSub);
+    for (    LinkStatistics eachCaller : callerSub.getSourceLinkStatData()) {
       logger.debug("     Find callee of {}",eachCaller.getFromApplication());
-      LinkStatisticsData calleeSub=selectCallee(eachCaller.getFromApplication(),range,linkVisitChecker);
+      LinkStatisticsDataSet calleeSub=selectCallee(eachCaller.getFromApplication(),range,linkVisitChecker);
       logger.debug("     Found subCallee. count={}, callee={}",calleeSub.size(),eachCaller.getFromApplication());
-      resultCaller.addLinkStatisticsData(calleeSub);
+      resultCaller.addLinkStatisticsDataSet(calleeSub);
     }
   }
   return resultCaller;

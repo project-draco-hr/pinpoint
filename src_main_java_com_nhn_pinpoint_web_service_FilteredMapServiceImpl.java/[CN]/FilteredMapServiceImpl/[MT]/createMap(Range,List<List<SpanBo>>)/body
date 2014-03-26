@@ -20,8 +20,9 @@
   for (  LinkStatistics stat : linkStatisticsData.getLinkStatData()) {
     fillAdditionalInfo(stat);
   }
+  LinkStatisticsDataSet linkStatisticsDataSet=new LinkStatisticsDataSet(linkStatisticsData);
   ApplicationMapBuilder applicationMapBuilder=new ApplicationMapBuilder(range);
-  ApplicationMap map=applicationMapBuilder.build(linkStatisticsData);
+  ApplicationMap map=applicationMapBuilder.build(linkStatisticsDataSet);
   mapHistogramSummary.build();
   map.appendResponseTime(mapHistogramSummary);
   return map;
