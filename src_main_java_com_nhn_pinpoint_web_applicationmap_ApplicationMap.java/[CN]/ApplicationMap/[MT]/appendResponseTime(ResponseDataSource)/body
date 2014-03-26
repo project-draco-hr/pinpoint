@@ -12,33 +12,18 @@
  else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
       Application nodeApplication=new Application(node.getApplication().getName(),node.getServiceType());
       final ResponseHistogramSummary nodeHistogramSummary=new ResponseHistogramSummary(nodeApplication,range);
-      Collection<Link> linkList=this.linkList.getLinks();
-      for (      Link link : linkList) {
-        Node toNode=link.getTo();
-        String applicationName=toNode.getApplication().getName();
-        ServiceType serviceType=toNode.getServiceType();
-        Application destination=new Application(applicationName,serviceType);
-        if (nodeApplication.equals(destination)) {
-          Histogram linkHistogram=link.getHistogram();
-          nodeHistogramSummary.addLinkHistogram(linkHistogram);
-        }
+      final List<Link> toLinkList=linkList.findToLink(nodeApplication);
+      for (      Link link : toLinkList) {
+        nodeHistogramSummary.addLinkHistogram(link.getHistogram());
       }
       node.setResponseHistogramSummary(nodeHistogramSummary);
     }
  else     if (node.getServiceType().isUser()) {
-      Application nodeApplication=new Application(node.getApplication().getName(),node.getServiceType());
+      Application nodeApplication=node.getApplication();
       final ResponseHistogramSummary nodeHistogramSummary=new ResponseHistogramSummary(nodeApplication,range);
-      Collection<Link> linkList=this.linkList.getLinks();
-      for (      Link link : linkList) {
-        Node fromNode=link.getFrom();
-        String applicationName=fromNode.getApplication().getName();
-        ServiceType serviceType=fromNode.getServiceType();
-        Application source=new Application(applicationName,serviceType);
-        if (nodeApplication.equals(source)) {
-          logger.debug("nodeApplication:{}, source:{}",nodeApplication,source);
-          Histogram linkHistogram=link.getTargetHistogram();
-          nodeHistogramSummary.addLinkHistogram(linkHistogram);
-        }
+      final List<Link> fromLink=linkList.findFromLink(nodeApplication);
+      for (      Link link : fromLink) {
+        nodeHistogramSummary.addLinkHistogram(link.getHistogram());
       }
       node.setResponseHistogramSummary(nodeHistogramSummary);
     }

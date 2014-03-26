@@ -8,11 +8,7 @@
   }
   final LinkStatisticsDataSet resultCaller=new LinkStatisticsDataSet();
   for (  LinkStatistics link : caller.getLinkStatData()) {
-    final AcceptedLinkStatistics isAccepted=getRpcCallAccepted(link,range);
-    link=isAccepted.getLinkStatistics();
-    if (!isAccepted.isAccepted()) {
-      fillAdditionalInfo(link,range);
-    }
+    link=getRpcCallAccepted(link,range);
     resultCaller.addSourceLinkStatistics(link);
     final Application toApplication=link.getToApplication();
     if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {

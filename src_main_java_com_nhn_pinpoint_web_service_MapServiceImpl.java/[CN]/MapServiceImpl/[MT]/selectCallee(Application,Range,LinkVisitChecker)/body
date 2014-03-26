@@ -6,7 +6,6 @@
   logger.debug("Found Callee. count={}, callee={}",callee.size(),calleeApplication);
   final LinkStatisticsDataSet calleeSet=new LinkStatisticsDataSet();
   for (  LinkStatistics stat : callee.getLinkStatData()) {
-    fillAdditionalInfo(stat,range);
     calleeSet.addTargetLinkStatistics(stat);
     LinkStatisticsDataSet calleeSub=selectCallee(stat.getFromApplication(),range,linkVisitChecker);
     calleeSet.addLinkStatisticsDataSet(calleeSub);

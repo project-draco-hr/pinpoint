@@ -2,9 +2,9 @@
   final List<Link> result=new ArrayList<Link>();
   for (  LinkStatistics linkStat : rawData.getLinkStatData()) {
     final Application fromApplicationId=linkStat.getFromApplication();
-    Node fromNode=nodeMap.findApplication(fromApplicationId);
+    Node fromNode=nodeMap.findNode(fromApplicationId);
     final Application toApplicationId=linkStat.getToApplication();
-    Node toNode=nodeMap.findApplication(toApplicationId);
+    Node toNode=nodeMap.findNode(toApplicationId);
     if (fromNode == null) {
       continue;
     }

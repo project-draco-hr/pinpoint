@@ -1,16 +1,14 @@
 {
-  Map<Application,Set<AgentInfoBo>> targetAgentMap=linkStatData.getTargetLinkData().getAgentMap();
   final List<Node> result=new ArrayList<Node>();
   for (  LinkStatistics linkStat : linkStatData.getSourceLinkStatData()) {
     final Application fromApplication=linkStat.getFromApplication();
     if (!fromApplication.getServiceType().isRpcClient()) {
-      final Set<AgentInfoBo> agentSet=targetAgentMap.get(fromApplication);
-      Node fromNode=new Node(fromApplication,agentSet);
+      Node fromNode=new Node(fromApplication);
       result.add(fromNode);
     }
     final Application toApplication=linkStat.getToApplication();
     if (!toApplication.getServiceType().isRpcClient()) {
-      Node toNode=new Node(toApplication,linkStat.getTargetList());
+      Node toNode=new Node(toApplication);
       result.add(toNode);
     }
   }

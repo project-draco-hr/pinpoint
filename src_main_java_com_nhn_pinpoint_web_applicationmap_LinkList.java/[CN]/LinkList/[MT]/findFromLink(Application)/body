@@ -1,0 +1,13 @@
+{
+  if (fromApplication == null) {
+    throw new NullPointerException("toApplication must not be null");
+  }
+  List<Link> findList=new ArrayList();
+  for (  Link link : linkMap.values()) {
+    Node fromNode=link.getFrom();
+    if (fromNode.getApplication().equals(fromApplication)) {
+      findList.add(link);
+    }
+  }
+  return findList;
+}

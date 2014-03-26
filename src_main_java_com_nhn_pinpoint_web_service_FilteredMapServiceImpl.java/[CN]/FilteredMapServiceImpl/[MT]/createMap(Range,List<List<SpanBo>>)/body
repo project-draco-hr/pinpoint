@@ -17,12 +17,9 @@
       addNodeFromSpanEvent(span,window,linkStatisticsData,transactionSpanMap);
     }
   }
-  for (  LinkStatistics stat : linkStatisticsData.getLinkStatData()) {
-    fillAdditionalInfo(stat);
-  }
   LinkStatisticsDataSet linkStatisticsDataSet=new LinkStatisticsDataSet(linkStatisticsData);
   ApplicationMapBuilder applicationMapBuilder=new ApplicationMapBuilder(range);
-  ApplicationMap map=applicationMapBuilder.build(linkStatisticsDataSet);
+  ApplicationMap map=applicationMapBuilder.build(linkStatisticsDataSet,this);
   mapHistogramSummary.build();
   map.appendResponseTime(mapHistogramSummary);
   return map;
