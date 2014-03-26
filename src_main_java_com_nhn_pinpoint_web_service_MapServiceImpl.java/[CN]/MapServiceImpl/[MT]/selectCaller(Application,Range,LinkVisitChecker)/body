@@ -7,7 +7,7 @@
     logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
   }
   final LinkDataDuplexMap resultCaller=new LinkDataDuplexMap();
-  for (  LinkData link : caller.getLinkStatData()) {
+  for (  LinkData link : caller.getLinkDataList()) {
     link=getRpcCallAccepted(link,range);
     resultCaller.addSourceLinkData(link);
     final Application toApplication=link.getToApplication();
@@ -18,7 +18,7 @@
     LinkDataDuplexMap callerSub=selectCaller(toApplication,range,linkVisitChecker);
     logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),toApplication);
     resultCaller.addLinkStatisticsDataSet(callerSub);
-    for (    LinkData eachCaller : callerSub.getSourceLinkStatData()) {
+    for (    LinkData eachCaller : callerSub.getSourceLinkDataList()) {
       logger.debug("     Find callee of {}",eachCaller.getFromApplication());
       LinkDataDuplexMap calleeSub=selectCallee(eachCaller.getFromApplication(),range,linkVisitChecker);
       logger.debug("     Found subCallee. count={}, callee={}",calleeSub.size(),eachCaller.getFromApplication());

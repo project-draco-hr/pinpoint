@@ -6,10 +6,10 @@
     throw new NullPointerException("destinationApplication must not be null");
   }
   List<LinkDataMap> list=selectLink(sourceApplication,destinationApplication,range);
-  logger.debug("Fetched statistics data={}",list);
+  logger.debug("Fetched statistics data size={}",list.size());
   MapResponseHistogramSummary responseHistogramSummary=new MapResponseHistogramSummary(range);
   for (  LinkDataMap entry : list) {
-    for (    LinkData linkData : entry.getLinkStatData()) {
+    for (    LinkData linkData : entry.getLinkDataList()) {
       CallHistogramList sourceList=linkData.getSourceList();
       Collection<CallHistogram> callHistogramList=sourceList.getCallHistogramList();
       for (      CallHistogram histogram : callHistogramList) {
