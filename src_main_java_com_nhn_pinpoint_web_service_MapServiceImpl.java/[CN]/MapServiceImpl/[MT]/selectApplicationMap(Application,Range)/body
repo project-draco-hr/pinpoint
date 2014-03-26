@@ -9,11 +9,11 @@
   StopWatch watch=new StopWatch("applicationMapWatch");
   watch.start();
   LinkVisitChecker linkVisitChecker=new LinkVisitChecker();
-  LinkStatisticsDataSet caller=selectCaller(sourceApplication,range,linkVisitChecker);
+  LinkDataDuplexMap caller=selectCaller(sourceApplication,range,linkVisitChecker);
   logger.debug("Result of finding caller {}",caller);
-  LinkStatisticsDataSet callee=selectCallee(sourceApplication,range,linkVisitChecker);
+  LinkDataDuplexMap callee=selectCallee(sourceApplication,range,linkVisitChecker);
   logger.debug("Result of finding callee {}",callee);
-  LinkStatisticsDataSet data=new LinkStatisticsDataSet();
+  LinkDataDuplexMap data=new LinkDataDuplexMap();
   data.addLinkStatisticsDataSet(caller);
   data.addLinkStatisticsDataSet(callee);
   ApplicationMapBuilder builder=new ApplicationMapBuilder(range);

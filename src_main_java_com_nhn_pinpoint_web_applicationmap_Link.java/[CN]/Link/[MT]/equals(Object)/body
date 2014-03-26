@@ -1,11 +1,8 @@
 {
-  if (this == obj)   return true;
-  if (obj == null)   return false;
-  if (getClass() != obj.getClass())   return false;
-  Link other=(Link)obj;
-  if (linkKey == null) {
-    if (other.linkKey != null)     return false;
-  }
- else   if (!linkKey.equals(other.linkKey))   return false;
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  Link link=(Link)o;
+  if (!fromNode.equals(link.fromNode))   return false;
+  if (!toNode.equals(link.toNode))   return false;
   return true;
 }

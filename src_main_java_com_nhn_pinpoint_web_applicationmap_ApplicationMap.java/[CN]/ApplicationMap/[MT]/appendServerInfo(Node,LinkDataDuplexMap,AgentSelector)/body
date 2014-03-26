@@ -1,0 +1,29 @@
+{
+  final ServiceType nodeServiceType=node.getServiceType();
+  if (nodeServiceType.isUnknown()) {
+    return;
+  }
+  if (nodeServiceType.isTerminal()) {
+    ServerBuilder builder=new ServerBuilder();
+    Collection<LinkData> sourceLinkStatData=stat.getSourceLinkStatData();
+    for (    LinkData linkData : sourceLinkStatData) {
+      Application toApplication=linkData.getToApplication();
+      if (node.getApplication().equals(toApplication)) {
+        builder.addCallHistogramList(linkData.getTargetList());
+      }
+    }
+    ServerInstanceList serverInstanceList=builder.build();
+    node.setServerInstanceList(serverInstanceList);
+  }
+ else   if (nodeServiceType.isWas()) {
+    final Set<AgentInfoBo> agentList=agentSelector.selectAgent(node.getApplication().getName());
+    if (agentList.isEmpty()) {
+      return;
+    }
+    logger.debug("add agentInfo. {}, {}",node.getApplication(),agentList);
+    ServerBuilder builder=new ServerBuilder();
+    builder.addAgentInfo(agentList);
+    ServerInstanceList serverInstanceList=builder.build();
+    node.setServerInstanceList(serverInstanceList);
+  }
+}

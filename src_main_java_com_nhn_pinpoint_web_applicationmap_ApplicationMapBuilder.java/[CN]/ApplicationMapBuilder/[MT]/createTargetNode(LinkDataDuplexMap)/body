@@ -1,0 +1,22 @@
+{
+  final List<Node> result=new ArrayList<Node>();
+  for (  LinkData linkStat : linkStatData.getTargetLinkStatData()) {
+    final Application fromApplication=linkStat.getFromApplication();
+    if (!fromApplication.getServiceType().isRpcClient()) {
+      Node fromNode=new Node(fromApplication);
+      result.add(fromNode);
+    }
+    final Application toApplication=linkStat.getToApplication();
+    if (!toApplication.getServiceType().isRpcClient()) {
+      Node toNode=new Node(toApplication);
+      result.add(toNode);
+    }
+  }
+  if (logger.isDebugEnabled()) {
+    Collection<LinkData> targetLinkStatData=linkStatData.getSourceLinkStatData();
+    for (    LinkData linkData : targetLinkStatData) {
+      logger.debug("---------------target:{}",linkData);
+    }
+  }
+  return result;
+}

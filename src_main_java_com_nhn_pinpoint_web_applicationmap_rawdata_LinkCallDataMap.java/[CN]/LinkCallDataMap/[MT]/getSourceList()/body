@@ -1,0 +1,9 @@
+{
+  CallHistogramList sourceList=new CallHistogramList();
+  for (  Map.Entry<LinkKey,LinkCallData> linkKeyRawCallDataEntry : rawCallDataMap.entrySet()) {
+    final LinkKey key=linkKeyRawCallDataEntry.getKey();
+    final LinkCallData linkCallData=linkKeyRawCallDataEntry.getValue();
+    sourceList.addCallHistogram(key.getFromApplication(),key.getToServiceType(),linkCallData.getTimeHistogram());
+  }
+  return sourceList;
+}
