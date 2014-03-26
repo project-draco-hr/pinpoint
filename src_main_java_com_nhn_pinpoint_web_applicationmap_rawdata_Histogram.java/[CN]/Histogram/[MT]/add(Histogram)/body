@@ -2,8 +2,12 @@
   if (histogram == null) {
     throw new NullPointerException("histogram must not be null");
   }
-  if (this.serviceType != histogram.serviceType) {
-    throw new IllegalArgumentException("this=" + this + ", histogram="+ histogram);
+  if (this.schema != histogram.schema) {
+    throw new IllegalArgumentException("schema not equals. this=" + this + ", histogram="+ histogram);
   }
-  addUncheckType(histogram);
+  this.fastCount+=histogram.fastCount;
+  this.normalCount+=histogram.normalCount;
+  this.slowCount+=histogram.slowCount;
+  this.verySlowCount+=histogram.verySlowCount;
+  this.errorCount+=histogram.errorCount;
 }
