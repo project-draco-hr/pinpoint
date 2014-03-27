@@ -1,0 +1,17 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  StopWatch watch=new StopWatch();
+  watch.start("selectScatterData");
+  final Range range=Range.createUncheckedRange(from,to);
+  logger.debug("fetch scatter data. {}, LIMIT={}, FILTER={}",range,limit,filterText);
+  ModelAndView mv;
+  if (filterText == null) {
+    mv=selectScatterData(applicationName,range,limit,jsonpCallback);
+  }
+ else {
+    mv=selectFilterScatterDataData(applicationName,range,filterText,limit,jsonpCallback);
+  }
+  watch.stop();
+  logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
+  return mv;
+}

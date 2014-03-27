@@ -1,0 +1,20 @@
+{
+  final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
+  final List<TransactionId> traceIdList=limitedScanResult.getScanData();
+  logger.trace("submitted transactionId count={}",traceIdList.size());
+  SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
+  logger.debug("unified traceIdSet size={}",traceIdSet.size());
+  Filter filter=filterBuilder.build(filterText);
+  List<Dot> scatterData=scatter.selectScatterData(traceIdSet,applicationName,filter);
+  if (logger.isDebugEnabled()) {
+    logger.debug("getScatterData range scan(limited:{}) from ~ to:{} ~ {}, limited:{}, filterDataSize:{}",limit,DateUtils.longToDateStr(range.getFrom()),DateUtils.longToDateStr(range.getTo()),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()),traceIdList.size());
+  }
+  Range resultRange;
+  if (traceIdList.isEmpty()) {
+    resultRange=new Range(-1,-1);
+  }
+ else {
+    resultRange=new Range(limitedScanResult.getLimitedTime(),range.getTo());
+  }
+  return createModelAndVeiw(resultRange,jsonpCallback,scatterData);
+}
