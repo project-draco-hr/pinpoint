@@ -2,25 +2,35 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
+  InetSocketAddress serverAddress=null;
   if (target instanceof KeepAliveNpcHessianConnector) {
     if (args.length == 4) {
       if (args[0] instanceof InetSocketAddress) {
-        setServerAddress.invoke(target,(InetSocketAddress)args[0]);
+        serverAddress=(InetSocketAddress)args[0];
       }
     }
  else     if (args.length == 1) {
       if (args[0] instanceof NpcConnectorOption) {
         NpcConnectorOption option=(NpcConnectorOption)args[0];
-        InetSocketAddress address=option.getAddress();
-        setServerAddress.invoke(target,address);
+        serverAddress=option.getAddress();
       }
     }
   }
  else {
     if (args[0] instanceof NpcConnectorOption) {
       NpcConnectorOption option=(NpcConnectorOption)args[0];
-      InetSocketAddress address=option.getAddress();
-      setServerAddress.invoke(target,address);
+      serverAddress=option.getAddress();
     }
   }
+  setServerAddress.invoke(target,serverAddress);
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  trace.recordServiceType(ServiceType.NPC_CLIENT);
+  int port=serverAddress.getPort();
+  String endPoint=serverAddress.getHostName() + ((port > 0) ? ":" + port : "");
+  trace.recordDestinationId(endPoint);
 }
