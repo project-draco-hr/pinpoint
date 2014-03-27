@@ -6,11 +6,10 @@
     final Application toApplicationId=linkData.getToApplication();
     Node toNode=map.findNode(toApplicationId);
     if (toNode == null) {
-      logger.warn("rcp client not found:{}",toApplicationId);
+      logger.warn("toNode rcp client not found:{}",toApplicationId);
       continue;
     }
-    LinkCallDataMap callDataMap=linkData.getLinkCallDataMap();
-    final Link link=new Link(fromNode,toNode,range,callDataMap,new LinkCallDataMap());
+    final Link link=new Link(CreateType.Source,fromNode,toNode,range);
     if (toNode.getServiceType().isRpcClient()) {
       if (!map.containsNode(toNode.getApplication().getName())) {
         result.add(link);

@@ -5,9 +5,7 @@
   List<Link> targetLink=createTargetLink(linkDataDuplexMap.getTargetLinkData(),map);
   logger.debug("targetLink.size:{}",targetLink.size());
   map.addLink(targetLink);
-  LinkDataMap targetLinkData=linkDataDuplexMap.getTargetLinkData();
-  logger.debug("----------------targetLinkData:{}",targetLinkData.size());
-  for (  LinkData statistics : targetLinkData.getLinkDataList()) {
-    logger.debug("target:{}",statistics);
+  for (  Link link : map.getLinks()) {
+    appendLinkHistogram(link,linkDataDuplexMap);
   }
 }

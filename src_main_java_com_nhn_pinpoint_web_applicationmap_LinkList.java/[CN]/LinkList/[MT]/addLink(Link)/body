@@ -1,0 +1,10 @@
+{
+  if (newLink == null) {
+    throw new NullPointerException("newLink must not be null");
+  }
+  final LinkKey linkId=newLink.getLinkKey();
+  final Link find=this.linkMap.get(linkId);
+  if (find == null) {
+    this.linkMap.put(linkId,newLink);
+  }
+}

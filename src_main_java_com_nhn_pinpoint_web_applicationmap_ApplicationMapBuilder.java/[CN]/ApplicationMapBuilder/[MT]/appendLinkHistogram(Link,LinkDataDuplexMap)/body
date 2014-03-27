@@ -1,0 +1,12 @@
+{
+  logger.debug("appendLinkHistogram link:{}",link);
+  LinkKey key=link.getLinkKey();
+  LinkData sourceLinkData=linkDataDuplexMap.getSourceLinkData(key);
+  if (sourceLinkData != null) {
+    link.addSource(sourceLinkData.getLinkCallDataMap());
+  }
+  LinkData targetLinkData=linkDataDuplexMap.getTargetLinkData(key);
+  if (targetLinkData != null) {
+    link.addTarget(targetLinkData.getLinkCallDataMap());
+  }
+}

@@ -1,0 +1,11 @@
+{
+  if (target == null) {
+    throw new NullPointerException("target must not be null");
+  }
+  for (  Map.Entry<LinkKey,LinkCallData> copyEntry : target.rawCallDataMap.entrySet()) {
+    final LinkKey key=copyEntry.getKey();
+    final LinkCallData copyLinkCallData=copyEntry.getValue();
+    LinkCallData linkCallData=getLinkCallData(key);
+    linkCallData.addRawCallData(copyLinkCallData);
+  }
+}

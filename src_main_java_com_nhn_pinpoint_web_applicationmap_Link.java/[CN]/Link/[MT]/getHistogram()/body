@@ -1,7 +1,6 @@
 {
-  final Histogram linkHistogram=new Histogram(toNode.getServiceType());
-  for (  CallHistogram callHistogram : source.getTargetList().getCallHistogramList()) {
-    linkHistogram.add(callHistogram.getHistogram());
+  if (linkHistogram == null) {
+    linkHistogram=createLinkHistogram();
   }
   return linkHistogram;
 }

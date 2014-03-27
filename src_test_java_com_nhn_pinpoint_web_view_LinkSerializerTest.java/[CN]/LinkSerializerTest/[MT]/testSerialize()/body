@@ -4,8 +4,7 @@
   list.addCallHistogram(histogram);
   Node node1=new Node(new Application("test1",ServiceType.TOMCAT));
   Node node2=new Node(new Application("test1",ServiceType.TOMCAT));
-  LinkCallDataMap linkCallDataMap=new LinkCallDataMap();
-  Link link=new Link(node1,node2,new Range(0,1),linkCallDataMap,new LinkCallDataMap());
+  Link link=new Link(CreateType.Source,node1,node2,new Range(0,1));
   ObjectWriter objectWriter=MAPPER.writerWithDefaultPrettyPrinter();
   String s=objectWriter.writeValueAsString(link);
   logger.debug(s);

@@ -8,7 +8,7 @@
   }
   final LinkDataDuplexMap resultCaller=new LinkDataDuplexMap();
   for (  LinkData link : caller.getLinkDataList()) {
-    link=getRpcCallAccepted(link,range);
+    link=checkRpcCallAccepted(link,range);
     resultCaller.addSourceLinkData(link);
     final Application toApplication=link.getToApplication();
     if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
