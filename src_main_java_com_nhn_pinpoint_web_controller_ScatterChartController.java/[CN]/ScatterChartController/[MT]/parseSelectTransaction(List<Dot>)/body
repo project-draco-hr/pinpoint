@@ -1,0 +1,11 @@
+{
+  TransactionMetadataQuery query=new TransactionMetadataQuery();
+  if (dotList == null) {
+    return query;
+  }
+  for (  Dot dot : dotList) {
+    query.addQueryCondition(dot.getTransactionId(),dot.getAcceptedTime(),dot.getElapsedTime());
+  }
+  logger.debug("query:{}",query);
+  return query;
+}

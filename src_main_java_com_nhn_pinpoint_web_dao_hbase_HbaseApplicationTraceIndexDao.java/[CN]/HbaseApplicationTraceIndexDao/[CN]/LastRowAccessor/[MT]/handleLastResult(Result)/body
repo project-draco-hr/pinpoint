@@ -8,7 +8,10 @@
   byte[] originalRow=traceIdRowKeyDistributor.getOriginalKey(row);
   long reverseStartTime=BytesUtils.bytesToLong(originalRow,PinpointConstants.APPLICATION_NAME_MAX_LEN);
   this.lastRowTimestamp=TimeUtils.recoveryTimeMillis(reverseStartTime);
+  byte[] qualifier=last.getQualifier();
+  this.lastTransactionId=TransactionIdMapper.parseVarTransactionId(qualifier,0);
+  this.lastTransactionElapsed=BytesUtils.bytesToInt(qualifier,0);
   if (logger.isDebugEnabled()) {
-    logger.debug("lastRowTimestamp {}",DateUtils.longToDateStr(lastRowTimestamp));
+    logger.debug("lastRowTimestamp={}, lastTransactionId={}, lastTransactionElapsed={}",DateUtils.longToDateStr(lastRowTimestamp),lastTransactionId,lastTransactionElapsed);
   }
 }

@@ -1,0 +1,26 @@
+{
+  HbaseTemplate2 hbaseTemplate2=new HbaseTemplate2();
+  hbaseTemplate2.setConfiguration(hbaseConfigurationFactoryBean.getObject());
+  hbaseTemplate2.afterPropertiesSet();
+  try {
+    long oneday=60 * 60 * 24* 1000;
+    int fetchLimit=1000009;
+    long timeTo=1395989385734L;
+    long timeFrom=timeTo - oneday;
+    int responseTimeFrom=0;
+    int responseTimeTo=10000;
+    SelectedScatterArea area=new SelectedScatterArea(timeFrom,timeTo,responseTimeFrom,responseTimeTo);
+    Scan scan=createScan("API.GATEWAY.DEV",area.getTimeRange());
+    scan.setFilter(makePrefixFilter(area,null,-1));
+    long startTime=System.currentTimeMillis();
+    List<List<Dot>> dotListList=hbaseTemplate2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,fetchLimit,new TraceIndexScatterMapper());
+    System.out.println("elapsed : " + (System.currentTimeMillis() - startTime) + "ms");
+    System.out.println("fetched size : " + dotListList.size());
+  }
+ catch (  HbaseSystemException e) {
+    e.printStackTrace();
+  }
+ finally {
+    hbaseTemplate2.destroy();
+  }
+}

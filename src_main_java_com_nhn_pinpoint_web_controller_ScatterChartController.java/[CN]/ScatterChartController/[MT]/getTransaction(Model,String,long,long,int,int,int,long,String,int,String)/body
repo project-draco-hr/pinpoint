@@ -1,0 +1,36 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  StopWatch watch=new StopWatch();
+  watch.start("selectScatterData");
+  final SelectedScatterArea area=SelectedScatterArea.createUncheckedArea(from,to,responseFrom,responseTo);
+  logger.debug("fetch scatter data. {}, LIMIT={}, FILTER={}",area,limit,filterText);
+  if (filterText == null) {
+    TransactionId offsetId=null;
+    List<SpanBo> extraMetadata=null;
+    if (offsetTransactionId != null) {
+      offsetId=new TransactionId(offsetTransactionId);
+      SelectedScatterArea extraArea=SelectedScatterArea.createUncheckedArea(offsetTime,offsetTime,responseFrom,responseTo);
+      List<Dot> extraAreaDotList=scatter.selectScatterData(applicationName,extraArea,offsetId,offsetTransactionElapsed,limit);
+      extraMetadata=scatter.selectTransactionMetadata(parseSelectTransaction(extraAreaDotList));
+      model.addAttribute("extraMetadata",extraMetadata);
+    }
+    if (extraMetadata == null || extraMetadata.size() < limit) {
+      int newlimit=limit - ((extraMetadata == null) ? 0 : extraMetadata.size());
+      List<Dot> selectedDotList=scatter.selectScatterData(applicationName,area,null,-1,newlimit);
+      List<SpanBo> metadata=scatter.selectTransactionMetadata(parseSelectTransaction(selectedDotList));
+      model.addAttribute("metadata",metadata);
+    }
+  }
+ else {
+    final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,area,limit);
+    final List<TransactionId> traceIdList=limitedScanResult.getScanData();
+    logger.trace("submitted transactionId count={}",traceIdList.size());
+    SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
+    logger.debug("unified traceIdSet size={}",traceIdSet.size());
+    List<Dot> dots=scatter.selectScatterData(traceIdSet,applicationName,filterBuilder.build(filterText));
+    System.out.println(dots);
+  }
+  watch.stop();
+  logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
+  return "transactionmetadata2";
+}
