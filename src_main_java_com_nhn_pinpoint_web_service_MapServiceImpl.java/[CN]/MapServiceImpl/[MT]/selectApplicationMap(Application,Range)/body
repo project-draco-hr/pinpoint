@@ -17,7 +17,7 @@
   data.addLinkStatisticsDataSet(caller);
   data.addLinkStatisticsDataSet(callee);
   ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
-  ApplicationMap map=builder.build(data,this);
+  ApplicationMap map=builder.build(data,agentInfoService);
   map.appendResponseTime(range,this.mapResponseDao);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
