@@ -14,7 +14,9 @@
     e.printStackTrace();
   }
  finally {
-    connector.dispose();
+    if (connector != null) {
+      connector.dispose();
+    }
   }
   return "npc";
 }
