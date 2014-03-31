@@ -21,7 +21,7 @@
         com.ning.http.client.StringPart p=(com.ning.http.client.StringPart)part;
         sb.append(part.getName());
         sb.append("=");
-        sb.append(StringUtils.drop(p.getValue(),entityDumpSize));
+        sb.append(p.getValue());
       }
  else       if (part instanceof com.ning.http.multipart.FilePart) {
         com.ning.http.multipart.FilePart p=(com.ning.http.multipart.FilePart)part;
@@ -33,6 +33,9 @@
         com.ning.http.multipart.StringPart p=(com.ning.http.multipart.StringPart)part;
         sb.append(part.getName());
         sb.append("=STRING");
+      }
+      if (sb.length() >= entityDumpSize) {
+        break;
       }
       if (iterator.hasNext()) {
         sb.append(",");
