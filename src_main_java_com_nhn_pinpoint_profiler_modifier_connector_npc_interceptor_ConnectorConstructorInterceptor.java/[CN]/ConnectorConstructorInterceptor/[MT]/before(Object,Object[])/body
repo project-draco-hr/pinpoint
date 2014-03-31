@@ -30,7 +30,12 @@
   trace.traceBlockBegin();
   trace.markBeforeTime();
   trace.recordServiceType(ServiceType.NPC_CLIENT);
-  int port=serverAddress.getPort();
-  String endPoint=serverAddress.getHostName() + ((port > 0) ? ":" + port : "");
-  trace.recordDestinationId(endPoint);
+  if (serverAddress != null) {
+    int port=serverAddress.getPort();
+    String endPoint=serverAddress.getHostName() + ((port > 0) ? ":" + port : "");
+    trace.recordDestinationId(endPoint);
+  }
+ else {
+    trace.recordDestinationId("unknown");
+  }
 }
