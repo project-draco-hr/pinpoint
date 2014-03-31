@@ -1,6 +1,9 @@
 {
   if (cookieSampler.isSampling()) {
     Collection<Cookie> cookies=httpRequest.getCookies();
+    if (cookies.isEmpty()) {
+      return;
+    }
     StringBuilder sb=new StringBuilder();
     Iterator<Cookie> iterator=cookies.iterator();
     while (iterator.hasNext()) {
@@ -10,6 +13,6 @@
         sb.append(",");
       }
     }
-    trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(sb.toString(),1024));
+    trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(sb.toString(),cookieDumpSize));
   }
 }

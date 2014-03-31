@@ -1,14 +1,22 @@
 {
   this.traceContext=traceContext;
   final ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
-  this.collectCookie=profilerConfig.isApacheHttpClient4ProfileCookie();
-  this.cookieDumpType=profilerConfig.getApacheHttpClient4ProfileCookieDumpType();
-  if (collectCookie) {
-    this.cookieSampler=SimpleSamplerFactory.createSampler(collectCookie,profilerConfig.getApacheHttpClient4ProfileCookieSamplingRate());
+  this.dumpCookie=profilerConfig.isNingAsyncHttpClientProfileCookie();
+  this.cookieDumpType=profilerConfig.getNingAsyncHttpClientProfileCookieDumpType();
+  this.cookieDumpSize=profilerConfig.getNingAsyncHttpClientProfileCookieDumpSize();
+  if (dumpCookie) {
+    this.cookieSampler=SimpleSamplerFactory.createSampler(dumpCookie,profilerConfig.getNingAsyncHttpClientProfileCookieSamplingRate());
   }
-  this.collectEntity=profilerConfig.isApacheHttpClient4ProfileEntity();
-  this.entityDumpType=profilerConfig.getApacheHttpClient4ProfileEntityDumpType();
-  if (collectEntity) {
-    this.entitySampler=SimpleSamplerFactory.createSampler(collectEntity,profilerConfig.getApacheHttpClient4ProfileEntitySamplingRate());
+  this.dumpEntity=profilerConfig.isNingAsyncHttpClientProfileEntity();
+  this.entityDumpType=profilerConfig.getNingAsyncHttpClientProfileEntityDumpType();
+  this.entityDumpSize=profilerConfig.getNingAsyncHttpClientProfileEntityDumpSize();
+  if (dumpEntity) {
+    this.entitySampler=SimpleSamplerFactory.createSampler(dumpEntity,profilerConfig.getNingAsyncHttpClientProfileEntitySamplingRate());
+  }
+  this.dumpParam=profilerConfig.isNingAsyncHttpClientProfileParam();
+  this.paramDumpType=profilerConfig.getNingAsyncHttpClientProfileParamDumpType();
+  this.paramDumpSize=profilerConfig.getNingAsyncHttpClientProfileParamDumpSize();
+  if (dumpParam) {
+    this.paramSampler=SimpleSamplerFactory.createSampler(dumpParam,profilerConfig.getNingAsyncHttpClientProfileParamSamplingRate());
   }
 }
