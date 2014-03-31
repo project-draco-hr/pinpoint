@@ -2,8 +2,22 @@
   if (url == null) {
     return null;
   }
-  BoundRequestBuilder requestBuilder=asyncHttpClient.prepareGet(url + queriesToQueryString(queries));
-  requestBuilder=this.addHeader(requestBuilder,headers);
+  BoundRequestBuilder requestBuilder=asyncHttpClient.prepareGet(url);
+  if (cookies != null) {
+    for (    Cookie cookie : cookies) {
+      requestBuilder.addCookie(cookie);
+    }
+  }
+  if (queries != null) {
+    for (    Entry<String,String> entry : queries.entrySet()) {
+      requestBuilder.addParameter(entry.getKey(),entry.getValue());
+    }
+  }
+  if (headers != null) {
+    for (    Entry<String,String> entry : headers.entrySet()) {
+      requestBuilder.addHeader(entry.getKey(),entry.getValue());
+    }
+  }
   try {
     Future<Response> f=requestBuilder.execute();
     Response response=f.get(500L,TimeUnit.MILLISECONDS);

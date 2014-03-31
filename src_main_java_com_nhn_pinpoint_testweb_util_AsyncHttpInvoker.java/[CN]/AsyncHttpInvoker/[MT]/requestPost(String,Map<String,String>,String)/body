@@ -4,7 +4,11 @@
   }
   BoundRequestBuilder requestBuilder=asyncHttpClient.preparePost(url);
   try {
-    requestBuilder=this.addHeader(requestBuilder,headers);
+    if (headers != null) {
+      for (      Entry<String,String> entry : headers.entrySet()) {
+        requestBuilder.addHeader(entry.getKey(),entry.getValue());
+      }
+    }
     requestBuilder.setBody(body).setBodyEncoding("UTF-8");
     Future<Response> f=requestBuilder.execute();
     Response response=f.get(500L,TimeUnit.MILLISECONDS);
