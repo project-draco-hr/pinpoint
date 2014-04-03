@@ -1,6 +1,7 @@
 {
   final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
   final LinkDataMap linkDataMap=new LinkDataMap();
+  final DotExtractor dotExtractor=new DotExtractor(scanRange);
   final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
@@ -15,12 +16,15 @@
       long timestamp=window.refineTimestamp(span.getCollectorAcceptTime());
       linkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,destApplication.getName(),timestamp,slotTime,1);
       addNodeFromSpanEvent(span,window,linkDataMap,transactionSpanMap);
+      dotExtractor.addDot(span);
     }
   }
+  List<ApplicationScatterScanResult> applicationScatterScanResult=dotExtractor.getApplicationScatterScanResult();
   LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap(linkDataMap);
   ApplicationMapBuilder applicationMapBuilder=new ApplicationMapBuilder(range);
   ApplicationMap map=applicationMapBuilder.build(linkDataDuplexMap,agentInfoService);
   mapHistogramSummary.build();
   map.appendResponseTime(mapHistogramSummary);
+  map.setApplicationScatterScanResult(applicationScatterScanResult);
   return map;
 }

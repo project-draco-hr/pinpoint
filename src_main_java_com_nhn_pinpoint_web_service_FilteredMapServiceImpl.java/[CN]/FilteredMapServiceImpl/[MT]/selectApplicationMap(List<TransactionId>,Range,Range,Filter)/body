@@ -8,7 +8,7 @@
   StopWatch watch=new StopWatch();
   watch.start();
   final List<List<SpanBo>> filterList=selectFilteredSpan(transactionIdList,filter);
-  ApplicationMap map=createMap(range,filterList);
+  ApplicationMap map=createMap(originalRange,scanRange,filterList);
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
   return map;
