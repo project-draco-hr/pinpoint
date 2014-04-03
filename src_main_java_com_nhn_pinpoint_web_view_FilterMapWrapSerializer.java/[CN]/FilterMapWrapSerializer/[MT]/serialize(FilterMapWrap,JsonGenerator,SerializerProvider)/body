@@ -1,0 +1,15 @@
+{
+  jgen.writeStartObject();
+  jgen.writeObjectField("applicationMapData",wrap.getApplicationMap());
+  jgen.writeNumberField("lastFetchedTimestamp",wrap.getLastFetchedTimestamp());
+  final List<ApplicationScatterScanResult> applicationScatterScanResult=wrap.getApplicationScatterScanResult();
+  jgen.writeFieldName("applicationScatterScanResult");
+  jgen.writeStartObject();
+  for (  ApplicationScatterScanResult scatterScanResult : applicationScatterScanResult) {
+    Application application=scatterScanResult.getApplication();
+    String name=application.getName() + Node.NODE_DELIMITER + application.getServiceType().toString();
+    jgen.writeObjectField(name,scatterScanResult.getScatterScanResult());
+  }
+  jgen.writeEndObject();
+  jgen.writeEndObject();
+}
