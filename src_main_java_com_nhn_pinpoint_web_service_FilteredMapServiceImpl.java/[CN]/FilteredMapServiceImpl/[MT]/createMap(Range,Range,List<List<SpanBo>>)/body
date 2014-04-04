@@ -1,26 +1,33 @@
 {
   final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
-  final LinkDataMap linkDataMap=new LinkDataMap();
+  final LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  final LinkDataMap targetLinkDataMap=linkDataDuplexMap.getTargetLinkDataMap();
   final DotExtractor dotExtractor=new DotExtractor(scanRange);
   final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
-      final Application srcApplication=createSourceApplication(span,transactionSpanMap);
-      final Application destApplication=new Application(span.getApplicationId(),span.getServiceType());
-      recordSpanResponseTime(destApplication,span,mapHistogramSummary,span.getCollectorAcceptTime());
-      if (!destApplication.getServiceType().isRecordStatistics() || destApplication.getServiceType().isRpcClient()) {
+      final Application parentApplication=createParentApplication(span,transactionSpanMap);
+      final Application spanApplication=new Application(span.getApplicationId(),span.getServiceType());
+      recordSpanResponseTime(spanApplication,span,mapHistogramSummary,span.getCollectorAcceptTime());
+      if (!spanApplication.getServiceType().isRecordStatistics() || spanApplication.getServiceType().isRpcClient()) {
+        logger.warn("invalid span application:{}",spanApplication);
         continue;
       }
-      final short slotTime=getHistogramSlotTime(span,destApplication.getServiceType());
+      final short slotTime=getHistogramSlotTime(span,spanApplication.getServiceType());
       long timestamp=window.refineTimestamp(span.getCollectorAcceptTime());
-      linkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,destApplication.getName(),timestamp,slotTime,1);
-      addNodeFromSpanEvent(span,window,linkDataMap,transactionSpanMap);
+      if (parentApplication.getServiceType() == ServiceType.USER) {
+        LinkDataMap sourceLinkData=linkDataDuplexMap.getSourceLinkDataMap();
+        sourceLinkData.addLinkData(parentApplication,span.getAgentId(),spanApplication,span.getAgentId(),timestamp,slotTime,1);
+      }
+ else {
+        targetLinkDataMap.addLinkData(spanApplication,span.getAgentId(),parentApplication,span.getAgentId(),timestamp,slotTime,1);
+      }
+      addNodeFromSpanEvent(span,window,linkDataDuplexMap,transactionSpanMap);
       dotExtractor.addDot(span);
     }
   }
   List<ApplicationScatterScanResult> applicationScatterScanResult=dotExtractor.getApplicationScatterScanResult();
-  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap(linkDataMap);
   ApplicationMapBuilder applicationMapBuilder=new ApplicationMapBuilder(range);
   ApplicationMap map=applicationMapBuilder.build(linkDataDuplexMap,agentInfoService);
   mapHistogramSummary.build();

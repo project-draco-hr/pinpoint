@@ -4,16 +4,14 @@
     return;
   }
   final Application srcApplication=new Application(span.getApplicationId(),span.getServiceType());
+  LinkDataMap sourceLinkDataMap=linkDataDuplexMap.getSourceLinkDataMap();
   for (  SpanEventBo spanEvent : spanEventBoList) {
     ServiceType destServiceType=spanEvent.getServiceType();
     if (!destServiceType.isRecordStatistics()) {
       continue;
     }
     if (destServiceType.isRpcClient()) {
-      if (transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
-        continue;
-      }
- else {
+      if (!transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
         destServiceType=ServiceType.UNKNOWN;
       }
     }
@@ -21,6 +19,6 @@
     final Application destApplication=new Application(dest,destServiceType);
     final short slotTime=getHistogramSlotTime(spanEvent,destServiceType);
     final long spanEventTimeStamp=window.refineTimestamp(span.getStartTime() + spanEvent.getStartElapsed());
-    linkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,spanEvent.getEndPoint(),spanEventTimeStamp,slotTime,1);
+    sourceLinkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,spanEvent.getEndPoint(),spanEventTimeStamp,slotTime,1);
   }
 }
