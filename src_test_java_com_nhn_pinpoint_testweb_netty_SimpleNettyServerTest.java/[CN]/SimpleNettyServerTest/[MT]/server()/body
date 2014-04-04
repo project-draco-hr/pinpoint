@@ -1,5 +1,6 @@
 {
-  ServerBootstrap bootstrap=new ServerBootstrap(new NioServerSocketChannelFactory());
+  logger.info("TEST BEGIN");
+  ServerBootstrap bootstrap=new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(),Executors.newCachedThreadPool()));
   PipelineFactory factory=new PipelineFactory();
   bootstrap.setPipelineFactory(factory);
   bootstrap.bind(new InetSocketAddress(SERVER_PORT));
@@ -28,4 +29,5 @@
   }
   startLatch.countDown();
   stopLatch.await();
+  logger.info("TEST END");
 }
