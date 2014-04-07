@@ -1,7 +1,6 @@
 {
   final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
   final LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
-  final LinkDataMap targetLinkDataMap=linkDataDuplexMap.getTargetLinkDataMap();
   final DotExtractor dotExtractor=new DotExtractor(scanRange);
   final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
   for (  List<SpanBo> transaction : filterList) {
@@ -17,11 +16,23 @@
       final short slotTime=getHistogramSlotTime(span,spanApplication.getServiceType());
       long timestamp=window.refineTimestamp(span.getCollectorAcceptTime());
       if (parentApplication.getServiceType() == ServiceType.USER) {
-        LinkDataMap sourceLinkData=linkDataDuplexMap.getSourceLinkDataMap();
+        if (logger.isTraceEnabled()) {
+          logger.trace("span user:{} {} -> span:{} {}",parentApplication,span.getAgentId(),spanApplication,span.getAgentId());
+        }
+        final LinkDataMap sourceLinkData=linkDataDuplexMap.getSourceLinkDataMap();
         sourceLinkData.addLinkData(parentApplication,span.getAgentId(),spanApplication,span.getAgentId(),timestamp,slotTime,1);
+        if (logger.isTraceEnabled()) {
+          logger.trace("span target user:{} {} -> span:{} {}",parentApplication,span.getAgentId(),spanApplication,span.getAgentId());
+        }
+        final LinkDataMap targetLinkDataMap=linkDataDuplexMap.getTargetLinkDataMap();
+        targetLinkDataMap.addLinkData(parentApplication,span.getAgentId(),spanApplication,span.getAgentId(),timestamp,slotTime,1);
       }
  else {
-        targetLinkDataMap.addLinkData(spanApplication,span.getAgentId(),parentApplication,span.getAgentId(),timestamp,slotTime,1);
+        if (logger.isTraceEnabled()) {
+          logger.trace("span target parent:{} {} -> span:{} {}",parentApplication,span.getAgentId(),spanApplication,span.getAgentId());
+        }
+        final LinkDataMap targetLinkDataMap=linkDataDuplexMap.getTargetLinkDataMap();
+        targetLinkDataMap.addLinkData(parentApplication,span.getAgentId(),spanApplication,span.getAgentId(),timestamp,slotTime,1);
       }
       addNodeFromSpanEvent(span,window,linkDataDuplexMap,transactionSpanMap);
       dotExtractor.addDot(span);
