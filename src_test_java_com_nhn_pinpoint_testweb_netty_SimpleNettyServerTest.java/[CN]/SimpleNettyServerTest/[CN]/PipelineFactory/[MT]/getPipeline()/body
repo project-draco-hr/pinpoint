@@ -1,9 +1,0 @@
-{
-  ChannelPipeline p=Channels.pipeline();
-  p.addLast("decoder",new HttpRequestDecoder());
-  p.addLast("aggregator",new HttpChunkAggregator(65535));
-  p.addLast("encoder",new HttpResponseEncoder());
-  p.addLast("deflater",new HttpContentCompressor());
-  p.addLast("handler",new HttpCustomServerHandler());
-  return p;
-}
