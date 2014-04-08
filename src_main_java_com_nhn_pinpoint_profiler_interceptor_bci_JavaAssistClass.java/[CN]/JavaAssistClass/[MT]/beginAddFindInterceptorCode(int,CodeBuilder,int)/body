@@ -1,7 +1,7 @@
 {
   after.append("java.lang.ClassLoader contextClassLoader = java.lang.Thread.currentThread().getContextClassLoader();");
   after.append("if (contextClassLoader != null) {");
-  after.append("  java.lang.Class interceptorRegistryClass = contextClassLoader.loadClass(\"com.nhn.pinpoint.profiler.interceptor.InterceptorRegistry\");");
+  after.append("  java.lang.Class interceptorRegistryClass = contextClassLoader.loadClass(\"com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry\");");
   if (interceptorType == STATIC_INTERCEPTOR) {
     after.append("  java.lang.reflect.Method getInterceptorMethod = interceptorRegistryClass.getMethod(\"getInterceptor\", new java.lang.Class[]{ int.class });");
   }
