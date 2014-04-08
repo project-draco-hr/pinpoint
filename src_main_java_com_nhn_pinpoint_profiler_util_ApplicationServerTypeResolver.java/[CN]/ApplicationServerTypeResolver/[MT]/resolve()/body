@@ -1,21 +1,15 @@
 {
   final String catalinaHome=System.getProperty("catalina.home");
-  if (catalinaHome == null) {
-    logger.warn("CATALINA_HOME is null");
-    return false;
-  }
   if (logger.isInfoEnabled()) {
     logger.info("CATALINA_HOME={}",catalinaHome);
   }
   if (defaultType != null) {
     logger.info("applicationServerDefaultType:{}",defaultType);
     if (defaultType == ServiceType.TOMCAT) {
-      resolveTomcat(catalinaHome);
-      return true;
+      return resolveTomcat(catalinaHome);
     }
  else     if (defaultType == ServiceType.BLOC) {
-      resolveBloc(catalinaHome);
-      return true;
+      return resolveBloc(catalinaHome);
     }
  else     if (defaultType == ServiceType.STAND_ALONE) {
       resolveStandAlone();
@@ -30,15 +24,13 @@
   final File blocCatalinaJar=new File(catalinaHome + "/server/lib/catalina.jar");
   final File blocServletApiJar=new File(catalinaHome + "/common/lib/servlet-api.jar");
   if (isFileExist(blocCatalinaJar) && isFileExist(blocServletApiJar)) {
-    resolveBloc(catalinaHome);
-    return true;
+    return resolveBloc(catalinaHome);
   }
  else   if (isFileExist(new File(catalinaHome + "/lib/catalina.jar"))) {
-    resolveTomcat(catalinaHome);
-    return true;
+    return resolveTomcat(catalinaHome);
   }
  else {
-    logger.warn("ApplicationServerType resolve fail. type not found");
-    return false;
+    logger.info("applicationServerDefaultType:{}",defaultType);
+    return resolveStandAlone();
   }
 }
