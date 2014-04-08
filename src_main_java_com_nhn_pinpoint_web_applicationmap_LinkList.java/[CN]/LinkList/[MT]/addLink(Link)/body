@@ -4,7 +4,8 @@
   }
   final LinkKey linkId=link.getLinkKey();
   final Link find=this.linkMap.get(linkId);
-  if (find == null) {
-    this.linkMap.put(linkId,link);
+  if (find != null) {
+    return false;
   }
+  return this.linkMap.put(linkId,link) == null;
 }

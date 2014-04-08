@@ -1,10 +1,10 @@
 {
-  List<Link> sourceLink=createSourceLink(linkDataDuplexMap.getSourceLinkDataMap(),map);
-  logger.debug("sourceLink.size:{}",sourceLink.size());
-  map.addLink(sourceLink);
-  List<Link> targetLink=createTargetLink(linkDataDuplexMap.getTargetLinkDataMap(),map);
-  logger.debug("targetLink.size:{}",targetLink.size());
-  map.addLink(targetLink);
+  LinkList linkList=new LinkList();
+  createSourceLink(linkList,linkDataDuplexMap.getSourceLinkDataMap(),map);
+  logger.debug("link size:{}",linkList.size());
+  createTargetLink(linkList,linkDataDuplexMap.getTargetLinkDataMap(),map);
+  logger.debug("link size:{}",linkList.size());
+  map.addLink(linkList.getLinkList());
   for (  Link link : map.getLinks()) {
     appendLinkHistogram(link,linkDataDuplexMap);
   }
