@@ -1,0 +1,16 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {} @ {}",javassistClassName,classLoader);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor runInterceptor=new HandlerInterceptor();
+    aClass.addInterceptor("run",null,runInterceptor);
+    return aClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.info("modify fail. Cause:{}",e.getMessage(),e);
+    return null;
+  }
+}
