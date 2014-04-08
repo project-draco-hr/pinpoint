@@ -2,11 +2,18 @@
   PinpointServerSocket serverSocket=new PinpointServerSocket();
   serverSocket.setMessageListener(new TestSeverMessageListener());
   serverSocket.bind("localhost",PORT);
+  final AtomicBoolean reconnectPerformed=new AtomicBoolean(false);
   final PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
   pinpointSocketFactory.setReconnectDelay(200);
   PinpointServerSocket newServerSocket=null;
   try {
     PinpointSocket socket=pinpointSocketFactory.connect("localhost",10234);
+    socket.addPinpointSocketReconnectEventListener(new PinpointSocketReconnectEventListener(){
+      @Override public void reconnectPerformed(      PinpointSocket socket){
+        reconnectPerformed.set(true);
+      }
+    }
+);
     serverSocket.close();
     logger.info("server.close()---------------------------");
     Thread.sleep(1000);
@@ -37,4 +44,5 @@
     }
     pinpointSocketFactory.release();
   }
+  Assert.assertTrue(reconnectPerformed.get());
 }
