@@ -1,0 +1,10 @@
+{
+  PinpointURLClassLoader cl=new PinpointURLClassLoader(new URL[]{},Thread.currentThread().getContextClassLoader());
+  try {
+    cl.loadClass("test");
+    Assert.fail();
+  }
+ catch (  ClassNotFoundException e) {
+  }
+  Assert.assertTrue(cl.onLoadClass("com.nhn.pinpoint.profiler.DefaultAgent"));
+}
