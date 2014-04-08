@@ -1,0 +1,50 @@
+{
+  System.out.println("InvokeTask.run (" + Thread.currentThread().getName() + ")");
+  if (!(e.getMessage() instanceof HttpRequest)) {
+    logger.debug("[n/a] received message is illegal.");
+    DefaultHttpResponse res=new DefaultHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.BAD_REQUEST);
+    ctx.getChannel().write(res).addListener(ChannelFutureListener.CLOSE);
+    return;
+  }
+  HttpRequest request=(HttpRequest)e.getMessage();
+  try {
+    StringBuilder buf=new StringBuilder();
+    Object[] requestBody=null;
+    Object functionsResult=null;
+    HttpResponseStatus status=OK;
+    String uri=request.getUri().substring(1);
+    List<Entry<String,String>> reponseHeader=new ArrayList<Entry<String,String>>();
+    buf.setLength(0);
+    HttpMethod reqMethod=request.getMethod();
+    if (reqMethod.equals(HttpMethod.POST) || reqMethod.equals(HttpMethod.PUT) || reqMethod.equals(HttpMethod.DELETE)) {
+      ChannelBuffer content=request.getContent();
+      buf.append("HelloNetty");
+      if (content.readable()) {
+        try {
+        }
+ catch (        ConverterNotFoundException e1) {
+          status=HttpResponseStatus.BAD_REQUEST;
+          logger.error("convert fail : exception={}",e1.getMessage());
+          buf.append(getResultString(status.getCode(),"Invalid parameter"));
+        }
+      }
+ else {
+        status=HttpResponseStatus.BAD_REQUEST;
+        buf.append(getResultString(status.getCode(),"No content on request."));
+      }
+    }
+ else     if (reqMethod.equals(HttpMethod.GET)) {
+      QueryStringDecoder queryStringDecoder=new QueryStringDecoder(uri);
+      Map<String,List<String>> queries=queryStringDecoder.getParameters();
+      buf.append("HelloNetty");
+    }
+ else {
+      status=HttpResponseStatus.METHOD_NOT_ALLOWED;
+      buf.append(getResultString(status.getCode(),"method not supports"));
+    }
+    writeResponse(request,e,status,reponseHeader,buf);
+  }
+ catch (  Exception ex) {
+    handleException(request,this.ctx,ex);
+  }
+}

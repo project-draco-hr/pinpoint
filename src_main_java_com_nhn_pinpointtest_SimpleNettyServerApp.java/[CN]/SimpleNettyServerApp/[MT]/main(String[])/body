@@ -1,0 +1,41 @@
+{
+  try {
+    logger.info("TEST BEGIN");
+    ServerBootstrap bootstrap=new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(),Executors.newCachedThreadPool()));
+    PipelineFactory factory=new PipelineFactory();
+    bootstrap.setPipelineFactory(factory);
+    bootstrap.bind(new InetSocketAddress(SERVER_PORT));
+    final AsyncHttpInvoker invoker=new AsyncHttpInvoker();
+    final CountDownLatch startLatch=new CountDownLatch(1);
+    final CountDownLatch stopLatch=new CountDownLatch(CLIENT_COUNT);
+    final ExecutorService executor=Executors.newCachedThreadPool();
+    for (int i=0; i < CLIENT_COUNT; i++) {
+      executor.submit(new Runnable(){
+        @Override public void run(){
+          try {
+            startLatch.await();
+            Response response=invoker.requestGet("http://localhost:" + SERVER_PORT,AsyncHttpInvoker.getDummyParams(),AsyncHttpInvoker.getDummyHeaders(),AsyncHttpInvoker.getDummyCookies());
+            logger.info(response.getResponseBody());
+          }
+ catch (          Exception e) {
+            e.printStackTrace();
+          }
+ finally {
+            stopLatch.countDown();
+          }
+        }
+      }
+);
+    }
+    startLatch.countDown();
+    stopLatch.await();
+    bootstrap.shutdown();
+    executor.shutdown();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+ finally {
+    logger.info("TEST END");
+  }
+}
