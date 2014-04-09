@@ -9,4 +9,7 @@ synchronized (this) {
     bootstrap.releaseExternalResources();
   }
   Set<Timeout> stop=this.timer.stop();
+  if (!stop.isEmpty()) {
+    logger.info("stop Timeout:{}",stop.size());
+  }
 }
