@@ -8,17 +8,18 @@
       logger.warn("fromNode rcp client not found:{}",toApplicationId);
       continue;
     }
-    Link link=new Link(CreateType.Target,fromNode,toNode,range);
     if (toNode.getServiceType().isRpcClient()) {
       if (!map.containsNode(toNode.getApplication())) {
-        if (!linkList.containsNode(link.getLinkKey())) {
-          logger.debug("createTargetLink:{}",link);
+        Link link=new Link(CreateType.Target,fromNode,toNode,range);
+        if (!linkList.containsNode(link)) {
+          logger.debug("createRpcTargetLink:{}",link);
           linkList.addLink(link);
         }
       }
     }
  else {
-      if (!linkList.containsNode(link.getLinkKey())) {
+      Link link=new Link(CreateType.Target,fromNode,toNode,range);
+      if (!linkList.containsNode(link)) {
         logger.debug("createTargetLink:{}",link);
         linkList.addLink(link);
       }
