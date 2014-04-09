@@ -2,7 +2,7 @@
   final HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
   try {
     TBase<?,?> tBase=deserializer.deserialize(bytes);
-    dispatchHandler.dispatch(tBase,bytes,Header.HEADER_SIZE,bytes.length);
+    dispatchHandler.dispatchSendMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
   }
  catch (  TException e) {
     if (logger.isWarnEnabled()) {

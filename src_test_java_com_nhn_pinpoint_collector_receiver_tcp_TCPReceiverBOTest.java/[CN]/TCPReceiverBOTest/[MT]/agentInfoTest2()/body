@@ -1,0 +1,11 @@
+{
+  Socket socket=connectTcpReceiver();
+  OutputStream os=socket.getOutputStream();
+  InputStream is=socket.getInputStream();
+  TAgentInfo agentInfo=getAgentInfo();
+  encodeAndWrite(os,agentInfo,true);
+  ResponsePacket responsePacket=readAndDecode(is,1000);
+  HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
+  TResult result=(TResult)deserializer.deserialize(responsePacket.getPayload());
+  Assert.assertTrue(result.isSuccess());
+}

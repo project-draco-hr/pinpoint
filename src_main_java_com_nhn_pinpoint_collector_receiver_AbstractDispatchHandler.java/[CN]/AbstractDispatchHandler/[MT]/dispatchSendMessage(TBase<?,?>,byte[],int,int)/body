@@ -5,23 +5,16 @@
     if (logger.isTraceEnabled()) {
       logger.trace("simpleHandler name:{}",simpleHandler.getClass().getName());
     }
-    simpleHandler.handler(tBase);
-    return null;
+    simpleHandler.handleSimple(tBase);
+    return;
   }
   Handler handler=getHandler(tBase);
   if (handler != null) {
     if (logger.isTraceEnabled()) {
       logger.trace("handler name:{}",handler.getClass().getName());
     }
-    handler.handler(tBase,packet,offset,length);
-    return null;
-  }
-  RequestResponseHandler requestResponseHandler=getRequestResponseHandler(tBase);
-  if (requestResponseHandler != null) {
-    if (logger.isTraceEnabled()) {
-      logger.trace("requestResponseHandler name:{}",requestResponseHandler.getClass().getName());
-    }
-    return requestResponseHandler.handler(tBase);
+    handler.handle(tBase,packet,offset,length);
+    return;
   }
   throw new UnsupportedOperationException("Handler not found. Unknown type of data received. tBase=" + tBase);
 }

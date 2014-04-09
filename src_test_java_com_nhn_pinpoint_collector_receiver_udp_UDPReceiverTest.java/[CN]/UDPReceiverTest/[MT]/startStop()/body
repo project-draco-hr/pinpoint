@@ -1,7 +1,9 @@
 {
   try {
     DataReceiver receiver=new UDPReceiver("test",new DispatchHandler(){
-      @Override public TBase dispatch(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
+      @Override public void dispatchSendMessage(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
+      }
+      @Override public TBase dispatchRequestMessage(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
         return null;
       }
     }
