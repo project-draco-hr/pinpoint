@@ -1,0 +1,78 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    org.jboss.netty.channel.ChannelHandlerContext channelHandlerContext=getChannelHandlerContext.invoke(target);
+    org.jboss.netty.channel.MessageEvent e=getMessageEvent.invoke(target);
+    if (channelHandlerContext == null || e == null) {
+      return;
+    }
+    if (!(e.getMessage() instanceof org.jboss.netty.handler.codec.http.HttpRequest)) {
+      return;
+    }
+    org.jboss.netty.handler.codec.http.HttpRequest request=(org.jboss.netty.handler.codec.http.HttpRequest)e.getMessage();
+    Channel channel=e.getChannel();
+    if (channel == null) {
+      return;
+    }
+    String requestURL=request.getUri();
+    String remoteAddr=channel.getRemoteAddress().toString();
+    String endPoint=channel.getLocalAddress().toString();
+    boolean sampling=isSamplingEnabled(request);
+    if (!sampling) {
+      traceContext.disableSampling();
+      if (isDebug) {
+        logger.debug("remotecall sampling flag found. skip trace requestUrl:{}, remoteAddr:{}",requestURL,remoteAddr);
+      }
+      return;
+    }
+    TraceId traceId=populateTraceIdFromRequest(request);
+    Trace trace;
+    if (traceId != null) {
+      trace=traceContext.continueTraceObject(traceId);
+      if (!trace.canSampled()) {
+        if (isDebug) {
+          logger.debug("TraceID exist. camSampled is false. skip trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+          return;
+        }
+      }
+ else {
+        if (isDebug) {
+          logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+        }
+      }
+    }
+ else {
+      trace=traceContext.newTraceObject();
+      if (!trace.canSampled()) {
+        logger.debug("TraceID not exist. camSampled is false. skip trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+        return;
+      }
+ else {
+        if (isDebug) {
+          logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+        }
+      }
+    }
+    trace.markBeforeTime();
+    trace.recordServiceType(ServiceType.STAND_ALONE);
+    trace.recordRpcName(requestURL);
+    trace.recordEndPoint(endPoint);
+    trace.recordRemoteAddress(remoteAddr);
+    if (traceId != null && !traceId.isRoot()) {
+      String parentApplicationName=populateParentApplicationNameFromRequest(request);
+      short parentApplicationType=populateParentApplicationTypeFromRequest(request);
+      if (parentApplicationName != null) {
+        trace.recordParentApplication(parentApplicationName,parentApplicationType);
+      }
+    }
+ else {
+    }
+  }
+ catch (  Throwable e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("com/linecorp/games/common/baseFramework/handlers/HttpCustomServerHandler$InvokeTask.run() trace start fail. Caused:{}",e.getMessage(),e);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  if (!trace.canSampled()) {
+    return;
+  }
+  try {
+    org.jboss.netty.channel.MessageEvent e=getMessageEvent.invoke(target);
+    if (e != null) {
+      org.jboss.netty.handler.codec.http.HttpRequest request=(org.jboss.netty.handler.codec.http.HttpRequest)e.getMessage();
+      HttpMethod reqMethod=request.getMethod();
+      if (reqMethod.equals(HttpMethod.POST) || reqMethod.equals(HttpMethod.PUT) || reqMethod.equals(HttpMethod.DELETE)) {
+        ChannelBuffer content=request.getContent();
+        if (content.readable()) {
+          String bodyStr=content.toString(0,entityDumpSize,CharsetUtil.UTF_8);
+          if (bodyStr != null && bodyStr.length() > 0) {
+            trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,bodyStr);
+          }
+        }
+      }
+ else       if (reqMethod.equals(HttpMethod.GET)) {
+        String parameters=getRequestParameter(request,paramDumpSize);
+        if (parameters != null && parameters.length() > 0) {
+          trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+        }
+      }
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceRootBlockEnd();
+  }
+}
