@@ -1,0 +1,23 @@
+{
+  try {
+    byte[] copy=message.serialize();
+    if (copy == null) {
+      return;
+    }
+    if (message instanceof PinpointSendMessage) {
+      doSend(copy);
+    }
+ else     if (message instanceof PinpointRequestMessage) {
+      int retryCount=((PinpointRequestMessage)message).getRetryCount();
+      TBase tBase=message.getTBase();
+      doRequest(copy,retryCount,tBase);
+    }
+ else {
+      logger.error("sendPacket fail. invalid dto type:{}",message.getClass());
+      return;
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("tcp send fail. Caused:{}",e.getMessage(),e);
+  }
+}

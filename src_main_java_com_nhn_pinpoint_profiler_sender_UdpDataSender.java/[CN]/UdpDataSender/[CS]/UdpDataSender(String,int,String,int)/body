@@ -10,5 +10,5 @@
   }
   logger.info("UdpDataSender initialized. host={}, port={}",host,port);
   this.udpSocket=createSocket(host,port);
-  this.executor=getExecutor(threadName,queueSize);
+  this.executor=createAsyncQueueingExecutor(queueSize,threadName);
 }

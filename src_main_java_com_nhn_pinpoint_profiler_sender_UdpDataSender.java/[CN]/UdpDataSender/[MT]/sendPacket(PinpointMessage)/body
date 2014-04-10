@@ -1,0 +1,25 @@
+{
+  if (message instanceof PinpointSendMessage) {
+    byte[] interBufferData=message.serialize();
+    if (interBufferData == null) {
+      logger.warn("interBufferData is null");
+      return;
+    }
+    TBase dto=message.getTBase();
+    int interBufferSize=serializer.getInterBufferSize();
+    reusePacket.setData(interBufferData,0,interBufferSize);
+    try {
+      udpSocket.send(reusePacket);
+      if (isTrace) {
+        logger.trace("Data sent. {}",dto);
+      }
+    }
+ catch (    IOException e) {
+      logger.warn("packet send error {}",dto,e);
+    }
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+    return;
+  }
+}
