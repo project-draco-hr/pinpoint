@@ -2,10 +2,9 @@
   for (  LinkData linkData : linkDataMap.getLinkDataList()) {
     final Application fromApplication=linkData.getFromApplication();
     if (!fromApplication.getServiceType().isRpcClient()) {
-      if (!nodeList.containsNode(fromApplication)) {
+      final boolean success=addNode(nodeList,fromApplication);
+      if (success) {
         logger.debug("createSourceNode:{}",fromApplication);
-        Node fromNode=new Node(fromApplication);
-        nodeList.addNode(fromNode);
       }
     }
  else {
@@ -13,10 +12,9 @@
     }
     final Application toApplication=linkData.getToApplication();
     if (!toApplication.getServiceType().isRpcClient()) {
-      if (!nodeList.containsNode(toApplication)) {
+      final boolean success=addNode(nodeList,toApplication);
+      if (success) {
         logger.debug("createTargetNode:{}",toApplication);
-        Node toNode=new Node(toApplication);
-        nodeList.addNode(toNode);
       }
     }
  else {

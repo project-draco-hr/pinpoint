@@ -10,18 +10,16 @@
     }
     if (toNode.getServiceType().isRpcClient()) {
       if (!map.containsNode(toNode.getApplication())) {
-        final Link link=new Link(CreateType.Source,fromNode,toNode,range);
-        if (!linkList.containsNode(link)) {
+        final Link link=addLink(linkList,fromNode,toNode,CreateType.Source);
+        if (link != null) {
           logger.debug("createRpcSourceLink:{}",link);
-          linkList.addLink(link);
         }
       }
     }
  else {
-      final Link link=new Link(CreateType.Source,fromNode,toNode,range);
-      if (!linkList.containsNode(link)) {
+      final Link link=addLink(linkList,fromNode,toNode,CreateType.Source);
+      if (link != null) {
         logger.debug("createSourceLink:{}",link);
-        linkList.addLink(link);
       }
     }
   }
