@@ -1,0 +1,12 @@
+{
+  Set<AgentInfoBo> filteredAgentInfo=new HashSet<AgentInfoBo>();
+  ResponseHistogramSummary responseHistogramSummary=node.getResponseHistogramSummary();
+  Map<String,Histogram> agentHistogramMap=responseHistogramSummary.getAgentHistogramMap();
+  for (  AgentInfoBo agentInfoBo : agentList) {
+    String agentId=agentInfoBo.getAgentId();
+    if (agentHistogramMap.containsKey(agentId)) {
+      filteredAgentInfo.add(agentInfoBo);
+    }
+  }
+  return filteredAgentInfo;
+}
