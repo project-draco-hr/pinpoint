@@ -17,8 +17,8 @@
       return;
     }
     String requestURL=request.getUri();
-    String remoteAddr=channel.getRemoteAddress().toString();
-    String endPoint=channel.getLocalAddress().toString();
+    String remoteAddr=channel.getRemoteAddress().toString().substring(1);
+    String endPoint=channel.getLocalAddress().toString().substring(1);
     boolean sampling=isSamplingEnabled(request);
     if (!sampling) {
       traceContext.disableSampling();
@@ -65,6 +65,7 @@
       short parentApplicationType=populateParentApplicationTypeFromRequest(request);
       if (parentApplicationName != null) {
         trace.recordParentApplication(parentApplicationName,parentApplicationType);
+        trace.recordAcceptorHost(endPoint);
       }
     }
  else {
