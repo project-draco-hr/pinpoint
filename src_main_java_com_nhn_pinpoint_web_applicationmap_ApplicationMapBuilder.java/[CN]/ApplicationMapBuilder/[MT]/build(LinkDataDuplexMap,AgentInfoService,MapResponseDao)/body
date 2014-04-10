@@ -1,0 +1,11 @@
+{
+  ResponseDataSource responseSource=new ResponseDataSource(){
+    @Override public ResponseHistogramSummary getResponseHistogramSummary(    Application application){
+      final List<ResponseTime> responseHistogram=mapResponseDao.selectResponseTime(application,range);
+      final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(application,range,responseHistogram);
+      return histogramSummary;
+    }
+  }
+;
+  return this.build(linkDataDuplexMap,agentInfoService,responseSource);
+}

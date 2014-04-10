@@ -1,0 +1,26 @@
+{
+  for (  LinkData linkData : linkDataMap.getLinkDataList()) {
+    final Application fromApplicationId=linkData.getFromApplication();
+    Node fromNode=nodeList.findNode(fromApplicationId);
+    final Application toApplicationId=linkData.getToApplication();
+    Node toNode=nodeList.findNode(toApplicationId);
+    if (toNode == null) {
+      logger.warn("toNode rcp client not found:{}",toApplicationId);
+      continue;
+    }
+    if (toNode.getServiceType().isRpcClient()) {
+      if (!nodeList.containsNode(toNode.getApplication())) {
+        final Link link=addLink(linkList,fromNode,toNode,CreateType.Source);
+        if (link != null) {
+          logger.debug("createRpcSourceLink:{}",link);
+        }
+      }
+    }
+ else {
+      final Link link=addLink(linkList,fromNode,toNode,CreateType.Source);
+      if (link != null) {
+        logger.debug("createSourceLink:{}",link);
+      }
+    }
+  }
+}
