@@ -1,5 +1,5 @@
 {
-  final HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
+  final HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
   byte[] bytes=requestPacket.getPayload();
   SocketAddress remoteAddress=socketChannel.getRemoteAddress();
   try {
@@ -13,7 +13,7 @@
     }
     TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
     if (result != null) {
-      SafeHeaderTBaseSerializer serializer=new SafeHeaderTBaseSerializer();
+      HeaderTBaseSerializer serializer=HeaderTBaseSerDesFactory.getSerializer(HeaderTBaseSerDesFactory.DEFAULT_SAFETY_GURANTEED_MAX_SERIALIZE_DATA_SIZE);
       byte[] resultBytes=serializer.serialize(result);
       socketChannel.sendResponseMessage(requestPacket,resultBytes);
     }

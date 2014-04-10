@@ -1,5 +1,5 @@
 {
-  final HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializer();
+  final HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
   try {
     TBase<?,?> tBase=deserializer.deserialize(bytes);
     dispatchHandler.dispatchSendMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
