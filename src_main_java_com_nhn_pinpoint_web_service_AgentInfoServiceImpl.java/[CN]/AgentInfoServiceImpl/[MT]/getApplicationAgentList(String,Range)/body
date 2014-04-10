@@ -28,8 +28,8 @@
       result.put(hostname,list);
     }
   }
-  for (  Entry<String,List<AgentInfoBo>> entry : result.entrySet()) {
-    Collections.sort(entry.getValue());
+  for (  List<AgentInfoBo> agentInfoBoList : result.values()) {
+    Collections.sort(agentInfoBoList,AgentInfoBo.NAME_ASC);
   }
   logger.info("getApplicationAgentList={}",result);
   return result;
