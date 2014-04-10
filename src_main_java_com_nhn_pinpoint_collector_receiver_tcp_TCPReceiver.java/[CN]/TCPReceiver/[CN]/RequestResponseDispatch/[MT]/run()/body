@@ -1,8 +1,8 @@
 {
-  final HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
   byte[] bytes=requestPacket.getPayload();
   SocketAddress remoteAddress=socketChannel.getRemoteAddress();
   try {
+    final HeaderTBaseDeserializer deserializer=deserializerCache.get();
     TBase<?,?> tBase=deserializer.deserialize(bytes);
     if (tBase instanceof L4Packet) {
       if (logger.isDebugEnabled()) {
@@ -13,7 +13,7 @@
     }
     TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
     if (result != null) {
-      HeaderTBaseSerializer serializer=HeaderTBaseSerDesFactory.getSerializer(HeaderTBaseSerDesFactory.DEFAULT_SAFETY_GURANTEED_MAX_SERIALIZE_DATA_SIZE);
+      HeaderTBaseSerializer serializer=serializerCache.get();
       byte[] resultBytes=serializer.serialize(result);
       socketChannel.sendResponseMessage(requestPacket,resultBytes);
     }
