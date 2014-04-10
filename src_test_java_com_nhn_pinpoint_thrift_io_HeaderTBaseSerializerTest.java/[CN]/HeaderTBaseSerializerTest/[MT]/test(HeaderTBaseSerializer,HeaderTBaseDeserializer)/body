@@ -1,0 +1,13 @@
+{
+  Header header=new Header();
+  header.setType((short)10);
+  TAgentInfo tAgentInfo=new TAgentInfo();
+  tAgentInfo.setAgentId("agentId");
+  tAgentInfo.setHostname("host");
+  tAgentInfo.setApplicationName("applicationName");
+  byte[] serialize=serializer.serialize(tAgentInfo);
+  dump(serialize);
+  TAgentInfo deserialize=(TAgentInfo)deserializer.deserialize(serialize);
+  logger.debug("deserializer:{}",deserialize.getClass());
+  Assert.assertEquals(deserialize,tAgentInfo);
+}

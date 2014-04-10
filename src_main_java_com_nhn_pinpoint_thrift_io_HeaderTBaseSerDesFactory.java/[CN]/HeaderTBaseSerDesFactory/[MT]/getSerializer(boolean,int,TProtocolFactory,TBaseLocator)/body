@@ -1,0 +1,19 @@
+{
+  if (maxSerializeDataSize <= 0) {
+    throw new IllegalArgumentException("maxSerializeDataSize must greater than 0.");
+  }
+  if (protocolFactory == null) {
+    throw new NullPointerException("protocolFactory may not be null.");
+  }
+  if (locator == null) {
+    throw new NullPointerException("locator may not be null.");
+  }
+  ByteArrayOutputStream baos=null;
+  if (safetyGuranteed) {
+    baos=new ByteArrayOutputStream(maxSerializeDataSize);
+  }
+ else {
+    baos=new UnsafeByteArrayOutputStream(maxSerializeDataSize);
+  }
+  return new HeaderTBaseSerializer(baos,protocolFactory,locator);
+}

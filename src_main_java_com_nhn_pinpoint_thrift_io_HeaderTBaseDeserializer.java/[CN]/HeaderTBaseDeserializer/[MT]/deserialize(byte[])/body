@@ -1,11 +1,11 @@
 {
   try {
-    trans_.reset(bytes);
+    trans.reset(bytes);
     Header header=readHeader();
     final int validate=validate(header);
     if (validate == HeaderUtils.OK) {
       TBase<?,?> base=locator.tBaseLookup(header.getType());
-      base.read(protocol_);
+      base.read(protocol);
       return base;
     }
     if (validate == HeaderUtils.PASS_L4) {
@@ -14,7 +14,7 @@
     throw new IllegalStateException("invalid validate " + validate);
   }
   finally {
-    trans_.clear();
-    protocol_.reset();
+    trans.clear();
+    protocol.reset();
   }
 }
