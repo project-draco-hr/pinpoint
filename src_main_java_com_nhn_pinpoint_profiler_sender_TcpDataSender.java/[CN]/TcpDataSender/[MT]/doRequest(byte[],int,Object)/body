@@ -4,7 +4,7 @@
     @Override public void onComplete(    Future<ResponseMessage> future){
       if (future.isSuccess()) {
         HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
-        TBase<?,?> response=deserialize(deserializer,future);
+        TBase<?,?> response=deserialize(deserializer,future.getResult());
         if (response instanceof TResult) {
           TResult result=(TResult)response;
           if (result.isSuccess()) {

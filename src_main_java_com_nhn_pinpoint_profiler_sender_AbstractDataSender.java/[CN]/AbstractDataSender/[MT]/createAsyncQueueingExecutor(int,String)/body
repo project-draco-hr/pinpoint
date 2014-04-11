@@ -1,10 +1,10 @@
 {
-  final AsyncQueueingExecutor<PinpointMessage> executor=new AsyncQueueingExecutor<PinpointMessage>(queueSize,executorName);
-  executor.setListener(new AsyncQueueingExecutorListener<PinpointMessage>(){
-    @Override public void execute(    Collection<PinpointMessage> messageList){
+  final AsyncQueueingExecutor<Object> executor=new AsyncQueueingExecutor<Object>(queueSize,executorName);
+  executor.setListener(new AsyncQueueingExecutorListener<Object>(){
+    @Override public void execute(    Collection<Object> messageList){
       sendPacketN(messageList);
     }
-    @Override public void execute(    PinpointMessage message){
+    @Override public void execute(    Object message){
       sendPacket(message);
     }
   }

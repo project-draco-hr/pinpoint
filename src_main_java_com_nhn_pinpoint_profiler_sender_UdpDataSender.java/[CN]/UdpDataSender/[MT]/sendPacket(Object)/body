@@ -1,0 +1,25 @@
+{
+  if (message instanceof TBase) {
+    TBase dto=(TBase)message;
+    byte[] interBufferData=serialize(serializer,dto);
+    if (interBufferData == null) {
+      logger.warn("interBufferData is null");
+      return;
+    }
+    int interBufferSize=serializer.getInterBufferSize();
+    reusePacket.setData(interBufferData,0,interBufferSize);
+    try {
+      udpSocket.send(reusePacket);
+      if (isTrace) {
+        logger.trace("Data sent. {}",dto);
+      }
+    }
+ catch (    IOException e) {
+      logger.warn("packet send error {}",dto,e);
+    }
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+    return;
+  }
+}

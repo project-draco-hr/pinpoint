@@ -1,0 +1,27 @@
+{
+  try {
+    if (message instanceof TBase) {
+      byte[] copy=serialize(serializer,(TBase)message);
+      if (copy == null) {
+        return;
+      }
+      doSend(copy);
+    }
+ else     if (message instanceof RequestMarker) {
+      TBase tBase=((RequestMarker)message).getTBase();
+      int retryCount=((RequestMarker)message).getRetryCount();
+      byte[] copy=serialize(serializer,tBase);
+      if (copy == null) {
+        return;
+      }
+      doRequest(copy,retryCount,tBase);
+    }
+ else {
+      logger.error("sendPacket fail. invalid dto type:{}",message.getClass());
+      return;
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("tcp send fail. Caused:{}",e.getMessage(),e);
+  }
+}
