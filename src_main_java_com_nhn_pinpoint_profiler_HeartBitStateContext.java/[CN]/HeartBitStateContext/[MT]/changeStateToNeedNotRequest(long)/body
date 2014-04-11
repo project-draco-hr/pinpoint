@@ -1,10 +1,12 @@
 {
+  logger.info(this.getClass().getSimpleName() + " will change to NEED_NOT_REQUEST state.");
   if (prevEventTimeMillis < eventTimeMillis) {
 synchronized (this) {
       boolean isChange=changeState(this.state,HeartBitState.NEED_NOT_REQUEST);
       if (isChange) {
         prevEventTimeMillis=eventTimeMillis;
       }
+      logger.info(this.getClass().getSimpleName() + " change to NEED_NOT_REQUEST state ({}) .",isChange);
       return isChange;
     }
   }

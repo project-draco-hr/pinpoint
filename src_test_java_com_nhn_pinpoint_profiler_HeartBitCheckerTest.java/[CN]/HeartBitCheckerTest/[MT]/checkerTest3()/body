@@ -1,0 +1,21 @@
+{
+  AtomicInteger requestCount=new AtomicInteger();
+  AtomicInteger successCount=new AtomicInteger();
+  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
+  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  HeartBitChecker checker=new HeartBitChecker(sender,1000L,getAgentInfo());
+  try {
+    checker.start();
+    createAndDeleteServer(serverListener,10000L);
+    Thread.sleep(1000);
+    createAndDeleteServer(serverListener,10000L);
+    Thread.sleep(1000);
+    createAndDeleteServer(serverListener,10000L);
+    Assert.assertEquals(3,successCount.get());
+  }
+  finally {
+    if (checker != null) {
+      checker.stop();
+    }
+  }
+}

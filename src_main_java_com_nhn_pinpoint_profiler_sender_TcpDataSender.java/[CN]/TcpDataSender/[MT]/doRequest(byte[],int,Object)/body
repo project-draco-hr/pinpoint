@@ -1,6 +1,5 @@
 {
-  final Future<ResponseMessage> response=this.socket.request(requestPacket);
-  response.setListener(new FutureListener<ResponseMessage>(){
+  FutureListener futureListner=(new FutureListener<ResponseMessage>(){
     @Override public void onComplete(    Future<ResponseMessage> future){
       if (future.isSuccess()) {
         HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
@@ -26,4 +25,5 @@
     }
   }
 );
+  doRequest(requestPacket,futureListner);
 }

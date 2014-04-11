@@ -1,5 +1,8 @@
 {
+  logger.info(this.getClass().getSimpleName() + " will change to FINISH state.");
 synchronized (this) {
-    return changeState(this.state,HeartBitState.FINISH);
+    boolean isChange=changeState(this.state,HeartBitState.FINISH);
+    logger.info(this.getClass().getSimpleName() + " change to FINISH state ({}) .",isChange);
+    return isChange;
   }
 }

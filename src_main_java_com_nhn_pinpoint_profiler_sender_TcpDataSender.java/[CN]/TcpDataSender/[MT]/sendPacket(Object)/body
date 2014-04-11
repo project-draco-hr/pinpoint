@@ -8,13 +8,20 @@
       doSend(copy);
     }
  else     if (message instanceof RequestMarker) {
-      TBase tBase=((RequestMarker)message).getTBase();
-      int retryCount=((RequestMarker)message).getRetryCount();
+      RequestMarker requestMarker=(RequestMarker)message;
+      TBase tBase=requestMarker.getTBase();
+      int retryCount=requestMarker.getRetryCount();
+      FutureListener futureListener=requestMarker.getFutureListener();
       byte[] copy=serialize(serializer,tBase);
       if (copy == null) {
         return;
       }
-      doRequest(copy,retryCount,tBase);
+      if (futureListener != null) {
+        doRequest(copy,futureListener);
+      }
+ else {
+        doRequest(copy,retryCount,tBase);
+      }
     }
  else {
       logger.error("sendPacket fail. invalid dto type:{}",message.getClass());

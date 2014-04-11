@@ -1,0 +1,16 @@
+{
+  AtomicInteger requestCount=new AtomicInteger();
+  AtomicInteger successCount=new AtomicInteger();
+  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
+  PinpointServerSocket server=createServer(serverListener);
+  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  HeartBitChecker checker=new HeartBitChecker(sender,1000L,getAgentInfo());
+  try {
+    checker.start();
+    Thread.sleep(10000);
+    Assert.assertEquals(1,successCount.get());
+  }
+  finally {
+    closeAll(server,checker);
+  }
+}
