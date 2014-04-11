@@ -1,0 +1,24 @@
+{
+  if (responseHistogramList == null) {
+    throw new NullPointerException("responseHistogramList must not be null");
+  }
+  Map<Long,TimeHistogram> applicationLevelHistogram=new HashMap<Long,TimeHistogram>();
+  for (  ResponseTime responseTime : responseHistogramList) {
+    final Long timeStamp=responseTime.getTimeStamp();
+    TimeHistogram timeHistogram=applicationLevelHistogram.get(timeStamp);
+    if (timeHistogram == null) {
+      timeHistogram=new TimeHistogram(application.getServiceType(),timeStamp);
+      applicationLevelHistogram.put(timeStamp,timeHistogram);
+    }
+    Histogram applicationResponseHistogram=responseTime.getApplicationResponseHistogram();
+    timeHistogram.add(applicationResponseHistogram);
+  }
+  List<TimeHistogram> histogramList=interpolation(applicationLevelHistogram.values());
+  if (logger.isTraceEnabled()) {
+    for (    TimeHistogram histogram : histogramList) {
+      logger.trace("applicationLevel histogram:{}",histogram);
+    }
+  }
+  ApplicationTimeHistogram applicationTimeHistogram=new ApplicationTimeHistogram(application,range,histogramList);
+  return applicationTimeHistogram;
+}

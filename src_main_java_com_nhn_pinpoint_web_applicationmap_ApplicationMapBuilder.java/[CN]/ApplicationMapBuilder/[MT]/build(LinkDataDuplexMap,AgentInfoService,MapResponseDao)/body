@@ -1,9 +1,9 @@
 {
-  ResponseDataSource responseSource=new ResponseDataSource(){
-    @Override public ResponseHistogramSummary getResponseHistogramSummary(    Application application){
+  NodeHistogramDataSource responseSource=new NodeHistogramDataSource(){
+    @Override public NodeHistogram createNodeHistogram(    Application application){
       final List<ResponseTime> responseHistogram=mapResponseDao.selectResponseTime(application,range);
-      final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(application,range,responseHistogram);
-      return histogramSummary;
+      final NodeHistogram nodeHistogram=new NodeHistogram(application,range,responseHistogram);
+      return nodeHistogram;
     }
   }
 ;

@@ -7,7 +7,7 @@
   }
   List<LinkDataMap> list=selectLink(sourceApplication,destinationApplication,range);
   logger.debug("Fetched statistics data size={}",list.size());
-  MapResponseHistogramSummary responseHistogramSummary=new MapResponseHistogramSummary(range);
+  ResponseHistogramBuilder responseHistogramSummary=new ResponseHistogramBuilder(range);
   for (  LinkDataMap entry : list) {
     for (    LinkData linkData : entry.getLinkDataList()) {
       CallHistogramList sourceList=linkData.getSourceList();
@@ -25,6 +25,6 @@
   }
   responseHistogramSummary.build();
   List<ResponseTime> responseTimeList=responseHistogramSummary.getResponseTimeList(destinationApplication);
-  final ResponseHistogramSummary histogramSummary=new ResponseHistogramSummary(destinationApplication,range,responseTimeList);
+  final NodeHistogram histogramSummary=new NodeHistogram(destinationApplication,range,responseTimeList);
   return histogramSummary;
 }

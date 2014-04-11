@@ -1,0 +1,54 @@
+{
+  if (nodeHistogramDataSource == null) {
+    throw new NullPointerException("nodeHistogramDataSource must not be null");
+  }
+  final Collection<Node> nodes=nodeList.getNodeList();
+  for (  Node node : nodes) {
+    if (node.getServiceType().isWas()) {
+      final Application wasNode=node.getApplication();
+      final NodeHistogram nodeHistogram=nodeHistogramDataSource.createNodeHistogram(wasNode);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else     if (node.getServiceType().isTerminal() || node.getServiceType().isUnknown()) {
+      final Application terminalNode=node.getApplication();
+      final NodeHistogram nodeHistogram=new NodeHistogram(terminalNode,range);
+      final List<Link> toLinkList=linkList.findToLink(terminalNode);
+      final Histogram applicationHistogram=new Histogram(node.getServiceType());
+      for (      Link link : toLinkList) {
+        applicationHistogram.add(link.getHistogram());
+      }
+      nodeHistogram.setApplicationHistogram(applicationHistogram);
+      LinkCallDataMap linkCallDataMap=new LinkCallDataMap();
+      for (      Link link : toLinkList) {
+        LinkCallDataMap sourceLinkCallDataMap=link.getSourceLinkCallDataMap();
+        linkCallDataMap.addLinkDataMap(sourceLinkCallDataMap);
+      }
+      ApplicationTimeHistogramBuilder builder=new ApplicationTimeHistogramBuilder(terminalNode,range);
+      ApplicationTimeHistogram applicationTimeHistogram=builder.build(linkCallDataMap.getLinkDataMap());
+      nodeHistogram.setApplicationTimeHistogram(applicationTimeHistogram);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else     if (node.getServiceType().isUser()) {
+      Application userNode=node.getApplication();
+      final NodeHistogram nodeHistogram=new NodeHistogram(userNode,range);
+      final List<Link> fromLink=linkList.findFromLink(userNode);
+      if (fromLink.size() > 1) {
+        logger.warn("Invalid from UserNode:{}",linkList);
+        throw new IllegalArgumentException("Invalid from UserNode.size() :" + fromLink.size());
+      }
+ else       if (fromLink.size() == 0) {
+        logger.warn("from UserNode not found:{}",userNode);
+        continue;
+      }
+      final Link sourceLink=fromLink.get(0);
+      nodeHistogram.setApplicationHistogram(sourceLink.getHistogram());
+      ApplicationTimeHistogram histogramData=sourceLink.getTargetApplicationTimeSeriesHistogramData();
+      nodeHistogram.setApplicationTimeHistogram(histogramData);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else {
+      NodeHistogram dummy=new NodeHistogram(node.getApplication(),range);
+      node.setNodeHistogram(dummy);
+    }
+  }
+}

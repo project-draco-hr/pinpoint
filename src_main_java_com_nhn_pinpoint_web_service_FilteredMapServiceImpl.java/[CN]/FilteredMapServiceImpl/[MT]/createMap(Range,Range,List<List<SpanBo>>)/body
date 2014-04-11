@@ -2,7 +2,7 @@
   final TimeWindow window=new TimeWindow(range,TimeWindowOneMinuteSampler.SAMPLER);
   final LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
   final DotExtractor dotExtractor=new DotExtractor(scanRange);
-  final MapResponseHistogramSummary mapHistogramSummary=new MapResponseHistogramSummary(range);
+  final ResponseHistogramBuilder mapHistogramSummary=new ResponseHistogramBuilder(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
