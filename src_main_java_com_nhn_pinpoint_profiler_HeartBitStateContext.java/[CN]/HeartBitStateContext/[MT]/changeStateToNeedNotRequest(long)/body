@@ -1,0 +1,12 @@
+{
+  if (prevEventTimeMillis < eventTimeMillis) {
+synchronized (this) {
+      boolean isChange=changeState(this.state,HeartBitState.NEED_NOT_REQUEST);
+      if (isChange) {
+        prevEventTimeMillis=eventTimeMillis;
+      }
+      return isChange;
+    }
+  }
+  return false;
+}
