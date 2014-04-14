@@ -1,21 +1,18 @@
 {
   logger.debug("loading className:{}",classname);
-  Modifier modifier=modifierMap.get(classname);
-  if (modifier == null) {
-    return;
-  }
-  logger.info("Modify loader:{}, name:{},  modifier{}",loader,classname,modifier);
-  final Thread thread=Thread.currentThread();
-  ClassLoader beforeClassLoader=thread.getContextClassLoader();
-  thread.setContextClassLoader(loader);
+  ClassFileTransformerDispatcher classFileTransformer=agent.getClassFileTransformer();
+  classname=classname.replace('.','/');
   try {
-    byte[] modify=modifier.modify(this.loader,classname,null,null);
-    pool.makeClass(new ByteArrayInputStream(modify));
+    byte[] transform=classFileTransformer.transform(this.loader,classname,null,null,null);
+    if (transform == null) {
+      return;
+    }
+    pool.makeClass(new ByteArrayInputStream(transform));
   }
  catch (  IOException ex) {
     throw new NotFoundException(classname + " not found. Caused:" + ex.getMessage(),ex);
   }
- finally {
-    thread.setContextClassLoader(beforeClassLoader);
+catch (  IllegalClassFormatException ex) {
+    throw new RuntimeException(classname + " not found. Caused:" + ex.getMessage(),ex);
   }
 }
