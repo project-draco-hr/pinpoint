@@ -7,6 +7,10 @@
   properties.setProperty("user","lucytest");
   properties.setProperty("password","testlucy");
   Class<?> aClass=loader.loadClass("com.mysql.jdbc.StringUtils");
+  logger.debug("mysql cl:{}",loader);
+  Class<?> version=loader.loadClass("com.nhn.pinpoint.common.Version");
+  Assert.assertSame("check classLoader",this.getClass().getClassLoader(),version.getClassLoader());
+  logger.debug("common cl:{}",version.getClassLoader());
   Connection connection=driver.connect("jdbc:mysql://10.98.133.22:3306/hippo",properties);
   logger.info("Connection class name:" + connection.getClass().getName());
   logger.info("Connection class cl:" + connection.getClass().getClassLoader());
