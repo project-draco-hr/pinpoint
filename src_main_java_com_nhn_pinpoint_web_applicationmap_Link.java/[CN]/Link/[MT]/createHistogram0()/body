@@ -1,8 +1,6 @@
 {
   final Histogram linkHistogram=new Histogram(toNode.getServiceType());
   final LinkCallDataMap findMap=getLinkCallDataMap();
-  for (  CallHistogram callHistogram : findMap.getTargetList().getCallHistogramList()) {
-    linkHistogram.add(callHistogram.getHistogram());
-  }
-  return linkHistogram;
+  CallHistogramList targetList=findMap.getTargetList();
+  return targetList.mergeHistogram(toNode.getServiceType());
 }
