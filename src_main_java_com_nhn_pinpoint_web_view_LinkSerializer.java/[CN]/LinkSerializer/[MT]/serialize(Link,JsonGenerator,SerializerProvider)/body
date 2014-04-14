@@ -13,8 +13,8 @@
   jgen.writeNumberField("error",histogram.getErrorCount());
   jgen.writeNumberField("slow",histogram.getSlowCount());
   jgen.writeObjectField("histogram",histogram);
-  writeSourceHistogram(link,jgen);
-  writeTargetHosts(link,jgen);
+  writeAgentHistogram("sourceHistogram",link.getSourceList(),jgen);
+  writeAgentHistogram("targetHistogram",link.getTargetList(),jgen);
   writeTimeSeriesHistogram(link,jgen);
   writeSourceAgentTimeSeriesHistogram(link,jgen);
   String state=link.getLinkState();
