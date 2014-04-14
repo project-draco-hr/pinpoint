@@ -1,8 +1,10 @@
 {
-  Application agentId=new Application(agent,serviceType);
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
   CallHistogram callHistogram=callHistogramMap.get(agentId);
   if (callHistogram == null) {
-    callHistogram=new CallHistogram(agent,serviceType);
+    callHistogram=new CallHistogram(agentId);
     callHistogramMap.put(agentId,callHistogram);
   }
   return callHistogram;
