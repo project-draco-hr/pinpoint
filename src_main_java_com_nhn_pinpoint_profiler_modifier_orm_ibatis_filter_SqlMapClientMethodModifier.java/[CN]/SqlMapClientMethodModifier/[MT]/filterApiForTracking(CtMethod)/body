@@ -1,0 +1,13 @@
+{
+  if (WHITE_LIST_API.contains(ctMethod.getName()) == false) {
+    return DO_NOT_TRACK;
+  }
+  try {
+    final int parameterIndexToMatch=0;
+    CtClass[] parameterTypes=ctMethod.getParameterTypes();
+    return parameterTypeMatches(parameterTypes,parameterIndexToMatch,String.class);
+  }
+ catch (  NotFoundException e) {
+    return DO_NOT_TRACK;
+  }
+}

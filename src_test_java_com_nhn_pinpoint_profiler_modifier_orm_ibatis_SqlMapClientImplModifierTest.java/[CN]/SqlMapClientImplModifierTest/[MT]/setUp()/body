@@ -1,0 +1,11 @@
+{
+  System.setProperty("catalina.home","test");
+  PLoggerFactory.initialize(new Slf4jLoggerBinder());
+  ProfilerConfig profilerConfig=new ProfilerConfig();
+  String path=ProfilerConfig.class.getClassLoader().getResource("pinpoint.config").getPath();
+  profilerConfig.readConfigFile(path);
+  profilerConfig.setApplicationServerType(ServiceType.STAND_ALONE);
+  DefaultAgent agent=new MockAgent("",new DummyInstrumentation(),profilerConfig);
+  loader=new TestClassLoader(agent);
+  MockitoAnnotations.initMocks(this);
+}

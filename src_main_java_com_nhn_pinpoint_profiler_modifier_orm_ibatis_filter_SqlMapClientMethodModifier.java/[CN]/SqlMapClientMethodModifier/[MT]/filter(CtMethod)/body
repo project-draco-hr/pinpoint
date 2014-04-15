@@ -1,0 +1,7 @@
+{
+  final int modifiers=ctMethod.getModifiers();
+  if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers) || Modifier.isAbstract(modifiers)|| Modifier.isNative(modifiers)) {
+    return DO_NOT_TRACK;
+  }
+  return filterApiForTracking(ctMethod);
+}
