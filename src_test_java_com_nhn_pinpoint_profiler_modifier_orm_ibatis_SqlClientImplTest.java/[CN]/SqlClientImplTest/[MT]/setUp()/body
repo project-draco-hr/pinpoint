@@ -6,6 +6,7 @@
   profilerConfig.readConfigFile(path);
   profilerConfig.setApplicationServerType(ServiceType.STAND_ALONE);
   DefaultAgent agent=new MockAgent("",new DummyInstrumentation(),profilerConfig);
-  loader=new TestClassLoader(agent);
+  LOADER=new TestClassLoader(agent);
+  TEMPLATE=new ContextClassLoaderExecuteTemplate<Callable>(LOADER);
   MockitoAnnotations.initMocks(this);
 }

@@ -1,7 +1,5 @@
 {
   final String className=SqlMapClientImplModifier.TARGET_CLASS_NAME.replace('/','.');
-  @SuppressWarnings("unchecked") Class<SqlMapClientImpl> sqlMapClientClazz=(Class<SqlMapClientImpl>)loader.loadClass(className);
-  Constructor<?>[] constructors=sqlMapClientClazz.getConstructors();
-  SqlMapClient sqlMapClient=(SqlMapClient)constructors[0].newInstance(mockSqlMapExecutorDelegate);
+  SqlMapClient sqlMapClient=new SqlMapClientImpl(mockSqlMapExecutorDelegate);
   sqlMapClient.queryForList("abc");
 }
