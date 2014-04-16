@@ -1,25 +1,20 @@
 {
-  Map<String,List<TimeHistogram>> agentLevelMap=new HashMap<String,List<TimeHistogram>>();
+  AgentHistogramList agentHistogramList=new AgentHistogramList();
   for (  ResponseTime responseTime : responseHistogramList) {
     Set<Map.Entry<String,Histogram>> agentHistogram=responseTime.getAgentHistogram();
     for (    Map.Entry<String,Histogram> agentEntry : agentHistogram) {
-      List<TimeHistogram> histogramList=agentLevelMap.get(agentEntry.getKey());
-      if (histogramList == null) {
-        histogramList=new ArrayList<TimeHistogram>();
-        agentLevelMap.put(agentEntry.getKey(),histogramList);
-      }
       Histogram histogram=agentEntry.getValue();
       TimeHistogram timeHistogram=new TimeHistogram(application.getServiceType(),responseTime.getTimeStamp());
       timeHistogram.add(histogram);
-      histogramList.add(timeHistogram);
+      agentHistogramList.addAgentHistogram(agentEntry.getKey(),application.getServiceType(),timeHistogram);
     }
   }
-  Map<String,List<TimeHistogram>> histogramMap=interpolation(agentLevelMap);
+  Map<Application,List<TimeHistogram>> histogramMap=interpolation(agentHistogramList,window);
   if (logger.isTraceEnabled()) {
-    for (    Map.Entry<String,List<TimeHistogram>> agentListEntry : agentLevelMap.entrySet()) {
-      String agentName=agentListEntry.getKey();
+    for (    AgentHistogram agentListEntry : agentHistogramList.getAgentHistogramList()) {
+      Application agentName=agentListEntry.getAgentId();
       logger.trace("agentName:{}",agentName);
-      List<TimeHistogram> value=agentListEntry.getValue();
+      Collection<TimeHistogram> value=agentListEntry.getTimeHistogram();
       for (      TimeHistogram histogram : value) {
         logger.trace("histogram:{}",histogram);
       }
