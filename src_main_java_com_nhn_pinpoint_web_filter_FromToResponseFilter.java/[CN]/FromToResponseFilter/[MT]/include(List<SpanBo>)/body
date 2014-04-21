@@ -2,7 +2,7 @@
   if (includeServiceType(fromServiceCode,ServiceType.USER)) {
     for (    SpanBo span : transaction) {
       if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
-        return checkResponseCondition(span.getElapsed(),span.getErrCode() > 0);
+        return checkResponseCondition(span.getElapsed(),span.getErrCode() > 0) && checkPinPointAgentName(null,span.getAgentId());
       }
     }
   }
@@ -29,7 +29,7 @@
             continue;
           }
           if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
-            return checkResponseCondition(destSpan.getElapsed(),destSpan.getErrCode() > 0);
+            return checkResponseCondition(destSpan.getElapsed(),destSpan.getErrCode() > 0) && checkPinPointAgentName(srcSpan.getAgentId(),destSpan.getAgentId());
           }
         }
       }
@@ -44,7 +44,7 @@
         }
         for (        SpanEventBo event : eventBoList) {
           if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
-            return checkResponseCondition(event.getEndElapsed(),event.hasException());
+            return checkResponseCondition(event.getEndElapsed(),event.hasException()) && checkPinPointAgentName(span.getAgentId(),null);
           }
         }
       }
