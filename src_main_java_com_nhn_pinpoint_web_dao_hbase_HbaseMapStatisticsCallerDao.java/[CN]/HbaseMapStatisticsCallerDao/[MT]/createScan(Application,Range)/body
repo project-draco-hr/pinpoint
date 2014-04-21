@@ -1,12 +1,10 @@
 {
-  long startTime=TimeSlot.getStatisticsRowSlot(range.getFrom()) - 1;
-  long endTime=TimeSlot.getStatisticsRowSlot(range.getTo());
+  range=rangeFactory.createReverseStatisticsRange(range);
   if (logger.isDebugEnabled()) {
-    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm:ss,SSS");
-    logger.debug("scan startTime:{} endTime:{}",simpleDateFormat.format(new Date(startTime)),simpleDateFormat.format(new Date(endTime)));
+    logger.debug("scan Time:{}",range.prettyToString());
   }
-  byte[] startKey=ApplicationMapStatisticsUtils.makeRowKey(application.getName(),application.getServiceTypeCode(),endTime);
-  byte[] endKey=ApplicationMapStatisticsUtils.makeRowKey(application.getName(),application.getServiceTypeCode(),startTime);
+  byte[] startKey=ApplicationMapStatisticsUtils.makeRowKey(application.getName(),application.getServiceTypeCode(),range.getFrom());
+  byte[] endKey=ApplicationMapStatisticsUtils.makeRowKey(application.getName(),application.getServiceTypeCode(),range.getTo());
   Scan scan=new Scan();
   scan.setCaching(this.scanCacheSize);
   scan.setStartRow(startKey);

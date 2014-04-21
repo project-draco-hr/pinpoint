@@ -1,0 +1,8 @@
+{
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  final long startTime=TimeSlot.getStatisticsRowSlot(range.getFrom()) - 1;
+  final long endTime=TimeSlot.getStatisticsRowSlot(range.getTo());
+  return Range.createUncheckedRange(endTime,startTime);
+}
