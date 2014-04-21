@@ -1,0 +1,14 @@
+{
+  super(clazz);
+  if (logger.isDebugEnabled()) {
+    logger.debug("PinpointJUnit4ClassRunner constructor called with [" + clazz + "].");
+  }
+  this.testClassLoader=getTestClassLoader(clazz);
+  this.testClassLoader.initialize();
+  try {
+    this.testContext=new TestContext(this.testClassLoader,clazz);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new InitializationError(e);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  ClassLoader originalClassLoader=Thread.currentThread().getContextClassLoader();
+  try {
+    Thread.currentThread().setContextClassLoader(testClassLoader);
+    this.testClass=new TestClass(testClassLoader.loadClass(clazz.getName()));
+    this.beforeClass=testClassLoader.loadClass(Before.class.getName());
+    this.afterClass=testClassLoader.loadClass(After.class.getName());
+  }
+  finally {
+    Thread.currentThread().setContextClassLoader(originalClassLoader);
+  }
+}

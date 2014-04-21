@@ -1,0 +1,15 @@
+{
+  PinpointTestClassLoader pinpointTestClassLoader=testClass.getAnnotation(PinpointTestClassLoader.class);
+  if (pinpointTestClassLoader == null) {
+    if (logger.isInfoEnabled()) {
+      logger.info(String.format("@PinpointTestClassLoader not found for class [%s]",testClass));
+    }
+    return createTestClassLoader(defaultTestClassLoader);
+  }
+ else {
+    if (logger.isTraceEnabled()) {
+      logger.trace(String.format("Retrieved @PinpointTestClassLoader [%s] for class [%s]",pinpointTestClassLoader,testClass));
+    }
+    return createTestClassLoader(pinpointTestClassLoader.value());
+  }
+}

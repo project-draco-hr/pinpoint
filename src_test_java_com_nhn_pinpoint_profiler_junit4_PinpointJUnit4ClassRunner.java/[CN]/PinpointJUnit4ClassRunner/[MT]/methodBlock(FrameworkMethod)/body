@@ -1,0 +1,15 @@
+{
+  FrameworkMethod newFrameworkMethod=null;
+  try {
+    Thread.currentThread().setContextClassLoader(this.testClassLoader);
+    Method newMethod=this.testContext.getTestClass().getJavaClass().getMethod(frameworkMethod.getName());
+    newFrameworkMethod=new FrameworkMethod(newMethod);
+    return super.methodBlock(newFrameworkMethod);
+  }
+ catch (  NoSuchMethodException e) {
+    return new Fail(e);
+  }
+catch (  SecurityException e) {
+    return new Fail(e);
+  }
+}
