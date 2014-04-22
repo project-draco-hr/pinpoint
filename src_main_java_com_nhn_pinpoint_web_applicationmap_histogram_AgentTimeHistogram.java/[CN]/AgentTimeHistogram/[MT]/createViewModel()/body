@@ -1,7 +1,8 @@
 {
   final List<AgentResponseTimeViewModel> result=new ArrayList<AgentResponseTimeViewModel>();
-  for (  Map.Entry<Application,List<TimeHistogram>> entry : histogramMap.entrySet()) {
-    AgentResponseTimeViewModel model=createAgentResponseTimeViewModel(entry.getKey(),entry.getValue());
+  for (  Map.Entry<Application,Map<Long,TimeHistogram>> entry : histogramMap.entrySet()) {
+    List<TimeHistogram> timeList=sortTimeHistogram(entry.getValue());
+    AgentResponseTimeViewModel model=createAgentResponseTimeViewModel(entry.getKey(),timeList);
     result.add(model);
   }
   Collections.sort(result,new Comparator<AgentResponseTimeViewModel>(){

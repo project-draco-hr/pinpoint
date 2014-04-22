@@ -11,9 +11,8 @@
     windowTimeMap.put(agentHistogram.getAgentId(),timeMap);
   }
   for (  AgentHistogram agentHistogram : agentLevelMap.getAgentHistogramList()) {
-    Collection<TimeHistogram> histogramList=agentHistogram.getTimeHistogram();
-    for (    TimeHistogram timeHistogram : histogramList) {
-      long time=window.refineTimestamp(timeHistogram.getTimeStamp());
+    for (    TimeHistogram timeHistogram : agentHistogram.getTimeHistogram()) {
+      final Long time=window.refineTimestamp(timeHistogram.getTimeStamp());
       Map<Long,TimeHistogram> findSlot=windowTimeMap.get(agentHistogram.getAgentId());
       TimeHistogram windowHistogram=findSlot.get(time);
       if (windowHistogram == null) {
@@ -23,19 +22,5 @@
       windowHistogram.add(timeHistogram);
     }
   }
-  Map<Application,List<TimeHistogram>> result=new HashMap<Application,List<TimeHistogram>>();
-  for (  Map.Entry<Application,Map<Long,TimeHistogram>> windowMapEntry : windowTimeMap.entrySet()) {
-    final Application key=windowMapEntry.getKey();
-    List<TimeHistogram> histogramList=result.get(key);
-    if (histogramList == null) {
-      histogramList=new ArrayList<TimeHistogram>();
-      result.put(key,histogramList);
-    }
-    Map<Long,TimeHistogram> timeHistogramMap=windowMapEntry.getValue();
-    for (    TimeHistogram timeHistogram : timeHistogramMap.values()) {
-      histogramList.add(timeHistogram);
-    }
-  }
-  sortList(result);
-  return result;
+  return windowTimeMap;
 }

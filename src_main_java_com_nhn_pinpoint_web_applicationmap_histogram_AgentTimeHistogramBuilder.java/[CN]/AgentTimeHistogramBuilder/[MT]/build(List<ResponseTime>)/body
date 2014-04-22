@@ -1,22 +1,4 @@
 {
-  AgentHistogramList agentHistogramList=new AgentHistogramList();
-  for (  ResponseTime responseTime : responseHistogramList) {
-    for (    Map.Entry<String,TimeHistogram> agentEntry : responseTime.getAgentHistogram()) {
-      TimeHistogram timeHistogram=agentEntry.getValue();
-      agentHistogramList.addAgentHistogram(agentEntry.getKey(),application.getServiceType(),timeHistogram);
-    }
-  }
-  Map<Application,List<TimeHistogram>> histogramMap=interpolation(agentHistogramList,window);
-  if (logger.isTraceEnabled()) {
-    for (    AgentHistogram agentListEntry : agentHistogramList.getAgentHistogramList()) {
-      Application agentName=agentListEntry.getAgentId();
-      logger.trace("agentName:{}",agentName);
-      Collection<TimeHistogram> value=agentListEntry.getTimeHistogram();
-      for (      TimeHistogram histogram : value) {
-        logger.trace("histogram:{}",histogram);
-      }
-    }
-  }
-  AgentTimeHistogram agentTimeHistogram=new AgentTimeHistogram(application,range,histogramMap);
-  return agentTimeHistogram;
+  AgentHistogramList agentHistogramList=new AgentHistogramList(application,responseHistogramList);
+  return build(agentHistogramList);
 }
