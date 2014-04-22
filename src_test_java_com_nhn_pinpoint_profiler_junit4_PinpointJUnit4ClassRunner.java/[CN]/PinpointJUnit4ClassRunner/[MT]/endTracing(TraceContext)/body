@@ -1,0 +1,14 @@
+{
+  try {
+    Trace trace=traceContext.currentRawTraceObject();
+    try {
+      trace.markAfterTime();
+    }
+  finally {
+      trace.traceRootBlockEnd();
+    }
+  }
+  finally {
+    traceContext.detachTraceObject();
+  }
+}
