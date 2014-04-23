@@ -22,7 +22,13 @@
     writeEmptyObject(jgen,"serverList");
   }
  else {
-    jgen.writeObjectField("serverList",node.getServerInstanceList());
+    final ServerInstanceList serverInstanceList=node.getServerInstanceList();
+    if (serverInstanceList != null) {
+      jgen.writeObjectField("serverList",serverInstanceList);
+    }
+ else {
+      writeEmptyObject(jgen,"serverList");
+    }
   }
   jgen.writeEndObject();
 }
