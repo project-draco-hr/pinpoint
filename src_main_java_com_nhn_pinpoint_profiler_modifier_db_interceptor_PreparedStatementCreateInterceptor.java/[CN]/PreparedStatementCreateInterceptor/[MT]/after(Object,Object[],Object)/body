@@ -2,7 +2,7 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result);
   }
-  boolean success=InterceptorUtils.isSuccess(result);
+  final boolean success=InterceptorUtils.isSuccess(result);
   ParsingResult parsingResult=null;
   if (success) {
     DatabaseInfo databaseInfo=getDatabaseInfo.invoke(target);
@@ -20,7 +20,7 @@
       }
     }
   }
-  Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }

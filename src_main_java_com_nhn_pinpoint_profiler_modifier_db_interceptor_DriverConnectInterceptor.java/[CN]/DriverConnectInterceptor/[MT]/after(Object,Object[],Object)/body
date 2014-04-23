@@ -3,13 +3,13 @@
     logger.afterInterceptor(target,null,result);
   }
   scope.pop();
-  boolean success=InterceptorUtils.isSuccess(result);
+  final boolean success=InterceptorUtils.isSuccess(result);
   final String driverUrl=(String)args[0];
   DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
   if (success) {
     this.setUrl.invoke(result,databaseInfo);
   }
-  Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
