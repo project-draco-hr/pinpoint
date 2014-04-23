@@ -22,6 +22,7 @@
     if (logger.isTraceEnabled()) {
       logger.trace("spanEvent  src:{} {} -> dest:{} {}",srcApplication,span.getAgentId(),destApplication,spanEvent.getEndPoint());
     }
-    sourceLinkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,spanEvent.getEndPoint(),spanEventTimeStamp,slotTime,1);
+    final String destinationAgentId=StringUtils.defaultString(spanEvent.getEndPoint());
+    sourceLinkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,destinationAgentId,spanEventTimeStamp,slotTime,1);
   }
 }

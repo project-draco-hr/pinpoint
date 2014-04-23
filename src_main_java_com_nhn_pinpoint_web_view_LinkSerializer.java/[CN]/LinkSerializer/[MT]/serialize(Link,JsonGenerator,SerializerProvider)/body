@@ -8,6 +8,9 @@
   Application filterApplication=link.getFilterApplication();
   jgen.writeStringField("filterApplicationName",filterApplication.getName());
   jgen.writeNumberField("filterApplicationServiceTypeCode",filterApplication.getServiceTypeCode());
+  if (link.isWasToWasLink()) {
+    writeWasToWasTargetRpcList(link,jgen);
+  }
   Histogram histogram=link.getHistogram();
   jgen.writeNumberField("text",histogram.getTotalCount());
   jgen.writeNumberField("error",histogram.getErrorCount());

@@ -1,0 +1,8 @@
+{
+  Set<Application> agentList=new HashSet<Application>();
+  Collection<LinkCallData> linkDataList=sourceLinkCallDataMap.getLinkDataList();
+  for (  LinkCallData linkCallData : linkDataList) {
+    agentList.add(new Application(linkCallData.getTarget(),linkCallData.getTargetServiceType()));
+  }
+  return agentList;
+}

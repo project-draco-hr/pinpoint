@@ -23,6 +23,9 @@
         logger.debug("    Fetched Caller.  {} -> {} (slot:{}/{}) calleeHost:{}",caller,callee,histogramSlot,requestCount,calleeHost);
       }
       final short slotTime=(isError) ? (short)-1 : histogramSlot;
+      if (StringUtils.isEmpty(calleeHost)) {
+        calleeHost=callee.getName();
+      }
       linkDataMap.addLinkData(caller,caller.getName(),callee,calleeHost,timestamp,slotTime,requestCount);
     }
  else     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER)) {
@@ -40,6 +43,9 @@
         logger.debug("    Fetched Caller.(New) {} {} -> {} (slot:{}/{}) calleeHost:{}",caller,callerAgentId,callee,histogramSlot,requestCount,calleeHost);
       }
       final short slotTime=(isError) ? (short)-1 : histogramSlot;
+      if (StringUtils.isEmpty(calleeHost)) {
+        calleeHost=callee.getName();
+      }
       linkDataMap.addLinkData(caller,callerAgentId,callee,calleeHost,timestamp,slotTime,requestCount);
     }
  else {

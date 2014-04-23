@@ -13,7 +13,7 @@
     linkCallDataMap.addLinkDataMap(sourceLinkCallDataMap);
   }
   ApplicationTimeHistogramBuilder builder=new ApplicationTimeHistogramBuilder(nodeApplication,range);
-  ApplicationTimeHistogram applicationTimeHistogram=builder.build(linkCallDataMap.getLinkDataMap());
+  ApplicationTimeHistogram applicationTimeHistogram=builder.build(linkCallDataMap.getLinkDataList());
   nodeHistogram.setApplicationTimeHistogram(applicationTimeHistogram);
   if (nodeApplication.getServiceType().isTerminal()) {
     final Map<String,Histogram> agentHistogramMap=new HashMap<String,Histogram>();
