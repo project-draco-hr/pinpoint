@@ -22,7 +22,8 @@
   }
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
   instrumentation.addTransformer(this.classFileTransformer);
-  this.agentInformation=createAgentInformation(typeResolver.getServerType());
+  final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
+  this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
   this.tAgentInfo=createTAgentInfo();
   this.tcpDataSender=createTcpDataSender();
