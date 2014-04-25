@@ -1,0 +1,11 @@
+{
+  AlarmFilterContext context=this;
+  if (context.canSend()) {
+    context.getFilter().execute(event);
+  }
+  context=context.getNext();
+  if (context == null) {
+    return;
+  }
+  context.send(event);
+}

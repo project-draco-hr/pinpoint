@@ -1,0 +1,24 @@
+{
+  DefaultHttpClient client=new DefaultHttpClient();
+  List<NameValuePair> nvps=new ArrayList<NameValuePair>();
+  nvps.add(new BasicNameValuePair("serviceId",serviceId));
+  nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + sender + QUOTATATION));
+  nvps.add(new BasicNameValuePair("receiveMdnList",convertToReceiverFormat(receiverList)));
+  nvps.add(new BasicNameValuePair("content",QUOTATATION + null + QUOTATATION));
+  HttpGet get=new HttpGet(mexMtUrl + "?" + URLEncodedUtils.format(nvps,"UTF-8"));
+  logger.debug("{}",get.getURI());
+  try {
+    HttpResponse response=client.execute(get);
+    if (response != null) {
+      HttpEntity entity=response.getEntity();
+      logger.debug("{}",EntityUtils.toString(entity));
+    }
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+ finally {
+    client.getConnectionManager().shutdown();
+  }
+  return false;
+}
