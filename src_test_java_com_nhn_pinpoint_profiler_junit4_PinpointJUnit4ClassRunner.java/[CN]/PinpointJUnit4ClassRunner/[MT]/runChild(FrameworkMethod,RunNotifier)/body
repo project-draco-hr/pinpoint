@@ -1,9 +1,6 @@
 {
   TraceContext traceContext=this.testAgent.getTraceContext();
-  boolean methodHasTraceSupport=hasTraceSupport(method);
-  if (methodHasTraceSupport) {
-    beginTracing(traceContext);
-  }
+  beginTracing(traceContext);
   ClassLoader originalClassLoader=Thread.currentThread().getContextClassLoader();
   try {
     Thread.currentThread().setContextClassLoader(this.testClassLoader);
@@ -11,8 +8,6 @@
   }
   finally {
     Thread.currentThread().setContextClassLoader(originalClassLoader);
-    if (methodHasTraceSupport) {
-      endTracing(traceContext);
-    }
+    endTracing(traceContext);
   }
 }
