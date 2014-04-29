@@ -35,7 +35,12 @@
     trace.recordException(result);
     trace.markAfterTime();
   }
-  finally {
+ catch (  Throwable e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("com/linecorp/games/common/baseFramework/handlers/HttpCustomServerHandler$InvokeTask.run() trace end fail. Caused:{}",e.getMessage(),e);
+    }
+  }
+ finally {
     trace.traceRootBlockEnd();
   }
 }
