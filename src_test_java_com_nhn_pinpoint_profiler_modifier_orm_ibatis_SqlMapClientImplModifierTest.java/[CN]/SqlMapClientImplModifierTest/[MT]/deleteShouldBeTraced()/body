@@ -1,0 +1,19 @@
+{
+  SqlMapClient sqlMapClient=new SqlMapClientImpl(this.mockSqlMapExecutorDelegate);
+  sqlMapClient.delete("deleteId");
+  sqlMapClient.delete("deleteId",new Object());
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo deleteWith1ArgSpanEvent=spanEvents.get(0);
+  final SpanEventBo deleteWith2ArgSpanEvent=spanEvents.get(1);
+  assertThat(deleteWith1ArgSpanEvent.getApiId(),not(0));
+  assertThat(deleteWith2ArgSpanEvent.getApiId(),not(0));
+  final List<AnnotationBo> deleteWith1ArgAnnotations=deleteWith1ArgSpanEvent.getAnnotationBoList();
+  assertThat(deleteWith1ArgAnnotations.size(),is(1));
+  final AnnotationBo deleteWith1ArgParameterAnnotation=deleteWith1ArgAnnotations.get(0);
+  assertThat(deleteWith1ArgParameterAnnotation.getKey(),is(AnnotationKey.ARGS0.getCode()));
+  final List<AnnotationBo> deleteWith2ArgAnnotations=deleteWith2ArgSpanEvent.getAnnotationBoList();
+  assertThat(deleteWith2ArgAnnotations.size(),is(1));
+  final AnnotationBo deleteWith2ArgAnnotation=deleteWith2ArgAnnotations.get(0);
+  assertThat(deleteWith2ArgAnnotation.getKey(),is(AnnotationKey.ARGS0.getCode()));
+}

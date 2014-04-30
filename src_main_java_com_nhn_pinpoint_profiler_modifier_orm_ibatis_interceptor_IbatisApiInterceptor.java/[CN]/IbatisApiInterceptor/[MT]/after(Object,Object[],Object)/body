@@ -1,0 +1,23 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(ServiceType.IBATIS);
+    if (args != null && args.length > 0) {
+      trace.recordApi(descriptor,args[0],0);
+    }
+ else {
+      trace.recordApi(descriptor);
+    }
+    trace.recordException(result);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

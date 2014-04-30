@@ -1,0 +1,10 @@
+{
+  SqlMapClient sqlMapClient=new SqlMapClientImpl(this.mockSqlMapExecutorDelegate);
+  sqlMapClient.startBatch();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(1));
+  final SpanEventBo apiCallSpanEventBo=spanEvents.get(0);
+  assertThat(apiCallSpanEventBo.getApiId(),not(0));
+  final List<AnnotationBo> annotationBoList=apiCallSpanEventBo.getAnnotationBoList();
+  assertNull(annotationBoList);
+}
