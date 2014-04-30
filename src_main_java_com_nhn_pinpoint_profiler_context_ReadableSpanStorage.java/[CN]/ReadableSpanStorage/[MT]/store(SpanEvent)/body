@@ -1,0 +1,13 @@
+{
+  if (spanEvent == null) {
+    throw new NullPointerException("spanEvent must not be null");
+  }
+  final List<SpanEventBo> spanEventList=this.spanEventList;
+  if (spanEventList != null) {
+    final SpanEventBo spanEventBo=new SpanEventBo(spanEvent.getSpan(),spanEvent);
+    spanEventList.add(spanEventBo);
+  }
+ else {
+    throw new IllegalStateException("spanEventList is null");
+  }
+}

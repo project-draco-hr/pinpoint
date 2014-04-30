@@ -6,9 +6,8 @@
     for (    Method m : methods) {
       if (m.getName().equals("setCurrentStorage")) {
         try {
-          Storage readableStorage=currentTrace.getStorage();
           m.setAccessible(true);
-          m.invoke(test,readableStorage);
+          m.invoke(test,currentTrace.getStorage());
         }
  catch (        IllegalAccessException e) {
           throw new RuntimeException(e);

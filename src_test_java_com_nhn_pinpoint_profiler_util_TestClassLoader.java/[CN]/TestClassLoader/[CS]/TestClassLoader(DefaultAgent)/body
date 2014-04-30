@@ -2,6 +2,7 @@
   if (agent == null) {
     throw new NullPointerException("agent must not be null");
   }
+  this.agentClassName=agent.getClass().getName();
   this.agent=agent;
   this.instrumentor=agent.getByteCodeInstrumentor();
   this.instrumentTranslator=new InstrumentTranslator(this,agent);
