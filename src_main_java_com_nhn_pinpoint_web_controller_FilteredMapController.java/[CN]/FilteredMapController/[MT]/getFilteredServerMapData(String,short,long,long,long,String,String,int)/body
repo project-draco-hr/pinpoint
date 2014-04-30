@@ -1,6 +1,6 @@
 {
   limit=LimitUtils.checkRange(limit);
-  final Filter filter=filterBuilder.build(filterText);
+  final Filter filter=filterBuilder.build(filterText,filterHint);
   final Range range=new Range(from,to);
   final LimitedScanResult<List<TransactionId>> limitedScanResult=filteredMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
   final long lastScanTime=limitedScanResult.getLimitedTime();

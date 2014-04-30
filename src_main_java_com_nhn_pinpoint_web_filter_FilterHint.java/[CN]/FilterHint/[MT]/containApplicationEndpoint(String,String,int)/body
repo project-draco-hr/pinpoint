@@ -1,0 +1,14 @@
+{
+  if (!containApplicationHint(applicationName)) {
+    return false;
+  }
+  List<Object> list=get(applicationName);
+  for (int i=0; i < list.size(); i+=2) {
+    if (endPoint.equals(list.get(i))) {
+      if (serviceTypeCode == (Integer)list.get(i + 1)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

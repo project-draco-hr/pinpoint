@@ -22,14 +22,33 @@
     }
   }
  else   if (includeWas(toServiceCode)) {
-    for (    SpanBo srcSpan : transaction) {
-      if (includeServiceType(fromServiceCode,srcSpan.getServiceType()) && fromApplicationName.equals(srcSpan.getApplicationId())) {
-        for (        SpanBo destSpan : transaction) {
-          if (destSpan.getParentSpanId() != srcSpan.getSpanId()) {
+    if (hint.containApplicationHint(toApplicationName)) {
+      for (      SpanBo srcSpan : transaction) {
+        List<SpanEventBo> eventBoList=srcSpan.getSpanEventBoList();
+        if (eventBoList == null) {
+          continue;
+        }
+        for (        SpanEventBo event : eventBoList) {
+          if (!event.getServiceType().isRpcClient()) {
             continue;
           }
-          if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
-            return checkResponseCondition(destSpan.getElapsed(),destSpan.getErrCode() > 0) && checkPinPointAgentName(srcSpan.getAgentId(),destSpan.getAgentId());
+          if (!hint.containApplicationEndpoint(toApplicationName,event.getDestinationId(),event.getServiceType().getCode())) {
+            continue;
+          }
+          return checkResponseCondition(event.getEndElapsed(),event.hasException());
+        }
+      }
+    }
+ else {
+      for (      SpanBo srcSpan : transaction) {
+        if (includeServiceType(fromServiceCode,srcSpan.getServiceType()) && fromApplicationName.equals(srcSpan.getApplicationId())) {
+          for (          SpanBo destSpan : transaction) {
+            if (destSpan.getParentSpanId() != srcSpan.getSpanId()) {
+              continue;
+            }
+            if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
+              return checkResponseCondition(destSpan.getElapsed(),destSpan.getErrCode() > 0) && checkPinPointAgentName(srcSpan.getAgentId(),destSpan.getAgentId());
+            }
           }
         }
       }
