@@ -1,7 +1,7 @@
 {
-  SqlMapClient sqlMapClient=new SqlMapClientImpl(this.mockSqlMapExecutorDelegate);
-  sqlMapClient.delete("deleteId");
-  sqlMapClient.delete("deleteId",new Object());
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.delete("deleteId");
+  sqlMapSession.delete("deleteId",new Object());
   final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
   assertThat(spanEvents.size(),is(2));
   final SpanEventBo deleteWith1ArgSpanEvent=spanEvents.get(0);

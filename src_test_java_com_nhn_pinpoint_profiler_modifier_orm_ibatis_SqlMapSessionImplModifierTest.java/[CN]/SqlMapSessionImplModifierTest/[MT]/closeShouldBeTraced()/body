@@ -1,0 +1,9 @@
+{
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.close();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(1));
+  final SpanEventBo closeSpanEventBo=spanEvents.get(0);
+  assertThat(closeSpanEventBo.getApiId(),not(0));
+  assertNull(closeSpanEventBo.getAnnotationBoList());
+}

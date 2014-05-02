@@ -1,7 +1,7 @@
 {
-  SqlMapClient sqlMapClient=new SqlMapClientImpl(this.mockSqlMapExecutorDelegate);
-  sqlMapClient.update("updateId");
-  sqlMapClient.update("updateId",new Object());
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.update("updateId");
+  sqlMapSession.update("updateId",new Object());
   final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
   assertThat(spanEvents.size(),is(2));
   final SpanEventBo updateWith1ArgSpanEvent=spanEvents.get(0);
