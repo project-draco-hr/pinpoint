@@ -1,0 +1,11 @@
+{
+  for (  AlarmCheckFilter checkFilter : this.checkFilterList) {
+    boolean isSatisfy=checkFilter.execute(event);
+    if (!isSatisfy) {
+      return;
+    }
+  }
+  for (  AlarmSendFilter sendFilter : this.sendFilterList) {
+    sendFilter.execute(event);
+  }
+}

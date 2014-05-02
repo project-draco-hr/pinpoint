@@ -1,0 +1,9 @@
+{
+  List<AlarmJob> alarmJobList=repository.get(application);
+  if (alarmJobList == null || alarmJobList.size() == 0) {
+    return Collections.EMPTY_LIST;
+  }
+  List<AlarmJob> shallowCopyResult=new ArrayList<AlarmJob>();
+  shallowCopyResult.addAll(alarmJobList);
+  return shallowCopyResult;
+}
