@@ -1,0 +1,15 @@
+{
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(numOperations));
+  final Set<Integer> uniqueApiIds=new HashSet<Integer>();
+  for (int n=0; n < numOperations; ++n) {
+    final SpanEventBo apiSpanEvent=spanEvents.get(n);
+    uniqueApiIds.add(apiSpanEvent.getApiId());
+    assertThat(apiSpanEvent.getApiId(),not(NOT_CACHED));
+    final List<AnnotationBo> apiAnnotations=apiSpanEvent.getAnnotationBoList();
+    assertThat(apiAnnotations.size(),is(1));
+    final AnnotationBo apiParameterAnnotation=apiAnnotations.get(0);
+    assertThat(apiParameterAnnotation.getKey(),is(AnnotationKey.ARGS0.getCode()));
+  }
+  assertThat(uniqueApiIds.size(),is(numOperations));
+}
