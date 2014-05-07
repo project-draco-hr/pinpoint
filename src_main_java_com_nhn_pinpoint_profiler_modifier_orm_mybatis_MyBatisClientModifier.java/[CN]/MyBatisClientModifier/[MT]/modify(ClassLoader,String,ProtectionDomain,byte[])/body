@@ -1,0 +1,19 @@
+{
+  if (this.getLogger().isInfoEnabled()) {
+    this.getLogger().info("Modifying. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass myBatisClientImpl=byteCodeInstrumentor.getClass(javassistClassName);
+    List<Method> declaredMethods=myBatisClientImpl.getDeclaredMethods(getSqlSessionMethodFilter());
+    for (    Method method : declaredMethods) {
+      Interceptor sqlSessionInterceptor=new SqlSessionInterceptor();
+      myBatisClientImpl.addScopeInterceptor(method.getMethodName(),method.getMethodParams(),sqlSessionInterceptor,scope);
+    }
+    return myBatisClientImpl.toBytecode();
+  }
+ catch (  Throwable e) {
+    this.getLogger().warn("{} modifier error. Cause:{}",javassistClassName,e.getMessage(),e);
+    return null;
+  }
+}
