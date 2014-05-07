@@ -1,11 +1,13 @@
 {
+  logger.debug("{} execute. CheckFilterList={},  SendFilterList={}",this.getClass().getSimpleName(),checkFilterList,sendFilterList);
   for (  AlarmCheckFilter checkFilter : this.checkFilterList) {
     boolean isSatisfy=checkFilter.execute(event);
     if (!isSatisfy) {
-      return;
+      return false;
     }
   }
   for (  AlarmSendFilter sendFilter : this.sendFilterList) {
     sendFilter.execute(event);
   }
+  return true;
 }

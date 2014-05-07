@@ -1,0 +1,14 @@
+{
+  long totalCount=0;
+  long successCount=0;
+  long errorCount=0;
+  for (  AgentHistogram agent : agentHistogramList) {
+    for (    TimeHistogram time : agent.getTimeHistogram()) {
+      totalCount+=time.getTotalCount();
+      successCount+=time.getSuccessCount();
+      errorCount=time.getErrorCount();
+    }
+  }
+  logger.info("{} -> {} {}/{}(error={})",application.getName(),toApplication.getName(),successCount,totalCount,errorCount);
+  return check(errorCount,totalCount);
+}
