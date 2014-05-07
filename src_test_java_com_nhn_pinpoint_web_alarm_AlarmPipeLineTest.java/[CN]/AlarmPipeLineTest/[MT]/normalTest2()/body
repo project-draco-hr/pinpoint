@@ -1,9 +1,0 @@
-{
-  AlarmPipeLine pipeLine=new DefaultAlarmPipeLine();
-  AlarmFilter checkFilter=new FailCheckFilter();
-  SendFilter sendFilter=new SendFilter();
-  pipeLine.addLast(checkFilter);
-  pipeLine.addLast(sendFilter);
-  pipeLine.execute(null);
-  Assert.assertFalse(sendFilter.isDoSend());
-}
