@@ -1,11 +1,11 @@
 {
   DefaultHttpClient client=new DefaultHttpClient();
   List<NameValuePair> nvps=new ArrayList<NameValuePair>();
-  nvps.add(new BasicNameValuePair("serviceId",serviceId));
-  nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + sender + QUOTATATION));
+  nvps.add(new BasicNameValuePair("serviceId",smsResource.getServiceId()));
+  nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + smsResource.getSenderPhoneNumber() + QUOTATATION));
   nvps.add(new BasicNameValuePair("receiveMdnList",convertToReceiverFormat(receiverList)));
   nvps.add(new BasicNameValuePair("content",QUOTATATION + null + QUOTATATION));
-  HttpGet get=new HttpGet(mexMtUrl + "?" + URLEncodedUtils.format(nvps,"UTF-8"));
+  HttpGet get=new HttpGet(smsResource.getUrl() + "?" + URLEncodedUtils.format(nvps,"UTF-8"));
   logger.debug("{}",get.getURI());
   try {
     HttpResponse response=client.execute(get);

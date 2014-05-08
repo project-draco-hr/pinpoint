@@ -1,0 +1,9 @@
+{
+  logger.info("{} execute.",this.getClass().getName());
+  AlarmEvent event=createAlarmEvent();
+  int totalJobCount=repository.getTotalJobCount();
+  List<Application> applicationList=repository.getRegistedApplicationList();
+  for (  Application application : applicationList) {
+    executeEachApplication(application,event,totalJobCount);
+  }
+}

@@ -1,0 +1,21 @@
+{
+  logger.info("{} initialize.",this.getClass().getName());
+  DefaultAlarmJobsRepository repository=new DefaultAlarmJobsRepository();
+  List<Application> applicationList=applicationIndexDao.selectAllApplicationNames();
+  List<AlarmResource> alarmResourceList=alarmResourceDao.selectAlarmList();
+  for (  AlarmResource alarmResource : alarmResourceList) {
+    String agentId=alarmResource.getAgentId();
+    Application application=findApplication(agentId,applicationList);
+    if (application == null) {
+      logger.warn("Can't find Application({}).",agentId);
+      continue;
+    }
+    AlarmJob job=createAlarmJob(application,alarmResource);
+    if (job == null) {
+      continue;
+    }
+    repository.addAlarmJob(application,job);
+  }
+  logger.info("{} initilization success(Registred {} Jobs). ",this.getClass().getName(),repository.getTotalJobCount());
+  this.repository=repository;
+}
