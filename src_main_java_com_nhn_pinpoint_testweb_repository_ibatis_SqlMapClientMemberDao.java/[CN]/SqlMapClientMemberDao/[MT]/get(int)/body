@@ -1,0 +1,8 @@
+{
+  try {
+    return (Member)this.sqlMapClientTemplate.getSqlMapClient().queryForObject("get",id);
+  }
+ catch (  SQLException e) {
+    throw translateSqlException("SqlMapClient get",e);
+  }
+}
