@@ -6,13 +6,15 @@
   NpcHessianConnector connector=null;
   try {
     connector=factory.create();
-    Object[] params=createSendMailParams();
+    AlarmMailTemplate mailTemplate=new AlarmMailTemplate(application,mailResource,event);
+    Object[] params=createSendMailParams(alarmCheckFilterList,mailTemplate);
     InvocationFuture future=connector.invoke(null,"send",params);
     future.await();
     Reply reply=(Reply)future.getReturnValue();
     if (reply instanceof ReturnValue) {
       Object result=((ReturnValue)reply).get();
       logger.debug("MessageId:{}",result);
+      return true;
     }
  else     if (reply instanceof Fault) {
       String code=((Fault)reply).getCode();
