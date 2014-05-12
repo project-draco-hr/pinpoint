@@ -17,5 +17,7 @@
     repository.addAlarmJob(application,job);
   }
   logger.info("{} initilization success(Registred {} Jobs). ",this.getClass().getName(),repository.getTotalJobCount());
-  this.repository=repository;
+synchronized (this) {
+    this.repository=repository;
+  }
 }
