@@ -11,6 +11,10 @@
       }
       return;
     }
+    if (tBase instanceof NetworkAvailabilityCheckPacket) {
+      responseOK();
+      return;
+    }
     dispatchHandler.dispatchSendMessage(tBase,packet.getData(),Header.HEADER_SIZE,packet.getLength());
   }
  catch (  TException e) {

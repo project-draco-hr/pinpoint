@@ -1,0 +1,18 @@
+{
+  try {
+    DatagramSocket s=new DatagramSocket(8888);
+    byte[] receiveData=new byte[100];
+    DatagramPacket receivePacket=new DatagramPacket(receiveData,receiveData.length);
+    s.receive(receivePacket);
+    System.out.println("SERVER RECEIVED=" + new String(receivePacket.getData()));
+    String pong="PONG";
+    byte[] pongBytes=pong.getBytes();
+    DatagramPacket pongPacket=new DatagramPacket(pongBytes,pongBytes.length,receivePacket.getSocketAddress());
+    s.send(pongPacket);
+    System.out.println("SERVER SEND=" + pong);
+    return;
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}
