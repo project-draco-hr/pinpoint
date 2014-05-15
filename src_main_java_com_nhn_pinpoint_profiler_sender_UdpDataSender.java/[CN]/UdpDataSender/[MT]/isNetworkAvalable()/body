@@ -1,0 +1,23 @@
+{
+  NetworkAvailabilityCheckPacket dto=new NetworkAvailabilityCheckPacket();
+  try {
+    byte[] interBufferData=serialize(serializer,dto);
+    int interBufferSize=serializer.getInterBufferSize();
+    reusePacket.setData(interBufferData,0,interBufferSize);
+    udpSocket.send(reusePacket);
+    if (isTrace) {
+      logger.trace("Data sent. {}",dto);
+    }
+    byte[] receiveData=new byte[NetworkAvailabilityCheckPacket.DATA_OK.length];
+    DatagramPacket receivePacket=new DatagramPacket(receiveData,receiveData.length);
+    udpSocket.receive(receivePacket);
+    if (isTrace) {
+      logger.trace("Data received. {}",Arrays.toString(receivePacket.getData()));
+    }
+    return Arrays.equals(NetworkAvailabilityCheckPacket.DATA_OK,receiveData);
+  }
+ catch (  IOException e) {
+    logger.warn("packet send error {}",dto,e);
+    return false;
+  }
+}
