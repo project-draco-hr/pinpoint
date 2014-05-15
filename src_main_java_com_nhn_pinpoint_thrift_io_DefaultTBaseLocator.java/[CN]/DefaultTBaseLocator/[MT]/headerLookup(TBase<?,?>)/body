@@ -2,6 +2,9 @@
   if (tbase == null) {
     throw new IllegalArgumentException("tbase must not be null");
   }
+  if (tbase instanceof NetworkAvailabilityCheckPacket) {
+    return NETWORK_CHECK_HEADER;
+  }
   if (tbase instanceof TSpan) {
     return SPAN_HEADER;
   }
