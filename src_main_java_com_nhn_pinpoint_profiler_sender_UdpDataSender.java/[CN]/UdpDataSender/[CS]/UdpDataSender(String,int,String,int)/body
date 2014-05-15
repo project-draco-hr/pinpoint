@@ -11,10 +11,4 @@
   logger.info("UdpDataSender initialized. host={}, port={}",host,port);
   this.udpSocket=createSocket(host,port);
   this.executor=createAsyncQueueingExecutor(queueSize,threadName);
-  if (isNetworkAvalable()) {
-    logger.info("udp connect success:{}/{}",host,port);
-  }
- else {
-    logger.warn("udp connect fail:{}/{}",host,port);
-  }
 }
