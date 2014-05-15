@@ -7,7 +7,7 @@
     InstrumentClass myBatisClientImpl=byteCodeInstrumentor.getClass(javassistClassName);
     List<Method> declaredMethods=myBatisClientImpl.getDeclaredMethods(getSqlSessionMethodFilter());
     for (    Method method : declaredMethods) {
-      Interceptor sqlSessionInterceptor=new SqlSessionInterceptor();
+      Interceptor sqlSessionInterceptor=new MyBatisSqlMapOperationInterceptor(serviceType);
       myBatisClientImpl.addScopeInterceptor(method.getMethodName(),method.getMethodParams(),sqlSessionInterceptor,scope);
     }
     return myBatisClientImpl.toBytecode();
