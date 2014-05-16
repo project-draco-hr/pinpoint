@@ -1,7 +1,8 @@
 {
-  long newId=newSpanId();
+  final ThreadLocalRandom seed=ThreadLocalRandom.current();
+  long newId=createSpanId(seed);
   while (newId == spanId || newId == parentSpanId) {
-    newId=newSpanId();
+    newId=createSpanId(seed);
   }
   return newId;
 }

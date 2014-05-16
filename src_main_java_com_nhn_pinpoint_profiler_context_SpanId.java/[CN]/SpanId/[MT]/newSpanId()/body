@@ -1,7 +1,4 @@
 {
-  long id=seed.nextLong();
-  while (id == NULL) {
-    id=seed.nextLong();
-  }
-  return id;
+  final ThreadLocalRandom seed=ThreadLocalRandom.current();
+  return createSpanId(seed);
 }
