@@ -8,6 +8,9 @@
     }
  else {
       jgen.writeObjectField("histogram",applicationHistogram);
+      jgen.writeNumberField("totalCount",applicationHistogram.getTotalCount());
+      jgen.writeNumberField("errorCount",applicationHistogram.getErrorCount());
+      jgen.writeNumberField("slowCount",applicationHistogram.getSlowCount());
     }
     Map<String,Histogram> agentHistogramMap=nodeHistogram.getAgentHistogramMap();
     if (agentHistogramMap == null) {
