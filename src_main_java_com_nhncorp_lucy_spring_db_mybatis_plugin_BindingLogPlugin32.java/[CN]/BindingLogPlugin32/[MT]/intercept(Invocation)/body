@@ -1,0 +1,11 @@
+{
+  if (internalLogger.isTraceEnabled()) {
+    internalLogger.trace("target:" + invocation.getTarget() + " method:"+ invocation.getMethod()+ " args:"+ Arrays.toString(invocation.getArgs()));
+  }
+  try {
+    return invocation.proceed();
+  }
+  finally {
+    bindingLog(invocation);
+  }
+}
