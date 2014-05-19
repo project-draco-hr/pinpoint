@@ -11,14 +11,17 @@
   writeHistogram(jgen,node);
   if (node.getServiceType().isUnknown()) {
     writeEmptyObject(jgen,"serverList");
+    jgen.writeNumberField("instanceCount",0);
   }
  else {
     final ServerInstanceList serverInstanceList=node.getServerInstanceList();
     if (serverInstanceList != null) {
       jgen.writeObjectField("serverList",serverInstanceList);
+      jgen.writeNumberField("instanceCount",serverInstanceList.getInstanceCount());
     }
  else {
       writeEmptyObject(jgen,"serverList");
+      jgen.writeNumberField("instanceCount",0);
     }
   }
   jgen.writeEndObject();
