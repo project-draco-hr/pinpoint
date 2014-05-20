@@ -1,0 +1,13 @@
+{
+  final Short code=serviceType.getCode();
+  final ResponseMetric hit=rpcCache.get(code);
+  if (hit != null) {
+    return hit;
+  }
+  final ResponseMetric responseMetric=new DefaultResponseMetric(serviceType);
+  final ResponseMetric exist=rpcCache.putIfAbsent(code,responseMetric);
+  if (exist != null) {
+    return exist;
+  }
+  return responseMetric;
+}

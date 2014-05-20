@@ -1,0 +1,7 @@
+{
+  final List<HistogramSnapshot> histogramSnapshotList=new ArrayList<HistogramSnapshot>(16);
+  for (  ResponseMetric metric : rpcCache.values()) {
+    histogramSnapshotList.addAll(metric.createSnapshotList());
+  }
+  return histogramSnapshotList;
+}
