@@ -1,18 +1,14 @@
 {
-  Object result=future.getResult();
-  if (ClassUtils.isAssignableValue(ResponseMessage.class,result)) {
-    ResponseMessage responseMessage=(ResponseMessage)result;
-    HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
-    byte[] message=responseMessage.getMessage();
-    try {
-      return deserializer.deserialize(message);
-    }
- catch (    TException e) {
-      if (logger.isWarnEnabled()) {
-        logger.warn("Deserialize fail. Caused:{}",e.getMessage(),e);
-      }
-      return null;
-    }
+  final ResponseMessage responseMessage=future.getResult();
+  HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
+  byte[] message=responseMessage.getMessage();
+  try {
+    return deserializer.deserialize(message);
   }
-  return null;
+ catch (  TException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Deserialize fail. Caused:{}",e.getMessage(),e);
+    }
+    return null;
+  }
 }
