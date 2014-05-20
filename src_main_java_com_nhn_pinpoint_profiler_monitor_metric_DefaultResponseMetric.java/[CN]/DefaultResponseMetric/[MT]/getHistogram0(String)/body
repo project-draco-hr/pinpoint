@@ -1,11 +1,10 @@
 {
-  final Histogram hit=counter.get(destinationId);
+  final Histogram hit=histogramMap.get(destinationId);
   if (hit != null) {
     return hit;
   }
-  final HistogramSchema schema=serviceType.getHistogramSchema();
-  final Histogram histogram=new Histogram(schema);
-  final Histogram exist=counter.putIfAbsent(destinationId,histogram);
+  final Histogram histogram=new Histogram(serviceType);
+  final Histogram exist=histogramMap.putIfAbsent(destinationId,histogram);
   if (exist != null) {
     return exist;
   }

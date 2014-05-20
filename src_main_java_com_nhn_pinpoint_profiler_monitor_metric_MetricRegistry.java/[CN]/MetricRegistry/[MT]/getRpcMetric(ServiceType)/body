@@ -1,4 +1,10 @@
 {
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
+  if (!serviceType.isRecordStatistics()) {
+    throw new IllegalArgumentException("illegal serviceType:" + serviceType);
+  }
   final Short code=serviceType.getCode();
   final ResponseMetric hit=rpcCache.get(code);
   if (hit != null) {
