@@ -1,6 +1,6 @@
 {
   final ResponseMessage responseMessage=future.getResult();
-  HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
+  HeaderTBaseDeserializer deserializer=HeaderTBaseDeserializerFactory.DEFAULT_FACTORY.createDeserializer();
   byte[] message=responseMessage.getMessage();
   try {
     return deserializer.deserialize(message);

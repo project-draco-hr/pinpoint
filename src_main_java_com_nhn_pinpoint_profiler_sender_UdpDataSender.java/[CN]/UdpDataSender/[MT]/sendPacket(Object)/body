@@ -1,12 +1,12 @@
 {
   if (message instanceof TBase) {
     TBase dto=(TBase)message;
-    byte[] interBufferData=serialize(serializer,dto);
+    byte[] interBufferData=serialize(this.serializer,dto);
     if (interBufferData == null) {
       logger.warn("interBufferData is null");
       return;
     }
-    int interBufferSize=serializer.getInterBufferSize();
+    int interBufferSize=this.serializer.getInterBufferSize();
     reusePacket.setData(interBufferData,0,interBufferSize);
     try {
       udpSocket.send(reusePacket);

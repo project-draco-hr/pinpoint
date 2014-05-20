@@ -5,7 +5,7 @@
   }
   logger.info("handleRequest~~~:{}",requestPacket);
   try {
-    HeaderTBaseSerializer serializer=HeaderTBaseSerDesFactory.getSerializer(HeaderTBaseSerDesFactory.DEFAULT_SAFETY_GURANTEED_MAX_SERIALIZE_DATA_SIZE);
+    HeaderTBaseSerializer serializer=HeaderTBaseSerializerFactory.DEFAULT_FACTORY.createSerializer();
     TResult result=new TResult(true);
     byte[] resultBytes=serializer.serialize(result);
     this.successCount.incrementAndGet();
