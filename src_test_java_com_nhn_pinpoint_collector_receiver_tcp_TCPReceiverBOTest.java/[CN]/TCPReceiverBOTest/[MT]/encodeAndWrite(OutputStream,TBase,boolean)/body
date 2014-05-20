@@ -1,6 +1,6 @@
 {
-  HeaderTBaseSerializer seriallize=HeaderTBaseSerDesFactory.getSerializer(HeaderTBaseSerDesFactory.DEFAULT_SAFETY_GURANTEED_MAX_SERIALIZE_DATA_SIZE);
-  byte[] payload=seriallize.serialize(tbase);
+  HeaderTBaseSerializer serializer=HeaderTBaseSerializerFactory.DEFAULT_FACTORY.createSerializer();
+  byte[] payload=serializer.serialize(tbase);
   Packet packet=null;
   if (isReqRes) {
     packet=new RequestPacket(payload);

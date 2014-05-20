@@ -5,7 +5,7 @@
   TAgentInfo agentInfo=getAgentInfo();
   encodeAndWrite(os,agentInfo,true);
   ResponsePacket responsePacket=readAndDecode(is,1000);
-  HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
+  HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializerFactory().createDeserializer();
   TResult result=(TResult)deserializer.deserialize(responsePacket.getPayload());
   Assert.assertTrue(result.isSuccess());
 }

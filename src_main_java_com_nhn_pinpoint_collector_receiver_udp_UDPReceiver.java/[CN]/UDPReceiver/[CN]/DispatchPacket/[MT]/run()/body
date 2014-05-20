@@ -1,6 +1,6 @@
 {
   Timer.Context time=timer.time();
-  HeaderTBaseDeserializer deserializer=deserializerCache.get();
+  final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
   TBase<?,?> tBase=null;
   try {
     tBase=deserializer.deserialize(packet.getData());
