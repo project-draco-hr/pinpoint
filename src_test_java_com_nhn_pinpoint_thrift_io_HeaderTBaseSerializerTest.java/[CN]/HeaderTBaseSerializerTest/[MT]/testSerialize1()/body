@@ -1,5 +1,5 @@
 {
-  HeaderTBaseSerializer serializer=HeaderTBaseSerDesFactory.getSerializer(false,HeaderTBaseSerDesFactory.DEFAULT_SAFETY_NOT_GURANTEED_MAX_SERIALIZE_DATA_SIZE);
-  HeaderTBaseDeserializer deserializer=HeaderTBaseSerDesFactory.getDeserializer();
+  HeaderTBaseSerializer serializer=new HeaderTBaseSerializerFactory(false).createSerializer();
+  HeaderTBaseDeserializer deserializer=new HeaderTBaseDeserializerFactory().createDeserializer();
   test(serializer,deserializer);
 }

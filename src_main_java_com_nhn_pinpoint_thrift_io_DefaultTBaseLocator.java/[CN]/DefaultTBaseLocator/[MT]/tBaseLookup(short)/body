@@ -1,11 +1,9 @@
 {
 switch (type) {
-case NETWORK_CHECK:
-    return new NetworkAvailabilityCheckPacket();
 case SPAN:
-  return new TSpan();
+    return new TSpan();
 case AGENT_INFO:
-return new TAgentInfo();
+  return new TAgentInfo();
 case AGENT_STAT:
 return new TAgentStat();
 case SPANCHUNK:
@@ -18,6 +16,8 @@ case RESULT:
 return new TResult();
 case STRINGMETADATA:
 return new TStringMetaData();
+case NETWORK_CHECK:
+return new NetworkAvailabilityCheckPacket();
 }
 throw new TException("Unsupported type:" + type);
 }
