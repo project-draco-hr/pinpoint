@@ -20,7 +20,6 @@
   writeAgentHistogram("targetHistogram",link.getTargetList(),jgen);
   writeTimeSeriesHistogram(link,jgen);
   writeSourceAgentTimeSeriesHistogram(link,jgen);
-  String state=link.getLinkState();
-  jgen.writeStringField("state",state);
+  jgen.writeBooleanField("hasAlert",link.getLinkAlert());
   jgen.writeEndObject();
 }

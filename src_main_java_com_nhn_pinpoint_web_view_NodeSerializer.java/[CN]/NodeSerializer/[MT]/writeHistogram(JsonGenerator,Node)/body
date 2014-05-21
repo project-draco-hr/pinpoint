@@ -5,12 +5,25 @@
     Histogram applicationHistogram=nodeHistogram.getApplicationHistogram();
     if (applicationHistogram == null) {
       writeEmptyObject(jgen,"histogram");
+      jgen.writeBooleanField("hasAlert",false);
     }
  else {
       jgen.writeObjectField("histogram",applicationHistogram);
       jgen.writeNumberField("totalCount",applicationHistogram.getTotalCount());
       jgen.writeNumberField("errorCount",applicationHistogram.getErrorCount());
       jgen.writeNumberField("slowCount",applicationHistogram.getSlowCount());
+      if (applicationHistogram.getTotalCount() == 0) {
+        jgen.writeBooleanField("hasAlert",false);
+      }
+ else {
+        long error=applicationHistogram.getErrorCount() / applicationHistogram.getTotalCount();
+        if (error * 100 > 10) {
+          jgen.writeBooleanField("hasAlert",true);
+        }
+ else {
+          jgen.writeBooleanField("hasAlert",false);
+        }
+      }
     }
     Map<String,Histogram> agentHistogramMap=nodeHistogram.getAgentHistogramMap();
     if (agentHistogramMap == null) {
@@ -19,6 +32,9 @@
  else {
       jgen.writeObjectField("agentHistogram",agentHistogramMap);
     }
+  }
+ else {
+    jgen.writeBooleanField("hasAlert",false);
   }
   if (serviceType.isWas() || serviceType.isUser() || serviceType.isTerminal()|| serviceType.isUnknown()) {
     List<ResponseTimeViewModel> applicationTimeSeriesHistogram=nodeHistogram.getApplicationTimeHistogram();
