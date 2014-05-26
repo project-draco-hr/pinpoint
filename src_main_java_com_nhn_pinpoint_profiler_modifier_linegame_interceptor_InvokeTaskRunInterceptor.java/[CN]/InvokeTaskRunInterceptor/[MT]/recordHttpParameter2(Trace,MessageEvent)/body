@@ -1,0 +1,27 @@
+{
+  final Object message=e.getMessage();
+  if (message instanceof org.jboss.netty.handler.codec.http.HttpRequest) {
+    final org.jboss.netty.handler.codec.http.HttpRequest request=(org.jboss.netty.handler.codec.http.HttpRequest)message;
+    HttpMethod reqMethod=request.getMethod();
+    if (reqMethod.equals(HttpMethod.POST) || reqMethod.equals(HttpMethod.PUT) || reqMethod.equals(HttpMethod.DELETE)) {
+      ChannelBuffer content=request.getContent();
+      if (content.readable()) {
+        int contentSize=content.array().length;
+        if (contentSize > entityDumpSize) {
+          contentSize=entityDumpSize;
+        }
+        final Charset charset=getCharset(request);
+        String bodyStr=content.toString(0,contentSize,charset);
+        if (bodyStr != null && bodyStr.length() > 0) {
+          trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,bodyStr);
+        }
+      }
+    }
+ else     if (reqMethod.equals(HttpMethod.GET)) {
+      String parameters=getRequestParameter(request,paramDumpSize);
+      if (parameters != null && parameters.length() > 0) {
+        trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+      }
+    }
+  }
+}
