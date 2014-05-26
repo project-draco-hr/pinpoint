@@ -1,0 +1,10 @@
+{
+  final Trace trace=threadLocal.get();
+  if (trace == null) {
+    return null;
+  }
+  if (trace.canSampled()) {
+    return trace;
+  }
+  return null;
+}

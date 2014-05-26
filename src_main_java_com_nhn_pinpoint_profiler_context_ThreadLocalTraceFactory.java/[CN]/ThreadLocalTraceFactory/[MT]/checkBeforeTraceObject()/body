@@ -1,0 +1,10 @@
+{
+  final Trace old=this.threadLocal.get();
+  if (old != null) {
+    final PinpointException exception=new PinpointException("already Trace Object exist.");
+    if (logger.isWarnEnabled()) {
+      logger.warn("beforeTrace:{}",old,exception);
+    }
+    throw exception;
+  }
+}

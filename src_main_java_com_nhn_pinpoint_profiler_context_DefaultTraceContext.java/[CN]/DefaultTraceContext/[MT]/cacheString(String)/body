@@ -5,8 +5,8 @@
   final Result result=this.stringCache.put(value);
   if (result.isNewValue()) {
     final TStringMetaData stringMetaData=new TStringMetaData();
-    stringMetaData.setAgentId(this.agentInformation.getAgentId());
-    stringMetaData.setAgentStartTime(this.agentInformation.getStartTime());
+    stringMetaData.setAgentId(getAgentId());
+    stringMetaData.setAgentStartTime(getAgentStartTime());
     stringMetaData.setStringId(result.getId());
     stringMetaData.setStringValue(value);
     this.priorityDataSender.request(stringMetaData);

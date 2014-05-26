@@ -7,8 +7,8 @@
       logger.debug("NewSQLParsingResult:{}",parsingResult);
     }
     final TSqlMetaData sqlMetaData=new TSqlMetaData();
-    sqlMetaData.setAgentId(this.agentInformation.getAgentId());
-    sqlMetaData.setAgentStartTime(this.agentInformation.getStartTime());
+    sqlMetaData.setAgentId(getAgentId());
+    sqlMetaData.setAgentStartTime(getAgentStartTime());
     sqlMetaData.setHashCode(normalizedSql.hashCode());
     sqlMetaData.setSql(normalizedSql);
     this.priorityDataSender.request(sqlMetaData);

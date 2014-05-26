@@ -1,9 +1,8 @@
 {
   final Span span=new Span();
-  final AgentInformation agentInformation=traceContext.getAgentInformation();
-  span.setAgentId(agentInformation.getAgentId());
-  span.setApplicationName(agentInformation.getApplicationName());
-  span.setAgentStartTime(agentInformation.getStartTime());
+  span.setAgentId(traceContext.getAgentId());
+  span.setApplicationName(traceContext.getApplicationName());
+  span.setAgentStartTime(traceContext.getAgentStartTime());
   span.recordTraceId(traceId);
   return span;
 }
