@@ -14,9 +14,6 @@
         throw new RuntimeException(e.getMessage(),e);
       }
     }
-    @Override public Object getInterceptor(){
-      return interceptor;
-    }
   }
 ;
   testModifier.setTargetClass(testClassObject);
@@ -27,6 +24,6 @@
   test.invoke(testObject);
   Method testString=testObject.getClass().getMethod("test",new Class[]{String.class});
   testString.invoke(testObject,"method");
-  Constructor<? extends Object> constructor=testObject.getClass().getConstructor(null);
+  Constructor<?> constructor=testObject.getClass().getConstructor(null);
   Object o=constructor.newInstance();
 }
