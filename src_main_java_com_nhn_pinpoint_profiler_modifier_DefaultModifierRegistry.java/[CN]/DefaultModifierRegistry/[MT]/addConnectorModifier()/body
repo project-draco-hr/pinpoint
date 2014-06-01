@@ -4,4 +4,6 @@
   HttpURLConnectionModifier httpURLConnectionModifier=new HttpURLConnectionModifier(byteCodeInstrumentor,agent);
   addModifier(httpURLConnectionModifier);
   addModifier(new AsyncHttpClientModifier(byteCodeInstrumentor,agent));
+  addModifier(new ClosableHttpAsyncClientModifier(byteCodeInstrumentor,agent));
+  addModifier(new BasicFutureModifier(byteCodeInstrumentor,agent));
 }
