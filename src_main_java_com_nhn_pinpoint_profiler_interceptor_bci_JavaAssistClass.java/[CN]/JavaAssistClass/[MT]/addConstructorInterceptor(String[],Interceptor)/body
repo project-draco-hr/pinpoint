@@ -2,5 +2,6 @@
   if (interceptor == null) {
     throw new IllegalArgumentException("interceptor is null");
   }
-  return addInterceptor0(null,args,interceptor,-1,Type.around,false);
+  final CtBehavior behavior=getBehavior(null,args,interceptor,NOT_DEFINE_INTERCEPTOR_ID);
+  return addInterceptor0(behavior,null,interceptor,NOT_DEFINE_INTERCEPTOR_ID,Type.around,false);
 }

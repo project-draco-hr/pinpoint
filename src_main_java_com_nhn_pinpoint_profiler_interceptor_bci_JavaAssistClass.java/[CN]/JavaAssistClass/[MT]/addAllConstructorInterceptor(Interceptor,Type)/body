@@ -1,0 +1,20 @@
+{
+  if (interceptor == null) {
+    throw new IllegalArgumentException("interceptor is null");
+  }
+  final CtConstructor[] constructorList=ctClass.getConstructors();
+  final int length=constructorList.length;
+  if (length == 0) {
+    throw new NotFoundInstrumentException("Constructor not found.");
+  }
+  int interceptorId=0;
+  if (length > 0) {
+    interceptorId=addInterceptor0(constructorList[0],null,interceptor,NOT_DEFINE_INTERCEPTOR_ID,type,false);
+  }
+  if (length > 1) {
+    for (int i=1; i < length; i++) {
+      addInterceptor0(constructorList[i],null,null,interceptorId,Type.around,false);
+    }
+  }
+  return interceptorId;
+}
