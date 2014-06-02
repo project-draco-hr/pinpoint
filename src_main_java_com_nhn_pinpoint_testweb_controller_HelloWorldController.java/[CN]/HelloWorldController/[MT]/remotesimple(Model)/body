@@ -3,7 +3,7 @@
   Random random=new Random();
   String port=ports[random.nextInt(3)];
   arcus(model);
-  HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
+  ApacheHttpClient4 client=new ApacheHttpClient4(new HttpConnectorOptions());
   client.execute("http://localhost:" + port + "/arcus.pinpoint",new HashMap<String,Object>());
-  return "remotecombination";
+  return "OK";
 }

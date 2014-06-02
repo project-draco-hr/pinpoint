@@ -1,4 +1,11 @@
 {
-  ningAsyncHttpClientService.get();
-  return "http";
+  try {
+    Response r=httpInvoker.requestGet("http://www.naver.com",null,null,null);
+    logger.debug("r={}" + r.toString());
+    return "OK";
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+    return e.getMessage();
+  }
 }

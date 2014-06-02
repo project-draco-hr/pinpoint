@@ -1,4 +1,14 @@
 {
-  ningAsyncHttpClientService.postWithBody();
-  return "http";
+  try {
+    Map<String,String> headers=new HashMap<String,String>();
+    headers.put("header1","header1");
+    headers.put("header2","header2");
+    Response r=httpInvoker.requestPost("http://www.naver.com",headers,"postbody");
+    logger.debug("r={}" + r.toString());
+    return "OK";
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+    return e.getMessage();
+  }
 }

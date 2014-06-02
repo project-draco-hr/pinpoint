@@ -1,6 +1,12 @@
 {
-  logger.info("createStatement start");
-  cubridService.createStatement();
-  logger.info("createStatement end:{}");
-  return "donothing";
+  try {
+    logger.info("createStatement start");
+    cubridService.createStatement();
+    logger.info("createStatement end:{}");
+    return "OK";
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+    return e.getMessage();
+  }
 }

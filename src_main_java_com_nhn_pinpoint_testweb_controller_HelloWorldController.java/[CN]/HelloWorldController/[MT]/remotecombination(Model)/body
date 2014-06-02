@@ -2,9 +2,9 @@
   String[] ports=new String[]{"9080","10080","11080"};
   Random random=new Random();
   String port=ports[random.nextInt(3)];
-  HttpInvoker client=new HttpInvoker(new HttpConnectorOptions());
+  ApacheHttpClient4 client=new ApacheHttpClient4(new HttpConnectorOptions());
   client.execute("http://localhost:" + port + "/combination.pinpoint",new HashMap<String,Object>());
-  HttpInvoker client2=new HttpInvoker(new HttpConnectorOptions());
+  ApacheHttpClient4 client2=new ApacheHttpClient4(new HttpConnectorOptions());
   client2.execute("http://localhost:8080/arcus.pinpoint",new HashMap<String,Object>());
   client.execute("http://www.naver.com/",new HashMap<String,Object>());
   client.execute("http://www.naver.com/",new HashMap<String,Object>());
@@ -19,5 +19,5 @@
   }
  catch (  Exception e) {
   }
-  return "remotecombination";
+  return "OK";
 }
