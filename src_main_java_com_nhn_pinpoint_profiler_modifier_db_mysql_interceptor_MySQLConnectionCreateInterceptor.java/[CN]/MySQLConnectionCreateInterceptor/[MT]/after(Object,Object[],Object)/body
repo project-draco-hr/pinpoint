@@ -1,0 +1,27 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  if (args == null || args.length != 5) {
+    return;
+  }
+  final String url=getString(args[0]);
+  final Integer port=getInteger(args[1]);
+  final String databaseId=getString(args[3]);
+  DatabaseInfo databaseInfo=null;
+  if (url != null && port != null && databaseId != null) {
+    databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,url,port,databaseId);
+    if (InterceptorUtils.isSuccess(result)) {
+      setUrl.invoke(target,databaseInfo);
+    }
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (databaseInfo != null) {
+    trace.recordServiceType(databaseInfo.getExecuteQueryType());
+    trace.recordEndPoint(databaseInfo.getMultipleHost());
+    trace.recordDestinationId(databaseInfo.getDatabaseId());
+  }
+}

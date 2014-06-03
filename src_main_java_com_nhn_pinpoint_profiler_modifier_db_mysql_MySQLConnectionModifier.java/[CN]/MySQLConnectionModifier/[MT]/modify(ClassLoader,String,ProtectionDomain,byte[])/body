@@ -9,6 +9,8 @@
       return null;
     }
     mysqlConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
+    Interceptor connectionUrlBindInterceptor=new MySQLConnectionCreateInterceptor();
+    mysqlConnection.addConstructorInterceptor(new String[]{"java.lang.String","int","java.util.Properties","java.lang.String","java.lang.String"},connectionUrlBindInterceptor);
     Interceptor closeConnection=new ConnectionCloseInterceptor();
     mysqlConnection.addScopeInterceptor("close",null,closeConnection,JDBCScope.SCOPE);
     Interceptor createStatement=new StatementCreateInterceptor();

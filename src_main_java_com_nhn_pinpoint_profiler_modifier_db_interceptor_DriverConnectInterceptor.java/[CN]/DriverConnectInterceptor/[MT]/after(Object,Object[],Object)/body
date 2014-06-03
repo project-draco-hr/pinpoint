@@ -16,9 +16,11 @@
     return;
   }
   try {
-    trace.recordServiceType(databaseInfo.getExecuteQueryType());
-    trace.recordEndPoint(databaseInfo.getMultipleHost());
-    trace.recordDestinationId(databaseInfo.getDatabaseId());
+    if (recordConnection) {
+      trace.recordServiceType(databaseInfo.getExecuteQueryType());
+      trace.recordEndPoint(databaseInfo.getMultipleHost());
+      trace.recordDestinationId(databaseInfo.getDatabaseId());
+    }
     trace.recordApiCachedString(descriptor,driverUrl,0);
     trace.recordException(result);
     trace.markAfterTime();
