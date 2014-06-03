@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  if (args == null || args.length != 5) {
+    return;
+  }
+  if (InterceptorUtils.isThrowable(result)) {
+    return;
+  }
+  String url=getString(args[0]);
+  Integer port=getInteger(args[1]);
+  String databaseId=getString(args[3]);
+  if (url != null && port != null && databaseId != null) {
+    DatabaseInfo databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,url,port,databaseId);
+    setUrl.invoke(target,databaseInfo);
+  }
+}

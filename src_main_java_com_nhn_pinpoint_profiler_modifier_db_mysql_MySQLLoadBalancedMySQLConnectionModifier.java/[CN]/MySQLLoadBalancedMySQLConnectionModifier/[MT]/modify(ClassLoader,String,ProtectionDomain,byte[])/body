@@ -5,7 +5,7 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor createConnection=new DriverConnectInterceptor(false);
+    Interceptor createConnection=new DriverConnectInterceptor();
     String[] params=new String[]{"java.lang.String","java.util.Properties"};
     mysqlConnection.addInterceptor("connect",params,createConnection);
     if (this.logger.isInfoEnabled()) {

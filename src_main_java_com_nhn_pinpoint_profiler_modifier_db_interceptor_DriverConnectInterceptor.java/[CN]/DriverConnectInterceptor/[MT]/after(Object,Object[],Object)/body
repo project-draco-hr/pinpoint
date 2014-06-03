@@ -7,7 +7,9 @@
   final String driverUrl=(String)args[0];
   DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
   if (success) {
-    this.setUrl.invoke(result,databaseInfo);
+    if (recordConnection) {
+      this.setUrl.invoke(result,databaseInfo);
+    }
   }
   final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
