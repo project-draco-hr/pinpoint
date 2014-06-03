@@ -1,0 +1,9 @@
+{
+  if (responseMetric instanceof Histogram) {
+    Histogram histogram=(Histogram)responseMetric;
+    histogram.addResponseTime(getAfterTime());
+  }
+ else {
+    logger.warn("invalid Metric:{}",responseMetric);
+  }
+}

@@ -6,14 +6,14 @@
     throw new IllegalArgumentException("illegal serviceType:" + serviceType);
   }
   final Short code=serviceType.getCode();
-  final ResponseMetric hit=rpcCache.get(code);
+  final RpcMetric hit=rpcCache.get(code);
   if (hit != null) {
     return hit;
   }
-  final ResponseMetric responseMetric=new DefaultResponseMetric(serviceType);
-  final ResponseMetric exist=rpcCache.putIfAbsent(code,responseMetric);
+  final RpcMetric rpcMetric=new DefaultRpcMetric(serviceType);
+  final RpcMetric exist=rpcCache.putIfAbsent(code,rpcMetric);
   if (exist != null) {
     return exist;
   }
-  return responseMetric;
+  return rpcMetric;
 }
