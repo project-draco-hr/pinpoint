@@ -1,0 +1,23 @@
+{
+  Driver driver=loadClass();
+  Properties properties=new Properties();
+  properties.setProperty("user","dba");
+  properties.setProperty("password","nhn!@#123");
+  Connection connection=driver.connect("jdbc:cubrid:10.101.57.233:30102:pinpoint:::",properties);
+  logger.info("Connection class name:{}",connection.getClass().getName());
+  logger.info("Connection class cl:{}",connection.getClass().getClassLoader());
+  DatabaseInfo url=getUrl.invoke(connection);
+  Assert.assertNotNull(url);
+  statement(connection);
+  preparedStatement(connection);
+  preparedStatement2(connection);
+  preparedStatement3(connection);
+  preparedStatement4(connection);
+  preparedStatement5(connection);
+  preparedStatement6(connection);
+  preparedStatement7(connection);
+  preparedStatement8(connection);
+  connection.close();
+  DatabaseInfo clearUrl=getUrl.invoke(connection);
+  Assert.assertNull(clearUrl);
+}
