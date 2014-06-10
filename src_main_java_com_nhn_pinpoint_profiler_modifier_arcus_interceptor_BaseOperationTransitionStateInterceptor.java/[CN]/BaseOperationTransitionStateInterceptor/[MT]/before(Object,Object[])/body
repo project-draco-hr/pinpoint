@@ -38,7 +38,7 @@
     String cmd=getCommand(baseOperation);
     asyncTrace.markAfterTime();
   }
- else   if (newState == OperationState.COMPLETE || newState == OperationState.TIMEDOUT) {
+ else   if (newState == OperationState.COMPLETE || isArcusTimeout(newState)) {
     if (isDebug) {
       logger.debug("event:{} asyncTrace:{}",newState,asyncTrace);
     }
