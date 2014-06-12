@@ -4,6 +4,9 @@
   }
   try {
     InstrumentClass arcusClient=byteCodeInstrumentor.getClass(javassistClassName);
+    if (!checkCompatibility(arcusClient)) {
+      return null;
+    }
     final Interceptor setCacheManagerInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.SetCacheManagerInterceptor");
     final String[] args={"net.spy.memcached.CacheManager"};
     arcusClient.addInterceptor("setCacheManager",args,setCacheManagerInterceptor,Type.before);
