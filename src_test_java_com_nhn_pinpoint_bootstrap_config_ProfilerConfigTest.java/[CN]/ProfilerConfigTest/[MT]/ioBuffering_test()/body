@@ -1,0 +1,8 @@
+{
+  String path=ProfilerConfig.class.getResource("/com/nhn/pinpoint/bootstrap/config/test.property").getPath();
+  logger.debug("path:{}",path);
+  ProfilerConfig profilerConfig=new ProfilerConfig();
+  profilerConfig.readConfigFile(path);
+  Assert.assertEquals(profilerConfig.isIoBufferingEnable(),false);
+  Assert.assertEquals(profilerConfig.getIoBufferingBufferBufferSize(),30);
+}
