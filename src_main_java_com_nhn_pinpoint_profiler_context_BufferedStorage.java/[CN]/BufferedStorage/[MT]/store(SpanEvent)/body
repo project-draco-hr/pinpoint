@@ -1,0 +1,17 @@
+{
+  List<SpanEvent> flushData=null;
+synchronized (this) {
+    addSpanEvent(spanEvent);
+    if (storage.size() >= bufferSize) {
+      flushData=storage;
+      storage=new ArrayList<SpanEvent>(bufferSize);
+    }
+  }
+  if (flushData != null) {
+    if (isDebug) {
+      logger.debug("flush SpanChunk");
+    }
+    final SpanChunk spanChunk=spanChunkFactory.create(flushData);
+    dataSender.send(spanChunk);
+  }
+}
