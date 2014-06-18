@@ -10,12 +10,12 @@
     reusePacket.setData(interBufferData,0,interBufferSize);
     try {
       udpSocket.send(reusePacket);
-      if (logger.isDebugEnabled()) {
-        logger.debug("Data sent. {}, {}",interBufferSize,dto);
+      if (isDebug) {
+        logger.debug("Data sent. size:{}, {}",interBufferSize,dto);
       }
     }
  catch (    IOException e) {
-      logger.warn("packet send error {}, {}",interBufferSize,dto,e);
+      logger.warn("packet send error. size:{}, {}",interBufferSize,dto,e);
     }
   }
  else {
