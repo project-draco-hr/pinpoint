@@ -1,4 +1,10 @@
 {
+  if (!enabled) {
+    if (getLogger().isDebugEnabled()) {
+      getLogger().debug("interceptor is disabled.");
+    }
+    return;
+  }
   if (getLogger().isDebugEnabled()) {
     getLogger().beforeInterceptor(target,args);
   }
