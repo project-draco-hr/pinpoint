@@ -1,0 +1,16 @@
+{
+  try {
+    DatagramSocket datagramSocket=new DatagramSocket();
+    datagramSocket.setSoTimeout(timeout);
+    datagramSocket.setSendBufferSize(sendBufferSize);
+    if (logger.isInfoEnabled()) {
+      logger.info("verify sendBufferSize:{}",datagramSocket.getSendBufferSize());
+    }
+    InetSocketAddress serverAddress=new InetSocketAddress(host,port);
+    datagramSocket.connect(serverAddress);
+    return datagramSocket;
+  }
+ catch (  SocketException e) {
+    throw new IllegalStateException("DatagramSocket create fail. Cause" + e.getMessage(),e);
+  }
+}
