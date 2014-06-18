@@ -3,6 +3,10 @@
   String value=System.getProperty(propertyName);
   if (value != null) {
     value=value.trim();
+    if (validIdPattern.matcher(value).find()) {
+      logger.severe("invalid value. value can only contain alphanumeric, dot, dash and underscore. propertyName:" + propertyName + " propertyValue:"+ value);
+      return false;
+    }
     final byte[] bytes;
     try {
       bytes=toBytes(value);
