@@ -1,21 +1,25 @@
 {
   if (message instanceof TBase) {
-    TBase dto=(TBase)message;
-    byte[] interBufferData=serialize(this.serializer,dto);
-    if (interBufferData == null) {
+    final TBase dto=(TBase)message;
+    final byte[] internalBufferData=serialize(this.serializer,dto);
+    if (internalBufferData == null) {
       logger.warn("interBufferData is null");
       return;
     }
-    final int interBufferSize=this.serializer.getInterBufferSize();
-    reusePacket.setData(interBufferData,0,interBufferSize);
+    final int internalBufferSize=this.serializer.getInterBufferSize();
+    if (isLimit(internalBufferSize)) {
+      logger.warn("discard packet. Caused:too large message. size:{}, {}",internalBufferSize,dto);
+      return;
+    }
+    reusePacket.setData(internalBufferData,0,internalBufferSize);
     try {
       udpSocket.send(reusePacket);
       if (isDebug) {
-        logger.debug("Data sent. size:{}, {}",interBufferSize,dto);
+        logger.debug("Data sent. size:{}, {}",internalBufferSize,dto);
       }
     }
  catch (    IOException e) {
-      logger.warn("packet send error. size:{}, {}",interBufferSize,dto,e);
+      logger.warn("packet send error. size:{}, {}",internalBufferSize,dto,e);
     }
   }
  else {
