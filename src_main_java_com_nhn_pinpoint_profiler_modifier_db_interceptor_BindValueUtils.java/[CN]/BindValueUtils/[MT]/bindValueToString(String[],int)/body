@@ -7,10 +7,10 @@
   final int end=length - 1;
   for (int i=0; i < length; i++) {
     if (sb.length() >= limit) {
-      appendLimitCount(sb,length - i);
+      appendLength(sb,length);
       break;
     }
-    sb.append(bindValueArray[i]);
+    StringUtils.appendDrop(sb,bindValueArray[i],limit);
     if (i < end) {
       sb.append(", ");
     }
