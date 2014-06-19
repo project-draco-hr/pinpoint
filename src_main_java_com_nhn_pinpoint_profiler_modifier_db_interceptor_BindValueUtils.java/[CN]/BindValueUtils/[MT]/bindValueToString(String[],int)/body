@@ -6,10 +6,11 @@
   final int length=bindValueArray.length;
   final int end=length - 1;
   for (int i=0; i < length; i++) {
-    sb.append(bindValueArray[i]);
-    if (sb.length() > limit) {
+    if (sb.length() >= limit) {
+      appendLimitCount(sb,length - i);
       break;
     }
+    sb.append(bindValueArray[i]);
     if (i < end) {
       sb.append(", ");
     }
