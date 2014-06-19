@@ -1,12 +1,6 @@
 {
-  if (!enabled) {
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug("interceptor is disabled.");
-    }
-    return;
-  }
-  if (getLogger().isDebugEnabled()) {
-    getLogger().beforeInterceptor(target,args);
+  if (logger.isDebugEnabled()) {
+    logger.beforeInterceptor(target,args);
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {

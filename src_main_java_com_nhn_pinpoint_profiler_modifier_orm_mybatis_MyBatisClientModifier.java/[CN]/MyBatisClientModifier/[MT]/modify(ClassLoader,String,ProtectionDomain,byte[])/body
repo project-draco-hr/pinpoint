@@ -1,6 +1,6 @@
 {
-  if (this.getLogger().isInfoEnabled()) {
-    this.getLogger().info("Modifying. {}",javassistClassName);
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifying. {}",javassistClassName);
   }
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
@@ -13,7 +13,7 @@
     return myBatisClientImpl.toBytecode();
   }
  catch (  Throwable e) {
-    this.getLogger().warn("{} modifier error. Cause:{}",javassistClassName,e.getMessage(),e);
+    logger.warn("{} modifier error. Cause:{}",javassistClassName,e.getMessage(),e);
     return null;
   }
 }

@@ -1,9 +1,6 @@
 {
-  if (!enabled) {
-    return;
-  }
-  if (getLogger().isDebugEnabled()) {
-    getLogger().afterInterceptor(target,args,result);
+  if (logger.isDebugEnabled()) {
+    logger.afterInterceptor(target,args,result);
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
