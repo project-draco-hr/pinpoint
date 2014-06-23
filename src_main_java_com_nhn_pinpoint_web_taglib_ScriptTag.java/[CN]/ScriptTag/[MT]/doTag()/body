@@ -1,0 +1,14 @@
+{
+  PageContext pageContext=(PageContext)getJspContext();
+  JspWriter out=pageContext.getOut();
+  try {
+    StringBuffer sb=new StringBuffer();
+    sb.append("<script src=\"");
+    sb.append(src);
+    sb.append("\"></script>");
+    out.println(sb.toString());
+  }
+ catch (  Exception e) {
+    logger.error(e.getMessage(),e);
+  }
+}
