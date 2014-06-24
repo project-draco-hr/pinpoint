@@ -7,6 +7,10 @@
     sb.append(rel);
     sb.append("\" href=\"");
     sb.append(href);
+    if (mavenMetaInformation != null) {
+      sb.append("?v=");
+      sb.append(mavenMetaInformation.getBuildTime());
+    }
     sb.append("\">");
     out.println(sb.toString());
   }

@@ -1,0 +1,27 @@
+{
+  InputStream inputStream=null;
+  try {
+    ClassPathResource resource=new ClassPathResource("project.properties");
+    Properties p=new Properties();
+    inputStream=resource.getInputStream();
+    p.load(inputStream);
+    this.version=p.getProperty("application.version");
+    this.artifactId=p.getProperty("application.artifactId");
+    this.groupId=p.getProperty("application.groupId");
+    this.buildTime=p.getProperty("application.buildTime");
+    logger.info("MavenProjectInformation={}",this);
+  }
+ catch (  IOException e) {
+    logger.error("fail load properties : e={}",e);
+  }
+ finally {
+    if (inputStream != null) {
+      try {
+        inputStream.close();
+      }
+ catch (      IOException e) {
+        logger.warn(e.getMessage(),e);
+      }
+    }
+  }
+}
