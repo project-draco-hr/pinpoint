@@ -1,7 +1,7 @@
 {
-  final boolean arucs=profilerConfig.isArucs();
+  final boolean arcus=profilerConfig.isArucs();
   boolean memcached;
-  if (arucs) {
+  if (arcus) {
     memcached=true;
   }
  else {
@@ -12,7 +12,7 @@
     addModifier(baseOperationModifier);
     MemcachedClientModifier memcachedClientModifier=new MemcachedClientModifier(byteCodeInstrumentor,agent);
     addModifier(memcachedClientModifier);
-    if (arucs) {
+    if (arcus) {
       ArcusClientModifier arcusClientModifier=new ArcusClientModifier(byteCodeInstrumentor,agent);
       addModifier(arcusClientModifier);
       CollectionFutureModifier collectionFutureModifier=new CollectionFutureModifier(byteCodeInstrumentor,agent);
