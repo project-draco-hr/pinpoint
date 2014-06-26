@@ -1,0 +1,17 @@
+{
+  PreparedStatement preparedStatement=null;
+  ResultSet resultSet=null;
+  try {
+    preparedStatement=connection.prepareStatement("select 8 from invalidTable",ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
+    logger.info("PreparedStatement className:{}",preparedStatement.getClass().getName());
+    resultSet=preparedStatement.executeQuery();
+  }
+  finally {
+    if (resultSet != null) {
+      resultSet.close();
+    }
+    if (preparedStatement != null) {
+      preparedStatement.close();
+    }
+  }
+}

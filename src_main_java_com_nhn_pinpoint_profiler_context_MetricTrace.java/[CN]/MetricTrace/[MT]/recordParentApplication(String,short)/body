@@ -1,0 +1,14 @@
+{
+  StackFrame currentStackFrame=this.currentStackFrame;
+  if (currentStackFrame instanceof RootStackFrame) {
+    final Span span=((RootStackFrame)currentStackFrame).getSpan();
+    span.setParentApplicationName(parentApplicationName);
+    span.setParentApplicationType(parentApplicationType);
+    if (isDebug) {
+      logger.debug("ParentApplicationName marked. parentApplicationName={}",parentApplicationName);
+    }
+  }
+ else {
+    throw new PinpointTraceException("not RootStackFrame");
+  }
+}

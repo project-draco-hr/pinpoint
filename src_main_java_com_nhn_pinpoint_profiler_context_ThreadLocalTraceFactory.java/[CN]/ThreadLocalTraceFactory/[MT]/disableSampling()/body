@@ -1,4 +1,6 @@
 {
   checkBeforeTraceObject();
-  threadLocal.set(DisableTrace.INSTANCE);
+  final Trace metricTrace=new MetricTrace(traceContext,nextTransactionId());
+  threadLocal.set(metricTrace);
+  return metricTrace;
 }

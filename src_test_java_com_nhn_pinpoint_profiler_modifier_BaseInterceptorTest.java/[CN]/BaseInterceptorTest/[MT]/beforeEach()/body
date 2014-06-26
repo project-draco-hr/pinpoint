@@ -3,10 +3,7 @@
     Assert.fail("set the interceptor first.");
   }
   if (interceptor instanceof TraceContextSupport) {
-    Sampler sampler=mock(Sampler.class);
-    when(sampler.isSampling()).thenReturn(true);
     TraceContext traceContext=new MockTraceContextFactory().create();
-    ((DefaultTraceContext)traceContext).setSampler(sampler);
     ((TraceContextSupport)interceptor).setTraceContext(traceContext);
   }
   if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
