@@ -15,7 +15,7 @@
  else {
       trace.recordApi(methodDescriptor);
     }
-    if ((result instanceof Future) && !(result instanceof FrontCacheGetFuture)) {
+    if (result instanceof OperationFuture) {
       Operation op=(Operation)getOperation.invoke(((Future<?>)result));
       if (op != null) {
         MemcachedNode handlingNode=op.getHandlingNode();
