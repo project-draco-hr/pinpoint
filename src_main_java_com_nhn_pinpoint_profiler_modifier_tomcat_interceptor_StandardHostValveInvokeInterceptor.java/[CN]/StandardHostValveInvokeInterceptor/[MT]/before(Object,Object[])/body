@@ -4,18 +4,18 @@
   }
   try {
     final HttpServletRequest request=(HttpServletRequest)args[0];
-    final String requestURL=request.getRequestURI();
-    final String remoteAddr=request.getRemoteAddr();
-    final int port=request.getServerPort();
-    final String endPoint=request.getServerName() + ":" + port;
-    final Trace trace=createTrace(request,requestURL,remoteAddr);
+    final Trace trace=createTrace(request);
     if (!trace.canSampled()) {
       return;
     }
     trace.markBeforeTime();
     trace.recordServiceType(ServiceType.TOMCAT);
+    final String requestURL=request.getRequestURI();
     trace.recordRpcName(requestURL);
+    final int port=request.getServerPort();
+    final String endPoint=request.getServerName() + ":" + port;
     trace.recordEndPoint(endPoint);
+    final String remoteAddr=request.getRemoteAddr();
     trace.recordRemoteAddress(remoteAddr);
     if (!trace.isRoot()) {
       recordParentInfo(request,trace);
