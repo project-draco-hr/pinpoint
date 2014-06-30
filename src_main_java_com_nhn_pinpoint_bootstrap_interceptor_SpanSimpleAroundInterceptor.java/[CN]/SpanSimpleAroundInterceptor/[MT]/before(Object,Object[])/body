@@ -4,10 +4,7 @@
   }
   try {
     final Trace trace=createTrace(args);
-    if (!trace.canSampled()) {
-      return;
-    }
-    doInBeforeTrace(trace);
+    doInBeforeTrace(trace,args);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {
