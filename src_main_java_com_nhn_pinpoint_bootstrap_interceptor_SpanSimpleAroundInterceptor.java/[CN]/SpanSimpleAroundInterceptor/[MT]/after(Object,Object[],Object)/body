@@ -1,0 +1,24 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  if (!trace.canSampled()) {
+    return;
+  }
+  try {
+    doInAfterTrace(trace,args,result);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Tomcat StandardHostValve trace start fail. Caused:{}",th.getMessage(),th);
+    }
+  }
+ finally {
+    trace.traceRootBlockEnd();
+  }
+}

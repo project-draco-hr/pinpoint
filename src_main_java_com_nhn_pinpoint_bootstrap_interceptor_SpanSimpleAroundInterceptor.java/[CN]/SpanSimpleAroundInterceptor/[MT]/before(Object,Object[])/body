@@ -1,0 +1,17 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    final Trace trace=createTrace(args);
+    if (!trace.canSampled()) {
+      return;
+    }
+    doInBeforeTrace(trace);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("trace start fail. Caused:{}",th.getMessage(),th);
+    }
+  }
+}
