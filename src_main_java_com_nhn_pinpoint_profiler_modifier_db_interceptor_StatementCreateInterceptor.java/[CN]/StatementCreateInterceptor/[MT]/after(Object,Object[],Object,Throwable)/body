@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  if (!InterceptorUtils.isSuccess(throwable)) {
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (target instanceof Connection) {
+    DatabaseInfo databaseInfo=getDatabaseInfo.invoke(target);
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    setUrl.invoke(result,databaseInfo);
+  }
+}

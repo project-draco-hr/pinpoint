@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,null,result);
+  }
+  scope.pop();
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(ServiceType.DBCP);
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

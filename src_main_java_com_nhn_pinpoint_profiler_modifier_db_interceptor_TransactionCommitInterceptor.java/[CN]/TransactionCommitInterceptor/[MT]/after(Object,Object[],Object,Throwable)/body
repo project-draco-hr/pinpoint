@@ -1,0 +1,13 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (target instanceof Connection) {
+    Connection con=(Connection)target;
+    afterCommit(trace,con,throwable);
+  }
+}
