@@ -2,8 +2,11 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
   try {
-    final Trace trace=createTrace(args);
     doInBeforeTrace(trace,args);
   }
  catch (  Throwable th) {

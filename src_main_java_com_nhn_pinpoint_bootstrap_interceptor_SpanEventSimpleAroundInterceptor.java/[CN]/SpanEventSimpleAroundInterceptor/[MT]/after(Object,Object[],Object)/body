@@ -2,20 +2,19 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result);
   }
-  Trace trace=traceContext.currentRawTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
-  traceContext.detachTraceObject();
   try {
     doInAfterTrace(trace,target,args,result);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {
-      logger.warn("after. Caused:{}",th.getMessage(),th);
+      logger.warn("after error. Caused:{}",th.getMessage(),th);
     }
   }
  finally {
-    trace.traceRootBlockEnd();
+    trace.traceBlockEnd();
   }
 }
