@@ -2,7 +2,7 @@
   final external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
   final boolean sampling=samplingEnable(request);
   if (!sampling) {
-    final Trace trace=traceContext.disableSampling();
+    final Trace trace=getTraceContext().disableSampling();
     if (isDebug) {
       logger.debug("mark disable sampling. skip trace");
     }
@@ -10,7 +10,7 @@
   }
   final TraceId traceId=populateTraceIdFromRequest(request);
   if (traceId != null) {
-    final Trace trace=traceContext.continueTraceObject(traceId);
+    final Trace trace=getTraceContext().continueTraceObject(traceId);
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.requestURI(),request.remoteAddr()});
@@ -25,7 +25,7 @@
     }
   }
  else {
-    final Trace trace=traceContext.newTraceObject();
+    final Trace trace=getTraceContext().newTraceObject();
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.requestURI(),request.remoteAddr());

@@ -4,7 +4,7 @@
     long parentSpanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanId.NULL);
     long spanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanId.NULL);
     short flags=NumberUtils.parseShort(request.getHeader(Header.HTTP_FLAGS.toString()),(short)0);
-    final TraceId id=this.traceContext.createTraceId(transactionId,parentSpanID,spanID,flags);
+    final TraceId id=getTraceContext().createTraceId(transactionId,parentSpanID,spanID,flags);
     if (isDebug) {
       logger.debug("TraceID exist. continue trace. {}",id);
     }

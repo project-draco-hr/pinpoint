@@ -1,0 +1,10 @@
+{
+  trace.markBeforeTime();
+  DatabaseInfo databaseInfo=this.getDatabaseInfo.invoke(target);
+  if (databaseInfo == null) {
+    databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+  }
+  trace.recordServiceType(databaseInfo.getExecuteQueryType());
+  trace.recordEndPoint(databaseInfo.getMultipleHost());
+  trace.recordDestinationId(databaseInfo.getDatabaseId());
+}
