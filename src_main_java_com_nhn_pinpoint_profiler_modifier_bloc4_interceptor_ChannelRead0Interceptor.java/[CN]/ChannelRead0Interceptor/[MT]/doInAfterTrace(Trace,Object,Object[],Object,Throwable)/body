@@ -1,16 +1,5 @@
 {
-  if (isDebug) {
-    logger.afterInterceptor(target,args,result);
-  }
-  Trace trace=traceContext.currentRawTraceObject();
-  if (trace == null) {
-    return;
-  }
-  traceContext.detachTraceObject();
-  if (!trace.canSampled()) {
-    return;
-  }
-  try {
+  if (trace.canSampled()) {
     io.netty.handler.codec.http.FullHttpRequest request=(io.netty.handler.codec.http.FullHttpRequest)args[1];
     if (HttpMethod.POST.name().equals(request.getMethod().name()) || HttpMethod.PUT.name().equals(request.getMethod().name())) {
     }
@@ -21,11 +10,8 @@
         trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
       }
     }
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    trace.recordApi(getMethodDescriptor());
   }
-  finally {
-    trace.traceRootBlockEnd();
-  }
+  trace.recordException(throwable);
+  trace.markAfterTime();
 }

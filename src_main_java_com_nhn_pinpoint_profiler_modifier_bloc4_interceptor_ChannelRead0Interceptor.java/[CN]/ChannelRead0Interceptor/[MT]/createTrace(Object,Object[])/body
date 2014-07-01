@@ -1,0 +1,54 @@
+{
+  final io.netty.handler.codec.http.FullHttpRequest request=(io.netty.handler.codec.http.FullHttpRequest)args[1];
+  final boolean sampling=samplingEnable(request);
+  if (!sampling) {
+    final Trace trace=getTraceContext().disableSampling();
+    if (isDebug) {
+      logger.debug("mark disable sampling. skip trace");
+    }
+    return trace;
+  }
+  final TraceId traceId=populateTraceIdFromRequest(request);
+  if (traceId != null) {
+    final Trace trace=getTraceContext().continueTraceObject(traceId);
+    if (trace.canSampled()) {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        io.netty.channel.ChannelHandlerContext ctx=(io.netty.channel.ChannelHandlerContext)args[0];
+        String remoteAddr=((SocketChannel)ctx.channel()).remoteAddress().toString();
+        logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      return trace;
+    }
+ else {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        io.netty.channel.ChannelHandlerContext ctx=(io.netty.channel.ChannelHandlerContext)args[0];
+        String remoteAddr=((SocketChannel)ctx.channel()).remoteAddress().toString();
+        logger.debug("TraceID exist. camSampled is false. skip trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      return trace;
+    }
+  }
+ else {
+    final Trace trace=getTraceContext().newTraceObject();
+    if (trace.canSampled()) {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        io.netty.channel.ChannelHandlerContext ctx=(io.netty.channel.ChannelHandlerContext)args[0];
+        String remoteAddr=((SocketChannel)ctx.channel()).remoteAddress().toString();
+        logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+      }
+      return trace;
+    }
+ else {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        io.netty.channel.ChannelHandlerContext ctx=(io.netty.channel.ChannelHandlerContext)args[0];
+        String remoteAddr=((SocketChannel)ctx.channel()).remoteAddress().toString();
+        logger.debug("TraceID not exist. camSampled is false. skip trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+      }
+      return trace;
+    }
+  }
+}
