@@ -1,0 +1,31 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  traceContext.detachTraceObject();
+  if (!trace.canSampled()) {
+    return;
+  }
+  try {
+    io.netty.handler.codec.http.FullHttpRequest request=(io.netty.handler.codec.http.FullHttpRequest)args[1];
+    if (HttpMethod.POST.name().equals(request.getMethod().name()) || HttpMethod.PUT.name().equals(request.getMethod().name())) {
+    }
+ else {
+      java.nio.charset.Charset uriEncoding=getUriEncoding.invoke(target);
+      String parameters=getRequestParameter(request,64,512,uriEncoding);
+      if (parameters != null && parameters.length() > 0) {
+        trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+      }
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceRootBlockEnd();
+  }
+}

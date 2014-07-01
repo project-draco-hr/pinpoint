@@ -1,39 +1,32 @@
 {
-  final String catalinaHome=System.getProperty("catalina.home");
+  String applicationHome=System.getProperty("catalina.home");
+  if (applicationHome == null) {
+    applicationHome=System.getProperty("user.dir");
+  }
   if (logger.isInfoEnabled()) {
-    logger.info("CATALINA_HOME={}",catalinaHome);
+    logger.info("Resolved ApplicationHome:{}",applicationHome);
   }
   if (defaultType != null) {
-    logger.info("applicationServerDefaultType:{}",defaultType);
-    if (defaultType == ServiceType.TOMCAT) {
-      return resolveTomcat(catalinaHome);
-    }
- else     if (defaultType == ServiceType.BLOC) {
-      return resolveBloc(catalinaHome);
-    }
- else     if (defaultType == ServiceType.STAND_ALONE) {
-      resolveStandAlone();
-      logger.info("applicationServerDefaultType:{}",defaultType);
-      return true;
-    }
- else     if (defaultType == ServiceType.TEST_STAND_ALONE) {
-      logger.info("applicationServerDefaultType:{}",defaultType);
-    }
- else {
-      logger.warn("Invalid Default ApplicationServiceType:{} ",defaultType);
-      return false;
-    }
+    logger.info("Configured applicationServerType:{}",defaultType);
+    return initializeApplicationInfo(applicationHome,defaultType);
   }
-  final File blocCatalinaJar=new File(catalinaHome + "/server/lib/catalina.jar");
-  final File blocServletApiJar=new File(catalinaHome + "/common/lib/servlet-api.jar");
-  if (isFileExist(blocCatalinaJar) && isFileExist(blocServletApiJar)) {
-    return resolveBloc(catalinaHome);
+  final File bloc3CatalinaJar=new File(applicationHome + "/server/lib/catalina.jar");
+  final File bloc3ServletApiJar=new File(applicationHome + "/common/lib/servlet-api.jar");
+  final File bloc4LibDir=new File(applicationHome + "/libs");
+  if (isFileExist(bloc3CatalinaJar) && isFileExist(bloc3ServletApiJar)) {
+    this.manuallyStartupRequired=false;
+    return initializeApplicationInfo(applicationHome,ServiceType.BLOC);
   }
- else   if (isFileExist(new File(catalinaHome + "/lib/catalina.jar"))) {
-    return resolveTomcat(catalinaHome);
+ else   if (isFileExist(bloc4LibDir)) {
+    this.manuallyStartupRequired=true;
+    return initializeApplicationInfo(applicationHome,ServiceType.BLOC);
+  }
+ else   if (isFileExist(new File(applicationHome + "/lib/catalina.jar"))) {
+    this.manuallyStartupRequired=false;
+    return initializeApplicationInfo(applicationHome,ServiceType.TOMCAT);
   }
  else {
-    logger.info("applicationServerDefaultType:{}",defaultType);
-    return resolveStandAlone();
+    this.manuallyStartupRequired=true;
+    return initializeApplicationInfo(applicationHome,ServiceType.STAND_ALONE);
   }
 }

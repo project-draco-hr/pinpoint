@@ -1,0 +1,17 @@
+{
+  final HttpHeaders headers=request.headers();
+  String transactionId=headers.get(Header.HTTP_TRACE_ID.toString());
+  if (transactionId != null) {
+    long parentSpanId=NumberUtils.parseLong(headers.get(Header.HTTP_PARENT_SPAN_ID.toString()),SpanId.NULL);
+    long spanId=NumberUtils.parseLong(headers.get(Header.HTTP_SPAN_ID.toString()),SpanId.NULL);
+    short flags=NumberUtils.parseShort(headers.get(Header.HTTP_FLAGS.toString()),(short)0);
+    TraceId id=this.traceContext.createTraceId(transactionId,parentSpanId,spanId,flags);
+    if (isDebug) {
+      logger.debug("TraceID exist. continue trace. {}",id);
+    }
+    return id;
+  }
+ else {
+    return null;
+  }
+}
