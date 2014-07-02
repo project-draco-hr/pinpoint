@@ -19,11 +19,11 @@
   final TraceId traceId=populateTraceIdFromRequest(request);
   if (traceId != null) {
     final Trace trace=getTraceContext().continueTraceObject(traceId);
-    if (!trace.canSampled()) {
+    if (trace.canSampled()) {
       if (isDebug) {
         String requestURL=request.getUri();
         String remoteAddr=getRemoteAddress(channel);
-        logger.debug("TraceID exist. camSampled is false. skip trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+        logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
       return trace;
     }
@@ -31,7 +31,7 @@
       if (isDebug) {
         String requestURL=request.getUri();
         String remoteAddr=getRemoteAddress(channel);
-        logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+        logger.debug("TraceID exist. camSampled is false. skip trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
       }
       return trace;
     }
