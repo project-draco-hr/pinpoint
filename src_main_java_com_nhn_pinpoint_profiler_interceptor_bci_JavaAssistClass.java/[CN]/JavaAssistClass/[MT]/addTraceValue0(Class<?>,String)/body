@@ -1,0 +1,43 @@
+{
+  if (traceValue == null) {
+    throw new NullPointerException("traceValue must not be null");
+  }
+  final boolean marker=checkTraceValueMarker(traceValue);
+  if (!marker) {
+    throw new InstrumentException(traceValue + " maker interface  not implements");
+  }
+  try {
+    final CtClass ctValueHandler=instrumentor.getClassPool().get(traceValue.getName());
+    final java.lang.reflect.Method[] declaredMethods=traceValue.getDeclaredMethods();
+    final String variableName=FIELD_PREFIX + ctValueHandler.getSimpleName();
+    final CtField traceVariableType=determineTraceValueType(variableName,declaredMethods);
+    boolean requiredField=false;
+    for (    java.lang.reflect.Method method : declaredMethods) {
+      if (isSetter(method)) {
+        CtMethod setterMethod=CtNewMethod.setter(method.getName(),traceVariableType);
+        ctClass.addMethod(setterMethod);
+        requiredField=true;
+      }
+ else       if (isGetter(method)) {
+        CtMethod getterMethod=CtNewMethod.getter(method.getName(),traceVariableType);
+        ctClass.addMethod(getterMethod);
+        requiredField=true;
+      }
+    }
+    if (requiredField) {
+      ctClass.addInterface(ctValueHandler);
+      if (initValue == null) {
+        ctClass.addField(traceVariableType);
+      }
+ else {
+        ctClass.addField(traceVariableType,initValue);
+      }
+    }
+  }
+ catch (  NotFoundException e) {
+    throw new InstrumentException(traceValue + " implements fail. Cause:" + e.getMessage(),e);
+  }
+catch (  CannotCompileException e) {
+    throw new InstrumentException(traceValue + " implements fail. Cause:" + e.getMessage(),e);
+  }
+}
