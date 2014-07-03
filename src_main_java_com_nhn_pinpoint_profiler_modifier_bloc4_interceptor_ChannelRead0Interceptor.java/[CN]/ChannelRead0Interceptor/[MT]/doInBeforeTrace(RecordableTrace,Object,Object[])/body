@@ -6,7 +6,13 @@
     trace.recordServiceType(ServiceType.BLOC);
     final String requestURL=request.getUri();
     trace.recordRpcName(requestURL);
-    trace.recordEndPoint(request.getProtocolVersion().protocolName() + ":" + ctx.channel().localAddress());
+    String endPoint=getIpPort(ctx.channel().localAddress());
+    String remoteAddress=getIp(ctx.channel().remoteAddress());
+    trace.recordEndPoint(endPoint);
+    trace.recordRemoteAddress(remoteAddress);
     trace.recordAttribute(AnnotationKey.HTTP_URL,request.getUri());
+  }
+  if (!trace.isRoot()) {
+    recordParentInfo(trace,request,ctx);
   }
 }
