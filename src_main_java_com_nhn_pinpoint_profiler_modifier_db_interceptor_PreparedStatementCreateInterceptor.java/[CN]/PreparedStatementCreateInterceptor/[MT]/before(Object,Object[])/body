@@ -8,7 +8,7 @@
   }
   trace.traceBlockBegin();
   trace.markBeforeTime();
-  final DatabaseInfo databaseInfo=getDatabaseInfo(target);
+  final DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
   trace.recordServiceType(databaseInfo.getType());
   trace.recordEndPoint(databaseInfo.getMultipleHost());
   trace.recordDestinationId(databaseInfo.getDatabaseId());

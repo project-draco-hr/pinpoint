@@ -1,12 +1,6 @@
 {
   trace.markBeforeTime();
-  DatabaseInfo databaseInfo=null;
-  if (target instanceof DatabaseInfoTraceValue) {
-    databaseInfo=((DatabaseInfoTraceValue)target).__getTraceDatabaseInfo();
-  }
-  if (databaseInfo == null) {
-    databaseInfo=UnKnownDatabaseInfo.INSTANCE;
-  }
+  DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
   trace.recordServiceType(databaseInfo.getExecuteQueryType());
   trace.recordEndPoint(databaseInfo.getMultipleHost());
   trace.recordDestinationId(databaseInfo.getDatabaseId());
