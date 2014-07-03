@@ -5,12 +5,12 @@
   if (args == null || args.length != 5) {
     return;
   }
-  final String url=getString(args[0]);
-  final Integer port=getInteger(args[1]);
+  final String hostToConnectTo=getString(args[0]);
+  final Integer portToConnectTo=getInteger(args[1]);
   final String databaseId=getString(args[3]);
   DatabaseInfo databaseInfo=null;
-  if (url != null && port != null && databaseId != null) {
-    databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,url,port,databaseId);
+  if (hostToConnectTo != null && portToConnectTo != null && databaseId != null) {
+    databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,hostToConnectTo,portToConnectTo,databaseId);
     if (InterceptorUtils.isSuccess(throwable)) {
       if (target instanceof DatabaseInfoTraceValue) {
         ((DatabaseInfoTraceValue)target).__setTraceDatabaseInfo(databaseInfo);
