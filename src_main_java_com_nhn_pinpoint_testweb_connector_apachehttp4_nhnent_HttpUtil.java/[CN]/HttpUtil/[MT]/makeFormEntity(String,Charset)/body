@@ -1,0 +1,24 @@
+{
+  List<NameValuePair> postParams=new ArrayList<NameValuePair>();
+  if (StringUtils.isNotEmpty(queryString)) {
+    String[] data=queryString.split("&");
+    for (    String aData : data) {
+      String[] splitData=StringUtils.split(aData,"=",2);
+      if (splitData.length < 2) {
+        continue;
+      }
+      postParams.add(new BasicNameValuePair(splitData[0].trim(),splitData[1].trim()));
+    }
+  }
+  try {
+    if (charset != null) {
+      return new UrlEncodedFormEntity(postParams,charset.toString());
+    }
+ else {
+      return new UrlEncodedFormEntity(postParams);
+    }
+  }
+ catch (  UnsupportedEncodingException e) {
+    return null;
+  }
+}
