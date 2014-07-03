@@ -11,9 +11,9 @@
     preparedStatement.addScopeInterceptor("executeQuery",null,executeQuery,JDBCScope.SCOPE);
     Interceptor executeUpdate=new PreparedStatementExecuteQueryInterceptor();
     preparedStatement.addScopeInterceptor("executeUpdate",null,executeUpdate,JDBCScope.SCOPE);
-    preparedStatement.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
-    preparedStatement.addTraceVariable("__sql","__setSql","__getSql","java.lang.Object");
-    preparedStatement.addTraceVariable("__bindValue","__setBindValue","__getBindValue","java.util.Map","java.util.Collections.synchronizedMap(new java.util.HashMap());");
+    preparedStatement.addTraceValue(DatabaseInfoTraceValue.class);
+    preparedStatement.addTraceValue(ParsingResultTraceValue.class);
+    preparedStatement.addTraceValue(BindValueTraceValue.class,"new java.util.HashMap();");
     bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
     return preparedStatement.toBytecode();
   }

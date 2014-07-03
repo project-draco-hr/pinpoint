@@ -6,7 +6,7 @@
   Connection connection=driver.connect("jdbc:cubrid:10.101.57.233:30102:pinpoint:::",properties);
   logger.info("Connection class name:{}",connection.getClass().getName());
   logger.info("Connection class cl:{}",connection.getClass().getClassLoader());
-  DatabaseInfo url=getUrl.invoke(connection);
+  DatabaseInfo url=((DatabaseInfoTraceValue)connection).__getTraceDatabaseInfo();
   Assert.assertNotNull(url);
   statement(connection);
   preparedStatement(connection);
@@ -18,6 +18,6 @@
   preparedStatement7(connection);
   preparedStatement8(connection);
   connection.close();
-  DatabaseInfo clearUrl=getUrl.invoke(connection);
+  DatabaseInfo clearUrl=((DatabaseInfoTraceValue)connection).__getTraceDatabaseInfo();
   Assert.assertNull(clearUrl);
 }

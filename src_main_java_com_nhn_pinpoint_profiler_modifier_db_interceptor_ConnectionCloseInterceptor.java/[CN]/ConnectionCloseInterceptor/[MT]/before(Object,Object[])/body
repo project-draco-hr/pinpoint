@@ -2,7 +2,7 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  if (target instanceof Connection) {
-    this.setUrl.invoke(target,EMPTY);
+  if (target instanceof DatabaseInfoTraceValue) {
+    ((DatabaseInfoTraceValue)target).__setTraceDatabaseInfo(null);
   }
 }

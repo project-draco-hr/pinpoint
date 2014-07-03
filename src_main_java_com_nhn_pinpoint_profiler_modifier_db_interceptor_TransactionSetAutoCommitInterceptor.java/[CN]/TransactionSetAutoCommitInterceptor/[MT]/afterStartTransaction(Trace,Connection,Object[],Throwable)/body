@@ -1,6 +1,9 @@
 {
   try {
-    DatabaseInfo databaseInfo=this.getDatabaseInfo.invoke(target);
+    DatabaseInfo databaseInfo=null;
+    if (target instanceof DatabaseInfoTraceValue) {
+      databaseInfo=((DatabaseInfoTraceValue)target).__getTraceDatabaseInfo();
+    }
     if (databaseInfo == null) {
       databaseInfo=UnKnownDatabaseInfo.INSTANCE;
     }

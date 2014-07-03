@@ -1,0 +1,10 @@
+{
+  if (target instanceof DatabaseInfoTraceValue) {
+    final DatabaseInfo databaseInfo=((DatabaseInfoTraceValue)target).__getTraceDatabaseInfo();
+    if (databaseInfo == null) {
+      return UnKnownDatabaseInfo.INSTANCE;
+    }
+    return databaseInfo;
+  }
+  return UnKnownDatabaseInfo.INSTANCE;
+}

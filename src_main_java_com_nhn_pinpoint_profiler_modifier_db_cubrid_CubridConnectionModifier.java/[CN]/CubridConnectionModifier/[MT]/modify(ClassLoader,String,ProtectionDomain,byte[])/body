@@ -5,7 +5,7 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass cubridConnection=byteCodeInstrumentor.getClass(javassistClassName);
-    cubridConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
+    cubridConnection.addTraceValue(DatabaseInfoTraceValue.class);
     Interceptor connectionCloseInterceptor=new ConnectionCloseInterceptor();
     cubridConnection.addScopeInterceptor("close",null,connectionCloseInterceptor,JDBCScope.SCOPE);
     Interceptor statementCreateInterceptor1=new StatementCreateInterceptor();

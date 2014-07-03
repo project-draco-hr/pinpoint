@@ -8,7 +8,9 @@
   DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
   if (success) {
     if (recordConnection) {
-      this.setUrl.invoke(result,databaseInfo);
+      if (result instanceof DatabaseInfoTraceValue) {
+        ((DatabaseInfoTraceValue)result).__setTraceDatabaseInfo(databaseInfo);
+      }
     }
   }
   final Trace trace=traceContext.currentTraceObject();

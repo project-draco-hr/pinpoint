@@ -12,7 +12,9 @@
   if (url != null && port != null && databaseId != null) {
     databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,url,port,databaseId);
     if (InterceptorUtils.isSuccess(throwable)) {
-      setUrl.invoke(target,databaseInfo);
+      if (target instanceof DatabaseInfoTraceValue) {
+        ((DatabaseInfoTraceValue)target).__setTraceDatabaseInfo(databaseInfo);
+      }
     }
   }
   final Trace trace=traceContext.currentTraceObject();

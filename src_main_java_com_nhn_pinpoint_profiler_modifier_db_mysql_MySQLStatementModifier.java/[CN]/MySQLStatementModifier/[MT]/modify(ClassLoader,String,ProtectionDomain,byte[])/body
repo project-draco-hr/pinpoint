@@ -15,7 +15,7 @@
     statementClass.addScopeInterceptor("execute",new String[]{"java.lang.String"},executeUpdateInterceptor3,JDBCScope.SCOPE);
     Interceptor executeUpdateInterceptor4=new StatementExecuteUpdateInterceptor();
     statementClass.addScopeInterceptor("execute",new String[]{"java.lang.String","int"},executeUpdateInterceptor4,JDBCScope.SCOPE);
-    statementClass.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
+    statementClass.addTraceValue(DatabaseInfoTraceValue.class);
     return statementClass.toBytecode();
   }
  catch (  InstrumentException e) {

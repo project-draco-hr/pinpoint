@@ -5,18 +5,24 @@
   final boolean success=InterceptorUtils.isSuccess(throwable);
   ParsingResult parsingResult=null;
   if (success) {
-    DatabaseInfo databaseInfo=getDatabaseInfo.invoke(target);
-    if (databaseInfo != null) {
-      this.setUrl.invoke(result,databaseInfo);
+    if (target instanceof DatabaseInfoTraceValue) {
+      DatabaseInfo databaseInfo=((DatabaseInfoTraceValue)target).__getTraceDatabaseInfo();
+      if (databaseInfo != null) {
+        if (result instanceof DatabaseInfoTraceValue) {
+          ((DatabaseInfoTraceValue)result).__setTraceDatabaseInfo(databaseInfo);
+        }
+      }
     }
-    String sql=(String)args[0];
-    parsingResult=traceContext.parseSql(sql);
-    if (parsingResult != null) {
-      this.setSql.invoke(result,parsingResult);
-    }
+    if (result instanceof ParsingResultTraceValue) {
+      String sql=(String)args[0];
+      parsingResult=traceContext.parseSql(sql);
+      if (parsingResult != null) {
+        ((ParsingResultTraceValue)result).__setTraceParsingResult(parsingResult);
+      }
  else {
-      if (logger.isErrorEnabled()) {
-        logger.error("sqlParsing fail. parsingResult is null sql:{}",sql);
+        if (logger.isErrorEnabled()) {
+          logger.error("sqlParsing fail. parsingResult is null sql:{}",sql);
+        }
       }
     }
   }

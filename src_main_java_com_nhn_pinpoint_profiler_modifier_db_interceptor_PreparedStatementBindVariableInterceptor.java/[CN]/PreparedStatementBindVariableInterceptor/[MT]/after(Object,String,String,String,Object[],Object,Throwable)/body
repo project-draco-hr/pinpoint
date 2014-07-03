@@ -2,11 +2,14 @@
   if (isDebug) {
     logger.afterInterceptor(target,className,methodName,parameterDescription,args,result);
   }
-  Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
-  Map<Integer,String> bindList=getBindValue.invoke(target);
+  Map<Integer,String> bindList=null;
+  if (target instanceof BindValueTraceValue) {
+    bindList=((BindValueTraceValue)target).__getTraceBindValue();
+  }
   if (bindList == null) {
     if (logger.isWarnEnabled()) {
       logger.warn("bindValue is null");

@@ -5,7 +5,7 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(javassistClassName);
-    mysqlConnection.addTraceVariable("__databaseInfo","__setDatabaseInfo","__getDatabaseInfo","java.lang.Object");
+    mysqlConnection.addTraceValue(DatabaseInfoTraceValue.class);
     Interceptor connectionUrlBindInterceptor=new MySQLConnectionCreateInterceptor();
     mysqlConnection.addConstructorInterceptor(new String[]{"java.lang.String","int","java.util.Properties","java.lang.String","java.lang.String"},connectionUrlBindInterceptor);
     Interceptor closeConnection=new ConnectionCloseInterceptor();
