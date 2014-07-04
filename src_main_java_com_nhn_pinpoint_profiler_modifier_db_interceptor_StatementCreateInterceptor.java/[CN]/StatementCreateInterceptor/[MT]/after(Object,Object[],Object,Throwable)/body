@@ -1,8 +1,8 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,args,result);
+    logger.afterInterceptor(target,args,result,throwable);
   }
-  if (!InterceptorUtils.isSuccess(throwable)) {
+  if (InterceptorUtils.isThrowable(throwable)) {
     return;
   }
   Trace trace=traceContext.currentTraceObject();
