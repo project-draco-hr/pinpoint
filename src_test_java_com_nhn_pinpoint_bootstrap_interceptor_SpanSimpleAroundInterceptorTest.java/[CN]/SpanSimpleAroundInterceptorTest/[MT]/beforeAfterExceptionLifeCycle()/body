@@ -1,0 +1,18 @@
+{
+  MockTraceContext context=new MockTraceContext();
+  MockTrace mockTrace=new MockTrace();
+  context.setTrace(mockTrace);
+  TestSpanSimpleAroundInterceptor interceptor=new TestSpanSimpleAroundInterceptor(){
+    @Override protected void doInBeforeTrace(    RecordableTrace trace,    Object target,    Object[] args){
+      touchBefore();
+      throw new RuntimeException();
+    }
+    @Override protected void doInAfterTrace(    RecordableTrace trace,    Object target,    Object[] args,    Object result,    Throwable throwable){
+      touchAfter();
+      throw new RuntimeException();
+    }
+  }
+;
+  interceptor.setTraceContext(context);
+  checkSpanInterceptor(context,interceptor);
+}

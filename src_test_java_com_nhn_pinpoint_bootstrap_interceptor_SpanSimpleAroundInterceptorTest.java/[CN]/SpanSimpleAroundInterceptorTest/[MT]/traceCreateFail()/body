@@ -1,0 +1,9 @@
+{
+  MockTraceContext context=mock(MockTraceContext.class);
+  when(context.newTraceObject()).thenReturn(null);
+  MockTrace mockTrace=new MockTrace();
+  context.setTrace(mockTrace);
+  TestSpanSimpleAroundInterceptor interceptor=new TestSpanSimpleAroundInterceptor();
+  interceptor.setTraceContext(context);
+  checkTraceCreateFailInterceptor(context,interceptor);
+}

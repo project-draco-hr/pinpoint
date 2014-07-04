@@ -1,0 +1,10 @@
+{
+  Trace createTrace=interceptor.createTrace(null,null);
+  Assert.assertNull(createTrace);
+  interceptor.before(new Object(),null);
+  Assert.assertEquals(interceptor.getBeforeTouchCount(),0);
+  Assert.assertNull(context.currentRawTraceObject());
+  interceptor.after(new Object(),null,null,null);
+  Assert.assertEquals(interceptor.getAfterTouchCount(),0);
+  Assert.assertNull(context.currentRawTraceObject());
+}
