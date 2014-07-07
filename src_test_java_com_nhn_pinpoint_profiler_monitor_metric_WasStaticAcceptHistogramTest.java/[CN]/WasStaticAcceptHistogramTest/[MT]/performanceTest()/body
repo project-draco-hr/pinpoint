@@ -1,0 +1,16 @@
+{
+  final StaticAcceptHistogram table=new StaticAcceptHistogram();
+  execute(new Runnable(){
+    @Override public void run(){
+      table.addResponseTime("test",ServiceType.TOMCAT.getCode(),1000);
+    }
+  }
+);
+  final DynamicAcceptHistogram hashTable=new DynamicAcceptHistogram();
+  execute(new Runnable(){
+    @Override public void run(){
+      hashTable.addResponseTime("test",ServiceType.TOMCAT.getCode(),1000);
+    }
+  }
+);
+}

@@ -1,0 +1,20 @@
+{
+  long l=System.currentTimeMillis();
+  ExecutorService executors=Executors.newFixedThreadPool(20);
+  for (int x=0; x < 100; x++) {
+    final int count=1000000;
+    final CountDownLatch latch=new CountDownLatch(count);
+    for (int i=0; i < count; i++) {
+      executors.execute(new Runnable(){
+        @Override public void run(){
+          runnable.run();
+          latch.countDown();
+        }
+      }
+);
+    }
+    latch.await();
+  }
+  System.out.println(System.currentTimeMillis() - l);
+  executors.shutdown();
+}

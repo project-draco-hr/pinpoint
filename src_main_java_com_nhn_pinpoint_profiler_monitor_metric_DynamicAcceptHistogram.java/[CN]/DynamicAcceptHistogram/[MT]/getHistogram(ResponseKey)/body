@@ -1,0 +1,12 @@
+{
+  final Histogram hit=map.get(responseKey);
+  if (hit != null) {
+    return hit;
+  }
+  final Histogram histogram=new LongAdderHistogram(responseKey.getServiceType());
+  final Histogram old=map.putIfAbsent(responseKey,histogram);
+  if (old != null) {
+    return old;
+  }
+  return histogram;
+}

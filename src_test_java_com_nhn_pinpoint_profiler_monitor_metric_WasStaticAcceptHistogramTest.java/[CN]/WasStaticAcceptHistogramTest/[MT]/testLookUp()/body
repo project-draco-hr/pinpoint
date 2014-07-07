@@ -1,0 +1,8 @@
+{
+  StaticAcceptHistogram table=new StaticAcceptHistogram();
+  Assert.assertTrue(table.addResponseTime("abc",ServiceType.TOMCAT.getCode(),1000));
+  Assert.assertTrue(table.addResponseTime("abc",ServiceType.BLOC.getCode(),1000));
+  Assert.assertTrue(table.addResponseTime("abc",ServiceType.STAND_ALONE.getCode(),1000));
+  Assert.assertTrue(table.addResponseTime("abc",ServiceType.BLOC.getCode(),1000));
+  Assert.assertFalse(table.addResponseTime("abc",ServiceType.ARCUS.getCode(),1000));
+}

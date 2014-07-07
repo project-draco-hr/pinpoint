@@ -1,0 +1,12 @@
+{
+  if (parentApplicationName == null) {
+    throw new NullPointerException("parentApplicationName must not be null");
+  }
+  final ConcurrentMap<String,Histogram> histogramMap=this.map.get(serviceType);
+  if (histogramMap == null) {
+    return false;
+  }
+  Histogram histogram=getHistogram(histogramMap,parentApplicationName,serviceType);
+  histogram.addResponseTime(millis);
+  return true;
+}
