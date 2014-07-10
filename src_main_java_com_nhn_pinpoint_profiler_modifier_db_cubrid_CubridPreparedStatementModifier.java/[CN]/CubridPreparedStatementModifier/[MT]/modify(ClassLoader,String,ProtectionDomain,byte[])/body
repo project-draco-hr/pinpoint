@@ -6,11 +6,11 @@
   try {
     InstrumentClass preparedStatementClass=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor executeInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("execute",null,executeInterceptor,JDBCScope.SCOPE);
+    preparedStatementClass.addScopeInterceptor("execute",null,executeInterceptor,CubridScope.SCOPE_NAME);
     Interceptor executeQueryInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("executeQuery",null,executeQueryInterceptor,JDBCScope.SCOPE);
+    preparedStatementClass.addScopeInterceptor("executeQuery",null,executeQueryInterceptor,CubridScope.SCOPE_NAME);
     Interceptor executeUpdateInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("executeUpdate",null,executeUpdateInterceptor,JDBCScope.SCOPE);
+    preparedStatementClass.addScopeInterceptor("executeUpdate",null,executeUpdateInterceptor,CubridScope.SCOPE_NAME);
     preparedStatementClass.addTraceValue(DatabaseInfoTraceValue.class);
     preparedStatementClass.addTraceValue(ParsingResultTraceValue.class);
     preparedStatementClass.addTraceValue(BindValueTraceValue.class,"new java.util.HashMap();");

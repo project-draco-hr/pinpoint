@@ -1,6 +1,7 @@
 {
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod();
-  Interceptor interceptor=new ScopeDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),JDBCScope.SCOPE);
+  final Scope scope=byteCodeInstrumentor.getScope(OracleScope.SCOPE_NAME);
+  Interceptor interceptor=new ScopeDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),scope);
   int interceptorId=-1;
   for (  Method method : bindMethod) {
     String methodName=method.getName();

@@ -5,7 +5,8 @@
   this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass oracleDriver=byteCodeInstrumentor.getClass(javassistClassName);
-    Interceptor createConnection=new DriverConnectInterceptor();
+    final Scope scope=byteCodeInstrumentor.getScope(OracleScope.SCOPE_NAME);
+    Interceptor createConnection=new DriverConnectInterceptor(scope);
     String[] params=new String[]{"java.lang.String","java.util.Properties"};
     oracleDriver.addInterceptor("connect",params,createConnection);
     if (logger.isInfoEnabled()) {

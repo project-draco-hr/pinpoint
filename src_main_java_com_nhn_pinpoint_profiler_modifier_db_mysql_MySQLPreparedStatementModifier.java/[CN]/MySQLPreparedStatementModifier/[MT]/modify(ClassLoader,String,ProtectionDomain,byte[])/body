@@ -6,11 +6,11 @@
   try {
     InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor execute=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatement.addScopeInterceptor("execute",null,execute,JDBCScope.SCOPE);
+    preparedStatement.addScopeInterceptor("execute",null,execute,MYSQLScope.SCOPE_NAME);
     Interceptor executeQuery=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatement.addScopeInterceptor("executeQuery",null,executeQuery,JDBCScope.SCOPE);
+    preparedStatement.addScopeInterceptor("executeQuery",null,executeQuery,MYSQLScope.SCOPE_NAME);
     Interceptor executeUpdate=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatement.addScopeInterceptor("executeUpdate",null,executeUpdate,JDBCScope.SCOPE);
+    preparedStatement.addScopeInterceptor("executeUpdate",null,executeUpdate,MYSQLScope.SCOPE_NAME);
     preparedStatement.addTraceValue(DatabaseInfoTraceValue.class);
     preparedStatement.addTraceValue(ParsingResultTraceValue.class);
     preparedStatement.addTraceValue(BindValueTraceValue.class,"new java.util.HashMap();");
