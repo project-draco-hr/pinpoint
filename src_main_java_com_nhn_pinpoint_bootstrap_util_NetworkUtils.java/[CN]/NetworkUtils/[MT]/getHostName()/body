@@ -1,8 +1,9 @@
 {
   try {
-    return InetAddress.getLocalHost().getHostName();
+    final InetAddress localHost=InetAddress.getLocalHost();
+    return localHost.getHostName();
   }
- catch (  Exception e) {
-    return "UNKNOWN-HOST";
+ catch (  UnknownHostException e) {
+    return ERROR_HOST_NAME;
   }
 }

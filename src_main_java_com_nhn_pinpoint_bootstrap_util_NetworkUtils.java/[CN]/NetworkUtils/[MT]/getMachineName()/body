@@ -8,15 +8,16 @@
       Enumeration<InetAddress> eaddr=net.getInetAddresses();
       while (eaddr.hasMoreElements()) {
         InetAddress inet=eaddr.nextElement();
-        if (inet.getCanonicalHostName().equalsIgnoreCase(inet.getHostAddress()) == false) {
-          name=inet.getCanonicalHostName();
+        final String canonicalHostName=inet.getCanonicalHostName();
+        if (!canonicalHostName.equalsIgnoreCase(inet.getHostAddress())) {
+          name=canonicalHostName;
           break;
         }
       }
     }
     return name;
   }
- catch (  Exception e) {
+ catch (  SocketException e) {
     Logger.getLogger(NetworkUtils.class.getClass().getName()).warning(e.getMessage());
     return "UNKNOWN-HOST";
   }

@@ -1,16 +1,19 @@
 {
+  if (urlSpec == null) {
+    return null;
+  }
   try {
-    URL u=new URL(url);
-    String host=u.getHost();
-    int port=u.getPort();
-    if (port > 0) {
-      return host + ":" + port;
-    }
- else {
+    final URL url=new URL(urlSpec);
+    final String host=url.getHost();
+    final int port=url.getPort();
+    if (port == -1) {
       return host;
     }
+ else {
+      return host + ":" + port;
+    }
   }
- catch (  Exception e) {
+ catch (  MalformedURLException e) {
     return null;
   }
 }
