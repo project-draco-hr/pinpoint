@@ -1,0 +1,12 @@
+{
+  byte[] bytes=new byte[10];
+  random.nextBytes(bytes);
+  Buffer writeBuffer=new FixedBuffer(32);
+  writeBuffer.putPadBytes(bytes,20);
+  writeBuffer.put(255);
+  Buffer readBuffer=new FixedBuffer(writeBuffer.getBuffer());
+  byte[] readPadBytes=readBuffer.readPadBytes(20);
+  Assert.assertArrayEquals(bytes,Arrays.copyOf(readPadBytes,10));
+  int readInt=readBuffer.readInt();
+  Assert.assertEquals(255,readInt);
+}
