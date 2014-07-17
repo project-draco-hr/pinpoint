@@ -1,0 +1,13 @@
+{
+  if (bytes == null) {
+    bytes=EMPTY;
+  }
+  if (bytes.length > totalLength) {
+    throw new IllegalArgumentException("bytes too big:" + bytes.length + " totalLength:"+ totalLength);
+  }
+  put(bytes);
+  final int padSize=totalLength - bytes.length;
+  if (padSize > 0) {
+    putPad(padSize);
+  }
+}

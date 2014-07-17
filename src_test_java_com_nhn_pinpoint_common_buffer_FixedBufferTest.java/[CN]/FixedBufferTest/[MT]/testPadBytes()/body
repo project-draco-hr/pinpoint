@@ -1,0 +1,14 @@
+{
+  int TOTAL_LENGTH=20;
+  int TEST_SIZE=10;
+  int PAD_SIZE=TOTAL_LENGTH - TEST_SIZE;
+  Buffer buffer=new FixedBuffer(32);
+  byte[] test=new byte[10];
+  random.nextBytes(test);
+  buffer.putPadBytes(test,TOTAL_LENGTH);
+  byte[] result=buffer.getBuffer();
+  Assert.assertEquals(result.length,TOTAL_LENGTH);
+  Assert.assertTrue("check data",Bytes.equals(test,0,TEST_SIZE,result,0,TEST_SIZE));
+  byte[] padBytes=new byte[TOTAL_LENGTH - TEST_SIZE];
+  Assert.assertTrue("check pad",Bytes.equals(padBytes,0,TEST_SIZE,result,TEST_SIZE,PAD_SIZE));
+}

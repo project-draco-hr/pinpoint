@@ -1,0 +1,19 @@
+{
+  Buffer buffer1_1=new AutomaticBuffer(32);
+  try {
+    buffer1_1.putPadBytes(new byte[11],10);
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer1_2=new AutomaticBuffer(32);
+  try {
+    buffer1_2.putPadBytes(new byte[20],10);
+    junit.framework.Assert.fail("error");
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer2=new AutomaticBuffer(32);
+  buffer2.putPadBytes(new byte[10],10);
+  Buffer buffer3=new AutomaticBuffer(5);
+  buffer3.putPadBytes(new byte[10],10);
+}
