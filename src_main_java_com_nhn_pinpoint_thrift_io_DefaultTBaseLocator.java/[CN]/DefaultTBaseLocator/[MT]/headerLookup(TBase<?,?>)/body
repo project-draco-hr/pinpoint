@@ -29,5 +29,17 @@
   if (tbase instanceof NetworkAvailabilityCheckPacket) {
     return NETWORK_CHECK_HEADER;
   }
+  if (tbase instanceof THello) {
+    return HELLO_HEADER;
+  }
+  if (tbase instanceof TWelcome) {
+    return WELCOME_HEADER;
+  }
+  if (tbase instanceof TBye) {
+    return BYE_HEADER;
+  }
+  if (tbase instanceof TLeave) {
+    return LEAVE_HEADER;
+  }
   throw new TException("Unsupported Type" + tbase.getClass());
 }
