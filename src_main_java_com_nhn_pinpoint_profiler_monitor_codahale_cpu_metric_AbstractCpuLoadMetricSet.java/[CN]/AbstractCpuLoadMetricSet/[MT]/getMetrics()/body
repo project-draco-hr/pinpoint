@@ -1,0 +1,6 @@
+{
+  final Map<String,Metric> gauges=new HashMap<String,Metric>();
+  gauges.put(MetricMonitorValues.CPU_LOAD_JVM_SUFFIX,getJvmCpuLoadGauge(this.mxBean));
+  gauges.put(MetricMonitorValues.CPU_LOAD_SYSTEM_SUFFIX,getSystemCpuLoadGauge(this.mxBean));
+  return Collections.unmodifiableMap(gauges);
+}

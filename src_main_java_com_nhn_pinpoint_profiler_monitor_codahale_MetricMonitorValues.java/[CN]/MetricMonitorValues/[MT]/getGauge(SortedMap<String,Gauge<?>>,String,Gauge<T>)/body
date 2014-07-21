@@ -1,0 +1,21 @@
+{
+  if (gauges == null) {
+    throw new NullPointerException("gauges must not be null");
+  }
+  if (key == null) {
+    throw new NullPointerException("key must not be null");
+  }
+  Gauge<T> gauge=null;
+  try {
+    gauge=(Gauge<T>)gauges.get(key);
+    if (gauge == null) {
+      LOGGER.warn("key:{} not found",key);
+      return defaultGauge;
+    }
+    return gauge;
+  }
+ catch (  ClassCastException e) {
+    LOGGER.warn("invalid gauge type. key:{} gauge:{}",key,gauge);
+    return defaultGauge;
+  }
+}
