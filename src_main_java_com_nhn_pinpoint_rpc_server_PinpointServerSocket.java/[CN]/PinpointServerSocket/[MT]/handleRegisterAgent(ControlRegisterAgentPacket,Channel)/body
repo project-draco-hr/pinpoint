@@ -5,7 +5,7 @@
     Map properties=(Map)ControlMessageEnDeconderUtils.decode(payload);
     boolean isSuccess=context.setAgentProperties(new AgentProperties(properties));
     if (isSuccess) {
-      context.getState().changeStateRun();
+      context.changeStateRun();
     }
     logger.debug("Channel({}) State changed to Run.",channel);
   }

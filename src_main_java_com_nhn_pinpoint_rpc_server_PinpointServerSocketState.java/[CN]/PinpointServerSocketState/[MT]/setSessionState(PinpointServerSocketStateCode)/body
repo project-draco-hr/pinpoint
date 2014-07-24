@@ -4,6 +4,14 @@
     this.beforeState=this.currentState;
     this.currentState=state;
   }
+ else   if (PinpointServerSocketStateCode.isFinished(this.currentState)) {
+    PinpointServerSocketStateCode checkBefore=this.beforeState;
+    PinpointServerSocketStateCode checkCurrent=this.currentState;
+    String errorMessage=cannotChangeMessage(checkBefore,checkCurrent,state);
+    this.beforeState=this.currentState;
+    this.currentState=PinpointServerSocketStateCode.ERROR_ILLEGAL_STATE_CHANGE;
+    logger.warn(errorMessage);
+  }
  else {
     PinpointServerSocketStateCode checkBefore=this.beforeState;
     PinpointServerSocketStateCode checkCurrent=this.currentState;
