@@ -1,5 +1,13 @@
 {
   final Channel channel=e.getChannel();
+  final ChannelContext channelContext=getChannelContext(channel);
+  PinpointServerSocketState state=channelContext.getState();
+  if (state.getCurrentState() != PinpointServerSocketStateCode.BEING_SHUTDOWN) {
+    state.changeStateShutdown();
+  }
+ else {
+    state.changeStateUnexpectedShutdown();
+  }
   if (logger.isDebugEnabled()) {
     logger.debug("server channelDisconnected {}",channel);
   }

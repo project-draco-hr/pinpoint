@@ -1,7 +1,8 @@
 {
-  FutureListener<T> listener=this.listener;
-  if (listener != null) {
-    fireOnComplete(listener);
-    this.listener=null;
+  for (  FutureListener<T> listener : this.listeners) {
+    if (listener != null) {
+      fireOnComplete(listener);
+    }
   }
+  this.listeners=new ArrayList<FutureListener<T>>();
 }

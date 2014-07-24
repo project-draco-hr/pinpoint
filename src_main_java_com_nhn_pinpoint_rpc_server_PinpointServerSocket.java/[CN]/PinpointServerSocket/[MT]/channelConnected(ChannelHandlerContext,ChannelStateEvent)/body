@@ -14,5 +14,7 @@
     return;
   }
   prepareChannel(channel);
+  ChannelContext channelContext=getChannelContext(channel);
+  channelContext.getState().changeStateRunWithoutRegister();
   super.channelConnected(ctx,e);
 }

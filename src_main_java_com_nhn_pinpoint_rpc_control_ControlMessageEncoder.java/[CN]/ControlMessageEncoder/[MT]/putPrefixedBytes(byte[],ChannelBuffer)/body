@@ -1,0 +1,17 @@
+{
+  int length=value.length;
+  byte[] lengthBuf=new byte[5];
+  int idx=0;
+  while (true) {
+    if ((length & 0xFFFFFF80) == 0) {
+      lengthBuf[(idx++)]=(byte)length;
+      break;
+    }
+    lengthBuf[(idx++)]=(byte)(length & 0x7F | 0x80);
+    length>>>=7;
+  }
+  for (int i=0; i < idx; i++) {
+    out.writeByte(lengthBuf[i]);
+  }
+  out.writeBytes(value);
+}

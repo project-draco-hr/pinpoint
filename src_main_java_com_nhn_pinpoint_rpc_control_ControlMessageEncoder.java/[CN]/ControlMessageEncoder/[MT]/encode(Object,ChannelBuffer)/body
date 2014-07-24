@@ -1,0 +1,51 @@
+{
+  try {
+    if (value == null) {
+      encodeNull(cb);
+    }
+ else     if (value instanceof String) {
+      encodeString((String)value,cb);
+    }
+ else     if (value instanceof Boolean) {
+      encodeBoolean((Boolean)value,cb);
+    }
+ else     if (value instanceof Short) {
+      encodeInt((Short)value,cb);
+    }
+ else     if (value instanceof Integer) {
+      encodeInt((Integer)value,cb);
+    }
+ else     if (value instanceof Long) {
+      encodeLong((Long)value,cb);
+    }
+ else     if (value instanceof Float) {
+      encodeDouble(((Float)value).doubleValue(),cb);
+    }
+ else     if (value instanceof Double) {
+      encodeDouble((Double)value,cb);
+    }
+ else     if (value instanceof Number) {
+      encodeString(value.toString(),cb);
+    }
+ else     if (value instanceof Collection) {
+      encodeCollection((Collection<?>)value,cb);
+    }
+ else     if (value instanceof Map) {
+      encodeMap((Map<?,?>)value,cb);
+    }
+ else     if (value.getClass().isArray()) {
+      int arraySize=Array.getLength(value);
+      List<Object> arrayToList=new ArrayList<Object>(arraySize);
+      for (int i=0; i < arraySize; i++) {
+        arrayToList.add(Array.get(value,i));
+      }
+      encodeCollection(arrayToList,cb);
+    }
+ else {
+      throw new ProtocolException("Unsupported type : " + value.getClass().getName());
+    }
+  }
+ catch (  Exception e) {
+    throw new ProtocolException(e);
+  }
+}

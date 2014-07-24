@@ -1,15 +1,18 @@
 {
   final Channel channel=e.getChannel();
   final ChannelContext channelContext=getChannelContext(channel);
-  if (channelContext.isClosePacketReceived()) {
+  PinpointServerSocketState state=channelContext.getState();
+  if (state.getCurrentState() != PinpointServerSocketStateCode.BEING_SHUTDOWN) {
     if (logger.isDebugEnabled()) {
       logger.debug("client channelClosed. normal closed. {}",channel);
     }
+    state.changeStateShutdown();
   }
  else   if (released) {
     if (logger.isDebugEnabled()) {
       logger.debug("client channelClosed. server shutdown. {}",channel);
     }
+    state.changeStateShutdown();
   }
  else {
     boolean check=checkIgnoreAddress(channel);
@@ -19,6 +22,7 @@
  else {
       logger.debug("checkAddress, Client channelClosed channelClosed {}",channel);
     }
+    state.changeStateUnexpectedShutdown();
   }
   channelContext.closeAllStreamChannel();
 }

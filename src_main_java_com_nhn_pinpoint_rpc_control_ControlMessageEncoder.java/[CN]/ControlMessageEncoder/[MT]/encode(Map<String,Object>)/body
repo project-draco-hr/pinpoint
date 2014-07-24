@@ -1,0 +1,8 @@
+{
+  ChannelBuffer cb=ChannelBuffers.dynamicBuffer(100);
+  encode(value,cb);
+  int writeIndex=cb.writerIndex();
+  byte[] result=new byte[writeIndex];
+  cb.readBytes(result);
+  return result;
+}

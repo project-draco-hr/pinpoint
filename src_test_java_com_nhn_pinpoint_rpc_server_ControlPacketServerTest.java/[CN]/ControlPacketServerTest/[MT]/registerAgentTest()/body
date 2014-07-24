@@ -1,0 +1,18 @@
+{
+  PinpointServerSocket pinpointServerSocket=new PinpointServerSocket();
+  pinpointServerSocket.bind("127.0.0.1",22234);
+  Socket socket=new Socket("127.0.0.1",22234);
+  byte[] payload=ControlMessageEnDeconderUtils.encode(Collections.EMPTY_MAP);
+  ControlRegisterAgentPacket packet=new ControlRegisterAgentPacket(1,payload);
+  ByteBuffer bb=packet.toBuffer().toByteBuffer(0,packet.toBuffer().writerIndex());
+  sendData(socket.getOutputStream(),bb.array());
+  byte[] a=new byte[24];
+  socket.getInputStream().read(a);
+  ChannelBuffer cb=ChannelBuffers.wrappedBuffer(a);
+  short packetType=cb.readShort();
+  ControlRegisterAgentConfirmPacket p=ControlRegisterAgentConfirmPacket.readBuffer(packetType,cb);
+  Map result=(Map)ControlMessageEnDeconderUtils.decode(p.getPayload());
+  Assert.assertEquals(0,result.get("code"));
+  socket.close();
+  pinpointServerSocket.close();
+}

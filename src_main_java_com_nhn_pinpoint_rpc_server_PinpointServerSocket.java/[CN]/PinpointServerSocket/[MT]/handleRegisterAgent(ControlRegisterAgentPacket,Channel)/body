@@ -1,0 +1,25 @@
+{
+  ChannelContext context=getChannelContext(channel);
+  byte[] payload=message.getPayload();
+  try {
+    Map properties=(Map)ControlMessageEnDeconderUtils.decode(payload);
+    boolean isSuccess=context.setAgentProperties(new AgentProperties(properties));
+    if (isSuccess) {
+      context.getState().changeStateRun();
+    }
+    logger.debug("Channel({}) State changed to Run.",channel);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  try {
+    Map result=new HashMap();
+    result.put("code",0);
+    byte[] resultPayload=ControlMessageEnDeconderUtils.encode(result);
+    ControlRegisterAgentConfirmPacket packet=new ControlRegisterAgentConfirmPacket(message.getRequestId(),resultPayload);
+    channel.write(packet);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+}
