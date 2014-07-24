@@ -2,7 +2,7 @@
   final Channel channel=e.getChannel();
   final ChannelContext channelContext=getChannelContext(channel);
   PinpointServerSocketStateCode currentStateCode=channelContext.getCurrentStateCode();
-  if (currentStateCode != PinpointServerSocketStateCode.BEING_SHUTDOWN) {
+  if (currentStateCode == PinpointServerSocketStateCode.BEING_SHUTDOWN) {
     channelContext.changeStateShutdown();
   }
  else {
