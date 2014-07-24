@@ -1,0 +1,13 @@
+{
+  Double jvmCpuLoad=this.jvmCpuLoadGauge.getValue();
+  Double systemCpuLoad=this.systemCpuLoadGauge.getValue();
+  if (jvmCpuLoad == NOT_COLLECTED && systemCpuLoad == NOT_COLLECTED) {
+    return null;
+  }
+  TCpuLoad cpuLoad=new TCpuLoad();
+  cpuLoad.setJvmCpuLoad(jvmCpuLoad);
+  cpuLoad.setJvmCpuLoadIsSet(jvmCpuLoad != NOT_COLLECTED);
+  cpuLoad.setSystemCpuLoad(systemCpuLoad);
+  cpuLoad.setSystemCpuLoadIsSet(systemCpuLoad != NOT_COLLECTED);
+  return cpuLoad;
+}
