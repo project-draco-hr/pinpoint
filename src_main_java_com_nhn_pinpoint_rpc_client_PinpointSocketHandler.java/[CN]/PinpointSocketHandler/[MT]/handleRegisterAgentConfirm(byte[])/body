@@ -1,0 +1,19 @@
+{
+  Map result=null;
+  try {
+    result=(Map)ControlMessageEnDeconderUtils.decode(payload);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  if (result == null) {
+    return false;
+  }
+  int code=MapUtils.get(result,"code",Integer.class,-1);
+  if (code == ControlRegisterAgentConfirmPacket.SUCCESS || code == ControlRegisterAgentConfirmPacket.ALREADY_REGISTER) {
+    return true;
+  }
+ else {
+    return false;
+  }
+}

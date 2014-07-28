@@ -7,8 +7,8 @@
  else   if (currentState == State.INIT_RECONNECT) {
     logger.debug("channelClosed() reconnect fail. state:{} {}",state.getString(currentState),e.getChannel());
   }
- else   if (currentState == State.RUN || currentState == State.RECONNECT) {
-    if (currentState == State.RUN) {
+ else   if (state.isRun(currentState) || currentState == State.RECONNECT) {
+    if (state.isRun(currentState)) {
       logger.debug("change state=reconnect");
       state.setState(State.RECONNECT);
     }

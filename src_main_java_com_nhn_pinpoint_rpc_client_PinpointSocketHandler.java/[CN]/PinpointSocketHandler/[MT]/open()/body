@@ -1,6 +1,8 @@
 {
-  logger.info("open() change state=RUN");
-  if (!state.changeRun()) {
+  logger.info("open() change state=RUN_WITHOUT_REGISTER");
+  if (!state.changeRunWithoutRegister()) {
     throw new IllegalStateException("invalid open state:" + state.getString());
   }
+  sendRegisterAgentPacket();
+  registerRegisterAgentPacketTask();
 }

@@ -35,6 +35,8 @@ readPong(packetType,buffer);
 return null;
 case PacketType.CONTROL_REGISTER_AGENT:
 return readRegisterAgent(packetType,buffer);
+case PacketType.CONTROL_REGISTER_AGENT_CONFIRM:
+return readRegisterAgentConfirm(packetType,buffer);
 }
 logger.error("invalid packetType received. packetType:{}, channel:{}",packetType,channel);
 channel.close();

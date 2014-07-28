@@ -1,0 +1,21 @@
+{
+  PinpointServerSocket pinpointServerSocket=new PinpointServerSocket();
+  pinpointServerSocket.setMessageListener(new SimpleListener());
+  pinpointServerSocket.bind("127.0.0.1",22234);
+  Socket socket=null;
+  try {
+    socket=new Socket("127.0.0.1",22234);
+    sendAndReceiveSimplePacket(socket);
+    int code=sendAndReceiveRegisterPacket(socket);
+    Assert.assertEquals(2,code);
+    sendAndReceiveSimplePacket(socket);
+  }
+  finally {
+    if (socket != null) {
+      socket.close();
+    }
+    if (pinpointServerSocket != null) {
+      pinpointServerSocket.close();
+    }
+  }
+}

@@ -5,6 +5,9 @@
   if (currentStateCode == PinpointServerSocketStateCode.BEING_SHUTDOWN) {
     channelContext.changeStateShutdown();
   }
+ else   if (released) {
+    channelContext.changeStateShutdown();
+  }
  else {
     channelContext.changeStateUnexpectedShutdown();
   }

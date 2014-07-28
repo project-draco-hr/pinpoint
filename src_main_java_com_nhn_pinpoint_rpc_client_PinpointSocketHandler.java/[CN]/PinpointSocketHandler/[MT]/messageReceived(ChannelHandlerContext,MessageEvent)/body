@@ -20,6 +20,9 @@ return;
 case PacketType.CONTROL_SERVER_CLOSE:
 messageReceivedServerClosed(e.getChannel());
 return;
+case PacketType.CONTROL_REGISTER_AGENT_CONFIRM:
+messageReceivedRegisterAgentConfirm((ControlRegisterAgentConfirmPacket)message,e.getChannel());
+return;
 default :
 logger.warn("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
 }
