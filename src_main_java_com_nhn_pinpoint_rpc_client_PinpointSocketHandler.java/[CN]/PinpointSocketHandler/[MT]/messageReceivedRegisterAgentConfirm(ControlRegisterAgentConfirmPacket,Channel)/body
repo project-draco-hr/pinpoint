@@ -1,7 +1,7 @@
 {
-  logger.info("RegisterAgentConfirm Packet({}) received. {}",message,channel);
-  boolean isSuccess=handleRegisterAgentConfirm(message.getPayload());
-  if (isSuccess) {
+  int code=getRegisterAgnetConfirmPacketCode(message.getPayload());
+  logger.info("RegisterAgentConfirm Packet({}) code={} received. {}",message,code,channel);
+  if (code == ControlRegisterAgentConfirmPacket.SUCCESS || code == ControlRegisterAgentConfirmPacket.ALREADY_REGISTER) {
     state.changeRun();
   }
 }
