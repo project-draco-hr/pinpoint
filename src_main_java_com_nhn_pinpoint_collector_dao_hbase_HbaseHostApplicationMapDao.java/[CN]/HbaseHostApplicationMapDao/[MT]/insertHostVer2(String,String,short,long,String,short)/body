@@ -1,0 +1,15 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("Insert host-application map. host={}, bindApplicationName={}, bindServiceType={}, parentApplicationName={}, parentServiceType={}",host,bindApplicationName,bindServiceType,parentApplicationName,parentServiceType);
+  }
+  String parentAgentId=null;
+  final byte[] rowKey=createRowKey(parentApplicationName,parentServiceType,statisticsRowSlot,parentAgentId);
+  byte[] columnName=createColumnName(host,bindApplicationName,bindServiceType);
+  try {
+    hbaseTemplate.put(HBaseTables.HOST_APPLICATION_MAP_VER2,rowKey,HBaseTables.HOST_APPLICATION_MAP_VER2_CF_MAP,columnName,null);
+  }
+ catch (  Exception ex) {
+    logger.warn("retry one. Caused:{}",ex.getCause(),ex);
+    hbaseTemplate.put(HBaseTables.HOST_APPLICATION_MAP_VER2,rowKey,HBaseTables.HOST_APPLICATION_MAP_VER2_CF_MAP,columnName,null);
+  }
+}

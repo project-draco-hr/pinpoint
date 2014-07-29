@@ -2,5 +2,7 @@
   int result=host.hashCode();
   result=31 * result + applicationName.hashCode();
   result=31 * result + (int)serviceType;
+  result=31 * result + (parentApplicationName != null ? parentApplicationName.hashCode() : 0);
+  result=31 * result + (int)parentServiceType;
   return result;
 }

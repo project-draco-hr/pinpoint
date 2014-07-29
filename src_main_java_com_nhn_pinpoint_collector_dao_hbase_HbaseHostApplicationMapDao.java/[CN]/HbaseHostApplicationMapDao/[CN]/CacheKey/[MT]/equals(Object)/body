@@ -2,8 +2,10 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   CacheKey cacheKey=(CacheKey)o;
+  if (parentServiceType != cacheKey.parentServiceType)   return false;
   if (serviceType != cacheKey.serviceType)   return false;
   if (!applicationName.equals(cacheKey.applicationName))   return false;
   if (!host.equals(cacheKey.host))   return false;
+  if (parentApplicationName != null ? !parentApplicationName.equals(cacheKey.parentApplicationName) : cacheKey.parentApplicationName != null)   return false;
   return true;
 }
