@@ -1,0 +1,11 @@
+{
+  final RpcApplication rpcApplication=new RpcApplication(host,fromApplication);
+  final Set<AcceptApplication> hit=this.acceptApplicationLocalCache.get(rpcApplication);
+  if (CollectionUtils.isNotEmpty(hit)) {
+    logger.debug("acceptApplicationLocalCacheV2 hit");
+    return hit;
+  }
+  final Set<AcceptApplication> acceptApplicationSet=hostApplicationMapDao.findAcceptApplicationName(fromApplication,range);
+  this.acceptApplicationLocalCache.put(rpcApplication,acceptApplicationSet);
+  return this.acceptApplicationLocalCache.get(rpcApplication);
+}

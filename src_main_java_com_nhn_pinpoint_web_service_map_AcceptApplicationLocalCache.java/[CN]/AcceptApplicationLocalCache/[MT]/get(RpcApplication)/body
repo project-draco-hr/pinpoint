@@ -1,0 +1,13 @@
+{
+  final Set<AcceptApplication> hit=this.acceptApplicationLocalCache.get(findKey);
+  if (hit != null) {
+    if (isDebug) {
+      logger.debug("acceptApplicationLocalCache hit {}:{}",findKey,hit);
+    }
+    return hit;
+  }
+  if (isDebug) {
+    logger.debug("acceptApplicationLocalCache miss {}",findKey);
+  }
+  return Collections.emptySet();
+}

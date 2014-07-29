@@ -1,0 +1,15 @@
+{
+  if (CollectionUtils.isEmpty(acceptApplicationSet)) {
+    Set<AcceptApplication> emptySet=Collections.emptySet();
+    acceptApplicationLocalCacheV1.put(host,emptySet);
+    return;
+  }
+  for (  AcceptApplication acceptApplication : acceptApplicationSet) {
+    Set<AcceptApplication> findSet=acceptApplicationLocalCacheV1.get(acceptApplication.getHost());
+    if (findSet == null) {
+      findSet=new HashSet<AcceptApplication>();
+      acceptApplicationLocalCacheV1.put(acceptApplication.getHost(),findSet);
+    }
+    findSet.add(acceptApplication);
+  }
+}

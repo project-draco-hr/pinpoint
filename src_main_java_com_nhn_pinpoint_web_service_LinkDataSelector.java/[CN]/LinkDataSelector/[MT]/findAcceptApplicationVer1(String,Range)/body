@@ -1,0 +1,10 @@
+{
+  final Set<AcceptApplication> hit=acceptApplicationLocalCacheV1.get(host);
+  if (CollectionUtils.isNotEmpty(hit)) {
+    logger.debug("acceptApplicationLocalCacheV1 hit");
+    return hit;
+  }
+  final Set<AcceptApplication> acceptApplicationSet=hostApplicationMapDao.findAcceptApplicationName(host,range);
+  this.acceptApplicationLocalCacheV1.put(host,acceptApplicationSet);
+  return acceptApplicationLocalCacheV1.get(host);
+}

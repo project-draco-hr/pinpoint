@@ -8,14 +8,8 @@
   logger.debug("SelectApplicationMap");
   StopWatch watch=new StopWatch("applicationMapWatch");
   watch.start();
-  LinkVisitChecker linkVisitChecker=new LinkVisitChecker();
-  LinkDataDuplexMap caller=selectCaller(sourceApplication,range,linkVisitChecker);
-  logger.debug("Result of finding caller {}",caller);
-  LinkDataDuplexMap callee=selectCallee(sourceApplication,range,linkVisitChecker);
-  logger.debug("Result of finding callee {}",callee);
-  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
-  linkDataDuplexMap.addLinkDataDuplexMap(caller);
-  linkDataDuplexMap.addLinkDataDuplexMap(callee);
+  LinkDataSelector linkDataSelector=new LinkDataSelector(this.mapStatisticsCalleeDao,this.mapStatisticsCallerDao,hostApplicationMapDao);
+  LinkDataDuplexMap linkDataDuplexMap=linkDataSelector.select(sourceApplication,range);
   ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
   ApplicationMap map=builder.build(linkDataDuplexMap,agentInfoService,this.mapResponseDao);
   watch.stop();

@@ -1,0 +1,19 @@
+{
+  logger.debug("findAcceptApplication {} {}",fromApplication,host);
+  Set<AcceptApplication> acceptApplicationVer2;
+  try {
+    acceptApplicationVer2=findAcceptApplicationVer2(fromApplication,host,range);
+    logger.debug("findAcceptApplication2 {}->{} result:{}",fromApplication,host,acceptApplicationVer2);
+  }
+ catch (  HbaseSystemException ex) {
+    acceptApplicationVer2=Collections.emptySet();
+  }
+  if (CollectionUtils.isEmpty(acceptApplicationVer2)) {
+    Set<AcceptApplication> acceptApplicationVer1=findAcceptApplicationVer1(host,range);
+    if (CollectionUtils.isNotEmpty(acceptApplicationVer1)) {
+      logger.debug("acceptApplicationVer1 result:{}",acceptApplicationVer1);
+    }
+    return acceptApplicationVer1;
+  }
+  return acceptApplicationVer2;
+}

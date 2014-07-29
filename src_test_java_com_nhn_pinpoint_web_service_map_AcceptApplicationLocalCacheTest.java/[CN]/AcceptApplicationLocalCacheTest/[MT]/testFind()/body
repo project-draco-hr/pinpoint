@@ -1,0 +1,13 @@
+{
+  AcceptApplicationLocalCache cache=new AcceptApplicationLocalCache();
+  Application tomcat=new Application("Tomcat",ServiceType.TOMCAT);
+  RpcApplication rpc=new RpcApplication("localhost:8080",tomcat);
+  Set<AcceptApplication> findSet=createAcceptApplication();
+  cache.put(rpc,findSet);
+  Set<AcceptApplication> acceptApplications=cache.get(rpc);
+  Assert.assertEquals(acceptApplications.size(),1);
+  Assert.assertEquals(acceptApplications.iterator().next(),localhost);
+  Set<AcceptApplication> unknown=cache.get(new RpcApplication("unknown:8080",tomcat));
+  Assert.assertTrue(unknown.isEmpty());
+  Assert.assertFalse(unknown.iterator().hasNext());
+}

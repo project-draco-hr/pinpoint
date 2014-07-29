@@ -1,0 +1,7 @@
+{
+  Buffer reader=new FixedBuffer(qualifier);
+  String host=reader.readPrefixedString();
+  String bindApplicationName=reader.readPrefixedString();
+  short bindServiceType=reader.readShort();
+  return new AcceptApplication(host,bindApplicationName,bindServiceType);
+}

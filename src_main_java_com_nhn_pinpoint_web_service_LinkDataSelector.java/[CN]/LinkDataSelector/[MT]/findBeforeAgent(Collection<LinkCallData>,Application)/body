@@ -1,0 +1,10 @@
+{
+  for (  LinkCallData linkCallData : linkCallDataCollection) {
+    Application source=new Application(linkCallData.getSource(),linkCallData.getSourceServiceType());
+    if (source.equals(target)) {
+      logger.debug("findBeforeAgent:{}",linkCallData);
+      return linkCallData;
+    }
+  }
+  return null;
+}

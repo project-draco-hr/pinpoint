@@ -1,0 +1,21 @@
+{
+  logger.debug("this.emulationLinkMarker{}",this.emulationLinkMarker);
+  List<LinkData> emulationLinkDataList=findEmulationLinkData(linkDataDuplexMap);
+  for (  LinkData emulationLinkData : emulationLinkDataList) {
+    LinkCallDataMap beforeImage=emulationLinkData.getLinkCallDataMap();
+    logger.debug("beforeImage:{}",beforeImage);
+    emulationLinkData.resetLinkData();
+    LinkKey findLinkKey=new LinkKey(emulationLinkData.getFromApplication(),emulationLinkData.getToApplication());
+    LinkData targetLinkData=linkDataDuplexMap.getTargetLinkData(findLinkKey);
+    LinkCallDataMap targetList=targetLinkData.getLinkCallDataMap();
+    Collection<LinkCallData> beforeLinkDataList=beforeImage.getLinkDataList();
+    LinkCallData beforeLinkCallData=beforeLinkDataList.iterator().next();
+    for (    LinkCallData agentHistogram : targetList.getLinkDataList()) {
+      Application target=new Application(agentHistogram.getTarget(),agentHistogram.getTargetServiceType());
+      Collection<TimeHistogram> timeHistogramList=agentHistogram.getTimeHistogram();
+      LinkCallDataMap linkCallDataMap=emulationLinkData.getLinkCallDataMap();
+      logger.debug("emulationLink {}",beforeLinkCallData);
+      linkCallDataMap.addCallData(beforeLinkCallData.getSource(),beforeLinkCallData.getSourceServiceType().getCode(),beforeLinkCallData.getTarget(),beforeLinkCallData.getTargetServiceType().getCode(),timeHistogramList);
+    }
+  }
+}

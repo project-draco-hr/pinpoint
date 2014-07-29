@@ -1,0 +1,18 @@
+{
+  if (parentApplication == null) {
+    throw new NullPointerException("parentApplication must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("scan parentApplication:{}, range:{}",parentApplication,range);
+  }
+  final long startTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getFrom()));
+  final long endTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getTo()) + 1);
+  final byte[] startKey=createKey(parentApplication,endTime);
+  final byte[] endKey=createKey(parentApplication,startTime);
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  scan.setStartRow(startKey);
+  scan.setStopRow(endKey);
+  scan.setId("HostApplicationScan_Ver2");
+  return scan;
+}

@@ -1,10 +1,12 @@
 {
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("scan range:{}",range);
+  }
   long startTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getFrom()));
   long endTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getTo()) + 1);
-  if (logger.isDebugEnabled()) {
-    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("HH:mm:ss,SSS");
-    logger.debug("scan startTime:{} endTime:{}",simpleDateFormat.format(new Date(startTime)),simpleDateFormat.format(new Date(endTime)));
-  }
   byte[] startKey=Bytes.toBytes(endTime);
   byte[] endKey=Bytes.toBytes(startTime);
   Scan scan=new Scan();

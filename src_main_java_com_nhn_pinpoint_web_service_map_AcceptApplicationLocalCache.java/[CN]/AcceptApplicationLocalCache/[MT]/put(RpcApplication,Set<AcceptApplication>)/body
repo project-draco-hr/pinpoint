@@ -1,0 +1,16 @@
+{
+  if (CollectionUtils.isEmpty(acceptApplicationSet)) {
+    this.acceptApplicationLocalCache.put(findKey,acceptApplicationSet);
+    return;
+  }
+  logger.debug("findAcceptApplication:{}",acceptApplicationSet);
+  for (  AcceptApplication acceptApplication : acceptApplicationSet) {
+    RpcApplication newKey=new RpcApplication(acceptApplication.getHost(),findKey.getApplication());
+    Set<AcceptApplication> findSet=this.acceptApplicationLocalCache.get(newKey);
+    if (findSet == null) {
+      findSet=new HashSet<AcceptApplication>();
+      this.acceptApplicationLocalCache.put(newKey,findSet);
+    }
+    findSet.add(acceptApplication);
+  }
+}
