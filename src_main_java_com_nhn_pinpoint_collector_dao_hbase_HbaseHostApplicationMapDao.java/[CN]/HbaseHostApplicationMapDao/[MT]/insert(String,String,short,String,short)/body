@@ -7,8 +7,8 @@
   }
   final long statisticsRowSlot=getSlotTime();
   final CacheKey cacheKey=new CacheKey(host,bindApplicationName,bindServiceType,parentApplicationName,parentServiceType);
-  final boolean update=updater.update(cacheKey,statisticsRowSlot);
-  if (update) {
+  final boolean needUpdate=updater.update(cacheKey,statisticsRowSlot);
+  if (needUpdate) {
     insertHostVer2(host,bindApplicationName,bindServiceType,statisticsRowSlot,parentApplicationName,parentServiceType);
   }
 }

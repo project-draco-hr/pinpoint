@@ -10,7 +10,7 @@
   }
   callerHost=StringUtils.defaultString(callerHost);
   final long acceptedTime=acceptedTimeService.getAcceptedTime();
-  final long rowTimeSlot=TimeSlot.getStatisticsRowSlot(acceptedTime);
+  final long rowTimeSlot=timeSlot.getTimeSlot(acceptedTime);
   final RowKey calleeRowKey=new CallRowKey(calleeApplicationName,calleeServiceType,rowTimeSlot);
   final short callerSlotNumber=ApplicationMapStatisticsUtils.getSlotNumber(callerServiceType,elapsed,isError);
   final ColumnName callerColumnName=new CallerColumnName(callerServiceType,callerApplicationName,callerHost,callerSlotNumber);
