@@ -5,8 +5,8 @@
   if (logger.isDebugEnabled()) {
     logger.debug("scan range:{}",range);
   }
-  long startTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getFrom()));
-  long endTime=TimeUtils.reverseTimeMillis(TimeSlot.getStatisticsRowSlot(range.getTo()) + 1);
+  long startTime=TimeUtils.reverseTimeMillis(timeSlot.getTimeSlot(range.getFrom()));
+  long endTime=TimeUtils.reverseTimeMillis(timeSlot.getTimeSlot(range.getTo()) + 1);
   byte[] startKey=Bytes.toBytes(endTime);
   byte[] endKey=Bytes.toBytes(startTime);
   Scan scan=new Scan();
