@@ -1,6 +1,6 @@
 {
   HbaseHostApplicationMapDao dao=new HbaseHostApplicationMapDao();
-  long statisticsRowSlot=TimeSlot.getStatisticsRowSlot(System.currentTimeMillis());
+  long statisticsRowSlot=timeSlot.getTimeSlot(System.currentTimeMillis());
   byte[] parentApps=dao.createRowKey("parentApp",ServiceType.TOMCAT.getCode(),statisticsRowSlot,null);
   logger.debug("rowKey size:{}",parentApps.length);
   Buffer readBuffer=new FixedBuffer(parentApps);
