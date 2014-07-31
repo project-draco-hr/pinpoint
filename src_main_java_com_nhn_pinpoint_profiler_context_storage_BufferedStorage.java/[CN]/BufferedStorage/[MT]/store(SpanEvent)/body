@@ -8,10 +8,10 @@ synchronized (this) {
     }
   }
   if (flushData != null) {
-    if (isDebug) {
-      logger.debug("flush SpanChunk");
-    }
     final SpanChunk spanChunk=spanChunkFactory.create(flushData);
+    if (isDebug) {
+      logger.debug("flush SpanChunk {}",spanChunk);
+    }
     dataSender.send(spanChunk);
   }
 }
