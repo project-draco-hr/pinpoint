@@ -1,8 +1,4 @@
 {
-  final int SIZE=HBaseTables.APPLICATION_NAME_MAX_LEN + 2 + 8;
-  final Buffer rowKeyBuffer=new AutomaticBuffer(SIZE);
-  rowKeyBuffer.putPadString(parentApplicationName,HBaseTables.APPLICATION_NAME_MAX_LEN);
-  rowKeyBuffer.put(parentServiceType);
-  rowKeyBuffer.put(TimeUtils.reverseTimeMillis(statisticsRowSlot));
-  return rowKeyBuffer.getBuffer();
+  final byte[] rowKey=createRowKey0(parentApplicationName,parentServiceType,statisticsRowSlot,parentAgentId);
+  return rowKeyDistributor.getDistributedKey(rowKey);
 }
