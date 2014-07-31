@@ -1,0 +1,14 @@
+{
+  if (canLoadOptionalPackage()) {
+    CpuLoadMetricSet optionalPackage=loadOptionalPackage();
+    if (optionalPackage != null) {
+      return optionalPackage;
+    }
+  }
+  if (canLoadDefault()) {
+    return new DefaultCpuLoadMetricSet();
+  }
+ else {
+    return new EmptyCpuLoadMetricSet();
+  }
+}

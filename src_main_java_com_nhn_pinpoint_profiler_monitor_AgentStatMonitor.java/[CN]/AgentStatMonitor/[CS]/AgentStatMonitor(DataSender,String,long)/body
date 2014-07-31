@@ -8,8 +8,9 @@
   this.dataSender=dataSender;
   this.agentId=agentId;
   this.agentStartTime=startTime;
-  this.garbageCollectorFactory=new GarbageCollectorFactory();
-  this.garbageCollector=garbageCollectorFactory.createGarbageCollector();
+  this.agentStatCollectorFactory=new AgentStatCollectorFactory();
+  this.garbageCollector=agentStatCollectorFactory.createGarbageCollector();
+  this.cpuLoadCollector=agentStatCollectorFactory.createCpuLoadCollector();
   if (logger.isInfoEnabled()) {
     logger.info("found : {}",this.garbageCollector);
   }
