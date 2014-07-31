@@ -28,6 +28,17 @@
     }
     first=false;
   }
+  if (isSetCpuLoad()) {
+    if (!first)     sb.append(", ");
+    sb.append("cpuLoad:");
+    if (this.cpuLoad == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.cpuLoad);
+    }
+    first=false;
+  }
   if (isSetMetadata()) {
     if (!first)     sb.append(", ");
     sb.append("metadata:");

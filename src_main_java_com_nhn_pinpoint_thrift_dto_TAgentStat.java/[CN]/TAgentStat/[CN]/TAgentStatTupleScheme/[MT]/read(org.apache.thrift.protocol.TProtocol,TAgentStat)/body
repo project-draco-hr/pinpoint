@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(5);
+  BitSet incoming=iprot.readBitSet(6);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -19,6 +19,11 @@
     struct.setGcIsSet(true);
   }
   if (incoming.get(4)) {
+    struct.cpuLoad=new TCpuLoad();
+    struct.cpuLoad.read(iprot);
+    struct.setCpuLoadIsSet(true);
+  }
+  if (incoming.get(5)) {
     struct.metadata=iprot.readString();
     struct.setMetadataIsSet(true);
   }
