@@ -8,6 +8,9 @@
     return;
   }
   logger.warn("reconnectSocketHandler:{}",socketHandler);
+  if (this.messageListener != null) {
+    socketHandler.setMessageListener(messageListener);
+  }
   this.socketHandler=socketHandler;
   notifyReconnectEvent();
 }

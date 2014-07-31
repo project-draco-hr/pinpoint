@@ -16,6 +16,12 @@ case PacketType.APPLICATION_REQUEST:
     messageListener.handleRequest((RequestPacket)message,socketChannel);
     return;
   }
+case PacketType.APPLICATION_RESPONSE:
+{
+  SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+  socketChannel.receiveResponsePacket((ResponsePacket)message);
+  return;
+}
 case PacketType.APPLICATION_STREAM_CREATE:
 case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
