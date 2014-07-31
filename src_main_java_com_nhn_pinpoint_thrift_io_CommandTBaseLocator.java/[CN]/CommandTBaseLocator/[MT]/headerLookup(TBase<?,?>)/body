@@ -1,0 +1,12 @@
+{
+  if (tbase == null) {
+    throw new IllegalArgumentException("tbase must not be null");
+  }
+  if (tbase instanceof TResult) {
+    return RESULT_HEADER;
+  }
+  if (tbase instanceof TCommandThreadDump) {
+    return THREAD_DUMP_HEADER;
+  }
+  throw new TException("Unsupported Type" + tbase.getClass());
+}
