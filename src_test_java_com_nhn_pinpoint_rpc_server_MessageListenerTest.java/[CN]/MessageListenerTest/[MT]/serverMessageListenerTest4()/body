@@ -1,0 +1,20 @@
+{
+  PinpointServerSocket ss=new PinpointServerSocket();
+  ss.bind("127.0.0.1",10234);
+  Map params=getParams();
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory(params);
+  try {
+    EchoMessageListener echoMessageListener1=new EchoMessageListener();
+    PinpointSocket socket=socketFactory.connect("127.0.0.1",10234,echoMessageListener1);
+    Thread.sleep(500);
+    ChannelContext channelContext=ss.getRegisterAgentChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()));
+    Assert.assertNotNull(channelContext);
+    channelContext=ss.getRegisterAgentChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()) + 1);
+    Assert.assertNull(channelContext);
+    socket.close();
+  }
+  finally {
+    socketFactory.release();
+    ss.close();
+  }
+}
