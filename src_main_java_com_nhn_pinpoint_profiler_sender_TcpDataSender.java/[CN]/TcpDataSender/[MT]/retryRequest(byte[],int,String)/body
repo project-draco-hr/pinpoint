@@ -2,7 +2,7 @@
   RetryMessage retryMessage=new RetryMessage(retryCount,requestPacket);
   retryQueue.add(retryMessage);
   if (fireTimeout()) {
-    pinpointSocketFactory.newTimeout(new TimerTask(){
+    timer.newTimeout(new TimerTask(){
       @Override public void run(      Timeout timeout) throws Exception {
         while (true) {
           RetryMessage retryMessage=retryQueue.get();
