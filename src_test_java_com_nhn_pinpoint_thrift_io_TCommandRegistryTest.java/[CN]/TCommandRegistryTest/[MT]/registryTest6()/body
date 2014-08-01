@@ -1,0 +1,7 @@
+{
+  TCommandRegistry registry=new TCommandRegistry(TCommandTypeVersion.V_1_0_2_SNAPSHOT);
+  TBase tBase=registry.tBaseLookup(TCommandType.RESULT.getType());
+  Assert.assertEquals(tBase.getClass(),TResult.class);
+  tBase=registry.tBaseLookup(TCommandType.THREAD_DUMP.getType());
+  Assert.assertEquals(tBase.getClass(),TCommandThreadDump.class);
+}

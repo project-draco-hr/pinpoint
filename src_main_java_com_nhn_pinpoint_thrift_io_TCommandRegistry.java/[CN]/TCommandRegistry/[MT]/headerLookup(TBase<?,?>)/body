@@ -1,0 +1,12 @@
+{
+  if (tbase == null) {
+    throw new IllegalArgumentException("tbase must not be null");
+  }
+  Collection<TCommandType> commandTBaseList=commandTBaseRepository.values();
+  for (  TCommandType commandTBase : commandTBaseList) {
+    if (commandTBase.isInstanceOf(tbase)) {
+      return commandTBase.getHeader();
+    }
+  }
+  throw new TException("Unsupported Type" + tbase.getClass());
+}
