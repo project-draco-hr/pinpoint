@@ -1,0 +1,24 @@
+{
+  Map properties=null;
+  try {
+    byte[] payload=message.getPayload();
+    properties=(Map)ControlMessageEnDeconderUtils.decode(payload);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  if (properties == null) {
+    return ControlRegisterAgentConfirmPacket.ILLEGAL_PROTOCOL;
+  }
+  boolean hasAllType=AgentPropertiesType.hasAllType(properties);
+  if (!hasAllType) {
+    return ControlRegisterAgentConfirmPacket.INVALID_PROPERTIES;
+  }
+  boolean isSuccess=context.setAgentProperties(properties);
+  if (isSuccess) {
+    return ControlRegisterAgentConfirmPacket.SUCCESS;
+  }
+ else {
+    return ControlRegisterAgentConfirmPacket.ALREADY_REGISTER;
+  }
+}

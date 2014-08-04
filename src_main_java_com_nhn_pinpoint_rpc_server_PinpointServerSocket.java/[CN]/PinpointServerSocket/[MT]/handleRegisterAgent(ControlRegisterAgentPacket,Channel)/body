@@ -1,0 +1,17 @@
+{
+  ChannelContext context=getChannelContext(channel);
+  int code=registerAgent(context,message);
+  if (code == ControlRegisterAgentConfirmPacket.SUCCESS) {
+    context.changeStateRun();
+  }
+  try {
+    Map result=new HashMap();
+    result.put("code",code);
+    byte[] resultPayload=ControlMessageEnDeconderUtils.encode(result);
+    ControlRegisterAgentConfirmPacket packet=new ControlRegisterAgentConfirmPacket(message.getRequestId(),resultPayload);
+    channel.write(packet);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+}

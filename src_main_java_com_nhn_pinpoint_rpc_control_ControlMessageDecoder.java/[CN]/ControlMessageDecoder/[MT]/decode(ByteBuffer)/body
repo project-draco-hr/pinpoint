@@ -1,0 +1,37 @@
+{
+  byte type=in.get();
+switch (type) {
+case ControlMessageProtocolConstant.TYPE_CHARACTER_NULL:
+    return null;
+case ControlMessageProtocolConstant.TYPE_CHARACTER_BOOL_TRUE:
+  return Boolean.TRUE;
+case ControlMessageProtocolConstant.TYPE_CHARACTER_BOOL_FALSE:
+return Boolean.FALSE;
+case ControlMessageProtocolConstant.TYPE_CHARACTER_INT:
+return in.getInt();
+case ControlMessageProtocolConstant.TYPE_CHARACTER_LONG:
+return in.getLong();
+case ControlMessageProtocolConstant.TYPE_CHARACTER_DOUBLE:
+return Double.longBitsToDouble(in.getLong());
+case ControlMessageProtocolConstant.TYPE_CHARACTER_STRING:
+return decodeString(in);
+case ControlMessageProtocolConstant.CONTROL_CHARACTER_LIST_START:
+List<Object> answerList=new ArrayList<Object>();
+while (!isListFinished(in)) {
+answerList.add(decode(in));
+}
+in.get();
+return answerList;
+case ControlMessageProtocolConstant.CONTROL_CHARACTER_MAP_START:
+Map<Object,Object> answerMap=new LinkedHashMap<Object,Object>();
+while (!isMapFinished(in)) {
+Object key=decode(in);
+Object value=decode(in);
+answerMap.put(key,value);
+}
+in.get();
+return answerMap;
+default :
+throw new ProtocolException("invalid type character: " + (char)type + " ("+ "0x"+ Integer.toHexString(type)+ ")");
+}
+}

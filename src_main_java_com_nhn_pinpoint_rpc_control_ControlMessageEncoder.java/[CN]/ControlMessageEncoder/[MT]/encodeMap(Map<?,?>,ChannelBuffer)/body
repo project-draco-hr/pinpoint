@@ -1,0 +1,9 @@
+{
+  out.writeByte((byte)ControlMessageProtocolConstant.CONTROL_CHARACTER_MAP_START);
+  for (  Object element : map.entrySet()) {
+    Map.Entry<?,?> entry=(Map.Entry<?,?>)element;
+    encode(entry.getKey(),out);
+    encode(entry.getValue(),out);
+  }
+  out.writeByte((byte)ControlMessageProtocolConstant.CONTROL_CHARACTER_MAP_END);
+}

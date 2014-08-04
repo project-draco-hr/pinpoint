@@ -1,0 +1,7 @@
+{
+  PinpointServerSocketState state=new PinpointServerSocketState();
+  state.changeStateRunWithoutRegister();
+  Assert.assertEquals(PinpointServerSocketStateCode.RUN_WITHOUT_REGISTER,state.getCurrentState());
+  state.changeStateUnexpectedShutdown();
+  Assert.assertEquals(PinpointServerSocketStateCode.UNEXPECTED_SHUTDOWN,state.getCurrentState());
+}

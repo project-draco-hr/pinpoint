@@ -1,3 +1,10 @@
 {
-  throw new UnsupportedOperationException();
+  if (payload == null) {
+    throw new NullPointerException("requestMessage must not be null");
+  }
+  RequestPacket requestPacket=new RequestPacket(payload);
+  ChannelWriteFailListenableFuture<ResponseMessage> messageFuture=this.requestManager.register(requestPacket,this.timeoutMillis);
+  ChannelFuture write=this.channel.write(requestPacket);
+  write.addListener(messageFuture);
+  return messageFuture;
 }

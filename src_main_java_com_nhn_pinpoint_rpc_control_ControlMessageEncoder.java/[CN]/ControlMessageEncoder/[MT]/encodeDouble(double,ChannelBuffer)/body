@@ -1,0 +1,12 @@
+{
+  out.writeByte((byte)ControlMessageProtocolConstant.TYPE_CHARACTER_DOUBLE);
+  long longValue=Double.doubleToLongBits(value);
+  out.writeByte((byte)(longValue >> 56));
+  out.writeByte((byte)(longValue >> 48));
+  out.writeByte((byte)(longValue >> 40));
+  out.writeByte((byte)(longValue >> 32));
+  out.writeByte((byte)(longValue >> 24));
+  out.writeByte((byte)(longValue >> 16));
+  out.writeByte((byte)(longValue >> 8));
+  out.writeByte((byte)(longValue));
+}

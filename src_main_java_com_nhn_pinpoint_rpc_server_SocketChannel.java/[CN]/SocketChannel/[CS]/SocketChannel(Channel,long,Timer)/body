@@ -1,0 +1,20 @@
+{
+  if (channel == null) {
+    throw new NullPointerException("channel");
+  }
+  if (timer == null) {
+    throw new NullPointerException("channel");
+  }
+  this.channel=channel;
+  this.timeoutMillis=timeoutMillis;
+  this.timer=timer;
+  this.requestManager=new RequestManager(this.timer);
+  this.responseWriteFail=new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (!future.isSuccess()) {
+        logger.warn("responseWriteFail. {}",channel);
+      }
+    }
+  }
+;
+}

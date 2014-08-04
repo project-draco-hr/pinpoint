@@ -1,0 +1,20 @@
+{
+  PinpointServerSocket ss=new PinpointServerSocket();
+  ss.bind("127.0.0.1",10234);
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  try {
+    PinpointSocket socket=socketFactory.connect("127.0.0.1",10234,SimpleLoggingMessageListener.LISTENER);
+    PinpointSocket socket2=socketFactory.connect("127.0.0.1",10234);
+    Thread.sleep(500);
+    List<ChannelContext> channelContextList=ss.getRegisterAgentChannelContext();
+    if (channelContextList.size() != 1) {
+      Assert.fail();
+    }
+    socket.close();
+    socket2.close();
+  }
+  finally {
+    socketFactory.release();
+    ss.close();
+  }
+}

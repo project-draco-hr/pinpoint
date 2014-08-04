@@ -1,0 +1,13 @@
+{
+  if (timeout.isCancelled()) {
+    newRegisterAgentPacketTimeout(this);
+    return;
+  }
+  if (isClosed()) {
+    return;
+  }
+  if (state.getState() == State.RUN_WITHOUT_REGISTER) {
+    sendRegisterAgentPacket();
+    newRegisterAgentPacketTimeout(this);
+  }
+}

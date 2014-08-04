@@ -1,29 +1,36 @@
 {
+  final Channel channel=e.getChannel();
   Object message=e.getMessage();
-  if (message instanceof Packet) {
-    final Packet packet=(Packet)message;
-    final short packetType=packet.getPacketType();
-    final Channel channel=e.getChannel();
-    logger.debug("messageReceived:{} channel:{}",message,channel);
+  logger.debug("messageReceived:{} channel:{}",message,channel);
+  final short packetType=getPacketType(message);
 switch (packetType) {
 case PacketType.APPLICATION_SEND:
 {
-        SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
-        messageListener.handleSend((SendPacket)message,socketChannel);
-        return;
-      }
-case PacketType.APPLICATION_REQUEST:
-{
       SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
-      messageListener.handleRequest((RequestPacket)message,socketChannel);
+      messageListener.handleSend((SendPacket)message,socketChannel);
       return;
     }
+case PacketType.APPLICATION_REQUEST:
+{
+    SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+    messageListener.handleRequest((RequestPacket)message,socketChannel);
+    return;
+  }
+case PacketType.APPLICATION_RESPONSE:
+{
+  SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+  socketChannel.receiveResponsePacket((ResponsePacket)message);
+  return;
+}
 case PacketType.APPLICATION_STREAM_CREATE:
 case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-  handleStreamPacket((StreamPacket)message,channel);
+handleStreamPacket((StreamPacket)message,channel);
+return;
+case PacketType.CONTROL_REGISTER_AGENT:
+handleRegisterAgent((ControlRegisterAgentPacket)message,channel);
 return;
 case PacketType.CONTROL_CLIENT_CLOSE:
 {
@@ -31,10 +38,6 @@ closeChannel(channel);
 return;
 }
 default :
-logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
-}
-}
- else {
 logger.warn("invalid messageReceived msg:{}, connection:{}",message,e.getChannel());
 }
 }

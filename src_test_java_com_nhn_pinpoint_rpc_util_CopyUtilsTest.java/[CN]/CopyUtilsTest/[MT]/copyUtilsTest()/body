@@ -1,0 +1,12 @@
+{
+  Map original=createSimpleMap("key",2);
+  Map copied=CopyUtils.mediumCopyMap(original);
+  Assert.assertEquals(2,copied.get("key"));
+  Assert.assertEquals(2,original.get("key"));
+  original.put("key",4);
+  copied.put("key",3);
+  copied.put("new","new");
+  Assert.assertEquals(3,copied.get("key"));
+  Assert.assertEquals("new",copied.get("new"));
+  Assert.assertEquals(4,original.get("key"));
+}

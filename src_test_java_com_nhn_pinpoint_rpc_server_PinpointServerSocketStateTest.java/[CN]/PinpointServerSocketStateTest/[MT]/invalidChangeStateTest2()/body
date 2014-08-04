@@ -1,0 +1,8 @@
+{
+  PinpointServerSocketState state=new PinpointServerSocketState();
+  state.changeStateRun();
+  Assert.assertEquals(PinpointServerSocketStateCode.RUN,state.getCurrentState());
+  state.changeStateBeingShutdown();
+  Assert.assertEquals(PinpointServerSocketStateCode.BEING_SHUTDOWN,state.getCurrentState());
+  state.changeStateUnexpectedShutdown();
+}
