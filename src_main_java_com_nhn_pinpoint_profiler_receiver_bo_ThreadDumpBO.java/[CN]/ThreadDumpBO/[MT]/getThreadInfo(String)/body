@@ -1,0 +1,13 @@
+{
+  List<ThreadInfo> result=new ArrayList<ThreadInfo>();
+  if (threadName == null || threadName.trim().equals("")) {
+    return Arrays.asList(getAllThreadInfo());
+  }
+  ThreadInfo[] threadInfos=getAllThreadInfo();
+  for (  ThreadInfo threadIno : getAllThreadInfo()) {
+    if (threadName.equals(threadIno.getThreadName())) {
+      result.add(threadIno);
+    }
+  }
+  return result;
+}

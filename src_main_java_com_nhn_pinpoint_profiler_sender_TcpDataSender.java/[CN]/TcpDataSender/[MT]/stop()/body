@@ -1,5 +1,7 @@
 {
   executor.stop();
-  socket.close();
-  pinpointSocketFactory.release();
+  Set<Timeout> stop=timer.stop();
+  if (!stop.isEmpty()) {
+    logger.info("stop Timeout:{}",stop.size());
+  }
 }

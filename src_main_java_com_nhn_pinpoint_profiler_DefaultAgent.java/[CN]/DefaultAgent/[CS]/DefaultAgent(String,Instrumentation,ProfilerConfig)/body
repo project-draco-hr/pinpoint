@@ -26,7 +26,9 @@
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
   this.tAgentInfo=createTAgentInfo();
-  this.tcpDataSender=createTcpDataSender();
+  this.factory=createPinpointSocketFactory();
+  this.socket=createPinpointSocket(this.profilerConfig.getCollectorServerIp(),this.profilerConfig.getCollectorTcpServerPort(),factory);
+  this.tcpDataSender=new TcpDataSender(socket);
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext(agentInformation.getServerType());

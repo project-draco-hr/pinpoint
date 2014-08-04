@@ -1,0 +1,18 @@
+{
+  List<ThreadInfo> result=new ArrayList<ThreadInfo>();
+  if (pendingTimeMillis <= 0) {
+    return Arrays.asList(getAllThreadInfo());
+  }
+  ThreadInfo[] threadInfos=getAllThreadInfo();
+  for (  ThreadInfo threadInfo : getAllThreadInfo()) {
+    if (threadInfo.getBlockedTime() >= pendingTimeMillis) {
+      result.add(threadInfo);
+      continue;
+    }
+    if (threadInfo.getWaitedTime() >= pendingTimeMillis) {
+      result.add(threadInfo);
+      continue;
+    }
+  }
+  return result;
+}
