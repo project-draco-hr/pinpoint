@@ -5,7 +5,7 @@
     @Override public Double getValue(){
       final long cpuTimeNS=operatingSystemMXBean.getProcessCpuTime();
       if (cpuTimeNS == UNSUPPORTED) {
-        return (double)UNSUPPORTED;
+        return UNSUPPORTED_CPU_LOAD_METRIC;
       }
       final long upTimeMS=runtimeMXBean.getUptime();
       if (this.lastCpuTimeNS == UNINITIALIZED || this.lastUpTimeMS == UNINITIALIZED) {
