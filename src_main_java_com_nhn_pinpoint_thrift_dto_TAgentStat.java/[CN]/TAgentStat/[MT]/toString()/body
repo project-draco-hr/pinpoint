@@ -1,22 +1,28 @@
 {
   StringBuilder sb=new StringBuilder("TAgentStat(");
   boolean first=true;
-  sb.append("agentId:");
-  if (this.agentId == null) {
-    sb.append("null");
-  }
+  if (isSetAgentId()) {
+    sb.append("agentId:");
+    if (this.agentId == null) {
+      sb.append("null");
+    }
  else {
-    sb.append(this.agentId);
+      sb.append(this.agentId);
+    }
+    first=false;
   }
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("startTimestamp:");
-  sb.append(this.startTimestamp);
-  first=false;
-  if (!first)   sb.append(", ");
-  sb.append("timestamp:");
-  sb.append(this.timestamp);
-  first=false;
+  if (isSetStartTimestamp()) {
+    if (!first)     sb.append(", ");
+    sb.append("startTimestamp:");
+    sb.append(this.startTimestamp);
+    first=false;
+  }
+  if (isSetTimestamp()) {
+    if (!first)     sb.append(", ");
+    sb.append("timestamp:");
+    sb.append(this.timestamp);
+    first=false;
+  }
   if (isSetGc()) {
     if (!first)     sb.append(", ");
     sb.append("gc:");
