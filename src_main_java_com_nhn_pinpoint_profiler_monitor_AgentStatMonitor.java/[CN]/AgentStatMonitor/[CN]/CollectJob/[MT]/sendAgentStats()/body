@@ -1,0 +1,10 @@
+{
+  final TAgentStatBatch agentStatBatch=new TAgentStatBatch();
+  agentStatBatch.setAgentId(agentId);
+  agentStatBatch.setStartTimestamp(agentStartTime);
+  agentStatBatch.setAgentStats(this.agentStats);
+  if (isTrace) {
+    logger.trace("collect agentStat:{}",agentStatBatch);
+  }
+  dataSender.send(agentStatBatch);
+}
