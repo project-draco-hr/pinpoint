@@ -2,21 +2,13 @@
   if (canLoadOptionalPackage()) {
     CpuLoadMetricSet optionalPackage=loadOptionalPackage();
     if (optionalPackage != null) {
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info("loaded : {}",optionalPackage);
-      }
       return optionalPackage;
     }
   }
-  CpuLoadMetricSet cpuLoadMetricSetToLoad=null;
   if (canLoadDefault()) {
-    cpuLoadMetricSetToLoad=new DefaultCpuLoadMetricSet();
+    return new DefaultCpuLoadMetricSet();
   }
  else {
-    cpuLoadMetricSetToLoad=new EmptyCpuLoadMetricSet();
+    return new EmptyCpuLoadMetricSet();
   }
-  if (LOGGER.isInfoEnabled()) {
-    LOGGER.info("loaded : {}",cpuLoadMetricSetToLoad);
-  }
-  return cpuLoadMetricSetToLoad;
 }

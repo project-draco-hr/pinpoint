@@ -10,10 +10,5 @@
   this.agentStartTime=startTime;
   this.collectionIntervalMs=collectionInterval;
   this.numCollectionsPerBatch=numCollectionsPerBatch;
-  this.agentStatCollectorFactory=createAgentStatCollectorFactory();
-  this.garbageCollector=agentStatCollectorFactory.getGarbageCollector();
-  this.cpuLoadCollector=agentStatCollectorFactory.getCpuLoadCollector();
-  if (logger.isInfoEnabled()) {
-    logger.info("found : {}",this.garbageCollector);
-  }
+  this.agentStatCollectorFactory=new AgentStatCollectorFactory();
 }

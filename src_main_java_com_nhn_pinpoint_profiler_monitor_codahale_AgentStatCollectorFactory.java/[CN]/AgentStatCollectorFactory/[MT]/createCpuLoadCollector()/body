@@ -1,3 +1,7 @@
 {
-  return new CpuLoadCollector(this.monitorRegistry);
+  CpuLoadMetricSet cpuLoadMetricSet=this.monitorRegistry.registerCpuLoadMonitor(new MonitorName(MetricMonitorValues.CPU_LOAD));
+  if (logger.isInfoEnabled()) {
+    logger.info("loaded : {}",cpuLoadMetricSet);
+  }
+  return new CpuLoadCollector(cpuLoadMetricSet);
 }
