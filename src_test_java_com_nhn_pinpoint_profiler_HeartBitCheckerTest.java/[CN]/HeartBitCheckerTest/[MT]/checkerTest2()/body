@@ -3,7 +3,9 @@
   AtomicInteger successCount=new AtomicInteger();
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,Integer.MAX_VALUE);
   PinpointServerSocket server=createServer(serverListener);
-  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
+  TcpDataSender sender=new TcpDataSender(socket);
   HeartBitChecker checker=new HeartBitChecker(sender,1000L,getAgentInfo());
   try {
     checker.start();
@@ -12,6 +14,6 @@
     Assert.assertEquals(0,successCount.get());
   }
   finally {
-    closeAll(server,checker);
+    closeAll(server,checker,socket,socketFactory);
   }
 }
