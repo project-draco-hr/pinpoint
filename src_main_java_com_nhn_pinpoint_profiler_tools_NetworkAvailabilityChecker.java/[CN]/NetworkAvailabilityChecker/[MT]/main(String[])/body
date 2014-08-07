@@ -7,6 +7,8 @@
   DataSender udpSender=null;
   DataSender udpSpanSender=null;
   DataSender tcpSender=null;
+  PinpointSocketFactory socketFactory=null;
+  PinpointSocket socket=null;
   try {
     ProfilerConfig profilerConfig=new ProfilerConfig();
     profilerConfig.readConfigFile(configPath);
@@ -16,7 +18,9 @@
     int tPort=profilerConfig.getCollectorTcpServerPort();
     udpSender=new UdpDataSender(collector,uPort,"UDP",10);
     udpSpanSender=new UdpDataSender(collector,usPort,"UDP-SPAN",10);
-    tcpSender=new TcpDataSender(collector,tPort);
+    socketFactory=createPinpointSocketFactory();
+    socket=createPinpointSocket(collector,tPort,socketFactory);
+    tcpSender=new TcpDataSender(socket);
     boolean udpSenderResult=udpSender.isNetworkAvailable();
     boolean udpSpanSenderResult=udpSpanSender.isNetworkAvailable();
     boolean tcpSenderResult=tcpSender.isNetworkAvailable();
@@ -35,5 +39,11 @@
     closeDataSender(udpSpanSender);
     closeDataSender(tcpSender);
     System.out.println("END.");
+    if (socket != null) {
+      socket.close();
+    }
+    if (socketFactory != null) {
+      socketFactory.release();
+    }
   }
 }

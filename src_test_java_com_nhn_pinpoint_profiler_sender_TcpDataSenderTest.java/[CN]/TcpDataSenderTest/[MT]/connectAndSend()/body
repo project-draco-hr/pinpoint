@@ -1,6 +1,8 @@
 {
   this.sendLatch=new CountDownLatch(2);
-  TcpDataSender sender=new TcpDataSender(HOST,PORT);
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
+  TcpDataSender sender=new TcpDataSender(socket);
   try {
     sender.send(new TApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
     sender.send(new TApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
@@ -9,5 +11,11 @@
   }
   finally {
     sender.stop();
+    if (socket != null) {
+      socket.close();
+    }
+    if (socketFactory != null) {
+      socketFactory.release();
+    }
   }
 }
