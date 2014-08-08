@@ -1,0 +1,23 @@
+{
+  PinpointServerSocketStateCode code=channelContext.getCurrentStateCode();
+  if (PinpointServerSocketStateCode.isFinished(code)) {
+    putJob(channelContext,new DeleteJob());
+    return false;
+  }
+  String uniquePath=getUniquePath(channelContext,true);
+  try {
+    if (zookeeperClient.exists(uniquePath)) {
+      zookeeperClient.setData(uniquePath,job.getContents());
+    }
+ else {
+      zookeeperClient.createPath(uniquePath);
+      zookeeperClient.createNode(uniquePath,job.getContents());
+      logger.info("Registed Zookeeper UniqPath = {}",uniquePath);
+    }
+    return true;
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return false;
+}

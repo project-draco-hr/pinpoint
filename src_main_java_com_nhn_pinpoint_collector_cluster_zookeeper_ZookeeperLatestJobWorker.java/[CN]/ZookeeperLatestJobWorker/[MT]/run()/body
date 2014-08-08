@@ -1,0 +1,35 @@
+{
+  while (workerState.get() == 1) {
+    boolean eventCreated=await(10000,200);
+    if (workerState.get() != 1) {
+      break;
+    }
+    if (eventCreated) {
+      Iterator<ChannelContext> keyIterator=getLatestJobRepositoryKeyIterator();
+      while (keyIterator.hasNext()) {
+        ChannelContext channelContext=keyIterator.next();
+        Job job=getJob(channelContext);
+        if (job == null) {
+          continue;
+        }
+        if (job instanceof UpdateJob) {
+          handleUpdate(channelContext,(UpdateJob)job);
+        }
+ else         if (job instanceof DeleteJob) {
+          handleDelete(channelContext,(DeleteJob)job);
+        }
+      }
+    }
+ else {
+      logger.info("LeackDetector Start.");
+      List<ChannelContext> currentChannelContextList=getRegisteredChannelContextList();
+      for (      ChannelContext channelContext : currentChannelContextList) {
+        if (PinpointServerSocketStateCode.isFinished(channelContext.getCurrentStateCode())) {
+          logger.debug("LeackDetector Find Leak ChannelContext={}.",channelContext);
+          putJob(channelContext,new DeleteJob());
+        }
+      }
+    }
+  }
+  logger.info("{} stopped",this.getClass().getSimpleName());
+}

@@ -1,0 +1,19 @@
+{
+  String uniquePath=getUniquePath(channelContext,false);
+  if (uniquePath == null) {
+    logger.info("Already Delete Zookeeper UniqPath ChannelContext = {}",channelContext);
+    return true;
+  }
+  try {
+    if (zookeeperClient.exists(uniquePath)) {
+      zookeeperClient.delete(uniquePath);
+      logger.info("Unregisted Zookeeper UniqPath = {}",uniquePath);
+    }
+    removeUniquePath(channelContext);
+    return true;
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return false;
+}

@@ -1,0 +1,19 @@
+{
+  logger.info("eventPerformed ChannelContext={}, State={}",channelContext,stateCode);
+  Map agentProperties=channelContext.getAgentProperties();
+  if (skipAgent(agentProperties)) {
+    return;
+  }
+  if (PinpointServerSocketStateCode.RUN == stateCode) {
+    byte[] contents=createContents(agentProperties,stateCode);
+    if (contents == null) {
+      return;
+    }
+    UpdateJob job=new UpdateJob(contents);
+    worker.handleUpdate(channelContext,job);
+  }
+ else   if (PinpointServerSocketStateCode.isFinished(stateCode)) {
+    DeleteJob job=new DeleteJob();
+    worker.handleDelete(channelContext,job);
+  }
+}

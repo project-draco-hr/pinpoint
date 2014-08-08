@@ -1,0 +1,18 @@
+{
+switch (keeperException.code()) {
+case CONNECTIONLOSS:
+case SESSIONEXPIRED:
+    throw new ConnectionException(keeperException.getMessage(),keeperException);
+case AUTHFAILED:
+case INVALIDACL:
+case NOAUTH:
+  throw new AuthException(keeperException.getMessage(),keeperException);
+case BADARGUMENTS:
+case BADVERSION:
+case NOCHILDRENFOREPHEMERALS:
+case NOTEMPTY:
+throw new BadOperationException(keeperException.getMessage(),keeperException);
+default :
+throw new UnknownException(keeperException.getMessage(),keeperException);
+}
+}

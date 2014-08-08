@@ -1,0 +1,15 @@
+{
+switch (this.workerState.get()) {
+case 0:
+    if (this.workerState.compareAndSet(0,1))     logger.info("{} will be started",this.getClass().getSimpleName());
+  this.workerThread.start();
+break;
+case 1:
+logger.info("{} already started.",this.getClass().getSimpleName());
+break;
+case 2:
+throw new IllegalStateException("Already stopped");
+default :
+throw new Error("Invalid WorkerState");
+}
+}
