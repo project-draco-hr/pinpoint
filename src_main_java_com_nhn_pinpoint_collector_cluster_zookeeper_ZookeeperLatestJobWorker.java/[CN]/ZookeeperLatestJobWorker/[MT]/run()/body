@@ -21,11 +21,11 @@
       }
     }
  else {
-      logger.info("LeackDetector Start.");
+      logger.debug("LeackDetector Start.");
       List<ChannelContext> currentChannelContextList=getRegisteredChannelContextList();
       for (      ChannelContext channelContext : currentChannelContextList) {
         if (PinpointServerSocketStateCode.isFinished(channelContext.getCurrentStateCode())) {
-          logger.debug("LeackDetector Find Leak ChannelContext={}.",channelContext);
+          logger.info("LeackDetector Find Leak ChannelContext={}.",channelContext);
           putJob(channelContext,new DeleteJob());
         }
       }
