@@ -1,0 +1,18 @@
+{
+  int availableSize=0;
+  for (int i=0; i < 3; i++) {
+    availableSize=inputStream.available();
+    if (availableSize > 0) {
+      break;
+    }
+    try {
+      Thread.sleep(50);
+    }
+ catch (    InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+  byte[] payload=new byte[availableSize];
+  inputStream.read(payload);
+  return payload;
+}

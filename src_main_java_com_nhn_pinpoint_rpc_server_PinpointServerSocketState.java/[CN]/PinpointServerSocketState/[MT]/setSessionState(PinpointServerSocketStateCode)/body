@@ -3,6 +3,7 @@
   if (enable) {
     this.beforeState=this.currentState;
     this.currentState=state;
+    return true;
   }
  else   if (PinpointServerSocketStateCode.isFinished(this.currentState)) {
     PinpointServerSocketStateCode checkBefore=this.beforeState;
@@ -11,6 +12,7 @@
     this.beforeState=this.currentState;
     this.currentState=PinpointServerSocketStateCode.ERROR_ILLEGAL_STATE_CHANGE;
     logger.warn(errorMessage);
+    return false;
   }
  else {
     PinpointServerSocketStateCode checkBefore=this.beforeState;

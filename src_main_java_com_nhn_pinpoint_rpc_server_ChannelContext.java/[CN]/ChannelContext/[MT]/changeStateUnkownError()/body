@@ -1,4 +1,6 @@
 {
   logger.debug("Channel({}) state will be changed {}.",socketChannel,PinpointServerSocketStateCode.ERROR_UNKOWN);
-  state.changeStateUnkownError();
+  if (state.changeStateUnkownError()) {
+    stateChangeEventListener.eventPerformed(this,PinpointServerSocketStateCode.ERROR_UNKOWN);
+  }
 }
