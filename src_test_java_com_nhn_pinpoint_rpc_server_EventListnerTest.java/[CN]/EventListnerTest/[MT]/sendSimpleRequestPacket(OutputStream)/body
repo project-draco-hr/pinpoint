@@ -1,0 +1,6 @@
+{
+  RequestPacket packet=new RequestPacket(new byte[0]);
+  packet.setRequestId(10);
+  ByteBuffer bb=packet.toBuffer().toByteBuffer(0,packet.toBuffer().writerIndex());
+  sendData(outputStream,bb.array());
+}
