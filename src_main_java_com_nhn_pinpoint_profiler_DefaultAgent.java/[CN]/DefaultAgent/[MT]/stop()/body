@@ -9,7 +9,11 @@
   this.spanDataSender.stop();
   this.statDataSender.stop();
   this.tcpDataSender.stop();
-  this.socket.close();
-  this.factory.release();
+  if (this.socket != null) {
+    this.socket.close();
+  }
+  if (this.factory != null) {
+    this.factory.release();
+  }
   changeStatus(AgentStatus.STOPPED);
 }
