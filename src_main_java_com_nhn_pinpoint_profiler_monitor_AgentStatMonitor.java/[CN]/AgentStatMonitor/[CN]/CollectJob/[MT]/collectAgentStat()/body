@@ -1,12 +1,12 @@
 {
-  final TAgentStatSingle agentStatSingle=new TAgentStatSingle();
-  agentStatSingle.setTimeStamp(System.currentTimeMillis());
+  final TAgentStat agentStat=new TAgentStat();
+  agentStat.setTimestamp(System.currentTimeMillis());
   final TJvmGc gc=garbageCollector.collect();
-  agentStatSingle.setGc(gc);
+  agentStat.setGc(gc);
   final TCpuLoad cpuLoad=cpuLoadCollector.collectCpuLoad();
-  agentStatSingle.setCpuLoad(cpuLoad);
+  agentStat.setCpuLoad(cpuLoad);
   if (isTrace) {
-    logger.trace("collect agentStat:{}",agentStatSingle);
+    logger.trace("collect agentStat:{}",agentStat);
   }
-  return agentStatSingle;
+  return agentStat;
 }

@@ -1,10 +1,10 @@
 {
   try {
-    final TAgentStatSingle agentStatSingle=collectAgentStat();
-    this.agentStats.add(agentStatSingle);
+    final TAgentStat agentStat=collectAgentStat();
+    this.agentStats.add(agentStat);
     if (++this.collectCount >= this.numStatsPerBatch) {
       sendAgentStats();
-      resetBatchCount();
+      this.collectCount=0;
     }
   }
  catch (  Exception ex) {
