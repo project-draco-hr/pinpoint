@@ -1,0 +1,10 @@
+{
+  checkState();
+  try {
+    return zookeeper.getData(path,false,null);
+  }
+ catch (  KeeperException exception) {
+    handleException(exception);
+  }
+  throw new UnknownException("UnknownException.");
+}

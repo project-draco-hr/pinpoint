@@ -5,15 +5,15 @@
     return;
   }
   if (PinpointServerSocketStateCode.RUN == stateCode) {
-    byte[] contents=createContents(agentProperties,stateCode);
+    byte[] contents=serializeContents(agentProperties,stateCode);
     if (contents == null) {
       return;
     }
-    UpdateJob job=new UpdateJob(contents);
-    worker.handleUpdate(channelContext,job);
+    UpdateJob job=new UpdateJob(channelContext,contents);
+    worker.handleUpdate(job);
   }
  else   if (PinpointServerSocketStateCode.isFinished(stateCode)) {
-    DeleteJob job=new DeleteJob();
-    worker.handleDelete(channelContext,job);
+    DeleteJob job=new DeleteJob(channelContext);
+    worker.handleDelete(job);
   }
 }

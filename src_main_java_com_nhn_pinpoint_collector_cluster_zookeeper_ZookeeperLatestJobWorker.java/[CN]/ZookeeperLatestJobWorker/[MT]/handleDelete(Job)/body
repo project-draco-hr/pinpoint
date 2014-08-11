@@ -1,7 +1,8 @@
 {
+  ChannelContext channelContext=job.getChannelContext();
   String uniquePath=getUniquePath(channelContext,false);
   if (uniquePath == null) {
-    logger.info("Already Delete Zookeeper UniqPath ChannelContext = {}",channelContext);
+    logger.info("Already Delete Zookeeper UniqPath ChannelContext = {}.",channelContext);
     return true;
   }
   try {
@@ -15,7 +16,8 @@
  catch (  Exception e) {
     logger.warn(e.getMessage(),e);
     if (e instanceof TimeoutException) {
-      putJob(channelContext,job);
+      job.incrementCurrentRetryCount();
+      putJob(job);
     }
   }
   return false;

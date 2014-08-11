@@ -4,11 +4,18 @@
     channelContext.setAgentProperties(getParams());
     ZookeeperClusterManager clusterManager=new ZookeeperClusterManager("dev.zk.pinpoint.navercorp.com",3000);
     clusterManager.eventPerformed(channelContext,PinpointServerSocketStateCode.RUN_WITHOUT_REGISTER);
+    Thread.sleep(1000);
+    Map result=clusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
     clusterManager.eventPerformed(channelContext,PinpointServerSocketStateCode.RUN);
+    Thread.sleep(1000);
+    result=clusterManager.getData(channelContext);
+    Assert.assertEquals(PinpointServerSocketStateCode.RUN,getCode(result));
     clusterManager.eventPerformed(channelContext,PinpointServerSocketStateCode.SHUTDOWN);
-    Thread.sleep(5000);
+    Thread.sleep(1000);
+    result=clusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
     clusterManager.close();
-    Thread.sleep(100000);
   }
  catch (  Exception e) {
     e.printStackTrace();

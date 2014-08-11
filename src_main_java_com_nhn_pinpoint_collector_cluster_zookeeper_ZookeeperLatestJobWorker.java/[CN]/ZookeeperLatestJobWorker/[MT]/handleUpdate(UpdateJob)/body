@@ -1,7 +1,8 @@
 {
+  ChannelContext channelContext=job.getChannelContext();
   PinpointServerSocketStateCode code=channelContext.getCurrentStateCode();
   if (PinpointServerSocketStateCode.isFinished(code)) {
-    putJob(channelContext,new DeleteJob());
+    putJob(new DeleteJob(channelContext));
     return false;
   }
   String uniquePath=getUniquePath(channelContext,true);
@@ -19,7 +20,8 @@
  catch (  Exception e) {
     logger.warn(e.getMessage(),e);
     if (e instanceof TimeoutException) {
-      putJob(channelContext,job);
+      job.incrementCurrentRetryCount();
+      putJob(job);
     }
   }
   return false;
