@@ -1,4 +1,6 @@
 {
   logger.debug("Channel({}) state will be changed {}.",socketChannel,PinpointServerSocketStateCode.RUN_WITHOUT_REGISTER);
-  state.changeStateRunWithoutRegister();
+  if (state.changeStateRunWithoutRegister()) {
+    stateChangeEventListener.eventPerformed(this,PinpointServerSocketStateCode.RUN_WITHOUT_REGISTER);
+  }
 }

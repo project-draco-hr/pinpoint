@@ -1,0 +1,9 @@
+{
+  ServerBootstrap bootstrap=createBootStrap(1,WORKER_COUNT);
+  setOptions(bootstrap);
+  addPipeline(bootstrap);
+  this.bootstrap=bootstrap;
+  this.pingTimer=TimerFactory.createHashedWheelTimer("PinpointServerSocket-PingTimer",50,TimeUnit.MILLISECONDS,512);
+  this.requestManagerTimer=TimerFactory.createHashedWheelTimer("PinpointServerSocket-RequestManager",50,TimeUnit.MILLISECONDS,512);
+  this.channelStateChangeEventListener=channelStateChangeEventListener;
+}

@@ -2,9 +2,11 @@
   if (agentProperties == null) {
     return false;
   }
-  if (this.agentProperties == Collections.EMPTY_MAP) {
-    this.agentProperties=agentProperties;
-    return true;
+synchronized (agentProperties) {
+    if (this.agentProperties == Collections.EMPTY_MAP) {
+      this.agentProperties=Collections.unmodifiableMap(CopyUtils.mediumCopyMap(agentProperties));
+      return true;
+    }
   }
   logger.warn("Already Register AgentProperties.({}).",this.agentProperties);
   return false;

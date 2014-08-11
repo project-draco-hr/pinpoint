@@ -1,4 +1,6 @@
 {
   logger.debug("Channel({}) state will be changed {}.",socketChannel,PinpointServerSocketStateCode.SHUTDOWN);
-  state.changeStateShutdown();
+  if (state.changeStateShutdown()) {
+    stateChangeEventListener.eventPerformed(this,PinpointServerSocketStateCode.SHUTDOWN);
+  }
 }
