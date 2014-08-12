@@ -9,7 +9,7 @@ synchronized (lock) {
       waitUnitTime=100;
     }
     long startTimeMillis=System.currentTimeMillis();
-    while (latestJobRepository.size() == 0 && isOverWaitTime(waitTime,startTimeMillis) && workerState.get() == 1) {
+    while (latestJobRepository.size() == 0 && !isOverWaitTime(waitTime,startTimeMillis) && workerState.get() == 1) {
       try {
         lock.wait(waitUnitTime);
       }
