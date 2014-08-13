@@ -1,0 +1,16 @@
+{
+  final TAgentStat thriftObj=new TAgentStat();
+  thriftObj.setAgentId("agentId");
+  thriftObj.setStartTimestamp(0L);
+  thriftObj.setTimestamp(1L);
+  final TCpuLoad cpuLoad=new TCpuLoad();
+  cpuLoad.setJvmCpuLoad(99.0D);
+  cpuLoad.setSystemCpuLoad(99.9D);
+  thriftObj.setCpuLoad(cpuLoad);
+  AgentStatCpuLoadBo mappedBo=mapper.map(thriftObj);
+  assertEquals(mappedBo.getAgentId(),thriftObj.getAgentId());
+  assertEquals(mappedBo.getStartTimestamp(),thriftObj.getStartTimestamp());
+  assertEquals(mappedBo.getTimestamp(),thriftObj.getTimestamp());
+  assertEquals(mappedBo.getJvmCpuLoad(),cpuLoad.getJvmCpuLoad(),DELTA);
+  assertEquals(mappedBo.getSystemCpuLoad(),cpuLoad.getSystemCpuLoad(),DELTA);
+}

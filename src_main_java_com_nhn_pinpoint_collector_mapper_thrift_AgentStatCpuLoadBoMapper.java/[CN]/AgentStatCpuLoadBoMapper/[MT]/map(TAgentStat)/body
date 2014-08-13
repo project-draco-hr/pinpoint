@@ -1,0 +1,16 @@
+{
+  final String agentId=thriftObject.getAgentId();
+  final long startTimestamp=thriftObject.getStartTimestamp();
+  final long timestamp=thriftObject.getTimestamp();
+  final TCpuLoad cpuLoad=thriftObject.getCpuLoad();
+  final AgentStatCpuLoadBo.Builder builder=new AgentStatCpuLoadBo.Builder(agentId,startTimestamp,timestamp);
+  if (cpuLoad != null) {
+    if (cpuLoad.isSetJvmCpuLoad()) {
+      builder.jvmCpuLoad(cpuLoad.getJvmCpuLoad());
+    }
+    if (cpuLoad.isSetSystemCpuLoad()) {
+      builder.systemCpuLoad(cpuLoad.getSystemCpuLoad());
+    }
+  }
+  return builder.build();
+}
