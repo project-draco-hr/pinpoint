@@ -1,0 +1,27 @@
+{
+  assertTrue(JAVA_5.onOrAfter(JAVA_5));
+  assertFalse(JAVA_5.onOrAfter(JAVA_6));
+  assertFalse(JAVA_5.onOrAfter(JAVA_7));
+  assertFalse(JAVA_5.onOrAfter(JAVA_8));
+  assertFalse(JAVA_5.onOrAfter(UNSUPPORTED));
+  assertTrue(JAVA_6.onOrAfter(JAVA_5));
+  assertTrue(JAVA_6.onOrAfter(JAVA_6));
+  assertFalse(JAVA_6.onOrAfter(JAVA_7));
+  assertFalse(JAVA_6.onOrAfter(JAVA_8));
+  assertFalse(JAVA_6.onOrAfter(UNSUPPORTED));
+  assertTrue(JAVA_7.onOrAfter(JAVA_5));
+  assertTrue(JAVA_7.onOrAfter(JAVA_6));
+  assertTrue(JAVA_7.onOrAfter(JAVA_7));
+  assertFalse(JAVA_7.onOrAfter(JAVA_8));
+  assertFalse(JAVA_7.onOrAfter(UNSUPPORTED));
+  assertTrue(JAVA_8.onOrAfter(JAVA_5));
+  assertTrue(JAVA_8.onOrAfter(JAVA_6));
+  assertTrue(JAVA_8.onOrAfter(JAVA_7));
+  assertTrue(JAVA_8.onOrAfter(JAVA_8));
+  assertFalse(JAVA_8.onOrAfter(UNSUPPORTED));
+  assertFalse(UNSUPPORTED.onOrAfter(JAVA_5));
+  assertFalse(UNSUPPORTED.onOrAfter(JAVA_6));
+  assertFalse(UNSUPPORTED.onOrAfter(JAVA_7));
+  assertFalse(UNSUPPORTED.onOrAfter(JAVA_8));
+  assertFalse(UNSUPPORTED.onOrAfter(UNSUPPORTED));
+}
