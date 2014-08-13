@@ -1,0 +1,13 @@
+{
+  final Buffer buffer=new FixedBuffer(value);
+  this.agentId=buffer.readPrefixedString();
+  this.startTimestamp=buffer.readLong();
+  this.timestamp=buffer.readLong();
+  this.gcType=buffer.readPrefixedString();
+  this.jvmMemoryHeapUsed=buffer.readLong();
+  this.jvmMemoryHeapMax=buffer.readLong();
+  this.jvmMemoryNonHeapUsed=buffer.readLong();
+  this.jvmMemoryNonHeapMax=buffer.readLong();
+  this.jvmGcOldCount=buffer.readLong();
+  this.jvmGcOldTime=buffer.readLong();
+}
