@@ -1,9 +1,4 @@
 {
-  List<PinpointSocketReconnectEventListener> result=new ArrayList<PinpointSocketReconnectEventListener>();
-synchronized (this) {
-    for (    PinpointSocketReconnectEventListener eventListener : this.reconnectEventListeners) {
-      result.add(eventListener);
-    }
-  }
+  List<PinpointSocketReconnectEventListener> result=new ArrayList<PinpointSocketReconnectEventListener>(reconnectEventListeners);
   return result;
 }
