@@ -7,6 +7,9 @@
     if (trace == null) {
       return;
     }
+    if (!trace.canSampled()) {
+      return;
+    }
     doInBeforeTrace(trace,target,args);
   }
  catch (  Throwable th) {
