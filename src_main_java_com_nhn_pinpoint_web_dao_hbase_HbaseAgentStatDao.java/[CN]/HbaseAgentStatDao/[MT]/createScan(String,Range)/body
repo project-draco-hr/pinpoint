@@ -5,7 +5,7 @@
   byte[] endKey=getRowKey(agentId,range.getTo());
   scan.setStartRow(endKey);
   scan.setStopRow(startKey);
-  scan.addColumn(HBaseTables.AGENT_STAT_CF_STATISTICS,HBaseTables.AGENT_STAT_CF_STATISTICS_V1);
+  scan.addFamily(HBaseTables.AGENT_STAT_CF_STATISTICS);
   scan.setId("AgentStatScan");
   logger.debug("create scan:{}",scan);
   return scan;

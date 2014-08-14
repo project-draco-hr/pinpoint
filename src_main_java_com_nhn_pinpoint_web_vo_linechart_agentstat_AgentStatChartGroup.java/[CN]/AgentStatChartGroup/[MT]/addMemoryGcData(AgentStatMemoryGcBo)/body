@@ -1,0 +1,13 @@
+{
+  if (data == null) {
+    return;
+  }
+  this.type=data.getGcType();
+  long timestamp=data.getTimestamp();
+  ((SampledLongLineChart)charts.get(JVM_MEMORY_HEAP_USED_KEY)).addPoint(timestamp,data.getJvmMemoryHeapUsed());
+  ((SampledLongLineChart)charts.get(JVM_MEMORY_HEAP_MAX_KEY)).addPoint(timestamp,data.getJvmMemoryHeapMax());
+  ((SampledLongLineChart)charts.get(JVM_MEMORY_NON_HEAP_USED_KEY)).addPoint(timestamp,data.getJvmMemoryNonHeapUsed());
+  ((SampledLongLineChart)charts.get(JVM_MEMORY_NON_HEAP_MAX_KEY)).addPoint(timestamp,data.getJvmMemoryNonHeapMax());
+  ((SampledLongLineChart)charts.get(JVM_GC_OLD_COUNT_KEY)).addPoint(timestamp,data.getJvmGcOldCount());
+  ((SampledLongLineChart)charts.get(JVM_GC_OLD_TIME_KEY)).addPoint(timestamp,data.getJvmGcOldTime());
+}

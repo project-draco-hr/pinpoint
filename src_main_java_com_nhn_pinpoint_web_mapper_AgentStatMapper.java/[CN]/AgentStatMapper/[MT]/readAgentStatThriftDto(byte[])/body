@@ -1,0 +1,16 @@
+{
+  TDeserializer deserializer=new TDeserializer(factory);
+  TAgentStat tAgentStat=new TAgentStat();
+  deserializer.deserialize(tAgentStat,tAgentStatByteArray);
+  TJvmGc gc=tAgentStat.getGc();
+  AgentStatMemoryGcBo.Builder memoryGcBoBuilder=new AgentStatMemoryGcBo.Builder(tAgentStat.getAgentId(),tAgentStat.getStartTimestamp(),tAgentStat.getTimestamp());
+  memoryGcBoBuilder.gcType(gc.getType().name());
+  memoryGcBoBuilder.jvmMemoryHeapUsed(gc.getJvmMemoryHeapUsed()).jvmMemoryHeapMax(gc.getJvmMemoryHeapMax());
+  memoryGcBoBuilder.jvmMemoryNonHeapUsed(gc.getJvmMemoryNonHeapUsed()).jvmMemoryNonHeapMax(gc.getJvmMemoryNonHeapMax());
+  memoryGcBoBuilder.jvmGcOldCount(gc.getJvmGcOldCount()).jvmGcOldTime(gc.getJvmGcOldTime());
+  AgentStat agentStat=new AgentStat();
+  agentStat.setMemoryGc(memoryGcBoBuilder.build());
+  List<AgentStat> result=new ArrayList<AgentStat>(1);
+  result.add(agentStat);
+  return result;
+}
