@@ -1,8 +1,6 @@
 {
   List<ChannelContext> channelContextList=new ArrayList<ChannelContext>();
-  Iterator<Channel> iterator=channelGroup.iterator();
-  while (iterator.hasNext()) {
-    Channel channel=iterator.next();
+  for (  Channel channel : channelGroup) {
     ChannelContext context=getChannelContext(channel);
     if (context.getCurrentStateCode() == PinpointServerSocketStateCode.RUN) {
       channelContextList.add(context);

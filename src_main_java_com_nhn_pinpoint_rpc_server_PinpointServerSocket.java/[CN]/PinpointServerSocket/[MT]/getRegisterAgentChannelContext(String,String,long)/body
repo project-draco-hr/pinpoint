@@ -9,9 +9,7 @@
     return null;
   }
   List<ChannelContext> channelContextList=new ArrayList<ChannelContext>();
-  Iterator<Channel> iterator=channelGroup.iterator();
-  while (iterator.hasNext()) {
-    Channel channel=iterator.next();
+  for (  Channel channel : channelGroup) {
     ChannelContext context=getChannelContext(channel);
     if (context.getCurrentStateCode() == PinpointServerSocketStateCode.RUN) {
       Map agentProperties=context.getAgentProperties();
@@ -34,7 +32,7 @@
     return channelContextList.get(0);
   }
  else {
-    logger.warn("Ambigous Channel Context {}, {}, {} (Valid Agent list={}).",applicationName,agentId,startTimeMillis,channelContextList);
+    logger.warn("Ambiguous Channel Context {}, {}, {} (Valid Agent list={}).",applicationName,agentId,startTimeMillis,channelContextList);
     return null;
   }
 }
