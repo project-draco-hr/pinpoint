@@ -5,11 +5,11 @@
     return createOracleDatabaseInfo(keyValue,url);
   }
  catch (  OracleConnectionStringException ex) {
-    logger.warn("OracleConnectionString parse error. url:{} Caused:",new Object[]{url,ex.getMessage(),ex});
+    logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
     return createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
   }
 catch (  Throwable ex) {
-    logger.warn("OracleConnectionString parse error. url:{} Caused:",new Object[]{url,ex.getMessage(),ex});
+    logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
     return createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
   }
 }
