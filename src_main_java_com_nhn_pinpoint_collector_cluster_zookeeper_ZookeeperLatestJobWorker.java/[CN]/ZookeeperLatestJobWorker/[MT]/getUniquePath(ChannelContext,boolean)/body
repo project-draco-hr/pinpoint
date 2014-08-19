@@ -1,0 +1,22 @@
+{
+synchronized (znodeMappingRepository) {
+    String zNodePath=znodeMappingRepository.get(channelContext);
+    if (!create) {
+      return zNodePath;
+    }
+    if (zNodePath == null) {
+      Map agentProperties=channelContext.getAgentProperties();
+      String applicationName=MapUtils.get(agentProperties,AgentPropertiesType.APPLICATION_NAME.getName(),AgentPropertiesType.APPLICATION_NAME.getClazzType());
+      String agentId=MapUtils.get(agentProperties,AgentPropertiesType.AGENT_ID.getName(),AgentPropertiesType.AGENT_ID.getClazzType());
+      if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(agentId)) {
+        return null;
+      }
+      String path=PREFIX_ROOT_ZNODE + "/" + applicationName+ "/"+ agentId;
+      String zNodeName=createUniqueZnodeName();
+      zNodePath=bindingPathAndZnode(path,zNodeName);
+      znodeMappingRepository.put(channelContext,zNodePath);
+      logger.info("Created Zookeeper UniqPath = " + zNodePath);
+    }
+    return zNodePath;
+  }
+}

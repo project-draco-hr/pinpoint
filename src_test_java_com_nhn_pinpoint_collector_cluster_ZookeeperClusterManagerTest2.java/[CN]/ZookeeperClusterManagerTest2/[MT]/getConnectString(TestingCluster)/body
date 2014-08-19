@@ -1,0 +1,12 @@
+{
+  StringBuilder connectString=new StringBuilder();
+  Iterator<InstanceSpec> instanceSpecIterator=zookeeperCluster.getInstances().iterator();
+  while (instanceSpecIterator.hasNext()) {
+    InstanceSpec instanceSpec=instanceSpecIterator.next();
+    connectString.append(instanceSpec.getConnectString());
+    if (instanceSpecIterator.hasNext()) {
+      connectString.append(",");
+    }
+  }
+  return connectString.toString();
+}
