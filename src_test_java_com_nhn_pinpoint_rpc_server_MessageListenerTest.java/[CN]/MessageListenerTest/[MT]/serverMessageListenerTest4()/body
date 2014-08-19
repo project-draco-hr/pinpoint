@@ -7,9 +7,9 @@
     EchoMessageListener echoMessageListener1=new EchoMessageListener();
     PinpointSocket socket=socketFactory.connect("127.0.0.1",10234,echoMessageListener1);
     Thread.sleep(500);
-    ChannelContext channelContext=ss.getDuplexChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()));
+    ChannelContext channelContext=getChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()),ss.getDuplexCommunicationChannelContext());
     Assert.assertNotNull(channelContext);
-    channelContext=ss.getDuplexChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()) + 1);
+    channelContext=getChannelContext("application","agent",(Long)params.get(AgentPropertiesType.START_TIMESTAMP.getName()) + 1,ss.getDuplexCommunicationChannelContext());
     Assert.assertNull(channelContext);
     socket.close();
   }
