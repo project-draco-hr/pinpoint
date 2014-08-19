@@ -1,0 +1,10 @@
+{
+  Object value=properties.get(key);
+  if (value == null) {
+    return null;
+  }
+  if (ClassUtils.isAssignable(value.getClass(),returnClazz)) {
+    return (T)value;
+  }
+  return null;
+}

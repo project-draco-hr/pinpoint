@@ -1,10 +1,10 @@
 {
   logger.info("eventPerformed ChannelContext={}, State={}",channelContext,stateCode);
-  Map agentProperties=channelContext.getAgentProperties();
+  Map agentProperties=channelContext.getChannelProperties();
   if (skipAgent(agentProperties)) {
     return;
   }
-  if (PinpointServerSocketStateCode.RUN == stateCode) {
+  if (PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION == stateCode) {
     byte[] contents=serializeContents(agentProperties,stateCode);
     if (contents == null) {
       return;
