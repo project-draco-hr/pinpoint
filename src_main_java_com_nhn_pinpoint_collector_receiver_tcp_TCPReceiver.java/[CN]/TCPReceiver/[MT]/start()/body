@@ -10,6 +10,16 @@
     @Override public void handleStream(    StreamPacket streamPacket,    ServerStreamChannel streamChannel){
       logger.warn("unsupported streamPacket received {}",streamPacket);
     }
+    @Override public int handleEnableWorker(    Map properties){
+      if (properties == null) {
+        return ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL;
+      }
+      boolean hasAllType=AgentPropertiesType.hasAllType(properties);
+      if (!hasAllType) {
+        return ControlEnableWorkerConfirmPacket.INVALID_PROPERTIES;
+      }
+      return ControlEnableWorkerConfirmPacket.SUCCESS;
+    }
   }
 );
   this.pinpointServerSocket.bind(bindAddress,port);
