@@ -1,0 +1,10 @@
+{
+  if (agentProperties == null) {
+    return;
+  }
+  if (this.properties != Collections.EMPTY_MAP) {
+    logger.warn("Properties variable alreay registered.");
+    return;
+  }
+  this.properties=Collections.unmodifiableMap(CopyUtils.mediumCopyMap(agentProperties));
+}

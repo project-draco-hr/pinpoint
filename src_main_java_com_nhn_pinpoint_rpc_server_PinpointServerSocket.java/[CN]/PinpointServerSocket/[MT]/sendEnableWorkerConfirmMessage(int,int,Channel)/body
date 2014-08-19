@@ -1,0 +1,12 @@
+{
+  try {
+    Map result=new HashMap();
+    result.put("code",returnCode);
+    byte[] resultPayload=ControlMessageEnDeconderUtils.encode(result);
+    ControlEnableWorkerConfirmPacket packet=new ControlEnableWorkerConfirmPacket(requestId,resultPayload);
+    channel.write(packet);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+}

@@ -1,6 +1,6 @@
 {
   byte[] payload=ControlMessageEnDeconderUtils.encode(properties);
-  ControlRegisterAgentPacket packet=new ControlRegisterAgentPacket(1,payload);
+  ControlEnableWorkerPacket packet=new ControlEnableWorkerPacket(1,payload);
   ByteBuffer bb=packet.toBuffer().toByteBuffer(0,packet.toBuffer().writerIndex());
   sendData(outputStream,bb.array());
 }

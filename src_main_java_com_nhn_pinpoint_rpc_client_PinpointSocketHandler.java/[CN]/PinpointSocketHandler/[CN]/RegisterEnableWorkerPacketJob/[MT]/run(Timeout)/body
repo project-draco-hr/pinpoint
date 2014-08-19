@@ -1,0 +1,13 @@
+{
+  if (timeout.isCancelled()) {
+    reservationEnableWorkerPacketJob(this);
+    return;
+  }
+  if (isClosed()) {
+    return;
+  }
+  if (state.getState() == State.RUN_WITHOUT_REGISTER) {
+    sendEnableWorkerPacket();
+    reservationEnableWorkerPacketJob(this);
+  }
+}

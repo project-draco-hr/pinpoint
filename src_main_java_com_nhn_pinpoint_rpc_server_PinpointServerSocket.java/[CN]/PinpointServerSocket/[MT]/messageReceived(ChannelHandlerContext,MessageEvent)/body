@@ -29,8 +29,27 @@ case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
 handleStreamPacket((StreamPacket)message,channel);
 return;
-case PacketType.CONTROL_REGISTER_AGENT:
-handleRegisterAgent((ControlRegisterAgentPacket)message,channel);
+case PacketType.CONTROL_ENABLE_WORKER:
+int requestId=((ControlEnableWorkerPacket)message).getRequestId();
+Map properties=decodeSocketProperties((ControlEnableWorkerPacket)message);
+if (properties == null) {
+sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL,channel);
+return;
+}
+ChannelContext channelContext=getChannelContext(channel);
+channelContext.setChannelProperties(properties);
+int returnCode=messageListener.handleEnableWorker(properties);
+if (returnCode == ControlEnableWorkerConfirmPacket.SUCCESS) {
+if (changeStateToRunDuplexCommunication(returnCode,channel)) {
+sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.SUCCESS,channel);
+}
+ else {
+sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ALREADY_REGISTER,channel);
+}
+}
+ else {
+sendEnableWorkerConfirmMessage(requestId,returnCode,channel);
+}
 return;
 case PacketType.CONTROL_CLIENT_CLOSE:
 {

@@ -1,0 +1,16 @@
+{
+  if (!isRun()) {
+    return;
+  }
+  logger.debug("write EnableWorkerPacket {}",channel);
+  byte[] payload;
+  try {
+    Map properties=this.pinpointSocketFactory.getProperties();
+    payload=ControlMessageEnDeconderUtils.encode(properties);
+    ControlEnableWorkerPacket packet=new ControlEnableWorkerPacket(payload);
+    ChannelFuture write=this.channel.write(packet);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+}

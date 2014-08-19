@@ -1,0 +1,10 @@
+{
+  List<ChannelContext> channelContextList=new ArrayList<ChannelContext>();
+  for (  Channel channel : channelGroup) {
+    ChannelContext context=getChannelContext(channel);
+    if (context.getCurrentStateCode() == PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION) {
+      channelContextList.add(context);
+    }
+  }
+  return channelContextList;
+}

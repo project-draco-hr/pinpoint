@@ -1,0 +1,6 @@
+{
+  ChannelBuffer header=ChannelBuffers.buffer(2 + 4 + 4);
+  header.writeShort(PacketType.CONTROL_ENABLE_WORKER_CONFIRM);
+  header.writeInt(getRequestId());
+  return PayloadPacket.appendPayload(header,payload);
+}

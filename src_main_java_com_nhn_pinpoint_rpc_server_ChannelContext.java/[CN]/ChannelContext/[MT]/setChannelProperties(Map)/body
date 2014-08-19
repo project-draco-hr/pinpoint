@@ -1,0 +1,13 @@
+{
+  if (properties == null) {
+    return false;
+  }
+synchronized (properties) {
+    if (this.channelProperties == Collections.EMPTY_MAP) {
+      this.channelProperties=Collections.unmodifiableMap(CopyUtils.mediumCopyMap(properties));
+      return true;
+    }
+  }
+  logger.warn("Already Register ChannelProperties.({}).",this.channelProperties);
+  return false;
+}

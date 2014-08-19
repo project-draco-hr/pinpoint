@@ -7,9 +7,9 @@
   try {
     socket=new Socket("127.0.0.1",22234);
     sendAndReceiveSimplePacket(socket);
-    Assert.assertEquals(eventListner.getCode(),PinpointServerSocketStateCode.RUN_WITHOUT_REGISTER);
-    int code=sendAndReceiveRegisterPacket(socket,getParams());
     Assert.assertEquals(eventListner.getCode(),PinpointServerSocketStateCode.RUN);
+    int code=sendAndReceiveRegisterPacket(socket,getParams());
+    Assert.assertEquals(eventListner.getCode(),PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION);
     sendAndReceiveSimplePacket(socket);
   }
   finally {

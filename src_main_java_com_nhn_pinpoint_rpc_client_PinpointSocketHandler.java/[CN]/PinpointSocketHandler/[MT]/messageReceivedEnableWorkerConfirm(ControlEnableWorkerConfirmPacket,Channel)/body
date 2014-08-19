@@ -1,0 +1,7 @@
+{
+  int code=getRegisterAgnetConfirmPacketCode(message.getPayload());
+  logger.info("EnableWorkerConfirm Packet({}) code={} received. {}",message,code,channel);
+  if (code == ControlEnableWorkerConfirmPacket.SUCCESS || code == ControlEnableWorkerConfirmPacket.ALREADY_REGISTER) {
+    state.changeRun();
+  }
+}

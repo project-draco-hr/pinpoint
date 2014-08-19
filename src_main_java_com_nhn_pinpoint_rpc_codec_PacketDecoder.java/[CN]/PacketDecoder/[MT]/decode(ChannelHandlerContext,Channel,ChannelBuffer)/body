@@ -33,10 +33,10 @@ case PacketType.CONTROL_PONG:
 logger.debug("receive pong. {}",channel);
 readPong(packetType,buffer);
 return null;
-case PacketType.CONTROL_REGISTER_AGENT:
-return readRegisterAgent(packetType,buffer);
-case PacketType.CONTROL_REGISTER_AGENT_CONFIRM:
-return readRegisterAgentConfirm(packetType,buffer);
+case PacketType.CONTROL_ENABLE_WORKER:
+return readEnableWorker(packetType,buffer);
+case PacketType.CONTROL_ENABLE_WORKER_CONFIRM:
+return readEnableWorkerConfirm(packetType,buffer);
 }
 logger.error("invalid packetType received. packetType:{}, channel:{}",packetType,channel);
 channel.close();
