@@ -3,10 +3,8 @@
   if (weightSpanList.size() == 0) {
     return null;
   }
-  Collections.sort(weightSpanList,new Comparator(){
-    @Override public int compare(    Object o1,    Object o2){
-      WeightSpanBo wSpan1=(WeightSpanBo)o1;
-      WeightSpanBo wSpan2=(WeightSpanBo)o2;
+  Collections.sort(weightSpanList,new Comparator<WeightSpanBo>(){
+    @Override public int compare(    WeightSpanBo wSpan1,    WeightSpanBo wSpan2){
       final long spanWeight1=wSpan1.getWeight();
       final long spanWeight2=wSpan2.getWeight();
       if (spanWeight1 < spanWeight2) {
