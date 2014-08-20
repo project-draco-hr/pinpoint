@@ -11,7 +11,7 @@
     TBaseRequestBO bo=locator.getRequestBO(request);
     if (bo == null) {
       TResult tResult=new TResult(false);
-      tResult.setMessage("Unsupported Listner.");
+      tResult.setMessage("Unsupported Listener.");
       response=tResult;
     }
  else {
@@ -19,7 +19,7 @@
     }
   }
   byte[] payload=serialize(response);
-  if (packet != null) {
+  if (payload != null) {
     channel.write(new ResponsePacket(packet.getRequestId(),payload));
   }
 }
