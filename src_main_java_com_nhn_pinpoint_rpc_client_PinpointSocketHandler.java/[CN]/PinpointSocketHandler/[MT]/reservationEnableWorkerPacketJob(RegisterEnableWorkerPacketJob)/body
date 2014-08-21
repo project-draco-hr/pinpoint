@@ -1,3 +1,6 @@
 {
+  if (task.getCurrentRetryCount() >= task.getMaxRetryCount()) {
+    return;
+  }
   this.channelTimer.newTimeout(task,enableWorkerPacketDelay,TimeUnit.MILLISECONDS);
 }

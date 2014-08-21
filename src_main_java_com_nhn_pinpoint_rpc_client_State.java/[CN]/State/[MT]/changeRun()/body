@@ -1,14 +1,11 @@
 {
-  logger.debug("State Will Be Changed {}.",getString(RUN_DUPLEX_COMMUNICATION));
+  logger.debug("State Will Be Changed {}.",getString(RUN));
   final int current=state.get();
   if (current == INIT) {
-    return this.state.compareAndSet(INIT,RUN_DUPLEX_COMMUNICATION);
+    return this.state.compareAndSet(INIT,RUN);
   }
  else   if (current == INIT_RECONNECT) {
-    return this.state.compareAndSet(INIT_RECONNECT,RUN_DUPLEX_COMMUNICATION);
+    return this.state.compareAndSet(INIT_RECONNECT,RUN);
   }
- else   if (current == RUN) {
-    return this.state.compareAndSet(RUN,RUN_DUPLEX_COMMUNICATION);
-  }
-  throw new IllegalStateException("InvalidState current:" + getString(current) + " change:"+ getString(RUN_DUPLEX_COMMUNICATION));
+  throw new IllegalStateException("InvalidState current:" + getString(current) + " change:"+ getString(RUN));
 }
