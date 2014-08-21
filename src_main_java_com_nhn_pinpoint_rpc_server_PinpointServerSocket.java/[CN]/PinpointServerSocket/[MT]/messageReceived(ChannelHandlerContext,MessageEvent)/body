@@ -31,7 +31,7 @@ handleStreamPacket((StreamPacket)message,channel);
 return;
 case PacketType.CONTROL_ENABLE_WORKER:
 int requestId=((ControlEnableWorkerPacket)message).getRequestId();
-Map properties=decodeSocketProperties((ControlEnableWorkerPacket)message);
+Map<Object,Object> properties=decodeSocketProperties((ControlEnableWorkerPacket)message);
 if (properties == null) {
 sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL,channel);
 return;

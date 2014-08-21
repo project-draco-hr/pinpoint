@@ -1,6 +1,6 @@
 {
   sendRegisterPacket(socket.getOutputStream(),properties);
   ControlEnableWorkerConfirmPacket packet=receiveRegisterConfirmPacket(socket.getInputStream());
-  Map result=(Map)ControlMessageEnDeconderUtils.decode(packet.getPayload());
-  return MapUtils.get(result,"code",Integer.class,-1);
+  Map<Object,Object> result=(Map<Object,Object>)ControlMessageEnDeconderUtils.decode(packet.getPayload());
+  return MapUtils.getInteger(result,"code",-1);
 }

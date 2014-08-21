@@ -1,8 +1,7 @@
 {
-  Map properties=null;
   try {
     byte[] payload=message.getPayload();
-    properties=(Map)ControlMessageEnDeconderUtils.decode(payload);
+    Map<Object,Object> properties=(Map)ControlMessageEnDeconderUtils.decode(payload);
     return properties;
   }
  catch (  ProtocolException e) {
