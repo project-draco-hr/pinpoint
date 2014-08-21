@@ -2,10 +2,10 @@
   if (properties == null) {
     return false;
   }
-  if (this.channelProperties != null) {
+  if (this.channelProperties != Collections.emptyMap()) {
     logger.warn("Already Register ChannelProperties.({}).",this.channelProperties);
     return false;
   }
   this.channelProperties=Collections.unmodifiableMap(properties);
-  return false;
+  return true;
 }

@@ -1,9 +1,10 @@
 {
-  if (messageListener == null) {
-    throw new NullPointerException("messageListener must not be null");
-  }
+  AssertUtils.assertNotNull(messageListener,"messageListener");
   logger.info("{} registered Listner({}).",toString(),messageListener);
-  this.messageListener=messageListener;
-  sendEnableWorkerPacket();
-  reservationEnableWorkerPacketJob();
+  if (messageListener != SimpleLoggingMessageListener.LISTENER) {
+    this.messageListener=messageListener;
+    sendEnableWorkerPacket();
+    RegisterEnableWorkerPacketJob job=new RegisterEnableWorkerPacketJob(enableWorkerPacketRetryCount);
+    reservationEnableWorkerPacketJob(job);
+  }
 }

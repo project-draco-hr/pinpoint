@@ -1,11 +1,8 @@
 {
-  if (socketHandler == null) {
-    throw new NullPointerException("socketHandler");
-  }
+  AssertUtils.assertNotNull(socketHandler,"socketHandler");
+  AssertUtils.assertNotNull(messageListener,"messageListener");
   this.messageListener=messageListener;
-  if (this.messageListener != null) {
-    socketHandler.setMessageListener(messageListener);
-  }
+  socketHandler.setMessageListener(this.messageListener);
   this.socketHandler=socketHandler;
   socketHandler.setPinpointSocket(this);
 }

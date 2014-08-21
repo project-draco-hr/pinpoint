@@ -1,16 +1,12 @@
 {
-  if (socketHandler == null) {
-    throw new NullPointerException("socketHandler must not be null");
-  }
+  AssertUtils.assertNotNull(socketHandler,"socketHandler");
   if (closed) {
     logger.warn("reconnectSocketHandler(). socketHandler force close.");
     socketHandler.close();
     return;
   }
   logger.warn("reconnectSocketHandler:{}",socketHandler);
-  if (this.messageListener != null) {
-    socketHandler.setMessageListener(messageListener);
-  }
+  socketHandler.setMessageListener(messageListener);
   this.socketHandler=socketHandler;
   notifyReconnectEvent();
 }
