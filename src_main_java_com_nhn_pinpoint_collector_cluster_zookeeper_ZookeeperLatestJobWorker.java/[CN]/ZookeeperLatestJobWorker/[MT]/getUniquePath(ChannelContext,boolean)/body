@@ -5,9 +5,9 @@ synchronized (znodeMappingRepository) {
       return zNodePath;
     }
     if (zNodePath == null) {
-      Map agentProperties=channelContext.getChannelProperties();
-      String applicationName=MapUtils.get(agentProperties,AgentPropertiesType.APPLICATION_NAME.getName(),AgentPropertiesType.APPLICATION_NAME.getClazzType());
-      String agentId=MapUtils.get(agentProperties,AgentPropertiesType.AGENT_ID.getName(),AgentPropertiesType.AGENT_ID.getClazzType());
+      Map<Object,Object> agentProperties=channelContext.getChannelProperties();
+      final String applicationName=MapUtils.getString(agentProperties,AgentPropertiesType.APPLICATION_NAME.getName());
+      final String agentId=MapUtils.getString(agentProperties,AgentPropertiesType.AGENT_ID.getName());
       if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(agentId)) {
         return null;
       }
@@ -15,7 +15,7 @@ synchronized (znodeMappingRepository) {
       String zNodeName=createUniqueZnodeName();
       zNodePath=bindingPathAndZnode(path,zNodeName);
       znodeMappingRepository.put(channelContext,zNodePath);
-      logger.info("Created Zookeeper UniqPath = " + zNodePath);
+      logger.info("Created Zookeeper UniqPath = {}",zNodePath);
     }
     return zNodePath;
   }
