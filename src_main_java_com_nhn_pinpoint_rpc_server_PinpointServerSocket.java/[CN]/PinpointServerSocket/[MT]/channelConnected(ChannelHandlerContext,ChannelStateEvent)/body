@@ -15,6 +15,9 @@
   }
   prepareChannel(channel);
   ChannelContext channelContext=getChannelContext(channel);
-  channelContext.changeStateRun();
+  boolean check=checkIgnoreAddress(channel);
+  if (check) {
+    channelContext.changeStateRun();
+  }
   super.channelConnected(ctx,e);
 }

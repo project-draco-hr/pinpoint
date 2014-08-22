@@ -18,11 +18,11 @@
     boolean check=checkIgnoreAddress(channel);
     if (check) {
       logger.warn("Unexpected Client channelClosed {}",channel);
+      channelContext.changeStateUnexpectedShutdown();
     }
  else {
       logger.debug("checkAddress, Client channelClosed channelClosed {}",channel);
     }
-    channelContext.changeStateUnexpectedShutdown();
   }
   channelContext.closeAllStreamChannel();
 }

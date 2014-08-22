@@ -9,7 +9,10 @@
     channelContext.changeStateShutdown();
   }
  else {
-    channelContext.changeStateUnexpectedShutdown();
+    boolean check=checkIgnoreAddress(channel);
+    if (check) {
+      channelContext.changeStateUnexpectedShutdown();
+    }
   }
   if (logger.isDebugEnabled()) {
     logger.debug("server channelDisconnected {}",channel);
