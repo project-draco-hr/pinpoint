@@ -1,0 +1,9 @@
+{
+  if (testClass == null || testClass.equals(Object.class)) {
+    return null;
+  }
+  if (testClass.isAnnotationPresent(PinpointTestClassLoader.class)) {
+    return testClass;
+  }
+  return findPinpointTestClassLoaderAnnotationForClass(testClass.getSuperclass());
+}
