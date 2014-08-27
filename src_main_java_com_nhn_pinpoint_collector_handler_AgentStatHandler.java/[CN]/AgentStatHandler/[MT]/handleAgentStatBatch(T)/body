@@ -1,0 +1,10 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("Received AgentStats={}",agentStatBatch);
+  }
+  String agentId=agentStatBatch.getAgentId();
+  long startTimestamp=agentStatBatch.getStartTimestamp();
+  for (  TAgentStat agentStat : agentStatBatch.getAgentStats()) {
+    handleAgentStat(agentId,startTimestamp,agentStat);
+  }
+}

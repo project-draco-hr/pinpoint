@@ -1,0 +1,8 @@
+{
+  final int numBatches=6;
+  final String agentId="agentId";
+  final long startTimestamp=Long.MAX_VALUE;
+  final TAgentStatBatch agentStatBatch=createAgentStatBatch(agentId,startTimestamp,numBatches);
+  agentStatHandler.handle(agentStatBatch,new byte[0],0,0);
+  verify(agentStatDao,times(numBatches)).insert(any(TAgentStat.class));
+}

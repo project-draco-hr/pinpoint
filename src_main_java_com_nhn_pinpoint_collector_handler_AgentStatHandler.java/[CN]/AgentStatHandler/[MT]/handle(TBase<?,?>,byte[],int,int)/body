@@ -1,16 +1,14 @@
 {
-  if (!(tbase instanceof TAgentStat)) {
-    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  if (tbase instanceof TAgentStat) {
+    final TAgentStat agentStat=(TAgentStat)tbase;
+    String agentId=agentStat.getAgentId();
+    long startTimestamp=agentStat.getStartTimestamp();
+    handleAgentStat(agentId,startTimestamp,agentStat);
   }
-  try {
-    TAgentStat dto=(TAgentStat)tbase;
-    if (logger.isDebugEnabled()) {
-      logger.debug("Received AgentStat={}",dto);
-    }
-    byte[] value=PacketUtils.sliceData(packet,Header.HEADER_SIZE,length);
-    agentStatDao.insert(dto,value);
+ else   if (tbase instanceof TAgentStatBatch) {
+    handleAgentStatBatch((TAgentStatBatch)tbase);
   }
- catch (  Exception e) {
-    logger.warn("AgentStat handle error. Caused:{}",e.getMessage(),e);
+ else {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ TAgentStat.class.getName()+ " or "+ TAgentStatBatch.class.getName());
   }
 }

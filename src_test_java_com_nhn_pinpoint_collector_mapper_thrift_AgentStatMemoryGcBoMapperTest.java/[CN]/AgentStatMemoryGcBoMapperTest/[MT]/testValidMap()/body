@@ -1,0 +1,26 @@
+{
+  final TAgentStat thriftObj=new TAgentStat();
+  thriftObj.setAgentId("agentId");
+  thriftObj.setStartTimestamp(0L);
+  thriftObj.setTimestamp(1L);
+  final TJvmGc gc=new TJvmGc();
+  gc.setType(TJvmGcType.UNKNOWN);
+  gc.setJvmMemoryHeapUsed(999L);
+  gc.setJvmMemoryHeapMax(1000L);
+  gc.setJvmMemoryNonHeapUsed(1999L);
+  gc.setJvmMemoryNonHeapMax(2000L);
+  gc.setJvmGcOldCount(3L);
+  gc.setJvmGcOldTime(10L);
+  thriftObj.setGc(gc);
+  AgentStatMemoryGcBo mappedBo=mapper.map(thriftObj);
+  assertEquals(mappedBo.getAgentId(),thriftObj.getAgentId());
+  assertEquals(mappedBo.getStartTimestamp(),thriftObj.getStartTimestamp());
+  assertEquals(mappedBo.getTimestamp(),thriftObj.getTimestamp());
+  assertEquals(mappedBo.getGcType(),gc.getType().name());
+  assertEquals(mappedBo.getJvmMemoryHeapUsed(),gc.getJvmMemoryHeapUsed());
+  assertEquals(mappedBo.getJvmMemoryHeapMax(),gc.getJvmMemoryHeapMax());
+  assertEquals(mappedBo.getJvmMemoryNonHeapUsed(),gc.getJvmMemoryNonHeapUsed());
+  assertEquals(mappedBo.getJvmMemoryNonHeapMax(),gc.getJvmMemoryNonHeapMax());
+  assertEquals(mappedBo.getJvmGcOldCount(),gc.getJvmGcOldCount());
+  assertEquals(mappedBo.getJvmGcOldTime(),gc.getJvmGcOldTime());
+}
