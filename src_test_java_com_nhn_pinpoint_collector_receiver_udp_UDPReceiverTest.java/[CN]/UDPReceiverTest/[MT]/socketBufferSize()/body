@@ -1,0 +1,8 @@
+{
+  DatagramSocket datagramSocket=new DatagramSocket();
+  int receiveBufferSize=datagramSocket.getReceiveBufferSize();
+  logger.debug("{}",receiveBufferSize);
+  datagramSocket.setReceiveBufferSize(64 * 1024 * 10);
+  logger.debug("{}",datagramSocket.getReceiveBufferSize());
+  datagramSocket.close();
+}

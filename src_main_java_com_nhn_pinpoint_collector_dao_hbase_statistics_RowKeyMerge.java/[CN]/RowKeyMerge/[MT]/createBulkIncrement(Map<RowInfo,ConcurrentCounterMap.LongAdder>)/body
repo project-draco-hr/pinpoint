@@ -1,0 +1,12 @@
+{
+  if (data.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final Map<RowKey,List<ColumnName>> rowkeyMerge=rowKeyBaseMerge(data);
+  List<Increment> incrementList=new ArrayList<Increment>();
+  for (  Map.Entry<RowKey,List<ColumnName>> rowKeyEntry : rowkeyMerge.entrySet()) {
+    Increment increment=createIncrement(rowKeyEntry);
+    incrementList.add(increment);
+  }
+  return incrementList;
+}

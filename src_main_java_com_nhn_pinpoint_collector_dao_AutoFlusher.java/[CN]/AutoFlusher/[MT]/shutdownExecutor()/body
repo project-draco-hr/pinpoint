@@ -1,0 +1,9 @@
+{
+  executor.shutdown();
+  try {
+    executor.awaitTermination(3000 + flushPeriod,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+}

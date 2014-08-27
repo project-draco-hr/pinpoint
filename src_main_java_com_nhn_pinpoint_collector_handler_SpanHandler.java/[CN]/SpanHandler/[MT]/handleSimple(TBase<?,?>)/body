@@ -1,0 +1,19 @@
+{
+  if (!(tbase instanceof TSpan)) {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  }
+  try {
+    final TSpan span=(TSpan)tbase;
+    if (logger.isDebugEnabled()) {
+      logger.debug("Received SPAN={}",span);
+    }
+    traceDao.insert(span);
+    applicationTraceIndexDao.insert(span);
+    insertAcceptorHost(span);
+    insertSpanStat(span);
+    insertSpanEventStat(span);
+  }
+ catch (  Exception e) {
+    logger.warn("Span handle error. Caused:{}. Span:{}",e.getMessage(),tbase,e);
+  }
+}

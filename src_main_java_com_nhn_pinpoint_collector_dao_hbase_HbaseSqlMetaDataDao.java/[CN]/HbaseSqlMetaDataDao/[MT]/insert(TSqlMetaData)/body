@@ -1,0 +1,15 @@
+{
+  if (sqlMetaData == null) {
+    throw new NullPointerException("sqlMetaData must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("insert:{}",sqlMetaData);
+  }
+  SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo(sqlMetaData.getAgentId(),sqlMetaData.getAgentStartTime(),sqlMetaData.getSqlId());
+  final byte[] rowKey=getDistributedKey(sqlMetaDataBo.toRowKey());
+  Put put=new Put(rowKey);
+  String sql=sqlMetaData.getSql();
+  byte[] sqlBytes=Bytes.toBytes(sql);
+  put.add(HBaseTables.SQL_METADATA_CF_SQL,sqlBytes,null);
+  hbaseTemplate.put(HBaseTables.SQL_METADATA,put);
+}

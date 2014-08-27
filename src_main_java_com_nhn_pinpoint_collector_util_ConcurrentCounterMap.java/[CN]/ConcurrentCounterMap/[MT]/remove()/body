@@ -1,0 +1,17 @@
+{
+  final List<Map<T,LongAdder>> copy=removeAll();
+  final Map<T,LongAdder> mergeMap=new HashMap<T,LongAdder>();
+  for (  Map<T,LongAdder> mutableLongMap : copy) {
+    for (    Map.Entry<T,LongAdder> entry : mutableLongMap.entrySet()) {
+      final T key=entry.getKey();
+      LongAdder longAdder=mergeMap.get(key);
+      if (longAdder == null) {
+        mergeMap.put(key,entry.getValue());
+      }
+ else {
+        longAdder.increment(entry.getValue().get());
+      }
+    }
+  }
+  return mergeMap;
+}

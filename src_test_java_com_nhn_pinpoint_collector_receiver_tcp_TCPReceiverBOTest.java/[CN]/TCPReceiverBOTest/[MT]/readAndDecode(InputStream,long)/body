@@ -1,0 +1,22 @@
+{
+  long startTimeMillis=System.currentTimeMillis();
+  while (true) {
+    int avaiableRead=is.available();
+    if (avaiableRead > 0) {
+      byte[] payload=new byte[avaiableRead];
+      is.read(payload);
+      for (      byte b : payload) {
+        System.out.print("!!" + b);
+      }
+      ChannelBuffer cb=ChannelBuffers.wrappedBuffer(payload);
+      cb.readByte();
+      cb.readByte();
+      ResponsePacket responsePacket=ResponsePacket.readBuffer((short)6,cb);
+      return responsePacket;
+    }
+    Thread.sleep(20);
+    if (waitTimeMillis < System.currentTimeMillis() - startTimeMillis) {
+      return null;
+    }
+  }
+}

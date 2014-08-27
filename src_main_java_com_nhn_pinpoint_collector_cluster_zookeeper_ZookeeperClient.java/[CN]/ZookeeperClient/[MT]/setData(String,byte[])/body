@@ -1,0 +1,12 @@
+{
+  checkState();
+  try {
+    if (zookeeper.exists(path,false) == null) {
+      return;
+    }
+    zookeeper.setData(path,data,-1);
+  }
+ catch (  KeeperException exception) {
+    handleException(exception);
+  }
+}

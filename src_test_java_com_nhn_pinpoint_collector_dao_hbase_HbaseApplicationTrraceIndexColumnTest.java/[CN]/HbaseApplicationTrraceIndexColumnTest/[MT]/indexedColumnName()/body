@@ -1,0 +1,17 @@
+{
+  final int elapsed=1234;
+  final String agentId="agentId";
+  final long agentStartTime=1234567890L;
+  final long transactionSequence=1234567890L;
+  final Buffer originalBuffer=new AutomaticBuffer(16);
+  originalBuffer.putVar(elapsed);
+  originalBuffer.putPrefixedString(agentId);
+  originalBuffer.putSVar(agentStartTime);
+  originalBuffer.putVar(transactionSequence);
+  byte[] source=originalBuffer.getBuffer();
+  final Buffer fetched=new OffsetFixedBuffer(source,0);
+  Assert.assertEquals(elapsed,fetched.readVarInt());
+  Assert.assertEquals(agentId,fetched.readPrefixedString());
+  Assert.assertEquals(agentStartTime,fetched.readSVarLong());
+  Assert.assertEquals(transactionSequence,fetched.readVarLong());
+}

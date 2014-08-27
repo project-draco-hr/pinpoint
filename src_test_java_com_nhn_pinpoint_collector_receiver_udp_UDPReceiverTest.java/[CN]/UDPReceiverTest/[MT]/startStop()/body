@@ -1,0 +1,16 @@
+{
+  try {
+    DataReceiver receiver=new UDPReceiver("test",new DispatchHandler(){
+      @Override public void dispatchSendMessage(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
+      }
+      @Override public TBase dispatchRequestMessage(      TBase<?,?> tBase,      byte[] packet,      int offset,      int length){
+        return null;
+      }
+    }
+,"127.0.0.1",10999,1024,1,10);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Assert.fail(e.getMessage());
+  }
+}

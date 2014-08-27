@@ -1,0 +1,13 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  byte[] agentIdByte=Bytes.toBytes(agentId);
+  byte[] appNameByte=Bytes.toBytes(applicationName);
+  Put put=new Put(agentIdByte);
+  put.add(AGENTID_APPLICATION_INDEX_CF_APPLICATION,appNameByte,appNameByte);
+  hbaseTemplate.put(AGENTID_APPLICATION_INDEX,put);
+}

@@ -1,0 +1,37 @@
+{
+  byte[] bytes=requestPacket.getPayload();
+  SocketAddress remoteAddress=socketChannel.getRemoteAddress();
+  try {
+    final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
+    TBase<?,?> tBase=deserializer.deserialize(bytes);
+    if (tBase instanceof L4Packet) {
+      if (logger.isDebugEnabled()) {
+        L4Packet packet=(L4Packet)tBase;
+        logger.debug("tcp l4 packet {}",packet.getHeader());
+      }
+      return;
+    }
+    TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
+    if (result != null) {
+      HeaderTBaseSerializer serializer=serializerFactory.createSerializer();
+      byte[] resultBytes=serializer.serialize(result);
+      socketChannel.sendResponseMessage(requestPacket,resultBytes);
+    }
+  }
+ catch (  TException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",remoteAddress,e.getMessage(),e);
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("packet dump hex:{}",PacketUtils.dumpByteArray(bytes));
+    }
+  }
+catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{}",remoteAddress,e.getMessage(),e);
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("packet dump hex:{}",PacketUtils.dumpByteArray(bytes));
+    }
+  }
+}

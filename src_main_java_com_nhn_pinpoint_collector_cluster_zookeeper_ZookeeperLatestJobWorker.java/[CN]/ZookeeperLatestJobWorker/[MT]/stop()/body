@@ -1,0 +1,19 @@
+{
+  if (!(this.workerState.compareAndSet(1,2))) {
+    logger.info("{} already stopped.",this.getClass().getSimpleName());
+    this.workerState.set(2);
+    return;
+  }
+  logger.info("{} will be stopped",this.getClass().getSimpleName());
+  boolean interrupted=false;
+  while (this.workerThread.isAlive()) {
+    this.workerThread.interrupt();
+    try {
+      this.workerThread.join(100L);
+    }
+ catch (    InterruptedException e) {
+      interrupted=true;
+    }
+  }
+  return;
+}

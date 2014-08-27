@@ -1,0 +1,17 @@
+{
+  final List<TSpanEvent> spanEventList=span.getSpanEventList();
+  if (CollectionUtils.isEmpty(spanEventList)) {
+    return;
+  }
+  logger.debug("handle spanEvent size:{}",spanEventList.size());
+  for (  TSpanEvent spanEvent : spanEventList) {
+    ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
+    if (!serviceType.isRecordStatistics()) {
+      continue;
+    }
+    final int elapsed=spanEvent.getEndElapsed();
+    final boolean hasException=SpanEventUtils.hasException(spanEvent);
+    statisticsHandler.updateCaller(span.getApplicationName(),span.getServiceType(),span.getAgentId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
+    statisticsHandler.updateCallee(spanEvent.getDestinationId(),spanEvent.getServiceType(),span.getApplicationName(),span.getServiceType(),span.getEndPoint(),elapsed,hasException);
+  }
+}

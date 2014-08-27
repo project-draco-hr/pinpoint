@@ -1,0 +1,14 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (bindApplicationName == null) {
+    throw new NullPointerException("bindApplicationName must not be null");
+  }
+  final long statisticsRowSlot=getSlotTime();
+  final CacheKey cacheKey=new CacheKey(host,bindApplicationName,bindServiceType,parentApplicationName,parentServiceType);
+  final boolean needUpdate=updater.update(cacheKey,statisticsRowSlot);
+  if (needUpdate) {
+    insertHostVer2(host,bindApplicationName,bindServiceType,statisticsRowSlot,parentApplicationName,parentServiceType);
+  }
+}

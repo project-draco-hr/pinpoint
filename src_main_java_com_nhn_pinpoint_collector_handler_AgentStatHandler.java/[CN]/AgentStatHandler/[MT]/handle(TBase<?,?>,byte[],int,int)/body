@@ -1,0 +1,14 @@
+{
+  if (tbase instanceof TAgentStat) {
+    final TAgentStat agentStat=(TAgentStat)tbase;
+    String agentId=agentStat.getAgentId();
+    long startTimestamp=agentStat.getStartTimestamp();
+    handleAgentStat(agentId,startTimestamp,agentStat);
+  }
+ else   if (tbase instanceof TAgentStatBatch) {
+    handleAgentStatBatch((TAgentStatBatch)tbase);
+  }
+ else {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ TAgentStat.class.getName()+ " or "+ TAgentStatBatch.class.getName());
+  }
+}

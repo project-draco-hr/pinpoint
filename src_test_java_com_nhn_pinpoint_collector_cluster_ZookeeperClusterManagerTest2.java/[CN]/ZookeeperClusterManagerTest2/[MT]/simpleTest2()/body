@@ -1,0 +1,29 @@
+{
+  TestingCluster tcluster=null;
+  try {
+    tcluster=createZookeeperCluster(3);
+    String connectString=getConnectString(tcluster);
+    ZookeeperClusterManager clusterManager=new ZookeeperClusterManager(connectString,3000);
+    ChannelContext channelContext=new ChannelContext(null,null,clusterManager);
+    channelContext.setChannelProperties(getParams());
+    channelContext.changeStateRun();
+    Thread.sleep(1000);
+    Map result=clusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
+    channelContext.changeStateRunDuplexCommunication();
+    Thread.sleep(1000);
+    result=clusterManager.getData(channelContext);
+    Assert.assertEquals(PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION,getCode(result));
+    restart(tcluster);
+    result=clusterManager.getData(channelContext);
+    Assert.assertEquals(PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION,getCode(result));
+    channelContext.changeStateShutdown();
+    Thread.sleep(1000);
+    result=clusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
+    clusterManager.close();
+  }
+  finally {
+    closeZookeeperCluster(tcluster);
+  }
+}

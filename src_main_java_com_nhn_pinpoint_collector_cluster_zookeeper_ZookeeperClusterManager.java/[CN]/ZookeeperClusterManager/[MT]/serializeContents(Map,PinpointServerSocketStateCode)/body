@@ -1,0 +1,12 @@
+{
+  Map<Object,Object> contents=new HashMap<Object,Object>();
+  contents.put(localHost.getHostAddress(),agentProperties);
+  contents.put("state",state.name());
+  try {
+    return objectmapper.writeValueAsBytes(contents);
+  }
+ catch (  JsonProcessingException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return null;
+}

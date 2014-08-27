@@ -1,0 +1,8 @@
+{
+  Slf4jReporter.Builder builder=Slf4jReporter.forRegistry(metricRegistry);
+  builder.convertRatesTo(TimeUnit.SECONDS);
+  builder.convertDurationsTo(TimeUnit.MILLISECONDS);
+  builder.outputTo(reporterLogger);
+  reporter=builder.build();
+  reporter.start(60,TimeUnit.SECONDS);
+}

@@ -1,0 +1,12 @@
+{
+  if (clientState.compareAndSet(true,false)) {
+    if (zookeeper != null) {
+      try {
+        zookeeper.close();
+      }
+ catch (      InterruptedException ignore) {
+        logger.debug(ignore.getMessage(),ignore);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  if (agentStat == null) {
+    throw new NullPointerException("agentStat must not be null");
+  }
+  long timestamp=agentStat.getTimestamp();
+  byte[] key=getDistributedRowKey(agentStat,timestamp);
+  Put put=new Put(key);
+  final AgentStatMemoryGcBo agentStatMemoryGcBo=this.agentStatMemoryGcBoMapper.map(agentStat);
+  put.add(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_MEMORY_GC,timestamp,agentStatMemoryGcBo.writeValue());
+  final AgentStatCpuLoadBo agentStatCpuLoadBo=this.agentStatCpuLoadBoMapper.map(agentStat);
+  put.add(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_CPU_LOAD,timestamp,agentStatCpuLoadBo.writeValue());
+  hbaseTemplate.put(AGENT_STAT,put);
+}

@@ -1,0 +1,20 @@
+{
+  if (!(tbase instanceof TSqlMetaData)) {
+    logger.error("invalid tbase:{}",tbase);
+    return null;
+  }
+  TSqlMetaData sqlMetaData=(TSqlMetaData)tbase;
+  if (logger.isInfoEnabled()) {
+    logger.info("Received SqlMetaData:{}",sqlMetaData);
+  }
+  try {
+    sqlMetaDataDao.insert(sqlMetaData);
+  }
+ catch (  Exception e) {
+    logger.warn("{} handler error. Caused:{}",this.getClass(),e.getMessage(),e);
+    TResult result=new TResult(false);
+    result.setMessage(e.getMessage());
+    return result;
+  }
+  return new TResult(true);
+}

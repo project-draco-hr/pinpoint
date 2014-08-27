@@ -1,0 +1,19 @@
+{
+  final Map<RowKey,List<ColumnName>> merge=new HashMap<RowKey,List<ColumnName>>();
+  for (  Map.Entry<RowInfo,ConcurrentCounterMap.LongAdder> entry : data.entrySet()) {
+    final RowInfo rowInfo=entry.getKey();
+    long callCount=entry.getValue().get();
+    rowInfo.getColumnName().setCallCount(callCount);
+    RowKey rowKey=rowInfo.getRowKey();
+    List<ColumnName> oldList=merge.get(rowKey);
+    if (oldList == null) {
+      List<ColumnName> newList=new ArrayList<ColumnName>();
+      newList.add(rowInfo.getColumnName());
+      merge.put(rowKey,newList);
+    }
+ else {
+      oldList.add(rowInfo.getColumnName());
+    }
+  }
+  return merge;
+}
