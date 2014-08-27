@@ -1,0 +1,10 @@
+{
+  if (state.compareAndSet(OPEN_AWAIT,channelState)) {
+    notifyOpenResult(streamCreateResponse);
+    return true;
+  }
+ else {
+    logger.info("invalid stream channel state:{}",state.get());
+    return false;
+  }
+}

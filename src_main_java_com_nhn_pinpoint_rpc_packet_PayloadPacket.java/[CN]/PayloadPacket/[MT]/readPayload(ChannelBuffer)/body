@@ -1,0 +1,15 @@
+{
+  if (buffer.readableBytes() < 4) {
+    buffer.resetReaderIndex();
+    return null;
+  }
+  final int payloadLength=buffer.readInt();
+  if (payloadLength <= 0) {
+    return EMPTY_BUFFER;
+  }
+  if (buffer.readableBytes() < payloadLength) {
+    buffer.resetReaderIndex();
+    return null;
+  }
+  return buffer.readBytes(payloadLength);
+}

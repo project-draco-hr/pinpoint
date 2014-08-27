@@ -1,0 +1,10 @@
+{
+  int code=getRegisterAgentConfirmPacketCode(message.getPayload());
+  logger.info("EnableWorkerConfirm Packet({}) code={} received. {}",message,code,channel);
+  if (code == ControlEnableWorkerConfirmPacket.SUCCESS || code == ControlEnableWorkerConfirmPacket.ALREADY_REGISTER) {
+    state.changeRunDuplexCommunication();
+  }
+ else {
+    logger.warn("Invalid EnableWorkerConfirm Packet ({}) code={} received. {}",message,code,channel);
+  }
+}

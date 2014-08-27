@@ -1,0 +1,11 @@
+{
+  int result=0;
+  int shift=0;
+  while (true) {
+    byte b=in.get();
+    result|=(b & 0x7F) << shift;
+    if ((b & 0x80) != 128)     break;
+    shift+=7;
+  }
+  return result;
+}

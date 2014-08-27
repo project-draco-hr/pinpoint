@@ -1,0 +1,6 @@
+{
+  ChannelBuffer header=ChannelBuffers.buffer(2 + 4 + 4);
+  header.writeShort(PacketType.APPLICATION_STREAM_CREATE_SUCCESS);
+  header.writeInt(channelId);
+  return PayloadPacket.appendPayload(header,payload);
+}

@@ -1,0 +1,13 @@
+{
+  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  try {
+    pinpointSocketFactory.connect("127.0.0.1",10234);
+    Assert.fail();
+  }
+ catch (  PinpointSocketException e) {
+    Assert.assertTrue(ConnectException.class.isInstance(e.getCause()));
+  }
+ finally {
+    pinpointSocketFactory.release();
+  }
+}

@@ -1,0 +1,9 @@
+{
+  try {
+    logger.debug("newPingTimeout");
+    pingTimer.newTimeout(pintTask,1000 * 60 * 5,TimeUnit.MILLISECONDS);
+  }
+ catch (  IllegalStateException e) {
+    logger.debug("timer stopped. Caused:{}",e.getMessage());
+  }
+}

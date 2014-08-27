@@ -1,0 +1,18 @@
+{
+  PinpointServerSocket ss=new PinpointServerSocket();
+  ss.setMessageListener(new TestSeverMessageListener());
+  ss.bind("localhost",10234);
+  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  try {
+    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
+    logger.info("send1");
+    socket.send(new byte[20]);
+    logger.info("send2");
+    socket.sendSync(new byte[20]);
+    socket.close();
+  }
+  finally {
+    pinpointSocketFactory.release();
+    ss.close();
+  }
+}

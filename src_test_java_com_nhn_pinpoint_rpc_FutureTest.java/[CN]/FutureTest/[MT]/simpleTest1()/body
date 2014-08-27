@@ -1,0 +1,8 @@
+{
+  DefaultFuture<String> future=new DefaultFuture<String>();
+  SimpleListener<String> listener1=new SimpleListener<String>();
+  future.setListener(listener1);
+  Assert.assertFalse(listener1.isFinished());
+  future.setResult("Hello");
+  Assert.assertTrue(listener1.isFinished());
+}

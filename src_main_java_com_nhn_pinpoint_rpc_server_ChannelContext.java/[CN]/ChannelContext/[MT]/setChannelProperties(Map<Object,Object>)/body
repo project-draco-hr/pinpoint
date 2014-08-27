@@ -1,0 +1,11 @@
+{
+  if (properties == null) {
+    return false;
+  }
+  if (this.channelProperties != Collections.emptyMap()) {
+    logger.warn("Already Register ChannelProperties.({}).",this.channelProperties);
+    return false;
+  }
+  this.channelProperties=Collections.unmodifiableMap(properties);
+  return true;
+}

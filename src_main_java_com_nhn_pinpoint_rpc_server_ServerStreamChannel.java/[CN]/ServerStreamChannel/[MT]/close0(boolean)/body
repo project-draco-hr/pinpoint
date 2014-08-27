@@ -1,0 +1,15 @@
+{
+  if (!state.compareAndSet(RUN,CLOSED)) {
+    return false;
+  }
+  if (safeClose) {
+    StreamClosePacket streamClosePacket=new StreamClosePacket(channelId);
+    this.channel.write(streamClosePacket);
+    ServerStreamChannelManager serverStreamChannelManager=this.serverStreamChannelManager;
+    if (serverStreamChannelManager != null) {
+      serverStreamChannelManager.closeChannel(channelId);
+      this.serverStreamChannelManager=null;
+    }
+  }
+  return true;
+}

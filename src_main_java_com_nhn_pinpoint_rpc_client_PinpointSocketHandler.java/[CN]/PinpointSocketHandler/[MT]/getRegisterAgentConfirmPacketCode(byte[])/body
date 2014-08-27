@@ -1,0 +1,11 @@
+{
+  Map result=null;
+  try {
+    result=(Map)ControlMessageEnDeconderUtils.decode(payload);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  int code=MapUtils.getInteger(result,"code",-1);
+  return code;
+}

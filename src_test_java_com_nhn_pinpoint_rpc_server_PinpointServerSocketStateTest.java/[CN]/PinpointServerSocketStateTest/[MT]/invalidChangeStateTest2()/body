@@ -1,0 +1,8 @@
+{
+  PinpointServerSocketState state=new PinpointServerSocketState();
+  state.changeStateRunDuplexCommunication();
+  Assert.assertEquals(PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION,state.getCurrentState());
+  state.changeStateBeingShutdown();
+  Assert.assertEquals(PinpointServerSocketStateCode.BEING_SHUTDOWN,state.getCurrentState());
+  state.changeStateUnexpectedShutdown();
+}

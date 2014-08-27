@@ -1,0 +1,15 @@
+{
+synchronized (this) {
+    if (ready) {
+      return false;
+    }
+    this.ready=true;
+    this.result=message;
+    if (waiters > 0) {
+      notifyAll();
+    }
+  }
+  cancelTimeout();
+  notifyListener();
+  return true;
+}

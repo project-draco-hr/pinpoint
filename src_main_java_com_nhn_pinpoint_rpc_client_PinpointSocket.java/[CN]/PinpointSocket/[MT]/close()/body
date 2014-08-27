@@ -1,0 +1,13 @@
+{
+synchronized (this) {
+    if (closed) {
+      return;
+    }
+    closed=true;
+  }
+  SocketHandler socketHandler=this.socketHandler;
+  if (socketHandler == null) {
+    return;
+  }
+  socketHandler.close();
+}

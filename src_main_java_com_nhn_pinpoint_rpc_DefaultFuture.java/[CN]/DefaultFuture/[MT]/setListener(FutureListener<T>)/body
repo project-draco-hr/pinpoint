@@ -1,0 +1,18 @@
+{
+  if (listener == null) {
+    throw new NullPointerException("listener");
+  }
+  boolean alreadyReady=false;
+synchronized (this) {
+    if (ready) {
+      alreadyReady=true;
+    }
+ else {
+      this.listener=listener;
+    }
+  }
+  if (alreadyReady) {
+    fireOnComplete(listener);
+  }
+  return !alreadyReady;
+}

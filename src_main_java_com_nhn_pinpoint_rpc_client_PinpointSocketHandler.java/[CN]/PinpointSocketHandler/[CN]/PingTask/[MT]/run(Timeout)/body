@@ -1,0 +1,11 @@
+{
+  if (timeout.isCancelled()) {
+    newPingTimeout(this);
+    return;
+  }
+  if (isClosed()) {
+    return;
+  }
+  writePing();
+  newPingTimeout(this);
+}

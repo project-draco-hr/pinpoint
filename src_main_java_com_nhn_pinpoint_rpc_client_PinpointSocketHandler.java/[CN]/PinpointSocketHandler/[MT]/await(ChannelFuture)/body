@@ -1,0 +1,34 @@
+{
+  try {
+    channelFuture.await(timeoutMillis,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+  if (channelFuture.isDone()) {
+    boolean success=channelFuture.isSuccess();
+    if (success) {
+      return;
+    }
+ else {
+      final Throwable cause=channelFuture.getCause();
+      throw new PinpointSocketException(cause);
+    }
+  }
+ else {
+    boolean cancel=channelFuture.cancel();
+    if (cancel) {
+      throw new PinpointSocketException("io timeout");
+    }
+ else {
+      boolean success=channelFuture.isSuccess();
+      if (success) {
+        return;
+      }
+ else {
+        final Throwable cause=channelFuture.getCause();
+        throw new PinpointSocketException(cause);
+      }
+    }
+  }
+}

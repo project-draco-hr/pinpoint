@@ -1,0 +1,28 @@
+{
+  logger.debug("sendPing");
+  final TimerTask pintTask=new TimerTask(){
+    @Override public void run(    Timeout timeout) throws Exception {
+      if (timeout.isCancelled()) {
+        newPingTimeout(this);
+        return;
+      }
+      final ChannelGroupFuture write=channelGroup.write(PingPacket.PING_PACKET);
+      if (logger.isWarnEnabled()) {
+        write.addListener(new ChannelGroupFutureListener(){
+          private final ChannelFutureListener listener=new WriteFailFutureListener(logger,"ping write fail","ping write success");
+          @Override public void operationComplete(          ChannelGroupFuture future) throws Exception {
+            if (logger.isWarnEnabled()) {
+              for (              ChannelFuture channelFuture : future) {
+                channelFuture.addListener(listener);
+              }
+            }
+          }
+        }
+);
+      }
+      newPingTimeout(this);
+    }
+  }
+;
+  newPingTimeout(pintTask);
+}

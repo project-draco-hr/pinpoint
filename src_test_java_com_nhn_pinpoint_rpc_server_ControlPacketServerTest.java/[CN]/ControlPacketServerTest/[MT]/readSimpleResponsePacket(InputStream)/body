@@ -1,0 +1,7 @@
+{
+  byte[] payload=readData(inputStream);
+  ChannelBuffer cb=ChannelBuffers.wrappedBuffer(payload);
+  short packetType=cb.readShort();
+  ResponsePacket packet=ResponsePacket.readBuffer(packetType,cb);
+  return packet;
+}

@@ -1,0 +1,11 @@
+{
+  if (bossCount < 1) {
+    throw new IllegalArgumentException("bossCount is negative: " + bossCount);
+  }
+  Timer timer=createTimer();
+  ClientBootstrap bootstrap=createBootStrap(bossCount,workerCount,timer);
+  setOptions(bootstrap);
+  addPipeline(bootstrap);
+  this.bootstrap=bootstrap;
+  this.timer=timer;
+}

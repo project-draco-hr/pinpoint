@@ -1,0 +1,12 @@
+{
+  AssertUtils.assertNotNull(socketHandler,"socketHandler");
+  if (closed) {
+    logger.warn("reconnectSocketHandler(). socketHandler force close.");
+    socketHandler.close();
+    return;
+  }
+  logger.warn("reconnectSocketHandler:{}",socketHandler);
+  socketHandler.setMessageListener(messageListener);
+  this.socketHandler=socketHandler;
+  notifyReconnectEvent();
+}

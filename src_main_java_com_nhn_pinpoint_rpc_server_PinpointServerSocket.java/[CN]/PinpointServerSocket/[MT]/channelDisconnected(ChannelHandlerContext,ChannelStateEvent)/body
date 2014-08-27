@@ -1,0 +1,22 @@
+{
+  final Channel channel=e.getChannel();
+  final ChannelContext channelContext=getChannelContext(channel);
+  PinpointServerSocketStateCode currentStateCode=channelContext.getCurrentStateCode();
+  if (currentStateCode == PinpointServerSocketStateCode.BEING_SHUTDOWN) {
+    channelContext.changeStateShutdown();
+  }
+ else   if (released) {
+    channelContext.changeStateShutdown();
+  }
+ else {
+    boolean check=checkIgnoreAddress(channel);
+    if (check) {
+      channelContext.changeStateUnexpectedShutdown();
+    }
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("server channelDisconnected {}",channel);
+  }
+  this.channelGroup.remove(channel);
+  super.channelDisconnected(ctx,e);
+}

@@ -1,0 +1,17 @@
+{
+  if (bytes == null) {
+    throw new NullPointerException("bytes");
+  }
+  boolean run=isRun();
+  if (!run) {
+    DefaultFuture<ResponseMessage> closedException=new DefaultFuture<ResponseMessage>();
+    closedException.setFailure(new PinpointSocketException("invalid state:" + state.getString() + " channel:"+ channel));
+    return closedException;
+  }
+  RequestPacket request=new RequestPacket(bytes);
+  final Channel channel=this.channel;
+  final ChannelWriteFailListenableFuture<ResponseMessage> messageFuture=this.requestManager.register(request,this.timeoutMillis);
+  ChannelFuture write=channel.write(request);
+  write.addListener(messageFuture);
+  return messageFuture;
+}

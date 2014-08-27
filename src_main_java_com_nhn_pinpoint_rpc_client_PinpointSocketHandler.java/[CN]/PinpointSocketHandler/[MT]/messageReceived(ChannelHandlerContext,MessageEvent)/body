@@ -1,0 +1,36 @@
+{
+  final Object message=e.getMessage();
+  if (message instanceof Packet) {
+    final Packet packet=(Packet)message;
+    final short packetType=packet.getPacketType();
+switch (packetType) {
+case PacketType.APPLICATION_RESPONSE:
+      this.requestManager.messageReceived((ResponsePacket)message,e.getChannel());
+    return;
+case PacketType.APPLICATION_REQUEST:
+  this.messageListener.handleRequest((RequestPacket)message,e.getChannel());
+return;
+case PacketType.APPLICATION_SEND:
+this.messageListener.handleSend((SendPacket)message,e.getChannel());
+return;
+case PacketType.APPLICATION_STREAM_CREATE:
+case PacketType.APPLICATION_STREAM_CLOSE:
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+case PacketType.APPLICATION_STREAM_RESPONSE:
+this.streamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
+return;
+case PacketType.CONTROL_SERVER_CLOSE:
+messageReceivedServerClosed(e.getChannel());
+return;
+case PacketType.CONTROL_ENABLE_WORKER_CONFIRM:
+messageReceivedEnableWorkerConfirm((ControlEnableWorkerConfirmPacket)message,e.getChannel());
+return;
+default :
+logger.warn("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+}
+}
+ else {
+logger.warn("invalid messageReceived:{}",message);
+}
+}

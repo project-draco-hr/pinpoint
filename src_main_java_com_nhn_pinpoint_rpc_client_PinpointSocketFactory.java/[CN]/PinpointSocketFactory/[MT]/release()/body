@@ -1,0 +1,15 @@
+{
+synchronized (this) {
+    if (released) {
+      return;
+    }
+    released=true;
+  }
+  if (bootstrap != null) {
+    bootstrap.releaseExternalResources();
+  }
+  Set<Timeout> stop=this.timer.stop();
+  if (!stop.isEmpty()) {
+    logger.info("stop Timeout:{}",stop.size());
+  }
+}

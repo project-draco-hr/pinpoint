@@ -1,0 +1,44 @@
+{
+  if (buffer.readableBytes() < 2) {
+    return null;
+  }
+  buffer.markReaderIndex();
+  final short packetType=buffer.readShort();
+switch (packetType) {
+case PacketType.APPLICATION_SEND:
+    return readSend(packetType,buffer);
+case PacketType.APPLICATION_REQUEST:
+  return readRequest(packetType,buffer);
+case PacketType.APPLICATION_RESPONSE:
+return readResponse(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE:
+return readStreamCreate(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CLOSE:
+return readStreamClose(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+return readStreamCreateSuccess(packetType,buffer);
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+return readStreamCreateFail(packetType,buffer);
+case PacketType.APPLICATION_STREAM_RESPONSE:
+return readStreamResponse(packetType,buffer);
+case PacketType.CONTROL_CLIENT_CLOSE:
+return readControlClientClose(packetType,buffer);
+case PacketType.CONTROL_SERVER_CLOSE:
+return readControlServerClose(packetType,buffer);
+case PacketType.CONTROL_PING:
+readPing(packetType,buffer);
+sendPong(channel);
+return null;
+case PacketType.CONTROL_PONG:
+logger.debug("receive pong. {}",channel);
+readPong(packetType,buffer);
+return null;
+case PacketType.CONTROL_ENABLE_WORKER:
+return readEnableWorker(packetType,buffer);
+case PacketType.CONTROL_ENABLE_WORKER_CONFIRM:
+return readEnableWorkerConfirm(packetType,buffer);
+}
+logger.error("invalid packetType received. packetType:{}, channel:{}",packetType,channel);
+channel.close();
+return null;
+}

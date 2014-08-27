@@ -1,0 +1,14 @@
+{
+  logger.debug("streamPacket:{} channel:{}",streamPacket,streamChannel);
+  if (streamPacket instanceof StreamCreatePacket) {
+    byte[] payload=streamPacket.getPayload();
+    this.open=payload;
+    streamChannel.sendOpenResult(true,payload);
+    sendStreamMessage(streamChannel);
+    sendStreamMessage(streamChannel);
+    sendStreamMessage(streamChannel);
+    sendClose(streamChannel);
+  }
+ else   if (streamPacket instanceof StreamClosePacket) {
+  }
+}

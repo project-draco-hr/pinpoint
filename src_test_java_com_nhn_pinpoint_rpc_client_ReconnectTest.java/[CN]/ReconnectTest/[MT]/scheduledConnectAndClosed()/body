@@ -1,0 +1,8 @@
+{
+  final PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  pinpointSocketFactory.setReconnectDelay(100);
+  PinpointSocket socket=pinpointSocketFactory.scheduledConnect("localhost",10234);
+  logger.debug("close");
+  socket.close();
+  pinpointSocketFactory.release();
+}

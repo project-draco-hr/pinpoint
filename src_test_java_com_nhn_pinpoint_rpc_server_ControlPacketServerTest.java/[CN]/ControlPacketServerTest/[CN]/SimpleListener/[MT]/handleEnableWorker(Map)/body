@@ -1,0 +1,10 @@
+{
+  if (properties == null) {
+    return ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL;
+  }
+  boolean hasAllType=AgentPropertiesType.hasAllType(properties);
+  if (!hasAllType) {
+    return ControlEnableWorkerConfirmPacket.INVALID_PROPERTIES;
+  }
+  return ControlEnableWorkerConfirmPacket.SUCCESS;
+}
