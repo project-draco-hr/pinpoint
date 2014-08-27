@@ -1,0 +1,8 @@
+{
+  if (contextServiceType == null) {
+    throw new NullPointerException("contextServiceType must not be null");
+  }
+  this.contextServiceType=contextServiceType;
+  this.responseMetric=new LongAdderHistogram(contextServiceType);
+  this.userHistogram=new LongAdderHistogram(contextServiceType);
+}

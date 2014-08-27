@@ -1,0 +1,13 @@
+{
+  try {
+    final TAgentStat agentStat=collectAgentStat();
+    this.agentStats.add(agentStat);
+    if (++this.collectCount >= this.numStatsPerBatch) {
+      sendAgentStats();
+      this.collectCount=0;
+    }
+  }
+ catch (  Exception ex) {
+    logger.warn("AgentStat collect failed. Caused:{}",ex.getMessage(),ex);
+  }
+}

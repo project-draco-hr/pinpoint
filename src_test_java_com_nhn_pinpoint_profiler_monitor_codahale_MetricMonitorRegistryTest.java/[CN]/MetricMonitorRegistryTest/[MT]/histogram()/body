@@ -1,0 +1,12 @@
+{
+  HistogramMonitor histogram=registry.newHistogramMonitor(new MonitorName("test.histogram"));
+  histogram.update(1);
+  histogram.update(10);
+  histogram.update(100);
+  assertEquals(3,histogram.getCount());
+  Histogram h=((MetricHistogramMonitor)histogram).getDelegate();
+  Snapshot snapshot=h.getSnapshot();
+  assertEquals(100,snapshot.getMax());
+  assertEquals(1,snapshot.getMin());
+  assertTrue(10.0 == snapshot.getMedian());
+}

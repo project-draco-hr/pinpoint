@@ -1,0 +1,37 @@
+{
+  final TestClassLoader loader=getTestClassLoader();
+  final String testClassObject="com.nhn.pinpoint.profiler.interceptor.bci.TestObjectContextClassLoader";
+  final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getAgent()){
+    @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
+      try {
+        logger.info("modify cl:{}",classLoader);
+        InstrumentClass aClass=byteCodeInstrumentor.getClass(testClassObject);
+        Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestBeforeInterceptor");
+        addInterceptor(interceptor);
+        logger.info(interceptor.getClass().getClassLoader().toString());
+        String methodName="callA";
+        aClass.addInterceptor(methodName,null,interceptor);
+        return aClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+  }
+;
+  testModifier.setTargetClass(testClassObject);
+  loader.addModifier(testModifier);
+  loader.initialize();
+  Class testObjectClazz=loader.loadClass("com.nhn.pinpoint.profiler.interceptor.bci.TestObjectContextClassLoader");
+  final String methodName="callA";
+  logger.info("class:{}",testObjectClazz.toString());
+  final Object testObject=testObjectClazz.newInstance();
+  Method callA=testObjectClazz.getMethod(methodName);
+  callA.invoke(testObject);
+  final Interceptor interceptor=testModifier.getInterceptor(0);
+  assertEqualsIntField(interceptor,"call",1);
+  assertEqualsObjectField(interceptor,"className","com.nhn.pinpoint.profiler.interceptor.bci.TestObjectContextClassLoader");
+  assertEqualsObjectField(interceptor,"methodName",methodName);
+  assertEqualsObjectField(interceptor,"args",null);
+  assertEqualsObjectField(interceptor,"target",testObject);
+}

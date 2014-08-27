@@ -1,0 +1,46 @@
+{
+  List<Part> parts=httpRequest.getParts();
+  if (parts != null && parts.isEmpty()) {
+    StringBuilder sb=new StringBuilder(entityDumpSize * 2);
+    Iterator<Part> iterator=parts.iterator();
+    while (iterator.hasNext()) {
+      Part part=iterator.next();
+      if (part instanceof com.ning.http.client.ByteArrayPart) {
+        com.ning.http.client.ByteArrayPart p=(com.ning.http.client.ByteArrayPart)part;
+        sb.append(part.getName());
+        sb.append("=BYTE_ARRAY_");
+        sb.append(p.getData().length);
+      }
+ else       if (part instanceof com.ning.http.client.FilePart) {
+        com.ning.http.client.FilePart p=(com.ning.http.client.FilePart)part;
+        sb.append(part.getName());
+        sb.append("=FILE_");
+        sb.append(p.getMimeType());
+      }
+ else       if (part instanceof com.ning.http.client.StringPart) {
+        com.ning.http.client.StringPart p=(com.ning.http.client.StringPart)part;
+        sb.append(part.getName());
+        sb.append("=");
+        sb.append(p.getValue());
+      }
+ else       if (part instanceof com.ning.http.multipart.FilePart) {
+        com.ning.http.multipart.FilePart p=(com.ning.http.multipart.FilePart)part;
+        sb.append(part.getName());
+        sb.append("=FILE_");
+        sb.append(p.getContentType());
+      }
+ else       if (part instanceof com.ning.http.multipart.StringPart) {
+        com.ning.http.multipart.StringPart p=(com.ning.http.multipart.StringPart)part;
+        sb.append(part.getName());
+        sb.append("=STRING");
+      }
+      if (sb.length() >= entityDumpSize) {
+        break;
+      }
+      if (iterator.hasNext()) {
+        sb.append(",");
+      }
+    }
+    trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(sb.toString(),entityDumpSize));
+  }
+}

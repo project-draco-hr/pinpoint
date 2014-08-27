@@ -1,0 +1,25 @@
+{
+  if (localVariableAttribute == null) {
+    return null;
+  }
+  dump(localVariableAttribute);
+  CtClass[] parameterTypes=method.getParameterTypes();
+  if (parameterTypes.length == 0) {
+    return EMPTY_STRING_ARRAY;
+  }
+  String[] parameterVariableNames=new String[parameterTypes.length];
+  boolean thisExist=thisExist(method);
+  int paramIndex=0;
+  for (int i=0; i < localVariableAttribute.tableLength(); i++) {
+    if (localVariableAttribute.startPc(i) != 0) {
+      continue;
+    }
+    int index=localVariableAttribute.index(i);
+    if (index == 0 && thisExist) {
+      continue;
+    }
+    String variablename=localVariableAttribute.variableName(i);
+    parameterVariableNames[paramIndex++]=variablename;
+  }
+  return parameterVariableNames;
+}

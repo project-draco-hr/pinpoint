@@ -1,0 +1,20 @@
+{
+  final ServerInfo serverInfo=this.serverInfo;
+  String ip=serverInfo.getHostip();
+  final StringBuilder ports=new StringBuilder();
+  for (  Entry<Integer,String> entry : serverInfo.getConnectors().entrySet()) {
+    ports.append(" ");
+    ports.append(entry.getKey());
+  }
+  final TAgentInfo agentInfo=new TAgentInfo();
+  agentInfo.setIp(ip);
+  agentInfo.setHostname(this.agentInformation.getMachineName());
+  agentInfo.setPorts(ports.toString());
+  agentInfo.setAgentId(agentInformation.getAgentId());
+  agentInfo.setApplicationName(agentInformation.getApplicationName());
+  agentInfo.setPid(agentInformation.getPid());
+  agentInfo.setStartTimestamp(agentInformation.getStartTime());
+  agentInfo.setServiceType(agentInformation.getServerType());
+  agentInfo.setVersion(Version.VERSION);
+  return agentInfo;
+}

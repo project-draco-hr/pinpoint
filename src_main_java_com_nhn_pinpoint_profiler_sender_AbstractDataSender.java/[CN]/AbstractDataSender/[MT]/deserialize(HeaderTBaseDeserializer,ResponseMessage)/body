@@ -1,0 +1,12 @@
+{
+  byte[] message=responseMessage.getMessage();
+  try {
+    return deserializer.deserialize(message);
+  }
+ catch (  TException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Deserialize fail. Caused:{}",e.getMessage(),e);
+    }
+    return null;
+  }
+}

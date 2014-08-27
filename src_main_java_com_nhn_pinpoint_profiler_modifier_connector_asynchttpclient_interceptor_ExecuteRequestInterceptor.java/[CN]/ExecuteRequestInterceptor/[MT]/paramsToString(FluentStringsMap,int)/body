@@ -1,0 +1,24 @@
+{
+  StringBuilder result=new StringBuilder(limit * 2);
+  for (  Map.Entry<String,List<String>> entry : params.entrySet()) {
+    if (result.length() > 0) {
+      result.append(",");
+    }
+    result.append(entry.getKey());
+    result.append("=");
+    boolean needsComma=false;
+    for (    String value : entry.getValue()) {
+      if (needsComma) {
+        result.append(", ");
+      }
+ else {
+        needsComma=true;
+      }
+      result.append(value);
+    }
+    if (result.length() >= limit) {
+      break;
+    }
+  }
+  return result.toString();
+}

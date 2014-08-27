@@ -1,0 +1,9 @@
+{
+  if (url == null) {
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,url);
+  }
+  if (isLoadbalanceUrl(url)) {
+    return parseLoadbalancedUrl(url);
+  }
+  return parseNormal(url);
+}

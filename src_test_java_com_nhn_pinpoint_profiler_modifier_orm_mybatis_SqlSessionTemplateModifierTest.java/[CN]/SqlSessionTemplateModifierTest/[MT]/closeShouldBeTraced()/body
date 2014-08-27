@@ -1,0 +1,12 @@
+{
+  try {
+    super.closeShouldBeTraced();
+  }
+ catch (  UnsupportedOperationException e) {
+    final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+    assertThat(spanEvents.size(),is(1));
+    final SpanEventBo closeSpanEventBo=spanEvents.get(0);
+    assertThat(closeSpanEventBo.hasException(),is(true));
+    assertThat(closeSpanEventBo.getExceptionId(),not(NOT_CACHED));
+  }
+}

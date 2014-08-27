@@ -1,0 +1,22 @@
+{
+  @SuppressWarnings("unchecked") Class<BasePinpointTest> baseTestClass=(Class<BasePinpointTest>)this.testContext.getBaseTestClass();
+  if (baseTestClass.isInstance(test)) {
+    DefaultTrace currentTrace=(DefaultTrace)this.testAgent.getTraceContext().currentRawTraceObject();
+    Method[] methods=baseTestClass.getDeclaredMethods();
+    for (    Method m : methods) {
+      if (m.getName().equals("setCurrentStorage")) {
+        try {
+          m.setAccessible(true);
+          m.invoke(test,currentTrace.getStorage());
+        }
+ catch (        IllegalAccessException e) {
+          throw new RuntimeException(e);
+        }
+catch (        InvocationTargetException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
+  }
+  return super.methodInvoker(method,test);
+}

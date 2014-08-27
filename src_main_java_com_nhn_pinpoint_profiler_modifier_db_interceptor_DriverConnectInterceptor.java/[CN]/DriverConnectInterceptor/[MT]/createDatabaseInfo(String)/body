@@ -1,0 +1,10 @@
+{
+  if (url == null) {
+    return UnKnownDatabaseInfo.INSTANCE;
+  }
+  final DatabaseInfo databaseInfo=getTraceContext().parseJdbcUrl(url);
+  if (isDebug) {
+    logger.debug("parse DatabaseInfo:{}",databaseInfo);
+  }
+  return databaseInfo;
+}

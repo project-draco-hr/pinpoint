@@ -1,0 +1,13 @@
+{
+  try {
+    super.rollbackShouldBeTraced();
+    fail("SqlSessionTemplate cannot manually call rollback.");
+  }
+ catch (  UnsupportedOperationException e) {
+    final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+    assertThat(spanEvents.size(),is(1));
+    final SpanEventBo rollbackSpanEventBo=spanEvents.get(0);
+    assertThat(rollbackSpanEventBo.hasException(),is(true));
+    assertThat(rollbackSpanEventBo.getExceptionId(),not(NOT_CACHED));
+  }
+}

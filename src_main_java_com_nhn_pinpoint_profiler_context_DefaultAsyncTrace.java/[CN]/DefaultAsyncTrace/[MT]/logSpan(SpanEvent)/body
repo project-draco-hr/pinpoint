@@ -1,0 +1,12 @@
+{
+  try {
+    if (isTrace) {
+      Thread thread=Thread.currentThread();
+      logger.trace("[WRITE SpanEvent]{} CurrentThreadID={} CurrentThreadName={}",spanEvent,thread.getId(),thread.getName());
+    }
+    this.storage.store(spanEvent);
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+}

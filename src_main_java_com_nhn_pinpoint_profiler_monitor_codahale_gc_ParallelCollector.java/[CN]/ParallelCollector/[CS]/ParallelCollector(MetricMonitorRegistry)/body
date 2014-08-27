@@ -1,0 +1,13 @@
+{
+  if (registry == null) {
+    throw new NullPointerException("registry must not be null");
+  }
+  final MetricRegistry metricRegistry=registry.getRegistry();
+  final SortedMap<String,Gauge> gauges=metricRegistry.getGauges();
+  this.heapMax=MetricMonitorValues.getLongGauge(gauges,JVM_MEMORY_HEAP_MAX);
+  this.heapUsed=MetricMonitorValues.getLongGauge(gauges,JVM_MEMORY_HEAP_USED);
+  this.heapNonHeapMax=MetricMonitorValues.getLongGauge(gauges,JVM_MEMORY_NONHEAP_MAX);
+  this.heapNonHeapUsed=MetricMonitorValues.getLongGauge(gauges,JVM_MEMORY_NONHEAP_USED);
+  this.gcCount=MetricMonitorValues.getLongGauge(gauges,JVM_GC_PS_MS_COUNT);
+  this.gcTime=MetricMonitorValues.getLongGauge(gauges,JVM_GC_PS_MS_TIME);
+}

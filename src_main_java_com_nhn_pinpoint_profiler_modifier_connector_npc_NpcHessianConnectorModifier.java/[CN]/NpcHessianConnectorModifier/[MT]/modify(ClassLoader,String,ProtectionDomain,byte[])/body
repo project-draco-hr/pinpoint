@@ -1,0 +1,20 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass connectorClass=byteCodeInstrumentor.getClass(javassistClassName);
+    if (connectorClass.hasDeclaredMethod("createConnecor",new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"})) {
+      Interceptor connectInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.npc.interceptor.CreateConnectorInterceptor");
+      connectorClass.addInterceptor("createConnecor",new String[]{"com.nhncorp.lucy.npc.connector.NpcConnectorOption"},connectInterceptor);
+    }
+    Interceptor invokeInterceptor=new MethodInterceptor();
+    connectorClass.addInterceptor("invoke",new String[]{"java.lang.String","java.lang.String","java.nio.charset.Charset","java.lang.Object[]"},invokeInterceptor);
+    return connectorClass.toBytecode();
+  }
+ catch (  Throwable e) {
+    logger.warn(this.getClass().getSimpleName() + " modifier error. Caused:{}",e.getMessage(),e);
+    return null;
+  }
+}

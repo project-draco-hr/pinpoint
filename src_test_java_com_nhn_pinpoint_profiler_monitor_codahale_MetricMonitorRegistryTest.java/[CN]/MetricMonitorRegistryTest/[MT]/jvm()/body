@@ -1,0 +1,28 @@
+{
+  registry.registerJvmMemoryMonitor(new MonitorName("jvm.memory"));
+  registry.registerJvmGcMonitor(new MonitorName("jvm.gc"));
+  registry.registerJvmAttributeMonitor(new MonitorName("jvm.vm"));
+  registry.registerJvmThreadStatesMonitor(new MonitorName("jvm.thread"));
+  boolean hasMemory=false;
+  boolean hasGc=false;
+  boolean hasVm=false;
+  boolean hasThread=false;
+  for (  String each : registry.getRegistry().getNames()) {
+    if (each.startsWith("jvm.gc")) {
+      hasGc=true;
+    }
+ else     if (each.startsWith("jvm.memory")) {
+      hasMemory=true;
+    }
+ else     if (each.startsWith("jvm.vm")) {
+      hasVm=true;
+    }
+ else     if (each.startsWith("jvm.thread")) {
+      hasThread=true;
+    }
+  }
+  assertTrue(hasMemory);
+  assertTrue(hasGc);
+  assertTrue(hasVm);
+  assertTrue(hasThread);
+}

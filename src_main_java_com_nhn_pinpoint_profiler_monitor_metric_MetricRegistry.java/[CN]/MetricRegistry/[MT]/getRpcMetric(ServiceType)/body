@@ -1,0 +1,19 @@
+{
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
+  if (!serviceType.isRecordStatistics()) {
+    throw new IllegalArgumentException("illegal serviceType:" + serviceType);
+  }
+  final Short code=serviceType.getCode();
+  final RpcMetric hit=rpcCache.get(code);
+  if (hit != null) {
+    return hit;
+  }
+  final RpcMetric rpcMetric=new DefaultRpcMetric(serviceType);
+  final RpcMetric exist=rpcCache.putIfAbsent(code,rpcMetric);
+  if (exist != null) {
+    return exist;
+  }
+  return rpcMetric;
+}

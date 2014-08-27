@@ -1,0 +1,9 @@
+{
+  final CacheBuilder<Object,Object> cacheBuilder=CacheBuilder.newBuilder();
+  cacheBuilder.concurrencyLevel(64);
+  cacheBuilder.initialCapacity(maxCacheSize);
+  cacheBuilder.maximumSize(maxCacheSize);
+  Cache<T,Result> localCache=cacheBuilder.build();
+  ConcurrentMap<T,Result> cache=localCache.asMap();
+  return cache;
+}

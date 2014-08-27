@@ -1,0 +1,10 @@
+{
+  try {
+    Constructor<T> c=testClassLoader.getConstructor(DefaultAgent.class);
+    T classLoader=c.newInstance(this.testAgent);
+    return classLoader;
+  }
+ catch (  Exception e) {
+    throw new InitializationError("Error instantiating Test");
+  }
+}

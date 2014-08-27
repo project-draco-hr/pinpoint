@@ -1,0 +1,27 @@
+{
+  String className=this.ctClass.getName();
+  LoggingInterceptor loggingInterceptor=new LoggingInterceptor(className);
+  int id=InterceptorRegistry.addInterceptor(loggingInterceptor);
+  try {
+    CtClass cc=this.instrumentor.getClassPool().get(className);
+    CtMethod[] methods=cc.getDeclaredMethods();
+    for (    CtMethod method : methods) {
+      if (method.isEmpty()) {
+        if (isDebug) {
+          logger.debug("{} is empty.",method.getLongName());
+        }
+        continue;
+      }
+      String methodName=method.getName();
+      String params=getParamsToString(method.getParameterTypes());
+      addStaticAroundInterceptor(methodName,id,method,false);
+    }
+    return true;
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+  return false;
+}

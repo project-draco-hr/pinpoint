@@ -1,0 +1,19 @@
+{
+  Class<?> aClass=this.defineClass(classLoader,interceptorFQCN,protectedDomain);
+  try {
+    Constructor<?> constructor=aClass.getConstructor(paramClazz);
+    return (Interceptor)constructor.newInstance(params);
+  }
+ catch (  InstantiationException e) {
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
+  }
+catch (  IllegalAccessException e) {
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
+  }
+catch (  NoSuchMethodException e) {
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
+  }
+catch (  InvocationTargetException e) {
+    throw new InstrumentException(aClass + " instance create fail Cause:" + e.getMessage(),e);
+  }
+}

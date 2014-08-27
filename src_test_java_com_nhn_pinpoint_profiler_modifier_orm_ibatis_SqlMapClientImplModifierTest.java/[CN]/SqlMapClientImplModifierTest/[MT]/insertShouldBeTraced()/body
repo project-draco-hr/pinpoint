@@ -1,0 +1,20 @@
+{
+  SqlMapClient sqlMapClient=new SqlMapClientImpl(this.mockSqlMapExecutorDelegate);
+  sqlMapClient.insert("insertId");
+  sqlMapClient.insert("insertId",new Object());
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo insertWith1ArgSpanEventBo=spanEvents.get(0);
+  final SpanEventBo insertWith2ArgSpanEventBo=spanEvents.get(1);
+  assertThat(insertWith1ArgSpanEventBo.getApiId(),not(0));
+  assertThat(insertWith2ArgSpanEventBo.getApiId(),not(0));
+  assertThat(insertWith1ArgSpanEventBo.getApiId(),not(insertWith2ArgSpanEventBo.getApiId()));
+  final List<AnnotationBo> insertWith1ArgAnnotations=insertWith1ArgSpanEventBo.getAnnotationBoList();
+  assertThat(insertWith1ArgAnnotations.size(),is(1));
+  final AnnotationBo insertWith1ArgParameterAnnotation=insertWith1ArgAnnotations.get(0);
+  assertThat(insertWith1ArgParameterAnnotation.getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+  final List<AnnotationBo> insertWith2ArgAnnotations=insertWith2ArgSpanEventBo.getAnnotationBoList();
+  assertThat(insertWith2ArgAnnotations.size(),is(1));
+  final AnnotationBo insertWith2ArgAnnotation=insertWith2ArgAnnotations.get(0);
+  assertThat(insertWith2ArgAnnotation.getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+}

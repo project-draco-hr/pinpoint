@@ -1,0 +1,21 @@
+{
+  if (data == null) {
+    if (isWarn) {
+      logger.warn("execute(). data is null");
+    }
+    return false;
+  }
+  if (!isRun.get()) {
+    if (isWarn) {
+      logger.warn("{} is shutdown. discard data:{}",executorName,data);
+    }
+    return false;
+  }
+  boolean offer=queue.offer(data);
+  if (!offer) {
+    if (isWarn) {
+      logger.warn("{} Drop data. queue is full. size:{}",executorName,queue.size());
+    }
+  }
+  return offer;
+}

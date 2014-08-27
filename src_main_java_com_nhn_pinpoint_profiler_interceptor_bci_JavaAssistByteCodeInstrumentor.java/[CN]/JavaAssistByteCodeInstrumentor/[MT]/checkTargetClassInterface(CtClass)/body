@@ -1,0 +1,10 @@
+{
+  final String name=TargetClassLoader.class.getName();
+  final CtClass[] interfaces=clazz.getInterfaces();
+  for (  CtClass anInterface : interfaces) {
+    if (name.equals(anInterface.getName())) {
+      return;
+    }
+  }
+  throw new InstrumentException("newInterceptor() not support. " + clazz.getName());
+}

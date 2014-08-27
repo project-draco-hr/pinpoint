@@ -1,0 +1,13 @@
+{
+  getSqlSession().commit();
+  getSqlSession().commit(true);
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo commitWith0ArgSpanEvent=spanEvents.get(0);
+  final SpanEventBo commitWith1ArgSpanEvent=spanEvents.get(1);
+  assertThat(commitWith0ArgSpanEvent.getApiId(),not(NOT_CACHED));
+  assertThat(commitWith1ArgSpanEvent.getApiId(),not(NOT_CACHED));
+  assertThat(commitWith0ArgSpanEvent.getApiId(),not(commitWith1ArgSpanEvent.getApiId()));
+  assertNull(commitWith0ArgSpanEvent.getAnnotationBoList());
+  assertThat(commitWith1ArgSpanEvent.getAnnotationBoList().get(0).getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+}

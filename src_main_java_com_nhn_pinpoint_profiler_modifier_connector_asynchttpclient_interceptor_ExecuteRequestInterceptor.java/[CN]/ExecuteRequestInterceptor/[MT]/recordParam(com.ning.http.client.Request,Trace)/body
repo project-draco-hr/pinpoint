@@ -1,0 +1,9 @@
+{
+  if (paramSampler.isSampling()) {
+    FluentStringsMap requestParams=httpRequest.getParams();
+    if (requestParams != null) {
+      String params=paramsToString(requestParams,paramDumpSize);
+      trace.recordAttribute(AnnotationKey.HTTP_PARAM,StringUtils.drop(params,paramDumpSize));
+    }
+  }
+}

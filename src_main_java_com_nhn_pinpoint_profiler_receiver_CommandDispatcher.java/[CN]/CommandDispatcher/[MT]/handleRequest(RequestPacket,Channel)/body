@@ -1,0 +1,25 @@
+{
+  logger.info("MessageReceive {} {}",packet,channel);
+  TBase<?,?> request=deserialize(packet.getPayload());
+  TBase response=null;
+  if (request == null) {
+    TResult tResult=new TResult(false);
+    tResult.setMessage("Unsupported Type.");
+    response=tResult;
+  }
+ else {
+    TBaseRequestBO bo=locator.getRequestBO(request);
+    if (bo == null) {
+      TResult tResult=new TResult(false);
+      tResult.setMessage("Unsupported Listener.");
+      response=tResult;
+    }
+ else {
+      response=bo.handleRequest(request);
+    }
+  }
+  byte[] payload=serialize(response);
+  if (payload != null) {
+    channel.write(new ResponsePacket(packet.getRequestId(),payload));
+  }
+}

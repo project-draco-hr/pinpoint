@@ -1,0 +1,17 @@
+{
+  try {
+    CtClass[] nestedClasses=ctClass.getNestedClasses();
+    if (nestedClasses == null || nestedClasses.length == 0) {
+      return null;
+    }
+    for (    CtClass nested : nestedClasses) {
+      if (nested.getName().equals(className)) {
+        return new JavaAssistClass(this.instrumentor,nested);
+      }
+    }
+  }
+ catch (  NotFoundException e) {
+    return null;
+  }
+  return null;
+}

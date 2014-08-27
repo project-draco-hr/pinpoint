@@ -1,0 +1,21 @@
+{
+  Enumeration<?> attrs=request.getParameterNames();
+  final StringBuilder params=new StringBuilder(64);
+  while (attrs.hasMoreElements()) {
+    if (params.length() != 0) {
+      params.append('&');
+    }
+    if (params.length() > totalLimit) {
+      params.append("...");
+      return params.toString();
+    }
+    String key=attrs.nextElement().toString();
+    params.append(StringUtils.drop(key,eachLimit));
+    params.append("=");
+    Object value=request.getParameter(key);
+    if (value != null) {
+      params.append(StringUtils.drop(StringUtils.toString(value),eachLimit));
+    }
+  }
+  return params.toString();
+}

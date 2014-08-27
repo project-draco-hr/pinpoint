@@ -1,0 +1,7 @@
+{
+  if (profilerConfig.isIBatisEnabled()) {
+    addModifier(new SqlMapSessionImplModifier(byteCodeInstrumentor,agent));
+    addModifier(new SqlMapClientImplModifier(byteCodeInstrumentor,agent));
+    addModifier(new SqlMapClientTemplateModifier(byteCodeInstrumentor,agent));
+  }
+}

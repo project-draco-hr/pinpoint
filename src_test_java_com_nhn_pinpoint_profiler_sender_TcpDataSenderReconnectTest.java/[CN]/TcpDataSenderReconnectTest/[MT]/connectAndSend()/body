@@ -1,0 +1,20 @@
+{
+  PinpointServerSocket old=serverStart();
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
+  TcpDataSender sender=new TcpDataSender(socket);
+  Thread.sleep(500);
+  old.close();
+  Thread.sleep(500);
+  logger.info("Server start------------------");
+  PinpointServerSocket pinpointServerSocket=serverStart();
+  Thread.sleep(5000);
+  logger.info("sendMessage------------------");
+  sender.send(new TApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
+  Thread.sleep(500);
+  logger.info("sender stop------------------");
+  sender.stop();
+  pinpointServerSocket.close();
+  socket.close();
+  socketFactory.release();
+}

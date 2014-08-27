@@ -1,0 +1,11 @@
+{
+  int currentIndex;
+  StackFrame[] currentStack;
+synchronized (this) {
+    currentIndex=this.index;
+    currentStack=this.stack;
+  }
+  StackFrame[] copy=new StackFrame[currentIndex];
+  System.arraycopy(currentStack,0,copy,0,currentIndex);
+  return copy;
+}

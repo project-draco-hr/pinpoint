@@ -1,0 +1,6 @@
+{
+  this.socket=socket;
+  this.timer=createTimer();
+  writeFailFutureListener=new WriteFailFutureListener(logger,"io write fail.","host",-1);
+  this.executor=createAsyncQueueingExecutor(1024 * 5,"Pinpoint-TcpDataExecutor");
+}

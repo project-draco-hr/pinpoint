@@ -1,0 +1,14 @@
+{
+  List<SpanEvent> spanEventList;
+synchronized (this) {
+    spanEventList=storage;
+    this.storage=null;
+  }
+  if (spanEventList != null && !spanEventList.isEmpty()) {
+    span.setSpanEventList((List)spanEventList);
+  }
+  if (isDebug) {
+    logger.debug("flush span {}",span);
+  }
+  dataSender.send(span);
+}

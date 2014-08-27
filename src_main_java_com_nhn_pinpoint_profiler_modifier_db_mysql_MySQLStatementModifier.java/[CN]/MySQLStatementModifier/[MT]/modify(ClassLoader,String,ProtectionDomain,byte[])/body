@@ -1,0 +1,27 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass statementClass=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor interceptor=new StatementExecuteQueryInterceptor();
+    statementClass.addScopeInterceptor("executeQuery",new String[]{"java.lang.String"},interceptor,MYSQLScope.SCOPE_NAME);
+    Interceptor executeUpdateInterceptor1=new StatementExecuteUpdateInterceptor();
+    statementClass.addScopeInterceptor("executeUpdate",new String[]{"java.lang.String"},executeUpdateInterceptor1,MYSQLScope.SCOPE_NAME);
+    Interceptor executeUpdateInterceptor2=new StatementExecuteUpdateInterceptor();
+    statementClass.addScopeInterceptor("executeUpdate",new String[]{"java.lang.String","int"},executeUpdateInterceptor2,MYSQLScope.SCOPE_NAME);
+    Interceptor executeUpdateInterceptor3=new StatementExecuteUpdateInterceptor();
+    statementClass.addScopeInterceptor("execute",new String[]{"java.lang.String"},executeUpdateInterceptor3,MYSQLScope.SCOPE_NAME);
+    Interceptor executeUpdateInterceptor4=new StatementExecuteUpdateInterceptor();
+    statementClass.addScopeInterceptor("execute",new String[]{"java.lang.String","int"},executeUpdateInterceptor4,MYSQLScope.SCOPE_NAME);
+    statementClass.addTraceValue(DatabaseInfoTraceValue.class);
+    return statementClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
+    }
+    return null;
+  }
+}

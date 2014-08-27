@@ -1,0 +1,8 @@
+{
+  getSqlSession().insert(null);
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(1));
+  final SpanEventBo insertSpanEventBo=spanEvents.get(0);
+  assertThat(insertSpanEventBo.getApiId(),not(NOT_CACHED));
+  assertNull(insertSpanEventBo.getAnnotationBoList());
+}

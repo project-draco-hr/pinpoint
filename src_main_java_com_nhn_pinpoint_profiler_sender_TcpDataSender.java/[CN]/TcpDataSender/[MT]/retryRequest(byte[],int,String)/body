@@ -1,0 +1,20 @@
+{
+  RetryMessage retryMessage=new RetryMessage(retryCount,requestPacket);
+  retryQueue.add(retryMessage);
+  if (fireTimeout()) {
+    timer.newTimeout(new TimerTask(){
+      @Override public void run(      Timeout timeout) throws Exception {
+        while (true) {
+          RetryMessage retryMessage=retryQueue.get();
+          if (retryMessage == null) {
+            fireComplete();
+            return;
+          }
+          int fail=retryMessage.fail();
+          doRequest(retryMessage.getBytes(),fail,className);
+        }
+      }
+    }
+,1000 * 10,TimeUnit.MILLISECONDS);
+  }
+}

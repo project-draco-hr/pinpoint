@@ -1,0 +1,13 @@
+{
+  if (args.length != 3) {
+    return;
+  }
+  if (!(args[1] instanceof org.jboss.netty.channel.ChannelHandlerContext)) {
+    return;
+  }
+  if (!(args[2] instanceof org.jboss.netty.channel.MessageEvent)) {
+    return;
+  }
+  setChannelHandlerContext.invoke(target,(org.jboss.netty.channel.ChannelHandlerContext)args[1]);
+  setMessageEvent.invoke(target,(org.jboss.netty.channel.MessageEvent)args[2]);
+}

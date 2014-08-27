@@ -1,0 +1,13 @@
+{
+  getSqlSession().rollback();
+  getSqlSession().rollback(true);
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo rollbackWith0ArgSpanEvent=spanEvents.get(0);
+  final SpanEventBo rollbackWith1ArgSpanEvent=spanEvents.get(1);
+  assertThat(rollbackWith0ArgSpanEvent.getApiId(),not(NOT_CACHED));
+  assertThat(rollbackWith1ArgSpanEvent.getApiId(),not(NOT_CACHED));
+  assertThat(rollbackWith0ArgSpanEvent.getApiId(),not(rollbackWith1ArgSpanEvent.getApiId()));
+  assertNull(rollbackWith0ArgSpanEvent.getAnnotationBoList());
+  assertThat(rollbackWith1ArgSpanEvent.getAnnotationBoList().get(0).getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+}

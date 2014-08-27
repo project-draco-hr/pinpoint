@@ -1,0 +1,32 @@
+{
+  final boolean arcus=profilerConfig.isArucs();
+  boolean memcached;
+  if (arcus) {
+    memcached=true;
+  }
+ else {
+    memcached=profilerConfig.isMemcached();
+  }
+  if (memcached) {
+    BaseOperationModifier baseOperationModifier=new BaseOperationModifier(byteCodeInstrumentor,agent);
+    addModifier(baseOperationModifier);
+    MemcachedClientModifier memcachedClientModifier=new MemcachedClientModifier(byteCodeInstrumentor,agent);
+    addModifier(memcachedClientModifier);
+    FrontCacheMemcachedClientModifier frontCacheMemcachedClientModifier=new FrontCacheMemcachedClientModifier(byteCodeInstrumentor,agent);
+    if (arcus) {
+      ArcusClientModifier arcusClientModifier=new ArcusClientModifier(byteCodeInstrumentor,agent);
+      addModifier(arcusClientModifier);
+      CollectionFutureModifier collectionFutureModifier=new CollectionFutureModifier(byteCodeInstrumentor,agent);
+      addModifier(collectionFutureModifier);
+    }
+    GetFutureModifier getFutureModifier=new GetFutureModifier(byteCodeInstrumentor,agent);
+    addModifier(getFutureModifier);
+    ImmediateFutureModifier immediateFutureModifier=new ImmediateFutureModifier(byteCodeInstrumentor,agent);
+    addModifier(immediateFutureModifier);
+    OperationFutureModifier operationFutureModifier=new OperationFutureModifier(byteCodeInstrumentor,agent);
+    addModifier(operationFutureModifier);
+    FrontCacheGetFutureModifier frontCacheGetFutureModifier=new FrontCacheGetFutureModifier(byteCodeInstrumentor,agent);
+    CacheManagerModifier cacheManagerModifier=new CacheManagerModifier(byteCodeInstrumentor,agent);
+    addModifier(cacheManagerModifier);
+  }
+}

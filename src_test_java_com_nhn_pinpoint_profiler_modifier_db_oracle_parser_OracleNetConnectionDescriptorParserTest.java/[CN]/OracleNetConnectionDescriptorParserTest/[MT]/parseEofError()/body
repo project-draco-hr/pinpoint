@@ -1,0 +1,11 @@
+{
+  String rac="jdbc:oracle:thin:@(DESCRIPTION=(LOAD_BALANCE = off )" + "(ADDRESS  =  ( PROTOCOL = TCP)(HOST = 1.2.3.4 ) (PORT = 1521 ))" + " ( CONNECT_DATA = ( SID = sid ) ) ";
+  OracleNetConnectionDescriptorParser parser=new OracleNetConnectionDescriptorParser(rac);
+  try {
+    KeyValue keyValue=parser.parse();
+    Assert.fail();
+  }
+ catch (  OracleConnectionStringException e) {
+    logger.info("Expected error",e);
+  }
+}

@@ -1,0 +1,10 @@
+{
+  AsyncTrace asyncTrace=trace.remove(asyncId);
+  if (asyncTrace != null) {
+    boolean result=((DefaultAsyncTrace)asyncTrace).fire();
+    if (!result) {
+      return null;
+    }
+  }
+  return asyncTrace;
+}

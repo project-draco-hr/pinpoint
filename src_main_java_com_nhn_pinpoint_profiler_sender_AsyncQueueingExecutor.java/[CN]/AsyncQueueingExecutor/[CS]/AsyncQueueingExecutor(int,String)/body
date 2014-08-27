@@ -1,0 +1,8 @@
+{
+  if (executorName == null) {
+    throw new NullPointerException("executorName must not be null");
+  }
+  this.queue=new LinkedBlockingQueue<T>(queueSize);
+  this.executeThread=this.createExecuteThread(executorName);
+  this.executorName=executeThread.getName();
+}

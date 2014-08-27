@@ -1,0 +1,13 @@
+{
+  try {
+    CtMethod method=getMethod(methodName,args);
+    method.insertAfter(code);
+    return true;
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+    return false;
+  }
+}

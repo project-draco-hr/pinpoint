@@ -1,0 +1,13 @@
+{
+  CUBRIDDriver driver=new CUBRIDDriver();
+  Properties properties=new Properties();
+  properties.setProperty("user","dba");
+  properties.setProperty("password","nhn!@#123");
+  Connection connect=driver.connect("jdbc:cubrid:10.101.57.233:30102:pinpoint:::",properties);
+  PreparedStatement preparedStatement=connect.prepareStatement("select 1 from db_root where 1=?");
+  preparedStatement.setInt(1,1);
+  ResultSet resultSet=preparedStatement.executeQuery();
+  if (resultSet.next()) {
+    System.out.println("---" + resultSet.getObject(1));
+  }
+}

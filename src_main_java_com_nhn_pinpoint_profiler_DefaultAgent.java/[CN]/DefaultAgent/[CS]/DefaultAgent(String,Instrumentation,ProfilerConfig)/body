@@ -1,0 +1,41 @@
+{
+  if (instrumentation == null) {
+    throw new NullPointerException("instrumentation must not be null");
+  }
+  if (profilerConfig == null) {
+    throw new NullPointerException("profilerConfig must not be null");
+  }
+  this.binder=new Slf4jLoggerBinder();
+  bindPLoggerFactory(this.binder);
+  dumpSystemProperties();
+  dumpConfig(profilerConfig);
+  changeStatus(AgentStatus.INITIALIZING);
+  this.profilerConfig=profilerConfig;
+  this.serverInfo=new ServerInfo();
+  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(profilerConfig.getApplicationServerType());
+  if (!typeResolver.resolve()) {
+    throw new PinpointException("ApplicationServerType not found.");
+  }
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(typeResolver.getServerLibPath(),this);
+  if (logger.isInfoEnabled()) {
+    logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
+  }
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
+  instrumentation.addTransformer(this.classFileTransformer);
+  final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
+  this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
+  logger.info("agentInformation:{}",agentInformation);
+  this.tAgentInfo=createTAgentInfo();
+  this.factory=createPinpointSocketFactory();
+  this.socket=createPinpointSocket(this.profilerConfig.getCollectorServerIp(),this.profilerConfig.getCollectorTcpServerPort(),factory,this.profilerConfig.isTcpDataSenderCommandAcceptEnable());
+  this.tcpDataSender=createTcpDataSender(socket);
+  this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
+  this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
+  this.traceContext=createTraceContext(agentInformation.getServerType());
+  this.heartBitChecker=new HeartBitChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),tAgentInfo);
+  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
+  preLoadClass();
+  if (typeResolver.isManuallyStartupRequired()) {
+    started();
+  }
+}

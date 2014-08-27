@@ -1,0 +1,8 @@
+{
+  if (cpuLoadMetricSet == null) {
+    throw new NullPointerException("cpuLoadMetricSet must not be null");
+  }
+  Map<String,Metric> metrics=cpuLoadMetricSet.getMetrics();
+  this.jvmCpuLoadGauge=(Gauge<Double>)MetricMonitorValues.getMetric(metrics,CPU_LOAD_JVM,DOUBLE_ZERO);
+  this.systemCpuLoadGauge=(Gauge<Double>)MetricMonitorValues.getMetric(metrics,CPU_LOAD_SYSTEM,DOUBLE_ZERO);
+}

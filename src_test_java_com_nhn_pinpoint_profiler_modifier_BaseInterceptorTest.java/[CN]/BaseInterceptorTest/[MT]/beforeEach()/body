@@ -1,0 +1,14 @@
+{
+  if (interceptor == null) {
+    Assert.fail("set the interceptor first.");
+  }
+  if (interceptor instanceof TraceContextSupport) {
+    TraceContext traceContext=new MockTraceContextFactory().create();
+    ((TraceContextSupport)interceptor).setTraceContext(traceContext);
+  }
+  if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
+    if (descriptor != null) {
+      ((ByteCodeMethodDescriptorSupport)interceptor).setMethodDescriptor(descriptor);
+    }
+  }
+}

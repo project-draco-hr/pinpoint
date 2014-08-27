@@ -1,0 +1,20 @@
+{
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.startTransaction();
+  sqlMapSession.commitTransaction();
+  sqlMapSession.endTransaction();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(3));
+  final SpanEventBo startTransactionSpanEventBo=spanEvents.get(0);
+  final SpanEventBo commitTransactionSpanEventBo=spanEvents.get(1);
+  final SpanEventBo endTransactionSpanEventBo=spanEvents.get(2);
+  assertThat(startTransactionSpanEventBo.getApiId(),not(0));
+  assertThat(commitTransactionSpanEventBo.getApiId(),not(0));
+  assertThat(endTransactionSpanEventBo.getApiId(),not(0));
+  assertThat(startTransactionSpanEventBo.getApiId(),not(commitTransactionSpanEventBo.getApiId()));
+  assertThat(commitTransactionSpanEventBo.getApiId(),not(endTransactionSpanEventBo.getApiId()));
+  assertThat(endTransactionSpanEventBo.getApiId(),not(startTransactionSpanEventBo.getApiId()));
+  assertNull(startTransactionSpanEventBo.getAnnotationBoList());
+  assertNull(commitTransactionSpanEventBo.getAnnotationBoList());
+  assertNull(endTransactionSpanEventBo.getAnnotationBoList());
+}

@@ -1,0 +1,16 @@
+{
+  String transactionId=request.getHeader(Header.HTTP_TRACE_ID.toString());
+  if (transactionId != null) {
+    long parentSpanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_PARENT_SPAN_ID.toString()),SpanId.NULL);
+    long spanID=NumberUtils.parseLong(request.getHeader(Header.HTTP_SPAN_ID.toString()),SpanId.NULL);
+    short flags=NumberUtils.parseShort(request.getHeader(Header.HTTP_FLAGS.toString()),(short)0);
+    TraceId id=this.traceContext.createTraceId(transactionId,parentSpanID,spanID,flags);
+    if (isDebug) {
+      logger.debug("TraceID exist. continue trace. {}",id);
+    }
+    return id;
+  }
+ else {
+    return null;
+  }
+}

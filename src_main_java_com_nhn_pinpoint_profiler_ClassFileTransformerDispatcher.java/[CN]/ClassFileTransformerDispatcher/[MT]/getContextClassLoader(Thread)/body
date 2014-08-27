@@ -1,0 +1,14 @@
+{
+  try {
+    return thread.getContextClassLoader();
+  }
+ catch (  SecurityException se) {
+    throw se;
+  }
+catch (  Throwable th) {
+    if (isDebug) {
+      logger.debug("getContextClassLoader(). Caused:{}",th.getMessage(),th);
+    }
+    throw th;
+  }
+}

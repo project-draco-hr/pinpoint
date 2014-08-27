@@ -1,0 +1,8 @@
+{
+  getSqlSession().close();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(1));
+  final SpanEventBo closeSpanEvent=spanEvents.get(0);
+  assertThat(closeSpanEvent.getApiId(),not(NOT_CACHED));
+  assertNull(closeSpanEvent.getAnnotationBoList());
+}

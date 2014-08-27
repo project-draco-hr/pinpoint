@@ -1,0 +1,33 @@
+{
+  Class<?> getterReturnType=null;
+  Class<?> setterType=null;
+  for (  java.lang.reflect.Method method : declaredMethods) {
+    if (isGetter(method)) {
+      getterReturnType=method.getReturnType();
+    }
+ else     if (isSetter(method)) {
+      Class<?>[] parameterTypes=method.getParameterTypes();
+      if (parameterTypes.length != 1) {
+        throw new InstrumentException("invalid setterParameter. parameterTypes:" + Arrays.toString(parameterTypes));
+      }
+      setterType=parameterTypes[0];
+    }
+  }
+  if (getterReturnType == null && setterType == null) {
+    throw new InstrumentException("getter or setter not found");
+  }
+  if (getterReturnType != null && setterType != null) {
+    if (!getterReturnType.equals(setterType)) {
+      throw new InstrumentException("invalid setter or getter parameter");
+    }
+  }
+  Class<?> resolveType;
+  if (getterReturnType != null) {
+    resolveType=getterReturnType;
+  }
+ else {
+    resolveType=setterType;
+  }
+  CtClass type=instrumentor.getClassPool().get(resolveType.getName());
+  return new CtField(type,variableName,ctClass);
+}

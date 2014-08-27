@@ -1,0 +1,16 @@
+{
+  final StackFrame currentStackFrame=this.currentStackFrame;
+  int stackFrameId=currentStackFrame.getStackFrameId();
+  if (stackFrameId != stackId) {
+    if (logger.isWarnEnabled()) {
+      PinpointException exception=new PinpointException("Corrupted CallStack found");
+      logger.warn("Corrupted CallStack found. StackId not matched. expected:{} current:{}",stackId,stackFrameId,exception);
+    }
+  }
+  if (currentStackFrame instanceof RootStackFrame) {
+    logSpan(((RootStackFrame)currentStackFrame).getSpan());
+  }
+ else {
+    logSpan(((SpanEventStackFrame)currentStackFrame).getSpanEvent());
+  }
+}

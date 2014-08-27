@@ -1,0 +1,13 @@
+{
+  URL url=new URL("http://www.nave.com");
+  HttpURLConnection urlConnection=(HttpURLConnection)url.openConnection();
+  logger.info(urlConnection.toString());
+  logger.info("" + urlConnection.getClass().getClassLoader());
+  ClassLoader systemClassLoader=ClassLoader.getSystemClassLoader();
+  ClassLoader parent=systemClassLoader.getParent();
+  logger.info("parent:" + parent);
+  logger.info("pparent:" + parent.getParent());
+  logger.info("" + String.class.getClassLoader());
+  logger.info("" + TestBootstrapClass.class.getClassLoader());
+  urlConnection.disconnect();
+}

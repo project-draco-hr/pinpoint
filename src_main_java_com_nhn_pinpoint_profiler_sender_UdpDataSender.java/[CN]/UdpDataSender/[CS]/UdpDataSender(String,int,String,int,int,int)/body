@@ -1,0 +1,20 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (threadName == null) {
+    throw new NullPointerException("threadName must not be null");
+  }
+  if (queueSize <= 0) {
+    throw new IllegalArgumentException("queueSize");
+  }
+  if (timeout <= 0) {
+    throw new IllegalArgumentException("timeout");
+  }
+  if (sendBufferSize <= 0) {
+    throw new IllegalArgumentException("sendBufferSize");
+  }
+  logger.info("UdpDataSender initialized. host={}, port={}",host,port);
+  this.udpSocket=createSocket(host,port,timeout,sendBufferSize);
+  this.executor=createAsyncQueueingExecutor(queueSize,threadName);
+}

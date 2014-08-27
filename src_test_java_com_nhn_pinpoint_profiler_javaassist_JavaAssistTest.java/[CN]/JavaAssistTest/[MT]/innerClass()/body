@@ -1,0 +1,12 @@
+{
+  CtClass testClass=pool.get("com.nhn.pinpoint.profiler.javaassist.TestClass");
+  logger.debug(testClass.toString());
+  CtClass[] nestedClasses=testClass.getNestedClasses();
+  for (  CtClass nested : nestedClasses) {
+    logger.debug("nestedClass:" + nested);
+  }
+  CtClass innerClass=pool.get("com.nhn.pinpoint.profiler.javaassist.TestClass$InnerClass");
+  logger.debug("" + innerClass);
+  CtClass class1=pool.get("com.nhn.pinpoint.profiler.javaassist.TestClass$1");
+  logger.debug("" + class1);
+}

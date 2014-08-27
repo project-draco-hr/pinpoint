@@ -1,0 +1,18 @@
+{
+  final DefaultParsingResult parsingResult=this.sqlParser.normalizedSql(sql);
+  final String normalizedSql=parsingResult.getSql();
+  final Result cachingResult=this.sqlCache.put(normalizedSql);
+  if (cachingResult.isNewValue()) {
+    if (isDebug) {
+      logger.debug("NewSQLParsingResult:{}",parsingResult);
+    }
+    final TSqlMetaData sqlMetaData=new TSqlMetaData();
+    sqlMetaData.setAgentId(getAgentId());
+    sqlMetaData.setAgentStartTime(getAgentStartTime());
+    sqlMetaData.setSqlId(cachingResult.getId());
+    sqlMetaData.setSql(normalizedSql);
+    this.priorityDataSender.request(sqlMetaData);
+  }
+  parsingResult.setId(cachingResult.getId());
+  return parsingResult;
+}

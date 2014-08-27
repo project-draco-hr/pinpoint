@@ -1,0 +1,10 @@
+{
+  long cacheSize=100;
+  LRUCache cache=new LRUCache((int)cacheSize);
+  Random random=new Random();
+  for (int i=0; i < 1000; i++) {
+    cache.put(String.valueOf(random.nextInt(100000)));
+  }
+  long size=cache.getSize();
+  Assert.assertEquals(size,cacheSize);
+}

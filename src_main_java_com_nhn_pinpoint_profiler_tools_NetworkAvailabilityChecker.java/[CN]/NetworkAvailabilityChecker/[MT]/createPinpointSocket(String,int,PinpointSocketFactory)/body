@@ -1,0 +1,17 @@
+{
+  MessageListener messageListener=new CommandDispatcher();
+  PinpointSocket socket=null;
+  for (int i=0; i < 3; i++) {
+    try {
+      socket=factory.connect(host,port,messageListener);
+      LOGGER.info("tcp connect success:{}/{}",host,port);
+      return socket;
+    }
+ catch (    PinpointSocketException e) {
+      LOGGER.warn("tcp connect fail:{}/{} try reconnect, retryCount:{}",host,port,i);
+    }
+  }
+  LOGGER.warn("change background tcp connect mode  {}/{} ",host,port);
+  socket=factory.scheduledConnect(host,port,messageListener);
+  return socket;
+}

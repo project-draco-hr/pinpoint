@@ -1,0 +1,8 @@
+{
+  final Random seed=getRandom();
+  long newId=createSpanId(seed);
+  while (newId == spanId || newId == parentSpanId) {
+    newId=createSpanId(seed);
+  }
+  return newId;
+}

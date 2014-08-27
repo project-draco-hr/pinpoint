@@ -1,0 +1,23 @@
+{
+  final HistogramSlot histogramSlot=histogramSchema.findHistogramSlot(millis);
+  final SlotType slotType=histogramSlot.getSlotType();
+switch (slotType) {
+case FAST:
+    fastCounter.increment();
+  return;
+case NORMAL:
+normalCounter.increment();
+return;
+case SLOW:
+slowCounter.increment();
+return;
+case VERY_SLOW:
+verySlowCounter.increment();
+return;
+case ERROR:
+errorCounter.increment();
+return;
+default :
+throw new IllegalArgumentException("slot Type notFound:" + slotType);
+}
+}

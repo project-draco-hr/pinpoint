@@ -1,0 +1,12 @@
+{
+  final boolean staticResult=this.staticAcceptHistogram.addResponseTime(parentApplicationName,serviceType,millis);
+  if (staticResult) {
+    return true;
+  }
+  final boolean dynamicResult=this.dynamicAcceptHistogram.addResponseTime(parentApplicationName,serviceType,millis);
+  if (!dynamicResult) {
+    logger.info("response data add fail. parentApplicationName:{} serviceType:{} millis:{}",parentApplicationName,serviceType,millis);
+    return true;
+  }
+  return false;
+}

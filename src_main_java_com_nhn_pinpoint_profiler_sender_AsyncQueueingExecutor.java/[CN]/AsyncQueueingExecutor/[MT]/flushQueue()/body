@@ -1,0 +1,17 @@
+{
+  boolean debugEnabled=logger.isDebugEnabled();
+  if (debugEnabled) {
+    logger.debug("Loop is stop.");
+  }
+  while (true) {
+    Collection<T> dtoList=getDrainQueue();
+    int drainSize=takeN(dtoList,this.maxDrainSize);
+    if (drainSize == 0) {
+      break;
+    }
+    if (debugEnabled) {
+      logger.debug("flushData size {}",drainSize);
+    }
+    doExecute(dtoList);
+  }
+}

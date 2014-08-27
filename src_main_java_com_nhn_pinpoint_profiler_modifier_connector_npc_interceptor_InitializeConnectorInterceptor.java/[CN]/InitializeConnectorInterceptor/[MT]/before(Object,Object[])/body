@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  trace.recordServiceType(ServiceType.NPC_CLIENT);
+  InetSocketAddress serverAddress=getServerAddress.invoke(target);
+  int port=serverAddress.getPort();
+  String endPoint=serverAddress.getHostName() + ((port > 0) ? ":" + port : "");
+  trace.recordDestinationId(endPoint);
+  trace.recordAttribute(AnnotationKey.NPC_URL,serverAddress.toString());
+}

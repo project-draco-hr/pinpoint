@@ -1,0 +1,22 @@
+{
+  this.traceContext=traceContext;
+  final ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
+  this.dumpCookie=profilerConfig.isNingAsyncHttpClientProfileCookie();
+  this.cookieDumpType=profilerConfig.getNingAsyncHttpClientProfileCookieDumpType();
+  this.cookieDumpSize=profilerConfig.getNingAsyncHttpClientProfileCookieDumpSize();
+  if (dumpCookie) {
+    this.cookieSampler=SimpleSamplerFactory.createSampler(dumpCookie,profilerConfig.getNingAsyncHttpClientProfileCookieSamplingRate());
+  }
+  this.dumpEntity=profilerConfig.isNingAsyncHttpClientProfileEntity();
+  this.entityDumpType=profilerConfig.getNingAsyncHttpClientProfileEntityDumpType();
+  this.entityDumpSize=profilerConfig.getNingAsyncHttpClientProfileEntityDumpSize();
+  if (dumpEntity) {
+    this.entitySampler=SimpleSamplerFactory.createSampler(dumpEntity,profilerConfig.getNingAsyncHttpClientProfileEntitySamplingRate());
+  }
+  this.dumpParam=profilerConfig.isNingAsyncHttpClientProfileParam();
+  this.paramDumpType=profilerConfig.getNingAsyncHttpClientProfileParamDumpType();
+  this.paramDumpSize=profilerConfig.getNingAsyncHttpClientProfileParamDumpSize();
+  if (dumpParam) {
+    this.paramSampler=SimpleSamplerFactory.createSampler(dumpParam,profilerConfig.getNingAsyncHttpClientProfileParamSamplingRate());
+  }
+}

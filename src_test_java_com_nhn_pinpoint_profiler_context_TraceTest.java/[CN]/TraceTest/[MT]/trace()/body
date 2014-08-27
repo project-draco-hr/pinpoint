@@ -1,0 +1,13 @@
+{
+  DefaultTraceId traceID=new DefaultTraceId("agent",0,1);
+  DefaultTraceContext defaultTraceConetxt=getDefaultTraceConetxt();
+  DefaultTrace trace=new DefaultTrace(defaultTraceConetxt,traceID);
+  trace.setStorage(new SpanStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
+  trace.traceBlockBegin();
+  trace.recordServiceType(ServiceType.UNKNOWN);
+  trace.recordRpcName("http://");
+  trace.recordEndPoint("http:localhost:8080");
+  trace.recordAttribute(AnnotationKey.API,"VALUE");
+  getDataFromDB(trace);
+  trace.traceBlockEnd();
+}

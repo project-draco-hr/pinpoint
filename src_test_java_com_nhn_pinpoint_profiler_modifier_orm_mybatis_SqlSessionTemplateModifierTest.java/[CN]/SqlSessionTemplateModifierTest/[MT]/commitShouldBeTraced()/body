@@ -1,0 +1,13 @@
+{
+  try {
+    super.commitShouldBeTraced();
+    fail("SqlSessionTemplate cannot manually call commit.");
+  }
+ catch (  UnsupportedOperationException e) {
+    final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+    assertThat(spanEvents.size(),is(1));
+    final SpanEventBo commitSpanEventBo=spanEvents.get(0);
+    assertThat(commitSpanEventBo.hasException(),is(true));
+    assertThat(commitSpanEventBo.getExceptionId(),not(NOT_CACHED));
+  }
+}

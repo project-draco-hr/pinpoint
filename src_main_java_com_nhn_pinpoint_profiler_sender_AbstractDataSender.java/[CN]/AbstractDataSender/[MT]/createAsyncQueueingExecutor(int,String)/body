@@ -1,0 +1,13 @@
+{
+  final AsyncQueueingExecutor<Object> executor=new AsyncQueueingExecutor<Object>(queueSize,executorName);
+  executor.setListener(new AsyncQueueingExecutorListener<Object>(){
+    @Override public void execute(    Collection<Object> messageList){
+      sendPacketN(messageList);
+    }
+    @Override public void execute(    Object message){
+      sendPacket(message);
+    }
+  }
+);
+  return executor;
+}

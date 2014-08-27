@@ -1,0 +1,18 @@
+{
+  if (logger.isDebugEnabled()) {
+    StringBuilder buffer=new StringBuilder(1024);
+    for (int i=0; i < lva.tableLength(); i++) {
+      buffer.append("\n");
+      buffer.append(i);
+      buffer.append("  start_pc:");
+      buffer.append(lva.startPc(i));
+      buffer.append("  index:");
+      buffer.append(lva.index(i));
+      buffer.append("  name:");
+      buffer.append(lva.variableName(i));
+      buffer.append("  nameIndex:");
+      buffer.append(lva.nameIndex(i));
+    }
+    logger.debug(buffer.toString());
+  }
+}

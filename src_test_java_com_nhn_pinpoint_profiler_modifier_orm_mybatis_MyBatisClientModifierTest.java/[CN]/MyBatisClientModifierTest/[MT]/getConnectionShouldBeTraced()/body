@@ -1,0 +1,8 @@
+{
+  getSqlSession().getConnection();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(1));
+  final SpanEventBo getConnectionSpanEvent=spanEvents.get(0);
+  assertThat(getConnectionSpanEvent.getApiId(),not(NOT_CACHED));
+  assertNull(getConnectionSpanEvent.getAnnotationBoList());
+}

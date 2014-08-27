@@ -1,0 +1,22 @@
+{
+  CtMethod mold=clas.getDeclaredMethod(mname);
+  String nname=mname + "$impl";
+  mold.setName(nname);
+  CtMethod mnew=CtNewMethod.copy(mold,mname,clas,null);
+  String type=mold.getReturnType().getName();
+  StringBuilder body=new StringBuilder();
+  body.append("{\nlong start = System.currentTimeMillis();\n");
+  if (!"void".equals(type)) {
+    body.append(type + " result = ");
+  }
+  body.append(nname + "($$);\n");
+  body.append("System.out.println(\"Call to method " + mname + " took \" +\n (System.currentTimeMillis()-start) + "+ "\" ms.\");\n");
+  if (!"void".equals(type)) {
+    body.append("return result;\n");
+  }
+  body.append("}");
+  mnew.setBody(body.toString());
+  clas.addMethod(mnew);
+  System.out.println("Interceptor method body:");
+  System.out.println(body.toString());
+}

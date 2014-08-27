@@ -1,0 +1,25 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,className,methodName,parameterDescription,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  Map<Integer,String> bindList=null;
+  if (target instanceof BindValueTraceValue) {
+    bindList=((BindValueTraceValue)target).__getTraceBindValue();
+  }
+  if (bindList == null) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("bindValue is null");
+    }
+    return;
+  }
+  Integer index=NumberUtils.toInteger(args[0]);
+  if (index == null) {
+    return;
+  }
+  String value=BindValueConverter.convert(methodName,args);
+  bindList.put(index,value);
+}

@@ -1,0 +1,9 @@
+{
+  if (state.compareAndSet(STATE_INIT,STATE_FIRE)) {
+    if (timeoutTask != null) {
+      this.timeoutTask.cancel();
+    }
+    return true;
+  }
+  return false;
+}

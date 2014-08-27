@@ -1,0 +1,8 @@
+{
+  final List<HistogramSnapshot> histogramSnapshotList=new ArrayList<HistogramSnapshot>(histogramMap.size() + 4);
+  for (  Histogram histogram : histogramMap.values()) {
+    final HistogramSnapshot snapshot=histogram.createSnapshot();
+    histogramSnapshotList.add(snapshot);
+  }
+  return histogramSnapshotList;
+}

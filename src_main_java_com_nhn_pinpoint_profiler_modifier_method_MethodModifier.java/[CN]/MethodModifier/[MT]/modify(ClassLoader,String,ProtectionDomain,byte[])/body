@@ -1,0 +1,25 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass clazz=byteCodeInstrumentor.getClass(javassistClassName);
+    if (!clazz.isInterceptable()) {
+      return null;
+    }
+    List<Method> methodList=clazz.getDeclaredMethods(EmptyMethodFilter.FILTER);
+    for (    Method method : methodList) {
+      final Interceptor interceptor=new MethodInterceptor();
+      if (logger.isTraceEnabled()) {
+        logger.trace("### c={}, m={}, params={}",javassistClassName,method.getMethodName(),Arrays.toString(method.getMethodParams()));
+      }
+      clazz.addInterceptor(method.getMethodName(),method.getMethodParams(),interceptor);
+    }
+    return clazz.toBytecode();
+  }
+ catch (  Exception e) {
+    logger.warn("modify fail. Cause:{}",e.getMessage(),e);
+    return null;
+  }
+}

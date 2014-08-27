@@ -1,0 +1,13 @@
+{
+  final PLogger hitPLogger=loggerCache.get(name);
+  if (hitPLogger != null) {
+    return hitPLogger;
+  }
+  org.slf4j.Logger slf4jLogger=LoggerFactory.getLogger(name);
+  final Slf4jPLoggerAdapter slf4jLoggerAdapter=new Slf4jPLoggerAdapter(slf4jLogger);
+  final PLogger before=loggerCache.putIfAbsent(name,slf4jLoggerAdapter);
+  if (before != null) {
+    return before;
+  }
+  return slf4jLoggerAdapter;
+}

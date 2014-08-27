@@ -1,0 +1,12 @@
+{
+  Class<Driver> driverClazz=(Class<Driver>)loader.loadClass("com.mysql.jdbc.NonRegisteringDriver");
+  Driver driver=driverClazz.newInstance();
+  logger.info("Driver class name:{}",driverClazz.getName());
+  logger.info("Driver class cl:{}",driverClazz.getClassLoader());
+  Class<?> aClass=loader.loadClass("com.mysql.jdbc.StringUtils");
+  logger.debug("mysql cl:{}",aClass.getClassLoader());
+  Class<?> version=loader.loadClass("com.nhn.pinpoint.common.Version");
+  Assert.assertSame("check classLoader",this.getClass().getClassLoader(),version.getClassLoader());
+  logger.debug("common cl:{}",version.getClassLoader());
+  return driver;
+}

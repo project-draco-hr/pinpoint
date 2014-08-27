@@ -1,0 +1,11 @@
+{
+  scope.pop();
+  final boolean success=InterceptorUtils.isSuccess(throwable);
+  final String driverUrl=(String)args[0];
+  DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
+  if (success) {
+    if (recordConnection) {
+      DatabaseInfoTraceValueUtils.__setTraceDatabaseInfo(result,databaseInfo);
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  logger.info("{} will change to NEED_REQUEST state.",this.getClass().getSimpleName());
+  if (prevEventTimeMillis <= eventTimeMillis) {
+synchronized (this) {
+      boolean isChange=changeState(this.state,HeartBitState.NEED_REQUEST);
+      if (isChange) {
+        prevEventTimeMillis=eventTimeMillis;
+      }
+      logger.info("{} change to NEED_REQUEST state ({}) .",this.getClass().getSimpleName(),isChange);
+      return isChange;
+    }
+  }
+  return false;
+}

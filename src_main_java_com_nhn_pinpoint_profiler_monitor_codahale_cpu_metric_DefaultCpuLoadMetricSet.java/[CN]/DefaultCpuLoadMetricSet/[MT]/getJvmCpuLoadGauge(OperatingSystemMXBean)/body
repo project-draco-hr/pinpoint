@@ -1,0 +1,27 @@
+{
+  return new Gauge<Double>(){
+    private long lastCpuTimeNS=UNINITIALIZED;
+    private long lastUpTimeMS=UNINITIALIZED;
+    @Override public Double getValue(){
+      final long cpuTimeNS=operatingSystemMXBean.getProcessCpuTime();
+      if (cpuTimeNS == UNSUPPORTED) {
+        return UNSUPPORTED_CPU_LOAD_METRIC;
+      }
+      final long upTimeMS=runtimeMXBean.getUptime();
+      if (this.lastCpuTimeNS == UNINITIALIZED || this.lastUpTimeMS == UNINITIALIZED) {
+        this.lastCpuTimeNS=cpuTimeNS;
+        this.lastUpTimeMS=upTimeMS;
+        return 0.0D;
+      }
+      final long totalCpuTimeNS=cpuTimeNS - lastCpuTimeNS;
+      final long diffUpTimeMS=upTimeMS - lastUpTimeMS;
+      final int numProcessors=Runtime.getRuntime().availableProcessors();
+      final long totalUpTimeNS=(diffUpTimeMS * 1000000) * numProcessors;
+      final double cpuLoad=totalUpTimeNS > 0 ? Math.min(100F,totalCpuTimeNS / (float)totalUpTimeNS) : UNSUPPORTED;
+      this.lastCpuTimeNS=cpuTimeNS;
+      this.lastUpTimeMS=upTimeMS;
+      return cpuLoad;
+    }
+  }
+;
+}

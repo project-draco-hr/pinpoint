@@ -1,0 +1,12 @@
+{
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.insert("insertA");
+  sqlMapSession.insert("insertB");
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo insertASpanEventBo=spanEvents.get(0);
+  final SpanEventBo insertBSpanEventBo=spanEvents.get(1);
+  assertThat(insertASpanEventBo.getApiId(),not(0));
+  assertThat(insertBSpanEventBo.getApiId(),not(0));
+  assertThat(insertASpanEventBo.getApiId(),is(insertBSpanEventBo.getApiId()));
+}

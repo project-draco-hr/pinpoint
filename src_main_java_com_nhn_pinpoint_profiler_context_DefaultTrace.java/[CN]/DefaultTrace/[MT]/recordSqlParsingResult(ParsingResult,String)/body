@@ -1,0 +1,14 @@
+{
+  if (parsingResult == null) {
+    return;
+  }
+  final TIntStringStringValue tSqlValue=new TIntStringStringValue(parsingResult.getId());
+  final String output=parsingResult.getOutput();
+  if (isNotEmpty(output)) {
+    tSqlValue.setStringValue1(output);
+  }
+  if (isNotEmpty(bindValue)) {
+    tSqlValue.setStringValue2(bindValue);
+  }
+  recordSqlParam(tSqlValue);
+}

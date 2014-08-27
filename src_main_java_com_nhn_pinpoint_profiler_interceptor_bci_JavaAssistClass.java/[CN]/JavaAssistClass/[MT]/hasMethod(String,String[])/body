@@ -1,0 +1,10 @@
+{
+  final String parameterDescription=JavaAssistUtils.getParameterDescription(args);
+  final CtMethod[] methods=ctClass.getMethods();
+  for (  CtMethod method : methods) {
+    if (methodName.equals(method.getName()) && method.getMethodInfo2().getDescriptor().startsWith(parameterDescription)) {
+      return true;
+    }
+  }
+  return false;
+}

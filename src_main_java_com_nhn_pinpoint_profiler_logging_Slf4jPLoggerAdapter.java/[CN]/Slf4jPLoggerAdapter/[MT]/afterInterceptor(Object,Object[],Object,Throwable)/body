@@ -1,0 +1,12 @@
+{
+  StringBuilder sb=new StringBuilder(BUFFER_SIZE);
+  sb.append("after ");
+  logMethod(sb,target,args);
+  logResult(sb,result,throwable);
+  if (throwable == null) {
+    logger.debug(sb.toString());
+  }
+ else {
+    logger.debug(sb.toString(),throwable);
+  }
+}

@@ -1,0 +1,27 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (args.length == 0 || !(args[0] instanceof com.ning.http.client.Request)) {
+    return;
+  }
+  try {
+    final com.ning.http.client.Request httpRequest=(com.ning.http.client.Request)args[0];
+    if (httpRequest != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getUrl());
+      String endpoint=getEndpoint(httpRequest.getURI().getHost(),httpRequest.getURI().getPort());
+      trace.recordDestinationId(endpoint);
+      recordHttpRequest(trace,httpRequest,throwable);
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (nextSpanId == -1) {
+    return;
+  }
+  StackFrame currentStackFrame=this.currentStackFrame;
+  if (currentStackFrame instanceof SpanEventStackFrame) {
+    ((SpanEventStackFrame)currentStackFrame).setNextSpanId(nextSpanId);
+  }
+ else {
+    throw new PinpointTraceException("not SpanEventStackFrame");
+  }
+}

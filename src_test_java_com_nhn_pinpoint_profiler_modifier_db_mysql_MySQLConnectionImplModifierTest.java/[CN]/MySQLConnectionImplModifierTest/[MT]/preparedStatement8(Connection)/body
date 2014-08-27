@@ -1,0 +1,7 @@
+{
+  PreparedStatement preparedStatement=connection.prepareStatement("select 1",ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT);
+  logger.info("PreparedStatement className:{}",preparedStatement.getClass().getName());
+  ResultSet resultSet=preparedStatement.executeQuery();
+  resultSet.close();
+  preparedStatement.close();
+}

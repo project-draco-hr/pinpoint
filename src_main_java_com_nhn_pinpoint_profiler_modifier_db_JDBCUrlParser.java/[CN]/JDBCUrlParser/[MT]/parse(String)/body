@@ -1,0 +1,13 @@
+{
+  final DatabaseInfo hit=cache.get(url);
+  if (hit != null) {
+    logger.debug("database url cache hit:{} {}",url,hit);
+    return hit;
+  }
+  final DatabaseInfo databaseInfo=doParse(url);
+  final DatabaseInfo old=cache.putIfAbsent(url,databaseInfo);
+  if (old != null) {
+    return old;
+  }
+  return databaseInfo;
+}

@@ -1,0 +1,18 @@
+{
+  String address=socketAddress.toString();
+  if (socketAddress instanceof InetSocketAddress) {
+    InetSocketAddress addr=(InetSocketAddress)socketAddress;
+    return addr.getAddress().getHostAddress() + ":" + addr.getPort();
+  }
+  if (address.startsWith("/")) {
+    return address.substring(1);
+  }
+ else {
+    if (address.contains("/")) {
+      return address.substring(address.indexOf("/") + 1);
+    }
+ else {
+      return address;
+    }
+  }
+}

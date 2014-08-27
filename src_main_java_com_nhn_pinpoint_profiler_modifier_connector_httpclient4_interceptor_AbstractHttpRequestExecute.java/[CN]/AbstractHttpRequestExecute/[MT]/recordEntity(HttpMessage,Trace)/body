@@ -1,0 +1,17 @@
+{
+  if (httpMessage instanceof HttpEntityEnclosingRequest) {
+    final HttpEntityEnclosingRequest entityRequest=(HttpEntityEnclosingRequest)httpMessage;
+    try {
+      final HttpEntity entity=entityRequest.getEntity();
+      if (entity != null && entity.isRepeatable() && entity.getContentLength() > 0) {
+        if (entitySampler.isSampling()) {
+          final String entityString=entityUtilsToString(entity,"UTF8",1024);
+          trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(entityString,1024));
+        }
+      }
+    }
+ catch (    IOException e) {
+      logger.debug("HttpEntityEnclosingRequest entity record fail. Caused:{}",e.getMessage(),e);
+    }
+  }
+}

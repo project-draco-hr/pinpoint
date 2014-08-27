@@ -1,0 +1,15 @@
+{
+  try {
+    @SuppressWarnings("unchecked") Class<CpuLoadMetricSet> clazz=(Class<CpuLoadMetricSet>)Class.forName(OPTIONAL_CPU_LOAD_METRIC_SET_CLASSPATH);
+    try {
+      return clazz.newInstance();
+    }
+ catch (    Exception e) {
+      LOGGER.error("Error instantiating optional package.",e);
+    }
+  }
+ catch (  ClassNotFoundException e) {
+    LOGGER.info("Optional package not found.");
+  }
+  return null;
+}

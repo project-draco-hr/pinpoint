@@ -1,0 +1,12 @@
+{
+  final Histogram hit=histogramMap.get(destinationId);
+  if (hit != null) {
+    return hit;
+  }
+  final Histogram histogram=createHistogram();
+  final Histogram exist=histogramMap.putIfAbsent(destinationId,histogram);
+  if (exist != null) {
+    return exist;
+  }
+  return histogram;
+}

@@ -1,0 +1,23 @@
+{
+  String uri=request.getUri();
+  QueryStringDecoder decoder=new QueryStringDecoder(uri,uriEncoding);
+  Map<String,List<String>> parameters=decoder.parameters();
+  final StringBuilder params=new StringBuilder(64);
+  for (  Entry<String,List<String>> entry : parameters.entrySet()) {
+    if (params.length() != 0) {
+      params.append('&');
+    }
+    if (params.length() > totalLimit) {
+      params.append("...");
+      break;
+    }
+    String key=entry.getKey();
+    params.append(StringUtils.drop(key,eachLimit));
+    params.append("=");
+    Object value=entry.getValue().get(0);
+    if (value != null) {
+      params.append(StringUtils.drop(StringUtils.toString(value),eachLimit));
+    }
+  }
+  return params.toString();
+}

@@ -1,0 +1,15 @@
+{
+  final String name=RUNTIME_MBEAN.getName();
+  final int pidIndex=name.indexOf('@');
+  if (pidIndex == -1) {
+    getLogger().log(Level.WARNING,"invalid pid name:" + name);
+    return getNegativeRandomValue();
+  }
+  String strPid=name.substring(0,pidIndex);
+  try {
+    return Integer.parseInt(strPid);
+  }
+ catch (  NumberFormatException e) {
+    return getNegativeRandomValue();
+  }
+}

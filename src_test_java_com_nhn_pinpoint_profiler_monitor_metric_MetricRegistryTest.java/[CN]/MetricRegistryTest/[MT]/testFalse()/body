@@ -1,0 +1,16 @@
+{
+  MetricRegistry metricRegistry=null;
+  try {
+    metricRegistry=new MetricRegistry(ServiceType.ARCUS);
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+  metricRegistry=new MetricRegistry(ServiceType.TOMCAT);
+  try {
+    metricRegistry.getRpcMetric(ServiceType.IBATIS);
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+}

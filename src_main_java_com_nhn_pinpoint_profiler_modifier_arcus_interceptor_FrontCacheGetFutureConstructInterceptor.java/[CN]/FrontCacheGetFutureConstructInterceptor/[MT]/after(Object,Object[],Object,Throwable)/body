@@ -1,0 +1,15 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  try {
+    setCacheName.invoke(target,DEFAULT_FRONTCACHE_NAME);
+    if (args[0] instanceof Element) {
+      Element element=(Element)args[0];
+      setCacheKey.invoke(target,element.getObjectKey());
+    }
+  }
+ catch (  Exception e) {
+    logger.error("failed to add metadata: {}",e);
+  }
+}

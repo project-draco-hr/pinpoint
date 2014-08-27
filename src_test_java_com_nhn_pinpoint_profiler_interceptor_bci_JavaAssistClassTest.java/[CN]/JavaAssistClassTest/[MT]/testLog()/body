@@ -1,0 +1,29 @@
+{
+  final TestClassLoader loader=getTestClassLoader();
+  final String testClassObject="com.nhn.pinpoint.profiler.interceptor.bci.TestLog";
+  final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getAgent()){
+    @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
+      try {
+        logger.info("modify cl:{}",classLoader);
+        InstrumentClass aClass=byteCodeInstrumentor.getClass(testClassObject);
+        aClass.addDebugLogBeforeAfterMethod();
+        aClass.addDebugLogBeforeAfterConstructor();
+        return aClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+  }
+;
+  testModifier.setTargetClass(testClassObject);
+  loader.addModifier(testModifier);
+  loader.initialize();
+  Object testObject=loader.loadClass(testClassObject).newInstance();
+  Method test=testObject.getClass().getMethod("test",null);
+  test.invoke(testObject);
+  Method testString=testObject.getClass().getMethod("test",new Class[]{String.class});
+  testString.invoke(testObject,"method");
+  Constructor<?> constructor=testObject.getClass().getConstructor(null);
+  Object o=constructor.newInstance();
+}

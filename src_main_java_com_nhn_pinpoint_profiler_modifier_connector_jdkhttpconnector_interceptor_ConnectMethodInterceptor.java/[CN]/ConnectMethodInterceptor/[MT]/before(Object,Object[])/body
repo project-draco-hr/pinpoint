@@ -1,0 +1,32 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  HttpURLConnection request=(HttpURLConnection)target;
+  final boolean sampling=trace.canSampled();
+  if (!sampling) {
+    request.addRequestProperty(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  request.setRequestProperty(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+  request.setRequestProperty(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+  request.setRequestProperty(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+  request.setRequestProperty(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+  request.setRequestProperty(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+  request.setRequestProperty(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+  trace.recordServiceType(ServiceType.JDK_HTTPURLCONNECTOR);
+  final URL url=request.getURL();
+  final String host=url.getHost();
+  final int port=url.getPort();
+  String endpoint=getEndpoint(host,port);
+  trace.recordDestinationId(endpoint);
+  trace.recordAttribute(AnnotationKey.HTTP_URL,url.toString());
+}

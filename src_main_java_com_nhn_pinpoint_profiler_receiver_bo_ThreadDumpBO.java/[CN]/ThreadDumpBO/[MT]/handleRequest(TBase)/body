@@ -1,0 +1,32 @@
+{
+  logger.info("{} execute {}.",this,tbase);
+  TCommandThreadDump param=(TCommandThreadDump)tbase;
+  TThreadDumpType type=param.getType();
+  List<ThreadInfo> threadInfoList=null;
+  if (TThreadDumpType.TARGET == type) {
+    threadInfoList=getThreadInfo(param.getName());
+  }
+ else   if (TThreadDumpType.PENDING == type) {
+    threadInfoList=getThreadInfo(param.getPendingTimeMillis());
+  }
+ else {
+    threadInfoList=Arrays.asList(getAllThreadInfo());
+  }
+  StringBuilder dump=new StringBuilder();
+  for (  ThreadInfo info : threadInfoList) {
+    dump.append(info.getThreadName());
+    dump.append("\t Thread.State: ");
+    dump.append(info.getThreadState());
+    StackTraceElement[] elements=info.getStackTrace();
+    for (    StackTraceElement element : elements) {
+      dump.append("\r\n\t at");
+      dump.append(element);
+    }
+    dump.append("\r\n");
+    dump.append("\r\n");
+  }
+  TResult result=new TResult(true);
+  result.setMessage(dump.toString());
+  logger.debug("Result = {}",result);
+  return result;
+}

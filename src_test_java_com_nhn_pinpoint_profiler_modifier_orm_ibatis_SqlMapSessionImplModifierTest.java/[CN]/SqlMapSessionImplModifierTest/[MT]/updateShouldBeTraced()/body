@@ -1,0 +1,20 @@
+{
+  SqlMapSession sqlMapSession=new SqlMapSessionImpl(this.sqlMapClient);
+  sqlMapSession.update("updateId");
+  sqlMapSession.update("updateId",new Object());
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertThat(spanEvents.size(),is(2));
+  final SpanEventBo updateWith1ArgSpanEvent=spanEvents.get(0);
+  final SpanEventBo updateWith2ArgSpanEvent=spanEvents.get(1);
+  assertThat(updateWith1ArgSpanEvent.getApiId(),not(0));
+  assertThat(updateWith2ArgSpanEvent.getApiId(),not(0));
+  assertThat(updateWith1ArgSpanEvent.getApiId(),not(updateWith2ArgSpanEvent.getApiId()));
+  final List<AnnotationBo> updateWith1ArgAnnotations=updateWith1ArgSpanEvent.getAnnotationBoList();
+  assertThat(updateWith1ArgAnnotations.size(),is(1));
+  final AnnotationBo updateWith1ArgParameterAnnotation=updateWith1ArgAnnotations.get(0);
+  assertThat(updateWith1ArgParameterAnnotation.getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+  final List<AnnotationBo> updateWith2ArgAnnotations=updateWith2ArgSpanEvent.getAnnotationBoList();
+  assertThat(updateWith2ArgAnnotations.size(),is(1));
+  final AnnotationBo updateWith2ArgAnnotation=updateWith2ArgAnnotations.get(0);
+  assertThat(updateWith2ArgAnnotation.getKey(),is(AnnotationKey.CACHE_ARGS0.getCode()));
+}

@@ -1,0 +1,13 @@
+{
+  if (classLoader == null) {
+    return;
+  }
+  boolean findClass=findClass(javassistClassName,classPool);
+  if (findClass) {
+    if (isDebug) {
+      logger.debug("checkLibrary cl:{} clPool:{}, class:{} found.",classLoader,classPool.getName(),javassistClassName);
+    }
+    return;
+  }
+  loadClassLoaderLibraries(classLoader,classPool);
+}

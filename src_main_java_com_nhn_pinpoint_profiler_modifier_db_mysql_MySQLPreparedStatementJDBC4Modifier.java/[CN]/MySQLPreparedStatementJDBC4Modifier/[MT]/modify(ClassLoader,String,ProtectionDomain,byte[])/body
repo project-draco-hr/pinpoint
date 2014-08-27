@@ -1,0 +1,17 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. " + className);
+  }
+  this.byteCodeInstrumentor.checkLibrary(classLoader,className);
+  try {
+    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(className);
+    bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
+    return preparedStatement.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
+    }
+    return null;
+  }
+}

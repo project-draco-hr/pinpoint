@@ -1,0 +1,9 @@
+{
+  try {
+    CtClass cc=childClassPool.get(javassistClassName);
+    return new JavaAssistClass(this,cc);
+  }
+ catch (  NotFoundException e) {
+    throw new InstrumentException(javassistClassName + " class not found. Cause:" + e.getMessage(),e);
+  }
+}

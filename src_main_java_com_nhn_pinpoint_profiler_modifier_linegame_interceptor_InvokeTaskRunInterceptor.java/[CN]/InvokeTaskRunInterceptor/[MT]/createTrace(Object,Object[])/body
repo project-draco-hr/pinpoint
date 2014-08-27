@@ -1,0 +1,58 @@
+{
+  org.jboss.netty.channel.MessageEvent messageEvent=getMessageEvent.invoke(target);
+  org.jboss.netty.handler.codec.http.HttpRequest request=(org.jboss.netty.handler.codec.http.HttpRequest)messageEvent.getMessage();
+  Channel channel=messageEvent.getChannel();
+  if (channel == null) {
+    logger.debug("Channel is null.");
+    return null;
+  }
+  final boolean sampling=isSamplingEnabled(request);
+  if (!sampling) {
+    final Trace trace=getTraceContext().disableSampling();
+    if (isDebug) {
+      String requestURL=request.getUri();
+      String remoteAddr=getRemoteAddress(channel);
+      logger.debug("remotecall sampling flag found. skip trace requestUrl:{}, remoteAddr:{}",requestURL,remoteAddr);
+    }
+    return trace;
+  }
+  final TraceId traceId=populateTraceIdFromRequest(request);
+  if (traceId != null) {
+    final Trace trace=getTraceContext().continueTraceObject(traceId);
+    if (trace.canSampled()) {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        String remoteAddr=getRemoteAddress(channel);
+        logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      return trace;
+    }
+ else {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        String remoteAddr=getRemoteAddress(channel);
+        logger.debug("TraceID exist. camSampled is false. skip trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,requestURL,remoteAddr});
+      }
+      return trace;
+    }
+  }
+ else {
+    final Trace trace=getTraceContext().newTraceObject();
+    if (trace.canSampled()) {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        String remoteAddr=getRemoteAddress(channel);
+        logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+      }
+      return trace;
+    }
+ else {
+      if (isDebug) {
+        String requestURL=request.getUri();
+        String remoteAddr=getRemoteAddress(channel);
+        logger.debug("TraceID not exist. camSampled is false. skip trace. requestUrl:{}, remoteAddr:{}",new Object[]{requestURL,remoteAddr});
+      }
+      return trace;
+    }
+  }
+}

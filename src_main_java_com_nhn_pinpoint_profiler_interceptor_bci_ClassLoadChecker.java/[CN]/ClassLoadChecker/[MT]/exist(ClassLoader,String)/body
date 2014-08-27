@@ -1,0 +1,14 @@
+{
+  LoadClass key=new LoadClass(cl,className);
+  Object old=load.putIfAbsent(key,EXIST);
+  if (old == null) {
+    if (isDebug) {
+      logger.debug("{} not exist from ",cl);
+    }
+    return false;
+  }
+  if (isDebug) {
+    logger.debug("{} already exist from ",cl);
+  }
+  return true;
+}

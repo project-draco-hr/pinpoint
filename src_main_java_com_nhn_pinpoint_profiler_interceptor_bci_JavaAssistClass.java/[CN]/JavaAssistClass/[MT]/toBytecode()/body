@@ -1,0 +1,14 @@
+{
+  try {
+    byte[] bytes=ctClass.toBytecode();
+    ctClass.detach();
+    return bytes;
+  }
+ catch (  IOException e) {
+    logger.info("IoException class:{} Caused:{}",ctClass.getName(),e.getMessage(),e);
+  }
+catch (  CannotCompileException e) {
+    logger.info("CannotCompileException class:{} Caused:{}",ctClass.getName(),e.getMessage(),e);
+  }
+  return null;
+}

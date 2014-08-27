@@ -1,0 +1,11 @@
+{
+  HttpHeaders headers=request.headers();
+  String parentApplicationName=headers.get(Header.HTTP_PARENT_APPLICATION_NAME.toString());
+  if (parentApplicationName != null) {
+    String acceptorHost=getIpPort(ctx.channel().localAddress());
+    trace.recordAcceptorHost(acceptorHost);
+    final String type=headers.get(Header.HTTP_PARENT_APPLICATION_TYPE.toString());
+    final short parentApplicationType=NumberUtils.parseShort(type,ServiceType.UNDEFINED.getCode());
+    trace.recordParentApplication(parentApplicationName,parentApplicationType);
+  }
+}

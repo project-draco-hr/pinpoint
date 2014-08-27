@@ -1,0 +1,22 @@
+{
+  if (traceId == null) {
+    throw new NullPointerException("traceId must not be null");
+  }
+  final String agentId=this.getAgentId();
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  final String transactionAgentId=traceId.getAgentId();
+  if (!agentId.equals(transactionAgentId)) {
+    this.setTransactionId(TransactionIdUtils.formatBytes(transactionAgentId,traceId.getAgentStartTime(),traceId.getTransactionSequence()));
+  }
+ else {
+    this.setTransactionId(TransactionIdUtils.formatBytes(null,traceId.getAgentStartTime(),traceId.getTransactionSequence()));
+  }
+  this.setSpanId(traceId.getSpanId());
+  final long parentSpanId=traceId.getParentSpanId();
+  if (traceId.getParentSpanId() != SpanId.NULL) {
+    this.setParentSpanId(parentSpanId);
+  }
+  this.setFlag(traceId.getFlags());
+}

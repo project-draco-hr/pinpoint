@@ -1,0 +1,41 @@
+{
+  if (className.startsWith("java")) {
+    if (className.startsWith("/",4) || className.startsWith("x/",4)) {
+      return classFileBuffer;
+    }
+  }
+  if (classLoader == agentClassLoader) {
+    return null;
+  }
+  if (className.startsWith("com/nhn/pinpoint/")) {
+    return null;
+  }
+  Modifier findModifier=this.modifierRegistry.findModifier(className);
+  if (findModifier == null) {
+    if (this.profilerConfig.isProfilableClass(className)) {
+      findModifier=this.modifierRegistry.findModifier("*");
+    }
+ else {
+      return null;
+    }
+  }
+  if (isDebug) {
+    logger.debug("[transform] cl:{} className:{} Modifier:{}",classLoader,className,findModifier.getClass().getName());
+  }
+  String javassistClassName=className.replace('/','.');
+  try {
+    final Thread thread=Thread.currentThread();
+    final ClassLoader before=getContextClassLoader(thread);
+    thread.setContextClassLoader(this.agentClassLoader);
+    try {
+      return findModifier.modify(classLoader,javassistClassName,protectionDomain,classFileBuffer);
+    }
+  finally {
+      thread.setContextClassLoader(before);
+    }
+  }
+ catch (  Throwable e) {
+    logger.error("Modifier:{} modify fail. cl:{} ctxCl:{} agentCl:{} Cause:{}",findModifier.getTargetClass(),classLoader,Thread.currentThread().getContextClassLoader(),agentClassLoader,e.getMessage(),e);
+    return null;
+  }
+}

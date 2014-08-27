@@ -1,0 +1,8 @@
+{
+  if (!(args[0] instanceof org.apache.http.nio.protocol.HttpAsyncRequestProducer)) {
+    return null;
+  }
+  final org.apache.http.nio.protocol.HttpAsyncRequestProducer producer=(org.apache.http.nio.protocol.HttpAsyncRequestProducer)args[0];
+  final HttpHost httpHost=producer.getTarget();
+  return new NameIntValuePair<String>(httpHost.getHostName(),httpHost.getPort());
+}

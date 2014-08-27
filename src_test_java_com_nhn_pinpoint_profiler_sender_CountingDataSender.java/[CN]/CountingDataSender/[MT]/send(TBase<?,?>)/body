@@ -1,0 +1,10 @@
+{
+  senderCounter.incrementAndGet();
+  if (data instanceof Span) {
+    this.spanCounter.incrementAndGet();
+  }
+ else   if (data instanceof SpanChunk) {
+    this.spanChunkCounter.incrementAndGet();
+  }
+  return false;
+}

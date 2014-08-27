@@ -1,0 +1,23 @@
+{
+  StringBuilder sb=new StringBuilder();
+  sb.append("{");
+  sb.append("  ctx = new InterceptorContext();");
+  sb.append("  ctx.setParameter($args);");
+  sb.append("  ctx.setTarget(this);");
+  sb.append(" ");
+  sb.append("}");
+  sb.append("{");
+  sb.append("  interceptor = (AroundInterceptor) " + InterceptorRegistry.class.getName() + ".getInterceptor(\"a\");");
+  sb.append("  interceptor.before(ctx);");
+  sb.append("  result = null;");
+  sb.append("}");
+  sb.append("try {");
+  sb.append("  $_ = $proceed($$);");
+  sb.append("  result = $_;");
+  sb.append("}");
+  sb.append("finally {");
+  sb.append("  ctx.setReturnValue(result);");
+  sb.append("  interceptor.after(ctx);");
+  sb.append("}");
+  return sb.toString();
+}

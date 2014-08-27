@@ -1,0 +1,19 @@
+{
+  if (gauges == null) {
+    throw new NullPointerException("gauges must not be null");
+  }
+  if (key == null) {
+    throw new NullPointerException("key must not be null");
+  }
+  final Gauge gauge=gauges.get(key);
+  if (gauge == null) {
+    LOGGER.warn("key:{} not found",key);
+    return LONG_ZERO;
+  }
+  Object value=gauge.getValue();
+  if (value instanceof Long) {
+    return gauge;
+  }
+  LOGGER.warn("invalid gauge type. key:{} gauge:{}",key,gauge);
+  return LONG_ZERO;
+}

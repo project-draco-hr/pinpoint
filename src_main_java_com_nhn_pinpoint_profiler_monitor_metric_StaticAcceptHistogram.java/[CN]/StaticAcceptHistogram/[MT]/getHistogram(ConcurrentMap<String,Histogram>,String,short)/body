@@ -1,0 +1,13 @@
+{
+  final Histogram hit=histogramMap.get(parentApplicationName);
+  if (hit != null) {
+    return hit;
+  }
+  final ServiceType serviceType=ServiceType.findServiceType(serviceTypeCode);
+  final Histogram histogram=new LongAdderHistogram(serviceType);
+  final Histogram old=histogramMap.putIfAbsent(parentApplicationName,histogram);
+  if (old != null) {
+    return old;
+  }
+  return histogram;
+}

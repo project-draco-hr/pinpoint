@@ -1,0 +1,17 @@
+{
+  AgentInformation agentInformation=new AgentInformation("agentId","applicationName",0,0,"machineName",ServiceType.TOMCAT.getCode(),Version.VERSION);
+  SpanChunkFactory spanChunkFactory=new SpanChunkFactory(agentInformation);
+  try {
+    spanChunkFactory.create(new ArrayList<SpanEvent>());
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+  List<SpanEvent> spanEvents=new ArrayList<SpanEvent>();
+  spanEvents.add(new SpanEvent(new Span()));
+  spanChunkFactory.create(spanEvents);
+  spanEvents.add(new SpanEvent(new Span()));
+  spanChunkFactory.create(spanEvents);
+  spanEvents.add(new SpanEvent(new Span()));
+  spanChunkFactory.create(spanEvents);
+}

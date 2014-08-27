@@ -1,0 +1,9 @@
+{
+  HeartBitStateContext stateContext=new HeartBitStateContext();
+  Assert.assertEquals(HeartBitState.NONE,stateContext.getState());
+  changeStateToNeedRequest(stateContext);
+  changeStateToFinishRequest(stateContext);
+  Thread.sleep(1);
+  boolean isSuccess=stateContext.changeStateToFinish();
+  Assert.assertFalse(isSuccess);
+}

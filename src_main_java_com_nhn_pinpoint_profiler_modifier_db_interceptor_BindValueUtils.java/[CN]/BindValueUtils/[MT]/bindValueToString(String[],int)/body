@@ -1,0 +1,19 @@
+{
+  if (bindValueArray == null) {
+    return "";
+  }
+  final StringBuilder sb=new StringBuilder(32);
+  final int length=bindValueArray.length;
+  final int end=length - 1;
+  for (int i=0; i < length; i++) {
+    if (sb.length() >= limit) {
+      appendLength(sb,length);
+      break;
+    }
+    StringUtils.appendDrop(sb,bindValueArray[i],limit);
+    if (i < end) {
+      sb.append(", ");
+    }
+  }
+  return sb.toString();
+}

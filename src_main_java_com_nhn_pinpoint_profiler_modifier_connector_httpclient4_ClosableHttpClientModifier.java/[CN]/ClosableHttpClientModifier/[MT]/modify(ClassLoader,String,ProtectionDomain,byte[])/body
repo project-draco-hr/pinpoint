@@ -1,0 +1,16 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    addHttpRequestApi(classLoader,protectedDomain,aClass);
+    addHttpUriRequestApi(classLoader,protectedDomain,aClass);
+    return aClass.toBytecode();
+  }
+ catch (  Throwable e) {
+    logger.warn("httpClient4 modifier error. Caused:{}",e.getMessage(),e);
+    return null;
+  }
+}

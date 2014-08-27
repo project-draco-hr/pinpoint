@@ -1,0 +1,19 @@
+{
+  logger.debug("loading className:{}",classname);
+  try {
+    String replace=classname.replace('.','/');
+    ClassFileTransformer classFileTransformer=agent.getClassFileTransformer();
+    byte[] transform=classFileTransformer.transform(this.loader,replace,null,null,null);
+    if (transform != null) {
+      pool.makeClass(new ByteArrayInputStream(transform));
+      return;
+    }
+  }
+ catch (  IOException ex) {
+    throw new NotFoundException(classname + " not found. Caused:" + ex.getMessage(),ex);
+  }
+catch (  IllegalClassFormatException ex) {
+    throw new RuntimeException(classname + " not found. Caused:" + ex.getMessage(),ex);
+  }
+  findModifierMap(pool,classname);
+}

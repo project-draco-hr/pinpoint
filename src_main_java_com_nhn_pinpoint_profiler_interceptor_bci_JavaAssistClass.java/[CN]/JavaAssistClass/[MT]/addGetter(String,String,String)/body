@@ -1,0 +1,13 @@
+{
+  try {
+    CtField traceVariable=ctClass.getField(variableName);
+    CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
+    ctClass.addMethod(getterMethod);
+  }
+ catch (  NotFoundException ex) {
+    throw new InstrumentException(variableName + " addVariableAccessor fail. Cause:" + ex.getMessage(),ex);
+  }
+catch (  CannotCompileException ex) {
+    throw new InstrumentException(variableName + " addVariableAccessor fail. Cause:" + ex.getMessage(),ex);
+  }
+}

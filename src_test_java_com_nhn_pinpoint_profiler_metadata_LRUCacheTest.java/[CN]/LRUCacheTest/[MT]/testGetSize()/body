@@ -1,0 +1,16 @@
+{
+  LRUCache<String> cache=new LRUCache<String>(2);
+  Assert.assertEquals(cache.getSize(),0);
+  String sqlObject="test";
+  boolean hit=cache.put(sqlObject);
+  Assert.assertTrue(hit);
+  Assert.assertEquals(cache.getSize(),1);
+  boolean hit2=cache.put(sqlObject);
+  Assert.assertFalse(hit2);
+  Assert.assertEquals(cache.getSize(),1);
+  cache.put("23 123");
+  cache.put("DCArMlhwQO 7");
+  cache.put("3");
+  cache.put("4");
+  Assert.assertEquals(cache.getSize(),2);
+}

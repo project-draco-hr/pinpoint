@@ -1,0 +1,29 @@
+{
+  FutureListener futureListner=(new FutureListener<ResponseMessage>(){
+    @Override public void onComplete(    Future<ResponseMessage> future){
+      if (future.isSuccess()) {
+        HeaderTBaseDeserializer deserializer=HeaderTBaseDeserializerFactory.DEFAULT_FACTORY.createDeserializer();
+        TBase<?,?> response=deserialize(deserializer,future.getResult());
+        if (response instanceof TResult) {
+          TResult result=(TResult)response;
+          if (result.isSuccess()) {
+            logger.debug("result success");
+          }
+ else {
+            logger.warn("request fail. clazz:{} Caused:{}",targetClass,result.getMessage());
+            retryRequest(requestPacket,retryCount,targetClass.getClass().getSimpleName());
+          }
+        }
+ else {
+          logger.warn("Invalid ResponseMessage. {}",response);
+        }
+      }
+ else {
+        logger.warn("request fail. clazz:{} Caused:{}",targetClass,future.getCause().getMessage(),future.getCause());
+        retryRequest(requestPacket,retryCount,targetClass.getClass().getSimpleName());
+      }
+    }
+  }
+);
+  doRequest(requestPacket,futureListner);
+}

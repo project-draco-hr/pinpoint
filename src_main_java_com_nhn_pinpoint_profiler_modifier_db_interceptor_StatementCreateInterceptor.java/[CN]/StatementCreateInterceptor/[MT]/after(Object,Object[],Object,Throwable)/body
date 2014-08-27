@@ -1,0 +1,16 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  if (InterceptorUtils.isThrowable(throwable)) {
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (target instanceof Connection) {
+    final DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
+    DatabaseInfoTraceValueUtils.__setTraceDatabaseInfo(result,databaseInfo);
+  }
+}

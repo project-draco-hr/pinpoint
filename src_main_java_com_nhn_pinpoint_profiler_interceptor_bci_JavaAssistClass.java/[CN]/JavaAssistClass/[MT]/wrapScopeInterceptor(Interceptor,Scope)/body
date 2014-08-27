@@ -1,0 +1,20 @@
+{
+  final Logger interceptorLogger=LoggerFactory.getLogger(interceptor.getClass());
+  if (interceptor instanceof SimpleAroundInterceptor) {
+    if (interceptorLogger.isDebugEnabled()) {
+      return new DebugScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)interceptor,scope);
+    }
+ else {
+      return new ScopeDelegateSimpleInterceptor((SimpleAroundInterceptor)interceptor,scope);
+    }
+  }
+ else   if (interceptor instanceof StaticAroundInterceptor) {
+    if (interceptorLogger.isDebugEnabled()) {
+      return new DebugScopeDelegateStaticInterceptor((StaticAroundInterceptor)interceptor,scope);
+    }
+ else {
+      return new ScopeDelegateStaticInterceptor((StaticAroundInterceptor)interceptor,scope);
+    }
+  }
+  throw new IllegalArgumentException("unknown Interceptor Type:" + interceptor.getClass());
+}

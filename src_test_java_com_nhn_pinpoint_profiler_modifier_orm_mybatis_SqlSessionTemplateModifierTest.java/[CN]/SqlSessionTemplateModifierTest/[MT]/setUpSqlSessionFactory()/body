@@ -1,0 +1,8 @@
+{
+  Configuration configuration=mock(Configuration.class);
+  TransactionFactory transactionFactory=mock(TransactionFactory.class);
+  DataSource dataSource=mock(DataSource.class);
+  Environment environment=new Environment("test",transactionFactory,dataSource);
+  when(this.sqlSessionFactory.getConfiguration()).thenReturn(configuration);
+  when(configuration.getEnvironment()).thenReturn(environment);
+}

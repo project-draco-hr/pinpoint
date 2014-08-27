@@ -1,0 +1,11 @@
+{
+  LOGGER.info("HeartBitChecker stop");
+  heartBitState.changeStateToFinish();
+  ioThread.interrupt();
+  try {
+    ioThread.join(1000 * 5);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+}
