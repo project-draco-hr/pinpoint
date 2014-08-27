@@ -1,0 +1,17 @@
+{
+  boolean success=false;
+  try {
+    checkMockupServer();
+    log.info("mockserver start");
+    mockUpServerSettler=new MockUpServerSettler(configFileName);
+    mockUpServerSettler.setUp();
+    log.info("mockserver setup-end");
+    success=true;
+  }
+  finally {
+    if (success) {
+      log.info("NimmConnector start");
+      NimmConnector.registerMMNetDriver(configFileName);
+    }
+  }
+}

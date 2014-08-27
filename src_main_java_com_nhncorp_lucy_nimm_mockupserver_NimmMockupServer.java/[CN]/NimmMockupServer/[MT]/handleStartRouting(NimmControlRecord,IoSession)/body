@@ -1,0 +1,9 @@
+{
+  final NimmAddress destination=controlRecord.getDestinationAddress();
+  final NimmAddress source=controlRecord.getSourceAddress();
+  if (logger.isLoggable(Level.FINE)) {
+    logger.fine("START_ROUTING received source:" + source + " destination:"+ destination);
+  }
+  RoutingState routingState=RoutingState.getRoutingState(ioSession);
+  routingState.routingEnable(source.getDomainId(),true);
+}

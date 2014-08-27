@@ -1,0 +1,28 @@
+{
+  try {
+    mysql(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  try {
+    arcus(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  try {
+    memcached(model);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  randomSlowMethod();
+  ApacheHttpClient4 client=new ApacheHttpClient4(new HttpConnectorOptions());
+  client.execute("http://www.naver.com/",new HashMap<String,Object>());
+  client.execute("http://www.naver.com/",new HashMap<String,Object>());
+  client.execute("http://section.cafe.naver.com/",new HashMap<String,Object>());
+  client.execute("http://section.cafe.naver.com/",new HashMap<String,Object>());
+  npc(model);
+  return "OK";
+}

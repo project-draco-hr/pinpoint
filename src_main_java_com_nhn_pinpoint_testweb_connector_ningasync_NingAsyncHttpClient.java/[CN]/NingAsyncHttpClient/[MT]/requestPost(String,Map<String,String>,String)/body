@@ -1,0 +1,22 @@
+{
+  if (url == null) {
+    return null;
+  }
+  BoundRequestBuilder requestBuilder=asyncHttpClient.preparePost(url);
+  try {
+    if (headers != null) {
+      for (      Entry<String,String> entry : headers.entrySet()) {
+        requestBuilder.addHeader(entry.getKey(),entry.getValue());
+      }
+    }
+    requestBuilder.setBody(body).setBodyEncoding("UTF-8");
+    Future<Response> f=requestBuilder.execute();
+    Response response=f.get(500L,TimeUnit.MILLISECONDS);
+    logger.debug("\n\t [POST] url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t body \t\t: "+ body+ "\n\t reponse \t: "+ response.toString());
+    return response;
+  }
+ catch (  Exception e) {
+    logger.debug("request read-timeout : url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t body \t: "+ body);
+    throw new RuntimeException(e);
+  }
+}

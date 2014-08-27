@@ -1,0 +1,12 @@
+{
+  SchemeRegistry schemeRegistry=new SchemeRegistry();
+  schemeRegistry.register(new Scheme("http",PlainSocketFactory.getSocketFactory(),80));
+  if (connectorOptions != null && connectorOptions.getPort() > 0) {
+    schemeRegistry.register(new Scheme("http",PlainSocketFactory.getSocketFactory(),connectorOptions.getPort()));
+  }
+  schemeRegistry.register(new Scheme("https",PlainSocketFactory.getSocketFactory(),443));
+  SingleClientConnManager cm=new SingleClientConnManager(getHttpParams(),schemeRegistry);
+  DefaultHttpClient httpClient=new DefaultHttpClient(cm,getHttpParams());
+  httpClient.setParams(params);
+  return httpClient;
+}

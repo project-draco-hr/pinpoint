@@ -1,0 +1,19 @@
+{
+  try {
+    AsyncHttpClient asyncHttpClient=new AsyncHttpClient(new AsyncHttpClientConfig.Builder().setAllowPoolingConnection(true).setCompressionEnabled(true).build());
+    BoundRequestBuilder requestBuilder=asyncHttpClient.preparePost("http://dev.pinpoint.nhncorp.com");
+    Map<String,String> headers=new HashMap<String,String>();
+    headers.put("header1","header1");
+    headers.put("header2","header2");
+    requestBuilder.addBodyPart(new com.ning.http.client.ByteArrayPart("name1","filename1","data".getBytes(),"plain/text","utf-8"));
+    requestBuilder.addBodyPart(new com.ning.http.client.FilePart("name2",new File("pom.xml"),"mimeType","utf-8"));
+    requestBuilder.addBodyPart(new com.ning.http.client.StringPart("name3","value3"));
+    requestBuilder.addBodyPart(new com.ning.http.multipart.FilePart("name4",new File("pom.xml")));
+    requestBuilder.addBodyPart(new StringPart("name5","value5"));
+    ListenableFuture<Response> f=requestBuilder.execute();
+    f.get(500L,TimeUnit.MILLISECONDS);
+  }
+ catch (  Exception e) {
+    Assert.fail(e.getMessage());
+  }
+}

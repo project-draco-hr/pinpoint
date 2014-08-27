@@ -1,0 +1,31 @@
+{
+  List<IoSessionPair> ioSessionPairList=select(key);
+  if (ioSessionPairList == null) {
+    return null;
+  }
+  int size=ioSessionPairList.size();
+  if (size == 0) {
+    return null;
+  }
+  for (int i=0; i < size; i++) {
+    try {
+      IoSessionPair sessionPair=ioSessionPairList.get(rrKey.incrementAndGet() % size);
+      if (routingCheck) {
+        RoutingState routingState=RoutingState.getRoutingState(sessionPair.getIoSession());
+        if (routingState.isAnycastRouting(key.getDomainId())) {
+          return sessionPair;
+        }
+ else {
+          continue;
+        }
+      }
+ else {
+        return sessionPair;
+      }
+    }
+ catch (    IndexOutOfBoundsException e) {
+      logger.log(Level.WARNING,"index select error",e);
+    }
+  }
+  return null;
+}

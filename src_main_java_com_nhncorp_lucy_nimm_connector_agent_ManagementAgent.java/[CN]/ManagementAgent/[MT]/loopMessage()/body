@@ -1,0 +1,7 @@
+{
+  NimmSocket localSocket=createSocket();
+  byte[] msg="UlaUlaWowWow".getBytes();
+  MessageFuture future=localSocket.request(getMySocket(),msg);
+  future.await();
+  return Arrays.equals(future.getResponse().getMessageAsArray(),msg);
+}

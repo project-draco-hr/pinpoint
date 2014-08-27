@@ -1,0 +1,8 @@
+{
+  List<IoSessionPair> list=this.routingTable.get(anycastKey);
+  if (list == null) {
+    list=new CopyOnWriteArrayList<IoSessionPair>();
+  }
+  list.add(pair);
+  return this.routingTable.put(anycastKey,list);
+}

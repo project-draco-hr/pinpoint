@@ -1,0 +1,13 @@
+{
+  Future<Boolean> future=null;
+  try {
+    future=arcus.set("pinpoint:expect-timeout",10,"Hello, Timeout.");
+    future.get(10L,TimeUnit.MICROSECONDS);
+  }
+ catch (  Exception e) {
+    if (future != null)     future.cancel(true);
+    e.printStackTrace();
+    return e.getMessage();
+  }
+  return "OK";
+}

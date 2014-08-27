@@ -1,0 +1,18 @@
+{
+  int returnPort=80;
+  try {
+    if (!url.toLowerCase().startsWith("http")) {
+      url="http://" + url;
+    }
+    Matcher match=urlPattern.matcher(url);
+    if (match.matches() && match.group(5) != null) {
+      returnPort=Integer.parseInt(match.group(5));
+    }
+ else     if (url.toLowerCase().startsWith("https://")) {
+      returnPort=443;
+    }
+  }
+ catch (  Exception e) {
+  }
+  return returnPort;
+}

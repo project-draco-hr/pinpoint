@@ -1,0 +1,9 @@
+{
+  arcus(model);
+  String[] ports=new String[]{"9080","10080","11080"};
+  Random random=new Random();
+  String port=ports[random.nextInt(3)];
+  ApacheHttpClient4 client=new ApacheHttpClient4(new HttpConnectorOptions());
+  client.execute("http://localhost:" + port + "/arcus.pinpoint",new HashMap<String,Object>());
+  return "OK";
+}

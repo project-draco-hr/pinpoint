@@ -1,0 +1,31 @@
+{
+  if (url == null) {
+    return null;
+  }
+  BoundRequestBuilder requestBuilder=asyncHttpClient.prepareGet(url);
+  if (cookies != null) {
+    for (    Cookie cookie : cookies) {
+      requestBuilder.addCookie(cookie);
+    }
+  }
+  if (queries != null) {
+    for (    Entry<String,String> entry : queries.entrySet()) {
+      requestBuilder.addParameter(entry.getKey(),entry.getValue());
+    }
+  }
+  if (headers != null) {
+    for (    Entry<String,String> entry : headers.entrySet()) {
+      requestBuilder.addHeader(entry.getKey(),entry.getValue());
+    }
+  }
+  try {
+    Future<Response> f=requestBuilder.execute();
+    Response response=f.get(60000L,TimeUnit.MILLISECONDS);
+    logger.debug("\n\t [GET] url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t queries \t: "+ queries+ "\n\t reponse \t: "+ response.toString());
+    return response;
+  }
+ catch (  Exception e) {
+    logger.debug("request read-timeout : url \t: " + url + "\n\t headers \t: "+ headers+ "\n\t queries \t: "+ queries);
+    throw new RuntimeException(e);
+  }
+}

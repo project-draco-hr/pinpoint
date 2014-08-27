@@ -1,0 +1,13 @@
+{
+  this.portNo=portNo;
+  this.serverNimmAddress=serverAddress;
+  this.ioSessionLookUpMap=new ConcurrentHashMap<ClientKey,IoSession>();
+  this.anycastTable=new AnycastRoutingTable();
+  this.representAddress=new ConcurrentHashMap<IoSession,NimmAddress>();
+  this.ioHandler=new IoHandler();
+  this.socketAcceptor=new NioSocketAcceptor();
+  this.socketAcceptor.setDefaultLocalAddress(new InetSocketAddress(portNo));
+  this.socketAcceptor.setHandler(this.ioHandler);
+  this.socketAcceptor.getFilterChain().addLast("raw-log",new NimmLoggingFilter("mockup-server"));
+  this.socketAcceptor.getFilterChain().addLast("nimm-record-codec",new ProtocolCodecFilter(new NimmRecordEncoder(),new NimmRecordDecoder()));
+}

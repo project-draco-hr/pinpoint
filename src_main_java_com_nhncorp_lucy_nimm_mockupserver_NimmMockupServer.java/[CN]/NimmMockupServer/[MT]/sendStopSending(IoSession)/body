@@ -1,0 +1,7 @@
+{
+  NimmControlRecord startSending=NimmControlRecord.createControlMessage(this.serverNimmAddress,this.representAddress.get(ioSession),NimmControlRecord.ControlCode.STOP_SENDING,null);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info("sendStopSending:" + ioSession + " IoSession:"+ ioSession);
+  }
+  ioSession.write(startSending);
+}

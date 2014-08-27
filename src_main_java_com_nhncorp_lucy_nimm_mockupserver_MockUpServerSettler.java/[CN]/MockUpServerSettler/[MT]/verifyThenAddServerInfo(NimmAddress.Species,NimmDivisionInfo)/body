@@ -1,0 +1,15 @@
+{
+  if (divisionInfo == null) {
+    throw new RuntimeException("There isn't" + species.toString() + "Info");
+  }
+  if (validateServerInformation(divisionInfo.getNimmServerAddress())) {
+    throw new RuntimeException(species.toString() + " Server Infos are wrong.");
+  }
+  for (  Map.Entry<String,List<ServerInformation>> catalogEntry : divisionInfo.getNimmServerAddress().entrySet()) {
+    for (    ServerInformation serverInfo : catalogEntry.getValue()) {
+      int port=serverInfo.getInetSocketAddress().getPort();
+      NimmMockupServer mockupServer=serverFactory.createMockUpServer(species,port);
+      this.serverMap.put(serverInfo,mockupServer);
+    }
+  }
+}
