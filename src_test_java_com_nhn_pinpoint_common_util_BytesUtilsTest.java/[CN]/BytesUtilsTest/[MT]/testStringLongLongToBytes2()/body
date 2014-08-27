@@ -1,0 +1,9 @@
+{
+  byte[] bytes=BytesUtils.stringLongLongToBytes("123",10,1,2);
+  String s=BytesUtils.toStringAndRightTrim(bytes,0,10);
+  Assert.assertEquals("123",s);
+  long l=BytesUtils.bytesToLong(bytes,10);
+  Assert.assertEquals(l,1);
+  long l2=BytesUtils.bytesToLong(bytes,10 + BytesUtils.LONG_BYTE_LENGTH);
+  Assert.assertEquals(l2,2);
+}

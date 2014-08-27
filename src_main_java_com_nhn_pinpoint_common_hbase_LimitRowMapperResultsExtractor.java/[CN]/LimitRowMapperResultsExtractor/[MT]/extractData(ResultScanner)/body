@@ -1,0 +1,29 @@
+{
+  final List<T> rs=new ArrayList<T>();
+  int rowNum=0;
+  Result lastResult=null;
+  for (  Result result : results) {
+    final T t=this.rowMapper.mapRow(result,rowNum);
+    lastResult=result;
+    if (t instanceof Collection) {
+      rowNum+=((Collection<?>)t).size();
+    }
+ else     if (t instanceof Map) {
+      rowNum+=((Map<?,?>)t).size();
+    }
+ else     if (t == null) {
+    }
+ else     if (t.getClass().isArray()) {
+      rowNum+=Array.getLength(t);
+    }
+ else {
+      rowNum++;
+    }
+    rs.add(t);
+    if (rowNum >= limit) {
+      break;
+    }
+  }
+  eventHandler.handleLastResult(lastResult);
+  return rs;
+}

@@ -1,0 +1,40 @@
+{
+  if (tSpan == null) {
+    throw new NullPointerException("tSpan must not be null");
+  }
+  if (tSpanEvent == null) {
+    throw new NullPointerException("tSpanEvent must not be null");
+  }
+  this.agentId=tSpan.getAgentId();
+  this.applicationId=tSpan.getApplicationName();
+  this.agentStartTime=tSpan.getAgentStartTime();
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(tSpan.getTransactionId());
+  this.traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
+  this.traceAgentStartTime=transactionId.getAgentStartTime();
+  this.traceTransactionSequence=transactionId.getTransactionSequence();
+  this.spanId=tSpan.getSpanId();
+  this.sequence=tSpanEvent.getSequence();
+  this.startElapsed=tSpanEvent.getStartElapsed();
+  this.endElapsed=tSpanEvent.getEndElapsed();
+  this.rpc=tSpanEvent.getRpc();
+  this.serviceType=ServiceType.findServiceType(tSpanEvent.getServiceType());
+  this.destinationId=tSpanEvent.getDestinationId();
+  this.endPoint=tSpanEvent.getEndPoint();
+  this.apiId=tSpanEvent.getApiId();
+  if (tSpanEvent.isSetDepth()) {
+    this.depth=tSpanEvent.getDepth();
+  }
+  if (tSpanEvent.isSetNextSpanId()) {
+    this.nextSpanId=tSpanEvent.getNextSpanId();
+  }
+  setAnnotationBoList(tSpanEvent.getAnnotations());
+  final TIntStringValue exceptionInfo=tSpanEvent.getExceptionInfo();
+  if (exceptionInfo != null) {
+    this.hasException=true;
+    this.exceptionId=exceptionInfo.getIntValue();
+    this.exceptionMessage=exceptionInfo.getStringValue();
+  }
+}

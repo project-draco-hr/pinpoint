@@ -1,0 +1,10 @@
+{
+  final byte[] buffer=kv.getBuffer();
+  final int valueOffset=kv.getValueOffset();
+  final Buffer valueBuffer=new OffsetFixedBuffer(buffer,valueOffset);
+  int elapsed=valueBuffer.readVarInt();
+  if (elapsed < responseTimeFrom || elapsed > responseTimeTo) {
+    filterRow=false;
+  }
+  return ReturnCode.INCLUDE;
+}

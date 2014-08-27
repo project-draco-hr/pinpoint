@@ -1,0 +1,11 @@
+{
+  final byte[] bytes=BytesUtils.toBytes(string);
+  if (bytes == null) {
+    put((short)NULL);
+    return;
+  }
+  if (bytes.length > Short.MAX_VALUE) {
+    throw new IllegalArgumentException("too large String size:" + bytes.length);
+  }
+  put2PrefixedBytes(bytes);
+}

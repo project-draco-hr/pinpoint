@@ -1,0 +1,10 @@
+{
+  final int putValue=10;
+  Buffer buffer=new OffsetFixedBuffer(new byte[10],2);
+  buffer.put(putValue);
+  byte[] intBuffer=buffer.getBuffer();
+  Assert.assertEquals(intBuffer.length,4);
+  Buffer read=new FixedBuffer(intBuffer);
+  int value=read.readInt();
+  Assert.assertEquals(putValue,value);
+}

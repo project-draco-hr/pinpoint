@@ -1,0 +1,14 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  if (destHost == null) {
+    destHost="";
+  }
+  byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
+  byte[] slotNumberBytes=Bytes.toBytes(slotNumber);
+  byte[] applicationNameBytes=Bytes.toBytes(applicationName);
+  byte[] applicationNameLenBytes=Bytes.toBytes((short)applicationNameBytes.length);
+  byte[] destHostBytes=Bytes.toBytes(destHost);
+  return BytesUtils.concat(serviceTypeBytes,slotNumberBytes,applicationNameLenBytes,applicationNameBytes,destHostBytes);
+}

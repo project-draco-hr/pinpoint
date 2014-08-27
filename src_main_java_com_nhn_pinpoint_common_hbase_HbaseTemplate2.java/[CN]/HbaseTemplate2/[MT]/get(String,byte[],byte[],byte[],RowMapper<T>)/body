@@ -1,0 +1,18 @@
+{
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    HTableInterface htable) throws Throwable {
+      Get get=new Get(rowName);
+      if (familyName != null) {
+        if (qualifier != null) {
+          get.addColumn(familyName,qualifier);
+        }
+ else {
+          get.addFamily(familyName);
+        }
+      }
+      Result result=htable.get(get);
+      return mapper.mapRow(result,0);
+    }
+  }
+);
+}

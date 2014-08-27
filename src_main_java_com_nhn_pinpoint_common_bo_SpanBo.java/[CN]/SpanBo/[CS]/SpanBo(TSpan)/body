@@ -1,0 +1,33 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  this.agentId=span.getAgentId();
+  this.applicationId=span.getApplicationName();
+  this.agentStartTime=span.getAgentStartTime();
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(span.getTransactionId());
+  this.traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
+  this.traceAgentStartTime=transactionId.getAgentStartTime();
+  this.traceTransactionSequence=transactionId.getTransactionSequence();
+  this.spanId=span.getSpanId();
+  this.parentSpanId=span.getParentSpanId();
+  this.startTime=span.getStartTime();
+  this.elapsed=span.getElapsed();
+  this.rpc=span.getRpc();
+  this.serviceType=ServiceType.findServiceType(span.getServiceType());
+  this.endPoint=span.getEndPoint();
+  this.flag=span.getFlag();
+  this.apiId=span.getApiId();
+  this.errCode=span.getErr();
+  this.remoteAddr=span.getRemoteAddr();
+  final TIntStringValue exceptionInfo=span.getExceptionInfo();
+  if (exceptionInfo != null) {
+    this.hasException=true;
+    this.exceptionId=exceptionInfo.getIntValue();
+    this.exceptionMessage=exceptionInfo.getStringValue();
+  }
+  setAnnotationList(span.getAnnotations());
+}

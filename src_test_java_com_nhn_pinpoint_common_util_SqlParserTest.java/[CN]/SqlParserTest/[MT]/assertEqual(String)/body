@@ -1,0 +1,11 @@
+{
+  ParsingResult parsingResult=sqlParser.normalizedSql(expected);
+  String normalizedSql=parsingResult.getSql();
+  try {
+    Assert.assertEquals(expected,normalizedSql);
+  }
+ catch (  AssertionFailedError e) {
+    System.err.println("Original :" + expected);
+    throw e;
+  }
+}

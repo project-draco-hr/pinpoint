@@ -1,0 +1,40 @@
+{
+  if (spanChunk == null) {
+    throw new NullPointerException("spanChunk must not be null");
+  }
+  if (spanEvent == null) {
+    throw new NullPointerException("spanEvent must not be null");
+  }
+  this.agentId=spanChunk.getAgentId();
+  this.applicationId=spanChunk.getApplicationName();
+  this.agentStartTime=spanChunk.getAgentStartTime();
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(spanChunk.getTransactionId());
+  this.traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    traceAgentId=this.agentId;
+  }
+  this.traceAgentStartTime=transactionId.getAgentStartTime();
+  this.traceTransactionSequence=transactionId.getTransactionSequence();
+  this.spanId=spanChunk.getSpanId();
+  this.sequence=spanEvent.getSequence();
+  this.startElapsed=spanEvent.getStartElapsed();
+  this.endElapsed=spanEvent.getEndElapsed();
+  this.rpc=spanEvent.getRpc();
+  this.serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
+  this.destinationId=spanEvent.getDestinationId();
+  this.endPoint=spanEvent.getEndPoint();
+  this.apiId=spanEvent.getApiId();
+  if (spanEvent.isSetDepth()) {
+    this.depth=spanEvent.getDepth();
+  }
+  if (spanEvent.isSetNextSpanId()) {
+    this.nextSpanId=spanEvent.getNextSpanId();
+  }
+  setAnnotationBoList(spanEvent.getAnnotations());
+  final TIntStringValue exceptionInfo=spanEvent.getExceptionInfo();
+  if (exceptionInfo != null) {
+    this.hasException=true;
+    this.exceptionId=exceptionInfo.getIntValue();
+    this.exceptionMessage=exceptionInfo.getStringValue();
+  }
+}

@@ -1,0 +1,13 @@
+{
+  int shift=0;
+  long result=0;
+  while (shift < 64) {
+    final byte v=readByte();
+    result|=(long)(v & 0x7F) << shift;
+    if ((v & 0x80) == 0) {
+      return result;
+    }
+    shift+=7;
+  }
+  throw new IllegalArgumentException("invalid varLong");
+}

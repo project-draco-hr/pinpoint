@@ -1,0 +1,14 @@
+{
+  return execute(tableName,new TableCallback<List<T>>(){
+    @Override public List<T> doInTable(    HTableInterface htable) throws Throwable {
+      Result[] result=htable.get(getList);
+      List<T> list=new ArrayList<T>(result.length);
+      for (int i=0; i < result.length; i++) {
+        T t=mapper.mapRow(result[i],i);
+        list.add(t);
+      }
+      return list;
+    }
+  }
+);
+}

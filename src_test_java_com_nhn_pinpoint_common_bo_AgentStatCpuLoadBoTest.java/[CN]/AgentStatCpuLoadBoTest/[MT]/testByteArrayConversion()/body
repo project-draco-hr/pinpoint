@@ -1,0 +1,10 @@
+{
+  final AgentStatCpuLoadBo testBo=createTestBo(0.22871734201908112D,0.23790152370929718D);
+  final byte[] serializedBo=testBo.writeValue();
+  final AgentStatCpuLoadBo deserializedBo=new AgentStatCpuLoadBo.Builder(serializedBo).build();
+  assertEquals(testBo.getAgentId(),deserializedBo.getAgentId());
+  assertEquals(testBo.getStartTimestamp(),deserializedBo.getStartTimestamp());
+  assertEquals(testBo.getTimestamp(),deserializedBo.getTimestamp());
+  assertEquals(testBo.getJvmCpuLoad(),deserializedBo.getJvmCpuLoad(),DELTA);
+  assertEquals(testBo.getSystemCpuLoad(),deserializedBo.getSystemCpuLoad(),DELTA);
+}

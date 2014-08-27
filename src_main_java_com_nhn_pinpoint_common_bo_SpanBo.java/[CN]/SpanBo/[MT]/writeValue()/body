@@ -1,0 +1,26 @@
+{
+  final Buffer buffer=new AutomaticBuffer(256);
+  buffer.put(version);
+  buffer.putPrefixedString(agentId);
+  buffer.putVar(agentStartTime);
+  buffer.put(parentSpanId);
+  buffer.putVar(startTime);
+  buffer.putVar(elapsed);
+  buffer.putPrefixedString(rpc);
+  buffer.putPrefixedString(applicationId);
+  buffer.put(serviceType.getCode());
+  buffer.putPrefixedString(endPoint);
+  buffer.putPrefixedString(remoteAddr);
+  buffer.putSVar(apiId);
+  buffer.putSVar(errCode);
+  if (hasException) {
+    buffer.put(true);
+    buffer.putSVar(exceptionId);
+    buffer.putPrefixedString(exceptionMessage);
+  }
+ else {
+    buffer.put(false);
+  }
+  buffer.put(flag);
+  return buffer.getBuffer();
+}

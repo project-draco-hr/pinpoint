@@ -1,0 +1,15 @@
+{
+  if (pooledHTableFactory != null) {
+    this.pooledHTableFactory.destroy();
+  }
+  final ExecutorService executor=this.executor;
+  if (executor != null) {
+    executor.shutdown();
+    try {
+      executor.awaitTermination(2000,TimeUnit.MILLISECONDS);
+    }
+ catch (    InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+  }
+}

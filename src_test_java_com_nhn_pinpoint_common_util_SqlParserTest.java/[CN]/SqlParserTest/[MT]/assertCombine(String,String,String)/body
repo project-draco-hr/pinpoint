@@ -1,0 +1,7 @@
+{
+  List<String> output=this.outputParameterParser.parseOutputParameter(outputParams);
+  ParsingResult parsingResult=this.sqlParser.normalizedSql(result);
+  Assert.assertEquals("sql",parsingResult.getSql(),sql);
+  String combine=this.sqlParser.combineOutputParams(sql,output);
+  Assert.assertEquals("combine",result,combine);
+}

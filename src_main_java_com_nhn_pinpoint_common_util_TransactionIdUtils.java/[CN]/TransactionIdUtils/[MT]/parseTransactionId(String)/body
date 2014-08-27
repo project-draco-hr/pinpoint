@@ -1,0 +1,21 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  final int agentIdIndex=transactionId.indexOf(TRANSACTION_ID_DELIMITER);
+  if (agentIdIndex == -1) {
+    throw new IllegalArgumentException("agentIndex not found:" + transactionId);
+  }
+  final String agentId=transactionId.substring(0,agentIdIndex);
+  final int agentStartTimeIndex=transactionId.indexOf(TRANSACTION_ID_DELIMITER,agentIdIndex + 1);
+  if (agentStartTimeIndex == -1) {
+    throw new IllegalArgumentException("agentStartTimeIndex not found:" + transactionId);
+  }
+  final long agentStartTime=parseLong(transactionId.substring(agentIdIndex + 1,agentStartTimeIndex));
+  int transactionSequenceIndex=transactionId.indexOf(TRANSACTION_ID_DELIMITER,agentStartTimeIndex + 1);
+  if (transactionSequenceIndex == -1) {
+    transactionSequenceIndex=transactionId.length();
+  }
+  final long transactionSequence=parseLong(transactionId.substring(agentStartTimeIndex + 1,transactionSequenceIndex));
+  return new TransactionId(agentId,agentStartTime,transactionSequence);
+}

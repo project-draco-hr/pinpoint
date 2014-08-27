@@ -1,0 +1,18 @@
+{
+  execute(tableName,new TableCallback(){
+    @Override public Object doInTable(    HTableInterface htable) throws Throwable {
+      Put put=new Put(rowName);
+      if (familyName != null) {
+        if (timestamp == null) {
+          put.add(familyName,qualifier,value);
+        }
+ else {
+          put.add(familyName,qualifier,timestamp,value);
+        }
+      }
+      htable.put(put);
+      return null;
+    }
+  }
+);
+}

@@ -1,0 +1,18 @@
+{
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
+  }
+  if (offset < 0) {
+    throw new IllegalArgumentException("negative offset:" + offset);
+  }
+  while (true) {
+    if ((value & ~0x7FL) == 0) {
+      buf[offset++]=(byte)value;
+      return offset;
+    }
+ else {
+      buf[offset++]=(byte)(((int)value & 0x7F) | 0x80);
+      value>>>=7;
+    }
+  }
+}

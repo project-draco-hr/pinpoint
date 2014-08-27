@@ -1,0 +1,12 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  final byte[] transactionIdBytes=span.getTransactionId();
+  TransactionId transactionId=TransactionIdUtils.parseTransactionId(transactionIdBytes);
+  String agentId=transactionId.getAgentId();
+  if (agentId == null) {
+    agentId=span.getAgentId();
+  }
+  return BytesUtils.stringLongLongToBytes(agentId,AGENT_NAME_MAX_LEN,transactionId.getAgentStartTime(),transactionId.getTransactionSequence());
+}

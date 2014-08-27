@@ -1,0 +1,16 @@
+{
+  if (contentType == null) {
+    return defaultCharset;
+  }
+  int charsetStart=contentType.indexOf(CHARSET);
+  if (charsetStart == -1) {
+    return defaultCharset;
+  }
+  charsetStart=charsetStart + CHARSET.length();
+  int charsetEnd=contentType.indexOf(';',charsetStart);
+  if (charsetEnd == -1) {
+    charsetEnd=contentType.length();
+  }
+  contentType=contentType.substring(charsetStart,charsetEnd);
+  return contentType.trim();
+}

@@ -1,0 +1,20 @@
+{
+  if (buf == null) {
+    throw new NullPointerException("buf must not be null");
+  }
+  if (offset < 0) {
+    throw new IllegalArgumentException("negative offset:" + offset);
+  }
+  if (buf.length < offset + LONG_BYTE_LENGTH) {
+    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 8));
+  }
+  buf[offset++]=(byte)(value >> 56);
+  buf[offset++]=(byte)(value >> 48);
+  buf[offset++]=(byte)(value >> 40);
+  buf[offset++]=(byte)(value >> 32);
+  buf[offset++]=(byte)(value >> 24);
+  buf[offset++]=(byte)(value >> 16);
+  buf[offset++]=(byte)(value >> 8);
+  buf[offset++]=(byte)(value);
+  return offset;
+}

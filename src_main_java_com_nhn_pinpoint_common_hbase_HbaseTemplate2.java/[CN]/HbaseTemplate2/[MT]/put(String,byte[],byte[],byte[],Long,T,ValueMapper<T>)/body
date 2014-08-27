@@ -1,0 +1,19 @@
+{
+  execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    HTableInterface htable) throws Throwable {
+      Put put=new Put(rowName);
+      byte[] bytes=mapper.mapValue(value);
+      if (familyName != null) {
+        if (timestamp == null) {
+          put.add(familyName,qualifier,bytes);
+        }
+ else {
+          put.add(familyName,qualifier,timestamp,bytes);
+        }
+      }
+      htable.put(put);
+      return null;
+    }
+  }
+);
+}

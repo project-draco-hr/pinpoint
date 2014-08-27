@@ -1,0 +1,7 @@
+{
+  if (bytes == null) {
+    throw new NullPointerException("bytes must not be null");
+  }
+  short applicationNameLength=BytesUtils.bytesToShort(bytes,offset);
+  return BytesUtils.toString(bytes,offset + 2,applicationNameLength);
+}

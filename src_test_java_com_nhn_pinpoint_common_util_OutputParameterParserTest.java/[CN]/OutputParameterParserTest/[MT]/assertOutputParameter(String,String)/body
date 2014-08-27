@@ -1,0 +1,12 @@
+{
+  List<String> result=parser.parseOutputParameter(outputParam);
+  logger.info("parseResult:{}",result);
+  try {
+    Assert.assertArrayEquals(result.toArray(new String[result.size()]),params);
+  }
+ catch (  AssertionError e) {
+    logger.warn("parseResult:{}",result);
+    logger.warn("params:{}",params);
+    throw e;
+  }
+}

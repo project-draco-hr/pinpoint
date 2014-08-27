@@ -1,0 +1,16 @@
+{
+  int TOTAL_LENGTH=20;
+  int TEST_SIZE=10;
+  int PAD_SIZE=TOTAL_LENGTH - TEST_SIZE;
+  Buffer buffer=new FixedBuffer(32);
+  String test=StringUtils.repeat('a',TEST_SIZE);
+  buffer.putPadString(test,TOTAL_LENGTH);
+  byte[] result=buffer.getBuffer();
+  String decodedString=new String(result);
+  String trimString=decodedString.trim();
+  Assert.assertEquals(result.length,TOTAL_LENGTH);
+  Assert.assertEquals("check data",test,trimString);
+  String padString=new String(result,TOTAL_LENGTH - TEST_SIZE,PAD_SIZE,"UTF-8");
+  byte[] padBytes=new byte[TOTAL_LENGTH - TEST_SIZE];
+  Assert.assertEquals("check pad",padString,new String(padBytes,Charset.forName("UTF-8")));
+}

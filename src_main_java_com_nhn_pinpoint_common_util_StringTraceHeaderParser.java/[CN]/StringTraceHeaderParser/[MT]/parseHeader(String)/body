@@ -1,0 +1,33 @@
+{
+  if (traceHeader == null) {
+    return null;
+  }
+  char c=traceHeader.charAt(ID_INDEX);
+  if (c != DELIMITER_STRING) {
+    return null;
+  }
+  String id=traceHeader.substring(0,ID_INDEX);
+  int spanIdStartIndex=ID_INDEX + 1;
+  int spanIdEndIndex=traceHeader.indexOf(DELIMITER_STRING,spanIdStartIndex);
+  String spanId=traceHeader.substring(spanIdStartIndex,spanIdEndIndex);
+  int parentSpanIdStartIndex=spanIdEndIndex + 1;
+  int parentSpanIdEndIndex=traceHeader.indexOf(DELIMITER_STRING,parentSpanIdStartIndex);
+  String parentSpanId=traceHeader.substring(parentSpanIdStartIndex,parentSpanIdEndIndex);
+  int samplingStartIndex=parentSpanIdEndIndex + 1;
+  int samplingEndIndex=traceHeader.indexOf(DELIMITER_STRING,samplingStartIndex);
+  if (samplingEndIndex == -1) {
+    return new TraceHeader(id,spanId,parentSpanId,"","");
+  }
+  String sampling=traceHeader.substring(samplingStartIndex,samplingEndIndex);
+  int flagStartIndex=samplingEndIndex + 1;
+  if (flagStartIndex == -1) {
+    return new TraceHeader(id,spanId,parentSpanId,sampling,"");
+  }
+  int flagEndIndex=traceHeader.indexOf(DELIMITER_STRING,flagStartIndex);
+  if (flagEndIndex == -1) {
+    String flag=traceHeader.substring(flagStartIndex);
+    return new TraceHeader(id,spanId,parentSpanId,sampling,flag);
+  }
+  String flag=traceHeader.substring(flagStartIndex,flagEndIndex);
+  return new TraceHeader(id,spanId,parentSpanId,sampling,flag);
+}

@@ -1,0 +1,11 @@
+{
+  String testString=StringUtils.repeat('a',10);
+  Buffer writeBuffer=new FixedBuffer(32);
+  writeBuffer.putPadString(testString,20);
+  writeBuffer.put(255);
+  Buffer readBuffer=new FixedBuffer(writeBuffer.getBuffer());
+  String readPadString=readBuffer.readPadString(20);
+  Assert.assertEquals(testString,readPadString.substring(0,10));
+  int readInt=readBuffer.readInt();
+  Assert.assertEquals(255,readInt);
+}

@@ -1,0 +1,10 @@
+{
+  Buffer buffer=new FixedBuffer(16);
+  buffer.put(true);
+  buffer.put(false);
+  Buffer read=new FixedBuffer(buffer.getBuffer());
+  boolean b=read.readBoolean();
+  Assert.assertEquals(true,b);
+  boolean c=read.readBoolean();
+  Assert.assertEquals(false,c);
+}

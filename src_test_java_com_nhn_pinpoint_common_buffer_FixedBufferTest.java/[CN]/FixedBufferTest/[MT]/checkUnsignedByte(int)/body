@@ -1,0 +1,8 @@
+{
+  Buffer buffer=new FixedBuffer(1024);
+  buffer.put((byte)value);
+  byte[] buffer1=buffer.getBuffer();
+  Buffer reader=new FixedBuffer(buffer1);
+  int i=reader.readUnsignedByte();
+  Assert.assertEquals(value,i);
+}

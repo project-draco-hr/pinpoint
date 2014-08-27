@@ -1,0 +1,17 @@
+{
+  Buffer buffer1_1=new FixedBuffer(32);
+  try {
+    buffer1_1.putPadBytes(new byte[11],10);
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer1_2=new FixedBuffer(32);
+  try {
+    buffer1_2.putPadBytes(new byte[20],10);
+    Assert.fail("error");
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer2=new FixedBuffer(32);
+  buffer2.putPadBytes(new byte[10],10);
+}

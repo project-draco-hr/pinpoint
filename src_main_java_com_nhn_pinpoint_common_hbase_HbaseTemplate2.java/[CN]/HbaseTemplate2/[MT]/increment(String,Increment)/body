@@ -1,0 +1,8 @@
+{
+  return execute(tableName,new TableCallback<Result>(){
+    @Override public Result doInTable(    HTableInterface htable) throws Throwable {
+      return htable.increment(increment);
+    }
+  }
+);
+}

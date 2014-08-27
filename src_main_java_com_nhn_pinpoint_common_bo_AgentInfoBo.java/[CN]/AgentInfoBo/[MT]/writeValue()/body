@@ -1,0 +1,15 @@
+{
+  final Buffer buffer=new AutomaticBuffer();
+  buffer.putPrefixedString(this.getHostname());
+  buffer.putPrefixedString(this.getIp());
+  buffer.putPrefixedString(this.getPorts());
+  buffer.putPrefixedString(this.getApplicationName());
+  buffer.put(this.serviceType.getCode());
+  buffer.put(this.getPid());
+  buffer.putPrefixedString(this.getVersion());
+  ;
+  buffer.put(this.getStartTime());
+  buffer.put(this.getEndTimeStamp());
+  buffer.put(this.getEndStatus());
+  return buffer.getBuffer();
+}

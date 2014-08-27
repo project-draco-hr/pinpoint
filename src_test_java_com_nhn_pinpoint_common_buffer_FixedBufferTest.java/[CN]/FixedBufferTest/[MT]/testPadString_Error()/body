@@ -1,0 +1,17 @@
+{
+  Buffer buffer1_1=new FixedBuffer(32);
+  try {
+    buffer1_1.putPadString(StringUtils.repeat('a',11),10);
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer1_2=new FixedBuffer(32);
+  try {
+    buffer1_2.putPadString(StringUtils.repeat('a',20),10);
+    Assert.fail("error");
+  }
+ catch (  Exception e) {
+  }
+  Buffer buffer2=new FixedBuffer(32);
+  buffer2.putPadString(StringUtils.repeat('a',10),10);
+}

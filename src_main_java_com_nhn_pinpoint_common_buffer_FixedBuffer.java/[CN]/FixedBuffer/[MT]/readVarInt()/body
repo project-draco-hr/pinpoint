@@ -1,0 +1,35 @@
+{
+  byte v=readByte();
+  if (v >= 0) {
+    return v;
+  }
+  int result=v & 0x7f;
+  if ((v=readByte()) >= 0) {
+    result|=v << 7;
+  }
+ else {
+    result|=(v & 0x7f) << 7;
+    if ((v=readByte()) >= 0) {
+      result|=v << 14;
+    }
+ else {
+      result|=(v & 0x7f) << 14;
+      if ((v=readByte()) >= 0) {
+        result|=v << 21;
+      }
+ else {
+        result|=(v & 0x7f) << 21;
+        result|=(v=readByte()) << 28;
+        if (v < 0) {
+          for (int i=0; i < 5; i++) {
+            if (readByte() >= 0) {
+              return result;
+            }
+          }
+          throw new IllegalArgumentException("invalid varInt");
+        }
+      }
+    }
+  }
+  return result;
+}

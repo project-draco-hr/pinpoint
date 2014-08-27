@@ -1,0 +1,7 @@
+{
+  this.version=buffer.readByte();
+  this.key=buffer.readSVarInt();
+  this.valueType=buffer.readByte();
+  this.byteValue=buffer.readPrefixedBytes();
+  this.value=transcoder.decode(valueType,byteValue);
+}

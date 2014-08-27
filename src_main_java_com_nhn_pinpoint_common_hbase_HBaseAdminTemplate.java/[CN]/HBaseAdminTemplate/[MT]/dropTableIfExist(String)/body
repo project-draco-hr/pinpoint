@@ -1,0 +1,13 @@
+{
+  try {
+    if (hBaseAdmin.tableExists(tableName)) {
+      this.hBaseAdmin.disableTable(tableName);
+      this.hBaseAdmin.deleteTable(tableName);
+      return true;
+    }
+    return false;
+  }
+ catch (  IOException e) {
+    throw new HbaseSystemException(e);
+  }
+}

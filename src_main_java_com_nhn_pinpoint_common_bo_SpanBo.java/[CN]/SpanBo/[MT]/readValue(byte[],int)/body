@@ -1,0 +1,23 @@
+{
+  final Buffer buffer=new OffsetFixedBuffer(bytes,offset);
+  this.version=buffer.readByte();
+  this.agentId=buffer.readPrefixedString();
+  this.agentStartTime=buffer.readVarLong();
+  this.parentSpanId=buffer.readLong();
+  this.startTime=buffer.readVarLong();
+  this.elapsed=buffer.readVarInt();
+  this.rpc=buffer.readPrefixedString();
+  this.applicationId=buffer.readPrefixedString();
+  this.serviceType=ServiceType.findServiceType(buffer.readShort());
+  this.endPoint=buffer.readPrefixedString();
+  this.remoteAddr=buffer.readPrefixedString();
+  this.apiId=buffer.readSVarInt();
+  this.errCode=buffer.readSVarInt();
+  this.hasException=buffer.readBoolean();
+  if (hasException) {
+    this.exceptionId=buffer.readSVarInt();
+    this.exceptionMessage=buffer.readPrefixedString();
+  }
+  this.flag=buffer.readShort();
+  return buffer.getOffset();
+}

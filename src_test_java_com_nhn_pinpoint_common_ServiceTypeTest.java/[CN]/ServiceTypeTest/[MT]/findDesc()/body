@@ -1,0 +1,17 @@
+{
+  String desc="MYSQL";
+  List<ServiceType> mysqlList=ServiceType.findDesc(desc);
+  boolean find=false;
+  for (  ServiceType serviceType : mysqlList) {
+    if (serviceType.getDesc().equals(desc)) {
+      find=true;
+    }
+  }
+  Assert.assertTrue(find);
+  try {
+    mysqlList.add(ServiceType.ARCUS);
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+}

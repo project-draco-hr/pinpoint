@@ -1,0 +1,62 @@
+{
+switch (typeCode) {
+case CODE_STRING:
+    return encodeString((String)o);
+case CODE_INT:
+{
+    final Buffer buffer=new FixedBuffer(BytesUtils.VINT_MAX_SIZE);
+    buffer.putSVar((Integer)o);
+    return buffer.getBuffer();
+  }
+case CODE_BOOLEAN_TRUE:
+{
+  return new byte[0];
+}
+case CODE_BOOLEAN_FALSE:
+{
+return new byte[0];
+}
+case CODE_LONG:
+{
+final Buffer buffer=new FixedBuffer(BytesUtils.VLONG_MAX_SIZE);
+buffer.putSVar((Long)o);
+return buffer.getBuffer();
+}
+case CODE_BYTE:
+{
+final byte[] bytes=new byte[1];
+bytes[0]=(Byte)o;
+return bytes;
+}
+case CODE_SHORT:
+{
+final Buffer buffer=new FixedBuffer(BytesUtils.VINT_MAX_SIZE);
+buffer.putSVar((Short)o);
+return buffer.getBuffer();
+}
+case CODE_FLOAT:
+{
+final byte[] buffer=new byte[4];
+BytesUtils.writeInt(Float.floatToRawIntBits((Float)o),buffer,0);
+return buffer;
+}
+case CODE_DOUBLE:
+{
+final byte[] buffer=new byte[8];
+BytesUtils.writeLong(Double.doubleToRawLongBits((Double)o),buffer,0);
+return buffer;
+}
+case CODE_BYTEARRAY:
+return (byte[])o;
+case CODE_NULL:
+return null;
+case CODE_TOSTRING:
+final String str=o.toString();
+return encodeString(str);
+case CODE_INT_STRING:
+return encodeIntStringValue(o);
+case CODE_INT_STRING_STRING:
+return encodeIntStringStringValue(o);
+}
+throw new IllegalArgumentException("unsupported DataType:" + typeCode + " data:"+ o);
+}

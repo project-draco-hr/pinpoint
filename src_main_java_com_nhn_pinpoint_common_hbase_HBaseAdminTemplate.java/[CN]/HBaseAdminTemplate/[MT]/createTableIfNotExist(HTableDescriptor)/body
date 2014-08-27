@@ -1,0 +1,12 @@
+{
+  try {
+    if (!hBaseAdmin.tableExists(htd.getName())) {
+      this.hBaseAdmin.createTable(htd);
+      return true;
+    }
+    return false;
+  }
+ catch (  IOException e) {
+    throw new HbaseSystemException(e);
+  }
+}

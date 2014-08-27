@@ -1,0 +1,40 @@
+{
+switch (dataType) {
+case CODE_STRING:
+    return decodeString(data);
+case CODE_BOOLEAN_TRUE:
+  return Boolean.TRUE;
+case CODE_BOOLEAN_FALSE:
+return Boolean.FALSE;
+case CODE_INT:
+{
+final Buffer buffer=new FixedBuffer(data);
+return buffer.readSVarInt();
+}
+case CODE_LONG:
+{
+final Buffer buffer=new FixedBuffer(data);
+return buffer.readSVarLong();
+}
+case CODE_BYTE:
+return data[0];
+case CODE_SHORT:
+final Buffer buffer=new FixedBuffer(data);
+return (short)buffer.readSVarInt();
+case CODE_FLOAT:
+return Float.intBitsToFloat(BytesUtils.bytesToInt(data,0));
+case CODE_DOUBLE:
+return Double.longBitsToDouble(BytesUtils.bytesToLong(data,0));
+case CODE_BYTEARRAY:
+return data;
+case CODE_NULL:
+return null;
+case CODE_TOSTRING:
+return decodeString(data);
+case CODE_INT_STRING:
+return decodeIntStringValue(data);
+case CODE_INT_STRING_STRING:
+return decodeIntStringStringValue(data);
+}
+throw new IllegalArgumentException("unsupported DataType:" + dataType);
+}
