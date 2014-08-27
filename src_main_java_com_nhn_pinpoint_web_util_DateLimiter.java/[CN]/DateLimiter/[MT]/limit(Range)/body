@@ -1,0 +1,12 @@
+{
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  final long elapsedTime=range.getRange();
+  if (elapsedTime < 0) {
+    throw new IllegalArgumentException("to - from < 0 " + range);
+  }
+  if (limitDayMillis < elapsedTime) {
+    throw new IllegalArgumentException("limitDay:" + limitDay + " "+ range);
+  }
+}

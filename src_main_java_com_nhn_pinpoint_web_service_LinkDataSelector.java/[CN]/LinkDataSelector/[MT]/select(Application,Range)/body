@@ -1,0 +1,11 @@
+{
+  LinkDataDuplexMap caller=selectCaller(sourceApplication,range);
+  logger.debug("Result of finding caller {}",caller);
+  LinkDataDuplexMap callee=selectCallee(sourceApplication,range);
+  logger.debug("Result of finding callee {}",callee);
+  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  linkDataDuplexMap.addLinkDataDuplexMap(caller);
+  linkDataDuplexMap.addLinkDataDuplexMap(callee);
+  fillEmulationLink(linkDataDuplexMap);
+  return linkDataDuplexMap;
+}

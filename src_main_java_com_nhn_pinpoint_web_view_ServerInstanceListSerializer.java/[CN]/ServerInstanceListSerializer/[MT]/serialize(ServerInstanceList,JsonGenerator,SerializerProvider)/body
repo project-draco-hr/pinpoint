@@ -1,0 +1,14 @@
+{
+  jgen.writeStartObject();
+  Map<String,List<ServerInstance>> map=serverInstanceList.getServerInstanceList();
+  for (  Map.Entry<String,List<ServerInstance>> entry : map.entrySet()) {
+    jgen.writeFieldName(entry.getKey());
+    jgen.writeStartObject();
+    jgen.writeStringField("name",entry.getKey());
+    jgen.writeStringField("status",null);
+    jgen.writeFieldName("instanceList");
+    writeInstanceList(jgen,entry.getValue());
+    jgen.writeEndObject();
+  }
+  jgen.writeEndObject();
+}

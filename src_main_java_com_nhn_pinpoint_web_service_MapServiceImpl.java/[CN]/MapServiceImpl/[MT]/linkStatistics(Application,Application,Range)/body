@@ -1,0 +1,30 @@
+{
+  if (sourceApplication == null) {
+    throw new NullPointerException("sourceApplication must not be null");
+  }
+  if (destinationApplication == null) {
+    throw new NullPointerException("destinationApplication must not be null");
+  }
+  List<LinkDataMap> list=selectLink(sourceApplication,destinationApplication,range);
+  logger.debug("Fetched statistics data size={}",list.size());
+  ResponseHistogramBuilder responseHistogramSummary=new ResponseHistogramBuilder(range);
+  for (  LinkDataMap entry : list) {
+    for (    LinkData linkData : entry.getLinkDataList()) {
+      AgentHistogramList sourceList=linkData.getSourceList();
+      Collection<AgentHistogram> agentHistogramList=sourceList.getAgentHistogramList();
+      for (      AgentHistogram histogram : agentHistogramList) {
+        for (        TimeHistogram timeHistogram : histogram.getTimeHistogram()) {
+          Application toApplication=linkData.getToApplication();
+          if (toApplication.getServiceType().isRpcClient()) {
+            toApplication=new Application(toApplication.getName(),ServiceType.UNKNOWN);
+          }
+          responseHistogramSummary.addLinkHistogram(toApplication,histogram.getId(),timeHistogram);
+        }
+      }
+    }
+  }
+  responseHistogramSummary.build();
+  List<ResponseTime> responseTimeList=responseHistogramSummary.getResponseTimeList(destinationApplication);
+  final NodeHistogram histogramSummary=new NodeHistogram(destinationApplication,range,responseTimeList);
+  return histogramSummary;
+}

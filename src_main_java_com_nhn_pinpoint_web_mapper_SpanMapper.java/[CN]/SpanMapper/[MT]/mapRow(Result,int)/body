@@ -1,0 +1,55 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  byte[] rowKey=result.getRow();
+  final TransactionId transactionId=new TransactionId(rowKey,TransactionId.DISTRIBUTE_HASH_SIZE);
+  KeyValue[] keyList=result.raw();
+  List<SpanBo> spanList=new ArrayList<SpanBo>();
+  Map<Long,SpanBo> spanMap=new HashMap<Long,SpanBo>();
+  List<SpanEventBo> spanEventBoList=new ArrayList<SpanEventBo>();
+  for (  KeyValue kv : keyList) {
+    byte[] family=kv.getFamily();
+    if (Bytes.equals(family,HBaseTables.TRACES_CF_SPAN)) {
+      SpanBo spanBo=new SpanBo();
+      spanBo.setTraceAgentId(transactionId.getAgentId());
+      spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+      spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+      spanBo.setCollectorAcceptTime(kv.getTimestamp());
+      spanBo.setSpanID(Bytes.toLong(kv.getBuffer(),kv.getQualifierOffset()));
+      spanBo.readValue(kv.getBuffer(),kv.getValueOffset());
+      if (logger.isDebugEnabled()) {
+        logger.debug("read span :{}",spanBo);
+      }
+      spanList.add(spanBo);
+      spanMap.put(spanBo.getSpanId(),spanBo);
+    }
+ else     if (Bytes.equals(family,HBaseTables.TRACES_CF_TERMINALSPAN)) {
+      SpanEventBo spanEventBo=new SpanEventBo();
+      spanEventBo.setTraceAgentId(transactionId.getAgentId());
+      spanEventBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+      spanEventBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+      long spanId=Bytes.toLong(kv.getBuffer(),kv.getQualifierOffset());
+      final int spanIdOffset=8;
+      short sequence=Bytes.toShort(kv.getBuffer(),kv.getQualifierOffset() + spanIdOffset);
+      spanEventBo.setSpanId(spanId);
+      spanEventBo.setSequence(sequence);
+      spanEventBo.readValue(kv.getBuffer(),kv.getValueOffset());
+      if (logger.isDebugEnabled()) {
+        logger.debug("read spanEvent :{}",spanEventBo);
+      }
+      spanEventBoList.add(spanEventBo);
+    }
+  }
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
+    SpanBo spanBo=spanMap.get(spanEventBo.getSpanId());
+    if (spanBo != null) {
+      spanBo.addSpanEvent(spanEventBo);
+    }
+  }
+  if (annotationMapper != null) {
+    Map<Long,List<AnnotationBo>> annotationMap=annotationMapper.mapRow(result,rowNum);
+    addAnnotation(spanList,annotationMap);
+  }
+  return spanList;
+}

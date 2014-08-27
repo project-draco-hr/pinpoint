@@ -1,0 +1,25 @@
+{
+  jgen.writeStartObject();
+  jgen.writeStringField("key",link.getLinkName());
+  jgen.writeStringField("from",link.getFrom().getNodeName());
+  jgen.writeStringField("to",link.getTo().getNodeName());
+  writeSimpleNode("sourceInfo",link.getFrom(),jgen);
+  writeSimpleNode("targetInfo",link.getTo(),jgen);
+  Application filterApplication=link.getFilterApplication();
+  jgen.writeStringField("filterApplicationName",filterApplication.getName());
+  jgen.writeNumberField("filterApplicationServiceTypeCode",filterApplication.getServiceTypeCode());
+  if (link.isWasToWasLink()) {
+    writeWasToWasTargetRpcList(link,jgen);
+  }
+  Histogram histogram=link.getHistogram();
+  jgen.writeNumberField("totalCount",histogram.getTotalCount());
+  jgen.writeNumberField("errorCount",histogram.getErrorCount());
+  jgen.writeNumberField("slowCount",histogram.getSlowCount());
+  jgen.writeObjectField("histogram",histogram);
+  writeAgentHistogram("sourceHistogram",link.getSourceList(),jgen);
+  writeAgentHistogram("targetHistogram",link.getTargetList(),jgen);
+  writeTimeSeriesHistogram(link,jgen);
+  writeSourceAgentTimeSeriesHistogram(link,jgen);
+  jgen.writeBooleanField("hasAlert",link.getLinkAlert());
+  jgen.writeEndObject();
+}

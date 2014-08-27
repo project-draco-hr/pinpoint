@@ -1,0 +1,26 @@
+{
+  if (transactionIdList == null) {
+    throw new NullPointerException("transactionIdList must not be null");
+  }
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
+  final List<List<SpanBo>> traceList=traceDao.selectAllSpans(transactionIdList);
+  final List<Dot> result=new ArrayList<Dot>();
+  for (  List<SpanBo> trace : traceList) {
+    if (!filter.include(trace)) {
+      continue;
+    }
+    for (    SpanBo span : trace) {
+      if (applicationName.equals(span.getApplicationId())) {
+        final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
+        final Dot dot=new Dot(transactionId,span.getCollectorAcceptTime(),span.getElapsed(),span.getErrCode(),span.getAgentId());
+        result.add(dot);
+      }
+    }
+  }
+  return result;
+}

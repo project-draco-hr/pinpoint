@@ -1,0 +1,24 @@
+{
+  TSpan span=createRootSpan();
+  com.nhn.pinpoint.common.util.TransactionId id=TransactionIdUtils.parseTransactionId(span.getTransactionId());
+  logger.debug("id:{}",new TransactionId(id.getAgentId(),id.getAgentStartTime(),id.getTransactionSequence()));
+  insert(span);
+  deleteSpans.add(span);
+  TSpan subSpan1=createSpanEvent(span);
+  insert(subSpan1);
+  deleteSpans.add(subSpan1);
+  TSpan subSpan1_2=createSpanEvent(span);
+  insert(subSpan1_2);
+  deleteSpans.add(subSpan1_2);
+  TSpan subSpan2=createSpanEvent(subSpan1);
+  insert(subSpan2);
+  deleteSpans.add(subSpan2);
+  TSpan subSpan3=createSpanEvent(subSpan1);
+  insert(subSpan3);
+  deleteSpans.add(subSpan3);
+  root=span;
+  logger.info(subSpan1.toString());
+  logger.info(subSpan1_2.toString());
+  logger.info(subSpan2.toString());
+  logger.info(subSpan3.toString());
+}

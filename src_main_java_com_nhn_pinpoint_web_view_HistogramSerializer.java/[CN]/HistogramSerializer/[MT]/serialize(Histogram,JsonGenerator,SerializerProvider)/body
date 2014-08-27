@@ -1,0 +1,15 @@
+{
+  jgen.writeStartObject();
+  final HistogramSchema schema=histogram.getHistogramSchema();
+  jgen.writeFieldName(schema.getFastSlot().getSlotName());
+  jgen.writeNumber(histogram.getFastCount());
+  jgen.writeFieldName(schema.getNormalSlot().getSlotName());
+  jgen.writeNumber(histogram.getNormalCount());
+  jgen.writeFieldName(schema.getSlowSlot().getSlotName());
+  jgen.writeNumber(histogram.getSlowCount());
+  jgen.writeFieldName(schema.getVerySlowSlot().getSlotName());
+  jgen.writeNumber(histogram.getVerySlowCount());
+  jgen.writeFieldName(schema.getErrorSlot().getSlotName());
+  jgen.writeNumber(histogram.getErrorCount());
+  jgen.writeEndObject();
+}

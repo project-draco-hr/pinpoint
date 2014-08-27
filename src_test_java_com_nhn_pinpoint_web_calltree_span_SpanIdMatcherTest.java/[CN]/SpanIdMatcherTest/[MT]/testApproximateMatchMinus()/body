@@ -1,0 +1,14 @@
+{
+  List<SpanBo> matchSpanList=new ArrayList<SpanBo>();
+  SpanBo spanBo1=new SpanBo();
+  spanBo1.setStartTime(99);
+  matchSpanList.add(spanBo1);
+  SpanBo spanBo2=new SpanBo();
+  spanBo2.setStartTime(110);
+  matchSpanList.add(spanBo2);
+  SpanIdMatcher spanIdMatcher=new SpanIdMatcher(matchSpanList);
+  SpanBo match=spanIdMatcher.approximateMatch(100);
+  Assert.assertTrue(match == spanBo2);
+  Assert.assertEquals(1,spanIdMatcher.other().size());
+  Assert.assertTrue(spanBo1 == spanIdMatcher.other().get(0));
+}

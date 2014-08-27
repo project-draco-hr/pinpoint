@@ -1,0 +1,13 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  totalCallCount++;
+  String rpc=span.getRpc();
+  if (transactions.containsKey(rpc)) {
+    transactions.get(rpc).add(span);
+  }
+ else {
+    transactions.put(rpc,new BusinessTransaction(span));
+  }
+}

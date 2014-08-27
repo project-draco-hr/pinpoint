@@ -1,0 +1,22 @@
+{
+  if (linkVisitChecker.visitCallee(calleeApplication)) {
+    return new LinkDataDuplexMap();
+  }
+  final LinkDataMap callee=mapStatisticsCalleeDao.selectCallee(calleeApplication,range);
+  logger.debug("Found Callee. count={}, callee={}",callee.size(),calleeApplication);
+  final LinkDataDuplexMap calleeSet=new LinkDataDuplexMap();
+  for (  LinkData stat : callee.getLinkDataList()) {
+    calleeSet.addTargetLinkData(stat);
+    LinkDataDuplexMap calleeSub=selectCallee(stat.getFromApplication(),range);
+    calleeSet.addLinkDataDuplexMap(calleeSub);
+    for (    LinkData eachCallee : calleeSub.getTargetLinkDataList()) {
+      final Application eachCalleeToApplication=eachCallee.getToApplication();
+      if (eachCalleeToApplication.getServiceType().isTerminal() || eachCalleeToApplication.getServiceType().isUnknown()) {
+        continue;
+      }
+      LinkDataDuplexMap callerSub=selectCaller(eachCalleeToApplication,range);
+      calleeSet.addLinkDataDuplexMap(callerSub);
+    }
+  }
+  return calleeSet;
+}

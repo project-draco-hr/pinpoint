@@ -1,0 +1,19 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  Range range=new Range(from,to);
+  LimitedScanResult<List<TransactionId>> traceIdList=filteredMapService.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit);
+  Filter filter=filterBuilder.build(filterText);
+  BusinessTransactions selectBusinessTransactions=transactionInfoService.selectBusinessTransactions(traceIdList.getScanData(),applicationName,range,filter);
+  model.addAttribute("lastFetchedTimestamp",traceIdList.getLimitedTime());
+  model.addAttribute("rpcList",selectBusinessTransactions.getBusinessTransaction());
+  model.addAttribute("requestList",selectBusinessTransactions.getBusinessTransaction());
+  model.addAttribute("scatterList",selectBusinessTransactions.getBusinessTransaction());
+  model.addAttribute("applicationName",applicationName);
+  model.addAttribute("from",new Date(from));
+  model.addAttribute("to",new Date(to));
+  model.addAttribute("urlCount",selectBusinessTransactions.getURLCount());
+  model.addAttribute("totalCount",selectBusinessTransactions.getTotalCallCount());
+  model.addAttribute("filterText",filterText);
+  model.addAttribute("filter",filter);
+  return "transactionList";
+}

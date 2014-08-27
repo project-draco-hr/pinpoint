@@ -1,0 +1,28 @@
+{
+  if (query == null) {
+    throw new NullPointerException("query must not be null");
+  }
+  final List<TransactionId> transactionIdList=query.getTransactionIdList();
+  final List<List<SpanBo>> selectedSpans=traceDao.selectSpans(transactionIdList);
+  final List<SpanBo> result=new ArrayList<SpanBo>(query.size());
+  int index=0;
+  for (  List<SpanBo> spans : selectedSpans) {
+    if (spans.size() == 0) {
+    }
+ else     if (spans.size() == 1) {
+      result.add(spans.get(0));
+    }
+ else {
+      for (      SpanBo span : spans) {
+        final TransactionMetadataQuery.QueryCondition filterQueryCondition=query.getQueryConditionByIndex(index);
+        final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
+        final TransactionMetadataQuery.QueryCondition queryConditionKey=new TransactionMetadataQuery.QueryCondition(transactionId,span.getCollectorAcceptTime(),span.getElapsed());
+        if (queryConditionKey.equals(filterQueryCondition)) {
+          result.add(span);
+        }
+      }
+    }
+    index++;
+  }
+  return result;
+}

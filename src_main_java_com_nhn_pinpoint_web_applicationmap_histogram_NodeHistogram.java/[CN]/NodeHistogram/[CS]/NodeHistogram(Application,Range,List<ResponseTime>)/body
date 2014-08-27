@@ -1,0 +1,17 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (responseHistogramList == null) {
+    throw new NullPointerException("responseHistogramList must not be null");
+  }
+  this.application=application;
+  this.range=range;
+  this.agentTimeHistogram=createAgentLevelTimeSeriesResponseTime(responseHistogramList);
+  this.applicationTimeHistogram=createApplicationLevelTimeSeriesResponseTime(responseHistogramList);
+  this.agentHistogramMap=createAgentLevelResponseTime(responseHistogramList);
+  this.applicationHistogram=createApplicationLevelResponseTime(responseHistogramList);
+}

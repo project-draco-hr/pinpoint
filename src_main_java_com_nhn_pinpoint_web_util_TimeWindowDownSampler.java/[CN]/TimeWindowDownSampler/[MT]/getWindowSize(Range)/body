@@ -1,0 +1,23 @@
+{
+  final long diff=range.getRange();
+  long size;
+  if (diff <= ONE_HOUR) {
+    size=ONE_MINUTE;
+  }
+ else   if (diff <= SIX_HOURS) {
+    size=ONE_MINUTE * 5;
+  }
+ else   if (diff <= TWELVE_HOURS) {
+    size=ONE_MINUTE * 10;
+  }
+ else   if (diff <= ONE_DAY) {
+    size=ONE_MINUTE * 20;
+  }
+ else   if (diff <= TWO_DAY) {
+    size=ONE_MINUTE * 30;
+  }
+ else {
+    size=ONE_MINUTE * 60;
+  }
+  return size;
+}

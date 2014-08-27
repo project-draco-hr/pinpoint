@@ -1,0 +1,14 @@
+{
+  if (destinationId == null) {
+    if (serviceType == null) {
+      return "";
+    }
+    return serviceType.getDesc();
+  }
+  if (serviceType.isIncludeDestinationId()) {
+    return serviceType.getDesc() + "(" + destinationId+ ")";
+  }
+ else {
+    return serviceType.getDesc();
+  }
+}

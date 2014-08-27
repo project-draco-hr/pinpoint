@@ -1,0 +1,24 @@
+{
+  List<String> phoneNumberList=new ArrayList<String>();
+  List<String> emailAddressList=new ArrayList<String>();
+  for (  AlarmContactResource contactResource : contactResourceList) {
+    String phoneNumber=contactResource.getPhoneNum();
+    if (!StringUtils.isEmpty(phoneNumber)) {
+      phoneNumberList.add(phoneNumber);
+    }
+    String emailAddress=contactResource.getEmailAddress();
+    if (!StringUtils.isEmpty(emailAddress)) {
+      emailAddressList.add(emailAddress);
+    }
+  }
+  List<AlarmSendFilter> alarmSendFilter=new ArrayList<AlarmSendFilter>();
+  if (!CollectionUtils.isEmpty(phoneNumberList)) {
+    AlarmSendFilter smsSendFilter=new AlarmSmsSendFilter(application,smsResource,phoneNumberList);
+    alarmSendFilter.add(smsSendFilter);
+  }
+  if (!CollectionUtils.isEmpty(emailAddressList)) {
+    AlarmSendFilter emailSendFilter=new AlarmMailSendFilter(application,mailResource,emailAddressList);
+    alarmSendFilter.add(emailSendFilter);
+  }
+  return alarmSendFilter;
+}

@@ -1,0 +1,17 @@
+{
+  if (successCount > 0 || failedCount > 0) {
+    throw new IllegalStateException("Can't set slot list while containing the data.");
+  }
+  timeseriesSlotIndex.clear();
+  timeseriesValueList.clear();
+  timeseriesSlotIndex.put((int)schema.getFastSlot().getSlotTime(),timeseriesSlotIndex.size());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+  timeseriesSlotIndex.put((int)schema.getNormalSlot().getSlotTime(),timeseriesSlotIndex.size());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+  timeseriesSlotIndex.put((int)schema.getSlowSlot().getSlotTime(),timeseriesSlotIndex.size());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+  timeseriesSlotIndex.put(SLOT_VERY_SLOW,timeseriesSlotIndex.size());
+  timeseriesSlotIndex.put(SLOT_ERROR,timeseriesSlotIndex.size());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+  timeseriesValueList.add(makeEmptyTimeseriesValueMap());
+}

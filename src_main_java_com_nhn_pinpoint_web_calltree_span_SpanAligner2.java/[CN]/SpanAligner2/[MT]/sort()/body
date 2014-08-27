@@ -1,0 +1,13 @@
+{
+  final List<SpanBo> rootList=spanIdMap.remove(rootSpanId);
+  if (rootList == null || rootList.size() == 0) {
+    throw new IllegalStateException("rootList span not found. rootSpanId=" + rootSpanId + ", map="+ spanIdMap.keySet());
+  }
+  if (rootList.size() > 1) {
+    throw new IllegalStateException("duplicate rootList span found. rootSpanId=" + rootSpanId + ", map="+ spanIdMap.keySet());
+  }
+  SpanBo rootSpanBo=rootList.get(0);
+  final List<SpanAlign> list=new ArrayList<SpanAlign>();
+  populate(rootSpanBo,0,list);
+  return list;
+}

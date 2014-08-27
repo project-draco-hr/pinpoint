@@ -1,0 +1,36 @@
+from __future__ import absolute_import, unicode_literals, print_function, division
+from sys import argv
+from os import environ, stat, remove as _delete_file
+from os.path import isfile, dirname, basename, abspath
+from hashlib import sha256
+from subprocess import check_call as run
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+from boto.exception import S3ResponseError
+NEED_TO_UPLOAD_MARKER = u'.need-to-upload'
+BYTES_PER_MB = (1024 * 1024)
+try:
+    BUCKET_NAME = environ[u'TWBS_S3_BUCKET']
+except KeyError:
+    raise SystemExit(u'TWBS_S3_BUCKET environment variable not set!')
+if (__name__ == u'__main__'):
+    argv.pop(0)
+    if (len(argv) != 4):
+        raise SystemExit(u'USAGE: s3_cache.py <download | upload> <friendly name> <dependencies file> <directory>')
+    (mode, friendly_name, dependencies_file, directory) = argv
+    conn = S3Connection()
+    bucket = conn.lookup(BUCKET_NAME, validate=False)
+    if (bucket is None):
+        raise SystemExit(u'Could not access bucket!')
+    dependencies_file_hash = _sha256_of_file(dependencies_file)
+    key = Key(bucket, dependencies_file_hash)
+    key.storage_class = u'REDUCED_REDUNDANCY'
+    if (mode == u'download'):
+        download(directory)
+    elif (mode == u'upload'):
+        if isfile(NEED_TO_UPLOAD_MARKER):
+            upload(directory)
+        else:
+            print(u'No need to upload anything.')
+    else:
+        raise SystemExit(u'Unrecognized mode {!r}'.format(mode))

@@ -1,0 +1,9 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("selectCallerStatistics. {}, {}, {}",callerApplication,calleeApplication,range);
+  }
+  Scan scan=createScan(callerApplication,range);
+  final LinkFilter filter=new DefaultLinkFilter(callerApplication,calleeApplication);
+  RowMapper<LinkDataMap> mapper=new MapStatisticsCallerMapper(filter);
+  return hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,mapper);
+}

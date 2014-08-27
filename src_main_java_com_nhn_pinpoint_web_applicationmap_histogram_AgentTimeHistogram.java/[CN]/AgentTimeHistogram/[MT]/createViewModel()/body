@@ -1,0 +1,16 @@
+{
+  final List<AgentResponseTimeViewModel> result=new ArrayList<AgentResponseTimeViewModel>();
+  for (  AgentHistogram agentHistogram : agentHistogramList.getAgentHistogramList()) {
+    Application agentId=agentHistogram.getAgentId();
+    List<TimeHistogram> timeList=sortTimeHistogram(agentHistogram.getTimeHistogram());
+    AgentResponseTimeViewModel model=createAgentResponseTimeViewModel(agentId,timeList);
+    result.add(model);
+  }
+  Collections.sort(result,new Comparator<AgentResponseTimeViewModel>(){
+    @Override public int compare(    AgentResponseTimeViewModel o1,    AgentResponseTimeViewModel o2){
+      return o1.getAgentName().compareTo(o2.getAgentName());
+    }
+  }
+);
+  return result;
+}

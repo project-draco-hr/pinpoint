@@ -1,0 +1,17 @@
+{
+  if (hostName == null) {
+    throw new NullPointerException("hostName must not be null");
+  }
+  if (physicalName == null) {
+    throw new NullPointerException("logicalName must not be null");
+  }
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
+  this.hostName=hostName;
+  this.name=physicalName;
+  this.serviceType=serviceType;
+  this.agentInfo=null;
+  this.serverType=ServerType.Logical;
+  this.match=MATCHER_GROUP.match(hostName);
+}

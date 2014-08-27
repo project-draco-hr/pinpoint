@@ -1,0 +1,7 @@
+def _sha256_of_file(filename):
+    hasher = sha256()
+    with open(filename, u'rb') as input_file:
+        hasher.update(input_file.read())
+    file_hash = hasher.hexdigest()
+    print(u'sha256({}) = {}'.format(filename, file_hash))
+    return file_hash

@@ -1,0 +1,43 @@
+{
+  final Application nodeApplication=node.getApplication();
+  final NodeHistogram nodeHistogram=new NodeHistogram(nodeApplication,range);
+  final List<Link> toLinkList=linkList.findToLink(nodeApplication);
+  final Histogram applicationHistogram=new Histogram(node.getServiceType());
+  for (  Link link : toLinkList) {
+    applicationHistogram.add(link.getHistogram());
+  }
+  nodeHistogram.setApplicationHistogram(applicationHistogram);
+  LinkCallDataMap linkCallDataMap=new LinkCallDataMap();
+  for (  Link link : toLinkList) {
+    LinkCallDataMap sourceLinkCallDataMap=link.getSourceLinkCallDataMap();
+    linkCallDataMap.addLinkDataMap(sourceLinkCallDataMap);
+  }
+  ApplicationTimeHistogramBuilder builder=new ApplicationTimeHistogramBuilder(nodeApplication,range);
+  ApplicationTimeHistogram applicationTimeHistogram=builder.build(linkCallDataMap.getLinkDataList());
+  nodeHistogram.setApplicationTimeHistogram(applicationTimeHistogram);
+  if (nodeApplication.getServiceType().isTerminal()) {
+    final Map<String,Histogram> agentHistogramMap=new HashMap<String,Histogram>();
+    for (    Link link : toLinkList) {
+      LinkCallDataMap sourceLinkCallDataMap=link.getSourceLinkCallDataMap();
+      AgentHistogramList targetList=sourceLinkCallDataMap.getTargetList();
+      for (      AgentHistogram histogram : targetList.getAgentHistogramList()) {
+        Histogram find=agentHistogramMap.get(histogram.getId());
+        if (find == null) {
+          find=new Histogram(histogram.getServiceType());
+          agentHistogramMap.put(histogram.getId(),find);
+        }
+        find.add(histogram.getHistogram());
+      }
+      nodeHistogram.setAgentHistogramMap(agentHistogramMap);
+    }
+  }
+  LinkCallDataMap mergeSource=new LinkCallDataMap();
+  for (  Link link : toLinkList) {
+    LinkCallDataMap sourceLinkCallDataMap=link.getSourceLinkCallDataMap();
+    mergeSource.addLinkDataMap(sourceLinkCallDataMap);
+  }
+  AgentTimeHistogramBuilder agentTimeBuilder=new AgentTimeHistogramBuilder(nodeApplication,range);
+  AgentTimeHistogram agentTimeHistogram=agentTimeBuilder.buildTarget(mergeSource);
+  nodeHistogram.setAgentTimeHistogram(agentTimeHistogram);
+  return nodeHistogram;
+}

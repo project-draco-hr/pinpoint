@@ -1,0 +1,13 @@
+{
+  Map<Application,ResponseTime> responseTimeMap=responseTimeApplicationMap.get(timeStamp);
+  if (responseTimeMap == null) {
+    responseTimeMap=new HashMap<Application,ResponseTime>();
+    responseTimeApplicationMap.put(timeStamp,responseTimeMap);
+  }
+  ResponseTime responseTime=responseTimeMap.get(application);
+  if (responseTime == null) {
+    responseTime=new ResponseTime(application.getName(),application.getServiceTypeCode(),timeStamp);
+    responseTimeMap.put(application,responseTime);
+  }
+  return responseTime;
+}

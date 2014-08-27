@@ -1,0 +1,12 @@
+def download(directory):
+    _delete_file_quietly(NEED_TO_UPLOAD_MARKER)
+    try:
+        print(u'Downloading {} tarball from S3...'.format(friendly_name))
+        key.get_contents_to_filename(_tarball_filename_for(directory))
+    except S3ResponseError as err:
+        open(NEED_TO_UPLOAD_MARKER, u'a').close()
+        print(err)
+        raise SystemExit(u'Cached {} download failed!'.format(friendly_name))
+    print(u'Downloaded {}.'.format(_tarball_size(directory)))
+    _extract_tarball(directory)
+    print(u'{} successfully installed from cache.'.format(friendly_name))

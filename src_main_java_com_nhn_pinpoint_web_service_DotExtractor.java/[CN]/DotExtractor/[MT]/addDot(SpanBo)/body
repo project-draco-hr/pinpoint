@@ -1,0 +1,11 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  Application spanApplication=new Application(span.getApplicationId(),span.getServiceType());
+  final List<Dot> dotList=getDotList(spanApplication);
+  final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
+  final Dot dot=new Dot(transactionId,span.getCollectorAcceptTime(),span.getElapsed(),span.getErrCode(),span.getAgentId());
+  dotList.add(dot);
+  logger.trace("Application:{} Dot:{}",spanApplication,dot);
+}

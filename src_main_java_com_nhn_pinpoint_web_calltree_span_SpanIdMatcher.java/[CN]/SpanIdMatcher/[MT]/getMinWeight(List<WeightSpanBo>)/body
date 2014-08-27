@@ -1,0 +1,15 @@
+{
+  long min=Long.MAX_VALUE;
+  final List<SpanBo> minValue=new ArrayList<SpanBo>();
+  for (  WeightSpanBo weightSpanBo : weightSpanList) {
+    long weight=weightSpanBo.getWeight();
+    if (weight <= min) {
+      minValue.add(weightSpanBo.getSpanBo());
+      min=weight;
+    }
+  }
+  if (minValue.size() == 1) {
+    return minValue.get(0);
+  }
+  return minValue.get(0);
+}

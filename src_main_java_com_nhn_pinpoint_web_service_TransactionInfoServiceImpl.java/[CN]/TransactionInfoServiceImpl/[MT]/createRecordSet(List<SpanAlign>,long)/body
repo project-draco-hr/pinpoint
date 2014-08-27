@@ -1,0 +1,27 @@
+{
+  if (spanAlignList == null) {
+    throw new NullPointerException("spanAlignList must not be null");
+  }
+  RecordSet recordSet=new RecordSet();
+  SpanBo focusTimeSpanBo=findFocusTimeSpanBo(spanAlignList,focusTimestamp);
+  if (focusTimeSpanBo != null) {
+    recordSet.setAgentId(focusTimeSpanBo.getAgentId());
+    recordSet.setApplicationId(focusTimeSpanBo.getApplicationId());
+    final String applicationName=getRpcArgument(focusTimeSpanBo);
+    recordSet.setApplicationName(applicationName);
+  }
+  long startTime=getStartTime(spanAlignList);
+  recordSet.setStartTime(startTime);
+  long endTime=getEndTime(spanAlignList);
+  recordSet.setEndTime(endTime);
+  final SpanAlignPopulate spanAlignPopulate=new SpanAlignPopulate();
+  List<Record> recordList=spanAlignPopulate.populateSpanRecord(spanAlignList);
+  logger.debug("RecordList:{}",recordList);
+  if (focusTimeSpanBo != null) {
+    long beginTimeStamp=focusTimeSpanBo.getStartTime();
+    markFocusRecord(recordList,beginTimeStamp);
+    recordSet.setBeginTimestamp(beginTimeStamp);
+  }
+  recordSet.setRecordList(recordList);
+  return recordSet;
+}

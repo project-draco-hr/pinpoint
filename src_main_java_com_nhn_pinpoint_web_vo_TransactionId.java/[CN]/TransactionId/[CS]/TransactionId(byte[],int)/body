@@ -1,0 +1,11 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  if (transactionId.length < BytesUtils.LONG_LONG_BYTE_LENGTH + AGENT_NAME_MAX_LEN + offset) {
+    throw new IllegalArgumentException("invalid transactionId length:" + transactionId.length);
+  }
+  this.agentId=BytesUtils.toStringAndRightTrim(transactionId,offset,AGENT_NAME_MAX_LEN);
+  this.agentStartTime=BytesUtils.bytesToLong(transactionId,offset + AGENT_NAME_MAX_LEN);
+  this.transactionSequence=BytesUtils.bytesToLong(transactionId,offset + BytesUtils.LONG_BYTE_LENGTH + AGENT_NAME_MAX_LEN);
+}

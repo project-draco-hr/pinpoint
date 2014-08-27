@@ -1,0 +1,15 @@
+{
+  Object[] args=invocation.getArgs();
+  MappedStatement ms=(MappedStatement)args[0];
+  Object parameterObject=args[1];
+  StatementType statementType=ms.getStatementType();
+  if (StatementType.PREPARED == statementType || StatementType.CALLABLE == statementType) {
+    Log statementLog=ms.getStatementLog();
+    if (isDebugEnable(statementLog)) {
+      BoundSql boundSql=ms.getBoundSql(parameterObject);
+      String sql=boundSql.getSql();
+      List<String> parameterList=getParameters(ms,parameterObject,boundSql);
+      debug(statementLog,"==> BindingLog: " + bindLogFormatter.format(sql,parameterList));
+    }
+  }
+}

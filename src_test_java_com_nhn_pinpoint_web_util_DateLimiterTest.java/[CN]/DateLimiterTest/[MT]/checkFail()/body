@@ -1,0 +1,15 @@
+{
+  Limiter limiter=new DateLimiter(2);
+  try {
+    limiter.limit(0,TimeUnit.DAYS.toMillis(2) + 1);
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+  try {
+    limiter.limit(TimeUnit.DAYS.toMillis(2),0);
+    Assert.fail();
+  }
+ catch (  Exception e) {
+  }
+}

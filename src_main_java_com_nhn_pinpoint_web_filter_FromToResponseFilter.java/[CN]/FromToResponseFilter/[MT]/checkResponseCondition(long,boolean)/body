@@ -1,0 +1,15 @@
+{
+  boolean result=true;
+  if (fromResponseTime != null && toResponseTime != null) {
+    result&=(elapsed >= fromResponseTime) && (elapsed <= toResponseTime);
+  }
+  if (includeFailed != null) {
+    if (includeFailed) {
+      result&=hasError;
+    }
+ else {
+      result&=!hasError;
+    }
+  }
+  return result;
+}

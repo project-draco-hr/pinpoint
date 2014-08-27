@@ -1,0 +1,21 @@
+{
+  for (  SpanAlign spanAlign : spans) {
+    List<AnnotationBo> annotationBoList;
+    if (spanAlign.isSpan()) {
+      annotationBoList=spanAlign.getSpanBo().getAnnotationBoList();
+      if (annotationBoList == null) {
+        annotationBoList=new ArrayList<AnnotationBo>();
+        spanAlign.getSpanBo().setAnnotationBoList(annotationBoList);
+      }
+      annotationReplacementCallback.replacement(spanAlign,annotationBoList);
+    }
+ else {
+      annotationBoList=spanAlign.getSpanEventBo().getAnnotationBoList();
+      if (annotationBoList == null) {
+        annotationBoList=new ArrayList<AnnotationBo>();
+        spanAlign.getSpanBo().setAnnotationBoList(annotationBoList);
+      }
+      annotationReplacementCallback.replacement(spanAlign,annotationBoList);
+    }
+  }
+}

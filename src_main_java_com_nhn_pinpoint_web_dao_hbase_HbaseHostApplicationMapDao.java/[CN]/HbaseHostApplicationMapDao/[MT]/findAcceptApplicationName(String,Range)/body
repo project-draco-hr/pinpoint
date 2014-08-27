@@ -1,0 +1,17 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  final Scan scan=createScan(host,range);
+  final List<Application> result=hbaseOperations2.find(HBaseTables.HOST_APPLICATION_MAP,scan,hostApplicationMapper);
+  if (CollectionUtils.isNotEmpty(result)) {
+    Set<AcceptApplication> resultSet=new HashSet<AcceptApplication>();
+    for (    Application application : result) {
+      resultSet.add(new AcceptApplication(host,application));
+    }
+    return resultSet;
+  }
+ else {
+    return Collections.emptySet();
+  }
+}

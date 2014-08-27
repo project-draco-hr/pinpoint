@@ -1,0 +1,30 @@
+{
+  DefaultAlarmJob alarmJob=new DefaultAlarmJob(application);
+  String applicationName=application.getName();
+  String alarmName=resource.getAlarmGroupName();
+  AlarmContactGroupResource contactGroup=resource.getAlarmContactGroup();
+  if (contactGroup == null || CollectionUtils.isEmpty(contactGroup.getAlarmContactList())) {
+    logger.warn("Application={}, Rule={} does not have contact resource.",applicationName,alarmName);
+    return null;
+  }
+  List<AlarmContactResource> contactResourceList=contactGroup.getAlarmContactList();
+  List<AlarmSendFilter> alarmSendFilterList=createAlarmSendFilter(application,contactResourceList);
+  if (CollectionUtils.isEmpty(alarmSendFilterList)) {
+    logger.warn("Application={}, Rule={} can't find valid contact resource.",applicationName,alarmName);
+    return null;
+  }
+  alarmJob.addFilter(alarmSendFilterList);
+  AlarmRuleGroupResource ruleGroup=resource.getAlarmRuleGroup();
+  if (ruleGroup == null || CollectionUtils.isEmpty(ruleGroup.getAlarmRuleList())) {
+    logger.warn("Application={}, Rule={} does not have rule resource.",applicationName,alarmName);
+    return null;
+  }
+  List<AlarmRuleResource> alarmRuleList=ruleGroup.getAlarmRuleList();
+  List<AlarmCheckFilter> alarmCheckFilterList=createAlarmCheckFilter(application,alarmRuleList);
+  alarmJob.addFilter(alarmCheckFilterList);
+  if (CollectionUtils.isEmpty(alarmCheckFilterList)) {
+    logger.warn("Application={}, Rule={} can't find valid rule resource.",applicationName,alarmName);
+    return null;
+  }
+  return alarmJob;
+}

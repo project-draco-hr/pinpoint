@@ -1,0 +1,23 @@
+{
+  final Application sourceApplication=new Application(sourceApplicationName,sourceServiceType);
+  final Application destinationApplication=new Application(targetApplicationName,targetServiceType);
+  final Range range=new Range(from,to);
+  NodeHistogram nodeHistogram=mapService.linkStatistics(sourceApplication,destinationApplication,range);
+  model.addAttribute("range",range);
+  model.addAttribute("sourceApplication",sourceApplication);
+  model.addAttribute("targetApplication",destinationApplication);
+  Histogram applicationHistogram=nodeHistogram.getApplicationHistogram();
+  model.addAttribute("linkStatistics",applicationHistogram);
+  List<ResponseTimeViewModel> applicationTimeSeriesHistogram=nodeHistogram.getApplicationTimeHistogram();
+  String applicationTimeSeriesHistogramJson=null;
+  try {
+    applicationTimeSeriesHistogramJson=MAPPER.writeValueAsString(applicationTimeSeriesHistogram);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+  model.addAttribute("timeSeriesHistogram",applicationTimeSeriesHistogramJson);
+  model.addAttribute("resultFrom",from);
+  model.addAttribute("resultTo",to);
+  return "linkStatistics";
+}

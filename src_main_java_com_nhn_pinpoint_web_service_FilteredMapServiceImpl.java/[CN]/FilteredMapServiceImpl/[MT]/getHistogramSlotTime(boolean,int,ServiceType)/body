@@ -1,0 +1,10 @@
+{
+  if (hasException) {
+    return serviceType.getHistogramSchema().getErrorSlot().getSlotTime();
+  }
+ else {
+    final HistogramSchema schema=serviceType.getHistogramSchema();
+    final HistogramSlot histogramSlot=schema.findHistogramSlot(elapsedTime);
+    return histogramSlot.getSlotTime();
+  }
+}

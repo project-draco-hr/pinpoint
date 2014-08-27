@@ -1,0 +1,10 @@
+{
+  if (agentHistogram == null) {
+    throw new NullPointerException("agentHistogram must not be null");
+  }
+  final String hostName=agentHistogram.getId();
+  ServiceType serviceType=agentHistogram.getServiceType();
+  Application agentId=new Application(hostName,serviceType);
+  AgentHistogram findAgentHistogram=getAgentHistogram(agentId);
+  findAgentHistogram.addTimeHistogram(agentHistogram.getTimeHistogram());
+}

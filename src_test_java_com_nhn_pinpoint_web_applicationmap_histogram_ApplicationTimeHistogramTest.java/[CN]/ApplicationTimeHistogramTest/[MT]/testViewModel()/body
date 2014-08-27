@@ -1,0 +1,11 @@
+{
+  Application app=new Application("test",ServiceType.TOMCAT);
+  ApplicationTimeHistogramBuilder builder=new ApplicationTimeHistogramBuilder(app,new Range(0,10 * 6000));
+  List<ResponseTime> responseHistogramList=createResponseTime(app);
+  ApplicationTimeHistogram histogram=builder.build(responseHistogramList);
+  List<ResponseTimeViewModel> viewModel=histogram.createViewModel();
+  logger.debug("{}",viewModel);
+  ObjectWriter writer=mapper.writer();
+  String s=writer.writeValueAsString(viewModel);
+  logger.debug(s);
+}

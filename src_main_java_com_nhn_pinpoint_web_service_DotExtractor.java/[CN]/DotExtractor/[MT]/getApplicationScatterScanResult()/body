@@ -1,0 +1,10 @@
+{
+  List<ApplicationScatterScanResult> applicationScatterScanResult=new ArrayList<ApplicationScatterScanResult>();
+  for (  Map.Entry<Application,List<Dot>> entry : this.dotMap.entrySet()) {
+    List<Dot> dotList=entry.getValue();
+    Application application=entry.getKey();
+    ScatterScanResult scatterScanResult=new ScatterScanResult(range.getFrom(),range.getTo(),dotList);
+    applicationScatterScanResult.add(new ApplicationScatterScanResult(application,scatterScanResult));
+  }
+  return applicationScatterScanResult;
+}

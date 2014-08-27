@@ -1,0 +1,19 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("scanAgentStat : agentId={}, {}",agentId,range);
+  }
+  Scan scan=createScan(agentId,range);
+  List<List<AgentStat>> intermediate=hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,agentStatMapper);
+  int expectedSize=(int)(range.getRange() / 5000);
+  List<AgentStat> merged=new ArrayList<AgentStat>(expectedSize);
+  for (  List<AgentStat> each : intermediate) {
+    merged.addAll(each);
+  }
+  return merged;
+}

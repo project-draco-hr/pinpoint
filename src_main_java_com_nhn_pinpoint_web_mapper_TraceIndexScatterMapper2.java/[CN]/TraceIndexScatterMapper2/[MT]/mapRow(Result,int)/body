@@ -1,0 +1,14 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  KeyValue[] raw=result.raw();
+  List<Dot> list=new ArrayList<Dot>(raw.length);
+  for (  KeyValue kv : raw) {
+    final Dot dot=createDot(kv);
+    if (dot != null) {
+      list.add(dot);
+    }
+  }
+  return list;
+}

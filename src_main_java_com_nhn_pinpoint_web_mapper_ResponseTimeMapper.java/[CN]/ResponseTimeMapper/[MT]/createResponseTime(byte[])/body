@@ -1,0 +1,7 @@
+{
+  final Buffer row=new FixedBuffer(rowKey);
+  String applicationName=row.read2PrefixedString();
+  short serviceType=row.readShort();
+  final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
+  return new ResponseTime(applicationName,serviceType,timestamp);
+}

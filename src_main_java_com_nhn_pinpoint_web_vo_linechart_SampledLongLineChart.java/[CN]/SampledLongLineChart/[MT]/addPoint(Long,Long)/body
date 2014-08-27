@@ -1,0 +1,12 @@
+{
+  sampleBuffer[sampleIndex++]=yVal;
+  if (sampleIndex == sampleRate) {
+    Number[] samplePoint=new Number[4];
+    samplePoint[0]=xVal;
+    samplePoint[1]=DownSamplers.MIN.sampleLong(sampleBuffer);
+    samplePoint[2]=DownSamplers.MAX.sampleLong(sampleBuffer);
+    samplePoint[3]=DownSamplers.AVG.sampleLong(sampleBuffer);
+    getPoints().add(samplePoint);
+    sampleIndex=0;
+  }
+}

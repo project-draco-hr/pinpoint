@@ -1,0 +1,11 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  final byte[] traceIdBytes=rowKeyDistributor.getDistributedKey(transactionId.getBytes());
+  Get get=new Get(traceIdBytes);
+  get.addFamily(HBaseTables.TRACES_CF_SPAN);
+  get.addFamily(HBaseTables.TRACES_CF_ANNOTATION);
+  get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
+  return template2.get(HBaseTables.TRACES,get,spanAnnotationMapper);
+}

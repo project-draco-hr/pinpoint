@@ -1,0 +1,65 @@
+{
+  this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
+    @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
+      AnnotationBo sqlIdAnnotation=findAnnotation(annotationBoList,AnnotationKey.SQL_ID.getCode());
+      if (sqlIdAnnotation == null) {
+        return;
+      }
+      final AgentKey agentKey=getAgentKey(spanAlign);
+      final IntStringStringValue sqlValue=(IntStringStringValue)sqlIdAnnotation.getValue();
+      final int hashCode=sqlValue.getIntValue();
+      final String sqlParam=sqlValue.getStringValue1();
+      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),agentKey.getAgentStartTime(),hashCode);
+      final int size=sqlMetaDataList.size();
+      if (size == 0) {
+        AnnotationBo api=new AnnotationBo();
+        api.setKey(AnnotationKey.SQL.getCode());
+        api.setValue("SQL-ID not found hashCode:" + hashCode);
+        annotationBoList.add(api);
+      }
+ else       if (size == 1) {
+        final SqlMetaDataBo sqlMetaDataBo=sqlMetaDataList.get(0);
+        if (StringUtils.isEmpty(sqlParam)) {
+          AnnotationBo sqlMeta=new AnnotationBo();
+          sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
+          sqlMeta.setValue(sqlMetaDataBo.getSql());
+          annotationBoList.add(sqlMeta);
+          AnnotationBo sql=new AnnotationBo();
+          sql.setKey(AnnotationKey.SQL.getCode());
+          sql.setValue(sqlMetaDataBo.getSql());
+          annotationBoList.add(sql);
+        }
+ else {
+          logger.debug("sqlMetaDataBo:{}",sqlMetaDataBo);
+          final String outputParams=sqlParam;
+          List<String> parsedOutputParams=outputParameterParser.parseOutputParameter(outputParams);
+          logger.debug("outputPrams:{}, parsedOutputPrams:{}",outputParams,parsedOutputParams);
+          String originalSql=sqlParser.combineOutputParams(sqlMetaDataBo.getSql(),parsedOutputParams);
+          logger.debug("outputPrams{}, originalSql:{}",outputParams,originalSql);
+          AnnotationBo sqlMeta=new AnnotationBo();
+          sqlMeta.setKey(AnnotationKey.SQL_METADATA.getCode());
+          sqlMeta.setValue(sqlMetaDataBo.getSql());
+          annotationBoList.add(sqlMeta);
+          AnnotationBo sql=new AnnotationBo();
+          sql.setKey(AnnotationKey.SQL.getCode());
+          sql.setValue(originalSql);
+          annotationBoList.add(sql);
+        }
+      }
+ else {
+        AnnotationBo api=new AnnotationBo();
+        api.setKey(AnnotationKey.SQL.getCode());
+        api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
+        annotationBoList.add(api);
+      }
+      final String bindValue=sqlValue.getStringValue2();
+      if (StringUtils.isNotEmpty(bindValue)) {
+        AnnotationBo bindValueAnnotation=new AnnotationBo();
+        bindValueAnnotation.setKey(AnnotationKey.SQL_BINDVALUE.getCode());
+        bindValueAnnotation.setValue(bindValue);
+        annotationBoList.add(bindValueAnnotation);
+      }
+    }
+  }
+);
+}

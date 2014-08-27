@@ -1,0 +1,24 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.debug("beforeSpanEvent:{}, nextSpanBoList:{}",beforeSpanEventBo,nextSpanBoList);
+  }
+  if (nextSpanBoList.size() == 1) {
+    return nextSpanBoList.get(0);
+  }
+ else   if (nextSpanBoList.size() > 1) {
+    long spanEventBoStartTime=span.getStartTime() + beforeSpanEventBo.getStartElapsed();
+    SpanIdMatcher spanIdMatcher=new SpanIdMatcher(nextSpanBoList);
+    SpanBo matched=spanIdMatcher.approximateMatch(spanEventBoStartTime);
+    if (matched == null) {
+      return null;
+    }
+    List<SpanBo> other=spanIdMatcher.other();
+    if (other != null) {
+      spanIdMap.put(matched.getSpanId(),other);
+    }
+    return matched;
+  }
+ else {
+    throw new IllegalStateException("error");
+  }
+}

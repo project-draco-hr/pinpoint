@@ -1,0 +1,28 @@
+{
+  final List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
+  if (CollectionUtils.isEmpty(spanEventBoList)) {
+    return;
+  }
+  final Application srcApplication=new Application(span.getApplicationId(),span.getServiceType());
+  LinkDataMap sourceLinkDataMap=linkDataDuplexMap.getSourceLinkDataMap();
+  for (  SpanEventBo spanEvent : spanEventBoList) {
+    ServiceType destServiceType=spanEvent.getServiceType();
+    if (!destServiceType.isRecordStatistics()) {
+      continue;
+    }
+    if (destServiceType.isRpcClient()) {
+      if (!transactionSpanMap.containsKey(spanEvent.getNextSpanId())) {
+        destServiceType=ServiceType.UNKNOWN;
+      }
+    }
+    final String dest=spanEvent.getDestinationId();
+    final Application destApplication=new Application(dest,destServiceType);
+    final short slotTime=getHistogramSlotTime(spanEvent,destServiceType);
+    final long spanEventTimeStamp=window.refineTimestamp(span.getStartTime() + spanEvent.getStartElapsed());
+    if (logger.isTraceEnabled()) {
+      logger.trace("spanEvent  src:{} {} -> dest:{} {}",srcApplication,span.getAgentId(),destApplication,spanEvent.getEndPoint());
+    }
+    final String destinationAgentId=StringUtils.defaultString(spanEvent.getEndPoint());
+    sourceLinkDataMap.addLinkData(srcApplication,span.getAgentId(),destApplication,destinationAgentId,spanEventTimeStamp,slotTime,1);
+  }
+}

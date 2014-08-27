@@ -1,0 +1,14 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  this.application=application;
+  this.range=range;
+  this.applicationHistogram=new Histogram(this.application.getServiceType());
+  this.agentHistogramMap=new HashMap<String,Histogram>();
+  this.applicationTimeHistogram=new ApplicationTimeHistogram(this.application,this.range);
+  this.agentTimeHistogram=new AgentTimeHistogram(this.application,this.range);
+}

@@ -1,0 +1,36 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  final List<String> agentIdList=applicationIndexDao.selectAgentIds(applicationName);
+  if (logger.isDebugEnabled()) {
+    logger.debug("agentIdList={}",agentIdList);
+  }
+  if (CollectionUtils.isEmpty(agentIdList)) {
+    logger.debug("agentIdList is empty. applicationName={}, {}",applicationName,range);
+    return new TreeMap<String,List<AgentInfoBo>>();
+  }
+  SortedMap<String,List<AgentInfoBo>> result=new TreeMap<String,List<AgentInfoBo>>();
+  for (  String agentId : agentIdList) {
+    List<AgentInfoBo> agentInfoList=agentInfoDao.getAgentInfo(agentId,range);
+    if (agentInfoList.isEmpty()) {
+      logger.debug("agentinfolist is empty. agentid={}, {}",agentId,range);
+      continue;
+    }
+    AgentInfoBo agentInfo=agentInfoList.get(0);
+    String hostname=agentInfo.getHostname();
+    if (result.containsKey(hostname)) {
+      result.get(hostname).add(agentInfo);
+    }
+ else {
+      List<AgentInfoBo> list=new ArrayList<AgentInfoBo>();
+      list.add(agentInfo);
+      result.put(hostname,list);
+    }
+  }
+  for (  List<AgentInfoBo> agentInfoBoList : result.values()) {
+    Collections.sort(agentInfoBoList,AgentInfoBo.AGENT_NAME_ASC_COMPARATOR);
+  }
+  logger.info("getApplicationAgentList={}",result);
+  return result;
+}

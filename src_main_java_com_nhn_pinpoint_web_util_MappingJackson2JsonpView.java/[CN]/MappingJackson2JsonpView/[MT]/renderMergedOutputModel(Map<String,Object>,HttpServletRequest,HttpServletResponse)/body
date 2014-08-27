@@ -1,0 +1,19 @@
+{
+  Object value=filterModel(model);
+  JsonGenerator generator=this.objectMapper.getFactory().createGenerator(response.getOutputStream(),this.encoding);
+  if (this.prefixJson) {
+    generator.writeRaw("{} && ");
+  }
+  final String callBackParameter=getCallBackParameter(request);
+  if (StringUtils.isEmpty(callBackParameter)) {
+    this.objectMapper.writeValue(generator,value);
+  }
+ else {
+    generator.writeRaw(callBackParameter);
+    generator.writeRaw(cbPrefix);
+    this.objectMapper.writeValue(generator,value);
+    generator.writeRaw(cbSuffix);
+    generator.writeRaw(cbEnd);
+  }
+  generator.flush();
+}

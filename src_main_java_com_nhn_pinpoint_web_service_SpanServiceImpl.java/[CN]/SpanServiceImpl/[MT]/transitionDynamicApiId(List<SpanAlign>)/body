@@ -1,0 +1,36 @@
+{
+  this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
+    @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
+      final AgentKey key=getAgentKey(spanAlign);
+      final int apiId=getApiId(spanAlign);
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),key.getAgentStartTime(),apiId);
+      int size=apiMetaDataList.size();
+      if (size == 0) {
+        AnnotationBo api=new AnnotationBo();
+        api.setKey(AnnotationKey.ERROR_API_METADATA_NOT_FOUND.getCode());
+        api.setValue("API-DynamicID not found. api:" + apiId);
+        annotationBoList.add(api);
+      }
+ else       if (size == 1) {
+        ApiMetaDataBo apiMetaDataBo=apiMetaDataList.get(0);
+        AnnotationBo apiMetaData=new AnnotationBo();
+        apiMetaData.setKey(AnnotationKey.API_METADATA.getCode());
+        apiMetaData.setValue(apiMetaDataBo);
+        annotationBoList.add(apiMetaData);
+        AnnotationBo apiAnnotation=new AnnotationBo();
+        apiAnnotation.setKey(AnnotationKey.API.getCode());
+        String apiInfo=getApiInfo(apiMetaDataBo);
+        apiAnnotation.setValue(apiInfo);
+        annotationBoList.add(apiAnnotation);
+      }
+ else {
+        AnnotationBo apiAnnotation=new AnnotationBo();
+        apiAnnotation.setKey(AnnotationKey.ERROR_API_METADATA_DID_COLLSION.getCode());
+        String collisonMessage=collisionApiDidMessage(apiId,apiMetaDataList);
+        apiAnnotation.setValue(collisonMessage);
+        annotationBoList.add(apiAnnotation);
+      }
+    }
+  }
+);
+}

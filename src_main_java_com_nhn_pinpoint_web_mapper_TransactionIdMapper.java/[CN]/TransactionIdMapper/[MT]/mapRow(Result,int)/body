@@ -1,0 +1,15 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  KeyValue[] raw=result.raw();
+  List<TransactionId> traceIdList=new ArrayList<TransactionId>(raw.length);
+  for (  KeyValue kv : raw) {
+    byte[] buffer=kv.getBuffer();
+    int qualifierOffset=kv.getQualifierOffset();
+    TransactionId traceId=parseVarTransactionId(buffer,qualifierOffset);
+    traceIdList.add(traceId);
+    logger.debug("found traceId {}",traceId);
+  }
+  return traceIdList;
+}

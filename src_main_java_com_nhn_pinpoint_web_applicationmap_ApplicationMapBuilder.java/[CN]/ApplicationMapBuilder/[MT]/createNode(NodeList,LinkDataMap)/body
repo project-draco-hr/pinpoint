@@ -1,0 +1,24 @@
+{
+  for (  LinkData linkData : linkDataMap.getLinkDataList()) {
+    final Application fromApplication=linkData.getFromApplication();
+    if (!fromApplication.getServiceType().isRpcClient()) {
+      final boolean success=addNode(nodeList,fromApplication);
+      if (success) {
+        logger.debug("createSourceNode:{}",fromApplication);
+      }
+    }
+ else {
+      logger.warn("found rpc fromNode linkData:{}",linkData);
+    }
+    final Application toApplication=linkData.getToApplication();
+    if (!toApplication.getServiceType().isRpcClient()) {
+      final boolean success=addNode(nodeList,toApplication);
+      if (success) {
+        logger.debug("createTargetNode:{}",toApplication);
+      }
+    }
+ else {
+      logger.warn("found rpc toNode:{}",linkData);
+    }
+  }
+}

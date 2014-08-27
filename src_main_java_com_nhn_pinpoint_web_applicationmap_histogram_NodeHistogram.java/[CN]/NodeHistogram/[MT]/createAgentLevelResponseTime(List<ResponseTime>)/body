@@ -1,0 +1,9 @@
+{
+  Map<String,Histogram> agentHistogramMap=new HashMap<String,Histogram>();
+  for (  ResponseTime responseTime : responseHistogramList) {
+    for (    Map.Entry<String,TimeHistogram> entry : responseTime.getAgentHistogram()) {
+      addAgentLevelHistogram(agentHistogramMap,entry.getKey(),entry.getValue());
+    }
+  }
+  return agentHistogramMap;
+}

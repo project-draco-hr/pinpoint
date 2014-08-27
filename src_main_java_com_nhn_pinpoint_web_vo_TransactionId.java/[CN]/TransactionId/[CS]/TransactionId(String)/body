@@ -1,0 +1,9 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  com.nhn.pinpoint.common.util.TransactionId parsedId=TransactionIdUtils.parseTransactionId(transactionId);
+  this.agentId=parsedId.getAgentId();
+  this.agentStartTime=parsedId.getAgentStartTime();
+  this.transactionSequence=parsedId.getTransactionSequence();
+}

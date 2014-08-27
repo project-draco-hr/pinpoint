@@ -1,0 +1,30 @@
+{
+  if (result.isEmpty()) {
+    return new LinkDataMap();
+  }
+  logger.debug("mapRow:{}",rowNum);
+  final Buffer row=new FixedBuffer(result.getRow());
+  final Application calleeApplication=readCalleeApplication(row);
+  final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
+  final LinkDataMap linkDataMap=new LinkDataMap();
+  for (  KeyValue kv : result.raw()) {
+    final byte[] qualifier=kv.getQualifier();
+    final Application callerApplication=readCallerApplication(qualifier);
+    if (filter.filter(callerApplication)) {
+      continue;
+    }
+    long requestCount=Bytes.toLong(kv.getBuffer(),kv.getValueOffset());
+    short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
+    String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
+    boolean isError=histogramSlot == (short)-1;
+    if (logger.isDebugEnabled()) {
+      logger.debug("    Fetched Callee. {} callerHost:{} -> {} (slot:{}/{}),  ",callerApplication,callerHost,calleeApplication,histogramSlot,requestCount);
+    }
+    final short slotTime=(isError) ? (short)-1 : histogramSlot;
+    linkDataMap.addLinkData(callerApplication,callerApplication.getName(),calleeApplication,callerHost,timestamp,slotTime,requestCount);
+    if (logger.isDebugEnabled()) {
+      logger.debug("    Fetched Callee. statistics:{}",linkDataMap);
+    }
+  }
+  return linkDataMap;
+}

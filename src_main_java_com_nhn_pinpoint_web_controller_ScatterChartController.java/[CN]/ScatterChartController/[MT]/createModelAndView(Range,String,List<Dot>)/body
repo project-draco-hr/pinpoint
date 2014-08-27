@@ -1,0 +1,14 @@
+{
+  ModelAndView mv=new ModelAndView();
+  mv.addObject("resultFrom",range.getFrom());
+  mv.addObject("resultTo",range.getTo());
+  mv.addObject("scatterIndex",ScatterIndex.MATA_DATA);
+  mv.addObject("scatter",scatterData);
+  if (jsonpCallback == null) {
+    mv.setViewName("jsonView");
+  }
+ else {
+    mv.setViewName("jsonpView");
+  }
+  return mv;
+}

@@ -1,0 +1,50 @@
+{
+  final ServiceType serviceType=node.getServiceType();
+  final NodeHistogram nodeHistogram=node.getNodeHistogram();
+  if (serviceType.isWas() || serviceType.isTerminal() || serviceType.isUnknown()|| serviceType.isUser()) {
+    Histogram applicationHistogram=nodeHistogram.getApplicationHistogram();
+    if (applicationHistogram == null) {
+      writeEmptyObject(jgen,"histogram");
+      jgen.writeBooleanField("hasAlert",false);
+    }
+ else {
+      jgen.writeObjectField("histogram",applicationHistogram);
+      jgen.writeNumberField("totalCount",applicationHistogram.getTotalCount());
+      jgen.writeNumberField("errorCount",applicationHistogram.getErrorCount());
+      jgen.writeNumberField("slowCount",applicationHistogram.getSlowCount());
+      if (applicationHistogram.getTotalCount() == 0) {
+        jgen.writeBooleanField("hasAlert",false);
+      }
+ else {
+        long error=applicationHistogram.getErrorCount() / applicationHistogram.getTotalCount();
+        if (error * 100 > 10) {
+          jgen.writeBooleanField("hasAlert",true);
+        }
+ else {
+          jgen.writeBooleanField("hasAlert",false);
+        }
+      }
+    }
+    Map<String,Histogram> agentHistogramMap=nodeHistogram.getAgentHistogramMap();
+    if (agentHistogramMap == null) {
+      writeEmptyObject(jgen,"agentHistogram");
+    }
+ else {
+      jgen.writeObjectField("agentHistogram",agentHistogramMap);
+    }
+  }
+ else {
+    jgen.writeBooleanField("hasAlert",false);
+  }
+  if (serviceType.isWas() || serviceType.isUser() || serviceType.isTerminal()|| serviceType.isUnknown()) {
+    List<ResponseTimeViewModel> applicationTimeSeriesHistogram=nodeHistogram.getApplicationTimeHistogram();
+    if (applicationTimeSeriesHistogram == null) {
+      writeEmptyArray(jgen,"timeSeriesHistogram");
+    }
+ else {
+      jgen.writeObjectField("timeSeriesHistogram",applicationTimeSeriesHistogram);
+    }
+    AgentResponseTimeViewModelList agentTimeSeriesHistogram=nodeHistogram.getAgentTimeHistogram();
+    jgen.writeObject(agentTimeSeriesHistogram);
+  }
+}

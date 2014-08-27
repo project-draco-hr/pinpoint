@@ -1,0 +1,15 @@
+{
+  if (callee == null) {
+    throw new NullPointerException("callee must not be null");
+  }
+  final boolean found=!this.calleeFound.add(callee);
+  if (logger.isDebugEnabled()) {
+    if (found) {
+      logger.debug("Finding Callee. callee={}",callee);
+    }
+ else {
+      logger.debug("LinkData exists. Skip finding callee. {} ",callee);
+    }
+  }
+  return found;
+}

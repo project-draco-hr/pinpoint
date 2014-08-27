@@ -1,0 +1,17 @@
+{
+  List<Integer> numbers=new ArrayList<Integer>(10);
+  for (int i=0; i < 10; i++) {
+    numbers.add(i);
+  }
+  Collections.shuffle(numbers);
+  List<TransactionId> list=new ArrayList<TransactionId>();
+  for (int i=0; i < 10; i++) {
+    list.add(new TransactionId("A",1,numbers.get(i)));
+  }
+  System.out.println(list);
+  SortedSet<TransactionId> set=new TreeSet<TransactionId>(list);
+  for (int i=0; i < 10; i++) {
+    set.add(list.get(i));
+  }
+  System.out.println(set);
+}

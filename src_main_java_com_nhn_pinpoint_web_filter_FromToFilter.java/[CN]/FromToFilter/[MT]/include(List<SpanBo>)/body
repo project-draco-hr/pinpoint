@@ -1,0 +1,54 @@
+{
+  if (includeServiceType(fromServiceCode,ServiceType.USER)) {
+    for (    SpanBo span : transaction) {
+      if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
+        return true;
+      }
+    }
+  }
+ else   if (includeUnknown(toServiceCode)) {
+    for (    SpanBo span : transaction) {
+      if (includeServiceType(fromServiceCode,span.getServiceType()) && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        if (eventBoList == null) {
+          continue;
+        }
+        for (        SpanEventBo event : eventBoList) {
+          if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+ else   if (includeWas(toServiceCode)) {
+    for (    SpanBo srcSpan : transaction) {
+      if (includeServiceType(fromServiceCode,srcSpan.getServiceType()) && fromApplicationName.equals(srcSpan.getApplicationId())) {
+        for (        SpanBo destSpan : transaction) {
+          if (destSpan.getParentSpanId() != srcSpan.getSpanId()) {
+            continue;
+          }
+          if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+ else {
+    for (    SpanBo span : transaction) {
+      if (includeServiceType(fromServiceCode,span.getServiceType()) && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        if (eventBoList == null) {
+          continue;
+        }
+        for (        SpanEventBo event : eventBoList) {
+          if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}

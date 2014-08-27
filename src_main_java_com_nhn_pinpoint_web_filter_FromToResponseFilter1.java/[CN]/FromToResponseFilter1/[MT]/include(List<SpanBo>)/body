@@ -1,0 +1,74 @@
+{
+  if (includeServiceType(fromServiceCode,ServiceType.USER)) {
+    for (    SpanBo span : transaction) {
+      if (span.isRoot() && includeServiceType(toServiceCode,span.getServiceType()) && toApplicationName.equals(span.getApplicationId())) {
+        if (findError) {
+          return span.getErrCode() > 0 && checkResponseCondition(span.getElapsed());
+        }
+ else {
+          return span.getErrCode() == 0 && checkResponseCondition(span.getElapsed());
+        }
+      }
+    }
+  }
+ else   if (includeUnknown(toServiceCode)) {
+    for (    SpanBo span : transaction) {
+      if (includeServiceType(fromServiceCode,span.getServiceType()) && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        if (eventBoList == null) {
+          continue;
+        }
+        for (        SpanEventBo event : eventBoList) {
+          if (event.getServiceType().isRpcClient() && toApplicationName.equals(event.getDestinationId())) {
+            if (findError) {
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+ else {
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+          }
+        }
+      }
+    }
+  }
+ else   if (includeWas(toServiceCode)) {
+    for (    SpanBo srcSpan : transaction) {
+      if (includeServiceType(fromServiceCode,srcSpan.getServiceType()) && fromApplicationName.equals(srcSpan.getApplicationId())) {
+        for (        SpanBo destSpan : transaction) {
+          if (destSpan.getParentSpanId() != srcSpan.getSpanId()) {
+            continue;
+          }
+          if (includeServiceType(toServiceCode,destSpan.getServiceType()) && toApplicationName.equals(destSpan.getApplicationId())) {
+            if (findError) {
+              return destSpan.getErrCode() > 0 && checkResponseCondition(destSpan.getElapsed());
+            }
+ else {
+              return destSpan.getErrCode() == 0 && checkResponseCondition(destSpan.getElapsed());
+            }
+          }
+        }
+      }
+    }
+  }
+ else {
+    for (    SpanBo span : transaction) {
+      if (includeServiceType(fromServiceCode,span.getServiceType()) && fromApplicationName.equals(span.getApplicationId())) {
+        List<SpanEventBo> eventBoList=span.getSpanEventBoList();
+        if (eventBoList == null) {
+          continue;
+        }
+        for (        SpanEventBo event : eventBoList) {
+          if (includeServiceType(toServiceCode,event.getServiceType()) && toApplicationName.equals(event.getDestinationId())) {
+            if (findError) {
+              return event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+ else {
+              return !event.hasException() && checkResponseCondition(event.getEndElapsed());
+            }
+          }
+        }
+      }
+    }
+  }
+  return false;
+}

@@ -1,0 +1,17 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("selectResponseTime applicationName:{}, {}",application,range);
+  }
+  Scan scan=createScan(application,range);
+  List<ResponseTime> responseTimeList=hbaseOperations2.find(tableName,scan,responseTimeMapper);
+  if (logger.isDebugEnabled()) {
+    logger.debug("row:{}",responseTimeList.size());
+    for (    ResponseTime responseTime : responseTimeList) {
+      logger.trace("responseTime:{}",responseTime);
+    }
+  }
+  return responseTimeList;
+}

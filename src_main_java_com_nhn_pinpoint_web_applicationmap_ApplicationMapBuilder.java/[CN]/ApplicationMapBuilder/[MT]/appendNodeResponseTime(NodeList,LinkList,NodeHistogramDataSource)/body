@@ -1,0 +1,40 @@
+{
+  if (nodeHistogramDataSource == null) {
+    throw new NullPointerException("nodeHistogramDataSource must not be null");
+  }
+  final Collection<Node> nodes=nodeList.getNodeList();
+  for (  Node node : nodes) {
+    final ServiceType nodeType=node.getServiceType();
+    if (nodeType.isWas()) {
+      final Application wasNode=node.getApplication();
+      final NodeHistogram nodeHistogram=nodeHistogramDataSource.createNodeHistogram(wasNode);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else     if (nodeType.isTerminal() || nodeType.isUnknown()) {
+      final NodeHistogram nodeHistogram=createTerminalNodeHistogram(node,linkList);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else     if (nodeType.isUser()) {
+      Application userNode=node.getApplication();
+      final NodeHistogram nodeHistogram=new NodeHistogram(userNode,range);
+      final List<Link> fromLink=linkList.findFromLink(userNode);
+      if (fromLink.size() > 1) {
+        logger.warn("Invalid from UserNode:{}",linkList);
+        throw new IllegalArgumentException("Invalid from UserNode.size() :" + fromLink.size());
+      }
+ else       if (fromLink.size() == 0) {
+        logger.warn("from UserNode not found:{}",userNode);
+        continue;
+      }
+      final Link sourceLink=fromLink.get(0);
+      nodeHistogram.setApplicationHistogram(sourceLink.getHistogram());
+      ApplicationTimeHistogram histogramData=sourceLink.getTargetApplicationTimeSeriesHistogramData();
+      nodeHistogram.setApplicationTimeHistogram(histogramData);
+      node.setNodeHistogram(nodeHistogram);
+    }
+ else {
+      NodeHistogram dummy=new NodeHistogram(node.getApplication(),range);
+      node.setNodeHistogram(dummy);
+    }
+  }
+}

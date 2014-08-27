@@ -1,0 +1,11 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  AgentHistogram agentHistogram=agentHistogramMap.get(agentId);
+  if (agentHistogram == null) {
+    agentHistogram=new AgentHistogram(agentId);
+    agentHistogramMap.put(agentId,agentHistogram);
+  }
+  return agentHistogram;
+}

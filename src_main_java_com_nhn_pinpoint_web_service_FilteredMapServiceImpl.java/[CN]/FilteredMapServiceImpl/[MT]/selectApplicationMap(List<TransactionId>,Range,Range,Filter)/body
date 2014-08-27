@@ -1,0 +1,15 @@
+{
+  if (transactionIdList == null) {
+    throw new NullPointerException("transactionIdList must not be null");
+  }
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
+  StopWatch watch=new StopWatch();
+  watch.start();
+  final List<List<SpanBo>> filterList=selectFilteredSpan(transactionIdList,filter);
+  ApplicationMap map=createMap(originalRange,scanRange,filterList);
+  watch.stop();
+  logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
+  return map;
+}

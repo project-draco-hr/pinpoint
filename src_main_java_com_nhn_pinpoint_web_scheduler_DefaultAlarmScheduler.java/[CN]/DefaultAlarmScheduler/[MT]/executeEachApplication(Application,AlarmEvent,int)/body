@@ -1,0 +1,8 @@
+{
+  List<AlarmJob> jobList=repository.getAlarmJob(application);
+  AtomicInteger index=new AtomicInteger(1);
+  for (  AlarmJob job : jobList) {
+    logger.debug("{} ({}/{}) jobs start(TotalJobCount={}).",application.getName(),index.getAndIncrement(),jobList.size(),totalJobCount);
+    job.execute(event);
+  }
+}

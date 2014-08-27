@@ -1,0 +1,22 @@
+{
+  if (copyLinkCallData == null) {
+    throw new NullPointerException("copyLinkCallData must not be null");
+  }
+  if (!this.source.equals(copyLinkCallData.source)) {
+    throw new IllegalArgumentException("source not equals");
+  }
+  if (this.sourceServiceType != copyLinkCallData.sourceServiceType) {
+    throw new IllegalArgumentException("sourceServiceType not equals");
+  }
+  if (!this.target.equals(copyLinkCallData.target)) {
+    throw new IllegalArgumentException("target not equals");
+  }
+  if (this.targetServiceType != copyLinkCallData.targetServiceType) {
+    throw new IllegalArgumentException("targetServiceType not equals");
+  }
+  for (  Map.Entry<Long,TimeHistogram> copyEntry : copyLinkCallData.targetHistogramTimeMap.entrySet()) {
+    final Long timeStamp=copyEntry.getKey();
+    TimeHistogram histogram=getTimeHistogram(timeStamp);
+    histogram.add(copyEntry.getValue());
+  }
+}

@@ -1,0 +1,10 @@
+{
+  if (spanAlign.isSpan()) {
+    SpanBo spanBo=spanAlign.getSpanBo();
+    return new AgentKey(spanBo.getAgentId(),spanBo.getAgentStartTime());
+  }
+ else {
+    final SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+    return new AgentKey(spanEventBo.getAgentId(),spanEventBo.getAgentStartTime());
+  }
+}

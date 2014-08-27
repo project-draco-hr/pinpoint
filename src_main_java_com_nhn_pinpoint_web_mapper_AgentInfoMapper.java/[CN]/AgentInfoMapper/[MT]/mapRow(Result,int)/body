@@ -1,0 +1,12 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  KeyValue[] raw=result.raw();
+  List<AgentInfoBo> agentInfoBoList=new ArrayList<AgentInfoBo>(raw.length);
+  for (  KeyValue keyValue : raw) {
+    AgentInfoBo agentInfoBo=mappingAgentInfo(keyValue);
+    agentInfoBoList.add(agentInfoBo);
+  }
+  return agentInfoBoList;
+}

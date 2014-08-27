@@ -1,0 +1,15 @@
+{
+  StringBuilder json=new StringBuilder();
+  json.append("{}");
+  try {
+    FilterHint hint=om.readValue(json.toString(),new TypeReference<FilterHint>(){
+    }
+);
+    Assert.assertNotNull(hint);
+    Assert.assertTrue(hint.isEmpty());
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+    Assert.fail(e.getMessage());
+  }
+}

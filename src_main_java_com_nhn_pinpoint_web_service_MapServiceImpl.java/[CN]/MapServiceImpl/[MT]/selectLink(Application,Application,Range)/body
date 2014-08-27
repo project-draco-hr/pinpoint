@@ -1,0 +1,15 @@
+{
+  if (sourceApplication.getServiceType().isUser()) {
+    logger.debug("Find 'client -> any' link statistics");
+    Application userApplication=new Application(destinationApplication.getName(),sourceApplication.getServiceTypeCode());
+    return mapStatisticsCallerDao.selectCallerStatistics(userApplication,destinationApplication,range);
+  }
+ else   if (destinationApplication.getServiceType().isWas()) {
+    logger.debug("Find 'any -> was' link statistics");
+    return mapStatisticsCalleeDao.selectCalleeStatistics(sourceApplication,destinationApplication,range);
+  }
+ else {
+    logger.debug("Find 'was -> terminal' link statistics");
+    return mapStatisticsCallerDao.selectCallerStatistics(sourceApplication,destinationApplication,range);
+  }
+}

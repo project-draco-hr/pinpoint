@@ -1,0 +1,35 @@
+{
+  if (linkVisitChecker.visitCaller(callerApplication)) {
+    return new LinkDataDuplexMap();
+  }
+  LinkDataMap caller=mapStatisticsCallerDao.selectCaller(callerApplication,range);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Found Caller. count={}, caller={}",caller.size(),callerApplication);
+  }
+  final LinkDataMap replaceRpcCaller=new LinkDataMap();
+  for (  LinkData link : caller.getLinkDataList()) {
+    final List<LinkData> checkedLink=checkRpcCallAccepted(link,range);
+    for (    LinkData linkData : checkedLink) {
+      replaceRpcCaller.addLinkData(linkData);
+    }
+  }
+  final LinkDataDuplexMap resultCaller=new LinkDataDuplexMap();
+  for (  LinkData link : replaceRpcCaller.getLinkDataList()) {
+    resultCaller.addSourceLinkData(link);
+    final Application toApplication=link.getToApplication();
+    if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
+      continue;
+    }
+    logger.debug("     Find subCaller of {}",toApplication);
+    LinkDataDuplexMap callerSub=selectCaller(toApplication,range);
+    logger.debug("     Found subCaller. count={}, caller={}",callerSub.size(),toApplication);
+    resultCaller.addLinkDataDuplexMap(callerSub);
+    for (    LinkData eachCaller : callerSub.getSourceLinkDataList()) {
+      logger.debug("     Find callee of {}",eachCaller.getFromApplication());
+      LinkDataDuplexMap calleeSub=selectCallee(eachCaller.getFromApplication(),range);
+      logger.debug("     Found subCallee. count={}, callee={}",calleeSub.size(),eachCaller.getFromApplication());
+      resultCaller.addLinkDataDuplexMap(calleeSub);
+    }
+  }
+  return resultCaller;
+}

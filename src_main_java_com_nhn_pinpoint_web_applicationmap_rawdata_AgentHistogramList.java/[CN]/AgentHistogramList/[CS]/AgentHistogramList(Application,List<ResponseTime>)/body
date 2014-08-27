@@ -1,0 +1,11 @@
+{
+  if (responseHistogramList == null) {
+    throw new NullPointerException("responseHistogramList must not be null");
+  }
+  for (  ResponseTime responseTime : responseHistogramList) {
+    for (    Map.Entry<String,TimeHistogram> agentEntry : responseTime.getAgentHistogram()) {
+      TimeHistogram timeHistogram=agentEntry.getValue();
+      this.addAgentHistogram(agentEntry.getKey(),application.getServiceType(),timeHistogram);
+    }
+  }
+}

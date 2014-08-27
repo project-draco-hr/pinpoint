@@ -1,0 +1,10 @@
+{
+  if (linkData == null) {
+    throw new NullPointerException("linkData must not be null");
+  }
+  if (!this.equals(linkData)) {
+    throw new IllegalArgumentException("Can't merge with different link.");
+  }
+  final LinkCallDataMap target=linkData.linkCallDataMap;
+  this.linkCallDataMap.addLinkDataMap(target);
+}

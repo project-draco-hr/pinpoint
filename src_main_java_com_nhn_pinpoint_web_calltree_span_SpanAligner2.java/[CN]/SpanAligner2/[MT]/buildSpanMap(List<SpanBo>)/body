@@ -1,0 +1,16 @@
+{
+  final Map<Long,List<SpanBo>> spanMap=new HashMap<Long,List<SpanBo>>();
+  for (  SpanBo span : spans) {
+    final long spanId=span.getSpanId();
+    List<SpanBo> spanBoList=spanMap.get(spanId);
+    if (spanBoList == null) {
+      spanBoList=new ArrayList<SpanBo>();
+      spanBoList.add(span);
+      spanMap.put(spanId,spanBoList);
+    }
+ else {
+      spanBoList.add(span);
+    }
+  }
+  return spanMap;
+}

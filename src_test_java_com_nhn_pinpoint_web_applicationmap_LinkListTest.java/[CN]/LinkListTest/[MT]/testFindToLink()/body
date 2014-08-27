@@ -1,0 +1,16 @@
+{
+  Link tomcatToBlocLink=createTomcatToBlocLink();
+  LinkList list=new LinkList();
+  list.addLink(tomcatToBlocLink);
+  Link tomcatToTomcatLink=createTomcatToTomcatLink();
+  list.addLink(tomcatToTomcatLink);
+  Application toBloc=new Application("to",ServiceType.BLOC);
+  List<Link> findToLink=list.findToLink(toBloc);
+  Assert.assertEquals(findToLink.size(),1);
+  for (  Link link : findToLink) {
+    Application to=link.getTo().getApplication();
+    Assert.assertTrue(toBloc + " " + to,toBloc.equals(to));
+  }
+  List<Link> unknown=list.findToLink(new Application("unknown",ServiceType.BLOC));
+  Assert.assertEquals(unknown.size(),0);
+}

@@ -1,0 +1,15 @@
+{
+  SpanBo firstSpan=null;
+  for (  SpanAlign spanAlign : spanAlignList) {
+    if (spanAlign.isSpan()) {
+      SpanBo spanBo=spanAlign.getSpanBo();
+      if (spanBo.getCollectorAcceptTime() == focusTimestamp) {
+        return spanBo;
+      }
+      if (firstSpan == null) {
+        firstSpan=spanBo;
+      }
+    }
+  }
+  return firstSpan;
+}

@@ -1,0 +1,11 @@
+{
+  if (serverName == null) {
+    throw new NullPointerException("serverName must not be null");
+  }
+  for (  ServerMatcher serverMatcher : serverMatcherList) {
+    if (serverMatcher.isMatched(serverName)) {
+      return serverMatcher;
+    }
+  }
+  return defaultMatcher;
+}

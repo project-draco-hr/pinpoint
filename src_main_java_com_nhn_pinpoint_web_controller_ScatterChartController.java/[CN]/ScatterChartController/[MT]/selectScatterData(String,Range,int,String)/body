@@ -1,0 +1,11 @@
+{
+  final List<Dot> scatterData=scatter.selectScatterData(applicationName,range,limit);
+  Range resultRange;
+  if (scatterData.isEmpty()) {
+    resultRange=new Range(-1,-1);
+  }
+ else {
+    resultRange=new Range(scatterData.get(scatterData.size() - 1).getAcceptedTime(),range.getTo());
+  }
+  return createModelAndView(resultRange,jsonpCallback,scatterData);
+}

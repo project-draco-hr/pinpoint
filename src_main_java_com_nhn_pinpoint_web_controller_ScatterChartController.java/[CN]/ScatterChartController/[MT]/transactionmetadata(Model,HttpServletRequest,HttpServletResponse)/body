@@ -1,0 +1,8 @@
+{
+  TransactionMetadataQuery query=parseSelectTransaction(request);
+  if (query.size() > 0) {
+    List<SpanBo> metadata=scatter.selectTransactionMetadata(query);
+    model.addAttribute("metadata",metadata);
+  }
+  return "transactionmetadata";
+}

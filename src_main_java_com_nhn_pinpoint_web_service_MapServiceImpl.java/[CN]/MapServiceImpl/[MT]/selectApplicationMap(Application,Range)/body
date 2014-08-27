@@ -1,0 +1,18 @@
+{
+  if (sourceApplication == null) {
+    throw new NullPointerException("sourceApplication must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  logger.debug("SelectApplicationMap");
+  StopWatch watch=new StopWatch("applicationMapWatch");
+  watch.start();
+  LinkDataSelector linkDataSelector=new LinkDataSelector(this.mapStatisticsCalleeDao,this.mapStatisticsCallerDao,hostApplicationMapDao);
+  LinkDataDuplexMap linkDataDuplexMap=linkDataSelector.select(sourceApplication,range);
+  ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
+  ApplicationMap map=builder.build(linkDataDuplexMap,agentInfoService,this.mapResponseDao);
+  watch.stop();
+  logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());
+  return map;
+}

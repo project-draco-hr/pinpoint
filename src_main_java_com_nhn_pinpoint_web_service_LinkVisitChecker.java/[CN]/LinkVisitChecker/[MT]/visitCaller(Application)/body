@@ -1,0 +1,15 @@
+{
+  if (caller == null) {
+    throw new NullPointerException("caller must not be null");
+  }
+  final boolean found=!callerFound.add(caller);
+  if (logger.isDebugEnabled()) {
+    if (found) {
+      logger.debug("Finding Caller. caller={}",caller);
+    }
+ else {
+      logger.debug("LinkData exists. Skip finding caller. {} ",caller);
+    }
+  }
+  return found;
+}

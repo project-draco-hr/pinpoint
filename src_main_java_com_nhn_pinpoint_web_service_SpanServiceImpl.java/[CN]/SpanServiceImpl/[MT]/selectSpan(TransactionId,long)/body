@@ -1,0 +1,16 @@
+{
+  if (transactionId == null) {
+    throw new NullPointerException("transactionId must not be null");
+  }
+  List<SpanBo> spans=traceDao.selectSpanAndAnnotation(transactionId);
+  if (spans == null || spans.isEmpty()) {
+    return new SpanResult(SpanAligner2.FAIL_MATCH,Collections.<SpanAlign>emptyList());
+  }
+  SpanResult result=order(spans,selectedSpanHint);
+  List<SpanAlign> order=result.getSpanAlignList();
+  transitionDynamicApiId(order);
+  transitionSqlId(order);
+  transitionCachedString(order);
+  transitionException(order);
+  return result;
+}

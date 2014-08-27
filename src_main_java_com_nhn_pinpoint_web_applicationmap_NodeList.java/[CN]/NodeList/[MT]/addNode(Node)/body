@@ -1,0 +1,11 @@
+{
+  if (node == null) {
+    throw new NullPointerException("node must not be null");
+  }
+  final Application nodeId=node.getApplication();
+  Node findNode=findNode(nodeId);
+  if (findNode != null) {
+    return false;
+  }
+  return nodeMap.put(nodeId,node) == null;
+}

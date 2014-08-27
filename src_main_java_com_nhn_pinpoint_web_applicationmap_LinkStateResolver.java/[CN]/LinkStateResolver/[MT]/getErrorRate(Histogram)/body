@@ -1,0 +1,10 @@
+{
+  if (histogram == null) {
+    throw new NullPointerException("histogram must not be null");
+  }
+  final long totalCount=histogram.getTotalCount();
+  if (totalCount == 0) {
+    return 0;
+  }
+  return histogram.getErrorCount() / totalCount;
+}

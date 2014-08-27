@@ -1,0 +1,16 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final byte[] rowKey=getOriginalKey(result.getRow());
+  List<SqlMetaDataBo> sqlMetaDataList=new ArrayList<SqlMetaDataBo>();
+  KeyValue[] keyList=result.raw();
+  for (  KeyValue keyValue : keyList) {
+    SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo();
+    sqlMetaDataBo.readRowKey(rowKey);
+    String sql=Bytes.toString(keyValue.getBuffer(),keyValue.getQualifierOffset(),keyValue.getQualifierLength());
+    sqlMetaDataBo.setSql(sql);
+    sqlMetaDataList.add(sqlMetaDataBo);
+  }
+  return sqlMetaDataList;
+}

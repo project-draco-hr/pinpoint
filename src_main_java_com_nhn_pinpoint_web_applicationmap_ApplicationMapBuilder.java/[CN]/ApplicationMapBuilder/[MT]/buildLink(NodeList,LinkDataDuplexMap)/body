@@ -1,0 +1,11 @@
+{
+  LinkList linkList=new LinkList();
+  createSourceLink(nodeList,linkList,linkDataDuplexMap.getSourceLinkDataMap());
+  logger.debug("link size:{}",linkList.size());
+  createTargetLink(nodeList,linkList,linkDataDuplexMap.getTargetLinkDataMap());
+  logger.debug("link size:{}",linkList.size());
+  for (  Link link : linkList.getLinkList()) {
+    appendLinkHistogram(link,linkDataDuplexMap);
+  }
+  return linkList;
+}

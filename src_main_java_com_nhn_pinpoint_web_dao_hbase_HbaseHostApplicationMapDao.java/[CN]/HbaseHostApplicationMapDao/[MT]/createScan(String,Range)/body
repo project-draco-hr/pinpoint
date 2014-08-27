@@ -1,0 +1,19 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("scan range:{}",range);
+  }
+  long startTime=TimeUtils.reverseTimeMillis(timeSlot.getTimeSlot(range.getFrom()));
+  long endTime=TimeUtils.reverseTimeMillis(timeSlot.getTimeSlot(range.getTo()) + 1);
+  byte[] startKey=Bytes.toBytes(endTime);
+  byte[] endKey=Bytes.toBytes(startTime);
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  scan.setStartRow(startKey);
+  scan.setStopRow(endKey);
+  scan.addColumn(HBaseTables.HOST_APPLICATION_MAP_CF_MAP,Bytes.toBytes(host));
+  scan.setId("HostApplicationScan");
+  return scan;
+}

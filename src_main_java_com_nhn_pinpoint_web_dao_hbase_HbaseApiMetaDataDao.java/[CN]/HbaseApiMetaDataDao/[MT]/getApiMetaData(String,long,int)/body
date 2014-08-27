@@ -1,0 +1,10 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo(agentId,time,apiId);
+  byte[] sqlId=getDistributedKey(apiMetaDataBo.toRowKey());
+  Get get=new Get(sqlId);
+  get.addFamily(HBaseTables.API_METADATA_CF_API);
+  return hbaseOperations2.get(HBaseTables.API_METADATA,get,apiMetaDataMapper);
+}

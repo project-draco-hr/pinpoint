@@ -1,0 +1,12 @@
+{
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  byte[] startKey=getRowKey(agentId,range.getFrom());
+  byte[] endKey=getRowKey(agentId,range.getTo());
+  scan.setStartRow(endKey);
+  scan.setStopRow(startKey);
+  scan.addFamily(HBaseTables.AGENT_STAT_CF_STATISTICS);
+  scan.setId("AgentStatScan");
+  logger.debug("create scan:{}",scan);
+  return scan;
+}

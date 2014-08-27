@@ -1,0 +1,9 @@
+{
+  List<ResponseTimeViewModel.TimeCount> result=new ArrayList<ResponseTimeViewModel.TimeCount>(histogramList.size());
+  for (  TimeHistogram timeHistogram : histogramList) {
+    final long timeStamp=timeHistogram.getTimeStamp();
+    ResponseTimeViewModel.TimeCount TimeCount=new ResponseTimeViewModel.TimeCount(timeStamp,getCount(timeHistogram,slotType));
+    result.add(TimeCount);
+  }
+  return result;
+}

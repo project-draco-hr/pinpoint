@@ -1,0 +1,48 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  logger.debug("get agentInfo with, agentId={}, {}",agentId,range);
+  Scan scan=new Scan();
+  scan.setCaching(20);
+  long fromTime=TimeUtils.reverseTimeMillis(range.getTo());
+  long toTime=TimeUtils.reverseTimeMillis(1);
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,fromTime);
+  byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,toTime);
+  scan.setStartRow(startKeyBytes);
+  scan.setStopRow(endKeyBytes);
+  scan.addFamily(HBaseTables.AGENTINFO_CF_INFO);
+  List<AgentInfoBo> found=hbaseOperations2.find(HBaseTables.AGENTINFO,scan,new ResultsExtractor<List<AgentInfoBo>>(){
+    @Override public List<AgentInfoBo> extractData(    ResultScanner results) throws Exception {
+      final List<AgentInfoBo> result=new ArrayList<AgentInfoBo>();
+      int found=0;
+      for (      Result next : results) {
+        found++;
+        byte[] row=next.getRow();
+        long reverseStartTime=BytesUtils.bytesToLong(row,HBaseTables.AGENT_NAME_MAX_LEN);
+        long startTime=TimeUtils.recoveryTimeMillis(reverseStartTime);
+        byte[] value=next.getValue(HBaseTables.AGENTINFO_CF_INFO,HBaseTables.AGENTINFO_CF_INFO_IDENTIFIER);
+        logger.debug("found={}, {}, start={}",found,range,startTime);
+        if (found > 1 && startTime <= range.getFrom()) {
+          logger.debug("stop finding agentInfo.");
+          break;
+        }
+        final AgentInfoBo agentInfoBo=new AgentInfoBo();
+        agentInfoBo.setAgentId(agentId);
+        agentInfoBo.setStartTime(startTime);
+        agentInfoBo.readValue(value);
+        logger.debug("found agentInfoBo {}",agentInfoBo);
+        result.add(agentInfoBo);
+      }
+      logger.debug("extracted agentInfoBo {}",result);
+      return result;
+    }
+  }
+);
+  logger.debug("get agentInfo result, {}",found);
+  return found;
+}

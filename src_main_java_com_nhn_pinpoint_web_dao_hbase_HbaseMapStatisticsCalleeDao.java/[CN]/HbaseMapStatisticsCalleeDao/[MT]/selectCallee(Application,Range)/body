@@ -1,0 +1,14 @@
+{
+  if (calleeApplication == null) {
+    throw new NullPointerException("calleeApplication must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  Scan scan=createScan(calleeApplication,range);
+  List<LinkDataMap> foundListList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,mapStatisticsCalleeMapper);
+  if (foundListList.isEmpty()) {
+    logger.debug("There's no caller data. {}, {}",calleeApplication,range);
+  }
+  return merge(foundListList);
+}

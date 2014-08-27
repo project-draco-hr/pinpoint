@@ -1,0 +1,24 @@
+{
+  final HistogramSchema schema=this.schema;
+  if (slotTime == schema.getVerySlowSlot().getSlotTime()) {
+    this.verySlowCount+=count;
+    return;
+  }
+  if (slotTime == schema.getErrorSlot().getSlotTime()) {
+    this.errorCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getFastSlot().getSlotTime()) {
+    this.fastCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getNormalSlot().getSlotTime()) {
+    this.normalCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getSlowSlot().getSlotTime()) {
+    this.slowCount+=count;
+    return;
+  }
+  throw new IllegalArgumentException("slot not found slotTime:" + slotTime + " count:"+ count);
+}

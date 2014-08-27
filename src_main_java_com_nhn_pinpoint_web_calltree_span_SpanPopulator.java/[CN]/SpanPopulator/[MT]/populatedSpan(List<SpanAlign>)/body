@@ -1,0 +1,24 @@
+{
+  SpanAlign spanAlign=list.get(index);
+  SpanBo span=spanAlign.getSpanBo();
+  populatedList.add(spanAlign);
+  long startTime=span.getStartTime();
+  List<SpanEventBo> spanEventBoList=sortSpanEvent(span);
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
+    long subStartTime=startTime + spanEventBo.getStartElapsed();
+    long nextSpanStartTime=getNextSpanStartTime();
+    if (subStartTime <= nextSpanStartTime) {
+      SpanAlign SpanEventAlign=new SpanAlign(spanAlign.getDepth(),span,spanEventBo);
+      SpanEventAlign.setSpan(false);
+      populatedList.add(SpanEventAlign);
+    }
+ else {
+      if (nextSpanStartTime == Long.MAX_VALUE) {
+        return;
+      }
+      index++;
+      populatedSpan(populatedList);
+    }
+  }
+  index++;
+}

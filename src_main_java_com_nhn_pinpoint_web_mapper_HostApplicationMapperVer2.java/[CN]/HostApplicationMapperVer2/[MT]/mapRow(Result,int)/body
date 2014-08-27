@@ -1,0 +1,11 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final List<AcceptApplication> acceptApplicationList=new ArrayList<AcceptApplication>(result.size());
+  for (  KeyValue kv : result.raw()) {
+    AcceptApplication acceptedApplication=createAcceptedApplication(kv.getQualifier());
+    acceptApplicationList.add(acceptedApplication);
+  }
+  return acceptApplicationList;
+}
