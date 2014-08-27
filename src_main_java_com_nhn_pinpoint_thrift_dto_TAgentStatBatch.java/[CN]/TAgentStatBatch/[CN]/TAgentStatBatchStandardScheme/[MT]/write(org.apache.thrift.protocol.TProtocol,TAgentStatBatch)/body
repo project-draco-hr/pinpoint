@@ -1,0 +1,25 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(START_TIMESTAMP_FIELD_DESC);
+  oprot.writeI64(struct.startTimestamp);
+  oprot.writeFieldEnd();
+  if (struct.agentStats != null) {
+    oprot.writeFieldBegin(AGENT_STATS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.agentStats.size()));
+      for (      TAgentStat _iter3 : struct.agentStats) {
+        _iter3.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

@@ -1,0 +1,54 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.agentId=iprot.readString();
+        struct.setAgentIdIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+    struct.startTimestamp=iprot.readI64();
+    struct.setStartTimestampIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 10:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+  org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
+  struct.agentStats=new ArrayList<TAgentStat>(_list0.size);
+  for (int _i1=0; _i1 < _list0.size; ++_i1) {
+    TAgentStat _elem2;
+    _elem2=new TAgentStat();
+    _elem2.read(iprot);
+    struct.agentStats.add(_elem2);
+  }
+  iprot.readListEnd();
+}
+struct.setAgentStatsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}
