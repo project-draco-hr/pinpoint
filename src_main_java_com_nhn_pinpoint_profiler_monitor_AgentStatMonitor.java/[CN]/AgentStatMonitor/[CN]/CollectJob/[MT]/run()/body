@@ -1,17 +1,11 @@
 {
   try {
-    final TAgentStat agentStat=new TAgentStat();
-    agentStat.setAgentId(agentId);
-    agentStat.setStartTimestamp(agentStartTime);
-    agentStat.setTimestamp(System.currentTimeMillis());
-    final TJvmGc gc=garbageCollector.collect();
-    agentStat.setGc(gc);
-    final TCpuLoad cpuLoad=cpuLoadCollector.collectCpuLoad();
-    agentStat.setCpuLoad(cpuLoad);
-    if (isTrace) {
-      logger.trace("collect agentStat:{}",agentStat);
+    final TAgentStat agentStat=collectAgentStat();
+    this.agentStats.add(agentStat);
+    if (++this.collectCount >= this.numStatsPerBatch) {
+      sendAgentStats();
+      this.collectCount=0;
     }
-    dataSender.send(agentStat);
   }
  catch (  Exception ex) {
     logger.warn("AgentStat collect failed. Caused:{}",ex.getMessage(),ex);

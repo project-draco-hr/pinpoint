@@ -1,0 +1,14 @@
+{
+  if (metrics == null) {
+    throw new NullPointerException("metrics must not be null");
+  }
+  if (key == null) {
+    throw new NullPointerException("key must not be null");
+  }
+  T metric=metrics.get(key);
+  if (metric == null) {
+    LOGGER.warn("key:{} not found",key);
+    return defaultMetric;
+  }
+  return metric;
+}

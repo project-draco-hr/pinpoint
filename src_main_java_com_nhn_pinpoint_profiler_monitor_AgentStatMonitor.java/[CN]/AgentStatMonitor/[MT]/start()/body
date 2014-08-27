@@ -1,7 +1,6 @@
 {
-  CollectJob job=new CollectJob();
-  long interval=DEFAULT_INTERVAL;
   long wait=0;
-  executor.scheduleAtFixedRate(job,wait,interval,TimeUnit.MILLISECONDS);
+  CollectJob job=new CollectJob(this.numCollectionsPerBatch);
+  executor.scheduleAtFixedRate(job,wait,this.collectionIntervalMs,TimeUnit.MILLISECONDS);
   logger.info("AgentStat monitor started");
 }
