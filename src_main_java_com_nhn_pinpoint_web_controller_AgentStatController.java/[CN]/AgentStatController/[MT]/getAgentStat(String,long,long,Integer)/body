@@ -2,7 +2,7 @@
   StopWatch watch=new StopWatch();
   watch.start("agentStatService.selectAgentStatList");
   Range range=new Range(from,to);
-  List<TAgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,range);
+  List<AgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,range);
   watch.stop();
   if (logger.isInfoEnabled()) {
     logger.info("getAgentStat(agentId={}, from={}, to={}) : {}ms",agentId,from,to,watch.getLastTaskTimeMillis());
@@ -11,9 +11,7 @@
   if (sampleRate == null) {
     sampleRate=nPoints < 300 ? 1 : nPoints / 300;
   }
-  AgentStatChartGroup chart=new AgentStatChartGroup();
-  for (  TAgentStat each : agentStatList) {
-    chart.addData(each,sampleRate);
-  }
+  AgentStatChartGroup chart=new AgentStatChartGroup(sampleRate);
+  chart.addAgentStats(agentStatList);
   return chart;
 }

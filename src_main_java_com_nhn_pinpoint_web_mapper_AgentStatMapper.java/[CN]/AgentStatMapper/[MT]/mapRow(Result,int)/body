@@ -2,13 +2,18 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
-  KeyValue[] raw=result.raw();
-  List<TAgentStat> list=new ArrayList<TAgentStat>(raw.length);
-  TDeserializer deserializer=new TDeserializer(factory);
-  for (  KeyValue kv : raw) {
-    TAgentStat each=new TAgentStat();
-    deserializer.deserialize(each,kv.getValue());
-    list.add(each);
+  Map<byte[],byte[]> qualifierMap=result.getFamilyMap(AGENT_STAT_CF_STATISTICS);
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_V1)) {
+    return readAgentStatThriftDto(qualifierMap.get(AGENT_STAT_CF_STATISTICS_V1));
   }
-  return list;
+  AgentStat agentStat=new AgentStat();
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC)) {
+    agentStat.setMemoryGc(new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC)).build());
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
+    agentStat.setCpuLoad(new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD)).build());
+  }
+  List<AgentStat> agentStats=new ArrayList<AgentStat>();
+  agentStats.add(agentStat);
+  return agentStats;
 }

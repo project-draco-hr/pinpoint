@@ -1,0 +1,8 @@
+{
+  for (Iterator<Map.Entry<String,LineChart<?,?>>> iter=charts.entrySet().iterator(); iter.hasNext(); ) {
+    Map.Entry<String,LineChart<?,?>> chartEntry=iter.next();
+    if (CollectionUtils.isEmpty(chartEntry.getValue().getPoints())) {
+      iter.remove();
+    }
+  }
+}
