@@ -1,0 +1,17 @@
+{
+  StringBuilder sb=new StringBuilder("TCpuLoad(");
+  boolean first=true;
+  if (isSetJvmCpuLoad()) {
+    sb.append("jvmCpuLoad:");
+    sb.append(this.jvmCpuLoad);
+    first=false;
+  }
+  if (isSetSystemCpuLoad()) {
+    if (!first)     sb.append(", ");
+    sb.append("systemCpuLoad:");
+    sb.append(this.systemCpuLoad);
+    first=false;
+  }
+  sb.append(")");
+  return sb.toString();
+}

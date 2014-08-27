@@ -1,0 +1,48 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.applicationName != null) {
+    oprot.writeFieldBegin(APPLICATION_NAME_FIELD_DESC);
+    oprot.writeString(struct.applicationName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(AGENT_START_TIME_FIELD_DESC);
+  oprot.writeI64(struct.agentStartTime);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(SERVICE_TYPE_FIELD_DESC);
+  oprot.writeI16(struct.serviceType);
+  oprot.writeFieldEnd();
+  if (struct.transactionId != null) {
+    oprot.writeFieldBegin(TRANSACTION_ID_FIELD_DESC);
+    oprot.writeBinary(struct.transactionId);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(SPAN_ID_FIELD_DESC);
+  oprot.writeI64(struct.spanId);
+  oprot.writeFieldEnd();
+  if (struct.endPoint != null) {
+    if (struct.isSetEndPoint()) {
+      oprot.writeFieldBegin(END_POINT_FIELD_DESC);
+      oprot.writeString(struct.endPoint);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.spanEventList != null) {
+    oprot.writeFieldBegin(SPAN_EVENT_LIST_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.spanEventList.size()));
+      for (      TSpanEvent _iter27 : struct.spanEventList) {
+        _iter27.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

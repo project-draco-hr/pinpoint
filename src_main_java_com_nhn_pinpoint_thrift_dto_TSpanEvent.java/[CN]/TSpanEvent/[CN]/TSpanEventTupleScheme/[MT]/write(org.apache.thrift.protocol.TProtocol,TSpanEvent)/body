@@ -1,0 +1,88 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetSpanId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetSequence()) {
+    optionals.set(1);
+  }
+  if (struct.isSetStartElapsed()) {
+    optionals.set(2);
+  }
+  if (struct.isSetEndElapsed()) {
+    optionals.set(3);
+  }
+  if (struct.isSetRpc()) {
+    optionals.set(4);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(5);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(6);
+  }
+  if (struct.isSetAnnotations()) {
+    optionals.set(7);
+  }
+  if (struct.isSetDepth()) {
+    optionals.set(8);
+  }
+  if (struct.isSetNextSpanId()) {
+    optionals.set(9);
+  }
+  if (struct.isSetDestinationId()) {
+    optionals.set(10);
+  }
+  if (struct.isSetApiId()) {
+    optionals.set(11);
+  }
+  if (struct.isSetExceptionInfo()) {
+    optionals.set(12);
+  }
+  oprot.writeBitSet(optionals,13);
+  if (struct.isSetSpanId()) {
+    oprot.writeI64(struct.spanId);
+  }
+  if (struct.isSetSequence()) {
+    oprot.writeI16(struct.sequence);
+  }
+  if (struct.isSetStartElapsed()) {
+    oprot.writeI32(struct.startElapsed);
+  }
+  if (struct.isSetEndElapsed()) {
+    oprot.writeI32(struct.endElapsed);
+  }
+  if (struct.isSetRpc()) {
+    oprot.writeString(struct.rpc);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetAnnotations()) {
+{
+      oprot.writeI32(struct.annotations.size());
+      for (      TAnnotation _iter4 : struct.annotations) {
+        _iter4.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetDepth()) {
+    oprot.writeI32(struct.depth);
+  }
+  if (struct.isSetNextSpanId()) {
+    oprot.writeI64(struct.nextSpanId);
+  }
+  if (struct.isSetDestinationId()) {
+    oprot.writeString(struct.destinationId);
+  }
+  if (struct.isSetApiId()) {
+    oprot.writeI32(struct.apiId);
+  }
+  if (struct.isSetExceptionInfo()) {
+    struct.exceptionInfo.write(oprot);
+  }
+}

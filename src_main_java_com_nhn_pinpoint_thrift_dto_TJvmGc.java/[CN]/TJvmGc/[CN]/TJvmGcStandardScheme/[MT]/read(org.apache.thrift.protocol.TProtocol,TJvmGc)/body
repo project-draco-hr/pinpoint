@@ -1,0 +1,80 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+        struct.type=TJvmGcType.findByValue(iprot.readI32());
+        struct.setTypeIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+    struct.jvmMemoryHeapUsed=iprot.readI64();
+    struct.setJvmMemoryHeapUsedIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.jvmMemoryHeapMax=iprot.readI64();
+struct.setJvmMemoryHeapMaxIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.jvmMemoryNonHeapUsed=iprot.readI64();
+struct.setJvmMemoryNonHeapUsedIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 5:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.jvmMemoryNonHeapMax=iprot.readI64();
+struct.setJvmMemoryNonHeapMaxIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 6:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.jvmGcOldCount=iprot.readI64();
+struct.setJvmGcOldCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 7:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.jvmGcOldTime=iprot.readI64();
+struct.setJvmGcOldTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

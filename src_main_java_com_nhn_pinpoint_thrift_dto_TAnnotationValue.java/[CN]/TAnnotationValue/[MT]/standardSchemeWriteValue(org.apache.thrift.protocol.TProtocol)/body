@@ -1,0 +1,46 @@
+{
+switch (setField_) {
+case STRING_VALUE:
+    String stringValue=(String)value_;
+  oprot.writeString(stringValue);
+return;
+case BOOL_VALUE:
+Boolean boolValue=(Boolean)value_;
+oprot.writeBool(boolValue);
+return;
+case INT_VALUE:
+Integer intValue=(Integer)value_;
+oprot.writeI32(intValue);
+return;
+case LONG_VALUE:
+Long longValue=(Long)value_;
+oprot.writeI64(longValue);
+return;
+case SHORT_VALUE:
+Short shortValue=(Short)value_;
+oprot.writeI16(shortValue);
+return;
+case DOUBLE_VALUE:
+Double doubleValue=(Double)value_;
+oprot.writeDouble(doubleValue);
+return;
+case BINARY_VALUE:
+ByteBuffer binaryValue=(ByteBuffer)value_;
+oprot.writeBinary(binaryValue);
+return;
+case BYTE_VALUE:
+Byte byteValue=(Byte)value_;
+oprot.writeByte(byteValue);
+return;
+case INT_STRING_VALUE:
+TIntStringValue intStringValue=(TIntStringValue)value_;
+intStringValue.write(oprot);
+return;
+case INT_STRING_STRING_VALUE:
+TIntStringStringValue intStringStringValue=(TIntStringStringValue)value_;
+intStringStringValue.write(oprot);
+return;
+default :
+throw new IllegalStateException("Cannot write union with unknown field " + setField_);
+}
+}

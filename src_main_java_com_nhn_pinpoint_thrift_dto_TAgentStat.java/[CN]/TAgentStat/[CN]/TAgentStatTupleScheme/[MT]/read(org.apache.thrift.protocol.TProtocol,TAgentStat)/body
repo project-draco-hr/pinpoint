@@ -1,0 +1,30 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(6);
+  if (incoming.get(0)) {
+    struct.agentId=iprot.readString();
+    struct.setAgentIdIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.startTimestamp=iprot.readI64();
+    struct.setStartTimestampIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.timestamp=iprot.readI64();
+    struct.setTimestampIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.gc=new TJvmGc();
+    struct.gc.read(iprot);
+    struct.setGcIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.cpuLoad=new TCpuLoad();
+    struct.cpuLoad.read(iprot);
+    struct.setCpuLoadIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.metadata=iprot.readString();
+    struct.setMetadataIsSet(true);
+  }
+}

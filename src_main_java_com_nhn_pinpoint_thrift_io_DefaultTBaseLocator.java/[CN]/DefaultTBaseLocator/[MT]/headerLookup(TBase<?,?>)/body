@@ -1,0 +1,36 @@
+{
+  if (tbase == null) {
+    throw new IllegalArgumentException("tbase must not be null");
+  }
+  if (tbase instanceof TSpan) {
+    return SPAN_HEADER;
+  }
+  if (tbase instanceof TSpanChunk) {
+    return SPANCHUNK_HEADER;
+  }
+  if (tbase instanceof TAgentInfo) {
+    return AGENT_INFO_HEADER;
+  }
+  if (tbase instanceof TAgentStat) {
+    return AGENT_STAT_HEADER;
+  }
+  if (tbase instanceof TAgentStatBatch) {
+    return AGENT_STAT_BATCH_HEADER;
+  }
+  if (tbase instanceof TSqlMetaData) {
+    return SQLMETADATA_HEADER;
+  }
+  if (tbase instanceof TApiMetaData) {
+    return APIMETADATA_HEADER;
+  }
+  if (tbase instanceof TResult) {
+    return RESULT_HEADER;
+  }
+  if (tbase instanceof TStringMetaData) {
+    return STRINGMETADATA_HEADER;
+  }
+  if (tbase instanceof NetworkAvailabilityCheckPacket) {
+    return NETWORK_CHECK_HEADER;
+  }
+  throw new TException("Unsupported Type" + tbase.getClass());
+}

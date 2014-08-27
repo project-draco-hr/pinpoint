@@ -1,0 +1,17 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetJvmCpuLoad()) {
+    optionals.set(0);
+  }
+  if (struct.isSetSystemCpuLoad()) {
+    optionals.set(1);
+  }
+  oprot.writeBitSet(optionals,2);
+  if (struct.isSetJvmCpuLoad()) {
+    oprot.writeDouble(struct.jvmCpuLoad);
+  }
+  if (struct.isSetSystemCpuLoad()) {
+    oprot.writeDouble(struct.systemCpuLoad);
+  }
+}

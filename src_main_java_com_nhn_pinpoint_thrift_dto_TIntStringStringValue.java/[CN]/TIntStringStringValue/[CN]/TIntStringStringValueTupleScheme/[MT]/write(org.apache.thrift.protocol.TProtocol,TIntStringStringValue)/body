@@ -1,0 +1,23 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetIntValue()) {
+    optionals.set(0);
+  }
+  if (struct.isSetStringValue1()) {
+    optionals.set(1);
+  }
+  if (struct.isSetStringValue2()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetIntValue()) {
+    oprot.writeI32(struct.intValue);
+  }
+  if (struct.isSetStringValue1()) {
+    oprot.writeString(struct.stringValue1);
+  }
+  if (struct.isSetStringValue2()) {
+    oprot.writeString(struct.stringValue2);
+  }
+}

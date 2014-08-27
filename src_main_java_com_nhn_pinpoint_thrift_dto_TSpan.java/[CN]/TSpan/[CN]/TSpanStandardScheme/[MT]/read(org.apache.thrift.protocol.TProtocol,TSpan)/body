@@ -1,0 +1,227 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.agentId=iprot.readString();
+        struct.setAgentIdIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+    struct.applicationName=iprot.readString();
+    struct.setApplicationNameIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.agentStartTime=iprot.readI64();
+struct.setAgentStartTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.transactionId=iprot.readBinary();
+struct.setTransactionIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 7:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.spanId=iprot.readI64();
+struct.setSpanIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 8:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.parentSpanId=iprot.readI64();
+struct.setParentSpanIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 9:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.startTime=iprot.readI64();
+struct.setStartTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 10:
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.elapsed=iprot.readI32();
+struct.setElapsedIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 11:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.rpc=iprot.readString();
+struct.setRpcIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 12:
+if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+struct.serviceType=iprot.readI16();
+struct.setServiceTypeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 13:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.endPoint=iprot.readString();
+struct.setEndPointIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 14:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.remoteAddr=iprot.readString();
+struct.setRemoteAddrIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 15:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list8=iprot.readListBegin();
+struct.annotations=new ArrayList<TAnnotation>(_list8.size);
+for (int _i9=0; _i9 < _list8.size; ++_i9) {
+TAnnotation _elem10;
+_elem10=new TAnnotation();
+_elem10.read(iprot);
+struct.annotations.add(_elem10);
+}
+iprot.readListEnd();
+}
+struct.setAnnotationsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 16:
+if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+struct.flag=iprot.readI16();
+struct.setFlagIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 17:
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.err=iprot.readI32();
+struct.setErrIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 18:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list11=iprot.readListBegin();
+struct.spanEventList=new ArrayList<TSpanEvent>(_list11.size);
+for (int _i12=0; _i12 < _list11.size; ++_i12) {
+TSpanEvent _elem13;
+_elem13=new TSpanEvent();
+_elem13.read(iprot);
+struct.spanEventList.add(_elem13);
+}
+iprot.readListEnd();
+}
+struct.setSpanEventListIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 19:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.parentApplicationName=iprot.readString();
+struct.setParentApplicationNameIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 20:
+if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+struct.parentApplicationType=iprot.readI16();
+struct.setParentApplicationTypeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 21:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.acceptorHost=iprot.readString();
+struct.setAcceptorHostIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 25:
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.apiId=iprot.readI32();
+struct.setApiIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 26:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+struct.exceptionInfo=new TIntStringValue();
+struct.exceptionInfo.read(iprot);
+struct.setExceptionInfoIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

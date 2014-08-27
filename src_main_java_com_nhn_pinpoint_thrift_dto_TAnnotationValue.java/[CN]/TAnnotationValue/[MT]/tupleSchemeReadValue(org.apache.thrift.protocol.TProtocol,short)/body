@@ -1,0 +1,54 @@
+{
+  _Fields setField=_Fields.findByThriftId(fieldID);
+  if (setField != null) {
+switch (setField) {
+case STRING_VALUE:
+      String stringValue;
+    stringValue=iprot.readString();
+  return stringValue;
+case BOOL_VALUE:
+Boolean boolValue;
+boolValue=iprot.readBool();
+return boolValue;
+case INT_VALUE:
+Integer intValue;
+intValue=iprot.readI32();
+return intValue;
+case LONG_VALUE:
+Long longValue;
+longValue=iprot.readI64();
+return longValue;
+case SHORT_VALUE:
+Short shortValue;
+shortValue=iprot.readI16();
+return shortValue;
+case DOUBLE_VALUE:
+Double doubleValue;
+doubleValue=iprot.readDouble();
+return doubleValue;
+case BINARY_VALUE:
+ByteBuffer binaryValue;
+binaryValue=iprot.readBinary();
+return binaryValue;
+case BYTE_VALUE:
+Byte byteValue;
+byteValue=iprot.readByte();
+return byteValue;
+case INT_STRING_VALUE:
+TIntStringValue intStringValue;
+intStringValue=new TIntStringValue();
+intStringValue.read(iprot);
+return intStringValue;
+case INT_STRING_STRING_VALUE:
+TIntStringStringValue intStringStringValue;
+intStringStringValue=new TIntStringStringValue();
+intStringStringValue.read(iprot);
+return intStringStringValue;
+default :
+throw new IllegalStateException("setField wasn't null, but didn't match any of the case statements!");
+}
+}
+ else {
+throw new TProtocolException("Couldn't find a field with field id " + fieldID);
+}
+}

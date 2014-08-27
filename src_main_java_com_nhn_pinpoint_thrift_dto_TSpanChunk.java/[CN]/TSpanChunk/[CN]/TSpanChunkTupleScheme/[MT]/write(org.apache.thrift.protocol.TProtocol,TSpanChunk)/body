@@ -1,0 +1,58 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetAgentId()) {
+    optionals.set(0);
+  }
+  if (struct.isSetApplicationName()) {
+    optionals.set(1);
+  }
+  if (struct.isSetAgentStartTime()) {
+    optionals.set(2);
+  }
+  if (struct.isSetServiceType()) {
+    optionals.set(3);
+  }
+  if (struct.isSetTransactionId()) {
+    optionals.set(4);
+  }
+  if (struct.isSetSpanId()) {
+    optionals.set(5);
+  }
+  if (struct.isSetEndPoint()) {
+    optionals.set(6);
+  }
+  if (struct.isSetSpanEventList()) {
+    optionals.set(7);
+  }
+  oprot.writeBitSet(optionals,8);
+  if (struct.isSetAgentId()) {
+    oprot.writeString(struct.agentId);
+  }
+  if (struct.isSetApplicationName()) {
+    oprot.writeString(struct.applicationName);
+  }
+  if (struct.isSetAgentStartTime()) {
+    oprot.writeI64(struct.agentStartTime);
+  }
+  if (struct.isSetServiceType()) {
+    oprot.writeI16(struct.serviceType);
+  }
+  if (struct.isSetTransactionId()) {
+    oprot.writeBinary(struct.transactionId);
+  }
+  if (struct.isSetSpanId()) {
+    oprot.writeI64(struct.spanId);
+  }
+  if (struct.isSetEndPoint()) {
+    oprot.writeString(struct.endPoint);
+  }
+  if (struct.isSetSpanEventList()) {
+{
+      oprot.writeI32(struct.spanEventList.size());
+      for (      TSpanEvent _iter28 : struct.spanEventList) {
+        _iter28.write(oprot);
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(13);
+  if (incoming.get(0)) {
+    struct.spanId=iprot.readI64();
+    struct.setSpanIdIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.sequence=iprot.readI16();
+    struct.setSequenceIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.startElapsed=iprot.readI32();
+    struct.setStartElapsedIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.endElapsed=iprot.readI32();
+    struct.setEndElapsedIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.rpc=iprot.readString();
+    struct.setRpcIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.serviceType=iprot.readI16();
+    struct.setServiceTypeIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.endPoint=iprot.readString();
+    struct.setEndPointIsSet(true);
+  }
+  if (incoming.get(7)) {
+{
+      org.apache.thrift.protocol.TList _list5=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.annotations=new ArrayList<TAnnotation>(_list5.size);
+      for (int _i6=0; _i6 < _list5.size; ++_i6) {
+        TAnnotation _elem7;
+        _elem7=new TAnnotation();
+        _elem7.read(iprot);
+        struct.annotations.add(_elem7);
+      }
+    }
+    struct.setAnnotationsIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.depth=iprot.readI32();
+    struct.setDepthIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.nextSpanId=iprot.readI64();
+    struct.setNextSpanIdIsSet(true);
+  }
+  if (incoming.get(10)) {
+    struct.destinationId=iprot.readString();
+    struct.setDestinationIdIsSet(true);
+  }
+  if (incoming.get(11)) {
+    struct.apiId=iprot.readI32();
+    struct.setApiIdIsSet(true);
+  }
+  if (incoming.get(12)) {
+    struct.exceptionInfo=new TIntStringValue();
+    struct.exceptionInfo.read(iprot);
+    struct.setExceptionInfoIsSet(true);
+  }
+}
