@@ -1,13 +1,13 @@
 {
   @SuppressWarnings("unchecked") Class<BasePinpointTest> baseTestClass=(Class<BasePinpointTest>)this.testContext.getBaseTestClass();
   if (baseTestClass.isInstance(test)) {
-    DefaultTrace currentTrace=(DefaultTrace)this.testAgent.getTraceContext().currentRawTraceObject();
     Method[] methods=baseTestClass.getDeclaredMethods();
     for (    Method m : methods) {
-      if (m.getName().equals("setCurrentStorage")) {
+      if (m.getName().equals("setCurrentHolder")) {
         try {
+          this.testDataSender.clear();
           m.setAccessible(true);
-          m.invoke(test,currentTrace.getStorage());
+          m.invoke(test,this.testDataSender);
         }
  catch (        IllegalAccessException e) {
           throw new RuntimeException(e);

@@ -1,0 +1,8 @@
+{
+  if (shouldCreateNewTraceObject(method)) {
+    TraceContext traceContext=this.testAgent.getTraceContext();
+    Trace trace=traceContext.newTraceObject();
+    trace.markBeforeTime();
+    trace.recordServiceType(ServiceType.TEST);
+  }
+}
