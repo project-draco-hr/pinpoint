@@ -1,0 +1,17 @@
+{
+  try {
+    String[] eachDotAddress=address.split("\\.");
+    if (eachDotAddress.length != 4) {
+      return false;
+    }
+    for (    String eachAddress : eachDotAddress) {
+      if (Integer.parseInt(eachAddress) > 255) {
+        return false;
+      }
+    }
+    return true;
+  }
+ catch (  NumberFormatException e) {
+  }
+  return false;
+}

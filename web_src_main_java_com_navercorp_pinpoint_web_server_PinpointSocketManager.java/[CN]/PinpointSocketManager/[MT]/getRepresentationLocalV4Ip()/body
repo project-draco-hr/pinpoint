@@ -1,0 +1,11 @@
+{
+  String ip=NetUtils.getLocalV4Ip();
+  if (!ip.equals(NetUtils.LOOPBACK_ADDRESS_V4)) {
+    return ip;
+  }
+  List<String> ipList=NetUtils.getLocalV4IpList();
+  if (ipList.size() > 0) {
+    return ipList.get(0);
+  }
+  return NetUtils.LOOPBACK_ADDRESS_V4;
+}

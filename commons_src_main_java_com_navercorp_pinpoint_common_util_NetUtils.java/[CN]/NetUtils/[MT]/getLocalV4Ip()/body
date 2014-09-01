@@ -1,0 +1,12 @@
+{
+  try {
+    InetAddress localHost=InetAddress.getLocalHost();
+    String localIp=localHost.getHostAddress();
+    if (validationIpV4FormatAddress(localIp)) {
+      return localIp;
+    }
+  }
+ catch (  UnknownHostException e) {
+  }
+  return LOOPBACK_ADDRESS_V4;
+}

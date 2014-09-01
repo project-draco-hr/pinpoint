@@ -1,0 +1,18 @@
+{
+  ts.restart();
+  Thread.sleep(5000);
+  ZooKeeper zookeeper=new ZooKeeper("127.0.0.1:22213",5000,null);
+  getNodeAndCompareContents(zookeeper);
+  ts.stop();
+  Thread.sleep(5000);
+  try {
+    zookeeper.getData(CLUSTER_NODE_PATH,null,null);
+    Assert.fail();
+  }
+ catch (  KeeperException e) {
+    Assert.assertEquals(KeeperException.Code.CONNECTIONLOSS,e.code());
+    e.printStackTrace();
+  }
+  ts.restart();
+  getNodeAndCompareContents(zookeeper);
+}

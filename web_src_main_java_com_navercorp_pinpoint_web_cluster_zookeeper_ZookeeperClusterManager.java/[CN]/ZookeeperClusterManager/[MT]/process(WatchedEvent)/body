@@ -1,0 +1,18 @@
+{
+  KeeperState state=event.getState();
+  EventType eventType=event.getType();
+  if (state == KeeperState.Disconnected || state == KeeperState.Expired) {
+    connected.compareAndSet(true,false);
+    return;
+  }
+  if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.None) {
+    boolean changed=connected.compareAndSet(false,true);
+    if (changed) {
+      RegisterJob job=this.job.get();
+      if (job != null) {
+        registerWebCluster(job);
+      }
+    }
+    return;
+  }
+}
