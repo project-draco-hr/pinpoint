@@ -1,0 +1,11 @@
+{
+  checkState();
+  try {
+    zookeeper.delete(path,-1);
+  }
+ catch (  KeeperException exception) {
+    if (exception.code() != Code.NONODE) {
+      handleException(exception);
+    }
+  }
+}

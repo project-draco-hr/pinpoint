@@ -1,0 +1,29 @@
+{
+  List<String> result=new ArrayList<String>();
+  Enumeration<NetworkInterface> interfaces=null;
+  try {
+    interfaces=NetworkInterface.getNetworkInterfaces();
+  }
+ catch (  SocketException e) {
+  }
+  if (interfaces == null) {
+    return Collections.EMPTY_LIST;
+  }
+  while (interfaces.hasMoreElements()) {
+    NetworkInterface current=interfaces.nextElement();
+    if (isSkipIp(current)) {
+      continue;
+    }
+    Enumeration<InetAddress> addresses=current.getInetAddresses();
+    while (addresses.hasMoreElements()) {
+      InetAddress address=addresses.nextElement();
+      if (address.isLoopbackAddress() || !(address instanceof Inet4Address)) {
+        continue;
+      }
+      if (validationIpV4FormatAddress(address.getHostAddress())) {
+        result.add(address.getHostAddress());
+      }
+    }
+  }
+  return result;
+}

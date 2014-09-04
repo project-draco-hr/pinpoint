@@ -1,0 +1,15 @@
+{
+  checkState();
+  try {
+    Stat stat=zookeeper.exists(path,false);
+    if (stat == null) {
+      return false;
+    }
+  }
+ catch (  KeeperException exception) {
+    if (exception.code() != Code.NODEEXISTS) {
+      handleException(exception);
+    }
+  }
+  return true;
+}

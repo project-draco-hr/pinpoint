@@ -1,0 +1,18 @@
+{
+  ts.restart();
+  PinpointSocketFactory factory=null;
+  PinpointSocket socket=null;
+  try {
+    Thread.sleep(5000);
+    ZooKeeper zookeeper=new ZooKeeper("127.0.0.1:22213",5000,null);
+    getNodeAndCompareContents(zookeeper);
+    Assert.assertEquals(0,socketManager.getCollectorChannelContext().size());
+    factory=new PinpointSocketFactory();
+    socket=factory.connect(DEFAULT_IP,DEFAULT_ACCEPTOR_PORT,new SimpleListener());
+    Thread.sleep(1000);
+    Assert.assertEquals(1,socketManager.getCollectorChannelContext().size());
+  }
+  finally {
+    closePinpointSocket(factory,socket);
+  }
+}

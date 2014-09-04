@@ -1,0 +1,19 @@
+{
+  logger.info("{} enable {}.",this.getClass().getSimpleName(),config.isClusterEnable());
+  if (config.isClusterEnable()) {
+    this.representationLocalIp=getRepresentationLocalV4Ip();
+    this.localIpList=NetUtils.getLocalV4IpList();
+    logger.info("Representation_Ip = {}, Ip_List = {}",representationLocalIp,localIpList);
+    if (representationLocalIp.equals(NetUtils.LOOPBACK_ADDRESS_V4) || localIpList.size() == 0) {
+      throw new SocketException("Can't find Local Ip.");
+    }
+    String nodeName=representationLocalIp + ":" + config.getClusterTcpPort();
+    if (!NetUtils.validationIpPortV4FormatAddress(nodeName)) {
+      throw new SocketException("Unexpected LocalAddress. LocalAddress format must be ip:port (" + nodeName + ").");
+    }
+    this.pinpointServerSocket.setMessageListener(new PinpointSocketManagerHandler());
+    this.pinpointServerSocket.bind(representationLocalIp,config.getClusterTcpPort());
+    this.clusterManager=new ZookeeperClusterManager(config.getClusterZookeeperAddress(),config.getClusterZookeeperSessionTimeout(),config.getClusterZookeeperRetryInterval());
+    this.clusterManager.registerWebCluster(nodeName,convertIpListToBytes(localIpList,"\r\n"));
+  }
+}
