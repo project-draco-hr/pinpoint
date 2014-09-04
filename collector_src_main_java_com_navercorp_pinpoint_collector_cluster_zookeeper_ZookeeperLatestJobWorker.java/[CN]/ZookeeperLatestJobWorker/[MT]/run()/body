@@ -1,7 +1,7 @@
 {
-  while (workerState.get() == 1) {
+  while (workerState.isStarted()) {
     boolean eventCreated=await(60000,200);
-    if (workerState.get() != 1) {
+    if (!workerState.isStarted()) {
       break;
     }
     if (eventCreated) {
@@ -21,7 +21,7 @@
       }
     }
  else {
-      logger.debug("LeackDetector Start.");
+      logger.debug("LeakDetector Start.");
       while (true) {
         Job job=leakJobQueue.poll();
         if (job == null) {
@@ -34,7 +34,7 @@
       List<ChannelContext> currentChannelContextList=getRegisteredChannelContextList();
       for (      ChannelContext channelContext : currentChannelContextList) {
         if (PinpointServerSocketStateCode.isFinished(channelContext.getCurrentStateCode())) {
-          logger.info("LeackDetector Find Leak ChannelContext={}.",channelContext);
+          logger.info("LeakDetector Find Leak ChannelContext={}.",channelContext);
           putJob(new DeleteJob(channelContext));
         }
       }

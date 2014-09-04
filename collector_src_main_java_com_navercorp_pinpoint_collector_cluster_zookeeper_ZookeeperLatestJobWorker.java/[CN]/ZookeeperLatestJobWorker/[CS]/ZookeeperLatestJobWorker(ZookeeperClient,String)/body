@@ -1,0 +1,7 @@
+{
+  this.zookeeperClient=zookeeperClient;
+  this.workerState=new WorkerStateContext();
+  this.identifier=serverIdentifier;
+  final ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName(),true);
+  this.workerThread=threadFactory.newThread(this);
+}

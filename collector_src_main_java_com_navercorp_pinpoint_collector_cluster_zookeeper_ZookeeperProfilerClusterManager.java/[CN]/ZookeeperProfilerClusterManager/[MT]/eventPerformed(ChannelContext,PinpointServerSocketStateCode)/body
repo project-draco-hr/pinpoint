@@ -1,0 +1,26 @@
+{
+  if (workerState.isStarted()) {
+    logger.info("eventPerformed ChannelContext={}, State={}",channelContext,stateCode);
+    Map agentProperties=channelContext.getChannelProperties();
+    if (skipAgent(agentProperties)) {
+      return;
+    }
+    if (PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION == stateCode) {
+      byte[] contents=serializeContents(agentProperties,stateCode);
+      if (contents == null) {
+        return;
+      }
+      UpdateJob job=new UpdateJob(channelContext,contents);
+      worker.putJob(job);
+    }
+ else     if (PinpointServerSocketStateCode.isFinished(stateCode)) {
+      DeleteJob job=new DeleteJob(channelContext);
+      worker.putJob(job);
+    }
+  }
+ else {
+    WorkerState state=this.workerState.getCurrentState();
+    logger.info("{} invalid state {}.",this.getClass().getSimpleName(),state.toString());
+    return;
+  }
+}

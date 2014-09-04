@@ -1,0 +1,14 @@
+{
+  checkState();
+  try {
+    List<String> childNodeList=zookeeper.getChildren(path,watch,null);
+    logger.info("ChildNode List = {}",childNodeList);
+    return childNodeList;
+  }
+ catch (  KeeperException exception) {
+    if (exception.code() != Code.NONODE) {
+      handleException(exception);
+    }
+  }
+  return Collections.EMPTY_LIST;
+}
