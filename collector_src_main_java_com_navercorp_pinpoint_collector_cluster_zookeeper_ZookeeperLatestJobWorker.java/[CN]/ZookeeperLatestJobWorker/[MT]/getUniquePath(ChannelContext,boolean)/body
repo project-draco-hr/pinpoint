@@ -9,6 +9,7 @@ synchronized (znodeMappingRepository) {
       final String applicationName=MapUtils.getString(agentProperties,AgentPropertiesType.APPLICATION_NAME.getName());
       final String agentId=MapUtils.getString(agentProperties,AgentPropertiesType.AGENT_ID.getName());
       if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(agentId)) {
+        logger.warn("ApplicationName({}) and AgnetId({}) may not be null.",applicationName,agentId);
         return null;
       }
       String path=PINPOINT_PROFILER_CLUSTER_PATH + "/" + applicationName+ "/"+ agentId;

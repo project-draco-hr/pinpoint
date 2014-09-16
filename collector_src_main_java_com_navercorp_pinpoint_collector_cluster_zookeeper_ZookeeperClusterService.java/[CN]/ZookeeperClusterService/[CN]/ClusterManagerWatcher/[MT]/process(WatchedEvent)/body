@@ -16,9 +16,8 @@
         profilerClusterManager.eventPerformed(channelContext,channelContext.getCurrentStateCode());
       }
       webClusterManager.handleAndRegisterWatcher(PINPOINT_WEB_CLUSTER_PATH);
-      return;
     }
-    if (eventType == EventType.NodeChildrenChanged) {
+ else     if (eventType == EventType.NodeChildrenChanged) {
       String path=event.getPath();
       if (PINPOINT_WEB_CLUSTER_PATH.equals(path)) {
         webClusterManager.handleAndRegisterWatcher(path);
