@@ -1,0 +1,13 @@
+{
+  ProfilerClusterPoint profilerClusterPoint=clusterPointRouter.getProfilerClusterPoint();
+  ChannelContext channelContext=new ChannelContext(null,null);
+  channelContext.setChannelProperties(getParams());
+  profilerClusterPoint.registerChannelContext(channelContext);
+  Assert.assertEquals(1,profilerClusterPoint.getChannelContext().size());
+  Assert.assertNull(profilerClusterPoint.getChannelContext("a","a"));
+  Assert.assertNull(profilerClusterPoint.getChannelContext("application","a"));
+  Assert.assertEquals(channelContext,profilerClusterPoint.getChannelContext("application","agent"));
+  profilerClusterPoint.unregisterChannelContext(channelContext);
+  Assert.assertEquals(0,profilerClusterPoint.getChannelContext().size());
+  Assert.assertNull(profilerClusterPoint.getChannelContext("application","agent"));
+}
