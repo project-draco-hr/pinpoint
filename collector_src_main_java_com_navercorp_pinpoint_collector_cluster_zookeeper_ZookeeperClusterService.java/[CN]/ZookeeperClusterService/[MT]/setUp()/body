@@ -1,0 +1,38 @@
+{
+  if (!config.isClusterEnable()) {
+    logger.info("pinpoint-collector cluster disable.");
+    return;
+  }
+switch (this.serviceState.getCurrentState()) {
+case NEW:
+    if (this.serviceState.changeStateInitializing()) {
+      logger.info("{} initialization started.",this.getClass().getSimpleName());
+      ClusterManagerWatcher watcher=new ClusterManagerWatcher();
+      this.client=new ZookeeperClient(config.getClusterAddress(),config.getClusterSessionTimeout(),watcher);
+      this.profilerClusterManager=new ZookeeperProfilerClusterManager(client,serverIdentifier);
+      this.profilerClusterManager.start();
+      this.webClusterManager=new ZookeeperWebClusterManager(client,PINPOINT_WEB_CLUSTER_PATH,serverIdentifier);
+      this.webClusterManager.start();
+      this.serviceState.changeStateStarted();
+      logger.info("{} initialization completed.",this.getClass().getSimpleName());
+      if (client.isConnected()) {
+        WatcherEvent watcherEvent=new WatcherEvent(EventType.None.getIntValue(),KeeperState.SyncConnected.getIntValue(),"");
+        WatchedEvent event=new WatchedEvent(watcherEvent);
+        watcher.process(event);
+      }
+    }
+  break;
+case INITIALIZING:
+logger.info("{} already initializing.",this.getClass().getSimpleName());
+break;
+case STARTED:
+logger.info("{} already started.",this.getClass().getSimpleName());
+break;
+case DESTROYING:
+throw new IllegalStateException("Already destroying.");
+case STOPPED:
+throw new IllegalStateException("Already stopped.");
+case ILLEGAL_STATE:
+throw new IllegalStateException("Invalid State.");
+}
+}

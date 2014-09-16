@@ -1,0 +1,30 @@
+{
+  boolean needNotRetry=false;
+  try {
+    if (!client.exists(zNodePath)) {
+      client.createPath(zNodePath,true);
+    }
+    List<String> childNodeList=client.getChildrenNode(zNodePath,true);
+    List<InetSocketAddress> clusterAddressList=NetUtils.toInetSocketAddressLIst(childNodeList);
+    List<InetSocketAddress> addressList=webClusterPoint.getWebClusterList();
+    logger.info("Handle register and remove Task. Current Address List = {}, Cluster Address List = {}",addressList,clusterAddressList);
+    for (    InetSocketAddress clusterAddress : clusterAddressList) {
+      if (!addressList.contains(clusterAddress)) {
+        webClusterPoint.connectPointIfAbsent(clusterAddress);
+      }
+    }
+    for (    InetSocketAddress address : addressList) {
+      if (!clusterAddressList.contains(address)) {
+        webClusterPoint.disconnectPoint(address);
+      }
+    }
+    needNotRetry=true;
+    return needNotRetry;
+  }
+ catch (  Exception e) {
+    if (!(e instanceof ConnectionException)) {
+      needNotRetry=true;
+    }
+  }
+  return needNotRetry;
+}

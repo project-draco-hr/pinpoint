@@ -1,0 +1,26 @@
+{
+switch (this.workerState.getCurrentState()) {
+case NEW:
+    if (this.workerState.changeStateInitializing()) {
+      logger.info("{} initialization started.",this.getClass().getSimpleName());
+      if (worker != null) {
+        worker.start();
+      }
+      workerState.changeStateStarted();
+      logger.info("{} initialization completed.",this.getClass().getSimpleName());
+      break;
+    }
+case INITIALIZING:
+  logger.info("{} already initializing.",this.getClass().getSimpleName());
+break;
+case STARTED:
+logger.info("{} already started.",this.getClass().getSimpleName());
+break;
+case DESTROYING:
+throw new IllegalStateException("Already destroying.");
+case STOPPED:
+throw new IllegalStateException("Already stopped.");
+case ILLEGAL_STATE:
+throw new IllegalStateException("Invalid State.");
+}
+}

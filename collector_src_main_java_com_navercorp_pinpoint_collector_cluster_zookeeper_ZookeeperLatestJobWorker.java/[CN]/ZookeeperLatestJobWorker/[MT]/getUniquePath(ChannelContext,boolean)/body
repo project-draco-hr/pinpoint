@@ -11,7 +11,7 @@ synchronized (znodeMappingRepository) {
       if (StringUtils.isEmpty(applicationName) || StringUtils.isEmpty(agentId)) {
         return null;
       }
-      String path=PREFIX_ROOT_ZNODE + "/" + applicationName+ "/"+ agentId;
+      String path=PINPOINT_PROFILER_CLUSTER_PATH + "/" + applicationName+ "/"+ agentId;
       String zNodeName=createUniqueZnodeName();
       zNodePath=bindingPathAndZnode(path,zNodeName);
       znodeMappingRepository.put(channelContext,zNodePath);
