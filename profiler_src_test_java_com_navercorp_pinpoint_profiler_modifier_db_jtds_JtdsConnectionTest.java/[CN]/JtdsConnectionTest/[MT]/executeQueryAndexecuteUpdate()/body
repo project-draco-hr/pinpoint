@@ -1,0 +1,8 @@
+{
+  Connection connect=connectDB();
+  PreparedStatement preparedStatement=connect.prepareStatement("select 1 ");
+  ResultSet resultSet=preparedStatement.executeQuery();
+  if (resultSet.next()) {
+    logger.debug("---" + resultSet.getObject(1));
+  }
+}
