@@ -1,0 +1,26 @@
+{
+  if (url == null) {
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.MSSQL,ServiceType.MSSQL_EXECUTE_QUERY,url);
+  }
+  StringMaker maker=new StringMaker(url);
+  maker.lower().after("jdbc:jtds:sqlserver:");
+  StringMaker before=maker.after("//").before(';');
+  final String hostAndPortAndDataBaseString=before.value();
+  String databaseId="";
+  String hostAndPortString="";
+  final int databaseIdIndex=hostAndPortAndDataBaseString.indexOf('/');
+  if (databaseIdIndex != -1) {
+    hostAndPortString=hostAndPortAndDataBaseString.substring(0,databaseIdIndex);
+    databaseId=hostAndPortAndDataBaseString.substring(databaseIdIndex + 1,hostAndPortAndDataBaseString.length());
+  }
+ else {
+    hostAndPortString=hostAndPortAndDataBaseString;
+  }
+  List<String> hostList=new ArrayList<String>(1);
+  hostList.add(hostAndPortString);
+  if (databaseId.isEmpty()) {
+    databaseId=maker.next().after("databasename=").before(';').value();
+  }
+  String normalizedUrl=maker.clear().before(";").value();
+  return new DefaultDatabaseInfo(ServiceType.MSSQL,ServiceType.MSSQL_EXECUTE_QUERY,url,normalizedUrl,hostList,databaseId);
+}
