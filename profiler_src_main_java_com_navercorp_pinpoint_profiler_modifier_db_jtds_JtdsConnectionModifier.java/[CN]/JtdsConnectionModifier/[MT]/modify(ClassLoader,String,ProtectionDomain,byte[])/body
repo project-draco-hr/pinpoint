@@ -1,0 +1,53 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass jtdsConnection=byteCodeInstrumentor.getClass(javassistClassName);
+    jtdsConnection.addTraceValue(DatabaseInfoTraceValue.class);
+    Interceptor closeConnection=new ConnectionCloseInterceptor();
+    jtdsConnection.addScopeInterceptor("close",null,closeConnection,SCOPE_NAME);
+    Interceptor statementCreateInterceptor1=new StatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("createStatement",null,statementCreateInterceptor1,SCOPE_NAME);
+    Interceptor statementCreateInterceptor2=new StatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("createStatement",new String[]{"int","int"},statementCreateInterceptor2,SCOPE_NAME);
+    Interceptor statementCreateInterceptor3=new StatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("createStatement",new String[]{"int","int","int"},statementCreateInterceptor3,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor1=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String"},preparedStatementCreateInterceptor1,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor2=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String","int"},preparedStatementCreateInterceptor2,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor3=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String","int[]"},preparedStatementCreateInterceptor3,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor4=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String","java.lang.String[]"},preparedStatementCreateInterceptor4,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor5=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String","int","int"},preparedStatementCreateInterceptor5,SCOPE_NAME);
+    Interceptor preparedStatementCreateInterceptor6=new PreparedStatementCreateInterceptor();
+    jtdsConnection.addScopeInterceptor("prepareStatement",new String[]{"java.lang.String","int","int","int"},preparedStatementCreateInterceptor6,SCOPE_NAME);
+    final ProfilerConfig profilerConfig=agent.getProfilerConfig();
+    if (profilerConfig.isJdbcProfileJtdsSetAutoCommit()) {
+      Interceptor setAutocommit=new TransactionSetAutoCommitInterceptor();
+      jtdsConnection.addScopeInterceptor("setAutoCommit",new String[]{"boolean"},setAutocommit,SCOPE_NAME);
+    }
+    if (profilerConfig.isJdbcProfileJtdsCommit()) {
+      Interceptor commit=new TransactionCommitInterceptor();
+      jtdsConnection.addScopeInterceptor("commit",null,commit,SCOPE_NAME);
+    }
+    if (profilerConfig.isJdbcProfileJtdsRollback()) {
+      Interceptor rollback=new TransactionRollbackInterceptor();
+      jtdsConnection.addScopeInterceptor("rollback",null,rollback,SCOPE_NAME);
+    }
+    if (this.logger.isInfoEnabled()) {
+      this.logger.info("{} class is converted.",javassistClassName);
+    }
+    return jtdsConnection.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
+    }
+    return null;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  this.byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass preparedStatementClass=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor executeInterceptor=new PreparedStatementExecuteQueryInterceptor();
+    preparedStatementClass.addScopeInterceptor("execute",null,executeInterceptor,JtdsScope.SCOPE_NAME);
+    Interceptor executeQueryInterceptor=new PreparedStatementExecuteQueryInterceptor();
+    preparedStatementClass.addScopeInterceptor("executeQuery",null,executeQueryInterceptor,JtdsScope.SCOPE_NAME);
+    Interceptor executeUpdateInterceptor=new PreparedStatementExecuteQueryInterceptor();
+    preparedStatementClass.addScopeInterceptor("executeUpdate",null,executeUpdateInterceptor,JtdsScope.SCOPE_NAME);
+    preparedStatementClass.addTraceValue(DatabaseInfoTraceValue.class);
+    preparedStatementClass.addTraceValue(ParsingResultTraceValue.class);
+    preparedStatementClass.addTraceValue(BindValueTraceValue.class,"new java.util.HashMap();");
+    bindVariableIntercept(preparedStatementClass,classLoader,protectedDomain);
+    return preparedStatementClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("{} modify fail. Cause:{}",this.getClass().getSimpleName(),e.getMessage(),e);
+    }
+    return null;
+  }
+}

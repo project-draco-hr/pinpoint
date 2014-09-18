@@ -1,11 +1,4 @@
 {
-  StringMaker maker=new StringMaker(url);
-  maker.after("jdbc:oracle:").after(":");
-  String description=maker.after('@').value().trim();
-  if (description.startsWith("(")) {
-    return parseNetConnectionUrl(url);
-  }
- else {
-    return parseSimpleUrl(url,maker);
-  }
+  OracleConnectionStringParser parser=new OracleConnectionStringParser();
+  return parser.parse(url);
 }
