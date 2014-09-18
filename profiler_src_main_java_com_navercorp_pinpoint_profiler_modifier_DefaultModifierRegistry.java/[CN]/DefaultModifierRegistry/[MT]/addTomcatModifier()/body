@@ -5,10 +5,8 @@
   addModifier(httpServletModifier);
   SpringFrameworkServletModifier springServletModifier=new SpringFrameworkServletModifier(byteCodeInstrumentor,agent);
   addModifier(springServletModifier);
-  Modifier tomcatStandardServiceModifier=new TomcatStandardServiceModifier(byteCodeInstrumentor,agent);
+  Modifier tomcatStandardServiceModifier=new StandardServiceModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatStandardServiceModifier);
   Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatConnectorModifier);
-  Modifier tomcatCatalinaModifier=new CatalinaModifier(byteCodeInstrumentor,agent);
-  addModifier(tomcatCatalinaModifier);
 }

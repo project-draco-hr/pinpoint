@@ -1,10 +1,18 @@
 {
+synchronized (this) {
+    if (this.agentStatus == AgentStatus.RUNNING) {
+      changeStatus(AgentStatus.STOPPED);
+    }
+ else {
+      logger.warn("Cannot stop agent. Current status = [{}]",this.agentStatus);
+      return;
+    }
+  }
   logger.info("Stopping {} Agent.",ProductInfo.CAMEL_NAME);
   this.heartBitChecker.stop();
   tAgentInfo.setEndStatus(0);
   tAgentInfo.setEndTimestamp(System.currentTimeMillis());
   this.tcpDataSender.send(tAgentInfo);
-  changeStatus(AgentStatus.STOPPING);
   this.agentStatMonitor.stop();
   this.spanDataSender.stop();
   this.statDataSender.stop();
@@ -15,5 +23,4 @@
   if (this.factory != null) {
     this.factory.release();
   }
-  changeStatus(AgentStatus.STOPPED);
 }
