@@ -1,9 +1,5 @@
 {
-  Driver driver=loadClass();
-  Properties properties=new Properties();
-  properties.setProperty("user","lucytest");
-  properties.setProperty("password","testlucy");
-  Connection connection=driver.connect("jdbc:mysql:loadbalance://10.98.133.23:3306,10.98.133.22:3306/hippo",properties);
+  Connection connection=connectDB("jdbc:mysql:loadbalance://10.98.133.23:3306,10.98.133.22:3306/hippo");
   logger.info("Connection class name:{}",connection.getClass().getName());
   logger.info("Connection class cl:{}",connection.getClass().getClassLoader());
   InvocationHandler invocationHandler=Proxy.getInvocationHandler(connection);
