@@ -1,0 +1,15 @@
+{
+  if (payload == null) {
+    logger.warn("Payload may not be null.");
+    return null;
+  }
+  try {
+    final HeaderTBaseDeserializer deserializer=commandDeserializerFactory.createDeserializer();
+    TBase<?,?> tBase=deserializer.deserialize(payload);
+    return tBase;
+  }
+ catch (  TException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return null;
+}

@@ -6,6 +6,10 @@
     return false;
   }
   String uniquePath=getUniquePath(channelContext,true);
+  if (uniquePath == null) {
+    logger.warn("Zookeeper UniqPath({}) may not be null.",uniquePath);
+    return false;
+  }
   try {
     if (zookeeperClient.exists(uniquePath)) {
       zookeeperClient.setData(uniquePath,job.getContents());

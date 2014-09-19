@@ -6,9 +6,6 @@
   }
   logger.info("{} destorying started.",this.getClass().getSimpleName());
   queue.offer(stopTask);
-  if (webClusterPoint != null) {
-    webClusterPoint.close();
-  }
   boolean interrupted=false;
   while (this.workerThread.isAlive()) {
     this.workerThread.interrupt();

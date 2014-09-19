@@ -1,0 +1,7 @@
+{
+  TBaseLocator commandTbaseLocator=new TCommandRegistry(TCommandTypeVersion.getVersion(Version.VERSION));
+  TProtocolFactory protocolFactory=new TCompactProtocol.Factory();
+  HeaderTBaseSerializerFactory serializerFactory=new HeaderTBaseSerializerFactory(true,DEFAULT_SERIALIZER_MAX_SIZE,protocolFactory,commandTbaseLocator);
+  ThreadLocalHeaderTBaseSerializerFactory threadLocalSerializerFactory=new ThreadLocalHeaderTBaseSerializerFactory(serializerFactory);
+  return threadLocalSerializerFactory;
+}

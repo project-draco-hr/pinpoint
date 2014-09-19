@@ -12,10 +12,12 @@
       }
       UpdateJob job=new UpdateJob(channelContext,contents);
       worker.putJob(job);
+      clusterPoint.registerChannelContext(channelContext);
     }
  else     if (PinpointServerSocketStateCode.isFinished(stateCode)) {
       DeleteJob job=new DeleteJob(channelContext);
       worker.putJob(job);
+      clusterPoint.unregisterChannelContext(channelContext);
     }
   }
  else {

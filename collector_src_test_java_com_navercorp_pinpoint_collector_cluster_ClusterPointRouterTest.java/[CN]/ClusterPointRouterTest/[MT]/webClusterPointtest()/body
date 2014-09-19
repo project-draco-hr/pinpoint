@@ -1,0 +1,16 @@
+{
+  WebClusterPoint webClusterPoint=clusterPointRouter.getWebClusterPoint();
+  PinpointServerSocket pinpointServerSocket=new PinpointServerSocket();
+  pinpointServerSocket.setMessageListener(new PinpointSocketManagerHandler());
+  pinpointServerSocket.bind("127.0.0.1",DEFAULT_ACCEPTOR_SOCKET_PORT);
+  InetSocketAddress address=new InetSocketAddress("127.0.0.1",DEFAULT_ACCEPTOR_SOCKET_PORT);
+  Assert.assertEquals(0,webClusterPoint.getWebClusterList().size());
+  webClusterPoint.connectPointIfAbsent(address);
+  Assert.assertEquals(1,webClusterPoint.getWebClusterList().size());
+  webClusterPoint.connectPointIfAbsent(address);
+  Assert.assertEquals(1,webClusterPoint.getWebClusterList().size());
+  webClusterPoint.disconnectPoint(address);
+  Assert.assertEquals(0,webClusterPoint.getWebClusterList().size());
+  webClusterPoint.disconnectPoint(address);
+  Assert.assertEquals(0,webClusterPoint.getWebClusterList().size());
+}

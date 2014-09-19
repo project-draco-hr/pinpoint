@@ -2,7 +2,7 @@
   TestingServer ts=null;
   try {
     ts=createZookeeperServer(DEFAULT_ACCEPTOR_PORT);
-    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig);
+    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig,clusterPointRouter);
     service.setUp();
     ChannelContext channelContext=new ChannelContext(null,null,service.getChannelStateChangeEventListener());
     channelContext.setChannelProperties(getParams());

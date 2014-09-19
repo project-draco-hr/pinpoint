@@ -1,7 +1,7 @@
 {
   TestingServer ts=null;
   try {
-    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig);
+    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig,clusterPointRouter);
     service.setUp();
     ChannelContext channelContext=new ChannelContext(null,null,service.getChannelStateChangeEventListener());
     channelContext.setChannelProperties(getParams());

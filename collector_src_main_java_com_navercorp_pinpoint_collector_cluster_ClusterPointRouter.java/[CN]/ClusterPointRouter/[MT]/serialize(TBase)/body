@@ -1,0 +1,15 @@
+{
+  if (result == null) {
+    logger.warn("tBase may not be null.");
+    return null;
+  }
+  try {
+    HeaderTBaseSerializer serializer=commandSerializerFactory.createSerializer();
+    byte[] payload=serializer.serialize(result);
+    return payload;
+  }
+ catch (  TException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return null;
+}

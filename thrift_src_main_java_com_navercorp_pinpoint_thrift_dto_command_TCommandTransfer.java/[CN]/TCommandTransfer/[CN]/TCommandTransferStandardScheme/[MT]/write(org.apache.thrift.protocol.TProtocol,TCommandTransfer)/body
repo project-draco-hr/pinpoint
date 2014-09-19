@@ -1,0 +1,26 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.applicationName != null) {
+    oprot.writeFieldBegin(APPLICATION_NAME_FIELD_DESC);
+    oprot.writeString(struct.applicationName);
+    oprot.writeFieldEnd();
+  }
+  if (struct.agentId != null) {
+    oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
+    oprot.writeString(struct.agentId);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetStartTime()) {
+    oprot.writeFieldBegin(START_TIME_FIELD_DESC);
+    oprot.writeI64(struct.startTime);
+    oprot.writeFieldEnd();
+  }
+  if (struct.payload != null) {
+    oprot.writeFieldBegin(PAYLOAD_FIELD_DESC);
+    oprot.writeBinary(struct.payload);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
