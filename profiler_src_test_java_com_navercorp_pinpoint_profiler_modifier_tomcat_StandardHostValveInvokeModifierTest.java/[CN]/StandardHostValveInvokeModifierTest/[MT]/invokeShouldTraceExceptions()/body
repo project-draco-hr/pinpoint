@@ -1,0 +1,15 @@
+{
+  when(mockRequest.getContext()).thenThrow(new RuntimeException("expected exception."));
+  try {
+    host.invoke(mockRequest,mockResponse);
+    assertTrue(false);
+  }
+ catch (  RuntimeException e) {
+    final List<SpanBo> rootSpans=getCurrentRootSpans();
+    assertEquals(rootSpans.size(),1);
+    final SpanBo rootSpan=rootSpans.get(0);
+    assertEquals(rootSpan.getParentSpanId(),-1);
+    assertEquals(rootSpan.getServiceType(),SERVICE_TYPE);
+    assertTrue(rootSpan.hasException());
+  }
+}

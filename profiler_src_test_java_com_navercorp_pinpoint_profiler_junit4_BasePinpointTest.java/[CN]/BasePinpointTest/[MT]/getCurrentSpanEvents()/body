@@ -1,3 +1,10 @@
 {
-  return this.traceHolder.get().getSpanEventList();
+  List<SpanEventBo> spanEvents=new ArrayList<SpanEventBo>();
+  for (  TBase<?,?> span : this.traceHolder.get()) {
+    if (span instanceof SpanEvent) {
+      SpanEvent spanEvent=(SpanEvent)span;
+      spanEvents.add(new SpanEventBo(spanEvent.getSpan(),spanEvent));
+    }
+  }
+  return spanEvents;
 }

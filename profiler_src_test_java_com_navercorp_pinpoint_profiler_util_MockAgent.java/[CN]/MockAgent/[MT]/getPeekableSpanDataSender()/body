@@ -1,0 +1,9 @@
+{
+  DataSender spanDataSender=getSpanDataSender();
+  if (spanDataSender instanceof PeekableDataSender) {
+    return (PeekableDataSender<?>)getSpanDataSender();
+  }
+ else {
+    throw new IllegalStateException("UdpDataSender must be an instance of a PeekableDataSender. Found : " + spanDataSender.getClass().getName());
+  }
+}

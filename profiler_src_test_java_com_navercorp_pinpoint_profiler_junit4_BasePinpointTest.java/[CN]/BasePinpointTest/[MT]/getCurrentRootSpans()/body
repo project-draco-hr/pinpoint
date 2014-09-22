@@ -1,0 +1,9 @@
+{
+  List<SpanBo> rootSpans=new ArrayList<SpanBo>();
+  for (  TBase<?,?> span : this.traceHolder.get()) {
+    if (span instanceof Span) {
+      rootSpans.add(new SpanBo((Span)span));
+    }
+  }
+  return rootSpans;
+}
