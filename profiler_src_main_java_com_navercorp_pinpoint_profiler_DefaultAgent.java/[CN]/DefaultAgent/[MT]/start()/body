@@ -1,3 +1,14 @@
 {
+synchronized (this) {
+    if (this.agentStatus == AgentStatus.INITIALIZING) {
+      changeStatus(AgentStatus.RUNNING);
+    }
+ else {
+      logger.warn("Agent already started.");
+      return;
+    }
+  }
   logger.info("Starting {} Agent.",ProductInfo.CAMEL_NAME);
+  this.heartBitChecker.start();
+  this.agentStatMonitor.start();
 }
