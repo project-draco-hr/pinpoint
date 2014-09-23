@@ -1,0 +1,17 @@
+{
+  logger.info("/redis/nBaseArc/pipeline");
+  RedisClusterPipeline pipeline=null;
+  try {
+    pipeline=client.pipeline();
+    pipeline.set("foo","bar");
+    pipeline.get("foo");
+    pipeline.expire("foo",1);
+    pipeline.syncAndReturnAll();
+  }
+  finally {
+    if (pipeline != null) {
+      pipeline.close();
+    }
+  }
+  return "OK";
+}

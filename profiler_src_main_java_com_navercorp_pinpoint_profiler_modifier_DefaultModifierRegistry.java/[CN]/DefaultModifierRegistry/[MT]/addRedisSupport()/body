@@ -1,0 +1,7 @@
+{
+  if (profilerConfig.isRedisEnabled()) {
+    addModifier(new JedisClientModifier(byteCodeInstrumentor,agent));
+    addModifier(new JedisModifier(byteCodeInstrumentor,agent));
+    addModifier(new JedisPipelineModifier(byteCodeInstrumentor,agent));
+  }
+}

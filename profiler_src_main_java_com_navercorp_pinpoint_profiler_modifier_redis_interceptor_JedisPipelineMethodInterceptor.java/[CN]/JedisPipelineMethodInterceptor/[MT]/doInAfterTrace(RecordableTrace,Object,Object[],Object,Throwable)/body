@@ -1,0 +1,27 @@
+{
+  trace.recordApi(getMethodDescriptor());
+  String destinationId="Unknown";
+  String endPoint="Unknown";
+  if (target instanceof ObjectTraceValue) {
+    final ObjectTraceValue traceValue=(ObjectTraceValue)target;
+    if (traceValue.__getTraceObject() != null) {
+      final Map<String,Object> map=(Map<String,Object>)traceValue.__getTraceObject();
+      final Object host=map.get("host");
+      final Object port=map.get("port");
+      if (host != null) {
+        destinationId=(String)host;
+        if (port != null) {
+          endPoint=(String)host + ":" + port;
+        }
+ else {
+          endPoint=(String)host;
+        }
+      }
+    }
+  }
+  trace.recordEndPoint(endPoint);
+  trace.recordDestinationId(destinationId);
+  trace.recordServiceType(ServiceType.REDIS);
+  trace.recordException(throwable);
+  trace.markAfterTime();
+}

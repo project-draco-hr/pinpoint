@@ -1,0 +1,11 @@
+{
+  logger.info("/redis/jedis/pipeline - add, update, get, delete");
+  final Jedis jedis=new Jedis(HOST,PORT);
+  Pipeline pipeline=jedis.pipelined();
+  pipeline.set("foo","bar");
+  pipeline.get("foo");
+  pipeline.expire("foo",1);
+  pipeline.syncAndReturnAll();
+  jedis.close();
+  return "OK";
+}

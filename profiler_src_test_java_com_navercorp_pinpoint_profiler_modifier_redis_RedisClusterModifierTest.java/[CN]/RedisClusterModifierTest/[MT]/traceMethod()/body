@@ -1,0 +1,10 @@
+{
+  redis.get("foo");
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertEquals(1,spanEvents.size());
+  SpanEventBo event=spanEvents.get(0);
+  assertEquals(HOST,event.getDestinationId());
+  assertEquals(HOST + ":" + PORT,event.getEndPoint());
+  assertEquals(ServiceType.NBASE_ARC,event.getServiceType());
+  assertNull(event.getExceptionMessage());
+}

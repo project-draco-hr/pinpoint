@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!(target instanceof ObjectTraceValue)) {
+    return;
+  }
+  final ObjectTraceValue traceValue=(ObjectTraceValue)target;
+  final Map<String,Object> map=new HashMap<String,Object>();
+  if (args[0] instanceof String) {
+    map.put("host",args[0]);
+    map.put("port",6379);
+  }
+  if (args.length >= 2 && args[1] instanceof Integer) {
+    map.put("port",args[1]);
+  }
+  traceValue.__setTraceObject(map);
+}

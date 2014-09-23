@@ -1,0 +1,14 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!(target instanceof ObjectTraceValue)) {
+    return;
+  }
+  final ObjectTraceValue traceValue=(ObjectTraceValue)target;
+  final Map<String,Object> map=new HashMap<String,Object>();
+  final GatewayServer server=(GatewayServer)args[0];
+  map.put("host",server.getAddress().getHost());
+  map.put("port",server.getAddress().getPort());
+  traceValue.__setTraceObject(map);
+}
