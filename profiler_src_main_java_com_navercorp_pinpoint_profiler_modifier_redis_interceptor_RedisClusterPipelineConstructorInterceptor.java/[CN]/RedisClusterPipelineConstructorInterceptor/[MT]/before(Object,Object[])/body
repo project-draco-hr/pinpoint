@@ -2,13 +2,17 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  if (!(target instanceof ObjectTraceValue)) {
+  if (!(target instanceof MapTraceValue)) {
     return;
   }
-  final ObjectTraceValue traceValue=(ObjectTraceValue)target;
-  final Map<String,Object> map=new HashMap<String,Object>();
+  final Map<String,Object> traceValue=new HashMap<String,Object>();
   final GatewayServer server=(GatewayServer)args[0];
-  map.put("host",server.getAddress().getHost());
-  map.put("port",server.getAddress().getPort());
-  traceValue.__setTraceObject(map);
+  traceValue.put("endPoint",server.getAddress().getHost() + ":" + server.getAddress().getPort());
+  if (args[0] instanceof MapTraceValue) {
+    final Map<String,Object> gatewayServerTraceValue=((MapTraceValue)args[0]).__getTraceBindValue();
+    if (gatewayServerTraceValue != null) {
+      traceValue.put("destinationId",gatewayServerTraceValue.get("destinationId"));
+    }
+  }
+  ((MapTraceValue)target).__setTraceBindValue(traceValue);
 }
