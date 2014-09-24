@@ -1,5 +1,6 @@
 {
-  String path=PropertyUtils.class.getClassLoader().getResource("test.properties").getPath();
+  URL resource=PropertyUtils.class.getClassLoader().getResource("test.properties");
+  String path=resource.getPath();
   Properties properties=PropertyUtils.loadProperty(path);
   assertProperty(properties);
 }

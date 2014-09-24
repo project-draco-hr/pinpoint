@@ -3,8 +3,8 @@
   for (int i=1000; i < 1100; i++) {
     byte[] buffer=new byte[4];
     BytesUtils.writeVar32(i,buffer,0);
-    System.out.println(compare(before,buffer) + ", " + compare(buffer,before)+ ", "+ compare(buffer,buffer));
+    logger.debug(compare(before,buffer) + ", " + compare(buffer,before)+ ", "+ compare(buffer,buffer));
     before=Arrays.copyOf(buffer,4);
-    System.out.println(Arrays.toString(buffer));
+    logger.debug(Arrays.toString(buffer));
   }
 }

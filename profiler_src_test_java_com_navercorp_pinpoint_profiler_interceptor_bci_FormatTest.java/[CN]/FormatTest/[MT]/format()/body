@@ -1,7 +1,7 @@
 {
-  StringBuilder sb=new StringBuilder();
-  Formatter formatter=new Formatter(sb);
-  formatter.format("interceptor.after(%1s)","tsest");
-  formatter.format("interceptor.afteddddr(%1s)","tsest","dd");
-  System.out.println();
+  StringBuilder buffer=new StringBuilder();
+  Formatter formatter=new Formatter(buffer);
+  formatter.format("%1s","ab");
+  formatter.format("%3s","a");
+  Assert.assertEquals(buffer.toString(),"ab  a");
 }
