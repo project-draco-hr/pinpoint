@@ -1,0 +1,12 @@
+{
+  if (classPath == null) {
+    throw new NullPointerException("classPath must not be null");
+  }
+  final InputStreamFactory inputStreamFactory=new InputStreamFactory(){
+    @Override public InputStream openInputStream() throws IOException {
+      return ClassLoaderUtils.getDefaultClassLoader(PropertyUtils.class.getClassLoader()).getResourceAsStream(classPath);
+    }
+  }
+;
+  return loadProperty(new Properties(),inputStreamFactory,DEFAULT_ENCODING);
+}

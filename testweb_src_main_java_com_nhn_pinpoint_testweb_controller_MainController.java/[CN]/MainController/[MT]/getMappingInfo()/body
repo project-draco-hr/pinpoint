@@ -1,35 +1,20 @@
 {
-  Map<String,List<RequestMappingInfo>> info=new HashMap<String,List<RequestMappingInfo>>();
-  try {
-    String packaze="com.nhn.pinpoint.testweb.controller";
-    ArrayList<String> classNamesFromPackage=MainController.getClassNamesFromPackage(packaze);
-    for (    String className : classNamesFromPackage) {
-      Class<?> clazz=Class.forName(packaze + "." + className);
-      List<RequestMappingInfo> requestInfo=new ArrayList<RequestMappingInfo>();
-      Method[] methods=clazz.getDeclaredMethods();
-      for (      Method m : methods) {
-        Annotation[] annotations=m.getDeclaredAnnotations();
-        org.springframework.web.bind.annotation.RequestMapping mappingInfo=null;
-        com.nhn.pinpoint.testweb.util.Description description=null;
-        for (        Annotation a : annotations) {
-          if (a instanceof org.springframework.web.bind.annotation.RequestMapping) {
-            mappingInfo=(org.springframework.web.bind.annotation.RequestMapping)a;
-          }
-          if (a instanceof com.nhn.pinpoint.testweb.util.Description) {
-            description=(com.nhn.pinpoint.testweb.util.Description)a;
-          }
-        }
-        if (mappingInfo != null) {
-          requestInfo.add(new RequestMappingInfo(mappingInfo.value()[0],(description == null) ? "" : description.value()));
-        }
-      }
-      if (requestInfo.size() > 0) {
-        info.put(clazz.getSimpleName(),requestInfo);
-      }
+  Map<String,List<ControllerMappingInfo>> info=new TreeMap<String,List<ControllerMappingInfo>>();
+  Map<RequestMappingInfo,HandlerMethod> handlerMethods=handlerMapping.getHandlerMethods();
+  for (  Map.Entry<RequestMappingInfo,HandlerMethod> requestMappingInfoHandlerMethodEntry : handlerMethods.entrySet()) {
+    RequestMappingInfo requestMappingInfoKey=requestMappingInfoHandlerMethodEntry.getKey();
+    HandlerMethod handlerMethod=requestMappingInfoHandlerMethodEntry.getValue();
+    Method method=handlerMethod.getMethod();
+    Class<?> declaringClass=method.getDeclaringClass();
+    List<ControllerMappingInfo> controllerMappingInfoList=info.get(declaringClass.getSimpleName());
+    if (controllerMappingInfoList == null) {
+      controllerMappingInfoList=new ArrayList<ControllerMappingInfo>();
+      info.put(declaringClass.getSimpleName(),controllerMappingInfoList);
     }
+    List<ControllerMappingInfo> requestInfo=createRequestMappingInfo(requestMappingInfoKey,handlerMethod);
+    controllerMappingInfoList.addAll(requestInfo);
   }
- catch (  Exception e) {
-    e.printStackTrace();
-  }
+  sort(info);
+  logger.debug("{}",info);
   return info;
 }
