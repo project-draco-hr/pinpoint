@@ -4,7 +4,7 @@
   }
   try {
     final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
-    instrumentClass.addTraceValue(ObjectTraceValue.class);
+    instrumentClass.addTraceValue(MapTraceValue.class);
     final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterConstructorInterceptor");
     instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String"},constructorInterceptor);
     instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int"},constructorInterceptor);

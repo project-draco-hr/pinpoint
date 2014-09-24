@@ -1,27 +1,16 @@
 {
-  String destinationId="Unknown";
-  String endPoint="Unknown";
-  if (target instanceof ObjectTraceValue) {
-    final ObjectTraceValue traceValue=(ObjectTraceValue)target;
-    if (traceValue.__getTraceObject() != null && traceValue.__getTraceObject() instanceof Map) {
-      final Map<String,Object> map=(Map<String,Object>)traceValue.__getTraceObject();
-      final Object host=map.get("host");
-      final Object port=map.get("port");
-      if (host != null) {
-        destinationId=(String)host;
-        if (port != null) {
-          endPoint=(String)host + ":" + port;
-        }
- else {
-          endPoint=(String)host;
-        }
-      }
+  String destinationId=null;
+  String endPoint=null;
+  if (target instanceof MapTraceValue) {
+    final Map<String,Object> traceValue=((MapTraceValue)target).__getTraceBindValue();
+    if (traceValue != null) {
+      destinationId=(String)traceValue.get("destinationId");
+      endPoint=(String)traceValue.get("endPoint");
     }
   }
-  System.out.println("### method: " + getMethodDescriptor().getMethodName());
   trace.recordApi(getMethodDescriptor());
-  trace.recordEndPoint(endPoint);
-  trace.recordDestinationId(destinationId);
+  trace.recordEndPoint(endPoint != null ? endPoint : "Unknown");
+  trace.recordDestinationId(destinationId != null ? destinationId : ServiceType.NBASE_ARC.toString());
   trace.recordServiceType(ServiceType.NBASE_ARC);
   trace.recordException(throwable);
   trace.markAfterTime();

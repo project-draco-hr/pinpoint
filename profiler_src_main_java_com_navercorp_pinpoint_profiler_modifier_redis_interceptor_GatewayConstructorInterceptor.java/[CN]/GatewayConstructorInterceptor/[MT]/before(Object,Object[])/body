@@ -1,0 +1,24 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!(target instanceof MapTraceValue)) {
+    return;
+  }
+  final GatewayConfig config=(GatewayConfig)args[0];
+  final Map<String,Object> traceValue=new HashMap<String,Object>();
+  try {
+    if (config.getDomainAddress() != null) {
+      traceValue.put("destinationId",config.getDomainAddress());
+    }
+ else     if (config.getIpAddress() != null) {
+      traceValue.put("destinationId",config.getIpAddress());
+    }
+ else     if (config.getClusterName() != null) {
+      traceValue.put("destinationId",config.getClusterName());
+    }
+  }
+ catch (  Exception ignored) {
+  }
+  ((MapTraceValue)target).__setTraceBindValue(traceValue);
+}

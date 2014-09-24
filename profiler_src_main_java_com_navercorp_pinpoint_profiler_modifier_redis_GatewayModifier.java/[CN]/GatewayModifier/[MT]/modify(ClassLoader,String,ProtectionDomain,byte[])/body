@@ -1,0 +1,25 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  try {
+    final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
+    instrumentClass.addTraceValue(MapTraceValue.class);
+    final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayConstructorInterceptor");
+    instrumentClass.addConstructorInterceptor(new String[]{"com.nhncorp.redis.cluster.gateway.GatewayConfig"},constructorInterceptor);
+    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods();
+    for (    Method method : declaredMethods) {
+      if (method.getMethodName().equals("getServer")) {
+        final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayMethodInterceptor");
+        instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+      }
+    }
+    return instrumentClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("redis.GatewayModifier(nBase-ARC) fail. Target class is " + getTargetClass() + ", Caused "+ e.getMessage(),e);
+    }
+  }
+  return null;
+}

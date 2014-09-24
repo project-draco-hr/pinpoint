@@ -3,8 +3,8 @@
     return -1;
   }
   int newId=nextId();
-  if (newId > max) {
-    throw new IndexOutOfBoundsException("size=" + index.length + " id="+ id);
+  if (newId >= max) {
+    throw new IndexOutOfBoundsException("size=" + index.length + ", id="+ id);
   }
   this.simpleIndex[newId]=interceptor;
   return newId;
