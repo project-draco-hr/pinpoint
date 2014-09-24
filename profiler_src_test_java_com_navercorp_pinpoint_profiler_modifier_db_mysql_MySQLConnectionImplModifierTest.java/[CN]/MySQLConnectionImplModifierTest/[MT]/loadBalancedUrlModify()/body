@@ -1,5 +1,5 @@
 {
-  Connection connection=connectDB("jdbc:mysql:loadbalance://10.98.133.23:3306,10.98.133.22:3306/hippo");
+  Connection connection=connectDB(db.getProperty("mysql.url.loadbalance"));
   logger.info("Connection class name:{}",connection.getClass().getName());
   logger.info("Connection class cl:{}",connection.getClass().getClassLoader());
   InvocationHandler invocationHandler=Proxy.getInvocationHandler(connection);

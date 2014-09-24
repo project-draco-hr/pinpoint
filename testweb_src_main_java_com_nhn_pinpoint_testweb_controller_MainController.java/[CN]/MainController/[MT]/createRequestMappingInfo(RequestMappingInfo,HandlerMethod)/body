@@ -1,0 +1,10 @@
+{
+  List<ControllerMappingInfo> requestInfo=new ArrayList<ControllerMappingInfo>();
+  Set<String> patterns=requestMappingInfo.getPatternsCondition().getPatterns();
+  for (  String pattern : patterns) {
+    Description description=getDescription(handlerMethod);
+    ControllerMappingInfo info=new ControllerMappingInfo(pattern,(description == null) ? "" : description.value());
+    requestInfo.add(info);
+  }
+  return requestInfo;
+}

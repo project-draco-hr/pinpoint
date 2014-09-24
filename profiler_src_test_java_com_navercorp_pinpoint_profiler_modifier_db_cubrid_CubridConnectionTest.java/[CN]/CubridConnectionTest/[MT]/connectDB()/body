@@ -1,7 +1,10 @@
 {
+  String url=db.getProperty("cubrid.url");
+  String user=db.getProperty("cubrid.user");
+  String password=db.getProperty("cubrid.password");
   Driver driver=new CUBRIDDriver();
   Properties properties=new Properties();
-  properties.setProperty("user","dba");
-  properties.setProperty("password","nhn!@#123");
-  return driver.connect("jdbc:cubrid:10.101.57.233:30102:pinpoint:::",properties);
+  properties.setProperty("user",user);
+  properties.setProperty("password",password);
+  return driver.connect(url,properties);
 }
