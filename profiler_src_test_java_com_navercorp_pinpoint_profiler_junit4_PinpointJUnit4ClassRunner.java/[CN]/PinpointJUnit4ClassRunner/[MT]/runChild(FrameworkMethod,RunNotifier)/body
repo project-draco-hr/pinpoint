@@ -1,14 +1,12 @@
 {
-  TraceContext traceContext=this.testAgent.getTraceContext();
-  beginTracing(traceContext);
-  final Thread thread=Thread.currentThread();
-  final ClassLoader originalClassLoader=thread.getContextClassLoader();
+  beginTracing(method);
+  ClassLoader originalClassLoader=Thread.currentThread().getContextClassLoader();
   try {
-    thread.setContextClassLoader(this.testClassLoader);
+    Thread.currentThread().setContextClassLoader(this.testClassLoader);
     super.runChild(method,notifier);
   }
   finally {
-    thread.setContextClassLoader(originalClassLoader);
-    endTracing(traceContext);
+    Thread.currentThread().setContextClassLoader(originalClassLoader);
+    endTracing(method,notifier);
   }
 }

@@ -1,0 +1,33 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifying. {}",javassistClassName);
+  }
+  try {
+    InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
+    LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);
+    Interceptor standardServiceStartInterceptor=new StandardServiceStartInterceptor(lifeCycleEventListener);
+    Interceptor standardServiceStopInterceptor=new StandardServiceStopInterceptor(lifeCycleEventListener);
+    boolean isHooked=false;
+    if (isHooked=(standardService.hasDeclaredMethod("start",null) && standardService.hasDeclaredMethod("stop",null))) {
+      standardService.addInterceptor("start",null,standardServiceStartInterceptor);
+      standardService.addInterceptor("stop",null,standardServiceStopInterceptor);
+    }
+ else     if (isHooked=(standardService.hasDeclaredMethod("startInternal",null) && standardService.hasDeclaredMethod("stopInternal",null))) {
+      standardService.addInterceptor("startInternal",null,standardServiceStartInterceptor);
+      standardService.addInterceptor("stopInternal",null,standardServiceStopInterceptor);
+    }
+    if (isHooked) {
+      logger.info("{} class is converted.",javassistClassName);
+    }
+ else {
+      logger.warn("{} class not converted - start() or startInternal() method not found.",javassistClassName);
+    }
+    return standardService.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("modify fail. Cause:" + e.getMessage(),e);
+    }
+  }
+  return null;
+}

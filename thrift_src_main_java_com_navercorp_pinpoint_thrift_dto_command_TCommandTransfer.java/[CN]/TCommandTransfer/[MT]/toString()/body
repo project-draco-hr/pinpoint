@@ -1,0 +1,38 @@
+{
+  StringBuilder sb=new StringBuilder("TCommandTransfer(");
+  boolean first=true;
+  sb.append("applicationName:");
+  if (this.applicationName == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.applicationName);
+  }
+  first=false;
+  if (!first)   sb.append(", ");
+  sb.append("agentId:");
+  if (this.agentId == null) {
+    sb.append("null");
+  }
+ else {
+    sb.append(this.agentId);
+  }
+  first=false;
+  if (isSetStartTime()) {
+    if (!first)     sb.append(", ");
+    sb.append("startTime:");
+    sb.append(this.startTime);
+    first=false;
+  }
+  if (!first)   sb.append(", ");
+  sb.append("payload:");
+  if (this.payload == null) {
+    sb.append("null");
+  }
+ else {
+    org.apache.thrift.TBaseHelper.toString(this.payload,sb);
+  }
+  first=false;
+  sb.append(")");
+  return sb.toString();
+}

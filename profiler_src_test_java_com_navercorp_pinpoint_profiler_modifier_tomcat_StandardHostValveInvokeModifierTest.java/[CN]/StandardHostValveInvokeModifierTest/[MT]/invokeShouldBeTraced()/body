@@ -1,0 +1,11 @@
+{
+  host.invoke(mockRequest,mockResponse);
+  final List<SpanBo> rootSpans=getCurrentRootSpans();
+  assertEquals(rootSpans.size(),1);
+  final SpanBo rootSpan=rootSpans.get(0);
+  assertEquals(rootSpan.getParentSpanId(),-1);
+  assertEquals(rootSpan.getServiceType(),SERVICE_TYPE);
+  assertEquals(rootSpan.getRpc(),REQUEST_URI);
+  assertEquals(rootSpan.getEndPoint(),SERVER_NAME + ":" + SERVER_PORT);
+  assertEquals(rootSpan.getRemoteAddr(),REMOTE_ADDRESS);
+}

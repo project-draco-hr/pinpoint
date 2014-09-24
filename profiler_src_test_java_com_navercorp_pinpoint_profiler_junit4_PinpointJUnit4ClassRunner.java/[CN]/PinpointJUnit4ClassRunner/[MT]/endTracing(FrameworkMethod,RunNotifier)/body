@@ -1,0 +1,24 @@
+{
+  if (shouldCreateNewTraceObject(method)) {
+    TraceContext traceContext=this.testAgent.getTraceContext();
+    try {
+      Trace trace=traceContext.currentRawTraceObject();
+      if (trace == null) {
+        EachTestNotifier testMethodNotifier=new EachTestNotifier(notifier,super.describeChild(method));
+        String traceObjectAlreadyDetachedMessage="Trace object already detached. If you're testing a trace root, please add @IsRootSpan to the test method";
+        testMethodNotifier.addFailure(new IllegalStateException(traceObjectAlreadyDetachedMessage));
+      }
+ else {
+        try {
+          trace.markAfterTime();
+        }
+  finally {
+          trace.traceRootBlockEnd();
+        }
+      }
+    }
+  finally {
+      traceContext.detachTraceObject();
+    }
+  }
+}
