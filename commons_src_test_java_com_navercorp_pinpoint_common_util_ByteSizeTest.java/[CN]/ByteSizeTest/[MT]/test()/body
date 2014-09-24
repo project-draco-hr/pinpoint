@@ -4,10 +4,10 @@
   TIOStreamTransport transport=new TIOStreamTransport(baos);
   TProtocol protocol=factory.getProtocol(transport);
   long l=TimeUnit.DAYS.toMillis(1);
-  System.out.println("day:" + l);
+  logger.debug("day:{}",l);
   long currentTime=System.currentTimeMillis();
-  System.out.println("currentTime:" + currentTime);
+  logger.debug("currentTime:{}" + currentTime);
   protocol.writeI64(l);
   byte[] buffer=baos.toByteArray();
-  System.out.println(buffer.length);
+  logger.debug("{}",buffer.length);
 }

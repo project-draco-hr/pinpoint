@@ -1,9 +1,8 @@
 {
-  String response=null;
   try {
-    response=HttpUtil.url(URL).method(HttpUtil.Method.POST).connectionTimeout(10000).readTimeout(10000).getContents();
+    String response=HttpUtil.url(URL).method(HttpUtil.Method.POST).connectionTimeout(10000).readTimeout(10000).getContents();
+    logger.debug(response);
   }
  catch (  HttpUtilException e) {
   }
-  System.out.println(response);
 }
