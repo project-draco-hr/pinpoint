@@ -14,8 +14,8 @@
     scan.setFilter(makePrefixFilter(area,null,-1));
     long startTime=System.currentTimeMillis();
     List<List<Dot>> dotListList=hbaseTemplate2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,fetchLimit,new TraceIndexScatterMapper());
-    System.out.println("elapsed : " + (System.currentTimeMillis() - startTime) + "ms");
-    System.out.println("fetched size : " + dotListList.size());
+    logger.debug("elapsed : {}ms",(System.currentTimeMillis() - startTime));
+    logger.debug("fetched size : {}",dotListList.size());
   }
  catch (  HbaseSystemException e) {
     e.printStackTrace();

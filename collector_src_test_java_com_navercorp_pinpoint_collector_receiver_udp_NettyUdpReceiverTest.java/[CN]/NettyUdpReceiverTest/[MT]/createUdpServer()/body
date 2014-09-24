@@ -6,7 +6,7 @@
       pipeline.addLast("test",new SimpleChannelHandler(){
         @Override public void messageReceived(        ChannelHandlerContext ctx,        MessageEvent e) throws Exception {
           String name=Thread.currentThread().getName();
-          System.out.println("sleep-------------------" + name);
+          logger.debug("sleep-------------------{}",name);
           Thread.sleep(10000);
           logger.info("messageReceived thread-{} message:",Thread.currentThread().getName());
         }

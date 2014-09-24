@@ -1,0 +1,24 @@
+{
+  if (!config.isClusterEnable()) {
+    logger.info("pinpoint-collector cluster disable.");
+    return;
+  }
+  if (!(this.serviceState.changeStateDestroying())) {
+    WorkerState state=this.serviceState.getCurrentState();
+    logger.info("{} already {}.",this.getClass().getSimpleName(),state.toString());
+    return;
+  }
+  logger.info("{} destroying started.",this.getClass().getSimpleName());
+  if (this.profilerClusterManager != null) {
+    profilerClusterManager.stop();
+  }
+  if (this.webClusterManager != null) {
+    webClusterManager.stop();
+  }
+  if (client != null) {
+    client.close();
+  }
+  this.serviceState.changeStateStoped();
+  logger.info("{} destroying completed.",this.getClass().getSimpleName());
+  return;
+}

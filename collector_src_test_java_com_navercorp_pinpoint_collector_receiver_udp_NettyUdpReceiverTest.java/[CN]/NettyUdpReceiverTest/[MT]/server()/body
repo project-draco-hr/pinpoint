@@ -4,7 +4,7 @@
     @Override public void run(){
       udpServer.bind(new InetSocketAddress("127.0.0.1",PORT));
       try {
-        System.out.println("server-await");
+        logger.debug("server-await");
         latch.await();
       }
  catch (      InterruptedException e) {
@@ -14,7 +14,7 @@
 );
   thread.start();
   Thread.sleep(1000);
-  System.out.println("start--------");
+  logger.debug("start--------");
   start();
   latch.countDown();
 }

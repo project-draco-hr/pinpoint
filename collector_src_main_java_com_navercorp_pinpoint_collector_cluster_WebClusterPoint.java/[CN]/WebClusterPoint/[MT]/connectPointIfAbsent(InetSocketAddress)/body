@@ -1,0 +1,10 @@
+{
+  logger.info("localhost -> {} connect started.",address);
+  if (clusterRepository.containsKey(address)) {
+    logger.info("localhost -> {} already connected.",address);
+    return;
+  }
+  PinpointSocket socket=createPinpointSocket(address);
+  clusterRepository.put(address,socket);
+  logger.info("localhost -> {} connect completed.",address);
+}

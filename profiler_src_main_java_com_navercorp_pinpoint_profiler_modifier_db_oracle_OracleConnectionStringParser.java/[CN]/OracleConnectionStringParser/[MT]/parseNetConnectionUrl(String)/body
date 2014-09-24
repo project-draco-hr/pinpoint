@@ -1,0 +1,15 @@
+{
+  try {
+    OracleNetConnectionDescriptorParser parser=new OracleNetConnectionDescriptorParser(url);
+    KeyValue keyValue=parser.parse();
+    return createOracleDatabaseInfo(keyValue,url);
+  }
+ catch (  OracleConnectionStringException ex) {
+    logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
+  }
+catch (  Throwable ex) {
+    logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
+  }
+}

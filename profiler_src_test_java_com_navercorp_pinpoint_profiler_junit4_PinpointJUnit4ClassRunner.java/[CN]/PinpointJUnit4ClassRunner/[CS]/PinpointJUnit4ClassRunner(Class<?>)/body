@@ -3,7 +3,9 @@
   if (logger.isDebugEnabled()) {
     logger.debug("PinpointJUnit4ClassRunner constructor called with [" + clazz + "].");
   }
-  this.testAgent=createTestAgent();
+  MockAgent testAgent=createTestAgent();
+  this.testAgent=testAgent;
+  this.testDataSender=testAgent.getPeekableSpanDataSender();
   this.testClassLoader=getTestClassLoader(clazz);
   this.testClassLoader.initialize();
   try {

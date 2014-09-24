@@ -1,0 +1,22 @@
+{
+  if (!(this.workerState.changeStateDestroying())) {
+    WorkerState state=this.workerState.getCurrentState();
+    logger.info("{} already {}.",this.getClass().getSimpleName(),state.toString());
+    return;
+  }
+  logger.info("{} destorying started.",this.getClass().getSimpleName());
+  queue.offer(stopTask);
+  boolean interrupted=false;
+  while (this.workerThread.isAlive()) {
+    this.workerThread.interrupt();
+    try {
+      this.workerThread.join(100L);
+    }
+ catch (    InterruptedException e) {
+      interrupted=true;
+    }
+  }
+  this.workerState.changeStateStoped();
+  logger.info("{} destorying completed.",this.getClass().getSimpleName());
+  return;
+}

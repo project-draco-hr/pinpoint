@@ -1,0 +1,23 @@
+{
+  if (properties == null) {
+    throw new NullPointerException("properties must not be null");
+  }
+  if (inputStreamFactory == null) {
+    throw new NullPointerException("inputStreamFactory must not be null");
+  }
+  if (encoding == null) {
+    throw new NullPointerException("encoding must not be null");
+  }
+  InputStream in=null;
+  Reader reader=null;
+  try {
+    in=inputStreamFactory.openInputStream();
+    reader=new InputStreamReader(in,encoding);
+    properties.load(reader);
+  }
+  finally {
+    close(reader);
+    close(in);
+  }
+  return properties;
+}

@@ -1,0 +1,12 @@
+{
+  final Thread thread=Thread.currentThread();
+  final ClassLoader old=thread.getContextClassLoader();
+  thread.setContextClassLoader(null);
+  ClassLoader classLoader=ClassLoaderUtils.getDefaultClassLoader(FAKE_CLASS_LOADER);
+  try {
+    Assert.assertSame(classLoader,FAKE_CLASS_LOADER);
+  }
+  finally {
+    thread.setContextClassLoader(old);
+  }
+}

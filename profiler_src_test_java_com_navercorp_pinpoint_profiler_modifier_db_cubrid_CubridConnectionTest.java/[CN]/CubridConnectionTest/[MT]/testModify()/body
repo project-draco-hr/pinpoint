@@ -1,9 +1,5 @@
 {
-  Driver driver=loadClass();
-  Properties properties=new Properties();
-  properties.setProperty("user","dba");
-  properties.setProperty("password","nhn!@#123");
-  Connection connection=driver.connect("jdbc:cubrid:10.101.57.233:30102:pinpoint:::",properties);
+  Connection connection=connectDB();
   logger.info("Connection class name:{}",connection.getClass().getName());
   logger.info("Connection class cl:{}",connection.getClass().getClassLoader());
   DatabaseInfo url=((DatabaseInfoTraceValue)connection).__getTraceDatabaseInfo();

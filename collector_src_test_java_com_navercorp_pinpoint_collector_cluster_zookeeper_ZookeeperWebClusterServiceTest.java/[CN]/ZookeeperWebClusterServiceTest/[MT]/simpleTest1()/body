@@ -1,0 +1,32 @@
+{
+  TestingServer ts=null;
+  try {
+    ts=createZookeeperServer(DEFAULT_ZOOKEEPER_PORT);
+    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig,clusterPointRouter);
+    service.setUp();
+    PinpointServerSocket pinpointServerSocket=new PinpointServerSocket();
+    pinpointServerSocket.setMessageListener(new PinpointSocketManagerHandler());
+    pinpointServerSocket.bind("127.0.0.1",DEFAULT_ACCEPTOR_SOCKET_PORT);
+    ZookeeperClient client=new ZookeeperClient("127.0.0.1:" + DEFAULT_ZOOKEEPER_PORT,3000,new ZookeeperEventWatcher(){
+      @Override public void process(      WatchedEvent event){
+      }
+      @Override public boolean isConnected(){
+        return true;
+      }
+    }
+);
+    client.createPath(PINPOINT_WEB_CLUSTER_PATH,true);
+    client.createNode(PINPOINT_WEB_CLUSTER_PATH + "/" + "127.0.0.1:"+ DEFAULT_ACCEPTOR_SOCKET_PORT,"127.0.0.1".getBytes());
+    Thread.sleep(5000);
+    List<ChannelContext> channelContextList=pinpointServerSocket.getDuplexCommunicationChannelContext();
+    Assert.assertEquals(1,channelContextList.size());
+    client.close();
+    Thread.sleep(5000);
+    channelContextList=pinpointServerSocket.getDuplexCommunicationChannelContext();
+    Assert.assertEquals(0,channelContextList.size());
+    service.tearDown();
+  }
+  finally {
+    closeZookeeperServer(ts);
+  }
+}

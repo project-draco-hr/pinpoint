@@ -1,0 +1,9 @@
+{
+  String user=db.getProperty("mysql.user");
+  String password=db.getProperty("mysql.password");
+  Driver driver=new NonRegisteringDriver();
+  Properties properties=new Properties();
+  properties.setProperty("user",user);
+  properties.setProperty("password",password);
+  return driver.connect(url,properties);
+}

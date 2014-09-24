@@ -4,12 +4,12 @@
   String output=parsingResult.getOutput();
   List<String> outputParams=outputParameterParser.parseOutputParameter(output);
   String s=sqlParser.combineOutputParams(normalizedSql,outputParams);
-  System.out.println("combine:" + s);
+  logger.debug("combine:" + s);
   try {
     Assert.assertEquals("normalizedSql check",actual,normalizedSql);
   }
  catch (  AssertionFailedError e) {
-    System.err.println("Original :" + expected);
+    logger.warn("Original :{}",expected);
     throw e;
   }
   Assert.assertEquals("outputParam check",ouputExpected,parsingResult.getOutput());

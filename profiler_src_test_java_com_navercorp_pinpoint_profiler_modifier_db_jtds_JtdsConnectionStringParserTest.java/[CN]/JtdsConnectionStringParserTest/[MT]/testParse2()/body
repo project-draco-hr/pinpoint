@@ -1,0 +1,10 @@
+{
+  String url="jdbc:jtds:sqlserver://10.xx.xx.xx:1433/CAFECHAT;sendStringParametersAsUnicode=false;useLOBs=false;loginTimeout=3";
+  ConnectionStringParser parser=new JtdsConnectionStringParser();
+  DatabaseInfo info=parser.parse(url);
+  logger.debug("{}",info);
+  Assert.assertEquals(info.getType(),ServiceType.MSSQL);
+  Assert.assertEquals(info.getMultipleHost(),"10.xx.xx.xx:1433");
+  Assert.assertEquals(info.getDatabaseId(),"CAFECHAT");
+  Assert.assertEquals(info.getUrl(),"jdbc:jtds:sqlserver://10.xx.xx.xx:1433/CAFECHAT");
+}

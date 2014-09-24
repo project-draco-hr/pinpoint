@@ -1,0 +1,8 @@
+{
+  this.client=client;
+  this.webClusterPoint=clusterPoint;
+  this.zNodePath=zookeeperClusterPath;
+  this.workerState=new WorkerStateContext();
+  final ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName(),true);
+  this.workerThread=threadFactory.newThread(this);
+}

@@ -1,0 +1,12 @@
+{
+  if (filePath == null) {
+    throw new NullPointerException("filePath must not be null");
+  }
+  final InputStreamFactory inputStreamFactory=new InputStreamFactory(){
+    @Override public InputStream openInputStream() throws IOException {
+      return new FileInputStream(filePath);
+    }
+  }
+;
+  return loadProperty(new Properties(),inputStreamFactory,DEFAULT_ENCODING);
+}

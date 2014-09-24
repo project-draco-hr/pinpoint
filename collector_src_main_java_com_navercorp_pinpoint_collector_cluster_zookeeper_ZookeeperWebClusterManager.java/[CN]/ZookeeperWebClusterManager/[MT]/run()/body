@@ -1,0 +1,32 @@
+{
+  while (workerState.isStarted()) {
+    Task task=null;
+    try {
+      task=queue.poll(DEFAULT_RETRY_INTERVAL,TimeUnit.MILLISECONDS);
+    }
+ catch (    InterruptedException e) {
+      logger.debug(e.getMessage(),e);
+    }
+    if (!workerState.isStarted()) {
+      break;
+    }
+    if (task == null) {
+      if (retryMode.get()) {
+        boolean success=getAndRegisterTask.handleAndRegisterWatcher0();
+        if (success) {
+          retryMode.compareAndSet(true,false);
+        }
+      }
+    }
+ else     if (task instanceof GetAndRegisterTask) {
+      boolean success=((GetAndRegisterTask)task).handleAndRegisterWatcher0();
+      if (!success) {
+        retryMode.compareAndSet(false,true);
+      }
+    }
+ else     if (task instanceof StopTask) {
+      break;
+    }
+  }
+  logger.info("{} stopped",this.getClass().getSimpleName());
+}

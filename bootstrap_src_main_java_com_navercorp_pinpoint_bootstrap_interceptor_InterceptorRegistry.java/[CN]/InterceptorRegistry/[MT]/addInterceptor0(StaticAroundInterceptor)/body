@@ -2,9 +2,9 @@
   if (interceptor == null) {
     return -1;
   }
-  int newId=nextId();
-  if (newId > max) {
-    throw new IndexOutOfBoundsException("size=" + index.length + ", id="+ id);
+  final int newId=nextId();
+  if (newId >= max) {
+    throw new IndexOutOfBoundsException("size=" + index.length + " id="+ id);
   }
   this.index[newId]=interceptor;
   return newId;

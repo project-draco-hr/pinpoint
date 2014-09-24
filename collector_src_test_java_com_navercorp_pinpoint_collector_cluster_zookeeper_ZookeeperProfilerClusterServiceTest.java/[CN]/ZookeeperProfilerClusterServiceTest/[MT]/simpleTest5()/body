@@ -1,0 +1,33 @@
+{
+  TestingServer ts=null;
+  try {
+    ts=createZookeeperServer(DEFAULT_ACCEPTOR_PORT);
+    ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig,clusterPointRouter);
+    service.setUp();
+    ChannelContext channelContext=new ChannelContext(null,null,service.getChannelStateChangeEventListener());
+    channelContext.setChannelProperties(getParams());
+    ZookeeperProfilerClusterManager profilerClusterManager=service.getProfilerClusterManager();
+    channelContext.changeStateRun();
+    Thread.sleep(1000);
+    Map result=profilerClusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
+    channelContext.changeStateRunDuplexCommunication();
+    Thread.sleep(1000);
+    result=profilerClusterManager.getData(channelContext);
+    Assert.assertEquals(PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION,getCode(result));
+    channelContext.changeStateShutdown();
+    Thread.sleep(1000);
+    result=profilerClusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
+    ts.stop();
+    Thread.sleep(1000);
+    ts.restart();
+    Thread.sleep(1000);
+    result=profilerClusterManager.getData(channelContext);
+    Assert.assertNull(getCode(result));
+    service.tearDown();
+  }
+  finally {
+    closeZookeeperServer(ts);
+  }
+}

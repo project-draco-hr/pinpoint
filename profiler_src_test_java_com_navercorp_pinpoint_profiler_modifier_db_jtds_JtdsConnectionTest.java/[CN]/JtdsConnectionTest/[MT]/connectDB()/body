@@ -1,0 +1,10 @@
+{
+  String url=db.getProperty("mssqlserver.url");
+  String user=db.getProperty("mssqlserver.user");
+  String password=db.getProperty("mssqlserver.password");
+  Driver driver=new net.sourceforge.jtds.jdbc.Driver();
+  Properties properties=new Properties();
+  properties.setProperty("user",user);
+  properties.setProperty("password",password);
+  return driver.connect(url,properties);
+}
