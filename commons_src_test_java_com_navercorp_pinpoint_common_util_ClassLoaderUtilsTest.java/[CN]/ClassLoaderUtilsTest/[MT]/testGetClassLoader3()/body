@@ -2,7 +2,7 @@
   final Thread thread=Thread.currentThread();
   final ClassLoader old=thread.getContextClassLoader();
   thread.setContextClassLoader(null);
-  ClassLoader classLoader=ClassLoaderUtils.getDefaultClassLoader(FAKE_CLASS_LOADER);
+  ClassLoader classLoader=ClassLoaderUtils.getDefaultClassLoader(FAKE_CLASS_LOADER_CALLABLE);
   try {
     Assert.assertSame(classLoader,FAKE_CLASS_LOADER);
   }
