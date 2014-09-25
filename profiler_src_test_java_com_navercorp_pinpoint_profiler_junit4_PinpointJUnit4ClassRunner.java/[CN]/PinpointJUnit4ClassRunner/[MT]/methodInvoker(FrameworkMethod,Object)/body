@@ -16,6 +16,20 @@ catch (        InvocationTargetException e) {
           throw new RuntimeException(e);
         }
       }
+      if (m.getName().equals("setServerMetaDataHolder")) {
+        try {
+          ResettableServerMetaDataHolder serverMetaDataHolder=(ResettableServerMetaDataHolder)this.testAgent.getTraceContext().getServerMetaDataHolder();
+          serverMetaDataHolder.reset();
+          m.setAccessible(true);
+          m.invoke(test,serverMetaDataHolder);
+        }
+ catch (        IllegalAccessException e) {
+          throw new RuntimeException(e);
+        }
+catch (        InvocationTargetException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
   }
   return super.methodInvoker(method,test);
