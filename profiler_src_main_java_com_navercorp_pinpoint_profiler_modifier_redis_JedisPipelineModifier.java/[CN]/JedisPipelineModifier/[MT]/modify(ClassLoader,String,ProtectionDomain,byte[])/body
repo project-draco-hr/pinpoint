@@ -1,0 +1,33 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  try {
+    final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
+    instrumentClass.addTraceValue(MapTraceValue.class);
+    final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineConstructorInterceptor");
+    try {
+      instrumentClass.addConstructorInterceptor(new String[]{"redis.clients.jedis.Client"},constructorInterceptor);
+    }
+ catch (    Exception ignored) {
+    }
+    for (    Method method : instrumentClass.getDeclaredMethods()) {
+      if (method.getMethodName().equals("setClient")) {
+        final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineSetClientMethodInterceptor");
+        instrumentClass.addInterceptor("setClient",new String[]{"redis.clients.jedis.Client"},methodInterceptor);
+      }
+    }
+    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
+    for (    Method method : declaredMethods) {
+      final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineMethodInterceptor");
+      instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+    }
+    return instrumentClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("redis.JedisPipelineModifier(Jedis) fail. Target class is " + getTargetClass() + ". Caused "+ e.getMessage(),e);
+    }
+  }
+  return null;
+}

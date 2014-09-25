@@ -1,0 +1,12 @@
+{
+  String key=null;
+  try {
+    redis.get(key);
+  }
+ catch (  JedisDataException e) {
+  }
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  assertEquals(1,spanEvents.size());
+  SpanEventBo event=spanEvents.get(0);
+  assertNotNull(event.getExceptionMessage());
+}

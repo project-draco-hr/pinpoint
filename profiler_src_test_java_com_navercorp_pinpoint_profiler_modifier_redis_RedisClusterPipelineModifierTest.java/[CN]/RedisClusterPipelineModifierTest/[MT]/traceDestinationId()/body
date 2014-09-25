@@ -1,0 +1,16 @@
+{
+  GatewayConfig config=new GatewayConfig();
+  config.setZkAddress(ZK_ADDRESS);
+  config.setClusterName(CLUSTER_NAME);
+  GatewayClient client=new GatewayClient(config);
+  RedisClusterPipeline pipeline=client.pipeline();
+  pipeline.get("foo");
+  pipeline.syncAndReturnAll();
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  SpanEventBo event=spanEvents.get(spanEvents.size() - 1);
+  assertEquals(CLUSTER_NAME,event.getDestinationId());
+  assertEquals(HOST + ":" + PORT,event.getEndPoint());
+  assertEquals(ServiceType.NBASE_ARC,event.getServiceType());
+  assertNull(event.getExceptionMessage());
+  client.destroy();
+}

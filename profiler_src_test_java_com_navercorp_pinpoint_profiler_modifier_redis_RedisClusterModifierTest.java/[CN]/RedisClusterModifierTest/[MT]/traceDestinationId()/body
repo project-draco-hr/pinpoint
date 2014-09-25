@@ -1,0 +1,14 @@
+{
+  GatewayConfig config=new GatewayConfig();
+  config.setZkAddress(ZK_ADDRESS);
+  config.setClusterName(CLUSTER_NAME);
+  GatewayClient client=new GatewayClient(config);
+  client.get("foo");
+  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+  SpanEventBo event=spanEvents.get(spanEvents.size() - 1);
+  assertEquals(CLUSTER_NAME,event.getDestinationId());
+  assertEquals(HOST + ":" + PORT,event.getEndPoint());
+  assertEquals(ServiceType.NBASE_ARC,event.getServiceType());
+  assertNull(event.getExceptionMessage());
+  client.destroy();
+}

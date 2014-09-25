@@ -1,0 +1,10 @@
+{
+  if (names != null) {
+    return names;
+  }
+  final String[] methodNames={"sync","syncAndReturnAll","close"};
+  final Set<String> redisClusterMethodNames=RedisClusterMethodNames.get();
+  redisClusterMethodNames.addAll(Arrays.asList(methodNames));
+  names=redisClusterMethodNames;
+  return names;
+}

@@ -1,0 +1,21 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!(target instanceof MapTraceValue)) {
+    return;
+  }
+  final StringBuilder endPoint=new StringBuilder();
+  if (args[0] instanceof String) {
+    endPoint.append(args[0]);
+    if (args.length >= 2 && args[1] instanceof Integer) {
+      endPoint.append(":").append(args[1]);
+    }
+ else {
+      endPoint.append(":").append(6379);
+    }
+  }
+  final Map<String,Object> traceValue=new HashMap<String,Object>();
+  traceValue.put("endPoint",endPoint.toString());
+  ((MapTraceValue)target).__setTraceBindValue(traceValue);
+}
