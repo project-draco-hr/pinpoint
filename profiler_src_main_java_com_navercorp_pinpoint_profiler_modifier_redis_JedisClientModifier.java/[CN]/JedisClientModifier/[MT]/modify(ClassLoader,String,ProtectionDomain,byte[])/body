@@ -1,0 +1,19 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  try {
+    final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
+    instrumentClass.addTraceValue(MapTraceValue.class);
+    final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisClientConstructorInterceptor");
+    instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String"},constructorInterceptor);
+    instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int"},constructorInterceptor);
+    return instrumentClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("redis.JedisClientModifier(Jedis) fail. Target class is " + getTargetClass() + ". Caused "+ e.getMessage(),e);
+    }
+  }
+  return null;
+}
