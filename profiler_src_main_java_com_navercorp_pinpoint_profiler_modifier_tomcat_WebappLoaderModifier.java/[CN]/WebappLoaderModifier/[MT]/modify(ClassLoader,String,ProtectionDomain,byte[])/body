@@ -1,0 +1,27 @@
+{
+  logger.info("Modifying. {}",javassistClassName);
+  try {
+    InstrumentClass webappLoader=byteCodeInstrumentor.getClass(javassistClassName);
+    Interceptor webappLoaderStartInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.WebappLoaderStartInterceptor",null,null);
+    boolean isHooked=false;
+    if (isHooked=webappLoader.hasDeclaredMethod("start",null)) {
+      webappLoader.addInterceptor("start",null,webappLoaderStartInterceptor);
+    }
+ else     if (isHooked=webappLoader.hasDeclaredMethod("startInternal",null)) {
+      webappLoader.addInterceptor("startInternal",null,webappLoaderStartInterceptor);
+    }
+    if (isHooked) {
+      logger.info("{} class is converted.",javassistClassName);
+    }
+ else {
+      logger.warn("{} class not converted - start() or startInternal() method not found.",javassistClassName);
+    }
+    return webappLoader.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("modify failed. Cause:" + e.getMessage(),e);
+    }
+  }
+  return null;
+}
