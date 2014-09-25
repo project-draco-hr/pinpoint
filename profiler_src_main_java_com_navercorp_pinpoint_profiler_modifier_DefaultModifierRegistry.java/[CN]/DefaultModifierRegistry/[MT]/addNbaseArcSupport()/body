@@ -1,0 +1,12 @@
+{
+  if (profilerConfig.isNbaseArcEnabled() || profilerConfig.isNbaseArcPipelineEnabled()) {
+    addModifier(new GatewayModifier(byteCodeInstrumentor,agent));
+    addModifier(new GatewayServerModifier(byteCodeInstrumentor,agent));
+    if (profilerConfig.isNbaseArcEnabled()) {
+      addModifier(new RedisClusterModifier(byteCodeInstrumentor,agent));
+    }
+    if (profilerConfig.isNbaseArcPipelineEnabled()) {
+      addModifier(new RedisClusterPipelineModifier(byteCodeInstrumentor,agent));
+    }
+  }
+}
