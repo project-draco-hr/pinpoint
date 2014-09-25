@@ -1,0 +1,15 @@
+{
+  if (defaultClassLoaderCallable == null) {
+    throw new NullPointerException("defaultClassLoaderCallable must not be null");
+  }
+  try {
+    final Thread th=Thread.currentThread();
+    final ClassLoader contextClassLoader=th.getContextClassLoader();
+    if (contextClassLoader != null) {
+      return contextClassLoader;
+    }
+  }
+ catch (  Throwable e) {
+  }
+  return defaultClassLoaderCallable.getClassLoader();
+}

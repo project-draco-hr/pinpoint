@@ -4,7 +4,7 @@
   }
   final InputStreamFactory inputStreamFactory=new InputStreamFactory(){
     @Override public InputStream openInputStream() throws IOException {
-      return ClassLoaderUtils.getDefaultClassLoader(PropertyUtils.class.getClassLoader()).getResourceAsStream(classPath);
+      return ClassLoaderUtils.getDefaultClassLoader(CLASS_LOADER_CALLABLE).getResourceAsStream(classPath);
     }
   }
 ;
