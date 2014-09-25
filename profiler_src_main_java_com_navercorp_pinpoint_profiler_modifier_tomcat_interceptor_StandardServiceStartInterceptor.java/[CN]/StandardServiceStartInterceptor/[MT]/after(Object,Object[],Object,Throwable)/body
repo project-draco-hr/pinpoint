@@ -2,7 +2,6 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result,throwable);
   }
-  String tomcatInfo=ServerInfo.getServerInfo();
-  logger.info("Tomcat Version : {}",tomcatInfo);
+  populateMetaData();
   lifeCycleEventListener.start();
 }
