@@ -1,5 +1,8 @@
 {
-  byte[] bytes=BytesUtils.toBytes(id);
+  if (id == null) {
+    throw new NullPointerException("id must not be null");
+  }
+  final byte[] bytes=BytesUtils.toBytes(id);
   if (bytes.length > maxlen) {
     logger.warn("{} is too long(1~24). value={}",idName,id);
   }
