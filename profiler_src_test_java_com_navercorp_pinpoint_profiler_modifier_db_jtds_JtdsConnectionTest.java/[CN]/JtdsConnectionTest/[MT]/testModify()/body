@@ -5,10 +5,11 @@
   DatabaseInfo url=((DatabaseInfoTraceValue)connection).__getTraceDatabaseInfo();
   Assert.assertNotNull(url);
   List<SpanEventBo> currentSpanEvents=getCurrentSpanEvents();
-  logger.debug("spanEvent:{}",currentSpanEvents.remove(0));
+  Assert.assertEquals(1,currentSpanEvents.size());
   logger.debug("{}",currentSpanEvents);
   statement(connection);
-  logger.debug("spanEvent:{}",currentSpanEvents.remove(0));
+  currentSpanEvents=getCurrentSpanEvents();
+  Assert.assertEquals(2,currentSpanEvents.size());
   logger.debug("{}",currentSpanEvents);
   preparedStatement(connection);
   preparedStatement2(connection);
