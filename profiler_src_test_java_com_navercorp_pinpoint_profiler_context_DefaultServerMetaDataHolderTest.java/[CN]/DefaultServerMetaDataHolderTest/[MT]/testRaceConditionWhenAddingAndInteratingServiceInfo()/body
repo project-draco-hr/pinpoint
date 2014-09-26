@@ -3,9 +3,8 @@
   final CountDownLatch startLatch=new CountDownLatch(1);
   final CountDownLatch endLatch=new CountDownLatch(THREAD_COUNT);
   final Queue<Throwable> exceptions=new ConcurrentLinkedQueue<Throwable>();
-  final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder();
+  final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(VM_ARGS);
   metaDataContext.setServerName(SERVER_INFO);
-  metaDataContext.setVmArgs(VM_ARGS);
   final List<ServerMetaData> serverMetaDatas=new Vector<ServerMetaData>(THREAD_COUNT / 2);
   for (int i=0; i < THREAD_COUNT; ++i) {
     if (i % 2 == 0) {

@@ -4,9 +4,8 @@
   final CountDownLatch endLatch=new CountDownLatch(THREAD_COUNT);
   final Queue<Throwable> exceptions=new ConcurrentLinkedQueue<Throwable>();
   final String serviceName="/test";
-  final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder();
+  final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(VM_ARGS);
   metaDataContext.setServerName(SERVER_INFO);
-  metaDataContext.setVmArgs(VM_ARGS);
   for (int i=0; i < THREAD_COUNT; ++i) {
     final List<String> serviceLibs=new ArrayList<String>();
     executorService.submit(new Callable<Void>(){

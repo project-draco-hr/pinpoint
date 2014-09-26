@@ -1,6 +1,6 @@
 {
   String serverName=this.serverName == null ? "" : this.serverName;
-  String vmArgs=this.vmArgs == null ? "" : this.vmArgs;
+  List<String> vmArgs=this.vmArgs == null ? Collections.<String>emptyList() : new ArrayList<String>(this.vmArgs);
   List<ServiceInfo> serviceInfos=new ArrayList<ServiceInfo>(this.serviceInfos);
   return new DefaultServerMetaData(serverName,vmArgs,serviceInfos);
 }
