@@ -1,0 +1,15 @@
+{
+  Rule rule=new Rule("testService",CheckerCategory.SLOW_COUNT.getName(),100,"testGroup",true,false);
+  SlowCountFilter checker=new SlowCountFilter(null,rule){
+    @Override public boolean isDetected(){
+      return true;
+    }
+    @Override public String getDetectedValue(){
+      return "10000";
+    }
+  }
+;
+  List<AlarmCheckFilter> checkers=new LinkedList<AlarmCheckFilter>();
+  checkers.add(checker);
+  writer.write(checkers);
+}

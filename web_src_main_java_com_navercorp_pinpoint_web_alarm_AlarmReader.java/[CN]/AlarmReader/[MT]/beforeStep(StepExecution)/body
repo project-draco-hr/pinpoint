@@ -1,0 +1,16 @@
+{
+  List<Application> applicationList=applicationIndexDao.selectAllApplicationNames();
+  int appSize=applicationList.size();
+  int partitionNumber=(Integer)stepExecution.getExecutionContext().get(AlarmPartitioner.PARTITION_NUMBER);
+  int from=(partitionNumber - 1) * 5;
+  int to=partitionNumber * 5;
+  if (appSize < from) {
+    return;
+  }
+  if (appSize < to) {
+    to=appSize;
+  }
+  for (int i=from; i < to; i++) {
+    addChecker(applicationList.get(i));
+  }
+}

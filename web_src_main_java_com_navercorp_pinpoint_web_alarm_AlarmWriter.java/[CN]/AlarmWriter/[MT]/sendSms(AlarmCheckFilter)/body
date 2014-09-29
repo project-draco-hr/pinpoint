@@ -1,0 +1,29 @@
+{
+  List<String> receivers=dao.selectEmpGroupPhoneNumber(checker.getEmpGroup());
+  if (receivers.size() == 0) {
+    return;
+  }
+  CloseableHttpClient client=HttpClients.createDefault();
+  try {
+    List<NameValuePair> nvps=new ArrayList<NameValuePair>();
+    nvps.add(new BasicNameValuePair("serviceId",SMS_SERVICE_ID));
+    nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + SENDER_NUMBER + QUOTATATION));
+    nvps.add(new BasicNameValuePair("receiveMdnList",convertToReceiverFormat(receivers)));
+    nvps.add(new BasicNameValuePair("content",QUOTATATION + makeSmsMessage(checker) + QUOTATATION));
+    HttpGet get=new HttpGet(smsServerUrl + "?" + URLEncodedUtils.format(nvps,"UTF-8"));
+    logger.debug("SMSServer url : {}",get.getURI());
+    HttpResponse response=client.execute(get);
+    logger.debug("SMSServer call result ={}",EntityUtils.toString(response.getEntity()));
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+ finally {
+    try {
+      client.close();
+    }
+ catch (    IOException e) {
+      logger.error("Error while HttpClient closed",e);
+    }
+  }
+}

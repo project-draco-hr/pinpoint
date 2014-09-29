@@ -1,0 +1,12 @@
+{
+  StepExecution stepExecution=new StepExecution("alarmStep",null);
+  ExecutionContext executionContext=new ExecutionContext();
+  executionContext.put(AlarmPartitioner.PARTITION_NUMBER,2);
+  stepExecution.setExecutionContext(executionContext);
+  AlarmReader reader=new AlarmReader(dataCollectorFactory,applicationIndexDao,alarmResourceDao);
+  reader.beforeStep(stepExecution);
+  for (int i=0; i < 2; i++) {
+    assertNotNull(reader.read());
+  }
+  assertNull(reader.read());
+}

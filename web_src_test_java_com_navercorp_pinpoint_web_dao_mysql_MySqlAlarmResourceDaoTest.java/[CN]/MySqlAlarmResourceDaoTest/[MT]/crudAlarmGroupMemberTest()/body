@@ -1,0 +1,17 @@
+{
+  List<AlarmEmp> emps=new LinkedList<AlarmEmp>();
+  final String groupName="s_mem_test";
+  final String empName="empName";
+  for (int i=0; i < 3; i++) {
+    emps.add(new AlarmEmp(groupName,empName + i,"sms","email"));
+  }
+  dao.insertEmpGroupMember(emps);
+  emps=dao.selectEmpGroupMember(groupName);
+  assertEquals(3,emps.size());
+  for (  AlarmEmp emp : emps) {
+    assertEquals(groupName,emp.getGroupName());
+  }
+  dao.deleteEmpGroupMember(emps.get(0).getGroupName());
+  emps=dao.selectEmpGroupMember(groupName);
+  assertEquals(0,emps.size());
+}

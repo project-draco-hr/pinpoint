@@ -1,0 +1,10 @@
+{
+  int partitionCount=calculateGroupCount();
+  Map<String,ExecutionContext> mapContext=new HashMap<String,ExecutionContext>();
+  for (int i=1; i <= partitionCount; i++) {
+    ExecutionContext executionContext=new ExecutionContext();
+    executionContext.put(PARTITION_NUMBER,i);
+    mapContext.put(PARTITION_NUMBER + "_" + i,executionContext);
+  }
+  return mapContext;
+}

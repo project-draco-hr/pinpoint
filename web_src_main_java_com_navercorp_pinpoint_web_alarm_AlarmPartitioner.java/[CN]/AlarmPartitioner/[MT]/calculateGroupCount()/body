@@ -1,0 +1,9 @@
+{
+  List<Application> applicationList=applicationIndexDao.selectAllApplicationNames();
+  int partitionCount=applicationList.size() / APP_COUNT;
+  if (applicationList.size() % APP_COUNT != 0) {
+    partitionCount++;
+  }
+  logger.info("application count is {}. patition count is {}",applicationList.size(),partitionCount);
+  return partitionCount;
+}

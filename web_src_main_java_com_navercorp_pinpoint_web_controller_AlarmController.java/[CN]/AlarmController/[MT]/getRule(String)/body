@@ -1,0 +1,17 @@
+{
+  ModelAndView mv=new ModelAndView();
+  if (applicationName != null) {
+    List<Rule> ruleList=dao.selectAppRule(applicationName);
+    mv.addObject("ruleList",ruleList);
+  }
+  List<Application> applicationList=commonService.selectAllApplicationNames();
+  List<String> applicationNameList=new LinkedList<String>();
+  for (  Application application : applicationList) {
+    applicationNameList.add(application.getName());
+  }
+  mv.addObject("applicationNameList",applicationNameList);
+  mv.addObject("empGroupNameList",alarmGroupList());
+  mv.addObject("checkerNameList",getAlarmRuleNames());
+  mv.setViewName("alarm/rule");
+  return mv;
+}
