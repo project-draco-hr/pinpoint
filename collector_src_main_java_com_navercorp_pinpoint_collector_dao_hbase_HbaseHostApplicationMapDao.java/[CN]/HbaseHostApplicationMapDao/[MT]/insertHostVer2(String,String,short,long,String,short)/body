@@ -2,8 +2,7 @@
   if (logger.isDebugEnabled()) {
     logger.debug("Insert host-application map. host={}, bindApplicationName={}, bindServiceType={}, parentApplicationName={}, parentServiceType={}",host,bindApplicationName,bindServiceType,parentApplicationName,parentServiceType);
   }
-  String parentAgentId=null;
-  final byte[] rowKey=createRowKey(parentApplicationName,parentServiceType,statisticsRowSlot,parentAgentId);
+  final byte[] rowKey=createRowKey(parentApplicationName,parentServiceType,statisticsRowSlot,null);
   byte[] columnName=createColumnName(host,bindApplicationName,bindServiceType);
   try {
     hbaseTemplate.put(HBaseTables.HOST_APPLICATION_MAP_VER2,rowKey,HBaseTables.HOST_APPLICATION_MAP_VER2_CF_MAP,columnName,null);
