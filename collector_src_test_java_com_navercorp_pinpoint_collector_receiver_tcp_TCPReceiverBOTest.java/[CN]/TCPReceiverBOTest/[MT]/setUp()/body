@@ -1,0 +1,6 @@
+{
+  ZookeeperClusterService service=mock(ZookeeperClusterService.class);
+  when(service.getChannelStateChangeEventListener()).thenReturn(DoNothingChannelStateEventListener.INSTANCE);
+  tcpReceiver=new TCPReceiver(handler,"127.0.0.1",9994,service);
+  tcpReceiver.start();
+}
