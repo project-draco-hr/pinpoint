@@ -1,0 +1,11 @@
+{
+  if (str == null) {
+    throw new NullPointerException("str must not be null");
+  }
+  try {
+    return str.getBytes("UTF8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RuntimeException("encoding error. Caused:" + e.getMessage(),e);
+  }
+}

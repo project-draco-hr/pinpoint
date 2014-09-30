@@ -12,7 +12,6 @@
     addModifier(baseOperationModifier);
     MemcachedClientModifier memcachedClientModifier=new MemcachedClientModifier(byteCodeInstrumentor,agent);
     addModifier(memcachedClientModifier);
-    FrontCacheMemcachedClientModifier frontCacheMemcachedClientModifier=new FrontCacheMemcachedClientModifier(byteCodeInstrumentor,agent);
     if (arcus) {
       ArcusClientModifier arcusClientModifier=new ArcusClientModifier(byteCodeInstrumentor,agent);
       addModifier(arcusClientModifier);
@@ -25,7 +24,6 @@
     addModifier(immediateFutureModifier);
     OperationFutureModifier operationFutureModifier=new OperationFutureModifier(byteCodeInstrumentor,agent);
     addModifier(operationFutureModifier);
-    FrontCacheGetFutureModifier frontCacheGetFutureModifier=new FrontCacheGetFutureModifier(byteCodeInstrumentor,agent);
     CacheManagerModifier cacheManagerModifier=new CacheManagerModifier(byteCodeInstrumentor,agent);
     addModifier(cacheManagerModifier);
   }
