@@ -2,6 +2,11 @@
   final Channel channel=e.getChannel();
   Object message=e.getMessage();
   logger.debug("messageReceived:{} channel:{}",message,channel);
+  ChannelContext channelContext=getChannelContext(channel);
+  if (!PinpointServerSocketStateCode.isRun(channelContext.getCurrentStateCode())) {
+    logger.warn("MessageReceived:{} from IllegalState Channel:{} this message will be ignore.",message,channel);
+    return;
+  }
   final short packetType=getPacketType(message);
 switch (packetType) {
 case PacketType.APPLICATION_SEND:
@@ -36,7 +41,6 @@ if (properties == null) {
 sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL,channel);
 return;
 }
-ChannelContext channelContext=getChannelContext(channel);
 channelContext.setChannelProperties(properties);
 int returnCode=messageListener.handleEnableWorker(properties);
 if (returnCode == ControlEnableWorkerConfirmPacket.SUCCESS) {
