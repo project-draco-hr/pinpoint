@@ -1,0 +1,13 @@
+{
+  if (SECURITY_MANAGER != null) {
+    return AccessController.doPrivileged(new PrivilegedAction<PinpointURLClassLoader>(){
+      public PinpointURLClassLoader run(){
+        return new PinpointURLClassLoader(urls,bootStrapClassLoader);
+      }
+    }
+);
+  }
+ else {
+    return new PinpointURLClassLoader(urls,bootStrapClassLoader);
+  }
+}

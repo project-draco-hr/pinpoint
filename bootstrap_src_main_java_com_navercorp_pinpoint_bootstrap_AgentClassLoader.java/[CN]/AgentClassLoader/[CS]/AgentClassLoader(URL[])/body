@@ -3,6 +3,6 @@
     throw new NullPointerException("urls");
   }
   ClassLoader bootStrapClassLoader=AgentClassLoader.class.getClassLoader();
-  this.classLoader=new PinpointURLClassLoader(urls,bootStrapClassLoader);
+  this.classLoader=createClassLoader(urls,bootStrapClassLoader);
   this.executeTemplate=new ContextClassLoaderExecuteTemplate(classLoader);
 }
