@@ -1,18 +1,28 @@
 {
+  logger.info("Zookeepr Event({}) ocurred.",event);
   KeeperState state=event.getState();
   EventType eventType=event.getType();
+  String path=event.getPath();
+  boolean result=false;
   if (state == KeeperState.Disconnected || state == KeeperState.Expired) {
-    connected.compareAndSet(true,false);
-    return;
+    result=handleDisconnected();
   }
-  if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.None) {
-    boolean changed=connected.compareAndSet(false,true);
-    if (changed) {
-      RegisterJob job=this.job.get();
-      if (job != null) {
-        registerWebCluster(job);
-      }
-    }
-    return;
+ else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.None) {
+    result=handleConnected();
+  }
+ else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeChildrenChanged) {
+    result=handleNodeChildrenChanged(path);
+  }
+ else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeDeleted) {
+    result=handleNodeDeleted(path);
+  }
+ else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeDataChanged) {
+    result=handleNodeDataChanged(path);
+  }
+  if (result) {
+    logger.info("Zookeeper Event({}) successed.",event);
+  }
+ else {
+    logger.info("Zookeeper Event({}) failed.",event);
   }
 }

@@ -1,0 +1,15 @@
+{
+  byte[] contents=worker.getClusterData();
+  if (contents == null) {
+    return Collections.emptyList();
+  }
+  List<String> result=new ArrayList<String>();
+  String clusterData=new String(contents,charset);
+  String[] allClusterData=clusterData.split(PROFILER_SEPERATOR);
+  for (  String eachClusterData : allClusterData) {
+    if (!StringUtils.isBlank(eachClusterData)) {
+      result.add(eachClusterData);
+    }
+  }
+  return result;
+}

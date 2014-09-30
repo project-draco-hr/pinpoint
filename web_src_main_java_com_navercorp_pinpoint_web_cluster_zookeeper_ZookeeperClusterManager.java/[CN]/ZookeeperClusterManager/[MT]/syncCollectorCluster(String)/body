@@ -1,0 +1,14 @@
+{
+synchronized (this) {
+    try {
+      String key=bindingPathAndZnode(PINPOINT_COLLECTOR_CLUSTER_PATH,id);
+      byte[] data=client.getData(key,true);
+      collectorClusterInfo.put(id,data);
+      return true;
+    }
+ catch (    Exception e) {
+      logger.warn(e.getMessage(),e);
+    }
+    return false;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  String zNodePath=job.getZnodePath();
+  byte[] contents=job.getContents();
+  try {
+    if (!client.exists(zNodePath)) {
+      client.createPath(zNodePath);
+    }
+    String nodeName=client.createNode(zNodePath,contents,CreateMode.EPHEMERAL);
+    logger.info("Register Web Cluster Zookeeper UniqPath = {}.",zNodePath);
+    return true;
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return false;
+}

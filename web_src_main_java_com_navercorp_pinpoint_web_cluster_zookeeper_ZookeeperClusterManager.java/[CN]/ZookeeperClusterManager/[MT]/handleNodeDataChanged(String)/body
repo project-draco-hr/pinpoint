@@ -1,0 +1,12 @@
+{
+  if (path != null) {
+    String id=extractCollectorClusterId(path);
+    if (id != null) {
+      if (syncCollectorCluster(id)) {
+        return true;
+      }
+      timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+    }
+  }
+  return false;
+}

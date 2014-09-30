@@ -1,0 +1,20 @@
+{
+  List<String> agentNameList=clusterManager.getRegisteredAgentList(applicationName,agentId,startTimeStamp);
+  if (agentNameList.size() == 0) {
+    logger.warn("{}/{} Can't find agent.",applicationName,agentId);
+    return null;
+  }
+ else   if (agentNameList.size() > 1) {
+    logger.warn("{}/{} find dupplicate agent {}.",applicationName,agentId,agentNameList);
+    return null;
+  }
+  String agentName=agentNameList.get(0);
+  List<ChannelContext> channelContextList=getCollectorChannelContext();
+  for (  ChannelContext channelContext : channelContextList) {
+    String id=(String)channelContext.getChannelProperties().get("id");
+    if (agentName.startsWith(id)) {
+      return channelContext;
+    }
+  }
+  return null;
+}

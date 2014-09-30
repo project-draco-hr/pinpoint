@@ -1,0 +1,18 @@
+{
+  StringBuilder newContents=new StringBuilder(contents.length());
+  String[] allContents=contents.split(PROFILER_SEPERATOR);
+  Iterator<String> stringIterator=Arrays.asList(allContents).iterator();
+  while (stringIterator.hasNext()) {
+    String eachContent=stringIterator.next();
+    if (StringUtils.isBlank(eachContent)) {
+      continue;
+    }
+    if (!StringUtils.equals(eachContent.trim(),removeContents.trim())) {
+      newContents.append(eachContent);
+      if (stringIterator.hasNext()) {
+        newContents.append(PROFILER_SEPERATOR);
+      }
+    }
+  }
+  return newContents.toString();
+}

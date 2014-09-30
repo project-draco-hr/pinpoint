@@ -1,0 +1,17 @@
+{
+  StringBuilder profilerContents=new StringBuilder();
+  Map<Object,Object> agentProperties=channelContext.getChannelProperties();
+  final String applicationName=MapUtils.getString(agentProperties,AgentPropertiesType.APPLICATION_NAME.getName());
+  final String agentId=MapUtils.getString(agentProperties,AgentPropertiesType.AGENT_ID.getName());
+  final Long startTimeStampe=MapUtils.getLong(agentProperties,AgentPropertiesType.START_TIMESTAMP.getName());
+  if (StringUtils.isBlank(applicationName) || StringUtils.isBlank(agentId) || startTimeStampe == null || startTimeStampe <= 0) {
+    logger.warn("ApplicationName({}) and AgnetId({}) and startTimeStampe({}) may not be null.",applicationName,agentId);
+    return StringUtils.EMPTY;
+  }
+  profilerContents.append(applicationName);
+  profilerContents.append(":");
+  profilerContents.append(agentId);
+  profilerContents.append(":");
+  profilerContents.append(startTimeStampe);
+  return profilerContents.toString();
+}

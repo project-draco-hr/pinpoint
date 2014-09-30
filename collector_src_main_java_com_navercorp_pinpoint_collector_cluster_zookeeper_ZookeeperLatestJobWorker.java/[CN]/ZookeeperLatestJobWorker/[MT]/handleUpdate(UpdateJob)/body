@@ -5,27 +5,23 @@
     putJob(new DeleteJob(channelContext));
     return false;
   }
-  String uniquePath=getUniquePath(channelContext,true);
-  if (uniquePath == null) {
-    logger.warn("Zookeeper UniqPath({}) may not be null.",uniquePath);
-    return false;
-  }
   try {
-    if (zookeeperClient.exists(uniquePath)) {
-      zookeeperClient.setData(uniquePath,job.getContents());
+    String addContents=createProfilerContents(channelContext);
+    if (zookeeperClient.exists(collectorUniqPath)) {
+      byte[] contents=zookeeperClient.getData(collectorUniqPath);
+      String data=addIfAbsentContents(new String(contents,charset),addContents);
+      zookeeperClient.setData(collectorUniqPath,data.getBytes(charset));
     }
  else {
-      zookeeperClient.createPath(uniquePath);
-      zookeeperClient.createNode(uniquePath,job.getContents());
-      logger.info("Registed Zookeeper UniqPath = {}",uniquePath);
+      zookeeperClient.createPath(collectorUniqPath);
+      zookeeperClient.createNode(collectorUniqPath,addContents.getBytes(charset));
     }
     return true;
   }
  catch (  Exception e) {
     logger.warn(e.getMessage(),e);
     if (e instanceof TimeoutException) {
-      job.incrementCurrentRetryCount();
-      putJob(job);
+      putRetryJob(job);
     }
   }
   return false;

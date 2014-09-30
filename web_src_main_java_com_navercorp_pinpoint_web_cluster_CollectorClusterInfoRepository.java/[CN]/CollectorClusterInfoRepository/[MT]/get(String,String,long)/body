@@ -1,0 +1,13 @@
+{
+  List<String> result=new ArrayList<String>();
+synchronized (lock) {
+    String key=bindingKey(applicationName,agentId,startTimeStamp);
+    for (    Map<String,String> eachCollectorClusterInfo : repository.values()) {
+      String collectorId=eachCollectorClusterInfo.get(key);
+      if (collectorId != null) {
+        result.add(collectorId);
+      }
+    }
+  }
+  return result;
+}

@@ -12,6 +12,7 @@
         if (job == null) {
           continue;
         }
+        logger.info("Worker execute job({}).",job);
         if (job instanceof UpdateJob) {
           handleUpdate((UpdateJob)job);
         }
@@ -28,11 +29,10 @@
           break;
         }
         if (job instanceof UpdateJob) {
-          putJob(new UpdateJob(job.getChannelContext(),0,((UpdateJob)job).getContents()));
+          putRetryJob(new UpdateJob(job.getChannelContext(),1,((UpdateJob)job).getContents()));
         }
       }
-      List<ChannelContext> currentChannelContextList=getRegisteredChannelContextList();
-      for (      ChannelContext channelContext : currentChannelContextList) {
+      for (      ChannelContext channelContext : channelContextRepository) {
         if (PinpointServerSocketStateCode.isFinished(channelContext.getCurrentStateCode())) {
           logger.info("LeakDetector Find Leak ChannelContext={}.",channelContext);
           putJob(new DeleteJob(channelContext));

@@ -1,0 +1,14 @@
+{
+  int index=1;
+  Iterator<TestSocket> iterator=socketList.iterator();
+  while (iterator.hasNext()) {
+    TestSocket socket=iterator.next();
+    logger.info("disconnect ({}), .",socket);
+    socket.stop();
+    iterator.remove();
+    if (index++ >= count) {
+      break;
+    }
+  }
+  return socketList;
+}

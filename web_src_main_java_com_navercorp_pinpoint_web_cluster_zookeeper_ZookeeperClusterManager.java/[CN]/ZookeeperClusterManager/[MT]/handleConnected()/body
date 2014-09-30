@@ -1,0 +1,21 @@
+{
+  boolean result=true;
+  boolean changed=connected.compareAndSet(false,true);
+  if (changed) {
+    PushWebClusterJob job=this.job.get();
+    if (job != null) {
+      if (!syncWebCluster(job)) {
+        timer.newTimeout(job,job.getRetryInterval(),TimeUnit.MILLISECONDS);
+        result=false;
+      }
+    }
+    if (!syncCollectorCluster()) {
+      timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+      result=false;
+    }
+  }
+ else {
+    result=false;
+  }
+  return result;
+}
