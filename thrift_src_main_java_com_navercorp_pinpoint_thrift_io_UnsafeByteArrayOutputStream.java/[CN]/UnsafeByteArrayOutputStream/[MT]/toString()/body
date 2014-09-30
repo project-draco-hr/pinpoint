@@ -1,3 +1,8 @@
 {
-  return new String(buf,0,count);
+  try {
+    return toString(UTF8);
+  }
+ catch (  UnsupportedEncodingException ex) {
+    throw new RuntimeException("toString() fail. Caused:" + ex.getMessage(),ex);
+  }
 }
