@@ -1,0 +1,19 @@
+{
+synchronized (this) {
+    Map<String,byte[]> map=getCollectorData();
+    if (map == null) {
+      return false;
+    }
+    for (    Map.Entry<String,byte[]> entry : map.entrySet()) {
+      String key=entry.getKey();
+      byte[] value=entry.getValue();
+      String id=extractCollectorClusterId(key);
+      if (id == null) {
+        logger.error("Illegal Collector Path({}) finded.",key);
+        continue;
+      }
+      collectorClusterInfo.put(id,value);
+    }
+    return true;
+  }
+}

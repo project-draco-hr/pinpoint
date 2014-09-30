@@ -1,0 +1,9 @@
+{
+  if (PINPOINT_COLLECTOR_CLUSTER_PATH.equals(path)) {
+    if (syncCollectorCluster()) {
+      return true;
+    }
+    timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+  }
+  return false;
+}

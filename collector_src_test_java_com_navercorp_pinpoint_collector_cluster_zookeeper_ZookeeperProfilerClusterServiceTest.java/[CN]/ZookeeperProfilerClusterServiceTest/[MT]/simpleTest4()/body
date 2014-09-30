@@ -8,20 +8,20 @@
     ZookeeperProfilerClusterManager profilerClusterManager=service.getProfilerClusterManager();
     channelContext.changeStateRun();
     Thread.sleep(1000);
-    Map result=profilerClusterManager.getData(channelContext);
-    Assert.assertNull(getCode(result));
+    List<String> result=profilerClusterManager.getClusterData();
+    Assert.assertEquals(0,result.size());
     channelContext.changeStateRunDuplexCommunication();
     Thread.sleep(1000);
-    result=profilerClusterManager.getData(channelContext);
-    Assert.assertNull(getCode(result));
+    result=profilerClusterManager.getClusterData();
+    Assert.assertEquals(0,result.size());
     channelContext.changeStateShutdown();
     Thread.sleep(1000);
-    result=profilerClusterManager.getData(channelContext);
-    Assert.assertNull(getCode(result));
-    ts=createZookeeperServer(DEFAULT_ACCEPTOR_PORT);
+    result=profilerClusterManager.getClusterData();
+    Assert.assertEquals(0,result.size());
+    ts=ZookeeperTestUtils.createZookeeperServer(DEFAULT_ACCEPTOR_PORT);
     Thread.sleep(1000);
-    result=profilerClusterManager.getData(channelContext);
-    Assert.assertNull(getCode(result));
+    result=profilerClusterManager.getClusterData();
+    Assert.assertEquals(0,result.size());
     service.tearDown();
   }
   finally {

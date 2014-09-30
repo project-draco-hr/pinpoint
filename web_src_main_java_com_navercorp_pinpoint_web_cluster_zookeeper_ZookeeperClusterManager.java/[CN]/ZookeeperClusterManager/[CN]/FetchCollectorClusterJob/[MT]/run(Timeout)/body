@@ -1,0 +1,9 @@
+{
+  logger.info("Reservation Job({}) started.",this.getClass().getSimpleName());
+  if (!isConnected()) {
+    return;
+  }
+  if (!syncCollectorCluster()) {
+    timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+  }
+}

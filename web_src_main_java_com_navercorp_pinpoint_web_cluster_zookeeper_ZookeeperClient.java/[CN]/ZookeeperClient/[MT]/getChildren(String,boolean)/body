@@ -1,0 +1,12 @@
+{
+  checkState();
+  try {
+    return zookeeper.getChildren(path,watch);
+  }
+ catch (  KeeperException exception) {
+    if (exception.code() != Code.NONODE) {
+      handleException(exception);
+    }
+  }
+  return Collections.emptyList();
+}

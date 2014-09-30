@@ -1,0 +1,21 @@
+{
+  int pos=1;
+  do {
+    pos=path.indexOf('/',pos + 1);
+    if (pos == -1) {
+      pos=path.length();
+    }
+    if (pos == path.length()) {
+      if (!createEndNode) {
+        return;
+      }
+    }
+    String subPath=path.substring(0,pos);
+    if (zookeeper.exists(subPath,false) != null) {
+      continue;
+    }
+    String result=zookeeper.create(subPath,new byte[0],Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+    logger.info("Create path {} success.",result);
+  }
+ while (pos < path.length());
+}

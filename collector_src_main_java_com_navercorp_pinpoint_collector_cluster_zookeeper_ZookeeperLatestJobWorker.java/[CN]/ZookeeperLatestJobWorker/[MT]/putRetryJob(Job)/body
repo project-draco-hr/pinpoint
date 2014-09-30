@@ -1,0 +1,15 @@
+{
+  job.incrementCurrentRetryCount();
+  if (job.getMaxRetryCount() < job.getCurrentRetryCount()) {
+    if (logger.isInfoEnabled()) {
+      logger.warn("Leak Job Queue Register Job={}.",job);
+    }
+    leakJobQueue.add(job);
+    return;
+  }
+  ChannelContext channelContext=job.getChannelContext();
+synchronized (lock) {
+    latestJobRepository.putIfAbsent(channelContext,job);
+    lock.notifyAll();
+  }
+}

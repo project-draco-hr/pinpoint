@@ -1,13 +1,10 @@
 {
-  if (job.getMaxRetryCount() < job.getCurrentRetryCount()) {
-    if (logger.isInfoEnabled()) {
-      logger.warn("Leack Job Queue Register Job={}.",job);
-    }
-    leakJobQueue.add(job);
+  ChannelContext channelContext=job.getChannelContext();
+  if (!checkRequiredProperties(channelContext)) {
     return;
   }
 synchronized (lock) {
-    ChannelContext channelContext=job.getChannelContext();
+    channelContextRepository.addIfAbsent(channelContext);
     latestJobRepository.put(channelContext,job);
     lock.notifyAll();
   }

@@ -6,11 +6,7 @@
       return;
     }
     if (PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION == stateCode) {
-      byte[] contents=serializeContents(agentProperties,stateCode);
-      if (contents == null) {
-        return;
-      }
-      UpdateJob job=new UpdateJob(channelContext,contents);
+      UpdateJob job=new UpdateJob(channelContext,new byte[0]);
       worker.putJob(job);
       clusterPoint.registerChannelContext(channelContext);
     }
