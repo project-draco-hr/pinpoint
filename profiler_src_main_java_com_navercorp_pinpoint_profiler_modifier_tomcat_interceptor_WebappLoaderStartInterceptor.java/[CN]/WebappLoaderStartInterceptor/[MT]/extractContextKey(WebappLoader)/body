@@ -1,0 +1,23 @@
+{
+  final String defaultContextName="";
+  try {
+    Container container=extractContext(webappLoader);
+    if (container instanceof Context) {
+      Context context=(Context)container;
+      String contextName=context.getName();
+      Host host=(Host)container.getParent();
+      Engine engine=(Engine)host.getParent();
+      StringBuilder sb=new StringBuilder();
+      sb.append(engine.getName()).append("/").append(host.getName());
+      if (!contextName.startsWith("/")) {
+        sb.append('/');
+      }
+      sb.append(contextName);
+      return sb.toString();
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("Error extracting context name.",e);
+  }
+  return defaultContextName;
+}

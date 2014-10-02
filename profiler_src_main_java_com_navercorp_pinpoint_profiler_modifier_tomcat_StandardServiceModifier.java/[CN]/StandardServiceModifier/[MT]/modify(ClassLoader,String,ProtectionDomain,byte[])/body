@@ -1,12 +1,10 @@
 {
-  if (logger.isInfoEnabled()) {
-    logger.info("Modifying. {}",javassistClassName);
-  }
+  logger.info("Modifying. {}",javassistClassName);
   try {
     InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
     LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);
-    Interceptor standardServiceStartInterceptor=new StandardServiceStartInterceptor(lifeCycleEventListener);
-    Interceptor standardServiceStopInterceptor=new StandardServiceStopInterceptor(lifeCycleEventListener);
+    Interceptor standardServiceStartInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStartInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});
+    Interceptor standardServiceStopInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStopInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});
     boolean isHooked=false;
     if (isHooked=(standardService.hasDeclaredMethod("start",null) && standardService.hasDeclaredMethod("stop",null))) {
       standardService.addInterceptor("start",null,standardServiceStartInterceptor);

@@ -1,13 +1,12 @@
 {
   beginTracing(method);
-  final Thread thread=Thread.currentThread();
-  final ClassLoader originalClassLoader=thread.getContextClassLoader();
+  ClassLoader originalClassLoader=Thread.currentThread().getContextClassLoader();
   try {
-    thread.setContextClassLoader(this.testClassLoader);
+    Thread.currentThread().setContextClassLoader(this.testClassLoader);
     super.runChild(method,notifier);
   }
   finally {
-    thread.setContextClassLoader(originalClassLoader);
+    Thread.currentThread().setContextClassLoader(originalClassLoader);
     endTracing(method,notifier);
   }
 }

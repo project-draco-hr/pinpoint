@@ -1,0 +1,12 @@
+{
+  ClassLoader classLoader=webappLoader.getClassLoader();
+  if (classLoader instanceof URLClassLoader) {
+    URLClassLoader webappClassLoader=(URLClassLoader)classLoader;
+    URL[] urls=webappClassLoader.getURLs();
+    return extractLibJarNamesFromURLs(urls);
+  }
+ else {
+    logger.warn("Webapp class loader is not an instance of URLClassLoader. Found [{}]",classLoader.getClass().toString());
+    return Collections.emptyList();
+  }
+}

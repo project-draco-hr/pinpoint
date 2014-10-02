@@ -1,7 +1,8 @@
 {
   LogStorageFactory logStorageFactory=new LogStorageFactory();
   TrueSampler trueSampler=new TrueSampler();
-  DefaultTraceContext traceContext=new DefaultTraceContext(100,ServiceType.TOMCAT.getCode(),logStorageFactory,trueSampler);
+  ServerMetaDataHolder serverMetaDataHolder=new DefaultServerMetaDataHolder(Collections.<String>emptyList());
+  DefaultTraceContext traceContext=new DefaultTraceContext(100,ServiceType.TOMCAT.getCode(),logStorageFactory,trueSampler,serverMetaDataHolder);
   MetricRegistry metricRegistry=new MetricRegistry(ServiceType.TOMCAT);
   return new ThreadLocalTraceFactory(traceContext,metricRegistry,logStorageFactory,trueSampler);
 }
