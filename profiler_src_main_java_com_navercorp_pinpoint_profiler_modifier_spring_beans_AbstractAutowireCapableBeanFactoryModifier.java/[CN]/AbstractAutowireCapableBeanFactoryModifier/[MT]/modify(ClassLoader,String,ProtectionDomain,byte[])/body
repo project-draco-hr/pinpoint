@@ -1,0 +1,15 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,className);
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(className);
+    aClass.addInterceptor("createBean",new String[]{"java.lang.String","org.springframework.beans.factory.support.RootBeanDefinition","java.lang.Object[]"},interceptor);
+    return aClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.warn("AbstractAutowireCapableBeanFactoryModifier failed. Caused:",e.getMessage(),e);
+    return null;
+  }
+}

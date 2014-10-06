@@ -1,0 +1,9 @@
+{
+  BytecodeClass bytecodeClass=getFromCache(internalName,loader);
+  if (bytecodeClass != null) {
+    return bytecodeClass;
+  }
+  bytecodeClass=load(internalName,loader);
+  addToCache(loader,bytecodeClass);
+  return bytecodeClass;
+}

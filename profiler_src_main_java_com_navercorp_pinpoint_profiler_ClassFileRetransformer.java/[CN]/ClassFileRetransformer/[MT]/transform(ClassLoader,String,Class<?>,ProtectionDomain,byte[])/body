@@ -1,13 +1,7 @@
 {
-  if (targets.remove(new Target(loader,className)) == null) {
+  Modifier modifier=targets.remove(classBeingRedefined);
+  if (modifier == null) {
     return null;
   }
-  BytecodeClass target=BytecodeAnalyzer.analyze(classfileBuffer);
-  byte[] transformed=classfileBuffer;
-  for (  GeneralModifier modifier : modifiers) {
-    if (modifier.canModify(target)) {
-      transformed=modifier.modify(loader,protectionDomain,target,transformed);
-    }
-  }
-  return transformed;
+  return modifier.modify(loader,className.replace('/','.'),protectionDomain,classfileBuffer);
 }

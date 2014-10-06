@@ -1,0 +1,17 @@
+{
+  for (  BytecodeAnnotation a : annotations) {
+    if (a.getTypeInternalName().equals(annotationInternalName)) {
+      return true;
+    }
+  }
+  for (  BytecodeAnnotation a : annotations) {
+    if (a.getTypeInternalName().startsWith("java/lang/annotation")) {
+      continue;
+    }
+    BytecodeClass ac=BytecodeClassFactory.get(a.getTypeInternalName(),loader);
+    if (ac.checkAnnotationHierarchy(annotationInternalName)) {
+      return true;
+    }
+  }
+  return false;
+}

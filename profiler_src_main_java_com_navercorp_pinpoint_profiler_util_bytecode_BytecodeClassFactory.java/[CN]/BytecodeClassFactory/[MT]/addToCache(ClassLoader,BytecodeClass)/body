@@ -1,0 +1,13 @@
+{
+  Map<String,BytecodeClass> ofLoader=cache.get(loader);
+  if (ofLoader == null) {
+synchronized (cache) {
+      ofLoader=cache.get(loader);
+      if (ofLoader == null) {
+        ofLoader=new ConcurrentHashMap<String,BytecodeClass>();
+        cache.put(loader,ofLoader);
+      }
+    }
+  }
+  ofLoader.put(bytecodeClass.getName(),bytecodeClass);
+}

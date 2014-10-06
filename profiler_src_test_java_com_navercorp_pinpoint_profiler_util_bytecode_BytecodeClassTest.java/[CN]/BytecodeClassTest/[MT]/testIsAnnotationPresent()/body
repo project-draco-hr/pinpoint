@@ -1,0 +1,24 @@
+{
+  String parnetAnnotationName=ParentAnnotation.class.getName();
+  String childAnnotationName=ChildAnnotation.class.getName();
+  BytecodeClass parentClass=BytecodeClassFactory.get(BytecodeUtils.toInternalName(ParentClass.class.getName()),loader);
+  assertTrue(parentClass.isAnnotationPresent(childAnnotationName,true,true));
+  assertTrue(parentClass.isAnnotationPresent(childAnnotationName,false,true));
+  assertTrue(parentClass.isAnnotationPresent(childAnnotationName,false,false));
+  assertTrue(parentClass.isAnnotationPresent(childAnnotationName,true,false));
+  assertTrue(parentClass.isAnnotationPresent(parnetAnnotationName,true,true));
+  assertTrue(parentClass.isAnnotationPresent(parnetAnnotationName,false,true));
+  assertFalse(parentClass.isAnnotationPresent(parnetAnnotationName,false,false));
+  assertFalse(parentClass.isAnnotationPresent(parnetAnnotationName,true,false));
+  assertFalse(parentClass.isAnnotationPresent("no/such/Annotation",true,true));
+  BytecodeClass childClass=BytecodeClassFactory.get(BytecodeUtils.toInternalName(ChildClass.class.getName()),loader);
+  assertTrue(childClass.isAnnotationPresent(childAnnotationName,true,true));
+  assertFalse(childClass.isAnnotationPresent(childAnnotationName,false,true));
+  assertFalse(childClass.isAnnotationPresent(childAnnotationName,false,false));
+  assertTrue(childClass.isAnnotationPresent(childAnnotationName,true,false));
+  assertTrue(childClass.isAnnotationPresent(parnetAnnotationName,true,true));
+  assertFalse(childClass.isAnnotationPresent(parnetAnnotationName,false,true));
+  assertFalse(childClass.isAnnotationPresent(parnetAnnotationName,false,false));
+  assertFalse(childClass.isAnnotationPresent(parnetAnnotationName,true,false));
+  assertFalse(childClass.isAnnotationPresent("no/such/Annotation",true,true));
+}

@@ -1,0 +1,25 @@
+{
+  if (name.equals(internalName) || superName.equals(internalName)) {
+    return true;
+  }
+  for (  String impl : interfaces) {
+    if (impl.equals(internalName)) {
+      return true;
+    }
+  }
+  if (!superName.equals("java/lang/Object")) {
+    BytecodeClass c=BytecodeClassFactory.get(superName,loader);
+    if (c.isInstanceOf0(internalName,isInterface)) {
+      return true;
+    }
+  }
+  if (isInterface) {
+    for (    String impl : interfaces) {
+      BytecodeClass i=BytecodeClassFactory.get(impl,loader);
+      if (i.isInstanceOf0(internalName,isInterface)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
