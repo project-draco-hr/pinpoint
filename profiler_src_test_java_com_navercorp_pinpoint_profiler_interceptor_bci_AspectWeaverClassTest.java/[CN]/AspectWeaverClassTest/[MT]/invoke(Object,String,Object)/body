@@ -1,0 +1,10 @@
+{
+  try {
+    Class<?> clazz=o.getClass();
+    Method method=clazz.getMethod(methodName);
+    return method.invoke(o,args);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}

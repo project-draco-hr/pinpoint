@@ -1,0 +1,16 @@
+{
+  ClassPool pool=ClassPool.getDefault();
+  CtClass ctClass=pool.get("com.nhn.pinpoint.profiler.interceptor.bci.TestObject");
+  CtClass object=pool.get("java.lang.String");
+  System.out.println(ctClass);
+  CtMethod callA=ctClass.getDeclaredMethod("callA",null);
+  System.out.println(callA);
+  callA.insertBefore("__test = \"abc\"; System.out.println(\"before\" + __test);");
+  callA.insertAfter("System.out.println(\"after\");");
+  callA.addCatch("{ System.out.println(\"\");}",pool.get("java.lang.Throwable"));
+  Class aClass=ctClass.toClass();
+  java.lang.reflect.Method callA1=aClass.getMethod("callA");
+  Object target=aClass.newInstance();
+  Object result=callA1.invoke(target);
+  System.out.println(result);
+}

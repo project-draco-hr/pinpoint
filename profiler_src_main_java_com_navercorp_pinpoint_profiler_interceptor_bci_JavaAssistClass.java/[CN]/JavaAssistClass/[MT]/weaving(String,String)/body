@@ -1,0 +1,13 @@
+{
+  try {
+    CtClass adviceClass=this.instrumentor.getClassPool().get(adviceClassName);
+    AspectWeaverClass weaverClass=new AspectWeaverClass();
+    weaverClass.weaving(ctClass,adviceClass);
+  }
+ catch (  NotFoundException e) {
+    throw new NotFoundInstrumentException(adviceClassName + " not found. Caused:" + e.getMessage(),e);
+  }
+catch (  CannotCompileException e) {
+    throw new InstrumentException("weaving fail. sourceClassName:" + sourceClassName + " adviceClassName:"+ adviceClassName+ " Caused:"+ e.getMessage(),e);
+  }
+}
