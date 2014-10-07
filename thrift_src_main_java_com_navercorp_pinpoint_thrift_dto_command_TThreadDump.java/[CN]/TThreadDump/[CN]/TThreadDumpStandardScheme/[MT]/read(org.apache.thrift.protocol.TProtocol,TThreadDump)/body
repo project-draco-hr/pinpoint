@@ -1,0 +1,180 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.threadName=iprot.readString();
+        struct.setThreadNameIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+    struct.threadId=iprot.readI64();
+    struct.setThreadIdIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.blockedTime=iprot.readI64();
+struct.setBlockedTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.blockedCount=iprot.readI64();
+struct.setBlockedCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 5:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.waitedTime=iprot.readI64();
+struct.setWaitedTimeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 6:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.waitedCount=iprot.readI64();
+struct.setWaitedCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 7:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.lockName=iprot.readString();
+struct.setLockNameIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 8:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.lockOwnerId=iprot.readI64();
+struct.setLockOwnerIdIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 9:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.lockOwnerName=iprot.readString();
+struct.setLockOwnerNameIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 10:
+if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+struct.inNative=iprot.readBool();
+struct.setInNativeIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 11:
+if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+struct.suspended=iprot.readBool();
+struct.setSuspendedIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 12:
+if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+struct.threadState=TThreadState.findByValue(iprot.readI32());
+struct.setThreadStateIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 13:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
+struct.stackTrace=new ArrayList<String>(_list0.size);
+for (int _i1=0; _i1 < _list0.size; ++_i1) {
+String _elem2;
+_elem2=iprot.readString();
+struct.stackTrace.add(_elem2);
+}
+iprot.readListEnd();
+}
+struct.setStackTraceIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 14:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list3=iprot.readListBegin();
+struct.lockedMonitors=new ArrayList<TMonitorInfo>(_list3.size);
+for (int _i4=0; _i4 < _list3.size; ++_i4) {
+TMonitorInfo _elem5;
+_elem5=new TMonitorInfo();
+_elem5.read(iprot);
+struct.lockedMonitors.add(_elem5);
+}
+iprot.readListEnd();
+}
+struct.setLockedMonitorsIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 15:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+org.apache.thrift.protocol.TList _list6=iprot.readListBegin();
+struct.lockedSynchronizers=new ArrayList<String>(_list6.size);
+for (int _i7=0; _i7 < _list6.size; ++_i7) {
+String _elem8;
+_elem8=iprot.readString();
+struct.lockedSynchronizers.add(_elem8);
+}
+iprot.readListEnd();
+}
+struct.setLockedSynchronizersIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

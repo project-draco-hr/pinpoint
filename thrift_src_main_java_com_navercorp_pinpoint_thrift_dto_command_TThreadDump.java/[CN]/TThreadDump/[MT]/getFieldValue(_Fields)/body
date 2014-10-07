@@ -1,0 +1,35 @@
+{
+switch (field) {
+case THREAD_NAME:
+    return getThreadName();
+case THREAD_ID:
+  return Long.valueOf(getThreadId());
+case BLOCKED_TIME:
+return Long.valueOf(getBlockedTime());
+case BLOCKED_COUNT:
+return Long.valueOf(getBlockedCount());
+case WAITED_TIME:
+return Long.valueOf(getWaitedTime());
+case WAITED_COUNT:
+return Long.valueOf(getWaitedCount());
+case LOCK_NAME:
+return getLockName();
+case LOCK_OWNER_ID:
+return Long.valueOf(getLockOwnerId());
+case LOCK_OWNER_NAME:
+return getLockOwnerName();
+case IN_NATIVE:
+return Boolean.valueOf(isInNative());
+case SUSPENDED:
+return Boolean.valueOf(isSuspended());
+case THREAD_STATE:
+return getThreadState();
+case STACK_TRACE:
+return getStackTrace();
+case LOCKED_MONITORS:
+return getLockedMonitors();
+case LOCKED_SYNCHRONIZERS:
+return getLockedSynchronizers();
+}
+throw new IllegalStateException();
+}

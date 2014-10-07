@@ -1,0 +1,14 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(STACK_DEPTH_FIELD_DESC);
+  oprot.writeI32(struct.stackDepth);
+  oprot.writeFieldEnd();
+  if (struct.stackFrame != null) {
+    oprot.writeFieldBegin(STACK_FRAME_FIELD_DESC);
+    oprot.writeString(struct.stackFrame);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

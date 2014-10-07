@@ -1,0 +1,89 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(15);
+  if (incoming.get(0)) {
+    struct.threadName=iprot.readString();
+    struct.setThreadNameIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.threadId=iprot.readI64();
+    struct.setThreadIdIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.blockedTime=iprot.readI64();
+    struct.setBlockedTimeIsSet(true);
+  }
+  if (incoming.get(3)) {
+    struct.blockedCount=iprot.readI64();
+    struct.setBlockedCountIsSet(true);
+  }
+  if (incoming.get(4)) {
+    struct.waitedTime=iprot.readI64();
+    struct.setWaitedTimeIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.waitedCount=iprot.readI64();
+    struct.setWaitedCountIsSet(true);
+  }
+  if (incoming.get(6)) {
+    struct.lockName=iprot.readString();
+    struct.setLockNameIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.lockOwnerId=iprot.readI64();
+    struct.setLockOwnerIdIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.lockOwnerName=iprot.readString();
+    struct.setLockOwnerNameIsSet(true);
+  }
+  if (incoming.get(9)) {
+    struct.inNative=iprot.readBool();
+    struct.setInNativeIsSet(true);
+  }
+  if (incoming.get(10)) {
+    struct.suspended=iprot.readBool();
+    struct.setSuspendedIsSet(true);
+  }
+  if (incoming.get(11)) {
+    struct.threadState=TThreadState.findByValue(iprot.readI32());
+    struct.setThreadStateIsSet(true);
+  }
+  if (incoming.get(12)) {
+{
+      org.apache.thrift.protocol.TList _list15=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.stackTrace=new ArrayList<String>(_list15.size);
+      for (int _i16=0; _i16 < _list15.size; ++_i16) {
+        String _elem17;
+        _elem17=iprot.readString();
+        struct.stackTrace.add(_elem17);
+      }
+    }
+    struct.setStackTraceIsSet(true);
+  }
+  if (incoming.get(13)) {
+{
+      org.apache.thrift.protocol.TList _list18=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.lockedMonitors=new ArrayList<TMonitorInfo>(_list18.size);
+      for (int _i19=0; _i19 < _list18.size; ++_i19) {
+        TMonitorInfo _elem20;
+        _elem20=new TMonitorInfo();
+        _elem20.read(iprot);
+        struct.lockedMonitors.add(_elem20);
+      }
+    }
+    struct.setLockedMonitorsIsSet(true);
+  }
+  if (incoming.get(14)) {
+{
+      org.apache.thrift.protocol.TList _list21=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.lockedSynchronizers=new ArrayList<String>(_list21.size);
+      for (int _i22=0; _i22 < _list21.size; ++_i22) {
+        String _elem23;
+        _elem23=iprot.readString();
+        struct.lockedSynchronizers.add(_elem23);
+      }
+    }
+    struct.setLockedSynchronizersIsSet(true);
+  }
+}

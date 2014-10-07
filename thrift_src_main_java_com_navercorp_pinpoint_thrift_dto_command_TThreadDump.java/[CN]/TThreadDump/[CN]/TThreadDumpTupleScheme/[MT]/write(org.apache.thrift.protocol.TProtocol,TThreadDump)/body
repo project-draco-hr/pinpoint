@@ -1,0 +1,110 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetThreadName()) {
+    optionals.set(0);
+  }
+  if (struct.isSetThreadId()) {
+    optionals.set(1);
+  }
+  if (struct.isSetBlockedTime()) {
+    optionals.set(2);
+  }
+  if (struct.isSetBlockedCount()) {
+    optionals.set(3);
+  }
+  if (struct.isSetWaitedTime()) {
+    optionals.set(4);
+  }
+  if (struct.isSetWaitedCount()) {
+    optionals.set(5);
+  }
+  if (struct.isSetLockName()) {
+    optionals.set(6);
+  }
+  if (struct.isSetLockOwnerId()) {
+    optionals.set(7);
+  }
+  if (struct.isSetLockOwnerName()) {
+    optionals.set(8);
+  }
+  if (struct.isSetInNative()) {
+    optionals.set(9);
+  }
+  if (struct.isSetSuspended()) {
+    optionals.set(10);
+  }
+  if (struct.isSetThreadState()) {
+    optionals.set(11);
+  }
+  if (struct.isSetStackTrace()) {
+    optionals.set(12);
+  }
+  if (struct.isSetLockedMonitors()) {
+    optionals.set(13);
+  }
+  if (struct.isSetLockedSynchronizers()) {
+    optionals.set(14);
+  }
+  oprot.writeBitSet(optionals,15);
+  if (struct.isSetThreadName()) {
+    oprot.writeString(struct.threadName);
+  }
+  if (struct.isSetThreadId()) {
+    oprot.writeI64(struct.threadId);
+  }
+  if (struct.isSetBlockedTime()) {
+    oprot.writeI64(struct.blockedTime);
+  }
+  if (struct.isSetBlockedCount()) {
+    oprot.writeI64(struct.blockedCount);
+  }
+  if (struct.isSetWaitedTime()) {
+    oprot.writeI64(struct.waitedTime);
+  }
+  if (struct.isSetWaitedCount()) {
+    oprot.writeI64(struct.waitedCount);
+  }
+  if (struct.isSetLockName()) {
+    oprot.writeString(struct.lockName);
+  }
+  if (struct.isSetLockOwnerId()) {
+    oprot.writeI64(struct.lockOwnerId);
+  }
+  if (struct.isSetLockOwnerName()) {
+    oprot.writeString(struct.lockOwnerName);
+  }
+  if (struct.isSetInNative()) {
+    oprot.writeBool(struct.inNative);
+  }
+  if (struct.isSetSuspended()) {
+    oprot.writeBool(struct.suspended);
+  }
+  if (struct.isSetThreadState()) {
+    oprot.writeI32(struct.threadState.getValue());
+  }
+  if (struct.isSetStackTrace()) {
+{
+      oprot.writeI32(struct.stackTrace.size());
+      for (      String _iter12 : struct.stackTrace) {
+        oprot.writeString(_iter12);
+      }
+    }
+  }
+  if (struct.isSetLockedMonitors()) {
+{
+      oprot.writeI32(struct.lockedMonitors.size());
+      for (      TMonitorInfo _iter13 : struct.lockedMonitors) {
+        _iter13.write(oprot);
+      }
+    }
+  }
+  if (struct.isSetLockedSynchronizers()) {
+{
+      oprot.writeI32(struct.lockedSynchronizers.size());
+      for (      String _iter14 : struct.lockedSynchronizers) {
+        oprot.writeString(_iter14);
+      }
+    }
+  }
+}

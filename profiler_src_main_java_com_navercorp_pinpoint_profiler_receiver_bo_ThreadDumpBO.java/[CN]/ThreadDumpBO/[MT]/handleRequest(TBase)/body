@@ -12,21 +12,37 @@
  else {
     threadInfoList=Arrays.asList(getAllThreadInfo());
   }
-  StringBuilder dump=new StringBuilder();
+  TCommandThreadDumpResponse response=new TCommandThreadDumpResponse();
   for (  ThreadInfo info : threadInfoList) {
-    dump.append(info.getThreadName());
-    dump.append("\t Thread.State: ");
-    dump.append(info.getThreadState());
-    StackTraceElement[] elements=info.getStackTrace();
-    for (    StackTraceElement element : elements) {
-      dump.append("\r\n\t at");
-      dump.append(element);
+    TThreadDump dump=new TThreadDump();
+    dump.setThreadName(info.getThreadName());
+    dump.setThreadId(info.getThreadId());
+    dump.setBlockedTime(info.getBlockedTime());
+    dump.setBlockedCount(info.getBlockedCount());
+    dump.setWaitedTime(info.getWaitedTime());
+    dump.setWaitedCount(info.getWaitedCount());
+    dump.setLockName(info.getLockName());
+    dump.setLockOwnerId(info.getLockOwnerId());
+    dump.setLockOwnerName(info.getLockOwnerName());
+    dump.setInNative(info.isInNative());
+    dump.setSuspended(info.isSuspended());
+    dump.setThreadState(getThreadState(info));
+    StackTraceElement[] stackTraceElements=info.getStackTrace();
+    for (    StackTraceElement each : stackTraceElements) {
+      dump.addToStackTrace(each.toString());
     }
-    dump.append("\r\n");
-    dump.append("\r\n");
+    MonitorInfo[] monitorInfos=info.getLockedMonitors();
+    for (    MonitorInfo each : monitorInfos) {
+      TMonitorInfo tMonitorInfo=new TMonitorInfo();
+      tMonitorInfo.setStackDepth(each.getLockedStackDepth());
+      tMonitorInfo.setStackFrame(each.getLockedStackFrame().toString());
+      dump.addToLockedMonitors(tMonitorInfo);
+    }
+    LockInfo[] lockInfos=info.getLockedSynchronizers();
+    for (    LockInfo lockInfo : lockInfos) {
+      dump.addToLockedSynchronizers(lockInfo.toString());
+    }
+    response.addToThreadDumps(dump);
   }
-  TResult result=new TResult(true);
-  result.setMessage(dump.toString());
-  logger.debug("Result = {}",result);
-  return result;
+  return response;
 }
