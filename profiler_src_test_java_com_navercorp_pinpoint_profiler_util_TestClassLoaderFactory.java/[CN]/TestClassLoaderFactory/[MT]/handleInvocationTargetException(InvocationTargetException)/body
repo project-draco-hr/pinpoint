@@ -1,0 +1,10 @@
+{
+  Throwable targetException=e.getTargetException();
+  if (targetException instanceof RuntimeException) {
+    throw (RuntimeException)targetException;
+  }
+  if (targetException instanceof Error) {
+    throw (Error)targetException;
+  }
+  throw new UndeclaredThrowableException(targetException);
+}

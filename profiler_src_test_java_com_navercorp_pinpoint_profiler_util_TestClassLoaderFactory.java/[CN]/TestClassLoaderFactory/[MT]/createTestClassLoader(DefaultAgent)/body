@@ -1,0 +1,11 @@
+{
+  if (isCloverRuntimePresent(CENQUA_CLOVER)) {
+    return createTestClassLoaderForClover(testAgent,ClassUtils.getPackageName(CENQUA_CLOVER));
+  }
+ else   if (isCloverRuntimePresent(ATLASSIAN_CLOVER)) {
+    return createTestClassLoaderForClover(testAgent,ClassUtils.getPackageName(ATLASSIAN_CLOVER));
+  }
+ else {
+    return createDefaultTestClassLoader(testAgent);
+  }
+}

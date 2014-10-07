@@ -1,0 +1,15 @@
+{
+  if (e instanceof NoSuchMethodException) {
+    throw new IllegalStateException("Constructor not found: " + e.getMessage());
+  }
+  if (e instanceof IllegalAccessException) {
+    throw new IllegalStateException("Could not access constructor: " + e.getMessage());
+  }
+  if (e instanceof InvocationTargetException) {
+    handleInvocationTargetException((InvocationTargetException)e);
+  }
+  if (e instanceof RuntimeException) {
+    throw (RuntimeException)e;
+  }
+  throw new UndeclaredThrowableException(e);
+}

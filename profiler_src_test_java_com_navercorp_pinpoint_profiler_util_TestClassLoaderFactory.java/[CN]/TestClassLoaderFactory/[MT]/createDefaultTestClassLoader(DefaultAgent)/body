@@ -1,0 +1,10 @@
+{
+  try {
+    Constructor<TestClassLoader> c=TestClassLoader.class.getConstructor(DefaultAgent.class);
+    return c.newInstance(testAgent);
+  }
+ catch (  Exception e) {
+    handleReflectionException(e);
+  }
+  throw new IllegalStateException("Should not get here");
+}

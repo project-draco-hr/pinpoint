@@ -1,0 +1,11 @@
+{
+  LOGGER.info(String.format("CloverRuntime detected. Creating CloverRuntimeTestClassLoader delegating package [%s]",cloverPackageName));
+  try {
+    Constructor<TestClassLoaderForClover> c=TestClassLoaderForClover.class.getConstructor(DefaultAgent.class,String.class);
+    return c.newInstance(testAgent,cloverPackageName);
+  }
+ catch (  Exception e) {
+    handleReflectionException(e);
+  }
+  throw new IllegalStateException("Should not get here");
+}
