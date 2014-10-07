@@ -1,0 +1,14 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  try {
+    InstrumentClass requestFacade=byteCodeInstrumentor.getClass(javassistClassName);
+    return requestFacade.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.warn("modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
+}
