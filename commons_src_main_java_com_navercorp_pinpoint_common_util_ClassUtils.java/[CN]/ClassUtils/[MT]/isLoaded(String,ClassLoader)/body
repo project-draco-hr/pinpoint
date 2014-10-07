@@ -1,0 +1,15 @@
+{
+  if (name == null) {
+    throw new IllegalArgumentException("name must not be null");
+  }
+  ClassLoader classLoaderToUse=classLoader;
+  if (classLoaderToUse == null) {
+    classLoaderToUse=ClassLoaderUtils.getDefaultClassLoader();
+  }
+  try {
+    return (classLoaderToUse.loadClass(name) != CLASS_NOT_LOADED);
+  }
+ catch (  ClassNotFoundException e) {
+  }
+  return false;
+}
