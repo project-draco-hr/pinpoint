@@ -6,7 +6,7 @@
     CheckerCategory checkerCategory=CheckerCategory.getValue(rule.getCheckerName());
     DataCollector collector=collectorMap.get(checkerCategory);
     if (collector == null) {
-      collector=dataCollectorFactory.createDataCollector(checkerCategory,application,timeSlotEndTime,SLOT_INTERVAL);
+      collector=dataCollectorFactory.createDataCollector(checkerCategory,application,timeSlotEndTime);
       collectorMap.put(collector.getDataCollectorCategory(),collector);
     }
     AlarmCheckFilter checker=checkerCategory.createChecker(collector,rule);

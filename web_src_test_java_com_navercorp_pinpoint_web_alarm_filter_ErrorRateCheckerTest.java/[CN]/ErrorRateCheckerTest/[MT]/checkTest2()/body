@@ -1,6 +1,6 @@
 {
   Application application=new Application(SERVICE_NAME,ServiceType.TOMCAT);
-  ResponseTimeDataCollector collector=new ResponseTimeDataCollector(application,mockMapResponseDAO,System.currentTimeMillis(),300000);
+  ResponseTimeDataCollector collector=new ResponseTimeDataCollector(DataCollectorCategory.RESPONSE_TIME,application,mockMapResponseDAO,System.currentTimeMillis(),300000);
   Rule rule=new Rule(SERVICE_NAME,CheckerCategory.ERROR_RATE.getName(),61,"testGroup",false,false);
   ErrorRateChecker filter=new ErrorRateChecker(collector,rule);
   filter.check();

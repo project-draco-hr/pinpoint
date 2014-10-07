@@ -1,0 +1,11 @@
+{
+  logger.debug("{} check.",this.getClass().getSimpleName());
+  dataCollector.collect();
+  Map<String,Long> agents=getAgentValues();
+  for (  Entry<String,Long> agent : agents.entrySet()) {
+    if (decideResult(agent.getValue())) {
+      detected=true;
+      detectedAgents.put(agent.getKey(),agent.getValue());
+    }
+  }
+}
