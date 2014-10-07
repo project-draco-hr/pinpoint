@@ -1,0 +1,14 @@
+{
+  List<CtMethod> utilMethodList=new ArrayList<CtMethod>();
+  for (  CtMethod method : adviceClass.getDeclaredMethods()) {
+    if (method.hasAnnotation(PointCut.class) || method.hasAnnotation(JointPoint.class)) {
+      continue;
+    }
+    int modifiers=method.getModifiers();
+    if (!Modifier.isPrivate(modifiers)) {
+      throw new CannotCompileException("non private UtilMethod unsupported. method:" + method.getLongName());
+    }
+    utilMethodList.add(method);
+  }
+  return utilMethodList;
+}

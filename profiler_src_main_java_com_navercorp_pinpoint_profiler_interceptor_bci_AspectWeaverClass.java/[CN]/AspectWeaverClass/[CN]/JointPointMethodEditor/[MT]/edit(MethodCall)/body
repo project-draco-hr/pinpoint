@@ -1,0 +1,21 @@
+{
+  final boolean joinPointMethod=isJoinPointMethod(jointPointList,methodCall.getMethodName(),methodCall.getSignature());
+  if (joinPointMethod) {
+    if (!methodCall.getSignature().equals(replaceMethod.getSignature())) {
+      throw new CannotCompileException("Signature miss match. method:" + sourceMethod.getName() + " source:"+ sourceMethod.getSignature()+ " jointPoint:"+ replaceMethod.getSignature());
+    }
+    final String invokeSource=invokeSourceMethod();
+    if (logger.isInfoEnabled()) {
+      logger.info("{}{} -> invokeSource:{}",methodCall.getMethodName(),methodCall.getSignature(),invokeSource);
+    }
+    methodCall.replace(invokeSource);
+  }
+ else {
+    try {
+      sourceClass.getMethod(methodCall.getMethodName(),methodCall.getSignature());
+    }
+ catch (    NotFoundException e) {
+      throw new CannotCompileException(e.getMessage(),e);
+    }
+  }
+}

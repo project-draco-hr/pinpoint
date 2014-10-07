@@ -1,0 +1,14 @@
+{
+  if (className.startsWith("java")) {
+    if (className.startsWith("/",4) || className.startsWith("x/",4)) {
+      return SKIP;
+    }
+  }
+  if (classLoader == agentLoader) {
+    return SKIP;
+  }
+  if (className.startsWith("com/nhn/pinpoint/")) {
+    return SKIP;
+  }
+  return CONTINUE;
+}

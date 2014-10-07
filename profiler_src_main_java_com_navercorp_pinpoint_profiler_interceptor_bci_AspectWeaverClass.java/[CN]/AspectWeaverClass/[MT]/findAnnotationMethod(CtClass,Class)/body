@@ -1,0 +1,15 @@
+{
+  if (ctClass == null) {
+    throw new NullPointerException("ctClass must not be null");
+  }
+  if (annotation == null) {
+    throw new NullPointerException("annotation must not be null");
+  }
+  final List<CtMethod> annotationList=new ArrayList<CtMethod>();
+  for (  CtMethod method : ctClass.getDeclaredMethods()) {
+    if (method.hasAnnotation(annotation)) {
+      annotationList.add(method);
+    }
+  }
+  return annotationList;
+}

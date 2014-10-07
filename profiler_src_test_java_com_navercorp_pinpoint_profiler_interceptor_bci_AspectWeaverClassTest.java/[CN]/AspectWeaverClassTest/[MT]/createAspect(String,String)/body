@@ -1,0 +1,15 @@
+{
+  try {
+    ClassPool classPool=new ClassPool(true);
+    Loader loader=new Loader(classPool);
+    CtClass ctOriginal=classPool.get(originalName);
+    CtClass ctAdvice=classPool.get(aspectName);
+    AspectWeaverClass weaver=new AspectWeaverClass();
+    weaver.weaving(ctOriginal,ctAdvice);
+    Class aClass=loader.loadClass(originalName);
+    return aClass.newInstance();
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}

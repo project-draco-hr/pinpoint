@@ -1,0 +1,7 @@
+{
+  String copyMethodName=methodNameReplacer.replaceMethodName(sourceMethod.getName());
+  final CtMethod copy=CtNewMethod.copy(sourceMethod,copyMethodName,sourceClass,null);
+  final int modifiers=copy.getModifiers();
+  copy.setModifiers(Modifier.setPrivate(modifiers));
+  return copy;
+}

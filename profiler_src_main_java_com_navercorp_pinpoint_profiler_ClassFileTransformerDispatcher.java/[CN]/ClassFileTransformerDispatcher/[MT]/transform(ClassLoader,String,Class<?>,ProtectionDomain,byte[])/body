@@ -1,13 +1,5 @@
 {
-  if (className.startsWith("java")) {
-    if (className.startsWith("/",4) || className.startsWith("x/",4)) {
-      return classFileBuffer;
-    }
-  }
-  if (classLoader == agentClassLoader) {
-    return null;
-  }
-  if (className.startsWith("com/nhn/pinpoint/")) {
+  if (skipFilter.doFilter(classLoader,className,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
   Modifier findModifier=this.modifierRegistry.findModifier(className);
