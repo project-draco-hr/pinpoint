@@ -1,0 +1,10 @@
+{
+  if (fqcn == null) {
+    throw new IllegalArgumentException("fully-qualified class name must not be null");
+  }
+  final int lastPackageSeparatorIndex=fqcn.lastIndexOf(PACKAGE_SEPARATOR);
+  if (lastPackageSeparatorIndex == -1) {
+    return "";
+  }
+  return fqcn.substring(0,lastPackageSeparatorIndex);
+}
