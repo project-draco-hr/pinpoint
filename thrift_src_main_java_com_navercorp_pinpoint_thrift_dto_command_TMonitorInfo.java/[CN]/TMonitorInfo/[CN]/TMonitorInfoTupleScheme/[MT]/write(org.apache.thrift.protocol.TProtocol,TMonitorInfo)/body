@@ -1,0 +1,17 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetStackDepth()) {
+    optionals.set(0);
+  }
+  if (struct.isSetStackFrame()) {
+    optionals.set(1);
+  }
+  oprot.writeBitSet(optionals,2);
+  if (struct.isSetStackDepth()) {
+    oprot.writeI32(struct.stackDepth);
+  }
+  if (struct.isSetStackFrame()) {
+    oprot.writeString(struct.stackFrame);
+  }
+}

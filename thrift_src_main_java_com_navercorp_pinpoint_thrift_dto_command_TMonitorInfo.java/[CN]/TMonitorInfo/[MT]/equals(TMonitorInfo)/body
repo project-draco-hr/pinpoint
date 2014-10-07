@@ -1,0 +1,16 @@
+{
+  if (that == null)   return false;
+  boolean this_present_stackDepth=true;
+  boolean that_present_stackDepth=true;
+  if (this_present_stackDepth || that_present_stackDepth) {
+    if (!(this_present_stackDepth && that_present_stackDepth))     return false;
+    if (this.stackDepth != that.stackDepth)     return false;
+  }
+  boolean this_present_stackFrame=true && this.isSetStackFrame();
+  boolean that_present_stackFrame=true && that.isSetStackFrame();
+  if (this_present_stackFrame || that_present_stackFrame) {
+    if (!(this_present_stackFrame && that_present_stackFrame))     return false;
+    if (!this.stackFrame.equals(that.stackFrame))     return false;
+  }
+  return true;
+}

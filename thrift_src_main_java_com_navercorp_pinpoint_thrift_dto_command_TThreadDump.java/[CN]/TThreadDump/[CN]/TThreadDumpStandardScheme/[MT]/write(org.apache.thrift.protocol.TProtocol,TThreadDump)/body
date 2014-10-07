@@ -1,0 +1,83 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.threadName != null) {
+    oprot.writeFieldBegin(THREAD_NAME_FIELD_DESC);
+    oprot.writeString(struct.threadName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(THREAD_ID_FIELD_DESC);
+  oprot.writeI64(struct.threadId);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(BLOCKED_TIME_FIELD_DESC);
+  oprot.writeI64(struct.blockedTime);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(BLOCKED_COUNT_FIELD_DESC);
+  oprot.writeI64(struct.blockedCount);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(WAITED_TIME_FIELD_DESC);
+  oprot.writeI64(struct.waitedTime);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(WAITED_COUNT_FIELD_DESC);
+  oprot.writeI64(struct.waitedCount);
+  oprot.writeFieldEnd();
+  if (struct.lockName != null) {
+    oprot.writeFieldBegin(LOCK_NAME_FIELD_DESC);
+    oprot.writeString(struct.lockName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(LOCK_OWNER_ID_FIELD_DESC);
+  oprot.writeI64(struct.lockOwnerId);
+  oprot.writeFieldEnd();
+  if (struct.lockOwnerName != null) {
+    oprot.writeFieldBegin(LOCK_OWNER_NAME_FIELD_DESC);
+    oprot.writeString(struct.lockOwnerName);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldBegin(IN_NATIVE_FIELD_DESC);
+  oprot.writeBool(struct.inNative);
+  oprot.writeFieldEnd();
+  oprot.writeFieldBegin(SUSPENDED_FIELD_DESC);
+  oprot.writeBool(struct.suspended);
+  oprot.writeFieldEnd();
+  if (struct.threadState != null) {
+    oprot.writeFieldBegin(THREAD_STATE_FIELD_DESC);
+    oprot.writeI32(struct.threadState.getValue());
+    oprot.writeFieldEnd();
+  }
+  if (struct.stackTrace != null) {
+    oprot.writeFieldBegin(STACK_TRACE_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.stackTrace.size()));
+      for (      String _iter9 : struct.stackTrace) {
+        oprot.writeString(_iter9);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  if (struct.lockedMonitors != null) {
+    oprot.writeFieldBegin(LOCKED_MONITORS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.lockedMonitors.size()));
+      for (      TMonitorInfo _iter10 : struct.lockedMonitors) {
+        _iter10.write(oprot);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  if (struct.lockedSynchronizers != null) {
+    oprot.writeFieldBegin(LOCKED_SYNCHRONIZERS_FIELD_DESC);
+{
+      oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.lockedSynchronizers.size()));
+      for (      String _iter11 : struct.lockedSynchronizers) {
+        oprot.writeString(_iter11);
+      }
+      oprot.writeListEnd();
+    }
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

@@ -22,12 +22,13 @@
       return createResponse(false,String.format("Can't get message from %s.",context));
     }
  else     if (result instanceof TCommandEcho) {
-      String messagee=((TCommandEcho)result).getMessage();
-      return createResponse(true,message);
+      return createResponse(true,((TCommandEcho)result).getMessage());
     }
  else     if (result instanceof TResult) {
-      String messagee=((TResult)result).getMessage();
-      return createResponse(false,message);
+      return createResponse(false,((TResult)result).getMessage());
+    }
+ else {
+      return createResponse(false,result.toString());
     }
   }
  catch (  TException e) {
