@@ -1,9 +1,11 @@
 {
+  DefaultAgent agent=MockAgent.of("pinpoint-spring-bean-test.config");
+  ByteCodeInstrumentor realInstrumentor=agent.getByteCodeInstrumentor();
   ByteCodeInstrumentor instrumentor=mock(ByteCodeInstrumentor.class);
   InstrumentClass instrumentClass=mock(InstrumentClass.class);
   when(instrumentor.getClass(TARGET_INTERNAL_NAME)).thenReturn(instrumentClass);
   when(instrumentClass.isInterceptable()).thenReturn(true);
-  when(instrumentClass.getDeclaredMethods(BeanMethodModifier.METHOD_FILTER)).thenReturn(getInstrumentor().getClass(TARGET).getDeclaredMethods(BeanMethodModifier.METHOD_FILTER));
+  when(instrumentClass.getDeclaredMethods(BeanMethodModifier.METHOD_FILTER)).thenReturn(realInstrumentor.getClass(TARGET).getDeclaredMethods(BeanMethodModifier.METHOD_FILTER));
   ClassLoader loader=getClass().getClassLoader();
   byte[] byteCode=ClassTransformHelper.getClassFile(loader,TARGET);
   BeanMethodModifier modifier=new BeanMethodModifier(instrumentor);
@@ -16,7 +18,4 @@
   verify(instrumentClass).addInterceptor(eq("compareTo"),eq(new String[]{TARGET}),isA(MethodInterceptor.class));
   verify(instrumentClass).toBytecode();
   verifyNoMoreInteractions(instrumentor,instrumentClass);
-  for (  Method method : getInstrumentor().getClass(TARGET).getDeclaredMethods()) {
-    System.out.println(method.getMethodName() + ", " + Arrays.toString(method.getMethodParams()));
-  }
 }

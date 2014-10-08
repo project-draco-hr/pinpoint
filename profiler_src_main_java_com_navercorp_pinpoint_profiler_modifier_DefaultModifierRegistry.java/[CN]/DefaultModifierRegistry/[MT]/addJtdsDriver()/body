@@ -7,8 +7,8 @@
   addModifier(jdbc4_1ConnectionModifier);
   AbstractModifier mssqlStatementModifier=new JtdsStatementModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlStatementModifier);
-  DedicatedModifier mssqlPreparedStatementModifier=new JtdsPreparedStatementModifier(byteCodeInstrumentor,agent);
+  AbstractModifier mssqlPreparedStatementModifier=new JtdsPreparedStatementModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlPreparedStatementModifier);
-  DedicatedModifier mssqlResultSetModifier=new JtdsResultSetModifier(byteCodeInstrumentor,agent);
+  AbstractModifier mssqlResultSetModifier=new JtdsResultSetModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlResultSetModifier);
 }
