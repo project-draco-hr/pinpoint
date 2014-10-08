@@ -2,7 +2,7 @@
   if (state.get() != RUN) {
     return false;
   }
-  StreamResponsePacket response=new StreamResponsePacket(bytes);
+  StreamDataPacket response=new StreamDataPacket(channelId,bytes);
   this.channel.write(response);
   return true;
 }

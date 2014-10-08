@@ -19,8 +19,12 @@ case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 return readStreamCreateSuccess(packetType,buffer);
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 return readStreamCreateFail(packetType,buffer);
-case PacketType.APPLICATION_STREAM_RESPONSE:
-return readStreamResponse(packetType,buffer);
+case PacketType.APPLICATION_STREAM_DATA:
+return readStreamData(packetType,buffer);
+case PacketType.APPLICATION_STREAM_PING:
+return readStreamPing(packetType,buffer);
+case PacketType.APPLICATION_STREAM_PONG:
+return readStreamPong(packetType,buffer);
 case PacketType.CONTROL_CLIENT_CLOSE:
 return readControlClientClose(packetType,buffer);
 case PacketType.CONTROL_SERVER_CLOSE:

@@ -1,0 +1,7 @@
+{
+  ChannelBuffer header=ChannelBuffers.buffer(2 + 4 + 4);
+  header.writeShort(getPacketType());
+  header.writeInt(getStreamChannelId());
+  header.writeInt(requestId);
+  return header;
+}
