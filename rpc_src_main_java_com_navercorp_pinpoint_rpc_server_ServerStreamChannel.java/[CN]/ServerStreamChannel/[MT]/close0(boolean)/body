@@ -3,7 +3,7 @@
     return false;
   }
   if (safeClose) {
-    StreamClosePacket streamClosePacket=new StreamClosePacket(channelId);
+    StreamClosePacket streamClosePacket=new StreamClosePacket(channelId,StreamClosePacket.SUCCESS);
     this.channel.write(streamClosePacket);
     ServerStreamChannelManager serverStreamChannelManager=this.serverStreamChannelManager;
     if (serverStreamChannelManager != null) {
