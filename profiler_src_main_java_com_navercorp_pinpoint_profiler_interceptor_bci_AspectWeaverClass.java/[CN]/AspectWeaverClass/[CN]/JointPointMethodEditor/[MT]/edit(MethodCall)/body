@@ -5,17 +5,23 @@
       throw new CannotCompileException("Signature miss match. method:" + sourceMethod.getName() + " source:"+ sourceMethod.getSignature()+ " jointPoint:"+ replaceMethod.getSignature());
     }
     final String invokeSource=invokeSourceMethod();
-    if (logger.isInfoEnabled()) {
-      logger.info("{}{} -> invokeSource:{}",methodCall.getMethodName(),methodCall.getSignature(),invokeSource);
+    if (logger.isDebugEnabled()) {
+      logger.debug("JointPoint method {}{} -> invokeOriginal:{}",methodCall.getMethodName(),methodCall.getSignature(),invokeSource);
     }
     methodCall.replace(invokeSource);
   }
  else {
-    try {
-      sourceClass.getMethod(methodCall.getMethodName(),methodCall.getSignature());
-    }
- catch (    NotFoundException e) {
-      throw new CannotCompileException(e.getMessage(),e);
+    if (isSubClass) {
+      try {
+        CtMethod method=methodCall.getMethod();
+        CtClass declaringClass=method.getDeclaringClass();
+        if (sourceClass.subclassOf(declaringClass)) {
+          sourceClass.getMethod(methodCall.getMethodName(),methodCall.getSignature());
+        }
+      }
+ catch (      NotFoundException e) {
+        throw new CannotCompileException(e.getMessage(),e);
+      }
     }
   }
 }
