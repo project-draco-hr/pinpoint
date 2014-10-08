@@ -1,0 +1,7 @@
+{
+  final List<CtMethod> utilMethodList=findUtilMethod(adviceClass);
+  for (  CtMethod method : utilMethodList) {
+    final CtMethod copyMethod=CtNewMethod.copy(method,method.getName(),sourceClass,null);
+    sourceClass.addMethod(copyMethod);
+  }
+}

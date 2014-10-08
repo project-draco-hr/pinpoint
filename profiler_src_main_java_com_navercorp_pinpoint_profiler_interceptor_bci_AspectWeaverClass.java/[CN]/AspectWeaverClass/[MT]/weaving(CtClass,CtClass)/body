@@ -1,12 +1,18 @@
 {
+  if (logger.isInfoEnabled()) {
+    logger.info("weaving sourceClass:{} advice:{}",sourceClass.getName(),adviceClass.getName());
+  }
   if (!isAspectClass(adviceClass)) {
     throw new RuntimeException("@Aspect not found. adviceClass:" + adviceClass);
   }
-  List<CtMethod> utilMethodList=findUtilMethod(adviceClass);
-  for (  CtMethod method : utilMethodList) {
-    CtMethod copyMethod=CtNewMethod.copy(method,method.getName(),sourceClass,null);
-    sourceClass.addMethod(copyMethod);
+  final boolean isSubClass=adviceClass.subclassOf(sourceClass);
+  if (!isSubClass) {
+    final CtClass superClass=adviceClass.getSuperclass();
+    if (!superClass.getName().equals("java.lang.Object")) {
+      throw new CannotCompileException("invalid class hierarchy. " + sourceClass.getName() + " adviceSuperClass:"+ superClass.getName());
+    }
   }
+  copyUtilMethod(sourceClass,adviceClass);
   final List<CtMethod> pointCutMethodList=findAnnotationMethod(adviceClass,PointCut.class);
   final List<CtMethod> jointPointList=findAnnotationMethod(adviceClass,JointPoint.class);
   for (  CtMethod adviceMethod : pointCutMethodList) {
@@ -14,6 +20,9 @@
     if (!sourceMethod.getSignature().equals(adviceMethod.getSignature())) {
       throw new CannotCompileException("Signature miss match. method:" + adviceMethod.getName() + " source:"+ sourceMethod.getSignature()+ " advice:"+ adviceMethod.getSignature());
     }
-    weavingMethod(sourceClass,sourceMethod,adviceMethod,jointPointList);
+    if (logger.isInfoEnabled()) {
+      logger.info("weaving method:{}{}",sourceMethod.getName(),sourceMethod.getSignature());
+    }
+    weavingMethod(sourceClass,sourceMethod,adviceMethod,jointPointList,isSubClass);
   }
 }
