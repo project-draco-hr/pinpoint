@@ -1,0 +1,10 @@
+{
+  if (elements != null) {
+    for (    NameValue entry : elements) {
+      if (entry.value instanceof AbstractAnnotationAnalyzer) {
+        AbstractAnnotationAnalyzer<?> analyzer=(AbstractAnnotationAnalyzer<?>)entry.value;
+        entry.value=analyzer.getValue();
+      }
+    }
+  }
+}

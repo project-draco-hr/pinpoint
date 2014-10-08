@@ -2,7 +2,7 @@
   if (skipFilter.doFilter(classLoader,className,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
-  Modifier findModifier=this.modifierRegistry.findModifier(className);
+  DedicatedModifier findModifier=this.modifierRegistry.findModifier(className);
   if (findModifier == null) {
     if (this.profilerConfig.isProfilableClass(className)) {
       findModifier=this.modifierRegistry.findModifier("*");

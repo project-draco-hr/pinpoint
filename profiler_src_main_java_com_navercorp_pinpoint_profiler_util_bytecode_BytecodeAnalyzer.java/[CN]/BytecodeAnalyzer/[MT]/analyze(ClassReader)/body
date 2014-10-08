@@ -1,0 +1,15 @@
+{
+  reader.accept(this,ClassReader.SKIP_CODE);
+  List<BytecodeAnnotation> annotations=null;
+  if (annotationAnalyzers != null) {
+    annotations=new ArrayList<BytecodeAnnotation>();
+    for (    AnnotationAnalyzer analyzer : annotationAnalyzers) {
+      annotations.add(analyzer.getValue());
+    }
+  }
+  List<BytecodeMethod> methods=new ArrayList<BytecodeMethod>(methodAnalyzers.size());
+  for (  MethodAnalyzer analyzer : methodAnalyzers) {
+    methods.add(analyzer.toASMMethod());
+  }
+  return new BytecodeClass(version,access,name,signature,superName,interfaces,annotations,methods);
+}

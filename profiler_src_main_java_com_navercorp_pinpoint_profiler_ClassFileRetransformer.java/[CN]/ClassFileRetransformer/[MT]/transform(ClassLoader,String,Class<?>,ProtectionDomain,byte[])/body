@@ -1,0 +1,13 @@
+{
+  if (targets.remove(new Target(loader,className)) == null) {
+    return null;
+  }
+  BytecodeClass target=BytecodeAnalyzer.analyze(classfileBuffer);
+  byte[] transformed=classfileBuffer;
+  for (  GeneralModifier modifier : modifiers) {
+    if (modifier.canModify(target)) {
+      transformed=modifier.modify(loader,protectionDomain,target,transformed);
+    }
+  }
+  return transformed;
+}

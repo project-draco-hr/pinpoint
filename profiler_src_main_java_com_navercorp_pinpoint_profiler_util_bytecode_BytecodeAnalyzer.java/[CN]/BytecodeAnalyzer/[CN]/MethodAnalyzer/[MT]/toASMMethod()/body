@@ -1,0 +1,10 @@
+{
+  List<BytecodeAnnotation> annotations=null;
+  if (this.annotationAnalyzers != null) {
+    annotations=new ArrayList<BytecodeAnnotation>();
+    for (    AnnotationAnalyzer analyzer : annotationAnalyzers) {
+      annotations.add(analyzer.getValue());
+    }
+  }
+  return new BytecodeMethod(access,name,desc,signature,exceptions,annotations);
+}
