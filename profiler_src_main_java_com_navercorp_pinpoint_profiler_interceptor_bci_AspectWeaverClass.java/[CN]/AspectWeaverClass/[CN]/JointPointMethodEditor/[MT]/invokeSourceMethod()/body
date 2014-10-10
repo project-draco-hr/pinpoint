@@ -1,9 +1,6 @@
 {
   CodeBuilder builder=new CodeBuilder(32);
-  if (isVoid(replaceMethod.getSignature())) {
-    builder.append("$_=null;");
-  }
- else {
+  if (!isVoid(replaceMethod.getSignature())) {
     builder.append("$_=");
   }
   builder.format("%1$s($$);",methodNameReplacer.replaceMethodName(sourceMethod.getName()));

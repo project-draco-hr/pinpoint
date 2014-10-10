@@ -3,7 +3,7 @@
     if (!state.compareAndSet(OPEN_ARRIVED,RUN)) {
       return false;
     }
-    StreamCreateSuccessPacket streamCreateSuccessPacket=new StreamCreateSuccessPacket(channelId,bytes);
+    StreamCreateSuccessPacket streamCreateSuccessPacket=new StreamCreateSuccessPacket(channelId);
     this.channel.write(streamCreateSuccessPacket);
     return true;
   }
@@ -11,7 +11,7 @@
     if (!state.compareAndSet(OPEN_ARRIVED,CLOSED)) {
       return false;
     }
-    StreamCreateFailPacket streamCreateFailPacket=new StreamCreateFailPacket(channelId,bytes);
+    StreamCreateFailPacket streamCreateFailPacket=new StreamCreateFailPacket(channelId,StreamCreateFailPacket.UNKNWON_ERROR);
     this.channel.write(streamCreateFailPacket);
     return true;
   }

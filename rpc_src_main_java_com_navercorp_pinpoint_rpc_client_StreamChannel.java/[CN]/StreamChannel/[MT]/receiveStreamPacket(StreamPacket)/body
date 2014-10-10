@@ -11,13 +11,13 @@ logger.debug("APPLICATION_STREAM_CREATE_FAIL {}",channel);
 StreamCreateResponse failResult=new StreamCreateResponse(false);
 failResult.setMessage(packet.getPayload());
 return openChannel(CLOSED,failResult);
-case PacketType.APPLICATION_STREAM_RESPONSE:
+case PacketType.APPLICATION_STREAM_DATA:
 {
 logger.debug("APPLICATION_STREAM_RESPONSE {}",channel);
-StreamResponsePacket streamResponsePacket=(StreamResponsePacket)packet;
+StreamDataPacket streamResponsePacket=(StreamDataPacket)packet;
 StreamChannelMessageListener streamChannelMessageListener=this.streamChannelMessageListener;
 if (streamChannelMessageListener != null) {
-streamChannelMessageListener.handleStreamResponse(this,streamResponsePacket.getPayload());
+streamChannelMessageListener.handleStreamData(this,streamResponsePacket);
 }
 return true;
 }
@@ -28,7 +28,7 @@ this.closeInternal();
 StreamClosePacket streamClosePacket=(StreamClosePacket)packet;
 StreamChannelMessageListener streamChannelMessageListener=this.streamChannelMessageListener;
 if (streamChannelMessageListener != null) {
-streamChannelMessageListener.handleClose(this,streamClosePacket.getPayload());
+streamChannelMessageListener.handleStreamClose(this,streamClosePacket);
 }
 return true;
 }
