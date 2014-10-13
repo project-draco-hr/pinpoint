@@ -4,11 +4,13 @@
     InstrumentClass webappLoader=byteCodeInstrumentor.getClass(javassistClassName);
     Interceptor webappLoaderStartInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.WebappLoaderStartInterceptor",null,null);
     boolean isHooked=false;
-    if (isHooked=webappLoader.hasDeclaredMethod("start",null)) {
+    if (webappLoader.hasDeclaredMethod("start",null)) {
       webappLoader.addInterceptor("start",null,webappLoaderStartInterceptor);
+      isHooked=true;
     }
- else     if (isHooked=webappLoader.hasDeclaredMethod("startInternal",null)) {
+ else     if (webappLoader.hasDeclaredMethod("startInternal",null)) {
       webappLoader.addInterceptor("startInternal",null,webappLoaderStartInterceptor);
+      isHooked=true;
     }
     if (isHooked) {
       logger.info("{} class is converted.",javassistClassName);

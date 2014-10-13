@@ -6,13 +6,15 @@
     Interceptor standardServiceStartInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStartInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});
     Interceptor standardServiceStopInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStopInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});
     boolean isHooked=false;
-    if (isHooked=(standardService.hasDeclaredMethod("start",null) && standardService.hasDeclaredMethod("stop",null))) {
+    if (standardService.hasDeclaredMethod("start",null) && standardService.hasDeclaredMethod("stop",null)) {
       standardService.addInterceptor("start",null,standardServiceStartInterceptor);
       standardService.addInterceptor("stop",null,standardServiceStopInterceptor);
+      isHooked=true;
     }
- else     if (isHooked=(standardService.hasDeclaredMethod("startInternal",null) && standardService.hasDeclaredMethod("stopInternal",null))) {
+ else     if (standardService.hasDeclaredMethod("startInternal",null) && standardService.hasDeclaredMethod("stopInternal",null)) {
       standardService.addInterceptor("startInternal",null,standardServiceStartInterceptor);
       standardService.addInterceptor("stopInternal",null,standardServiceStopInterceptor);
+      isHooked=true;
     }
     if (isHooked) {
       logger.info("{} class is converted.",javassistClassName);
