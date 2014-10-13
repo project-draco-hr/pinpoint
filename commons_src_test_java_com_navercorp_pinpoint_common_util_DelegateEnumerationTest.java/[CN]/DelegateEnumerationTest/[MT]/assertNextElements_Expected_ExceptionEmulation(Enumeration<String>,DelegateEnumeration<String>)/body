@@ -1,0 +1,9 @@
+{
+  Exception original=getException(elements);
+  Assert.assertNotSame(original,null);
+  Exception delegate=getException(delegateEnumeration);
+  Assert.assertNotSame(delegate,null);
+  Assert.assertEquals(original.getClass(),delegate.getClass());
+  Assert.assertEquals(original.getMessage(),delegate.getMessage());
+  Assert.assertEquals(original.getCause(),delegate.getCause());
+}

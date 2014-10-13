@@ -1,0 +1,24 @@
+{
+  Enumeration<String> enumeration=new Enumeration<String>(){
+    private boolean first=true;
+    @Override public boolean hasMoreElements(){
+      return first;
+    }
+    @Override public String nextElement(){
+      if (first) {
+        first=false;
+        return "exist";
+      }
+      return null;
+    }
+  }
+;
+  DelegateEnumeration<String> delegateEnumeration=new DelegateEnumeration<String>(enumeration);
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertSame(delegateEnumeration.nextElement(),"exist");
+  Assert.assertFalse(delegateEnumeration.hasMoreElements());
+  Assert.assertSame(delegateEnumeration.nextElement(),null);
+  Assert.assertSame(delegateEnumeration.nextElement(),null);
+  Assert.assertFalse(delegateEnumeration.hasMoreElements());
+}

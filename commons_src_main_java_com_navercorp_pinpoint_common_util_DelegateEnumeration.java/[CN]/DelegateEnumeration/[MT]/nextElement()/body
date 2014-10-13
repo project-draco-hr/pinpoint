@@ -1,0 +1,11 @@
+{
+  next();
+  if (nextException != null) {
+    Exception exception=this.nextException;
+    this.nextException=null;
+    this.<RuntimeException>throwException(exception);
+  }
+  final E result=getNextElement();
+  this.nextElement=null;
+  return result;
+}

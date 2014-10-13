@@ -1,0 +1,7 @@
+{
+  RequestFacadeAspect mock=new RequestFacadeAspectMock();
+  String isNull=mock.getHeader(Header.HTTP_SPAN_ID.toString());
+  Assert.assertNull(isNull);
+  String header=mock.getHeader("test");
+  Assert.assertEquals(header,"header");
+}

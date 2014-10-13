@@ -11,4 +11,8 @@
   addModifier(tomcatConnectorModifier);
   Modifier tomcatWebappLoaderModifier=new WebappLoaderModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatWebappLoaderModifier);
+  if (profilerConfig.isTomcatHidePinpointHeader()) {
+    Modifier requestFacadeModifier=new RequestFacadeModifier(byteCodeInstrumentor,agent);
+    addModifier(requestFacadeModifier);
+  }
 }

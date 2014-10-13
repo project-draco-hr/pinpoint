@@ -5,6 +5,7 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass requestFacade=byteCodeInstrumentor.getClass(javassistClassName);
+    requestFacade.weaving("com.nhn.pinpoint.profiler.modifier.tomcat.aspect.RequestFacadeAspect");
     return requestFacade.toBytecode();
   }
  catch (  InstrumentException e) {
