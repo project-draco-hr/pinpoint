@@ -1,0 +1,26 @@
+{
+  Hashtable<String,String> hashTable=new Hashtable<String,String>();
+  hashTable.put("a","aa");
+  hashTable.put("b","bb");
+  hashTable.put("c","cc");
+  List<String> valueList=new ArrayList<String>(hashTable.values());
+  Enumeration<String> enumeration=hashTable.elements();
+  DelegateEnumeration<String> delegateEnumeration=new DelegateEnumeration<String>(enumeration,new DelegateEnumeration.Filter<String>(){
+    @Override public boolean filter(    String s){
+      if ("bb".equals(s)) {
+        return true;
+      }
+      return false;
+    }
+  }
+);
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(valueList.remove(delegateEnumeration.nextElement()));
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(valueList.remove(delegateEnumeration.nextElement()));
+  Assert.assertEquals(valueList.size(),1);
+  Assert.assertFalse(delegateEnumeration.hasMoreElements());
+  assertNextElements_Expected_ExceptionEmulation(enumeration,delegateEnumeration);
+  Assert.assertEquals(valueList.size(),1);
+  Assert.assertEquals(valueList.get(0),"bb");
+}

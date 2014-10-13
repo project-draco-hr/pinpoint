@@ -1,0 +1,18 @@
+{
+  Hashtable<String,String> hashTable=new Hashtable<String,String>();
+  hashTable.put("a","aa");
+  hashTable.put("b","bb");
+  hashTable.put("c","cc");
+  List<String> valueList=new ArrayList<String>(hashTable.values());
+  Enumeration<String> enumeration=hashTable.elements();
+  DelegateEnumeration<String> delegateEnumeration=new DelegateEnumeration<String>(enumeration);
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(valueList.remove(delegateEnumeration.nextElement()));
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(valueList.remove(delegateEnumeration.nextElement()));
+  Assert.assertTrue(delegateEnumeration.hasMoreElements());
+  Assert.assertTrue(valueList.remove(delegateEnumeration.nextElement()));
+  Assert.assertTrue(valueList.isEmpty());
+  Assert.assertFalse(delegateEnumeration.hasMoreElements());
+  assertNextElements_Expected_ExceptionEmulation(enumeration,delegateEnumeration);
+}

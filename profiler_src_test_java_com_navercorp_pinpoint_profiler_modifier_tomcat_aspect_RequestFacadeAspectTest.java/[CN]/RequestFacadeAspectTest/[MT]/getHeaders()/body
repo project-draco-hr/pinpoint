@@ -1,0 +1,8 @@
+{
+  RequestFacadeAspect mock=new RequestFacadeAspectMock();
+  Enumeration isNull=mock.getHeaders(Header.HTTP_SPAN_ID.toString());
+  ArrayList list=Collections.list(isNull);
+  Assert.assertEquals(list.size(),0);
+  Enumeration header=mock.getHeaders("test");
+  Assert.assertEquals(Collections.list(header).size(),2);
+}

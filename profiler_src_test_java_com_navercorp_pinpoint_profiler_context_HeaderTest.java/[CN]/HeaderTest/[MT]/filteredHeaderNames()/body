@@ -1,0 +1,14 @@
+{
+  Hashtable<String,String> hashtable=new Hashtable<String,String>();
+  hashtable.put("a","aa");
+  hashtable.put("b",Header.HTTP_FLAGS.toString());
+  hashtable.put("c","cc");
+  Enumeration<String> elements=hashtable.elements();
+  Enumeration enumeration=Header.filteredHeaderNames(elements);
+  int count=0;
+  while (enumeration.hasMoreElements()) {
+    count++;
+    Assert.assertFalse(Header.hasHeader((String)enumeration.nextElement()));
+  }
+  Assert.assertEquals(count,2);
+}
