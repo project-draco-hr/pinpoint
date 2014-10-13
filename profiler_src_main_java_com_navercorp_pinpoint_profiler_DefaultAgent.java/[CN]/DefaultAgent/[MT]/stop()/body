@@ -9,7 +9,7 @@ synchronized (this) {
     }
   }
   logger.info("Stopping {} Agent.",ProductInfo.CAMEL_NAME);
-  this.heartBitChecker.stop();
+  this.heartBeatChecker.stop();
   tAgentInfo.setEndStatus(0);
   tAgentInfo.setEndTimestamp(System.currentTimeMillis());
   this.tcpDataSender.send(tAgentInfo);
