@@ -1,0 +1,12 @@
+{
+  Rule rule=checker.getRule();
+  StringBuilder body=new StringBuilder();
+  body.append("<strong>" + createSubject() + "</strong>");
+  body.append(LINE_FEED);
+  body.append(LINE_FEED);
+  body.append(String.format("Rule : %s",rule.getCheckerName()));
+  body.append(LINE_FEED);
+  body.append(checker.getEmailMessage());
+  body.append(String.format(LINK_FORMAT,pinpointUrl,pinpointUrl));
+  return body.toString();
+}

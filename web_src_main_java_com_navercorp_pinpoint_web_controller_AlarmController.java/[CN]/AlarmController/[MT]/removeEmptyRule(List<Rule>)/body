@@ -1,0 +1,11 @@
+{
+  List<Rule> newRuleList=new LinkedList<Rule>();
+  for (  Rule rule : ruleList) {
+    if (rule.getApplicationId() != null && !rule.getApplicationId().isEmpty()) {
+      if (rule.getThreshold() >= 0) {
+        newRuleList.add(rule);
+      }
+    }
+  }
+  return newRuleList;
+}

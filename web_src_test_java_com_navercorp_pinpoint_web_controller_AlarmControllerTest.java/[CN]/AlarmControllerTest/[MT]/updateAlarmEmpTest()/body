@@ -1,0 +1,30 @@
+{
+  final String groupName="con_group";
+  List<AlarmEmp> emps=new LinkedList<AlarmEmp>();
+  for (int i=0; i < 3; i++) {
+    emps.add(new AlarmEmp(groupName,"con_emp" + i,"sms","email"));
+  }
+  EmpGroup empgroup=new EmpGroup();
+  empgroup.setEmps(emps);
+  controller.insertMember(empgroup);
+  ModelAndView mv=controller.getMember(groupName);
+  emps=(List<AlarmEmp>)mv.getModel().get("groupMember");
+  assertEquals(3,emps.size());
+  List<AlarmEmp> updateEmps=new LinkedList<AlarmEmp>();
+  for (int i=0; i < 3; i++) {
+    AlarmEmp emp=new AlarmEmp(groupName,"con_emp_" + i,"sms","email");
+    emp.setId(emps.get(i).getId());
+    updateEmps.add(emp);
+  }
+  updateEmps.add(new AlarmEmp(groupName,"con_emp_" + 4,"sms","email"));
+  empgroup.setEmps(updateEmps);
+  controller.updateMember(empgroup);
+  mv=controller.getMember(groupName);
+  updateEmps=(List<AlarmEmp>)mv.getModel().get("groupMember");
+  assertEquals(4,updateEmps.size());
+  empgroup.setEmps(updateEmps);
+  controller.deleteMember(empgroup);
+  mv=controller.getMember(groupName);
+  emps=(List<AlarmEmp>)mv.getModel().get("groupMember");
+  assertEquals(0,emps.size());
+}

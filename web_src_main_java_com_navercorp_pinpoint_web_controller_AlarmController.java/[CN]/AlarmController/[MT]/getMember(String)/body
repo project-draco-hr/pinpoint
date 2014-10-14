@@ -1,0 +1,11 @@
+{
+  ModelAndView mv=new ModelAndView();
+  if (groupName != null) {
+    List<AlarmEmp> members=dao.selectEmpGroupMember(groupName);
+    mv.addObject("groupMember",members);
+  }
+  List<String> groupNameList=alarmGroupList();
+  mv.addObject("groupNameList",groupNameList);
+  mv.setViewName("alarm/empGroup");
+  return mv;
+}

@@ -1,0 +1,30 @@
+{
+  if (init.get()) {
+    return;
+  }
+  Range range=Range.createUncheckedRange(timeSlotEndTime - slotInterval,timeSlotEndTime);
+  List<String> agentIds=applicationIndexDao.selectAgentIds(application.getName());
+  for (  String agentId : agentIds) {
+    List<AgentStat> scanAgentStatList=agentStatDao.scanAgentStatList(agentId,range);
+    int listSize=scanAgentStatList.size();
+    long totalHeapSize=0;
+    long usedHeapSize=0;
+    long jvmCpuUsaged=0;
+    for (    AgentStat agentStat : scanAgentStatList) {
+      totalHeapSize+=agentStat.getMemoryGc().getJvmMemoryHeapMax();
+      usedHeapSize+=agentStat.getMemoryGc().getJvmMemoryHeapUsed();
+      jvmCpuUsaged+=agentStat.getCpuLoad().getJvmCpuLoad() * 100;
+    }
+    if (listSize > 0) {
+      long percent=0;
+      percent=calculatePercent(usedHeapSize,totalHeapSize);
+      agentHeapUsageRate.put(agentId,percent);
+      percent=calculatePercent(jvmCpuUsaged,100 * scanAgentStatList.size());
+      agentJvmCpuUsageRate.put(agentId,percent);
+      long accruedLastGCcount=scanAgentStatList.get(0).getMemoryGc().getJvmGcOldCount();
+      long accruedFirstGCcount=scanAgentStatList.get(listSize - 1).getMemoryGc().getJvmGcOldCount();
+      agentGcCount.put(agentId,accruedLastGCcount - accruedFirstGCcount);
+    }
+  }
+  init.set(true);
+}

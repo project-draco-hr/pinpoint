@@ -6,7 +6,7 @@
   NpcHessianConnector connector=null;
   try {
     connector=factory.create();
-    AlarmMailTemplate mailTemplate=new AlarmMailTemplate(application,mailResource,event);
+    AlarmMailTemplate mailTemplate=new AlarmMailTemplate(null,null);
     Object[] params=createSendMailParams(alarmCheckFilterList,mailTemplate);
     InvocationFuture future=connector.invoke(null,"send",params);
     future.await();

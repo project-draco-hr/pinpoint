@@ -1,0 +1,15 @@
+{
+  StepExecution stepExecution=new StepExecution("alarmStep",null);
+  ExecutionContext executionContext=new ExecutionContext();
+  executionContext.put(AlarmPartitioner.PARTITION_NUMBER,2);
+  stepExecution.setExecutionContext(executionContext);
+  MySqlAlarmResourceDao alarmResourceDao=new MySqlAlarmResourceDao(){
+    @Override public java.util.List<Rule> selectAppRule(    String applicationName){
+      return new LinkedList<Rule>();
+    }
+  }
+;
+  AlarmReader reader=new AlarmReader(dataCollectorFactory,applicationIndexDao,alarmResourceDao);
+  reader.beforeStep(stepExecution);
+  assertNull(reader.read());
+}

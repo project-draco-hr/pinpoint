@@ -1,0 +1,5 @@
+{
+  AlarmMailTemplate mailTemplate=new AlarmMailTemplate(checker,pinpointUrl);
+  List<String> receivers=dao.selectEmpGroupEmail(checker.getEmpGroup());
+  return new Object[]{EMAIL_SERVICE_ID,OPTION,SENDER_EMAIL_ADDRESS,"",joinAddresses(receivers),mailTemplate.createSubject(),mailTemplate.createBody()};
+}

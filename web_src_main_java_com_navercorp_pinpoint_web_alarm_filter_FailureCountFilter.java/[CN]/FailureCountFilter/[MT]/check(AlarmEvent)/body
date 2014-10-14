@@ -1,12 +1,12 @@
 {
   logger.debug("{} check.",this.getClass().getSimpleName());
-  MapStatisticsCallerDao dao=event.getMapStatisticsCallerDao();
+  MapStatisticsCallerDao dao=null;
   if (dao == null) {
     logger.warn("{} object is null.",MapStatisticsCallerDao.class.getSimpleName());
     return false;
   }
   long startEventTimeMillis=event.getEventStartTimeMillis();
-  int continuationTime=getRule().getContinuosTime();
+  int continuationTime=300000;
   Range range=Range.createUncheckedRange(startEventTimeMillis - continuationTime,startEventTimeMillis);
   LinkDataMap linkDataMap=dao.selectCaller(application,range);
   for (  LinkData linkData : linkDataMap.getLinkDataList()) {

@@ -1,0 +1,37 @@
+{
+  agentStatDao=new AgentStatDao(){
+    @Override public List<AgentStat> scanAgentStatList(    String agentId,    Range range){
+      List<AgentStat> AgentStatList=new LinkedList<AgentStat>();
+      for (int i=0; i < 36; i++) {
+        AgentStatCpuLoadBo.Builder cpuLoadBoBuilder=new AgentStatCpuLoadBo.Builder("AGETNT_NAME",0L,1L);
+        cpuLoadBoBuilder.jvmCpuLoad(60);
+        AgentStatCpuLoadBo cpuLoadBo=cpuLoadBoBuilder.build();
+        AgentStatMemoryGcBo.Builder memoryGcBobuilder=new AgentStatMemoryGcBo.Builder("AGETNT_NAME",0L,1L);
+        AgentStatMemoryGcBo memoryGcBo=memoryGcBobuilder.build();
+        AgentStat stat=new AgentStat();
+        stat.setCpuLoad(cpuLoadBo);
+        stat.setMemoryGc(memoryGcBo);
+        AgentStatList.add(stat);
+      }
+      return AgentStatList;
+    }
+  }
+;
+  applicationIndexDao=new ApplicationIndexDao(){
+    @Override public List<Application> selectAllApplicationNames(){
+      throw new UnsupportedOperationException();
+    }
+    @Override public List<String> selectAgentIds(    String applicationName){
+      if (SERVICE_NAME.equals(applicationName)) {
+        List<String> agentIds=new LinkedList<String>();
+        agentIds.add("local_tomcat");
+        return agentIds;
+      }
+      throw new IllegalArgumentException();
+    }
+    @Override public void deleteApplicationName(    String applicationName){
+      throw new UnsupportedOperationException();
+    }
+  }
+;
+}

@@ -1,0 +1,15 @@
+{
+  List<Rule> rules=alarmResourceDao.selectAppRule(application.getName());
+  long timeSlotEndTime=System.currentTimeMillis();
+  Map<DataCollectorCategory,DataCollector> collectorMap=new HashMap<DataCollectorCategory,DataCollector>();
+  for (  Rule rule : rules) {
+    CheckerCategory checkerCategory=CheckerCategory.getValue(rule.getCheckerName());
+    DataCollector collector=collectorMap.get(checkerCategory);
+    if (collector == null) {
+      collector=dataCollectorFactory.createDataCollector(checkerCategory,application,timeSlotEndTime);
+      collectorMap.put(collector.getDataCollectorCategory(),collector);
+    }
+    AlarmCheckFilter checker=checkerCategory.createChecker(collector,rule);
+    checkers.add(checker);
+  }
+}

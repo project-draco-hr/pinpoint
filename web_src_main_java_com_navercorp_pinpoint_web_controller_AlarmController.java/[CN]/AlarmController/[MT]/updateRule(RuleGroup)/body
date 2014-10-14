@@ -1,0 +1,6 @@
+{
+  List<Rule> ruleList=removeEmptyRule(ruleGroup.getRuleList());
+  dao.deleteAppRule(ruleList.get(0).getApplicationId());
+  dao.insertAppRule(ruleList);
+  return "redirect:/alarmRule/getRule.pinpoint?applicationName=" + ruleGroup.getRuleList().get(0).getApplicationId();
+}
