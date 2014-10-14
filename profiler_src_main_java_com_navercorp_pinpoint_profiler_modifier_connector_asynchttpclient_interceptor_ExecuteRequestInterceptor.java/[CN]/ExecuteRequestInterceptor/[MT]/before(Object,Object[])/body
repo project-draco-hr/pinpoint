@@ -28,11 +28,11 @@
   trace.recordServiceType(ServiceType.HTTP_CLIENT);
   if (httpRequest != null) {
     final FluentCaseInsensitiveStringsMap httpRequestHeaders=httpRequest.getHeaders();
-    httpRequestHeaders.add(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
-    httpRequestHeaders.add(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
-    httpRequestHeaders.add(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
-    httpRequestHeaders.add(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
-    httpRequestHeaders.add(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
-    httpRequestHeaders.add(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+    putHeader(httpRequestHeaders,Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    putHeader(httpRequestHeaders,Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    putHeader(httpRequestHeaders,Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    putHeader(httpRequestHeaders,Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    putHeader(httpRequestHeaders,Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    putHeader(httpRequestHeaders,Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
   }
 }
