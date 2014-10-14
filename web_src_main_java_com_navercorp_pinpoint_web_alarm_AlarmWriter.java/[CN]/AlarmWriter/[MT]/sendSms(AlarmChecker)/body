@@ -6,6 +6,7 @@
   CloseableHttpClient client=HttpClients.createDefault();
   try {
     for (    String message : checker.getSmsMessage()) {
+      logger.info("send SMS : {}",message);
       List<NameValuePair> nvps=new ArrayList<NameValuePair>();
       nvps.add(new BasicNameValuePair("serviceId",SMS_SERVICE_ID));
       nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + SENDER_NUMBER + QUOTATATION));

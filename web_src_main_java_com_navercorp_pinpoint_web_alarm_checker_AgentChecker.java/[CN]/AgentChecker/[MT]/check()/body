@@ -1,5 +1,4 @@
 {
-  logger.debug("{} check.",this.getClass().getSimpleName());
   dataCollector.collect();
   Map<String,Long> agents=getAgentValues();
   for (  Entry<String,Long> agent : agents.entrySet()) {
@@ -7,5 +6,6 @@
       detected=true;
       detectedAgents.put(agent.getKey(),agent.getValue());
     }
+    logger.info("{} result is {} for agent({}). value is {}. (threshold : {}).",this.getClass().getSimpleName(),detected,agent.getKey(),agent.getValue(),rule.getThreshold());
   }
 }
