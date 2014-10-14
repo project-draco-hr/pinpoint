@@ -1,5 +1,12 @@
 {
   final HttpServletRequest request=(HttpServletRequest)args[0];
+  final String requestURI=request.getRequestURI();
+  if (excludeUrlFilter.filter(requestURI)) {
+    if (isTrace) {
+      logger.trace("filter requestURI:{}",requestURI);
+    }
+    return null;
+  }
   final boolean sampling=samplingEnable(request);
   if (!sampling) {
     final Trace trace=getTraceContext().disableSampling();

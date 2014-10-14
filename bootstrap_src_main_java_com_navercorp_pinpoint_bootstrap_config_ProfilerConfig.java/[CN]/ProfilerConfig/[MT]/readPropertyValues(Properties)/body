@@ -33,6 +33,8 @@
   this.jdbcProfileDbcp=readBoolean(prop,"profiler.jdbc.dbcp",true);
   this.jdbcProfileDbcpConnectionClose=readBoolean(prop,"profiler.jdbc.dbcp.connectionclose",false);
   this.tomcatHidePinpointHeader=readBoolean(prop,"profiler.tomcat.hidepinpointheader",true);
+  final String tomcatExcludeURL=readString(prop,"profiler.tomcat.excludeurl",null);
+  this.tomcatExcludeUrlFilter=new ExcludeUrlFilter(tomcatExcludeURL);
   this.arucs=readBoolean(prop,"profiler.arcus",true);
   this.arucsKeyTrace=readBoolean(prop,"profiler.arcus.keytrace",false);
   this.memcached=readBoolean(prop,"profiler.memcached",true);
