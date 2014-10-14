@@ -3,23 +3,27 @@
     throw new IllegalArgumentException("timeoutMillis must not be negative :" + timeoutMillis);
   }
   boolean interrupted=false;
+  try {
 synchronized (this) {
-    if (ready) {
-      return true;
-    }
-    try {
-      this.waiters++;
-      wait(timeoutMillis);
-    }
- catch (    InterruptedException e) {
-      interrupted=true;
-    }
+      if (ready) {
+        return true;
+      }
+      try {
+        this.waiters++;
+        wait(timeoutMillis);
+      }
+ catch (      InterruptedException e) {
+        interrupted=true;
+      }
  finally {
-      this.waiters--;
+        this.waiters--;
+      }
+      return ready;
     }
   }
-  if (interrupted) {
-    Thread.currentThread().interrupt();
+  finally {
+    if (interrupted) {
+      Thread.currentThread().interrupt();
+    }
   }
-  return ready;
 }
