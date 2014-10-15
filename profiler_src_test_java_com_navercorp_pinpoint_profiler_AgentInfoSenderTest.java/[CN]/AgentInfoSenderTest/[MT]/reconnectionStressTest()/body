@@ -1,0 +1,27 @@
+{
+  final AtomicInteger requestCount=new AtomicInteger();
+  final AtomicInteger successCount=new AtomicInteger();
+  final long stressTestTime=60 * 1000L;
+  final int randomMaxTime=3000;
+  final long agentInfoSendRetryIntervalMs=1000L;
+  final int expectedTriesUntilSuccess=(int)stressTestTime / (randomMaxTime * 2);
+  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
+  TcpDataSender dataSender=new TcpDataSender(socket);
+  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo(),getServerMetaDataHolder());
+  long startTime=System.currentTimeMillis();
+  try {
+    agentInfoSender.start();
+    Random random=new Random(System.currentTimeMillis());
+    while (System.currentTimeMillis() < startTime + stressTestTime) {
+      createAndDeleteServer(serverListener,Math.abs(random.nextInt(randomMaxTime)));
+      Thread.sleep(Math.abs(random.nextInt(1000)));
+    }
+  }
+  finally {
+    closeAll(null,agentInfoSender,socket,socketFactory);
+  }
+  assertEquals(1,successCount.get());
+  assertEquals(expectedTriesUntilSuccess,requestCount.get());
+}

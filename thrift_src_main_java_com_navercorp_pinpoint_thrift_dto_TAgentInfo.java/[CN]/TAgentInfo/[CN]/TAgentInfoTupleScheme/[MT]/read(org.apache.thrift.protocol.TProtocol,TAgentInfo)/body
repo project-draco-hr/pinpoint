@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(11);
+  BitSet incoming=iprot.readBitSet(12);
   if (incoming.get(0)) {
     struct.hostname=iprot.readString();
     struct.setHostnameIsSet(true);
@@ -44,5 +44,10 @@
   if (incoming.get(10)) {
     struct.endStatus=iprot.readI32();
     struct.setEndStatusIsSet(true);
+  }
+  if (incoming.get(11)) {
+    struct.serverMetaData=new TServerMetaData();
+    struct.serverMetaData.read(iprot);
+    struct.setServerMetaDataIsSet(true);
   }
 }

@@ -1,6 +1,7 @@
 {
   String serverName=this.serverName == null ? "" : this.serverName;
   List<String> vmArgs=this.vmArgs == null ? Collections.<String>emptyList() : new ArrayList<String>(this.vmArgs);
-  List<ServiceInfo> serviceInfos=new ArrayList<ServiceInfo>(this.serviceInfos);
-  return new DefaultServerMetaData(serverName,vmArgs,serviceInfos);
+  Map<Integer,String> connectors=this.connectors.isEmpty() ? Collections.<Integer,String>emptyMap() : new HashMap<Integer,String>(this.connectors);
+  List<ServiceInfo> serviceInfos=this.serviceInfos.isEmpty() ? Collections.<ServiceInfo>emptyList() : new ArrayList<ServiceInfo>(this.serviceInfos);
+  return new DefaultServerMetaData(serverName,vmArgs,connectors,serviceInfos);
 }

@@ -50,6 +50,13 @@
     oprot.writeI32(struct.endStatus);
     oprot.writeFieldEnd();
   }
+  if (struct.serverMetaData != null) {
+    if (struct.isSetServerMetaData()) {
+      oprot.writeFieldBegin(SERVER_META_DATA_FIELD_DESC);
+      struct.serverMetaData.write(oprot);
+      oprot.writeFieldEnd();
+    }
+  }
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }

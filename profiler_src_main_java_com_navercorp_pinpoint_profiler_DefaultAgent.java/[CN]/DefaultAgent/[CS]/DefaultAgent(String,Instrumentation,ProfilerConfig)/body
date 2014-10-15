@@ -11,7 +11,6 @@
   dumpConfig(profilerConfig);
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=profilerConfig;
-  this.serverInfo=new ServerInfo();
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(profilerConfig.getApplicationServerType());
   if (!typeResolver.resolve()) {
     throw new PinpointException("ApplicationServerType not found.");
@@ -27,14 +26,14 @@
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
-  this.tAgentInfo=createTAgentInfo();
   this.factory=createPinpointSocketFactory(this.profilerConfig.isTcpDataSenderCommandAcceptEnable());
   this.socket=createPinpointSocket(this.profilerConfig.getCollectorServerIp(),this.profilerConfig.getCollectorTcpServerPort(),factory);
+  this.serverMetaDataHolder=createServerMetaDataHolder();
   this.tcpDataSender=createTcpDataSender(socket);
   this.spanDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
   this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext(agentInformation.getServerType());
-  this.heartBeatChecker=new HeartBeatChecker(tcpDataSender,profilerConfig.getHeartbeatInterval(),tAgentInfo);
+  this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation,this.serverMetaDataHolder);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
   preLoadClass();
   if (typeResolver.isManuallyStartupRequired()) {

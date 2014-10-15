@@ -1,9 +1,0 @@
-{
-  if (LOGGER.isInfoEnabled()) {
-    LOGGER.info("Send startup information to Pinpoint server via {}. agentInfo={}",dataSender.getClass().getSimpleName(),agentInfo);
-  }
-  this.heartBitState.changeStateToNeedRequest(System.currentTimeMillis());
-  this.dataSender.addReconnectEventListener(new ReconnectEventListener(heartBitState));
-  this.ioThread=THREAD_FACTORY.newThread(heartBitCommand);
-  this.ioThread.start();
-}

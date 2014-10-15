@@ -1,0 +1,27 @@
+{
+  if (!getClass().equals(other.getClass())) {
+    return getClass().getName().compareTo(other.getClass().getName());
+  }
+  int lastComparison=0;
+  lastComparison=Boolean.valueOf(isSetServiceName()).compareTo(other.isSetServiceName());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetServiceName()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.serviceName,other.serviceName);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  lastComparison=Boolean.valueOf(isSetServiceLibs()).compareTo(other.isSetServiceLibs());
+  if (lastComparison != 0) {
+    return lastComparison;
+  }
+  if (isSetServiceLibs()) {
+    lastComparison=org.apache.thrift.TBaseHelper.compareTo(this.serviceLibs,other.serviceLibs);
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+  }
+  return 0;
+}

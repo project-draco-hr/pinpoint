@@ -1,0 +1,63 @@
+{
+  org.apache.thrift.protocol.TField schemeField;
+  iprot.readStructBegin();
+  while (true) {
+    schemeField=iprot.readFieldBegin();
+    if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+      break;
+    }
+switch (schemeField.id) {
+case 1:
+      if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+        struct.serverInfo=iprot.readString();
+        struct.setServerInfoIsSet(true);
+      }
+ else {
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+      }
+    break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+      org.apache.thrift.protocol.TList _list8=iprot.readListBegin();
+      struct.vmArgs=new ArrayList<String>(_list8.size);
+      for (int _i9=0; _i9 < _list8.size; ++_i9) {
+        String _elem10;
+        _elem10=iprot.readString();
+        struct.vmArgs.add(_elem10);
+      }
+      iprot.readListEnd();
+    }
+    struct.setVmArgsIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 10:
+if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+{
+  org.apache.thrift.protocol.TList _list11=iprot.readListBegin();
+  struct.serviceInfos=new ArrayList<TServiceInfo>(_list11.size);
+  for (int _i12=0; _i12 < _list11.size; ++_i12) {
+    TServiceInfo _elem13;
+    _elem13=new TServiceInfo();
+    _elem13.read(iprot);
+    struct.serviceInfos.add(_elem13);
+  }
+  iprot.readListEnd();
+}
+struct.setServiceInfosIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+default :
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+iprot.readFieldEnd();
+}
+iprot.readStructEnd();
+struct.validate();
+}

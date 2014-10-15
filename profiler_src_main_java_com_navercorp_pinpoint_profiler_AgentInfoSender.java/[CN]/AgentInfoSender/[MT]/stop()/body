@@ -1,0 +1,10 @@
+{
+  EXECUTOR_SERVICE.shutdown();
+  try {
+    EXECUTOR_SERVICE.awaitTermination(3000,TimeUnit.MILLISECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+  LOGGER.info("AgentInfoSender stopped");
+}
