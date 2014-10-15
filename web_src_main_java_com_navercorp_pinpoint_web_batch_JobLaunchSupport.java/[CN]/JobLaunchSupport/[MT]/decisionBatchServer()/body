@@ -1,0 +1,23 @@
+{
+  Enumeration<NetworkInterface> interfaces;
+  try {
+    interfaces=NetworkInterface.getNetworkInterfaces();
+  }
+ catch (  SocketException e) {
+    logger.error("not found network nterface",e);
+    return false;
+  }
+  while (interfaces.hasMoreElements()) {
+    NetworkInterface network=interfaces.nextElement();
+    Enumeration<InetAddress> inets=network.getInetAddresses();
+    while (inets.hasMoreElements()) {
+      InetAddress next=inets.nextElement();
+      if (next instanceof Inet4Address) {
+        if (next.getHostAddress().equals(batchServerIp)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
