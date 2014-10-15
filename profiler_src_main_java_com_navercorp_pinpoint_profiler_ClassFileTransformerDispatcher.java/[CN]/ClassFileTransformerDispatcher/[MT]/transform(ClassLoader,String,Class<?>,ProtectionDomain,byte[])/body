@@ -4,7 +4,7 @@
   }
   Modifier findModifier=this.modifierRegistry.findModifier(className);
   if (findModifier == null) {
-    if (this.profilerConfig.isProfilableClass(className)) {
+    if (this.profilerConfig.getProfilableClassFilter().filter(className)) {
       findModifier=this.modifierRegistry.findModifier("*");
     }
  else {
@@ -14,7 +14,7 @@
   if (isDebug) {
     logger.debug("[transform] cl:{} className:{} Modifier:{}",classLoader,className,findModifier.getClass().getName());
   }
-  String javassistClassName=className.replace('/','.');
+  final String javassistClassName=className.replace('/','.');
   try {
     final Thread thread=Thread.currentThread();
     final ClassLoader before=getContextClassLoader(thread);
