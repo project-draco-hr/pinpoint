@@ -8,7 +8,7 @@
     for (    String message : checker.getSmsMessage()) {
       logger.info("send SMS : {}",message);
       List<NameValuePair> nvps=new ArrayList<NameValuePair>();
-      nvps.add(new BasicNameValuePair("serviceId",SMS_SERVICE_ID));
+      nvps.add(new BasicNameValuePair("serviceId",smsServiceID));
       nvps.add(new BasicNameValuePair("sendMdn",QUOTATATION + SENDER_NUMBER + QUOTATATION));
       nvps.add(new BasicNameValuePair("receiveMdnList",convertToReceiverFormat(receivers)));
       nvps.add(new BasicNameValuePair("content",QUOTATATION + message + QUOTATATION));
