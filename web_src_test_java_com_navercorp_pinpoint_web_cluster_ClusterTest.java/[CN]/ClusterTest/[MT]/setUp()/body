@@ -1,3 +1,11 @@
 {
+  WebConfig config=mock(WebConfig.class);
+  when(config.isClusterEnable()).thenReturn(true);
+  when(config.getClusterTcpPort()).thenReturn(DEFAULT_ACCEPTOR_PORT);
+  when(config.getClusterZookeeperAddress()).thenReturn("127.0.0.1:22213");
+  when(config.getClusterZookeeperRetryInterval()).thenReturn(60000);
+  when(config.getClusterZookeeperSessionTimeout()).thenReturn(3000);
+  socketManager=new PinpointSocketManager(config);
+  socketManager.start();
   ts=createZookeeperServer(DEFAULT_ZOOKEEPER_PORT);
 }
