@@ -1,0 +1,12 @@
+{
+  if (!decisionBatchServer()) {
+    return null;
+  }
+  try {
+    Job job=locator.getJob(jobName);
+    return launcher.run(job,params);
+  }
+ catch (  Exception e) {
+    throw new IllegalStateException(e);
+  }
+}
