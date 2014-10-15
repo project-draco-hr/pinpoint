@@ -1,0 +1,10 @@
+{
+  message=message.replace("\\","\\\\").replace("\"","\\\"").replace("\r\n","\\n").replace("\r","\\n").replace("\n","\\n");
+  try {
+    return URLEncoder.encode(message,"UTF-8");
+  }
+ catch (  UnsupportedEncodingException e) {
+    logger.error("Can't encoding sms message.");
+    return "batch job fail";
+  }
+}

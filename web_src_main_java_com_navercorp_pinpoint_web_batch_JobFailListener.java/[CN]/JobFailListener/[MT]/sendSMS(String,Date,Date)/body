@@ -1,0 +1,21 @@
+{
+  String encodeMsg=encodeMessage("[PINPOINT]batch job fail\n jobName : " + jobName + "\n start : "+ start+ "\n end : NOW");
+  for (  String number : cellPhoneNumbers) {
+    String url=mexServerUrl + "?serviceId=\"" + serviceID+ "\""+ "&sendMdn=\""+ number+ "\""+ "&receiveMdnList=[\""+ number+ "\"]"+ "&content=\""+ encodeMsg+ "\"";
+    try {
+      URL submitURL=new URL(url);
+      HttpURLConnection connection=(HttpURLConnection)submitURL.openConnection();
+      connection.setConnectTimeout(3000);
+      connection.setReadTimeout(3000);
+      connection.setRequestMethod("GET");
+      connection.setRequestProperty("Content-Language","utf-8");
+      connection.connect();
+      if (connection != null && connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+        logger.error("fail send sms message for batch fail.");
+      }
+    }
+ catch (    Exception e) {
+      logger.error("fail send sms message for batch fail.",e);
+    }
+  }
+}
