@@ -1,14 +1,14 @@
 {
   JtdsDriverModifier jtdsDriverModifier=new JtdsDriverModifier(byteCodeInstrumentor,agent);
   addModifier(jtdsDriverModifier);
-  Modifier jdbc2ConnectionModifier=new Jdbc2ConnectionModifier(byteCodeInstrumentor,agent);
+  AbstractModifier jdbc2ConnectionModifier=new Jdbc2ConnectionModifier(byteCodeInstrumentor,agent);
   addModifier(jdbc2ConnectionModifier);
-  Modifier jdbc4_1ConnectionModifier=new Jdbc4_1ConnectionModifier(byteCodeInstrumentor,agent);
+  AbstractModifier jdbc4_1ConnectionModifier=new Jdbc4_1ConnectionModifier(byteCodeInstrumentor,agent);
   addModifier(jdbc4_1ConnectionModifier);
-  Modifier mssqlStatementModifier=new JtdsStatementModifier(byteCodeInstrumentor,agent);
+  AbstractModifier mssqlStatementModifier=new JtdsStatementModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlStatementModifier);
-  Modifier mssqlPreparedStatementModifier=new JtdsPreparedStatementModifier(byteCodeInstrumentor,agent);
+  AbstractModifier mssqlPreparedStatementModifier=new JtdsPreparedStatementModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlPreparedStatementModifier);
-  Modifier mssqlResultSetModifier=new JtdsResultSetModifier(byteCodeInstrumentor,agent);
+  AbstractModifier mssqlResultSetModifier=new JtdsResultSetModifier(byteCodeInstrumentor,agent);
   addModifier(mssqlResultSetModifier);
 }

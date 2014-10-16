@@ -1,10 +1,10 @@
 {
-  Modifier oracleDriverModifier=new OracleDriverModifier(byteCodeInstrumentor,agent);
+  AbstractModifier oracleDriverModifier=new OracleDriverModifier(byteCodeInstrumentor,agent);
   addModifier(oracleDriverModifier);
-  Modifier oracleConnectionModifier=new PhysicalConnectionModifier(byteCodeInstrumentor,agent);
+  AbstractModifier oracleConnectionModifier=new PhysicalConnectionModifier(byteCodeInstrumentor,agent);
   addModifier(oracleConnectionModifier);
-  Modifier oraclePreparedStatementModifier=new OraclePreparedStatementWrapperModifier(byteCodeInstrumentor,agent);
+  AbstractModifier oraclePreparedStatementModifier=new OraclePreparedStatementWrapperModifier(byteCodeInstrumentor,agent);
   addModifier(oraclePreparedStatementModifier);
-  Modifier oracleStatement=new OracleStatementWrapperModifier(byteCodeInstrumentor,agent);
+  AbstractModifier oracleStatement=new OracleStatementWrapperModifier(byteCodeInstrumentor,agent);
   addModifier(oracleStatement);
 }

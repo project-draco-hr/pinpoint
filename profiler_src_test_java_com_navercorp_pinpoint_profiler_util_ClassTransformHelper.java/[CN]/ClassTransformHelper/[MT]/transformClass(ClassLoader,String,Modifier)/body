@@ -1,0 +1,5 @@
+{
+  byte[] original=getClassFile(classLoader,className);
+  byte[] transformed=modifier.modify(classLoader,className,null,original);
+  return defineClass(classLoader,className,transformed);
+}

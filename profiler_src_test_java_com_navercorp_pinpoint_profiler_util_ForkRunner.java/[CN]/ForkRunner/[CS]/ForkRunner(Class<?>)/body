@@ -1,0 +1,17 @@
+{
+  super(klass);
+  PinpointAgent path=klass.getAnnotation(PinpointAgent.class);
+  if (path != null && path.value() != null) {
+    agentJar=path.value();
+  }
+ else {
+    agentJar="target/pinpoint-agent/pinpoint-bootstrap-" + Version.VERSION + ".jar";
+  }
+  PinpointConfig config=klass.getAnnotation(PinpointConfig.class);
+  if (config != null && config.value() != null) {
+    configPath=config.value();
+  }
+ else {
+    configPath=null;
+  }
+}

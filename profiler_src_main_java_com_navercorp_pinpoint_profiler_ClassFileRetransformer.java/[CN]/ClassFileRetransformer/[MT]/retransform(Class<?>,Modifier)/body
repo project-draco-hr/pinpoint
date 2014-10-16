@@ -1,0 +1,11 @@
+{
+  Modifier removed=targets.put(target,modifier);
+  if (removed != null) {
+  }
+  try {
+    instrumentation.retransformClasses(target);
+  }
+ catch (  UnmodifiableClassException e) {
+    throw new ProfilerException(e);
+  }
+}

@@ -20,6 +20,8 @@
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
+  this.retransformer=new ClassFileRetransformer(instrumentation);
+  instrumentation.addTransformer(retransformer,true);
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor);
   instrumentation.addTransformer(this.classFileTransformer);
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
