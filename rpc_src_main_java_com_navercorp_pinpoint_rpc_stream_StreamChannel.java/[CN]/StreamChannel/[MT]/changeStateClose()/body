@@ -1,0 +1,13 @@
+{
+  try {
+    if (checkState(StreamChannelStateCode.CLOSED)) {
+      return true;
+    }
+    boolean result=state.changeStateClose();
+    logger.info(makeStateChangeMessage(StreamChannelStateCode.CLOSED,result));
+    return result;
+  }
+  finally {
+    openLatch.countDown();
+  }
+}

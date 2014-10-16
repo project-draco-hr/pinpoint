@@ -1,0 +1,10 @@
+{
+  StreamChannelState state=new StreamChannelState();
+  Assert.assertEquals(StreamChannelStateCode.NEW,state.getCurrentState());
+  state.changeStateOpenArrived();
+  Assert.assertEquals(StreamChannelStateCode.OPEN_ARRIVED,state.getCurrentState());
+  state.changeStateRun();
+  Assert.assertEquals(StreamChannelStateCode.RUN,state.getCurrentState());
+  state.changeStateClose();
+  Assert.assertEquals(StreamChannelStateCode.CLOSED,state.getCurrentState());
+}

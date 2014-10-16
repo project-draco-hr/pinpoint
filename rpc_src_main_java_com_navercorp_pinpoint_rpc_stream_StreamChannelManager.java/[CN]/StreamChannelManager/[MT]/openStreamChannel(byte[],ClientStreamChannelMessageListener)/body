@@ -1,0 +1,23 @@
+{
+  logger.info("Open streamChannel initialization started. Channel:{} ",channel);
+  final int streamChannelId=idGenerator.generate();
+  ClientStreamChannel newStreamChannel=new ClientStreamChannel(channel,streamChannelId,this);
+  newStreamChannel.changeStateOpen();
+  ClientStreamChannelContext newStreamChannelContext=new ClientStreamChannelContext(newStreamChannel,clientStreamChannelMessageListener);
+  StreamChannelContext old=channelMap.put(streamChannelId,newStreamChannelContext);
+  if (old != null) {
+    throw new PinpointSocketException("already streamChannelId exist:" + streamChannelId + " streamChannel:"+ old);
+  }
+  newStreamChannel.changeStateOpenAwait();
+  newStreamChannel.sendCreate(payload);
+  newStreamChannel.awaitOpen(3000);
+  if (newStreamChannel.checkState(StreamChannelStateCode.RUN)) {
+    logger.info("Open streamChannel initialization completed. Channel:{}, StreamChnnelContext:{} ",channel,newStreamChannelContext);
+    return newStreamChannelContext;
+  }
+ else {
+    newStreamChannel.changeStateClose();
+    channelMap.remove(streamChannelId);
+    throw new PinpointSocketException("Create Channel:" + channel + ", StreamChannelId:"+ streamChannelId+ " fail.");
+  }
+}

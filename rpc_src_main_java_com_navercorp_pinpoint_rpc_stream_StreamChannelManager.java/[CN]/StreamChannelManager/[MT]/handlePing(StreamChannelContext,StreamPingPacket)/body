@@ -1,0 +1,9 @@
+{
+  int streamChannelId=packet.getStreamChannelId();
+  StreamChannel streamChannel=streamChannelContext.getStreamChannel();
+  if (!streamChannel.checkState(StreamChannelStateCode.RUN)) {
+    clearResourceAndSendClose(streamChannelId,StreamClosePacket.STATE_NOT_RUN);
+    return;
+  }
+  streamChannel.sendPong(packet.getRequestId());
+}

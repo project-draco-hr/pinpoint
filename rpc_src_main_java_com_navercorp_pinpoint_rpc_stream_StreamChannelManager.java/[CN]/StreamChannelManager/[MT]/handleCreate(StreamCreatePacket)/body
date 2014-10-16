@@ -1,0 +1,17 @@
+{
+  final int streamChannelId=packet.getStreamChannelId();
+  short code=BasicStreamPacket.SUCCESS;
+  ServerStreamChannel streamChannel=new ServerStreamChannel(this.channel,streamChannelId,this);
+  ServerStreamChannelContext streamChannelContext=new ServerStreamChannelContext(streamChannel);
+  code=registerStreamChannel(streamChannelContext);
+  if (code == BasicStreamPacket.SUCCESS) {
+    code=streamChannelMessageListener.handleStreamCreate(streamChannelContext,(StreamCreatePacket)packet);
+    if (code == 0) {
+      streamChannel.changeStateRun();
+      streamChannel.sendCreateSuccess();
+    }
+  }
+  if (code != 0) {
+    clearResourceAndSendCreateFail(streamChannelId,code);
+  }
+}
