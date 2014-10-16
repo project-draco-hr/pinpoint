@@ -1,0 +1,18 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,className);
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(className);
+    Interceptor createBeanInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.spring.beans.interceptor.CreateBeanInstanceInterceptor",new Object[]{retransformer,modifier,filter},new Class<?>[]{ClassFileRetransformer.class,Modifier.class,TargetBeanFilter.class});
+    aClass.addInterceptor("createBeanInstance",new String[]{"java.lang.String","org.springframework.beans.factory.support.RootBeanDefinition","java.lang.Object[]"},createBeanInterceptor);
+    Interceptor postProcessorInterceptor=new PostProcessorInterceptor(retransformer,modifier,filter);
+    aClass.addInterceptor("applyBeanPostProcessorsBeforeInstantiation",new String[]{"java.lang.Class","java.lang.String"},postProcessorInterceptor);
+    return aClass.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.warn("AbstractAutowireCapableBeanFactoryModifier failed. Caused:",e.getMessage(),e);
+    return null;
+  }
+}

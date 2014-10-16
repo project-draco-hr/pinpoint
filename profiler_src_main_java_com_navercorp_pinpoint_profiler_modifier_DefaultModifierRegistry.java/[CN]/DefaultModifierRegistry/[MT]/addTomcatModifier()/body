@@ -5,14 +5,14 @@
   addModifier(httpServletModifier);
   SpringFrameworkServletModifier springServletModifier=new SpringFrameworkServletModifier(byteCodeInstrumentor,agent);
   addModifier(springServletModifier);
-  Modifier tomcatStandardServiceModifier=new StandardServiceModifier(byteCodeInstrumentor,agent);
+  AbstractModifier tomcatStandardServiceModifier=new StandardServiceModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatStandardServiceModifier);
-  Modifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor,agent);
+  AbstractModifier tomcatConnectorModifier=new TomcatConnectorModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatConnectorModifier);
-  Modifier tomcatWebappLoaderModifier=new WebappLoaderModifier(byteCodeInstrumentor,agent);
+  AbstractModifier tomcatWebappLoaderModifier=new WebappLoaderModifier(byteCodeInstrumentor,agent);
   addModifier(tomcatWebappLoaderModifier);
   if (profilerConfig.isTomcatHidePinpointHeader()) {
-    Modifier requestFacadeModifier=new RequestFacadeModifier(byteCodeInstrumentor,agent);
+    AbstractModifier requestFacadeModifier=new RequestFacadeModifier(byteCodeInstrumentor,agent);
     addModifier(requestFacadeModifier);
   }
 }
