@@ -1,0 +1,8 @@
+{
+  List<Class<? extends Annotation>> targetAnnotations=targetAnnotationMap.get(loader);
+  if (targetAnnotations == null) {
+    targetAnnotations=loadTargetAnnotations(loader);
+    targetAnnotationMap.put(loader,targetAnnotations);
+  }
+  return targetAnnotations;
+}

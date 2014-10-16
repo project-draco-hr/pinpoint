@@ -1,0 +1,30 @@
+{
+  if (rejected.getIfPresent(clazz) == Boolean.TRUE) {
+    return false;
+  }
+  if (targetAnnotationNames != null) {
+    List<Class<? extends Annotation>> targetAnnotations=getTargetAnnotations(clazz.getClassLoader());
+    for (    Class<? extends Annotation> a : targetAnnotations) {
+      if (clazz.isAnnotationPresent(a)) {
+        return true;
+      }
+    }
+    for (    Annotation a : clazz.getAnnotations()) {
+      for (      Class<? extends Annotation> ac : targetAnnotations) {
+        if (a.annotationType().isAnnotationPresent(ac)) {
+          return true;
+        }
+      }
+    }
+  }
+  if (targetClassPatterns != null) {
+    String className=clazz.getName();
+    for (    Pattern pattern : targetClassPatterns) {
+      if (pattern.matcher(className).matches()) {
+        return true;
+      }
+    }
+  }
+  rejected.put(clazz,Boolean.TRUE);
+  return false;
+}
