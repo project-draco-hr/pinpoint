@@ -1,23 +1,21 @@
 {
-  BeanWrapper wrapper=(BeanWrapper)result;
-  Object bean=wrapper.getWrappedInstance();
-  if (bean == null) {
-    return;
-  }
-  String beanName=(String)args[0];
-  Class<? extends Object> clazz=bean.getClass();
-  if (!filter.isTarget(beanName,clazz)) {
-    return;
-  }
   try {
-    retransformer.retransform(clazz,modifier);
-    if (logger.isInfoEnabled()) {
-      logger.info("Retransform " + clazz.getName());
+    if (result == null) {
+      return;
     }
+    Object bean;
+    try {
+      Method getter=result.getClass().getMethod("getWrappedInstance");
+      bean=getter.invoke(result);
+    }
+ catch (    Exception e) {
+      logger.warn("Fail to get create bean instance",e);
+      return;
+    }
+    String beanName=(String)args[0];
+    processBean(beanName,bean);
   }
- catch (  ProfilerException e) {
-    logger.warn("Fail to retransform: " + clazz.getName(),e);
-    return;
+ catch (  Throwable t) {
+    logger.warn("Unexpected exception",t);
   }
-  filter.addTransformed(clazz);
 }

@@ -1,22 +1,10 @@
 {
-  Object bean=result;
-  if (bean == null) {
-    return;
-  }
-  String beanName=(String)args[1];
-  Class<? extends Object> clazz=bean.getClass();
-  if (!filter.isTarget(beanName,clazz)) {
-    return;
-  }
   try {
-    retransformer.retransform(clazz,modifier);
-    if (logger.isInfoEnabled()) {
-      logger.info("Retransform " + clazz.getName());
-    }
+    Object bean=result;
+    String beanName=(String)args[1];
+    processBean(beanName,bean);
   }
- catch (  ProfilerException e) {
-    logger.warn("Fail to retransform: " + clazz.getName(),e);
-    return;
+ catch (  Throwable t) {
+    logger.warn("Unexpected exception",t);
   }
-  filter.addTransformed(clazz);
 }
