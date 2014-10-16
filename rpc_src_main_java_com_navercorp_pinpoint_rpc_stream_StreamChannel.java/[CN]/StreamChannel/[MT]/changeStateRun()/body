@@ -1,0 +1,10 @@
+{
+  try {
+    boolean result=state.changeStateRun();
+    logger.info(makeStateChangeMessage(StreamChannelStateCode.RUN,result));
+    return result;
+  }
+  finally {
+    openLatch.countDown();
+  }
+}

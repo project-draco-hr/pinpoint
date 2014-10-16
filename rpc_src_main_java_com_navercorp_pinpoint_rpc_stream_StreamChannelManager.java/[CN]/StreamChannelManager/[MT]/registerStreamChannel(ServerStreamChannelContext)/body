@@ -1,0 +1,14 @@
+{
+  int streamChannelId=streamChannelContext.getStreamId();
+  ServerStreamChannel streamChannel=streamChannelContext.getStreamChannel();
+  if (channelMap.putIfAbsent(streamChannelId,streamChannelContext) != null) {
+    streamChannel.changeStateClose();
+    return StreamCreateFailPacket.ID_DUPLICATED;
+  }
+  if (!streamChannel.changeStateOpenArrived()) {
+    streamChannel.changeStateClose();
+    channelMap.remove(streamChannelId);
+    return StreamCreateFailPacket.STATE_ILLEGAL;
+  }
+  return BasicStreamPacket.SUCCESS;
+}

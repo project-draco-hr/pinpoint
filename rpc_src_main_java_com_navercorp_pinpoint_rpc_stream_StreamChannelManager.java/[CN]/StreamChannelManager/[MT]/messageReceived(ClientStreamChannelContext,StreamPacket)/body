@@ -1,0 +1,26 @@
+{
+  final short packetType=packet.getPacketType();
+  final int streamChannelId=packet.getStreamChannelId();
+switch (packetType) {
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+    handleCreateSuccess(context,(StreamCreateSuccessPacket)packet);
+  break;
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+handleCreateFail(context,(StreamCreateFailPacket)packet);
+break;
+case PacketType.APPLICATION_STREAM_RESPONSE:
+handleStreamResponse(context,(StreamResponsePacket)packet);
+break;
+case PacketType.APPLICATION_STREAM_CLOSE:
+handleStreamClose(context,(StreamClosePacket)packet);
+break;
+case PacketType.APPLICATION_STREAM_PING:
+handlePing(context,(StreamPingPacket)packet);
+break;
+case PacketType.APPLICATION_STREAM_PONG:
+break;
+default :
+clearResourceAndSendClose(streamChannelId,StreamClosePacket.PACKET_UNKNOWN);
+logger.info("Unkown StreamPacket received Channel:{}, StreamId:{}, Packet;{}.",channel,streamChannelId,packet);
+}
+}

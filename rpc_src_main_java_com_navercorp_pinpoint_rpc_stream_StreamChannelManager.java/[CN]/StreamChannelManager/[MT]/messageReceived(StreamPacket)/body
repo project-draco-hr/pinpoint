@@ -1,0 +1,26 @@
+{
+  final int streamChannelId=packet.getStreamChannelId();
+  final short packetType=packet.getPacketType();
+  logger.info("StreamChannel message received. (Channel:{}, StreamId:{}, Packet:{}).",channel,streamChannelId,packet);
+  if (PacketType.APPLICATION_STREAM_CREATE == packetType) {
+    handleCreate((StreamCreatePacket)packet);
+    return;
+  }
+  StreamChannelContext context=findStreamChannel(streamChannelId);
+  if (context == null) {
+    if (!(PacketType.APPLICATION_STREAM_CLOSE == packetType)) {
+      clearResourceAndSendClose(streamChannelId,StreamClosePacket.ID_NOT_FOUND);
+    }
+  }
+ else {
+    if (isServerStreamChannelContext(context)) {
+      messageReceived((ServerStreamChannelContext)context,packet);
+    }
+ else     if (isClientStreamChannelContext(context)) {
+      messageReceived((ClientStreamChannelContext)context,packet);
+    }
+ else {
+      clearResourceAndSendClose(streamChannelId,StreamClosePacket.TYPE_UNKOWN);
+    }
+  }
+}
