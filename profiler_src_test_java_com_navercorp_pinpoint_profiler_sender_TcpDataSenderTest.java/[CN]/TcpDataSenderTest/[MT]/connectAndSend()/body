@@ -1,6 +1,7 @@
 {
   this.sendLatch=new CountDownLatch(2);
   PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  socketFactory.setMessageListener(new CommandDispatcher());
   PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
   TcpDataSender sender=new TcpDataSender(socket);
   try {

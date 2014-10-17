@@ -7,9 +7,6 @@
     @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
       requestResponse(requestPacket,channel);
     }
-    @Override public void handleStream(    StreamPacket streamPacket,    ServerStreamChannel streamChannel){
-      logger.warn("unsupported streamPacket received {}",streamPacket);
-    }
     @Override public int handleEnableWorker(    Map properties){
       if (properties == null) {
         return ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL;

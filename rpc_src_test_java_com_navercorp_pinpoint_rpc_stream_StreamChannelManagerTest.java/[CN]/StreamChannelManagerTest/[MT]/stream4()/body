@@ -1,0 +1,27 @@
+{
+  PinpointServerSocket ss=createServerSocket(new TestSeverMessageListener(),null);
+  ss.bind("localhost",10234);
+  SimpleStreamBO bo=new SimpleStreamBO();
+  PinpointSocketFactory pinpointSocketFactory=createSocketFactory(new TestListener(),new ServerListener(bo));
+  try {
+    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
+    Thread.sleep(100);
+    List<ChannelContext> contextList=ss.getDuplexCommunicationChannelContext();
+    Assert.assertEquals(1,contextList.size());
+    ChannelContext context=contextList.get(0);
+    RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
+    ClientStreamChannelContext clientContext=context.createStreamChannel(new byte[0],clientListener);
+    int sendCount=4;
+    for (int i=0; i < 4; i++) {
+      sendRandomBytes(bo);
+    }
+    Thread.sleep(100);
+    Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
+    clientContext.getStreamChannel().close();
+    socket.close();
+  }
+  finally {
+    pinpointSocketFactory.release();
+    ss.close();
+  }
+}

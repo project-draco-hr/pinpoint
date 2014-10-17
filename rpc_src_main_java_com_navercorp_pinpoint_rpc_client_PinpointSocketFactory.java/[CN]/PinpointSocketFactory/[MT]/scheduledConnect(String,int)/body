@@ -1,3 +1,6 @@
 {
-  return scheduledConnect(host,port,SimpleLoggingMessageListener.LISTENER);
+  PinpointSocket pinpointSocket=new PinpointSocket(new ReconnectStateSocketHandler());
+  SocketAddress address=new InetSocketAddress(host,port);
+  reconnect(pinpointSocket,address);
+  return pinpointSocket;
 }

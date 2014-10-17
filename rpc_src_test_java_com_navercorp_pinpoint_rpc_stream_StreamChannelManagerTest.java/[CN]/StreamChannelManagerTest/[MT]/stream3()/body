@@ -1,0 +1,23 @@
+{
+  SimpleStreamBO bo=new SimpleStreamBO();
+  PinpointServerSocket ss=createServerSocket(new TestSeverMessageListener(),new ServerListener(bo));
+  ss.bind("localhost",10234);
+  PinpointSocketFactory pinpointSocketFactory=createSocketFactory();
+  PinpointSocket socket=null;
+  try {
+    socket=pinpointSocketFactory.connect("127.0.0.1",10234);
+    RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
+    ClientStreamChannelContext clientContext=socket.createStreamChannel(new byte[0],clientListener);
+    Thread.sleep(100);
+    clientContext.getStreamChannel().close();
+    Thread.sleep(100);
+    sendRandomBytes(bo);
+  }
+  finally {
+    if (socket != null) {
+      socket.close();
+    }
+    pinpointSocketFactory.release();
+    ss.close();
+  }
+}

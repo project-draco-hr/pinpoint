@@ -1,9 +1,0 @@
-{
-  AssertUtils.assertNotNull(messageListener);
-  SocketAddress address=new InetSocketAddress(host,port);
-  ChannelFuture connectFuture=bootstrap.connect(address);
-  SocketHandler socketHandler=getSocketHandler(connectFuture,address);
-  PinpointSocket pinpointSocket=new PinpointSocket(socketHandler,messageListener);
-  traceSocket(pinpointSocket);
-  return pinpointSocket;
-}

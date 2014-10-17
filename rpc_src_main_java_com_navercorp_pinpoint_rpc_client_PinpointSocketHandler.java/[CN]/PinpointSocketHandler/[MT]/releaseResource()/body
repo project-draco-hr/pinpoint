@@ -1,6 +1,9 @@
 {
   logger.debug("releaseResource()");
   this.requestManager.close();
-  this.streamChannelManager.close();
+  if (this.channel != null) {
+    SocketHandlerContext context=getChannelContext(channel);
+    context.getStreamChannelManager().close();
+  }
   this.channelTimer.stop();
 }

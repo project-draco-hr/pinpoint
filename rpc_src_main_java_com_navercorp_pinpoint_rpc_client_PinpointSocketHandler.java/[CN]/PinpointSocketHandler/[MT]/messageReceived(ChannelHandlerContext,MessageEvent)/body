@@ -18,7 +18,10 @@ case PacketType.APPLICATION_STREAM_CLOSE:
 case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
 case PacketType.APPLICATION_STREAM_CREATE_FAIL:
 case PacketType.APPLICATION_STREAM_RESPONSE:
-this.streamChannelManager.messageReceived((StreamPacket)message,e.getChannel());
+case PacketType.APPLICATION_STREAM_PING:
+case PacketType.APPLICATION_STREAM_PONG:
+SocketHandlerContext context=getChannelContext(channel);
+context.getStreamChannelManager().messageReceived((StreamPacket)message);
 return;
 case PacketType.CONTROL_SERVER_CLOSE:
 messageReceivedServerClosed(e.getChannel());

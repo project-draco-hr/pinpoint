@@ -7,8 +7,22 @@
   this.channelTimer=timer;
   this.pinpointSocketFactory=pinpointSocketFactory;
   this.requestManager=new RequestManager(timer);
-  this.streamChannelManager=new StreamChannelManager();
   this.pingDelay=pingDelay;
   this.enableWorkerPacketDelay=enableWorkerPacketDelay;
   this.timeoutMillis=timeoutMillis;
+  MessageListener messageLisener=pinpointSocketFactory.getMessageListener();
+  if (messageLisener != null) {
+    this.messageListener=messageLisener;
+  }
+ else {
+    this.messageListener=SimpleLoggingMessageListener.LISTENER;
+  }
+  ServerStreamChannelMessageListener serverStreamChannelMessageListener=pinpointSocketFactory.getServerStreamChannelMessageListener();
+  if (serverStreamChannelMessageListener != null) {
+    this.serverStreamChannelMessageListener=serverStreamChannelMessageListener;
+  }
+ else {
+    this.serverStreamChannelMessageListener=DisabledServerStreamChannelMessageListener.INSTANCE;
+  }
+  pinpointSocketFactory.getServerStreamChannelMessageListener();
 }
