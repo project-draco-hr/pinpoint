@@ -7,13 +7,25 @@
     PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
     ClientStreamChannelContext clientContext=socket.createStreamChannel(new byte[0],clientListener);
+    RecordedStreamChannelMessageListener clientListener2=new RecordedStreamChannelMessageListener(4);
+    ClientStreamChannelContext clientContext2=socket.createStreamChannel(new byte[0],clientListener2);
     int sendCount=4;
-    for (int i=0; i < 4; i++) {
+    for (int i=0; i < sendCount; i++) {
       sendRandomBytes(bo);
     }
     Thread.sleep(100);
     Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
+    Assert.assertEquals(sendCount,clientListener2.getReceivedMessage().size());
     clientContext.getStreamChannel().close();
+    Thread.sleep(100);
+    sendCount=4;
+    for (int i=0; i < sendCount; i++) {
+      sendRandomBytes(bo);
+    }
+    Thread.sleep(100);
+    Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
+    Assert.assertEquals(8,clientListener2.getReceivedMessage().size());
+    clientContext2.getStreamChannel().close();
     socket.close();
   }
   finally {
