@@ -6,7 +6,9 @@
     return;
   }
   logger.warn("reconnectSocketHandler:{}",socketHandler);
-  socketHandler.setMessageListener(messageListener);
+  if (socketHandler.isSupportServerMode()) {
+    socketHandler.turnOnServerMode();
+  }
   this.socketHandler=socketHandler;
   notifyReconnectEvent();
 }

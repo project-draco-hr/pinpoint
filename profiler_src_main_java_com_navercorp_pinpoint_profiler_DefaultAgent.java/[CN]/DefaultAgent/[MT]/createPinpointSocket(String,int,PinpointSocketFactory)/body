@@ -1,3 +1,16 @@
 {
-  return createPinpointSocket(host,port,factory,false);
+  PinpointSocket socket=null;
+  for (int i=0; i < 3; i++) {
+    try {
+      socket=factory.connect(host,port);
+      logger.info("tcp connect success:{}/{}",host,port);
+      return socket;
+    }
+ catch (    PinpointSocketException e) {
+      logger.warn("tcp connect fail:{}/{} try reconnect, retryCount:{}",host,port,i);
+    }
+  }
+  logger.warn("change background tcp connect mode  {}/{} ",host,port);
+  socket=factory.scheduledConnect(host,port);
+  return socket;
 }

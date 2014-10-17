@@ -1,3 +1,8 @@
 {
-  this(socketHandler,SimpleLoggingMessageListener.LISTENER);
+  AssertUtils.assertNotNull(socketHandler,"socketHandler");
+  if (socketHandler.isSupportServerMode()) {
+    socketHandler.turnOnServerMode();
+  }
+  this.socketHandler=socketHandler;
+  socketHandler.setPinpointSocket(this);
 }

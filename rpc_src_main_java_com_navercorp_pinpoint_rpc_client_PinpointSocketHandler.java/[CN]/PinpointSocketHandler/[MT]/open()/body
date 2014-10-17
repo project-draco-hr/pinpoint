@@ -3,4 +3,8 @@
   if (!state.changeRun()) {
     throw new IllegalStateException("invalid open state:" + state.getString());
   }
+  Channel channel=this.channel;
+  if (channel != null) {
+    prepareChannel(channel);
+  }
 }
