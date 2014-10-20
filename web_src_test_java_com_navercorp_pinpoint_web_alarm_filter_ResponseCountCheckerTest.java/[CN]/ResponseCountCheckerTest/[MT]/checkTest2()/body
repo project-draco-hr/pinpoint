@@ -1,8 +1,0 @@
-{
-  Application application=new Application(SERVICE_NAME,ServiceType.TOMCAT);
-  ResponseTimeDataCollector collector=new ResponseTimeDataCollector(DataCollectorCategory.RESPONSE_TIME,application,mockMapResponseDAO,System.currentTimeMillis(),300000);
-  Rule rule=new Rule(SERVICE_NAME,CheckerCategory.RESPONSE_COUNT.getName(),126,"testGroup",false,false);
-  ResponseCountChecker filter=new ResponseCountChecker(collector,rule);
-  filter.check();
-  assertFalse(filter.isDetected());
-}

@@ -1,0 +1,13 @@
+{
+  if (init.get()) {
+    return;
+  }
+  LinkDataMap callerDataMap=mapStatisticsCallerDao.selectCaller(application,new Range(timeSlotEndTime - slotInterval,timeSlotEndTime));
+  for (  LinkData linkData : callerDataMap.getLinkDataList()) {
+    LinkCallDataMap linkCallDataMap=linkData.getLinkCallDataMap();
+    for (    LinkCallData linkCallData : linkCallDataMap.getLinkDataList()) {
+      calleStatMap.put(linkCallData.getTarget(),linkCallData);
+    }
+  }
+  init.set(true);
+}

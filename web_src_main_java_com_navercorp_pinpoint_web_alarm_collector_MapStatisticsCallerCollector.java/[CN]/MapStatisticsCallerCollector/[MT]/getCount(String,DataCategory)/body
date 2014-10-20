@@ -1,0 +1,21 @@
+{
+  LinkCallData linkCallData=calleStatMap.get(calleName);
+  long count=0;
+  if (linkCallData != null) {
+switch (dataCategory) {
+case SLOW_COUNT:
+      for (      TimeHistogram timeHistogram : linkCallData.getTimeHistogram()) {
+        count+=timeHistogram.getSlowCount();
+        count+=timeHistogram.getVerySlowCount();
+      }
+    break;
+case ERROR_COUNT:
+  for (  TimeHistogram timeHistogram : linkCallData.getTimeHistogram()) {
+    count+=timeHistogram.getErrorCount();
+  }
+break;
+}
+return count;
+}
+return 0;
+}
