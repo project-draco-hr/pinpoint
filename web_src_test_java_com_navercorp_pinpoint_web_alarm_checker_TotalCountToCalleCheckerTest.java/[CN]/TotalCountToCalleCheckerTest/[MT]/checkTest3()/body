@@ -1,6 +1,6 @@
 {
   Application application=new Application(FROM_SERVICE_NAME,ServiceType.TOMCAT);
-  MapStatisticsCallerCollector dataCollector=new MapStatisticsCallerCollector(DataCollectorCategory.CALLER_STAT,application,dao,System.currentTimeMillis(),300000);
+  MapStatisticsCallerDataCollector dataCollector=new MapStatisticsCallerDataCollector(DataCollectorCategory.CALLER_STAT,application,dao,System.currentTimeMillis(),300000);
   Rule rule=new Rule(FROM_SERVICE_NAME,CheckerCategory.TOTAL_COUNT_TO_CALLE.getName(),10,"testGroup",false,false,TO_SERVICE_NAME + 2);
   TotalCountToCalleChecker checker=new TotalCountToCalleChecker(dataCollector,rule);
   checker.check();
