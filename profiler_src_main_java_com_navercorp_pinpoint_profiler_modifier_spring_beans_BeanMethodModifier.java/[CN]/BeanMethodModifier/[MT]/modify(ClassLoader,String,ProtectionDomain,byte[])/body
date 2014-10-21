@@ -10,10 +10,10 @@
     }
     List<Method> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
     for (    Method method : methodList) {
-      final Interceptor interceptor=new MethodInterceptor();
       if (logger.isTraceEnabled()) {
         logger.trace("### c={}, m={}, params={}",javassistClassName,method.getMethodName(),Arrays.toString(method.getMethodParams()));
       }
+      Interceptor interceptor=new MethodInterceptor();
       clazz.addInterceptor(method.getMethodName(),method.getMethodParams(),interceptor);
     }
     return clazz.toBytecode();
