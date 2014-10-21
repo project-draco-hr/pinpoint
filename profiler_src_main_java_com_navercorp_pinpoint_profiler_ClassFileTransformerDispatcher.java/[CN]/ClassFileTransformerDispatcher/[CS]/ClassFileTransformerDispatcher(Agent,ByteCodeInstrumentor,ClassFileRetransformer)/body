@@ -5,8 +5,12 @@
   if (byteCodeInstrumentor == null) {
     throw new NullPointerException("byteCodeInstrumentor must not be null");
   }
+  if (retransformer == null) {
+    throw new NullPointerException("retransformer must not be null");
+  }
   this.agent=agent;
   this.byteCodeInstrumentor=byteCodeInstrumentor;
+  this.retransformer=retransformer;
   this.profilerConfig=agent.getProfilerConfig();
   this.modifierRegistry=createModifierRegistry();
   this.skipFilter=new DefaultClassFileFilter(agentClassLoader);
