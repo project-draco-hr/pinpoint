@@ -1,28 +1,26 @@
 {
   LinkCallData linkCallData=calleStatMap.get(calleName);
   long count=0;
+  long totalCount=0;
   if (linkCallData != null) {
 switch (dataCategory) {
-case SLOW_COUNT:
+case SLOW_RATE:
       for (      TimeHistogram timeHistogram : linkCallData.getTimeHistogram()) {
         count+=timeHistogram.getSlowCount();
         count+=timeHistogram.getVerySlowCount();
+        totalCount+=timeHistogram.getTotalCount();
       }
     break;
-case ERROR_COUNT:
+case ERROR_RATE:
   for (  TimeHistogram timeHistogram : linkCallData.getTimeHistogram()) {
     count+=timeHistogram.getErrorCount();
+    totalCount+=timeHistogram.getTotalCount();
   }
 break;
-case TOTAL_COUNT:
-for (TimeHistogram timeHistogram : linkCallData.getTimeHistogram()) {
-count+=timeHistogram.getTotalCount();
-}
-break;
 default :
-throw new IllegalArgumentException("Can't count for " + dataCategory.toString());
+throw new IllegalArgumentException("Can't calculate rate for " + dataCategory.toString());
 }
-return count;
+return calculatePercent(count,totalCount);
 }
 return 0;
 }

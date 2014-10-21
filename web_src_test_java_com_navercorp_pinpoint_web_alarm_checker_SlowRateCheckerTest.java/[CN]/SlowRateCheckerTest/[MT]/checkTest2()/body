@@ -1,0 +1,8 @@
+{
+  Application application=new Application(SERVICE_NAME,ServiceType.TOMCAT);
+  ResponseTimeDataCollector collector=new ResponseTimeDataCollector(DataCollectorCategory.RESPONSE_TIME,application,mockMapResponseDAO,System.currentTimeMillis(),300000);
+  Rule rule=new Rule(SERVICE_NAME,CheckerCategory.SLOW_RATE.getName(),61,"testGroup",false,false,"");
+  SlowRateChecker filter=new SlowRateChecker(collector,rule);
+  filter.check();
+  assertFalse(filter.isDetected());
+}
