@@ -1,0 +1,33 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.serverInfo=iprot.readString();
+    struct.setServerInfoIsSet(true);
+  }
+  if (incoming.get(1)) {
+{
+      org.apache.thrift.protocol.TList _list18=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
+      struct.vmArgs=new ArrayList<String>(_list18.size);
+      for (int _i19=0; _i19 < _list18.size; ++_i19) {
+        String _elem20;
+        _elem20=iprot.readString();
+        struct.vmArgs.add(_elem20);
+      }
+    }
+    struct.setVmArgsIsSet(true);
+  }
+  if (incoming.get(2)) {
+{
+      org.apache.thrift.protocol.TList _list21=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.serviceInfos=new ArrayList<TServiceInfo>(_list21.size);
+      for (int _i22=0; _i22 < _list21.size; ++_i22) {
+        TServiceInfo _elem23;
+        _elem23=new TServiceInfo();
+        _elem23.read(iprot);
+        struct.serviceInfos.add(_elem23);
+      }
+    }
+    struct.setServiceInfosIsSet(true);
+  }
+}

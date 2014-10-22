@@ -1,0 +1,20 @@
+{
+  final ServerMetaData serverMetaData=this.serverMetaDataHolder.getServerMetaData();
+  final StringBuilder ports=new StringBuilder();
+  for (  Entry<Integer,String> entry : serverMetaData.getConnectors().entrySet()) {
+    ports.append(" ");
+    ports.append(entry.getKey());
+  }
+  final TAgentInfo agentInfo=new TAgentInfo();
+  agentInfo.setIp(this.agentInformation.getHostIp());
+  agentInfo.setHostname(this.agentInformation.getMachineName());
+  agentInfo.setPorts(ports.toString());
+  agentInfo.setAgentId(this.agentInformation.getAgentId());
+  agentInfo.setApplicationName(this.agentInformation.getApplicationName());
+  agentInfo.setPid(this.agentInformation.getPid());
+  agentInfo.setStartTimestamp(this.agentInformation.getStartTime());
+  agentInfo.setServiceType(this.agentInformation.getServerType());
+  agentInfo.setVersion(Version.VERSION);
+  agentInfo.setServerMetaData(createTServiceInfo(serverMetaData));
+  return agentInfo;
+}

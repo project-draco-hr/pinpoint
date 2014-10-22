@@ -1,0 +1,6 @@
+{
+  final ServerMetaDataBo testBo=createTestBo(null,null,null);
+  final byte[] serializedBo=testBo.writeValue();
+  final ServerMetaDataBo deserializedBo=new ServerMetaDataBo.Builder(serializedBo).build();
+  assertEquals(testBo,deserializedBo);
+}

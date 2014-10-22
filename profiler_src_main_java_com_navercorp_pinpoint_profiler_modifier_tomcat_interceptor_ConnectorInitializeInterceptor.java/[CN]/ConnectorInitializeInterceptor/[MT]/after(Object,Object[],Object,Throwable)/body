@@ -3,5 +3,5 @@
     logger.afterInterceptor(target,args,result,throwable);
   }
   Connector connector=(Connector)target;
-  agent.addConnector(connector.getProtocol(),connector.getPort());
+  this.traceContext.getServerMetaDataHolder().addConnector(connector.getProtocol(),connector.getPort());
 }

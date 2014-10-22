@@ -4,8 +4,7 @@
   final Sampler sampler=createSampler();
   logger.info("SamplerType:{}",sampler);
   final int jdbcSqlCacheSize=profilerConfig.getJdbcSqlCacheSize();
-  final ServerMetaDataHolder serverMetaDataHolder=createServerMetaDataHolder();
-  final DefaultTraceContext traceContext=new DefaultTraceContext(jdbcSqlCacheSize,serverType,storageFactory,sampler,serverMetaDataHolder);
+  final DefaultTraceContext traceContext=new DefaultTraceContext(jdbcSqlCacheSize,serverType,storageFactory,sampler,this.serverMetaDataHolder);
   traceContext.setAgentInformation(this.agentInformation);
   traceContext.setPriorityDataSender(this.tcpDataSender);
   traceContext.setProfilerConfig(profilerConfig);

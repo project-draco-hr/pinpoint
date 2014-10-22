@@ -1,0 +1,22 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetServiceName()) {
+    optionals.set(0);
+  }
+  if (struct.isSetServiceLibs()) {
+    optionals.set(1);
+  }
+  oprot.writeBitSet(optionals,2);
+  if (struct.isSetServiceName()) {
+    oprot.writeString(struct.serviceName);
+  }
+  if (struct.isSetServiceLibs()) {
+{
+      oprot.writeI32(struct.serviceLibs.size());
+      for (      String _iter4 : struct.serviceLibs) {
+        oprot.writeString(_iter4);
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  try {
+    if (future != null && future.isSuccess()) {
+      TBase<?,?> tbase=deserialize(future);
+      if (tbase instanceof TResult) {
+        TResult result=(TResult)tbase;
+        if (result.isSuccess()) {
+          logger.debug("result success");
+          this.isSuccessful.set(true);
+          return;
+        }
+ else {
+          logger.warn("request fail. Caused:{}",result.getMessage());
+        }
+      }
+ else {
+        logger.warn("Invalid Class. {}",tbase);
+      }
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("request fail. caused:{}",e.getMessage());
+  }
+}

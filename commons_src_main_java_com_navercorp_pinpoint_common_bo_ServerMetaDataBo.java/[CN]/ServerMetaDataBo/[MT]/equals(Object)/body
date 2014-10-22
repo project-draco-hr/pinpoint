@@ -1,0 +1,19 @@
+{
+  if (this == obj)   return true;
+  if (obj == null)   return false;
+  if (getClass() != obj.getClass())   return false;
+  ServerMetaDataBo other=(ServerMetaDataBo)obj;
+  if (serverInfo == null) {
+    if (other.serverInfo != null)     return false;
+  }
+ else   if (!serverInfo.equals(other.serverInfo))   return false;
+  if (serviceInfos == null) {
+    if (other.serviceInfos != null)     return false;
+  }
+ else   if (!serviceInfos.equals(other.serviceInfos))   return false;
+  if (vmArgs == null) {
+    if (other.vmArgs != null)     return false;
+  }
+ else   if (!vmArgs.equals(other.vmArgs))   return false;
+  return true;
+}

@@ -1,0 +1,27 @@
+{
+  StringBuilder sb=new StringBuilder("TServiceInfo(");
+  boolean first=true;
+  if (isSetServiceName()) {
+    sb.append("serviceName:");
+    if (this.serviceName == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.serviceName);
+    }
+    first=false;
+  }
+  if (isSetServiceLibs()) {
+    if (!first)     sb.append(", ");
+    sb.append("serviceLibs:");
+    if (this.serviceLibs == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.serviceLibs);
+    }
+    first=false;
+  }
+  sb.append(")");
+  return sb.toString();
+}

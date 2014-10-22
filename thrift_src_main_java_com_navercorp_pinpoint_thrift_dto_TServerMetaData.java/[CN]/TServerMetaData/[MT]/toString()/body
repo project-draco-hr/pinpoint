@@ -1,0 +1,38 @@
+{
+  StringBuilder sb=new StringBuilder("TServerMetaData(");
+  boolean first=true;
+  if (isSetServerInfo()) {
+    sb.append("serverInfo:");
+    if (this.serverInfo == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.serverInfo);
+    }
+    first=false;
+  }
+  if (isSetVmArgs()) {
+    if (!first)     sb.append(", ");
+    sb.append("vmArgs:");
+    if (this.vmArgs == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.vmArgs);
+    }
+    first=false;
+  }
+  if (isSetServiceInfos()) {
+    if (!first)     sb.append(", ");
+    sb.append("serviceInfos:");
+    if (this.serviceInfos == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.serviceInfos);
+    }
+    first=false;
+  }
+  sb.append(")");
+  return sb.toString();
+}

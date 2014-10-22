@@ -78,6 +78,17 @@
     sb.append(this.endStatus);
     first=false;
   }
+  if (isSetServerMetaData()) {
+    if (!first)     sb.append(", ");
+    sb.append("serverMetaData:");
+    if (this.serverMetaData == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.serverMetaData);
+    }
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

@@ -1,0 +1,26 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.serviceName != null) {
+    if (struct.isSetServiceName()) {
+      oprot.writeFieldBegin(SERVICE_NAME_FIELD_DESC);
+      oprot.writeString(struct.serviceName);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.serviceLibs != null) {
+    if (struct.isSetServiceLibs()) {
+      oprot.writeFieldBegin(SERVICE_LIBS_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.serviceLibs.size()));
+        for (        String _iter3 : struct.serviceLibs) {
+          oprot.writeString(_iter3);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

@@ -1,0 +1,6 @@
+{
+  final ServiceInfoBo testBo=createTestBo("testService",Arrays.asList("lib1","lib2"));
+  final byte[] serializedBo=testBo.writeValue();
+  final ServiceInfoBo deserializedBo=new ServiceInfoBo.Builder(serializedBo).build();
+  assertEquals(testBo,deserializedBo);
+}

@@ -9,8 +9,6 @@ synchronized (this) {
     }
   }
   logger.info("Starting {} Agent.",ProductInfo.CAMEL_NAME);
-  ServerMetaData serverMetaData=this.traceContext.getServerMetaDataHolder().getServerMetaData();
-  logger.debug(serverMetaData.toString());
-  this.heartBeatChecker.start();
+  this.agentInfoSender.start();
   this.agentStatMonitor.start();
 }

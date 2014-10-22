@@ -1,0 +1,39 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.serverInfo != null) {
+    if (struct.isSetServerInfo()) {
+      oprot.writeFieldBegin(SERVER_INFO_FIELD_DESC);
+      oprot.writeString(struct.serverInfo);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.vmArgs != null) {
+    if (struct.isSetVmArgs()) {
+      oprot.writeFieldBegin(VM_ARGS_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,struct.vmArgs.size()));
+        for (        String _iter14 : struct.vmArgs) {
+          oprot.writeString(_iter14);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.serviceInfos != null) {
+    if (struct.isSetServiceInfos()) {
+      oprot.writeFieldBegin(SERVICE_INFOS_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,struct.serviceInfos.size()));
+        for (        TServiceInfo _iter15 : struct.serviceInfos) {
+          _iter15.write(oprot);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
