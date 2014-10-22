@@ -13,7 +13,8 @@
       if (logger.isTraceEnabled()) {
         logger.trace("### c={}, m={}, params={}",javassistClassName,method.getMethodName(),Arrays.toString(method.getMethodParams()));
       }
-      Interceptor interceptor=new MethodInterceptor();
+      MethodInterceptor interceptor=new MethodInterceptor();
+      interceptor.setServiceType(ServiceType.SPRING_BEAN);
       clazz.addInterceptor(method.getMethodName(),method.getMethodParams(),interceptor);
     }
     return clazz.toBytecode();
