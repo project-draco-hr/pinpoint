@@ -1,0 +1,6 @@
+{
+  final ServerMetaDataBo testBo=createTestBo("testServer",Arrays.asList("arg1","arg2"),Arrays.asList(ServiceInfoBoTest.createTestBo("testService",Arrays.asList("lib1","lib2"))));
+  final byte[] serializedBo=testBo.writeValue();
+  final ServerMetaDataBo deserializedBo=new ServerMetaDataBo.Builder(serializedBo).build();
+  assertEquals(testBo,deserializedBo);
+}

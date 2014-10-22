@@ -1,0 +1,9 @@
+{
+  final Buffer buffer=new FixedBuffer(value);
+  this.serviceName=buffer.read2PrefixedString();
+  final int numServiceLibs=buffer.readVarInt();
+  this.serviceLibs=new ArrayList<String>(numServiceLibs);
+  for (int i=0; i < numServiceLibs; ++i) {
+    this.serviceLibs.add(buffer.read2PrefixedString());
+  }
+}
