@@ -1,10 +1,5 @@
 {
   dataCollector.collect();
-  if (decideResult(getDetectedValue())) {
-    detected=true;
-  }
- else {
-    detected=false;
-  }
+  detected=decideResult(getDetectedValue());
   logger.info("{} result is {} for application ({}). value is {}. (threshold : {}).",this.getClass().getSimpleName(),detected,rule.getApplicationId(),getDetectedValue(),rule.getThreshold());
 }
