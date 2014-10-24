@@ -1,22 +1,8 @@
 {
   List<String> targetNamePatternStrings=split(config.getSpringBeansNamePatterns());
+  List<Pattern> beanNamePatterns=compilePattern(targetNamePatternStrings);
   List<String> targetClassPatternStrings=split(config.getSpringBeansClassPatterns());
+  List<Pattern> beanClassPatterns=compilePattern(targetClassPatternStrings);
   List<String> targetAnnotationNames=split(config.getSpringBeansAnnotations());
-  List<Pattern> beanNamePatterns=null;
-  if (!targetNamePatternStrings.isEmpty()) {
-    beanNamePatterns=new ArrayList<Pattern>(targetNamePatternStrings.size());
-    for (    String s : targetNamePatternStrings) {
-      Pattern p=Pattern.compile(s);
-      beanNamePatterns.add(p);
-    }
-  }
-  List<Pattern> beanClassPatterns=null;
-  if (!targetClassPatternStrings.isEmpty()) {
-    beanClassPatterns=new ArrayList<Pattern>(targetClassPatternStrings.size());
-    for (    String s : targetClassPatternStrings) {
-      Pattern p=Pattern.compile(s);
-      beanClassPatterns.add(p);
-    }
-  }
   return new TargetBeanFilter(beanNamePatterns,beanClassPatterns,targetAnnotationNames);
 }
