@@ -2,17 +2,17 @@
   List<Class<? extends Annotation>> targetAnnotationClasses=null;
   if (!targetAnnotationNames.isEmpty()) {
     targetAnnotationClasses=new ArrayList<Class<? extends Annotation>>(targetAnnotationNames.size());
-    for (    String s : targetAnnotationNames) {
+    for (    String annotationName : targetAnnotationNames) {
       try {
-        Class<?> c=loader.loadClass(s);
-        Class<? extends Annotation> ac=c.asSubclass(Annotation.class);
+        Class<?> clazz=loader.loadClass(annotationName);
+        Class<? extends Annotation> ac=clazz.asSubclass(Annotation.class);
         targetAnnotationClasses.add(ac);
       }
- catch (      ClassNotFoundException e) {
-        logger.warn("Cannot find Spring beans profile target annotation class: " + s + ". This configuration will be ignored.",e);
+ catch (      ClassNotFoundException ex) {
+        logger.warn("Cannot find Spring beans profile target annotation class: {}. This configuration will be ignored.",annotationName,ex);
       }
-catch (      ClassCastException e) {
-        logger.warn("Given Spring beans profile target annotation class is not subclass of Annotation: " + s + ". This configuration will be ignored.",e);
+catch (      ClassCastException ex) {
+        logger.warn("Given Spring beans profile target annotation class is not subclass of Annotation: {}. This configuration will be ignored.",annotationName,ex);
       }
     }
   }

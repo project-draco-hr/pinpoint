@@ -5,17 +5,17 @@
   List<Pattern> beanNamePatterns=null;
   if (!targetNamePatternStrings.isEmpty()) {
     beanNamePatterns=new ArrayList<Pattern>(targetNamePatternStrings.size());
-    for (    String s : targetNamePatternStrings) {
-      Pattern p=Pattern.compile(s);
-      beanNamePatterns.add(p);
+    for (    String namePattern : targetNamePatternStrings) {
+      Pattern pattern=Pattern.compile(namePattern);
+      beanNamePatterns.add(pattern);
     }
   }
   List<Pattern> beanClassPatterns=null;
   if (!targetClassPatternStrings.isEmpty()) {
     beanClassPatterns=new ArrayList<Pattern>(targetClassPatternStrings.size());
-    for (    String s : targetClassPatternStrings) {
-      Pattern p=Pattern.compile(s);
-      beanClassPatterns.add(p);
+    for (    String classPattern : targetClassPatternStrings) {
+      Pattern pattern=Pattern.compile(classPattern);
+      beanClassPatterns.add(pattern);
     }
   }
   return new TargetBeanFilter(beanNamePatterns,beanClassPatterns,targetAnnotationNames);
