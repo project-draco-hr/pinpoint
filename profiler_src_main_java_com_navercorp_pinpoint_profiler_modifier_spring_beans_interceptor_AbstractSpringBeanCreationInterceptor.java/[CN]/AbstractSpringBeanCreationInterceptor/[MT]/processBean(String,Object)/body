@@ -2,18 +2,18 @@
   if (bean == null) {
     return;
   }
-  Class<? extends Object> clazz=bean.getClass();
+  Class<?> clazz=bean.getClass();
   if (!filter.isTarget(beanName,clazz)) {
     return;
   }
   try {
     retransformer.retransform(clazz,modifier);
     if (logger.isInfoEnabled()) {
-      logger.info("Retransform " + clazz.getName());
+      logger.info("Retransform {}",clazz.getName());
     }
   }
  catch (  ProfilerException e) {
-    logger.warn("Fail to retransform: " + clazz.getName(),e);
+    logger.warn("Fail to retransform: {}",clazz.getName(),e);
     return;
   }
   filter.addTransformed(clazz);
