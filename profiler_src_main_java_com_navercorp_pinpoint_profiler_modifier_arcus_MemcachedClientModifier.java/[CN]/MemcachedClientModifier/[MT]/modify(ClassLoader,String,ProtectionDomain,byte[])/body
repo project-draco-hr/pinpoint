@@ -20,7 +20,7 @@
           ((ParameterExtractorSupport)apiInterceptor).setParameterExtractor(new IndexParameterExtractor(index));
         }
       }
-      aClass.addScopeInterceptor(method.getMethodName(),method.getMethodParams(),apiInterceptor,ArcusScope.SCOPE);
+      aClass.addScopeInterceptor(method.getName(),method.getParameterTypes(),apiInterceptor,ArcusScope.SCOPE);
     }
     return aClass.toBytecode();
   }

@@ -12,9 +12,9 @@
     for (    Method method : methodList) {
       final Interceptor interceptor=new MethodInterceptor();
       if (logger.isTraceEnabled()) {
-        logger.trace("### c={}, m={}, params={}",javassistClassName,method.getMethodName(),Arrays.toString(method.getMethodParams()));
+        logger.trace("### c={}, m={}, params={}",javassistClassName,method.getName(),Arrays.toString(method.getParameterTypes()));
       }
-      clazz.addInterceptor(method.getMethodName(),method.getMethodParams(),interceptor);
+      clazz.addInterceptor(method.getName(),method.getParameterTypes(),interceptor);
     }
     return clazz.toBytecode();
   }
