@@ -5,8 +5,8 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass ibatisClientImpl=byteCodeInstrumentor.getClass(javassistClassName);
-    List<Method> declaredMethods=ibatisClientImpl.getDeclaredMethods(getIbatisApiMethodFilter());
-    for (    Method method : declaredMethods) {
+    List<MethodInfo> declaredMethods=ibatisClientImpl.getDeclaredMethods(getIbatisApiMethodFilter());
+    for (    MethodInfo method : declaredMethods) {
       Interceptor ibatisApiInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
       ibatisClientImpl.addScopeInterceptor(method.getName(),method.getParameterTypes(),ibatisApiInterceptor,scope);
     }

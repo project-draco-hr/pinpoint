@@ -8,8 +8,8 @@
     if (!clazz.isInterceptable()) {
       return null;
     }
-    List<Method> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
-    for (    Method method : methodList) {
+    List<MethodInfo> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
+    for (    MethodInfo method : methodList) {
       if (logger.isTraceEnabled()) {
         logger.trace("### c={}, m={}, params={}",javassistClassName,method.getName(),Arrays.toString(method.getParameterTypes()));
       }
