@@ -11,8 +11,8 @@
     }
  catch (    Exception ignored) {
     }
-    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterPipelineMethodNames.get()));
-    for (    Method method : declaredMethods) {
+    final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterPipelineMethodNames.get()));
+    for (    MethodInfo method : declaredMethods) {
       final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterPipelineMethodInterceptor");
       instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
     }

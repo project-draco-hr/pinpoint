@@ -7,8 +7,8 @@
     instrumentClass.addTraceValue(MapTraceValue.class);
     final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayConstructorInterceptor");
     instrumentClass.addConstructorInterceptor(new String[]{"com.nhncorp.redis.cluster.gateway.GatewayConfig"},constructorInterceptor);
-    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods();
-    for (    Method method : declaredMethods) {
+    final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods();
+    for (    MethodInfo method : declaredMethods) {
       if (method.getName().equals("getServer")) {
         final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayMethodInterceptor");
         instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);

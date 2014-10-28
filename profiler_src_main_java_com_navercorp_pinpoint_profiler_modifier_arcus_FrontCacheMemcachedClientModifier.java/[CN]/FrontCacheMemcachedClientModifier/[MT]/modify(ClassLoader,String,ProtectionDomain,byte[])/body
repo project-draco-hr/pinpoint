@@ -8,8 +8,8 @@
     if (!checkCompatibility(aClass,args)) {
       return null;
     }
-    final List<Method> declaredMethods=aClass.getDeclaredMethods(new FrontCacheMemcachedMethodFilter());
-    for (    Method method : declaredMethods) {
+    final List<MethodInfo> declaredMethods=aClass.getDeclaredMethods(new FrontCacheMemcachedMethodFilter());
+    for (    MethodInfo method : declaredMethods) {
       SimpleAroundInterceptor apiInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
       if (agent.getProfilerConfig().isMemcachedKeyTrace()) {
         final int index=ParameterUtils.findFirstString(method,3);
