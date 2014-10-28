@@ -1,19 +1,19 @@
 {
   if (targetAnnotationNames.isEmpty()) {
-    return Collections.<Class<? extends Annotation>>emptyList();
+    return Collections.emptyList();
   }
   List<Class<? extends Annotation>> targetAnnotationClasses=new ArrayList<Class<? extends Annotation>>(targetAnnotationNames.size());
-  for (  String s : targetAnnotationNames) {
+  for (  String targetAnnotationName : targetAnnotationNames) {
     try {
-      Class<?> c=loader.loadClass(s);
-      Class<? extends Annotation> ac=c.asSubclass(Annotation.class);
+      Class<?> clazz=loader.loadClass(targetAnnotationName);
+      Class<? extends Annotation> ac=clazz.asSubclass(Annotation.class);
       targetAnnotationClasses.add(ac);
     }
  catch (    ClassNotFoundException e) {
-      logger.warn("Cannot find Spring beans profile target annotation class: " + s + ". This configuration will be ignored.",e);
+      logger.warn("Cannot find Spring beans profile target annotation class: {}. This configuration will be ignored.",targetAnnotationName,e);
     }
 catch (    ClassCastException e) {
-      logger.warn("Given Spring beans profile target annotation class is not subclass of Annotation: " + s + ". This configuration will be ignored.",e);
+      logger.warn("Given Spring beans profile target annotation class is not subclass of Annotation: {}. This configuration will be ignored.",targetAnnotationName,e);
     }
   }
   return targetAnnotationClasses;
