@@ -19,7 +19,7 @@
           ((ParameterExtractorSupport)apiInterceptor).setParameterExtractor(new IndexParameterExtractor(index));
         }
       }
-      arcusClient.addScopeInterceptor(method.getMethodName(),method.getMethodParams(),apiInterceptor,ArcusScope.SCOPE);
+      arcusClient.addScopeInterceptor(method.getName(),method.getParameterTypes(),apiInterceptor,ArcusScope.SCOPE);
     }
     return arcusClient.toBytecode();
   }

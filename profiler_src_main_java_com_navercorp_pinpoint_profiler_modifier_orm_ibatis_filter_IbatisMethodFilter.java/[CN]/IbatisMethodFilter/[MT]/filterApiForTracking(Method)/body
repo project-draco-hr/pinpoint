@@ -1,0 +1,13 @@
+{
+  if (!shouldTrackMethod(ctMethod.getName())) {
+    return DO_NOT_TRACK;
+  }
+  final int parameterIndexToMatch=0;
+  String[] parameterTypes=ctMethod.getParameterTypes();
+  if (parameterTypes != null && parameterTypes.length > 0) {
+    return parameterTypeMatches(parameterTypes,parameterIndexToMatch,String.class);
+  }
+ else {
+    return TRACK;
+  }
+}

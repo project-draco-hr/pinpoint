@@ -7,9 +7,9 @@
     instrumentClass.addTraceValue(MapTraceValue.class);
     final List<Method> declaredMethods=instrumentClass.getDeclaredMethods();
     for (    Method method : declaredMethods) {
-      if (method.getMethodName().equals("getResource")) {
+      if (method.getName().equals("getResource")) {
         final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayServerMethodInterceptor");
-        instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+        instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
       }
     }
     return instrumentClass.toBytecode();

@@ -9,9 +9,9 @@
     instrumentClass.addConstructorInterceptor(new String[]{"com.nhncorp.redis.cluster.gateway.GatewayConfig"},constructorInterceptor);
     final List<Method> declaredMethods=instrumentClass.getDeclaredMethods();
     for (    Method method : declaredMethods) {
-      if (method.getMethodName().equals("getServer")) {
+      if (method.getName().equals("getServer")) {
         final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.GatewayMethodInterceptor");
-        instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+        instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
       }
     }
     return instrumentClass.toBytecode();
