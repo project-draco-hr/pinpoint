@@ -1,5 +1,6 @@
 {
   logger.info("Modifying. {}",javassistClassName);
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
     LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);

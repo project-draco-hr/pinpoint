@@ -2,6 +2,7 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifing. {}",javassistClassName);
   }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     String[] args={"java.lang.String","net.spy.memcached.ops.Operation"};
