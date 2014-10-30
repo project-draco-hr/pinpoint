@@ -2,6 +2,7 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifying. {}",javassistClassName);
   }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
     aClass.addTraceVariable("__cacheName","__setCacheName","__getCacheName","java.lang.String");
