@@ -1,6 +1,6 @@
 {
-  logger.info("MessageReceive {} {}",packet,channel);
-  TBase<?,?> request=deserialize(packet.getPayload());
+  logger.info("MessageReceive {} {}",requestPacket,channel);
+  TBase<?,?> request=deserialize(requestPacket.getPayload());
   TBase response=null;
   if (request == null) {
     TResult tResult=new TResult(false);
@@ -8,18 +8,18 @@
     response=tResult;
   }
  else {
-    TBaseRequestBO bo=locator.getRequestBO(request);
-    if (bo == null) {
+    ProfilerRequestCommandService service=locator.getRequestService(request);
+    if (service == null) {
       TResult tResult=new TResult(false);
       tResult.setMessage("Unsupported Listener.");
       response=tResult;
     }
  else {
-      response=bo.handleRequest(request);
+      response=service.requestCommandService(request);
     }
   }
   byte[] payload=serialize(response);
   if (payload != null) {
-    channel.write(new ResponsePacket(packet.getRequestId(),payload));
+    channel.write(new ResponsePacket(requestPacket.getRequestId(),payload));
   }
 }
