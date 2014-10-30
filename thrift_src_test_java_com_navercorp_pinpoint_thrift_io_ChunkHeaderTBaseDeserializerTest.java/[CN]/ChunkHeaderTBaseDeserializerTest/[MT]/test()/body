@@ -4,7 +4,7 @@
   serializer.setFlushHandler(new ChunkHeaderBufferedTBaseSerializerFlushHandler(){
     @Override public void handle(    byte[] buffer,    int offset,    int length){
       try {
-        deserializer.deserialize(Arrays.copyOfRange(buffer,offset,length));
+        deserializer.deserialize(buffer,offset,length);
       }
  catch (      TException e) {
         fail("Failed to deserialize. " + e.getMessage());
