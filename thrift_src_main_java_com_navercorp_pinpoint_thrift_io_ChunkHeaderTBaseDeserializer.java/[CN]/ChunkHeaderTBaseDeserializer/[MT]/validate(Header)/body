@@ -1,0 +1,9 @@
+{
+  final byte signature=header.getSignature();
+  System.out.println(Thread.currentThread().getName() + " validate signature=" + signature);
+  final int result=HeaderUtils.validateSignature(signature);
+  if (result == HeaderUtils.FAIL) {
+    throw new TException("Invalid Signature:" + header);
+  }
+  return result;
+}

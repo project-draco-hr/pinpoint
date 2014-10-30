@@ -1,0 +1,21 @@
+{
+  final List<TBaseStreamNode> list=new ArrayList<TBaseStreamNode>();
+  int currentSize=0;
+  TBaseStreamNode node=null;
+  while ((node=nodes.peek()) != null) {
+    if (node.size() > maxSize) {
+      if (list.size() == 0) {
+        list.add(node);
+        nodes.poll();
+      }
+      break;
+    }
+    if (currentSize + node.size() > maxSize) {
+      break;
+    }
+    currentSize+=node.size();
+    list.add(node);
+    nodes.poll();
+  }
+  return list;
+}

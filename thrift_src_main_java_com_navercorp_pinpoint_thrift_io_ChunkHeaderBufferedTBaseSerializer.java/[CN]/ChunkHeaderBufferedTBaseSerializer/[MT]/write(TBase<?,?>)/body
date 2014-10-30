@@ -1,0 +1,12 @@
+{
+  final TCompactProtocol protocol=new TCompactProtocol(new ByteArrayOutputStreamTransport(out));
+  writeChunkHeader(protocol);
+  System.out.println(this);
+  writeHeader(protocol,locator.headerLookup(base));
+  System.out.println(this);
+  base.write(protocol);
+  System.out.println(this);
+  if (isOverflow()) {
+    flush();
+  }
+}

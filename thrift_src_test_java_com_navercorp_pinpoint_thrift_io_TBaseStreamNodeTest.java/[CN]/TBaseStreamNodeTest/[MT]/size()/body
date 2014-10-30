@@ -1,0 +1,12 @@
+{
+  final byte[] buf="foo".getBytes();
+  UnsafeByteArrayOutputStream out=new UnsafeByteArrayOutputStream();
+  out.write(buf);
+  TBaseStreamNode node=new TBaseStreamNode(out);
+  node.setBeginPosition(0);
+  node.setEndPosition(buf.length);
+  assertEquals(buf.length,node.size());
+  ByteArrayOutputStream copy=new ByteArrayOutputStream();
+  node.writeTo(copy);
+  Arrays.equals(buf,copy.toByteArray());
+}

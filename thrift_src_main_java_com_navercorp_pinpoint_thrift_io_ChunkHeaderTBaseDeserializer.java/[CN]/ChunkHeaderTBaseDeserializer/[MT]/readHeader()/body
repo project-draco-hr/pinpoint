@@ -1,0 +1,12 @@
+{
+  if (trans.getBytesRemainingInBuffer() < Header.HEADER_SIZE) {
+    return null;
+  }
+  final byte signature=protocol.readByte();
+  System.out.println(Thread.currentThread().getName() + " signature=" + signature);
+  final byte version=protocol.readByte();
+  final byte type1=protocol.readByte();
+  final byte type2=protocol.readByte();
+  final short type=bytesToShort(type1,type2);
+  return new Header(signature,version,type);
+}

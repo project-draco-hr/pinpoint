@@ -1,0 +1,14 @@
+{
+  final Header header=readHeader();
+  if (header == null) {
+    return null;
+  }
+  System.out.println(Thread.currentThread().getName() + " inner header=" + header);
+  final int validate=validate(header);
+  if (validate == HeaderUtils.PASS_L4) {
+    return new L4Packet(header);
+  }
+  TBase<?,?> base=locator.tBaseLookup(header.getType());
+  base.read(protocol);
+  return base;
+}

@@ -1,0 +1,23 @@
+{
+  if (!writeFieldBegin) {
+    super.writeCollectionBegin(list.elemType,list.size);
+    return;
+  }
+  if (writeListDepth == 0 && currentField != null) {
+    List<TBaseStreamNode> nodes=replaceFields.get(currentField.name);
+    if (nodes == null) {
+      throw new TException("not found replace field - " + currentField.name);
+    }
+    super.writeCollectionBegin(list.elemType,nodes.size());
+    for (    TBaseStreamNode node : nodes) {
+      try {
+        final OutputStream out=((ByteArrayOutputStreamTransport)getTransport()).getByteArrayOutputStream();
+        node.writeTo(out);
+      }
+ catch (      IOException e) {
+        throw new TException(e);
+      }
+    }
+  }
+  writeListDepth++;
+}

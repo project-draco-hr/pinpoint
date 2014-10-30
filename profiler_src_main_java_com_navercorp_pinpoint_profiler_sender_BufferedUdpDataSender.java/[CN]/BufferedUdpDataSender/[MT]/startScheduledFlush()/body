@@ -1,0 +1,17 @@
+{
+  final ThreadFactory threadFactory=new PinpointThreadFactory(SCHEDULED_FLUSH,true);
+  final Thread thread=threadFactory.newThread(new Runnable(){
+    @Override public void run(){
+      while (true) {
+        chunkSerializedBuffer.flush();
+        try {
+          TimeUnit.MILLISECONDS.sleep(1000);
+        }
+ catch (        InterruptedException ignored) {
+        }
+      }
+    }
+  }
+);
+  thread.start();
+}

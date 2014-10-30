@@ -1,0 +1,8 @@
+{
+  TBaseStream stream=new TBaseStream(1024);
+  TSpanEvent spanEvent=newSpanEvent();
+  stream.write(spanEvent);
+  int size=stream.size();
+  stream.write(spanEvent);
+  assertEquals(size * 2,stream.size());
+}

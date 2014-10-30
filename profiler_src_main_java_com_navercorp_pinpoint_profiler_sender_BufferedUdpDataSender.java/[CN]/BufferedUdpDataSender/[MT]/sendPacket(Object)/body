@@ -1,0 +1,15 @@
+{
+  if (message instanceof TBase) {
+    try {
+      chunkSerializedBuffer.add((TBase<?,?>)message);
+      logger.debug("Send packet {message={}}",message);
+    }
+ catch (    TException e) {
+      logger.warn("sendPacket fail.",e);
+    }
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+    return;
+  }
+}

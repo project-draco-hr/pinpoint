@@ -1,0 +1,9 @@
+{
+  final TBaseStreamNode node=new TBaseStreamNode(out);
+  node.setClassName(base.getClass().getName());
+  node.setBeginPosition(out.size());
+  final TProtocol protocol=new TCompactProtocol(new ByteArrayOutputStreamTransport(out));
+  base.write(protocol);
+  node.setEndPosition(out.size());
+  nodes.add(node);
+}
