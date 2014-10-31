@@ -1,0 +1,11 @@
+{
+  final int start=descriptor.indexOf('(');
+  if (start == -1) {
+    throw new IllegalArgumentException("'(' not found. descriptor:" + descriptor);
+  }
+  final int end=descriptor.indexOf(')',start + 1);
+  if (end == -1) {
+    throw new IllegalArgumentException("')' not found. descriptor:" + descriptor);
+  }
+  return descriptor.substring(start + 1,end);
+}
