@@ -1,0 +1,26 @@
+{
+  if (methodFilter == null) {
+    throw new NullPointerException("methodFilter must not be null");
+  }
+  final CtMethod[] declaredMethod=ctClass.getDeclaredMethods();
+  final List<Method> candidateList=new ArrayList<Method>(declaredMethod.length);
+  final List<DeclaredMethodsForce.FailMethod> failList=new ArrayList<DeclaredMethodsForce.FailMethod>();
+  for (  CtMethod ctMethod : declaredMethod) {
+    if (methodFilter.filter(ctMethod)) {
+      continue;
+    }
+    String methodName=ctMethod.getName();
+    try {
+      CtClass[] paramTypes=ctMethod.getParameterTypes();
+      String[] parameterType=JavaAssistUtils.getParameterType(paramTypes);
+      Method method=new Method(methodName,parameterType);
+      candidateList.add(method);
+    }
+ catch (    NotFoundException ex) {
+      String[] parameterTypes=JavaAssistUtils.parseParameterDescriptor(ctMethod.getSignature());
+      DeclaredMethodsForce.FailMethod fail=new DeclaredMethodsForce.FailMethod(methodName,parameterTypes,ex);
+      failList.add(fail);
+    }
+  }
+  return new DeclaredMethodsForce(candidateList,failList);
+}
