@@ -1,5 +1,5 @@
 {
-  final char scheme=description.charAt(0);
+  final char scheme=signature.charAt(0);
 switch (scheme) {
 case 'B':
     return "byte";
@@ -20,11 +20,11 @@ return "void";
 case 'Z':
 return "boolean";
 case 'L':
-return toObjectType(description,1);
+return toObjectType(signature,1);
 case '[':
 {
-return toArrayType(description);
+return toArrayType(signature);
 }
 }
-throw new IllegalArgumentException("invalid description :" + description);
+throw new IllegalArgumentException("invalid signature :" + signature);
 }
