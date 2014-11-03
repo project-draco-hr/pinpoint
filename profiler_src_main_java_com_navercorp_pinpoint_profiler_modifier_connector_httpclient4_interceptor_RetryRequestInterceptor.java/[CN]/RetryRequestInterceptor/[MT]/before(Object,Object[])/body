@@ -1,0 +1,12 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  trace.recordServiceType(serviceType);
+}
