@@ -1,0 +1,16 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
+  RetryRequestInterceptor retryRequestInterceptor=new RetryRequestInterceptor();
+  try {
+    InstrumentClass httpRequestRetryHandler=byteCodeInstrumentor.getClass(javassistClassName);
+    httpRequestRetryHandler.addInterceptor("retryRequest",new String[]{"java.io.IOException","int","org.apache.http.protocol.HttpContext"},retryRequestInterceptor);
+    return httpRequestRetryHandler.toBytecode();
+  }
+ catch (  Throwable e) {
+    logger.warn("DefaultHttpRequestRetryHandler modifier error. Caused:{}",e.getMessage(),e);
+    return null;
+  }
+}
