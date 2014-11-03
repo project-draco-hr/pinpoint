@@ -18,7 +18,10 @@
       traceValue.put("destinationId",config.getClusterName());
     }
   }
- catch (  Exception ignored) {
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Failed to trace destinationId('not found getClusterName' is compatibility error). caused={}",e.getMessage(),e);
+    }
   }
   ((MapTraceValue)target).__setTraceBindValue(traceValue);
 }
