@@ -4,6 +4,9 @@
     addModifier(new GatewayServerModifier(byteCodeInstrumentor,agent));
     if (profilerConfig.isNbaseArcEnabled()) {
       addModifier(new RedisClusterModifier(byteCodeInstrumentor,agent));
+      addModifier(new BinaryRedisClusterModifier(byteCodeInstrumentor,agent));
+      addModifier(new TriplesRedisClusterModifier(byteCodeInstrumentor,agent));
+      addModifier(new BinaryTriplesRedisClusterModifier(byteCodeInstrumentor,agent));
     }
     if (profilerConfig.isNbaseArcPipelineEnabled()) {
       addModifier(new RedisClusterPipelineModifier(byteCodeInstrumentor,agent));
