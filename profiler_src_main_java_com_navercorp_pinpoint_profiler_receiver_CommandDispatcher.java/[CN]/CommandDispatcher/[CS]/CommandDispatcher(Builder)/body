@@ -7,7 +7,7 @@
   SerializerFactory serializerFactory=new HeaderTBaseSerializerFactory(true,builder.serializationMaxSize,builder.protocolFactory,builder.commandTbaseLocator);
   this.serializerFactory=wrappedThreadLocalSerializerFactory(serializerFactory);
   AssertUtils.assertNotNull(this.serializerFactory);
-  DeserializerFactory deserializerFactory=new HeaderTBaseDeserializerFactory(builder.protocolFactory,builder.commandTbaseLocator);
+  DeserializerFactory<HeaderTBaseDeserializer> deserializerFactory=new HeaderTBaseDeserializerFactory(builder.protocolFactory,builder.commandTbaseLocator);
   this.deserializerFactory=wrappedThreadLocalDeserializerFactory(deserializerFactory);
   AssertUtils.assertNotNull(this.deserializerFactory);
 }

@@ -1,14 +1,11 @@
 {
   final ReplaceListCompactProtocol protocol=new ReplaceListCompactProtocol(new ByteArrayOutputStreamTransport(out));
   writeChunkHeader(protocol);
-  System.out.println(this);
   writeHeader(protocol,locator.headerLookup(base));
-  System.out.println(this);
   if (list != null && list.size() > 0) {
     protocol.addReplaceField(fieldName,list);
   }
   base.write(protocol);
-  System.out.println(this);
   if (isOverflow()) {
     flush();
   }

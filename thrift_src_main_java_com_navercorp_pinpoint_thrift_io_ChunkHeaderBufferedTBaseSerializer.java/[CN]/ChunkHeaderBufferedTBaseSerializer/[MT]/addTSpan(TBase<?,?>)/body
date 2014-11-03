@@ -10,7 +10,7 @@
     }
     write(span,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(flushSize));
     while (!eventStream.isEmpty()) {
-      TSpanChunk spanChunk=toSpanChunk(span);
+      final TSpanChunk spanChunk=toSpanChunk(span);
       write(spanChunk,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(flushSize));
     }
   }

@@ -1,7 +1,4 @@
 {
-  byte[] buf="foo".getBytes();
-  ByteArrayOutputStream out=new ByteArrayOutputStream();
-  ByteArrayOutputStreamTransport transport=new ByteArrayOutputStreamTransport(out);
   transport.write(buf,0,buf.length);
   assertTrue(Arrays.equals(buf,out.toByteArray()));
   assertTrue(Arrays.equals(buf,transport.getBuffer()));
@@ -11,7 +8,6 @@
   transport.flush();
   assertEquals(0,out.size());
   try {
-    transport.read(buf,0,1);
     fail("passed unsupported operation");
   }
  catch (  Exception e) {
