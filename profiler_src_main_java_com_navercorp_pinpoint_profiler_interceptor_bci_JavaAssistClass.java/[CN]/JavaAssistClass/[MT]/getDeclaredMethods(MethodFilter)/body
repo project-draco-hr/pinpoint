@@ -4,15 +4,15 @@
   }
   try {
     final CtMethod[] declaredMethod=ctClass.getDeclaredMethods();
-    final List<Method> candidateList=new ArrayList<Method>(declaredMethod.length);
+    final List<MethodInfo> candidateList=new ArrayList<MethodInfo>(declaredMethod.length);
     for (    CtMethod ctMethod : declaredMethod) {
-      if (methodFilter.filter(ctMethod)) {
-        continue;
-      }
       String methodName=ctMethod.getName();
       CtClass[] paramTypes=ctMethod.getParameterTypes();
       String[] parameterType=JavaAssistUtils.getParameterType(paramTypes);
-      Method method=new Method(methodName,parameterType);
+      MethodInfo method=new MethodInfo(methodName,parameterType,ctMethod.getModifiers());
+      if (methodFilter.filter(method)) {
+        continue;
+      }
       candidateList.add(method);
     }
     return candidateList;

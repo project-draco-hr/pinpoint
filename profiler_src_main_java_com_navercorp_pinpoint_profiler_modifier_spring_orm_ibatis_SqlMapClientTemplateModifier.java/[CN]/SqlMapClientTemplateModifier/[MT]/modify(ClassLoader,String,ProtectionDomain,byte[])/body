@@ -5,10 +5,10 @@
   byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
     InstrumentClass sqlMapClientTemplate=byteCodeInstrumentor.getClass(javassistClassName);
-    List<Method> declaredMethods=sqlMapClientTemplate.getDeclaredMethods(sqlMapClientMethodFilter);
-    for (    Method method : declaredMethods) {
+    List<MethodInfo> declaredMethods=sqlMapClientTemplate.getDeclaredMethods(sqlMapClientMethodFilter);
+    for (    MethodInfo method : declaredMethods) {
       Interceptor sqlMapClientTemplateInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
-      sqlMapClientTemplate.addScopeInterceptor(method.getMethodName(),method.getMethodParams(),sqlMapClientTemplateInterceptor,scope);
+      sqlMapClientTemplate.addScopeInterceptor(method.getName(),method.getParameterTypes(),sqlMapClientTemplateInterceptor,scope);
     }
     return sqlMapClientTemplate.toBytecode();
   }

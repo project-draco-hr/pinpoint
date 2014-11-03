@@ -1,0 +1,11 @@
+{
+  if (patternStrings == null || patternStrings.isEmpty()) {
+    return null;
+  }
+  List<Pattern> beanNamePatterns=new ArrayList<Pattern>(patternStrings.size());
+  for (  String patternString : patternStrings) {
+    Pattern pattern=Pattern.compile(patternString);
+    beanNamePatterns.add(pattern);
+  }
+  return beanNamePatterns;
+}

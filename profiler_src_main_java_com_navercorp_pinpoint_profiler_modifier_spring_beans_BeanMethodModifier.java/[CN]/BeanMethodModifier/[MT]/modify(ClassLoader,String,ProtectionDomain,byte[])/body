@@ -8,14 +8,14 @@
     if (!clazz.isInterceptable()) {
       return null;
     }
-    List<Method> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
-    for (    Method method : methodList) {
+    List<MethodInfo> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
+    for (    MethodInfo method : methodList) {
       if (logger.isTraceEnabled()) {
-        logger.trace("### c={}, m={}, params={}",javassistClassName,method.getMethodName(),Arrays.toString(method.getMethodParams()));
+        logger.trace("### c={}, m={}, params={}",javassistClassName,method.getName(),Arrays.toString(method.getParameterTypes()));
       }
       MethodInterceptor interceptor=new MethodInterceptor();
       interceptor.setServiceType(ServiceType.SPRING_BEAN);
-      clazz.addInterceptor(method.getMethodName(),method.getMethodParams(),interceptor);
+      clazz.addInterceptor(method.getName(),method.getParameterTypes(),interceptor);
     }
     return clazz.toBytecode();
   }

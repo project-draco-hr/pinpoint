@@ -2,6 +2,7 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifing. {}",className);
   }
+  byteCodeInstrumentor.checkLibrary(classLoader,className);
   try {
     final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
     instrumentClass.addTraceValue(MapTraceValue.class);
@@ -9,10 +10,10 @@
     instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String"},constructorInterceptor);
     instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int"},constructorInterceptor);
     instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int","int"},constructorInterceptor);
-    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterMethodNames.get()));
-    for (    Method method : declaredMethods) {
+    final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterMethodNames.get()));
+    for (    MethodInfo method : declaredMethods) {
       final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterMethodInterceptor");
-      instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+      instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
     }
     return instrumentClass.toBytecode();
   }

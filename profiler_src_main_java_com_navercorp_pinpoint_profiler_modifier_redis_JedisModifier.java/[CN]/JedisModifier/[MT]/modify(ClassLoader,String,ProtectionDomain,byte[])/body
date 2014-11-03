@@ -2,6 +2,7 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifing. {}",className);
   }
+  byteCodeInstrumentor.checkLibrary(classLoader,className);
   try {
     final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
     instrumentClass.addTraceValue(MapTraceValue.class);
@@ -15,10 +16,10 @@
     }
  catch (    Exception ignored) {
     }
-    final List<Method> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(JedisMethodNames.get()));
-    for (    Method method : declaredMethods) {
+    final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(JedisMethodNames.get()));
+    for (    MethodInfo method : declaredMethods) {
       final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisMethodInterceptor");
-      instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+      instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
     }
     return instrumentClass.toBytecode();
   }
