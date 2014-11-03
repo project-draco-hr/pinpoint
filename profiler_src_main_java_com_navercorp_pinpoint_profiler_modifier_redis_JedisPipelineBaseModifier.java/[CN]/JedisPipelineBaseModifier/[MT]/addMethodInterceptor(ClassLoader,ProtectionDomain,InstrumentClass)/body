@@ -1,0 +1,7 @@
+{
+  final List<Method> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
+  for (  Method method : declaredMethods) {
+    final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineMethodInterceptor");
+    instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+  }
+}
