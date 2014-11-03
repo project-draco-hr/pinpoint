@@ -1,0 +1,19 @@
+{
+  final DeclaredMethodsForce declaredMethods=instrumentClass.getDeclaredMethodsForce(new NameBasedMethodFilter(RedisClusterPipelineMethodNames.get()));
+  for (  Method method : declaredMethods.getDeclaredMethods()) {
+    try {
+      final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterPipelineMethodInterceptor");
+      instrumentClass.addInterceptor(method.getMethodName(),method.getMethodParams(),methodInterceptor);
+    }
+ catch (    Exception e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Failed to add method interceptor('not found ...' is jedis compatibility error). caused={}",e.getMessage(),e);
+      }
+    }
+  }
+  for (  FailMethod method : declaredMethods.getFailDeclaredMethods()) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Failed to add method interceptor('not found ...' is jedis compatibility error). caused={}",method.getCaused().getMessage(),method.getCaused());
+    }
+  }
+}

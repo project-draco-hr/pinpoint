@@ -1,0 +1,15 @@
+{
+  final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisConstructorInterceptor");
+  instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String"},constructorInterceptor);
+  try {
+    instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int"},constructorInterceptor);
+    instrumentClass.addConstructorInterceptor(new String[]{"java.lang.String","int","int"},constructorInterceptor);
+    instrumentClass.addConstructorInterceptor(new String[]{"java.net.URI"},constructorInterceptor);
+    instrumentClass.addConstructorInterceptor(new String[]{"redis.clients.jedis.JedisShardInfo"},constructorInterceptor);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Failed to add constructor interceptor('not found redis.clients.jedis.JedisShardInfo' is compatibility error). caused={}",e.getMessage(),e);
+    }
+  }
+}
