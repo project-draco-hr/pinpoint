@@ -1,6 +1,6 @@
 {
   final int modifiers=ctMethod.getModifiers();
-  if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers) || Modifier.isAbstract(modifiers)|| Modifier.isNative(modifiers)) {
+  if (isSynthetic(modifiers) || !Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)|| Modifier.isAbstract(modifiers)|| Modifier.isNative(modifiers)) {
     return true;
   }
   if (methodNames.contains(ctMethod.getName())) {

@@ -1,0 +1,12 @@
+{
+  if (descriptor == null) {
+    throw new NullPointerException("descriptor must not be null");
+  }
+  final String[] parameterDesc=splitParameterDesc(descriptor);
+  final String[] objectType=new String[parameterDesc.length];
+  for (int i=0; i < parameterDesc.length; i++) {
+    String description=parameterDesc[i];
+    objectType[i]=byteCodeDescToObjectType(description);
+  }
+  return objectType;
+}

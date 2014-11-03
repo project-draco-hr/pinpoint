@@ -1,0 +1,10 @@
+{
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([I)I"),new String[]{"int[]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([I;J)I"),new String[]{"int[]","long"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([J;[I)I"),new String[]{"long[]","int[]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([Ljava/lang/String)"),new String[]{"java.lang.String[]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("(Ljava/lang/String;[[J)"),new String[]{"java.lang.String","long[][]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("(Ljava/lang/Object;[[Ljava/lang/String)"),new String[]{"java.lang.Object","java.lang.String[][]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([[[Ljava/lang/String)"),new String[]{"java.lang.String[][][]"});
+  Assert.assertArrayEquals(JavaAssistUtils.parseParameterDescriptor("([[[I)"),new String[]{"int[][][]"});
+}

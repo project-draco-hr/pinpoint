@@ -1,0 +1,30 @@
+{
+  final char scheme=description.charAt(0);
+switch (scheme) {
+case 'B':
+    return "byte";
+case 'C':
+  return "char";
+case 'D':
+return "double";
+case 'F':
+return "float";
+case 'I':
+return "int";
+case 'J':
+return "long";
+case 'S':
+return "short";
+case 'V':
+return "void";
+case 'Z':
+return "boolean";
+case 'L':
+return toObjectType(description,1);
+case '[':
+{
+return toArrayType(description);
+}
+}
+throw new IllegalArgumentException("invalid description :" + description);
+}
