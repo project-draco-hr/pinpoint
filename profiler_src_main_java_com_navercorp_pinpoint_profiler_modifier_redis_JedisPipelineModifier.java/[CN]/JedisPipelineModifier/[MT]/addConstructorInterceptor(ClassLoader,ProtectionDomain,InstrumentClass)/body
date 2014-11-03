@@ -1,0 +1,11 @@
+{
+  final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineConstructorInterceptor");
+  try {
+    instrumentClass.addConstructorInterceptor(new String[]{"redis.clients.jedis.Client"},constructorInterceptor);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Failed to add constructor interceptor(only jedis 1.x). caused={}",e.getMessage(),e);
+    }
+  }
+}
