@@ -2,7 +2,7 @@
   List<TBase<?,?>> list=new ArrayList<TBase<?,?>>();
   try {
     trans.reset(bytes,offset,length);
-    Header header=readHeader();
+    final Header header=readHeader();
     if (locator.isChunkHeader(header.getType())) {
       TBase<?,?> base=null;
       while ((base=deserialize()) != null) {

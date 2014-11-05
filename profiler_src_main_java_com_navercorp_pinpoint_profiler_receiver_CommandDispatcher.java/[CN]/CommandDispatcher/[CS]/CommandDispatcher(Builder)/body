@@ -4,7 +4,7 @@
     registry.addService(service);
   }
   this.locator=registry;
-  SerializerFactory serializerFactory=new HeaderTBaseSerializerFactory(true,builder.serializationMaxSize,builder.protocolFactory,builder.commandTbaseLocator);
+  SerializerFactory<HeaderTBaseSerializer> serializerFactory=new HeaderTBaseSerializerFactory(true,builder.serializationMaxSize,builder.protocolFactory,builder.commandTbaseLocator);
   this.serializerFactory=wrappedThreadLocalSerializerFactory(serializerFactory);
   AssertUtils.assertNotNull(this.serializerFactory);
   DeserializerFactory<HeaderTBaseDeserializer> deserializerFactory=new HeaderTBaseDeserializerFactory(builder.protocolFactory,builder.commandTbaseLocator);
