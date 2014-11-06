@@ -1,17 +1,19 @@
 {
+  CtClass[] nestedClasses;
   try {
-    CtClass[] nestedClasses=ctClass.getNestedClasses();
-    if (nestedClasses == null || nestedClasses.length == 0) {
-      return null;
-    }
-    for (    CtClass nested : nestedClasses) {
-      if (nested.getName().equals(className)) {
-        return new JavaAssistClass(this.instrumentor,nested);
-      }
-    }
+    nestedClasses=ctClass.getNestedClasses();
   }
- catch (  NotFoundException e) {
+ catch (  NotFoundException ex) {
+    logger.warn("{} NestedClass Not Found {}",className,ex.getMessage(),ex);
     return null;
+  }
+  if (nestedClasses == null || nestedClasses.length == 0) {
+    return null;
+  }
+  for (  CtClass nested : nestedClasses) {
+    if (nested.getName().equals(className)) {
+      return new JavaAssistClass(this.instrumentor,nested);
+    }
   }
   return null;
 }

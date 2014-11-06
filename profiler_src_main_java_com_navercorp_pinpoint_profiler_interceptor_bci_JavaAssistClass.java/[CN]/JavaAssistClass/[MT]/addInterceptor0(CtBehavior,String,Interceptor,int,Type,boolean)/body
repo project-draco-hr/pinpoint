@@ -12,12 +12,7 @@
  else {
         throw new InstrumentException("unsupported Interceptor Type:" + interceptor);
       }
-      if (interceptor instanceof TraceContextSupport) {
-        ((TraceContextSupport)interceptor).setTraceContext(instrumentor.getAgent().getTraceContext());
-      }
-      if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
-        setMethodDescriptor(behavior,(ByteCodeMethodDescriptorSupport)interceptor);
-      }
+      injectInterceptor(behavior,interceptor);
     }
  else {
       interceptor=InterceptorRegistry.findInterceptor(interceptorId);

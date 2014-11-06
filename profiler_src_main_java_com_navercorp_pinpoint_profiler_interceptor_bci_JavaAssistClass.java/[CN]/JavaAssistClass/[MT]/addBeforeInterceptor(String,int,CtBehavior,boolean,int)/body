@@ -1,10 +1,11 @@
 {
-  String target=getTarget(behavior);
+  final String target=getTargetIdentifier(behavior);
+  final String[] parameterType=JavaAssistUtils.parseParameterSignature(behavior.getSignature());
   String parameterDescription=null;
   if (interceptorType == STATIC_INTERCEPTOR) {
-    parameterDescription=JavaAssistUtils.getParameterDescription(behavior.getParameterTypes());
+    parameterDescription=JavaAssistUtils.getParameterDescription(parameterType);
   }
-  String parameter=getParameter(behavior);
+  final String parameterIdentifier=getParameterIdentifier(parameterType);
   CodeBuilder code=new CodeBuilder();
   if (useContextClassLoader) {
     code.begin();
@@ -17,10 +18,10 @@
     }
     code.format("  java.lang.reflect.Method beforeMethod = interceptor.getClass().getMethod(\"%1$s\", beforeMethodParams);","before");
     if (interceptorType == STATIC_INTERCEPTOR) {
-      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s };",target,ctClass.getName(),methodName,parameterDescription,parameter);
+      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s };",target,ctClass.getName(),methodName,parameterDescription,parameterIdentifier);
     }
  else {
-      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, %2$s };",target,parameter);
+      code.format("  java.lang.Object[] beforeParams = new java.lang.Object[] { %1$s, %2$s };",target,parameterIdentifier);
     }
     code.append("  beforeMethod.invoke(interceptor, beforeParams);");
     code.append("}");
@@ -30,11 +31,11 @@
     code.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
       code.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
-      code.format("  interceptor.before(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s);",target,ctClass.getName(),methodName,parameterDescription,parameter);
+      code.format("  interceptor.before(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s);",target,ctClass.getName(),methodName,parameterDescription,parameterIdentifier);
     }
  else {
       code.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
-      code.format("  interceptor.before(%1$s, %2$s);",target,parameter);
+      code.format("  interceptor.before(%1$s, %2$s);",target,parameterIdentifier);
     }
     code.end();
   }

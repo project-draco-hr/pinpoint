@@ -3,8 +3,7 @@
   String methodName=behavior.getName();
   methodDescriptor.setMethodName(methodName);
   methodDescriptor.setClassName(ctClass.getName());
-  CtClass[] ctParameterTypes=behavior.getParameterTypes();
-  String[] parameterTypes=JavaAssistUtils.getParameterType(ctParameterTypes);
+  String[] parameterTypes=JavaAssistUtils.parseParameterSignature(behavior.getSignature());
   methodDescriptor.setParameterTypes(parameterTypes);
   String[] parameterVariableName=JavaAssistUtils.getParameterVariableName(behavior);
   methodDescriptor.setParameterVariableName(parameterVariableName);
