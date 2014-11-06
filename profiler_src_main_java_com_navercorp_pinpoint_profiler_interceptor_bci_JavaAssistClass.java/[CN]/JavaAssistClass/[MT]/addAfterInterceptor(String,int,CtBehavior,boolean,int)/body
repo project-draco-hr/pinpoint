@@ -1,11 +1,12 @@
 {
-  String returnType=getReturnType(behavior);
-  String target=getTarget(behavior);
+  final String returnType=getReturnType(behavior);
+  final String target=getTargetIdentifier(behavior);
+  final String[] parameterType=JavaAssistUtils.parseParameterSignature(behavior.getSignature());
   String parameterTypeString=null;
   if (interceptorType == STATIC_INTERCEPTOR) {
-    parameterTypeString=JavaAssistUtils.getParameterDescription(behavior.getParameterTypes());
+    parameterTypeString=JavaAssistUtils.getParameterDescription(parameterType);
   }
-  final String parameter=getParameter(behavior);
+  final String parameterIdentifier=getParameterIdentifier(parameterType);
   final CodeBuilder after=new CodeBuilder();
   if (useContextClassLoader) {
     after.begin();
@@ -18,10 +19,10 @@
     }
     after.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
     if (interceptorType == STATIC_INTERCEPTOR) {
-      after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null };",target,ctClass.getName(),methodName,parameterTypeString,parameter,returnType);
+      after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null };",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier,returnType);
     }
  else {
-      after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, %3$s, null };",target,parameter,returnType);
+      after.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, %3$s, null };",target,parameterIdentifier,returnType);
     }
     after.append("  method.invoke(interceptor, methodParams);");
     endAddFindInterceptorCode(after);
@@ -31,11 +32,11 @@
     after.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
       after.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
-      after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null);",target,ctClass.getName(),methodName,parameterTypeString,parameter,returnType);
+      after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null);",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier,returnType);
     }
  else {
       after.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
-      after.format("  interceptor.after(%1$s, %2$s, %3$s, null);",target,parameter,returnType);
+      after.format("  interceptor.after(%1$s, %2$s, %3$s, null);",target,parameterIdentifier,returnType);
     }
     after.end();
   }
@@ -56,10 +57,10 @@
     }
     catchCode.format("  java.lang.reflect.Method method = interceptor.getClass().getMethod(\"%1$s\", methodArgsClassParams);","after");
     if (interceptorType == STATIC_INTERCEPTOR) {
-      catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, null, $e };",target,ctClass.getName(),methodName,parameterTypeString,parameter);
+      catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, null, $e };",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier);
     }
  else {
-      catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, null, $e };",target,parameter);
+      catchCode.format("  java.lang.Object[] methodParams = new java.lang.Object[] { %1$s, %2$s, null, $e };",target,parameterIdentifier);
     }
     catchCode.append("  method.invoke(interceptor, methodParams);");
     endAddFindInterceptorCode(catchCode);
@@ -70,11 +71,11 @@
     catchCode.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
       catchCode.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
-      catchCode.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, null, $e);",target,ctClass.getName(),methodName,parameterTypeString,parameter);
+      catchCode.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, null, $e);",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier);
     }
  else {
       catchCode.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
-      catchCode.format("  interceptor.after(%1$s, %2$s, null, $e);",target,parameter);
+      catchCode.format("  interceptor.after(%1$s, %2$s, null, $e);",target,parameterIdentifier);
     }
     catchCode.append("  throw $e;");
     catchCode.end();
