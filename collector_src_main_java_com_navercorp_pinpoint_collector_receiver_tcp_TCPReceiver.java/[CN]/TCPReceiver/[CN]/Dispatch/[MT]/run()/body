@@ -1,7 +1,6 @@
 {
   try {
-    final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
-    TBase<?,?> tBase=deserializer.deserialize(bytes);
+    TBase<?,?> tBase=SerializationUtils.deserialize(bytes,deserializerFactory);
     dispatchHandler.dispatchSendMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
   }
  catch (  TException e) {
