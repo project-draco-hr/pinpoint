@@ -1,11 +1,3 @@
 {
-  try {
-    return serializer.serialize(tBase);
-  }
- catch (  TException e) {
-    if (logger.isWarnEnabled()) {
-      logger.warn("Serialize fail:{} Caused:{}",tBase,e.getMessage(),e);
-    }
-    return null;
-  }
+  return SerializationUtils.serialize(tBase,serializer,null);
 }

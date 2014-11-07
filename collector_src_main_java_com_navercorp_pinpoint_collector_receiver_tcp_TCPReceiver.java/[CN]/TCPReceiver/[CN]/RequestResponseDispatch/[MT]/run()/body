@@ -2,8 +2,7 @@
   byte[] bytes=requestPacket.getPayload();
   SocketAddress remoteAddress=socketChannel.getRemoteAddress();
   try {
-    final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
-    TBase<?,?> tBase=deserializer.deserialize(bytes);
+    TBase<?,?> tBase=SerializationUtils.deserialize(bytes,deserializerFactory);
     if (tBase instanceof L4Packet) {
       if (logger.isDebugEnabled()) {
         L4Packet packet=(L4Packet)tBase;
@@ -13,8 +12,7 @@
     }
     TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
     if (result != null) {
-      HeaderTBaseSerializer serializer=serializerFactory.createSerializer();
-      byte[] resultBytes=serializer.serialize(result);
+      byte[] resultBytes=SerializationUtils.serialize(result,serializerFactory);
       socketChannel.sendResponseMessage(requestPacket,resultBytes);
     }
   }

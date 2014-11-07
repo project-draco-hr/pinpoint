@@ -1,0 +1,11 @@
+{
+  try {
+    return serialize(object,serializer);
+  }
+ catch (  Exception e) {
+    if (LOGGER.isWarnEnabled()) {
+      LOGGER.warn("Serialize " + object + " fail. caused="+ e.getMessage(),e);
+    }
+  }
+  return defaultValue;
+}
