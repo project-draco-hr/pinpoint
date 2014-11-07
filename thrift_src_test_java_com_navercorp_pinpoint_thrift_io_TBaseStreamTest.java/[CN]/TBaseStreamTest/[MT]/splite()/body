@@ -1,12 +1,12 @@
 {
-  TBaseStream stream=new TBaseStream(1024);
+  TBaseStream stream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
   TSpanEvent spanEvent=newSpanEvent();
   stream.write(spanEvent);
   int size=stream.size();
   stream.write(spanEvent);
   stream.write(spanEvent);
   stream.write(spanEvent);
-  List<TBaseStreamNode> nodes=stream.split(size);
+  List<ByteArrayOutput> nodes=stream.split(size);
   assertEquals(1,nodes.size());
   nodes=stream.split(size * 2);
   assertEquals(2,nodes.size());

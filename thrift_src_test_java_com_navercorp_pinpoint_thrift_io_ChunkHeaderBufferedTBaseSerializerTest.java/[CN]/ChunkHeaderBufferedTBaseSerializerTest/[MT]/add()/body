@@ -1,27 +1,27 @@
 {
-  ChunkHeaderBufferedTBaseSerializer serializer=new ChunkHeaderBufferedTBaseSerializer(1024);
+  final int chunkSize=1024;
+  UnsafeByteArrayOutputStream out=new UnsafeByteArrayOutputStream();
+  ChunkHeaderBufferedTBaseSerializer serializer=new ChunkHeaderBufferedTBaseSerializer(out,DEFAULT_PROTOCOL_FACTORY,DEFAULT_TBASE_LOCATOR);
+  serializer.setChunkSize(1024);
   serializer.setFlushHandler(new ChunkHeaderBufferedTBaseSerializerFlushHandler(){
     @Override public void handle(    byte[] buffer,    int offset,    int length){
-      System.out.println("overflower buffer offset=" + offset + ", length= "+ length+ ", content="+ Arrays.toString(buffer));
-      flush=true;
+      flushCounter.incrementAndGet();
     }
   }
 );
-  flush=false;
+  flushCounter.set(0);
   TSpanChunk chunk=new TSpanMockBuilder().buildChunk(1,1024);
   serializer.add(chunk);
-  System.out.println(serializer);
-  assertTrue(flush);
-  flush=false;
+  assertEquals(1,flushCounter.get());
+  flushCounter.set(0);
   chunk=new TSpanMockBuilder().buildChunk(3,1024);
   serializer.add(chunk);
-  System.out.println(serializer);
-  assertTrue(flush);
-  flush=false;
+  assertEquals(3,flushCounter.get());
+  flushCounter.set(0);
   chunk=new TSpanMockBuilder().buildChunk(3,10);
   serializer.add(chunk);
-  System.out.println(serializer);
-  assertFalse(flush);
+  assertEquals(0,flushCounter.get());
+  flushCounter.set(0);
   serializer.flush();
-  assertTrue(flush);
+  assertEquals(1,flushCounter.get());
 }

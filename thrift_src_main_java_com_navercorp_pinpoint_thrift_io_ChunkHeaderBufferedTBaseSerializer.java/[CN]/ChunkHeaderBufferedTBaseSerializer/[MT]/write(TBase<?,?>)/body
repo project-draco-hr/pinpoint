@@ -1,9 +1,9 @@
 {
-  final TCompactProtocol protocol=new TCompactProtocol(new ByteArrayOutputStreamTransport(out));
+  final TProtocol protocol=protocolFactory.getProtocol(transport);
   writeChunkHeader(protocol);
   writeHeader(protocol,locator.headerLookup(base));
   base.write(protocol);
-  if (isOverflow()) {
+  if (needAuthFlush()) {
     flush();
   }
 }

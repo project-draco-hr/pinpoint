@@ -1,0 +1,12 @@
+{
+  final TReplaceListProtocol protocol=new TReplaceListProtocol(protocolFactory.getProtocol(transport));
+  writeChunkHeader(protocol);
+  writeHeader(protocol,locator.headerLookup(base));
+  if (list != null && list.size() > 0) {
+    protocol.addReplaceField(fieldName,list);
+  }
+  base.write(protocol);
+  if (needAuthFlush()) {
+    flush();
+  }
+}

@@ -8,10 +8,10 @@
     for (    TSpanEvent e : span.getSpanEventList()) {
       eventStream.write(e);
     }
-    write(span,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(flushSize));
+    write(span,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(chunkSize));
     while (!eventStream.isEmpty()) {
       final TSpanChunk spanChunk=toSpanChunk(span);
-      write(spanChunk,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(flushSize));
+      write(spanChunk,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(chunkSize));
     }
   }
   finally {

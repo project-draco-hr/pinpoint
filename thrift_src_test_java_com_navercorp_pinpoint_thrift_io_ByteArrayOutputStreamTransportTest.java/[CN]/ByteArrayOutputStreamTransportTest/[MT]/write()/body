@@ -5,17 +5,4 @@
   transport.write(buf);
   assertEquals(out.size(),transport.getBufferPosition());
   assertEquals(-1,transport.getBytesRemainingInBuffer());
-  transport.flush();
-  assertEquals(0,out.size());
-  try {
-    fail("passed unsupported operation");
-  }
- catch (  Exception e) {
-  }
-  try {
-    transport.consumeBuffer(1);
-    fail("passed unsupported operation");
-  }
- catch (  Exception e) {
-  }
 }

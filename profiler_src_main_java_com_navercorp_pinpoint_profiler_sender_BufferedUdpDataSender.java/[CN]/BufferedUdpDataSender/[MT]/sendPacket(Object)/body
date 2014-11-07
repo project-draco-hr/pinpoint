@@ -1,8 +1,9 @@
 {
   if (message instanceof TBase) {
     try {
-      chunkSerializedBuffer.add((TBase<?,?>)message);
-      logger.debug("Send packet {message={}}",message);
+      final TBase<?,?> packet=(TBase<?,?>)message;
+      chunkHeaderBufferedSerializer.add(packet);
+      logger.debug("Send packet {}",packet);
     }
  catch (    TException e) {
       logger.warn("sendPacket fail.",e);

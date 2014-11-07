@@ -1,0 +1,43 @@
+{
+  Timer.Context time=receiver.getTimer().time();
+  final HeaderTBaseDeserializer deserializer=(HeaderTBaseDeserializer)deserializerFactory.createDeserializer();
+  TBase<?,?> tBase=null;
+  try {
+    tBase=deserializer.deserialize(packet.getData());
+    if (tBase instanceof L4Packet) {
+      if (logger.isDebugEnabled()) {
+        L4Packet packet=(L4Packet)tBase;
+        logger.debug("udp l4 packet {}",packet.getHeader());
+      }
+      return;
+    }
+    if (tBase instanceof NetworkAvailabilityCheckPacket) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("received udp network availability check packet.");
+      }
+      responseOK();
+      return;
+    }
+    receiver.getDispatchHandler().dispatchSendMessage(tBase,packet.getData(),Header.HEADER_SIZE,packet.getLength());
+  }
+ catch (  TException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",packet.getSocketAddress(),e.getMessage(),e);
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));
+    }
+  }
+catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tBase:{}",packet.getSocketAddress(),e.getMessage(),tBase,e);
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));
+    }
+  }
+ finally {
+    receiver.getDatagramPacketPool().returnObject(packet);
+    time.stop();
+  }
+}

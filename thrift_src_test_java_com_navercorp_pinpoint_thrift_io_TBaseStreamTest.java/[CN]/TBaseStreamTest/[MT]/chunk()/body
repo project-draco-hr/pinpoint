@@ -1,5 +1,5 @@
 {
-  TBaseStream stream=new TBaseStream(1024 * 16);
+  TBaseStream stream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
   final String str1k=RandomStringUtils.randomAlphabetic(1024);
   TSpanChunk spanChunk=newSpanChunk();
   List<TSpanEvent> spanEventList=new ArrayList<TSpanEvent>();
@@ -14,7 +14,7 @@
     stream.write(e);
   }
   System.out.println("event " + stream);
-  TBaseStream chunkStream=new TBaseStream(1024 * 64);
-  List<TBaseStreamNode> nodes=stream.split(1024);
+  TBaseStream chunkStream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
+  List<ByteArrayOutput> nodes=stream.split(1024);
   System.out.println("nodes " + nodes);
 }
