@@ -1,0 +1,15 @@
+{
+  AssertUtils.assertNotNull(channelContext,"ChannelContext may not be null.");
+  this.channelContext=channelContext;
+  this.socketChannel=channelContext.getSocketChannel();
+  AssertUtils.assertNotNull(socketChannel,"SocketChannel may not be null.");
+  Map<Object,Object> properties=channelContext.getChannelProperties();
+  this.version=MapUtils.getString(properties,AgentPropertiesType.VERSION.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(version),"Version may not be null or empty.");
+  this.applicationName=MapUtils.getString(properties,AgentPropertiesType.APPLICATION_NAME.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(applicationName),"ApplicationName may not be null or empty.");
+  this.agentId=MapUtils.getString(properties,AgentPropertiesType.AGENT_ID.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(agentId),"AgentId may not be null or empty.");
+  this.startTimeStamp=MapUtils.getLong(properties,AgentPropertiesType.START_TIMESTAMP.getName());
+  AssertUtils.assertTrue(startTimeStamp > 0,"StartTimeStamp is must greater than zero.");
+}
