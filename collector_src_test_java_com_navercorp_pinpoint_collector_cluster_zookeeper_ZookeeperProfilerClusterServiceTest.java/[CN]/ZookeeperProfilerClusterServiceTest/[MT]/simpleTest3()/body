@@ -4,7 +4,7 @@
     ts=ZookeeperTestUtils.createZookeeperServer(DEFAULT_ACCEPTOR_PORT);
     ZookeeperClusterService service=new ZookeeperClusterService(collectorConfig,clusterPointRouter);
     service.setUp();
-    ChannelContext channelContext=new ChannelContext(null,null,service.getChannelStateChangeEventListener());
+    ChannelContext channelContext=new ChannelContext(mock(SocketChannel.class),null,service.getChannelStateChangeEventListener());
     channelContext.setChannelProperties(getParams());
     ZookeeperProfilerClusterManager profilerClusterManager=service.getProfilerClusterManager();
     channelContext.changeStateRun();
