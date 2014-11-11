@@ -1,0 +1,10 @@
+{
+  ByteArrayOutputStream baos=null;
+  if (safetyGuranteed) {
+    baos=new ByteArrayOutputStream(outputStreamSize);
+  }
+ else {
+    baos=new UnsafeByteArrayOutputStream(outputStreamSize);
+  }
+  return new ChunkHeaderBufferedTBaseSerializer(baos,protocolFactory,locator);
+}
