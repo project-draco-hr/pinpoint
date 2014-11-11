@@ -1,0 +1,8 @@
+{
+  final String assistClass=signature.substring(startIndex,signature.length() - 1);
+  final String objectName=assistClass.replace('/','.');
+  if (objectName.isEmpty()) {
+    throw new IllegalArgumentException("invalid signature. objectName not found :" + signature);
+  }
+  return objectName;
+}

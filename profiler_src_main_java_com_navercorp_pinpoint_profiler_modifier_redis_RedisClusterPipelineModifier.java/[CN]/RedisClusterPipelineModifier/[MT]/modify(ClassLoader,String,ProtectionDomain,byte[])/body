@@ -6,22 +6,13 @@
   try {
     final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
     instrumentClass.addTraceValue(MapTraceValue.class);
-    final Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterPipelineConstructorInterceptor");
-    try {
-      instrumentClass.addConstructorInterceptor(new String[]{"com.nhncorp.redis.cluster.gateway.GatewayServer"},constructorInterceptor);
-    }
- catch (    Exception ignored) {
-    }
-    final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterPipelineMethodNames.get()));
-    for (    MethodInfo method : declaredMethods) {
-      final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterPipelineMethodInterceptor");
-      instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
-    }
+    addConstructorInterceptor(classLoader,protectedDomain,instrumentClass);
+    addMethodInterceptor(classLoader,protectedDomain,instrumentClass);
     return instrumentClass.toBytecode();
   }
  catch (  Exception e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("redis.RedisClusterPipelineModifier(nBase-ARC) fail. Target class is " + getTargetClass() + ", Caused "+ e.getMessage(),e);
+      logger.warn("Failed to modifier. caused={}",e.getMessage(),e);
     }
   }
   return null;

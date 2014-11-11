@@ -1,13 +1,19 @@
 {
-  ProfilerClusterPoint profilerClusterPoint=clusterPointRouter.getProfilerClusterPoint();
-  ChannelContext channelContext=new ChannelContext(null,null);
+  ClusterPointRepository clusterPointRepository=clusterPointRouter.getTargetClusterPointRepository();
+  SocketChannel socketChannel=mock(SocketChannel.class);
+  ChannelContext channelContext=new ChannelContext(socketChannel,null);
   channelContext.setChannelProperties(getParams());
-  profilerClusterPoint.registerChannelContext(channelContext);
-  Assert.assertEquals(1,profilerClusterPoint.getChannelContext().size());
-  Assert.assertNull(profilerClusterPoint.getChannelContext("a","a"));
-  Assert.assertNull(profilerClusterPoint.getChannelContext("application","a"));
-  Assert.assertEquals(channelContext,profilerClusterPoint.getChannelContext("application","agent"));
-  profilerClusterPoint.unregisterChannelContext(channelContext);
-  Assert.assertEquals(0,profilerClusterPoint.getChannelContext().size());
-  Assert.assertNull(profilerClusterPoint.getChannelContext("application","agent"));
+  ClusterPoint clusterPoint=new ChannelContextClusterPoint(channelContext);
+  clusterPointRepository.addClusterPoint(clusterPoint);
+  List<TargetClusterPoint> clusterPointList=clusterPointRepository.getClusterPointList();
+  Assert.assertEquals(1,clusterPointList.size());
+  Assert.assertNull(findClusterPoint("a","a",-1L,clusterPointList));
+  Assert.assertNull(findClusterPoint("application","a",-1L,clusterPointList));
+  Assert.assertEquals(clusterPoint,findClusterPoint("application","agent",currentTime,clusterPointList));
+  boolean isAdd=clusterPointRepository.addClusterPoint(new ChannelContextClusterPoint(channelContext));
+  Assert.assertFalse(isAdd);
+  clusterPointRepository.removeClusterPoint(new ChannelContextClusterPoint(channelContext));
+  clusterPointList=clusterPointRepository.getClusterPointList();
+  Assert.assertEquals(0,clusterPointList.size());
+  Assert.assertNull(findClusterPoint("application","agent",currentTime,clusterPointList));
 }

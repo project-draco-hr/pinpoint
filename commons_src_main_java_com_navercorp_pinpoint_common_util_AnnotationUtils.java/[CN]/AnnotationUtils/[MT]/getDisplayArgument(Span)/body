@@ -10,6 +10,9 @@
   if (serviceType == ServiceType.HTTP_CLIENT || serviceType == ServiceType.JDK_HTTPURLCONNECTOR) {
     return findAnnotationBo(list,AnnotationKey.HTTP_URL);
   }
+  if (serviceType == ServiceType.HTTP_CLIENT_INTERNAL) {
+    return findAnnotationBo(list,AnnotationKey.HTTP_CALL_RETRY_COUNT);
+  }
   if (serviceType == ServiceType.MYSQL || serviceType == ServiceType.MYSQL_EXECUTE_QUERY || serviceType == ServiceType.ORACLE || serviceType == ServiceType.ORACLE_EXECUTE_QUERY || serviceType == ServiceType.MSSQL || serviceType == ServiceType.MSSQL_EXECUTE_QUERY || serviceType == ServiceType.CUBRID || serviceType == ServiceType.CUBRID_EXECUTE_QUERY) {
     return findAnnotationBo(list,AnnotationKey.ARGS0);
   }

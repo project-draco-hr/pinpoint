@@ -1,0 +1,15 @@
+{
+  int start=signature.indexOf('(');
+  if (start == -1) {
+    throw new IllegalArgumentException("'(' not found. signature:" + signature);
+  }
+  final int end=signature.indexOf(')',start + 1);
+  if (end == -1) {
+    throw new IllegalArgumentException("')' not found. signature:" + signature);
+  }
+  start=start + 1;
+  if (start == end) {
+    return "";
+  }
+  return signature.substring(start,end);
+}

@@ -1,0 +1,18 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",className);
+  }
+  byteCodeInstrumentor.checkLibrary(classLoader,className);
+  try {
+    final InstrumentClass instrumentClass=byteCodeInstrumentor.getClass(className);
+    beforeAddInterceptor(classLoader,protectedDomain,instrumentClass);
+    addMethodInterceptor(classLoader,protectedDomain,instrumentClass);
+    return instrumentClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Failed to modifier. caused={}",e.getMessage(),e);
+    }
+  }
+  return null;
+}

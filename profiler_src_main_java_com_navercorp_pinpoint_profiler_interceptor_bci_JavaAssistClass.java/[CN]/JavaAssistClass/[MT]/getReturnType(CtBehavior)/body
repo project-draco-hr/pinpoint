@@ -1,7 +1,7 @@
 {
   if (behavior instanceof CtMethod) {
-    CtClass returnType=((CtMethod)behavior).getReturnType();
-    if (CtClass.voidType == returnType) {
+    final String signature=behavior.getSignature();
+    if (isVoid(signature)) {
       return "null";
     }
   }

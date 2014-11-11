@@ -1,0 +1,12 @@
+{
+  final String parameterSignature=getParameterSignature(signature);
+  if (parameterSignature.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final Matcher matcher=PARAMETER_SIGNATURE_PATTERN.matcher(parameterSignature);
+  final List<String> parameterTypeList=new ArrayList<String>();
+  while (matcher.find()) {
+    parameterTypeList.add(matcher.group());
+  }
+  return parameterTypeList;
+}

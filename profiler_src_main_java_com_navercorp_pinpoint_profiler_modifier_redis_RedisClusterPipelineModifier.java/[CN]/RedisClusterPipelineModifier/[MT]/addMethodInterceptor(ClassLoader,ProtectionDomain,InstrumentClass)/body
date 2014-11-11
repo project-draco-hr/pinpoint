@@ -1,0 +1,14 @@
+{
+  final List<MethodInfo> declaredMethods=instrumentClass.getDeclaredMethods(new NameBasedMethodFilter(RedisClusterPipelineMethodNames.get()));
+  for (  MethodInfo method : declaredMethods) {
+    try {
+      final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.RedisClusterPipelineMethodInterceptor");
+      instrumentClass.addInterceptor(method.getName(),method.getParameterTypes(),methodInterceptor);
+    }
+ catch (    Exception e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Failed to add method interceptor('not found ...' is jedis compatibility error). caused={}",e.getMessage(),e);
+      }
+    }
+  }
+}

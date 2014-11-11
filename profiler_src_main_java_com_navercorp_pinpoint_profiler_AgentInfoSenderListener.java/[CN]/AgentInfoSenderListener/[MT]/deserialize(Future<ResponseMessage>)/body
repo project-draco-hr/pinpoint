@@ -1,14 +1,5 @@
 {
   final ResponseMessage responseMessage=future.getResult();
-  HeaderTBaseDeserializer deserializer=HeaderTBaseDeserializerFactory.DEFAULT_FACTORY.createDeserializer();
   byte[] message=responseMessage.getMessage();
-  try {
-    return deserializer.deserialize(message);
-  }
- catch (  TException e) {
-    if (logger.isWarnEnabled()) {
-      logger.warn("Deserialize fail. Caused:{}",e.getMessage(),e);
-    }
-    return null;
-  }
+  return SerializationUtils.deserialize(message,HeaderTBaseDeserializerFactory.DEFAULT_FACTORY,null);
 }

@@ -1,0 +1,30 @@
+{
+  final char scheme=signature.charAt(0);
+switch (scheme) {
+case 'B':
+    return "byte";
+case 'C':
+  return "char";
+case 'D':
+return "double";
+case 'F':
+return "float";
+case 'I':
+return "int";
+case 'J':
+return "long";
+case 'S':
+return "short";
+case 'V':
+return "void";
+case 'Z':
+return "boolean";
+case 'L':
+return toObjectType(signature,1);
+case '[':
+{
+return toArrayType(signature);
+}
+}
+throw new IllegalArgumentException("invalid signature :" + signature);
+}

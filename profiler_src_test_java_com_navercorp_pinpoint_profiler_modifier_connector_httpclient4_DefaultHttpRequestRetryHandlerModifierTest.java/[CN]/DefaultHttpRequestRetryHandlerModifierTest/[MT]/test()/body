@@ -1,0 +1,8 @@
+{
+  DefaultHttpRequestRetryHandler retryHandler=new DefaultHttpRequestRetryHandler();
+  IOException iOException=new IOException();
+  HttpContext context=new BasicHttpContext();
+  assertTrue(retryHandler.retryRequest(iOException,1,context));
+  assertTrue(retryHandler.retryRequest(iOException,2,context));
+  assertEquals(2,getCurrentSpanEvents().size());
+}

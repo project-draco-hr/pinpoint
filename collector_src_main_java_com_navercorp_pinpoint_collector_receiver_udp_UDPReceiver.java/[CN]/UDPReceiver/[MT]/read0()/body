@@ -1,0 +1,37 @@
+{
+  boolean success=false;
+  DatagramPacket packet=datagramPacketPool.getObject();
+  if (packet == null) {
+    logger.error("datagramPacketPool is empty");
+    return null;
+  }
+  try {
+    try {
+      socket.receive(packet);
+      success=true;
+    }
+ catch (    SocketTimeoutException e) {
+      return null;
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("DatagramPacket SocketAddress:{} read size:{}",packet.getSocketAddress(),packet.getLength());
+      if (logger.isTraceEnabled()) {
+        logger.trace("dump packet:{}",PacketUtils.dumpDatagramPacket(packet));
+      }
+    }
+  }
+ catch (  IOException e) {
+    if (!state.get()) {
+    }
+ else {
+      logger.error("IoError, Caused:",e.getMessage(),e);
+    }
+    return null;
+  }
+ finally {
+    if (!success) {
+      datagramPacketPool.returnObject(packet);
+    }
+  }
+  return packet;
+}
