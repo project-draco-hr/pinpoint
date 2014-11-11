@@ -1,0 +1,10 @@
+{
+  final StringBuilder buffer=new StringBuilder(pureJavaType.length() + javaObjectArraySize + 2);
+  for (int i=0; i < javaObjectArraySize; i++) {
+    buffer.append('[');
+  }
+  buffer.append('L');
+  buffer.append(javaNameToJvmName(pureJavaType));
+  buffer.append(';');
+  return buffer.toString();
+}

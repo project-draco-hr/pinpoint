@@ -1,4 +1,13 @@
 {
-  CtClass[] params=JavaAssistUtils.getCtParameter(args,instrumentor.getClassPool());
-  return ctClass.getDeclaredMethod(methodName,params);
+  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(args);
+  for (  CtMethod method : ctClass.getDeclaredMethods()) {
+    if (!method.getName().equals(methodName)) {
+      continue;
+    }
+    final String descriptor=method.getMethodInfo2().getDescriptor();
+    if (descriptor.startsWith(jvmSignature)) {
+      return method;
+    }
+  }
+  throw new NotFoundInstrumentException(methodName + Arrays.toString(args) + " is not found in "+ this.getName());
 }
