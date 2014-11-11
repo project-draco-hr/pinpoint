@@ -1,0 +1,20 @@
+{
+  TBaseStream stream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
+  final String str1k=RandomStringUtils.randomAlphabetic(1024);
+  TSpanChunk spanChunk=newSpanChunk();
+  List<TSpanEvent> spanEventList=new ArrayList<TSpanEvent>();
+  spanChunk.setSpanEventList(spanEventList);
+  spanChunk.setSpanEventListIsSet(true);
+  TSpanEvent event1k=new TSpanEvent();
+  event1k.setDestinationId(str1k);
+  event1k.setDestinationIdIsSet(true);
+  spanEventList.add(event1k);
+  spanEventList.add(event1k);
+  for (  TSpanEvent e : spanChunk.getSpanEventList()) {
+    stream.write(e);
+  }
+  System.out.println("event " + stream);
+  TBaseStream chunkStream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
+  List<ByteArrayOutput> nodes=stream.split(1024);
+  System.out.println("nodes " + nodes);
+}

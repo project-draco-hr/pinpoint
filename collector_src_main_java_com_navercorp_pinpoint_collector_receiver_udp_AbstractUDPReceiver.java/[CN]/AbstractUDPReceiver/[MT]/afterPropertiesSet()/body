@@ -1,0 +1,11 @@
+{
+  Assert.notNull(dispatchHandler,"dispatchHandler must not be null");
+  Assert.notNull(metricRegistry,"metricRegistry must not be null");
+  this.socket=createSocket(bindAddress,port,receiverBufferSize);
+  final int packetPoolSize=getPacketPoolSize(workerThreadSize,workerThreadQueueSize);
+  this.datagramPacketPool=new ObjectPool<DatagramPacket>(new DatagramPacketFactory(),packetPoolSize);
+  this.worker=ExecutorFactory.newFixedThreadPool(workerThreadSize,workerThreadQueueSize,receiverName + "-Worker",true);
+  this.timer=metricRegistry.timer(receiverName + "-timer");
+  this.rejectedCounter=metricRegistry.counter(receiverName + "-rejected");
+  this.io=(ThreadPoolExecutor)Executors.newCachedThreadPool(new PinpointThreadFactory(receiverName + "-Io",true));
+}

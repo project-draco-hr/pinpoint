@@ -1,0 +1,20 @@
+{
+  final TSpanChunk spanChunk=new TSpanChunk();
+  spanChunk.setAgentId(agentId);
+  spanChunk.setAgentIdIsSet(true);
+  spanChunk.setApplicationName(applicationName);
+  spanChunk.setApplicationNameIsSet(true);
+  spanChunk.setAgentStartTime(startTime);
+  spanChunk.setAgentStartTimeIsSet(true);
+  spanChunk.setServiceType(serviceType);
+  spanChunk.setServiceTypeIsSet(true);
+  spanChunk.setTransactionId(transactionId);
+  spanChunk.setTransactionIdIsSet(true);
+  spanChunk.setSpanId(1);
+  spanChunk.setSpanIdIsSet(true);
+  for (int i=0; i < spanEventCount; i++) {
+    spanChunk.addToSpanEventList(buildEvent(spanEventSize));
+    spanChunk.setSpanEventListIsSet(true);
+  }
+  return spanChunk;
+}

@@ -1,9 +1,8 @@
 {
   Timer.Context time=timer.time();
-  final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
   TBase<?,?> tBase=null;
   try {
-    tBase=deserializer.deserialize(packet.getData());
+    tBase=SerializationUtils.deserialize(packet.getData(),deserializerFactory);
     if (tBase instanceof L4Packet) {
       if (logger.isDebugEnabled()) {
         L4Packet packet=(L4Packet)tBase;

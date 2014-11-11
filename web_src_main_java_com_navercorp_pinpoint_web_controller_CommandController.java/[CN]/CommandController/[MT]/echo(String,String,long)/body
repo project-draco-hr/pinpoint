@@ -4,19 +4,17 @@
     return createResponse(false,String.format("Can't find suitable ChannelContext(%s/%s/%d).",applicationName,agentId,startTimeStamp));
   }
   TCommandThreadDump threadDump=new TCommandThreadDump();
-  HeaderTBaseSerializer serializer=commandSerializerFactory.createSerializer();
-  byte[] payload=serializer.serialize(threadDump);
+  byte[] payload=serialize(threadDump);
   TCommandTransfer transfer=new TCommandTransfer();
   transfer.setApplicationName(applicationName);
   transfer.setAgentId(agentId);
   transfer.setPayload(payload);
-  Future<ResponseMessage> future=context.getSocketChannel().sendRequestMessage(serializer.serialize(transfer));
+  Future<ResponseMessage> future=context.getSocketChannel().sendRequestMessage(serialize(transfer));
   future.await();
   String exceptionMessage=StringUtils.EMPTY;
   ResponseMessage responseMessage=future.getResult();
   try {
-    HeaderTBaseDeserializer deserializer=commandDeserializerFactory.createDeserializer();
-    TBase result=deserializer.deserialize(responseMessage.getMessage());
+    TBase result=deserialize(responseMessage.getMessage());
     if (result == null) {
       return createResponse(false,String.format("Can't get message from %s.",context));
     }

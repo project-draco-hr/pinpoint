@@ -1,0 +1,19 @@
+{
+  final TSpanChunk chunk=(TSpanChunk)base;
+  if (chunk.getSpanEventList() == null) {
+    write(base);
+    return;
+  }
+  try {
+    for (    TSpanEvent e : chunk.getSpanEventList()) {
+      eventStream.write(e);
+    }
+    write(chunk,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(chunkSize));
+    while (!eventStream.isEmpty()) {
+      write(chunk,FIELD_NAME_SPAN_EVENT_LIST,eventStream.split(chunkSize));
+    }
+  }
+  finally {
+    eventStream.clear();
+  }
+}

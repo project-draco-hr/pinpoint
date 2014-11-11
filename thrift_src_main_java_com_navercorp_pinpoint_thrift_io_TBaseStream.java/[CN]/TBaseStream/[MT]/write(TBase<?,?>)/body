@@ -1,0 +1,9 @@
+{
+  final TBaseStreamNode node=new TBaseStreamNode(transport);
+  node.setClassName(base.getClass().getName());
+  node.setBeginPosition(transport.getBufferPosition());
+  final TProtocol protocol=protocolFactory.getProtocol(transport);
+  base.write(protocol);
+  node.setEndPosition(transport.getBufferPosition());
+  nodes.add(node);
+}

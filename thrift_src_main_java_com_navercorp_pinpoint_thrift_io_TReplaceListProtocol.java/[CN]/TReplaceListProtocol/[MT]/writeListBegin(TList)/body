@@ -1,0 +1,24 @@
+{
+  if (!writeFieldBegin) {
+    protocol.writeListBegin(list);
+    return;
+  }
+  if (writeListDepth == 0 && currentField != null) {
+    List<ByteArrayOutput> outputs=replaceFields.get(currentField.name);
+    if (outputs == null) {
+      throw new TException("not found replace field - " + currentField.name);
+    }
+    final TList replaceList=new TList(list.elemType,outputs.size());
+    protocol.writeListBegin(replaceList);
+    for (    ByteArrayOutput output : outputs) {
+      try {
+        final OutputStream out=((ByteArrayOutputStreamTransport)getTransport()).getByteArrayOutputStream();
+        output.writeTo(out);
+      }
+ catch (      IOException e) {
+        throw new TException(e);
+      }
+    }
+  }
+  writeListDepth++;
+}

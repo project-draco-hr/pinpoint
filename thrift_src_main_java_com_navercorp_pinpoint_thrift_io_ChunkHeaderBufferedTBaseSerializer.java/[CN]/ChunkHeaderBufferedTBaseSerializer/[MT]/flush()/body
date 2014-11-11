@@ -1,0 +1,9 @@
+{
+synchronized (transport) {
+    if (flushHandler != null && transport.getBufferPosition() > Header.HEADER_SIZE) {
+      flushHandler.handle(transport.getBuffer(),0,transport.getBufferPosition());
+    }
+    transport.flush();
+    writeChunkHeader=false;
+  }
+}

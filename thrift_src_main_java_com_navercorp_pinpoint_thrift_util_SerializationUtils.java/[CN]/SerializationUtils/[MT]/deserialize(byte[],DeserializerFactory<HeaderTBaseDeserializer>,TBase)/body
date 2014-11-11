@@ -1,0 +1,11 @@
+{
+  try {
+    return deserialize(objectData,factory);
+  }
+ catch (  Exception e) {
+    if (LOGGER.isWarnEnabled()) {
+      LOGGER.warn("Deserialize fail. caused=" + e.getMessage(),e);
+    }
+  }
+  return defaultValue;
+}
