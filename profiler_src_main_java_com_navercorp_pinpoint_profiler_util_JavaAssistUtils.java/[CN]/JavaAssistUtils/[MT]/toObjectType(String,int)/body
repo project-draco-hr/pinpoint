@@ -1,6 +1,6 @@
 {
   final String assistClass=signature.substring(startIndex,signature.length() - 1);
-  final String objectName=assistClass.replace('/','.');
+  final String objectName=jvmNameToJavaName(assistClass);
   if (objectName.isEmpty()) {
     throw new IllegalArgumentException("invalid signature. objectName not found :" + signature);
   }

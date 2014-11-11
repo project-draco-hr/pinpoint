@@ -1,0 +1,13 @@
+{
+  if (javaTypeArray == null || javaTypeArray.length == 0) {
+    return "()";
+  }
+  final StringBuilder buffer=new StringBuilder();
+  buffer.append('(');
+  for (  String javaType : javaTypeArray) {
+    final String jvmSignature=toJvmSignature(javaType);
+    buffer.append(jvmSignature);
+  }
+  buffer.append(')');
+  return buffer.toString();
+}
