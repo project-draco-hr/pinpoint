@@ -8,10 +8,12 @@
   }
   AgentStat agentStat=new AgentStat();
   if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC)) {
-    agentStat.setMemoryGc(new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC)).build());
+    AgentStatMemoryGcBo.Builder builder=new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC));
+    agentStat.setMemoryGc(builder.build());
   }
   if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
-    agentStat.setCpuLoad(new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD)).build());
+    AgentStatCpuLoadBo.Builder builder=new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD));
+    agentStat.setCpuLoad(builder.build());
   }
   List<AgentStat> agentStats=new ArrayList<AgentStat>();
   agentStats.add(agentStat);
