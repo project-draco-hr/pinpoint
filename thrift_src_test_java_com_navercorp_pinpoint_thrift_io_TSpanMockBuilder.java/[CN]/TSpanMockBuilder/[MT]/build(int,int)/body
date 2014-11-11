@@ -1,0 +1,20 @@
+{
+  final TSpan span=new TSpan();
+  span.setAgentId(agentId);
+  span.setAgentIdIsSet(true);
+  span.setApplicationName(applicationName);
+  span.setApplicationNameIsSet(true);
+  span.setTransactionId(transactionId);
+  span.setTransactionIdIsSet(true);
+  span.setSpanId(1);
+  span.setSpanIdIsSet(true);
+  span.setStartTime(startTime);
+  span.setStartTimeIsSet(true);
+  span.setServiceType(serviceType);
+  span.setServiceTypeIsSet(true);
+  for (int i=0; i < spanEventCount; i++) {
+    span.addToSpanEventList(buildEvent(spanEventSize));
+    span.setSpanEventListIsSet(true);
+  }
+  return span;
+}

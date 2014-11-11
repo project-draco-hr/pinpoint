@@ -1,0 +1,9 @@
+{
+  final TProtocol protocol=protocolFactory.getProtocol(transport);
+  writeChunkHeader(protocol);
+  writeHeader(protocol,locator.headerLookup(base));
+  base.write(protocol);
+  if (isNeedFlush()) {
+    flush();
+  }
+}

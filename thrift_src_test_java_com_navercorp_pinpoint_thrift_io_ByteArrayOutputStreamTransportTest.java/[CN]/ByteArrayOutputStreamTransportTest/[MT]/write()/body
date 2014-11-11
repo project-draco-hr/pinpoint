@@ -1,0 +1,8 @@
+{
+  transport.write(buf,0,buf.length);
+  assertTrue(Arrays.equals(buf,out.toByteArray()));
+  assertTrue(Arrays.equals(buf,transport.getBuffer()));
+  transport.write(buf);
+  assertEquals(out.size(),transport.getBufferPosition());
+  assertEquals(-1,transport.getBytesRemainingInBuffer());
+}
