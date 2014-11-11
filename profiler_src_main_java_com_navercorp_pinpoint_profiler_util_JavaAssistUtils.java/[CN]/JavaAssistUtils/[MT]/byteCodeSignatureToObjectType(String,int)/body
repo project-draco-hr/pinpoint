@@ -1,5 +1,5 @@
 {
-  final char scheme=signature.charAt(0);
+  final char scheme=signature.charAt(startIndex);
 switch (scheme) {
 case 'B':
     return "byte";
@@ -20,7 +20,7 @@ return "void";
 case 'Z':
 return "boolean";
 case 'L':
-return toObjectType(signature,1);
+return toObjectType(signature,startIndex + 1);
 case '[':
 {
 return toArrayType(signature);

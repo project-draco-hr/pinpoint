@@ -1,0 +1,10 @@
+{
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{}),"()");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"int"}),"(I)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"int","double"}),"(ID)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"byte","float","short"}),"(BFS)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"java.lang.String"}),"(Ljava/lang/String;)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"java.lang.String","long"}),"(Ljava/lang/String;J)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"long","java.lang.Object","boolean"}),"(JLjava/lang/Object;Z)");
+  Assert.assertEquals(JavaAssistUtils.javaTypeToJvmSignature(new String[]{"char","long","java.lang.Object","boolean"}),"(CJLjava/lang/Object;Z)");
+}

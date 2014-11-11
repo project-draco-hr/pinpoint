@@ -1,32 +1,5 @@
 {
   final int arraySize=getArraySize(description);
-  final char scheme=description.charAt(arraySize);
-switch (scheme) {
-case 'B':
-    return arrayType("byte",arraySize);
-case 'C':
-  return arrayType("char",arraySize);
-case 'D':
-return arrayType("double",arraySize);
-case 'F':
-return arrayType("float",arraySize);
-case 'I':
-return arrayType("int",arraySize);
-case 'J':
-return arrayType("long",arraySize);
-case 'S':
-return arrayType("short",arraySize);
-case 'V':
-return arrayType("void",arraySize);
-case 'Z':
-return arrayType("boolean",arraySize);
-case 'L':
-final String objectType=toObjectType(description,arraySize + 1);
-return arrayType(objectType,arraySize);
-case '[':
-{
-throw new IllegalArgumentException("invalid signature" + description);
-}
-}
-throw new IllegalArgumentException("invalid signature :" + description);
+  final String objectType=byteCodeSignatureToObjectType(description,arraySize);
+  return arrayType(objectType,arraySize);
 }

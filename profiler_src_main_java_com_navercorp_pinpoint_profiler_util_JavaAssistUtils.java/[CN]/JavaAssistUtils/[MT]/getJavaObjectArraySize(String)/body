@@ -1,0 +1,25 @@
+{
+  if (javaType == null) {
+    throw new NullPointerException("javaType must not be null");
+  }
+  if (javaType.isEmpty()) {
+    return 0;
+  }
+  final int endIndex=javaType.length() - 1;
+  final char checkEndArrayExist=javaType.charAt(endIndex);
+  if (checkEndArrayExist != ']') {
+    return 0;
+  }
+  int arraySize=0;
+  for (int i=endIndex; i > 0; i=i - 2) {
+    final char arrayEnd=javaType.charAt(i);
+    final char arrayStart=javaType.charAt(i - 1);
+    if (arrayStart == '[' && arrayEnd == ']') {
+      arraySize++;
+    }
+ else {
+      return arraySize;
+    }
+  }
+  return arraySize;
+}
