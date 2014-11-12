@@ -1,0 +1,9 @@
+{
+  final StackFrame[] originalStack=this.stack;
+  if (index >= originalStack.length) {
+    final int copyStackSize=originalStack.length + STACK_INCREASE_SIZE;
+    final StackFrame[] copyStack=new StackFrame[copyStackSize];
+    System.arraycopy(originalStack,0,copyStack,0,originalStack.length);
+    this.stack=copyStack;
+  }
+}

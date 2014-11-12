@@ -1,0 +1,12 @@
+{
+  final int currentIndex=this.index;
+  final StackFrame[] currentStack=this.stack;
+  if (currentIndex >= 0) {
+    currentStack[currentIndex]=null;
+    this.index=currentIndex - 1;
+  }
+ else {
+    PinpointException ex=createStackException(stackApiPoint,this.index);
+    throw ex;
+  }
+}

@@ -1,14 +1,9 @@
 {
-  if (index >= 0) {
-    stack[index]=null;
-    this.index--;
-    return stack[index];
+  pop("pop");
+  if (index == -1) {
+    return null;
   }
  else {
-    PinpointException ex=new PinpointException("Profiler CallStack check. index:" + index + "");
-    if (logger.isWarnEnabled()) {
-      logger.warn("invalid callStack found stack dump:{}",this,ex);
-    }
-    throw ex;
+    return getCurrentStackFrame();
   }
 }
