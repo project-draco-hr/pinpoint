@@ -1,0 +1,6 @@
+{
+  String interceptorClassName="com.nhn.pinpoint.bootstrap.plugin.TestInterceptors$TestInterceptor0";
+  DefaultInterceptorFactory factory=new DefaultInterceptorFactory(instrumentor,traceContext,interceptorClassName,null,null,null);
+  Interceptor interceptor=factory.getInterceptor(getClass().getClassLoader(),aClass,aMethod);
+  assertEquals(interceptorClassName,interceptor.getClass().getName());
+}

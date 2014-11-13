@@ -1,0 +1,14 @@
+{
+  if (strategy == null) {
+    target.addTraceValue(metadataAccessorType);
+  }
+ else {
+    if (strategy instanceof ByConstructor) {
+      String javaExpression="new " + ((ByConstructor)strategy).getClassName() + "();";
+      target.addTraceValue(metadataAccessorType,javaExpression);
+    }
+ else {
+      throw new IllegalArgumentException("Unsupported strategy: " + strategy);
+    }
+  }
+}

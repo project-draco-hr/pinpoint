@@ -1,0 +1,18 @@
+{
+  if (type == TraceContext.class) {
+    return traceContext;
+  }
+ else   if (type == MethodDescriptor.class) {
+    return targetMethod.getDescriptor();
+  }
+ else   if (type == ParameterExtractor.class) {
+    if (parameterExtractorFactory == null) {
+      return null;
+    }
+    return parameterExtractorFactory.get(target,targetMethod);
+  }
+ else   if (type == ByteCodeInstrumentor.class) {
+    return instrumentor;
+  }
+  return null;
+}

@@ -1,0 +1,11 @@
+{
+  List<MetadataInjector> metadataInjectors=new ArrayList<MetadataInjector>(metadataBuilders.size());
+  for (  MetadataBuilder builder : metadataBuilders) {
+    metadataInjectors.add(builder.build());
+  }
+  List<InterceptorInjector> interceptorInjectors=new ArrayList<InterceptorInjector>(interceptorBuilders.size());
+  for (  InterceptorBuilder builder : interceptorBuilders) {
+    interceptorInjectors.add(builder.build());
+  }
+  return new BasicClassEditor(instrumentor,targetClassName,metadataInjectors,interceptorInjectors);
+}
