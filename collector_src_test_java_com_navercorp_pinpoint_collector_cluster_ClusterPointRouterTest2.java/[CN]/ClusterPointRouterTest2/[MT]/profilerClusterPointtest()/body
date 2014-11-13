@@ -1,0 +1,27 @@
+{
+  WebCluster webCluster=null;
+  try {
+    webCluster=new WebCluster(CollectorUtils.getServerIdentifier(),clusterPointRouter);
+    PinpointServerSocket pinpointServerSocket=createServerSocket("127.0.0.1",DEFAULT_ACCEPTOR_SOCKET_PORT);
+    InetSocketAddress address=new InetSocketAddress("127.0.0.1",DEFAULT_ACCEPTOR_SOCKET_PORT);
+    webCluster.connectPointIfAbsent(address);
+    SocketChannel socketChannel=mock(SocketChannel.class);
+    ClusterPoint clusterPoint=new ChannelContextClusterPoint(createChannelContext(socketChannel));
+    ClusterPointRepository clusterPointRepository=clusterPointRouter.getTargetClusterPointRepository();
+    clusterPointRepository.addClusterPoint(clusterPoint);
+    byte[] echoPayload=createEchoPayload("hello");
+    when(socketChannel.sendRequestMessage(echoPayload)).thenReturn(createExpectedFuture(echoPayload));
+    byte[] commandDeliveryPayload=createDeliveryCommandPayload("application","agent",currentTime,echoPayload);
+    List<ChannelContext> contextList=pinpointServerSocket.getDuplexCommunicationChannelContext();
+    ChannelContext context=contextList.get(0);
+    Future<ResponseMessage> future=context.getSocketChannel().sendRequestMessage(commandDeliveryPayload);
+    future.await();
+    TCommandEcho base=(TCommandEcho)SerializationUtils.deserialize(future.getResult().getMessage(),commandDeserializerFactory);
+    Assert.assertEquals(base.getMessage(),"hello");
+  }
+  finally {
+    if (webCluster != null) {
+      webCluster.close();
+    }
+  }
+}
