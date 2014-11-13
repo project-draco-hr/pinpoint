@@ -1,10 +1,12 @@
 {
-  charts.put(JVM_MEMORY_HEAP_USED_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(JVM_MEMORY_HEAP_MAX_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(JVM_MEMORY_NON_HEAP_USED_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(JVM_MEMORY_NON_HEAP_MAX_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(JVM_GC_OLD_COUNT_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(JVM_GC_OLD_TIME_KEY,new SampledLongLineChart(sampleRate));
-  charts.put(CPU_LOAD_JVM_KEY,new SampledDoubleLineChart(sampleRate));
-  charts.put(CPU_LOAD_SYSTEM_KEY,new SampledDoubleLineChart(sampleRate));
+  this.chartBuilders=new EnumMap<ChartType,LineChartBuilder<? extends Number,? extends Number>>(ChartType.class);
+  this.chartBuilders.put(ChartType.JVM_MEMORY_HEAP_USED,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_HEAP_MAX,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_NON_HEAP_USED,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_NON_HEAP_MAX,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.JVM_GC_OLD_COUNT,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.JVM_GC_OLD_TIME,new SampledDataLongChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.CPU_LOAD_JVM,new SampledDataDoubleChartBuilder(sampleRate));
+  this.chartBuilders.put(ChartType.CPU_LOAD_SYSTEM,new SampledDataDoubleChartBuilder(sampleRate));
+  this.charts=new EnumMap<ChartType,Chart>(ChartType.class);
 }

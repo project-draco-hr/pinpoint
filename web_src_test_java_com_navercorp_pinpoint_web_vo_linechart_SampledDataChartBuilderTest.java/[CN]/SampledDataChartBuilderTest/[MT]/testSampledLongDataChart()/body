@@ -1,0 +1,14 @@
+{
+  final int sampleRate=60;
+  final int totalPoints=10000;
+  final int expectedNumPoints=getExpectedNumPoints(sampleRate,totalPoints);
+  ChartBuilder<Long,Long> longDataChartBuilder=new SampledDataLongChartBuilder(sampleRate);
+  for (long i=0; i < totalPoints; ++i) {
+    longDataChartBuilder.addDataPoint(new DataPoint<Long,Long>(i,i));
+  }
+  Chart lineChart=longDataChartBuilder.buildChart();
+  assertTrue(lineChart.getPoints().size() == expectedNumPoints);
+  ObjectMapper mapper=new ObjectMapper();
+  String result=mapper.writeValueAsString(lineChart);
+  logger.debug(result);
+}

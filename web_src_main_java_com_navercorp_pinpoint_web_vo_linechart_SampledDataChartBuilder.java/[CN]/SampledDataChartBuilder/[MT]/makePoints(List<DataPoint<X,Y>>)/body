@@ -1,0 +1,10 @@
+{
+  Points points=new Points();
+  for (int i=0; i < dataPoints.size(); i+=this.sampleRate) {
+    final int beginIndex=i;
+    final int endIndex=Math.min(beginIndex + this.sampleRate,dataPoints.size());
+    List<DataPoint<X,Y>> sampleDataPoints=dataPoints.subList(beginIndex,endIndex);
+    points.addPoint(makePoint(sampleDataPoints));
+  }
+  return points;
+}

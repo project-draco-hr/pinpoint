@@ -11,7 +11,8 @@
   if (sampleRate == null) {
     sampleRate=nPoints < 300 ? 1 : nPoints / 300;
   }
-  AgentStatChartGroup chart=new AgentStatChartGroup(sampleRate);
-  chart.addAgentStats(agentStatList);
-  return chart;
+  AgentStatChartGroup chartGroup=new AgentStatChartGroup(sampleRate);
+  chartGroup.addAgentStats(agentStatList);
+  chartGroup.buildCharts();
+  return chartGroup;
 }
