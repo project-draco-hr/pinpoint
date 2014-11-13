@@ -32,7 +32,9 @@
           logger.debug("stop finding agentInfo.");
           break;
         }
-        final AgentInfoBo.Builder agentInfoBoBuilder=new AgentInfoBo.Builder(serializedAgentInfo).agentId(agentId).startTime(startTime);
+        final AgentInfoBo.Builder agentInfoBoBuilder=new AgentInfoBo.Builder(serializedAgentInfo);
+        agentInfoBoBuilder.agentId(agentId);
+        agentInfoBoBuilder.startTime(startTime);
         if (serializedServerMetaData != null) {
           agentInfoBoBuilder.serverMetaData(new ServerMetaDataBo.Builder(serializedServerMetaData).build());
         }
