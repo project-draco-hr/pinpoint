@@ -1,0 +1,24 @@
+{
+  Object result=resolvePinpointObject(type);
+  if (result != null) {
+    return Option.withValue(result);
+  }
+  if (providedArguments.length >= argumentIndex + 1) {
+    Object candidate=providedArguments[argumentIndex];
+    argumentIndex++;
+    if (type.isPrimitive()) {
+      if (candidate == null) {
+        return Option.<Object>empty();
+      }
+      if (TypeUtils.getWrapperOf(type) == candidate.getClass()) {
+        return Option.withValue(candidate);
+      }
+    }
+ else {
+      if (type.isAssignableFrom(candidate.getClass())) {
+        return Option.withValue(candidate);
+      }
+    }
+  }
+  return Option.<Object>empty();
+}

@@ -1,0 +1,14 @@
+{
+  int interceptorId=-1;
+  for (  MethodInfo methodInfo : target.getDeclaredMethods(filter)) {
+    String targetMethodName=methodInfo.getName();
+    String[] targetParameterTypes=methodInfo.getParameterTypes();
+    if (singletonInterceptor && interceptorId != -1) {
+      target.reuseInterceptor(targetMethodName,targetParameterTypes,interceptorId);
+    }
+ else {
+      Interceptor interceptor=factory.getInterceptor(classLoader,target,methodInfo);
+      interceptorId=target.addInterceptor(targetMethodName,targetParameterTypes,interceptor);
+    }
+  }
+}

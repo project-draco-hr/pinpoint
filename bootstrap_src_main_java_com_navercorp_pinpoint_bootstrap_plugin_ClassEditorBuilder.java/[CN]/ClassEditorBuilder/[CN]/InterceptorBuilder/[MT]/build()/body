@@ -1,0 +1,12 @@
+{
+  InterceptorFactory interceptorFactory=new DefaultInterceptorFactory(instrumentor,traceContext,interceptorClassName,constructorArguments,parameterExtractorFactory,scopeName);
+  if (filter != null) {
+    return new FilteringInterceptorInjector(filter,interceptorFactory,singleton);
+  }
+ else   if (methodName != null) {
+    return new DedicatedInterceptorInjector(methodName,parameterTypes,interceptorFactory);
+  }
+ else {
+    return new ConstructorInterceptorInjector(parameterTypes,interceptorFactory);
+  }
+}

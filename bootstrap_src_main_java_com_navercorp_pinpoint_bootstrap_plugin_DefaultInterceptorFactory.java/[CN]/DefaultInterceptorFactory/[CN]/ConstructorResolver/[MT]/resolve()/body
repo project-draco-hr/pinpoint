@@ -1,0 +1,17 @@
+{
+  Class<?>[] types=constructor.getParameterTypes();
+  int length=types.length;
+  Object[] arguments=new Object[length];
+  for (int i=0; i < length; i++) {
+    Class<?> type=types[i];
+    Option<Object> resolved=resolveArgument(type);
+    if (!resolved.hasValue()) {
+      return null;
+    }
+    arguments[i]=resolved.getValue();
+  }
+  if (argumentIndex != providedArguments.length) {
+    return null;
+  }
+  return arguments;
+}

@@ -5,9 +5,7 @@
   final CtMethod[] declaredMethod=ctClass.getDeclaredMethods();
   final List<MethodInfo> candidateList=new ArrayList<MethodInfo>(declaredMethod.length);
   for (  CtMethod ctMethod : declaredMethod) {
-    final String methodName=ctMethod.getName();
-    final String[] parameterType=JavaAssistUtils.parseParameterSignature(ctMethod.getSignature());
-    final MethodInfo method=new MethodInfo(methodName,parameterType,ctMethod.getModifiers());
+    final MethodInfo method=new JavassistMethodInfo(ctMethod);
     if (methodFilter.filter(method)) {
       continue;
     }

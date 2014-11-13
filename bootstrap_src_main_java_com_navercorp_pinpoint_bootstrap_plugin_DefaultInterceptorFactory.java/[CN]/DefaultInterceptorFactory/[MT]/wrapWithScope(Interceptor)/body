@@ -1,0 +1,10 @@
+{
+  Scope scope=instrumentor.getScope(scopeName);
+  if (interceptor instanceof SimpleAroundInterceptor) {
+    return new ScopedSimpleInterceptor((SimpleAroundInterceptor)interceptor,scope);
+  }
+ else   if (interceptor instanceof StaticAroundInterceptor) {
+    return new ScopedStaticInterceptor((StaticAroundInterceptor)interceptor,scope);
+  }
+  throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
+}

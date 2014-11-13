@@ -1,0 +1,10 @@
+{
+  try {
+    CtClass[] params=JavaAssistUtils.getCtParameter(parameterTypes,instrumentor.getClassPool());
+    CtMethod ctMethod=ctClass.getDeclaredMethod(name,params);
+    return new JavassistMethodInfo(ctMethod);
+  }
+ catch (  NotFoundException e) {
+    return null;
+  }
+}
