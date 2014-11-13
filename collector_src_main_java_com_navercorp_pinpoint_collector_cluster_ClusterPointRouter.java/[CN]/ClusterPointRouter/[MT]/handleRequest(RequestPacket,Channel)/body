@@ -7,29 +7,15 @@
     channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(tResult)));
   }
  else   if (request instanceof TCommandTransfer) {
-    String applicationName=((TCommandTransfer)request).getApplicationName();
-    String agentId=((TCommandTransfer)request).getAgentId();
-    long startTimeStamp=((TCommandTransfer)request).getStartTime();
     byte[] payload=((TCommandTransfer)request).getPayload();
-    List<TargetClusterPoint> clusterPointList=targetClusterPointRepository.getClusterPointList();
-    TargetClusterPoint clusterPoint=findClusterPoint(applicationName,agentId,startTimeStamp,clusterPointList);
-    if (clusterPoint == null) {
-      TResult result=new TResult(false);
-      result.setMessage(applicationName + "/" + agentId+ " can't find suitable ChannelContext.");
-      channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(result)));
-      return;
-    }
     TBase command=deserialize(payload);
-    TCommandTypeVersion commandVersion=TCommandTypeVersion.getVersion(clusterPoint.gerVersion());
-    if (commandVersion.isSupportCommand(command)) {
-      Future<ResponseMessage> future=clusterPoint.request(payload);
-      future.await();
-      ResponseMessage responseMessage=future.getResult();
-      channel.write(new ResponsePacket(requestPacket.getRequestId(),responseMessage.getMessage()));
+    RouteResult routeResult=routeHandler.onRoute(new RequestEvent((TCommandTransfer)request,requestPacket.getRequestId(),channel,command));
+    if (RouteStatus.OK == routeResult.getStatus()) {
+      channel.write(new ResponsePacket(requestPacket.getRequestId(),routeResult.getResponseMessage().getMessage()));
     }
  else {
       TResult result=new TResult(false);
-      result.setMessage(applicationName + "/" + agentId+ " unsupported command("+ command+ ") type.");
+      result.setMessage(routeResult.getStatus().getReasonPhrase());
       channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(result)));
     }
   }
