@@ -1,0 +1,15 @@
+{
+  final File bloc3CatalinaJar=new File(applicationHome + "/server/lib/catalina.jar");
+  final File bloc3ServletApiJar=new File(applicationHome + "/common/lib/servlet-api.jar");
+  final File bloc4LibDir=new File(applicationHome + "/libs");
+  boolean isBloc=false;
+  if (isFileExist(bloc3CatalinaJar) && isFileExist(bloc3ServletApiJar)) {
+    manuallyStartupRequired=false;
+    isBloc=true;
+  }
+ else   if (isFileExist(bloc4LibDir)) {
+    manuallyStartupRequired=true;
+    isBloc=true;
+  }
+  return isBloc;
+}
