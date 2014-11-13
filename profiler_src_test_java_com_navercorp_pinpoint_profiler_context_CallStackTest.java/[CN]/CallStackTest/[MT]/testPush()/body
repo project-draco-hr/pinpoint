@@ -1,11 +1,10 @@
 {
-  DefaultTraceId traceId=new DefaultTraceId("test",0,1);
-  Span span=new Span();
-  span.setAgentId("agentId");
-  span.recordTraceId(traceId);
+  final Span span=createSpan();
   CallStack callStack=new CallStack(span);
-  int stackIndex=callStack.getStackFrameIndex();
-  logger.info(String.valueOf(stackIndex));
+  int initialIndex=callStack.getStackFrameIndex();
+  Assert.assertEquals("initial index",initialIndex,-1);
   callStack.push();
+  SpanEventStackFrame spanEventStackFrame=createSpanEventStackFrame(span);
+  callStack.setStackFrame(spanEventStackFrame);
   callStack.popRoot();
 }

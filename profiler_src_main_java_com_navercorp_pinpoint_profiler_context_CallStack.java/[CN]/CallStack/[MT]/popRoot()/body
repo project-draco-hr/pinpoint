@@ -1,13 +1,7 @@
 {
-  if (index >= 0) {
-    stack[index]=null;
-    index--;
-  }
- else {
-    PinpointException ex=new PinpointTraceException("Profiler CallStack check. index:" + index + "");
-    if (logger.isWarnEnabled()) {
-      logger.warn("invalid callStack found stack dump:{}",this,ex);
-    }
+  pop("popRoot");
+  if (index != -1) {
+    PinpointException ex=createStackException("invalid root stack found",this.index);
     throw ex;
   }
 }

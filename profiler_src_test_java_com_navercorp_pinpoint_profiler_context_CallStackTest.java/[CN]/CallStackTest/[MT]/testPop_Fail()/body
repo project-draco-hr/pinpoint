@@ -3,5 +3,12 @@
   callStack.push();
   callStack.push();
   callStack.pop();
-  callStack.pop();
+  StackFrame lastPop=callStack.pop();
+  Assert.assertNull(lastPop);
+  try {
+    callStack.pop();
+    Assert.fail("invalid pop");
+  }
+ catch (  Exception e) {
+  }
 }

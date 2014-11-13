@@ -1,0 +1,19 @@
+{
+  final Span span=createSpan();
+  CallStack callStack=new CallStack(span);
+  int initialIndex=callStack.getStackFrameIndex();
+  Assert.assertEquals("initial index",initialIndex,-1);
+  final int pushCount=32;
+  for (int i=0; i < pushCount; i++) {
+    int push=callStack.push();
+    Assert.assertEquals("push index",i,push);
+    SpanEventStackFrame stackFrame=createSpanEventStackFrame(span);
+    callStack.setStackFrame(stackFrame);
+    int index=callStack.getIndex();
+    Assert.assertEquals("index",i,index);
+  }
+  for (int i=0; i < pushCount - 1; i++) {
+    callStack.pop();
+  }
+  callStack.popRoot();
+}
