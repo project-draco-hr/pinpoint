@@ -1,4 +1,11 @@
 {
-  checkLibrary(classLoader,javassistClassName);
-  return getClass(javassistClassName);
+  final NamedClassPool classPool=findClassPool(classLoader);
+  checkLibrary(classLoader,classPool,javassistClassName);
+  try {
+    CtClass cc=classPool.get(javassistClassName);
+    return new JavaAssistClass(this,cc);
+  }
+ catch (  NotFoundException e) {
+    throw new InstrumentException(javassistClassName + " class not found. Cause:" + e.getMessage(),e);
+  }
 }
