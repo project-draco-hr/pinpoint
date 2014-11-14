@@ -1,8 +1,7 @@
 {
   logger.info("Modifying. {}",javassistClassName);
-  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    InstrumentClass standardService=byteCodeInstrumentor.getClass(javassistClassName);
+    InstrumentClass standardService=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     LifeCycleEventListener lifeCycleEventListener=new LifeCycleEventListener(agent);
     Interceptor standardServiceStartInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStartInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});
     Interceptor standardServiceStopInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.StandardServiceStopInterceptor",new Object[]{lifeCycleEventListener},new Class[]{LifeCycleEventListener.class});

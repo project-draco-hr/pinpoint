@@ -5,7 +5,7 @@
     @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
       try {
         logger.info("modify cl:{}",classLoader);
-        InstrumentClass aClass=byteCodeInstrumentor.getClass(testClassObject);
+        InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,testClassObject,classFileBuffer);
         Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestAfterInterceptor");
         addInterceptor(interceptor);
         logger.info(interceptor.getClass().getClassLoader().toString());

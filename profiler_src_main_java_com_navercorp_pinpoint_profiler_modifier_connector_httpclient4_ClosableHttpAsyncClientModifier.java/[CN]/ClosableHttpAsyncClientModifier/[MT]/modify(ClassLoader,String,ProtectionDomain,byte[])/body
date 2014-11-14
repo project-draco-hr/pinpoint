@@ -2,9 +2,8 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifing. {} @ {}",javassistClassName,classLoader);
   }
-  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     Interceptor executeInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.AsyncClientExecuteInterceptor");
     String[] executeParams=new String[]{"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.protocol.HttpContext","org.apache.http.concurrent.FutureCallback"};
     aClass.addInterceptor("execute",executeParams,executeInterceptor);
