@@ -2,9 +2,8 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifing. {}",javassistClassName);
   }
-  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     aClass.addTraceVariable("_nimmAddress","__setNimmAddress","__getNimmAddress","java.lang.String");
     Interceptor constructorInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.nimm.interceptor.NimmInvokerConstructorInterceptor");
     aClass.addConstructorInterceptor(new String[]{"com.nhncorp.lucy.nimm.connector.address.NimmAddress","com.nhncorp.lucy.nimm.connector.NimmSocket","long"},constructorInterceptor);

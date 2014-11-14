@@ -2,9 +2,8 @@
   if (logger.isInfoEnabled()) {
     logger.info("Modifying. {}",javassistClassName);
   }
-  byteCodeInstrumentor.checkLibrary(classLoader,javassistClassName);
   try {
-    InstrumentClass aClass=byteCodeInstrumentor.getClass(javassistClassName);
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     aClass.addTraceVariable("__operation","__setOperation","__getOperation","net.spy.memcached.ops.Operation");
     Interceptor futureSetOperationInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.FutureSetOperationInterceptor");
     aClass.addInterceptor("setOperation",new String[]{"net.spy.memcached.ops.Operation"},futureSetOperationInterceptor);
