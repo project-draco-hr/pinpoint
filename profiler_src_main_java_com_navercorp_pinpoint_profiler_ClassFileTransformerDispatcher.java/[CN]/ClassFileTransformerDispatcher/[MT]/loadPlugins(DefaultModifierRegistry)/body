@@ -1,0 +1,11 @@
+{
+  ProfilerPluginContext pluginContext=new ProfilerPluginContext(byteCodeInstrumentor,agent.getTraceContext());
+  List<ProfilerPlugin> plugins=new PluginLoader().load(profilerConfig.getAgentPath() + File.separatorChar + "plugin");
+  for (  ProfilerPlugin plugin : plugins) {
+    for (    ClassEditor editor : plugin.getClassEditors(pluginContext)) {
+      if (editor instanceof DedicatedClassEditor) {
+        modifierRepository.addModifier(new ClassEditorAdaptor(byteCodeInstrumentor,agent,(DedicatedClassEditor)editor));
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  URL[] urls=new URL[jars.length];
+  for (int i=0; i < jars.length; i++) {
+    try {
+      urls[i]=jars[i].toURI().toURL();
+    }
+ catch (    MalformedURLException e) {
+      e.printStackTrace();
+    }
+  }
+  URLClassLoader classLoader=new URLClassLoader(urls,ClassLoader.getSystemClassLoader());
+  return classLoader;
+}
