@@ -1,5 +1,11 @@
 {
-  InputStream is=classLoader.getResourceAsStream(className.replace('.','/') + ".class");
+  if (classLoader == null) {
+    classLoader=ClassLoader.getSystemClassLoader();
+  }
+  if (className == null) {
+    throw new NullPointerException("className must not be null");
+  }
+  final InputStream is=classLoader.getResourceAsStream(className.replace('.','/') + ".class");
   if (is == null) {
     throw new RuntimeException("No such class file: " + className);
   }
@@ -18,6 +24,9 @@
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
+  }
+ finally {
+    close(is);
   }
   return buffer.array();
 }

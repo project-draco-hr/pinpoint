@@ -8,12 +8,12 @@
     if (PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION == stateCode) {
       UpdateJob job=new UpdateJob(channelContext,new byte[0]);
       worker.putJob(job);
-      clusterPointRepository.addClusterPoint(new ChannelContextClusterPoint(channelContext));
+      profileCluster.addClusterPoint(new ChannelContextClusterPoint(channelContext));
     }
  else     if (PinpointServerSocketStateCode.isFinished(stateCode)) {
       DeleteJob job=new DeleteJob(channelContext);
       worker.putJob(job);
-      clusterPointRepository.removeClusterPoint(new ChannelContextClusterPoint(channelContext));
+      profileCluster.removeClusterPoint(new ChannelContextClusterPoint(channelContext));
     }
   }
  else {
