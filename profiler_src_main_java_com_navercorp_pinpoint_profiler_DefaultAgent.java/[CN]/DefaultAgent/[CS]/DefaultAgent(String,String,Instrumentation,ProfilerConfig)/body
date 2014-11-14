@@ -1,4 +1,7 @@
 {
+  if (agentPath == null) {
+    throw new NullPointerException("agentPath must not be null");
+  }
   if (instrumentation == null) {
     throw new NullPointerException("instrumentation must not be null");
   }
@@ -10,6 +13,7 @@
   dumpSystemProperties();
   dumpConfig(profilerConfig);
   changeStatus(AgentStatus.INITIALIZING);
+  this.agentPath=agentPath;
   this.profilerConfig=profilerConfig;
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(profilerConfig.getApplicationServerType());
   if (!typeResolver.resolve()) {

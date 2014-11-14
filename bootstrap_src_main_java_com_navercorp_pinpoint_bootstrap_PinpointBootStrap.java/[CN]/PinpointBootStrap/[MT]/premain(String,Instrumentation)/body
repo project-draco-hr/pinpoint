@@ -28,13 +28,13 @@
   }
   saveLogFilePath(classPathResolver);
   try {
-    ProfilerConfig profilerConfig=new ProfilerConfig(classPathResolver.getAgentDirPath());
+    ProfilerConfig profilerConfig=new ProfilerConfig();
     profilerConfig.readConfigFile(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);
     AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
     agentClassLoader.setBootClass(BOOT_CLASS);
     logger.info("pinpoint agent start.");
-    agentClassLoader.boot(agentArgs,instrumentation,profilerConfig);
+    agentClassLoader.boot(classPathResolver.getAgentDirPath(),agentArgs,instrumentation,profilerConfig);
     logger.info("pinpoint agent start success.");
     loadStateChange(BOOT_STRAP_LOAD_STATE_COMPLETE);
   }
