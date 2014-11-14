@@ -1,0 +1,10 @@
+{
+  final Thread flushThread=this.flushThread;
+  flushThread.interrupt();
+  try {
+    flushThread.join(5000);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+}

@@ -2,7 +2,8 @@
   final ThreadFactory threadFactory=new PinpointThreadFactory(SCHEDULED_FLUSH,true);
   final Thread thread=threadFactory.newThread(new Runnable(){
     @Override public void run(){
-      while (true) {
+      final Thread currentThread=Thread.currentThread();
+      while (!currentThread.isInterrupted()) {
         try {
           chunkHeaderBufferedSerializer.flush();
         }
@@ -13,10 +14,14 @@
           TimeUnit.MILLISECONDS.sleep(1000);
         }
  catch (        InterruptedException ignored) {
+          currentThread.interrupt();
         }
       }
+      logger.info("stop ScheduledFlush {} - {}",currentThread.getName(),currentThread.getId());
     }
   }
 );
+  logger.info("stop ScheduledFlush {} - {}",thread.getName(),thread.getId());
   thread.start();
+  return thread;
 }

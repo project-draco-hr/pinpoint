@@ -15,7 +15,9 @@
       reusePacket.setData(buffer,0,internalBufferSize);
       try {
         udpSocket.send(reusePacket);
-        logger.debug("Data sent. {size={}}",internalBufferSize);
+        if (isDebug) {
+          logger.debug("Data sent. {size={}}",internalBufferSize);
+        }
       }
  catch (      IOException e) {
         logger.warn("packet send error. size:{}",internalBufferSize,e);
@@ -23,5 +25,5 @@
     }
   }
 );
-  startScheduledFlush();
+  flushThread=startScheduledFlush();
 }
