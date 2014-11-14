@@ -1,0 +1,7 @@
+{
+  final BufferedUdpDataSender sender=new BufferedUdpDataSender("localhost",9999,"testUdpSender",100);
+  final String flushThreadName=sender.getFlushThreadName();
+  Assert.assertTrue(ThreadMXBeanUtils.findThreadName(flushThreadName));
+  sender.stop();
+  Assert.assertFalse(ThreadMXBeanUtils.findThreadName(flushThreadName));
+}

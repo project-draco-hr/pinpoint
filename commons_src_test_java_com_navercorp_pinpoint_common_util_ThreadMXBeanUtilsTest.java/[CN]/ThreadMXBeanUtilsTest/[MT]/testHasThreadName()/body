@@ -1,0 +1,16 @@
+{
+  String threadName="ThreadMXBeanUtils-test-thread";
+  Assert.assertFalse(ThreadMXBeanUtils.findThreadName(threadName));
+  WaitingRunnable waiting=new WaitingRunnable();
+  Thread thread=new Thread(waiting,threadName);
+  thread.start();
+  Assert.assertTrue(ThreadMXBeanUtils.findThreadName(threadName));
+  waiting.stop();
+  try {
+    thread.join(2000);
+  }
+ catch (  InterruptedException e) {
+    Assert.fail();
+  }
+  Assert.assertFalse(ThreadMXBeanUtils.findThreadName(threadName));
+}
