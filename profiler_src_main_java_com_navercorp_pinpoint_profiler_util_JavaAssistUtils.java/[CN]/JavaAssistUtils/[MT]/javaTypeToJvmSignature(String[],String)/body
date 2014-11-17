@@ -1,0 +1,10 @@
+{
+  if (returnType == null) {
+    throw new NullPointerException("returnType must not be null");
+  }
+  final String parameterSignature=javaTypeToJvmSignature(javaTypeArray);
+  final StringBuilder sb=new StringBuilder(parameterSignature.length() + 8);
+  sb.append(parameterSignature);
+  sb.append(toJvmSignature(returnType));
+  return sb.toString();
+}

@@ -1,8 +1,10 @@
 {
   if (interceptor instanceof TraceContextSupport) {
-    ((TraceContextSupport)interceptor).setTraceContext(instrumentor.getAgent().getTraceContext());
+    final TraceContext traceContext=instrumentor.getAgent().getTraceContext();
+    ((TraceContextSupport)interceptor).setTraceContext(traceContext);
   }
   if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
-    setMethodDescriptor(behavior,(ByteCodeMethodDescriptorSupport)interceptor);
+    final MethodDescriptor methodDescriptor=createMethodDescriptor(behavior);
+    ((ByteCodeMethodDescriptorSupport)interceptor).setMethodDescriptor(methodDescriptor);
   }
 }

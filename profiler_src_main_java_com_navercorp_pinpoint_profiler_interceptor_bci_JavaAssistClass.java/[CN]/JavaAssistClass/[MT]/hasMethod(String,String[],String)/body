@@ -1,0 +1,10 @@
+{
+  final String signature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypeArray,returnType);
+  try {
+    CtMethod m=ctClass.getMethod(methodName,signature);
+    return m != null;
+  }
+ catch (  NotFoundException e) {
+    return false;
+  }
+}
