@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (args[0] != null) {
+      BlocRequest blocRequest=(BlocRequest)args[0];
+      trace.recordAttribute(AnnotationKey.CAll_URL,blocRequest.getPath());
+      trace.recordAttribute(AnnotationKey.PROTOCAL,blocRequest.getProtocol());
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
