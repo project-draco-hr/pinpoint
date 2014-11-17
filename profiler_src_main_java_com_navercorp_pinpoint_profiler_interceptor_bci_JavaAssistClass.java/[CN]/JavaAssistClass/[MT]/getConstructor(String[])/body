@@ -1,10 +1,11 @@
 {
-  try {
-    CtClass[] params=JavaAssistUtils.getCtParameter(parameterTypes,instrumentor.getClassPool());
-    CtConstructor ctConstructor=ctClass.getDeclaredConstructor(params);
-    return new JavassistMethodInfo(ctConstructor);
+  final String constructorSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
+  for (  CtConstructor ctConstructor : ctClass.getDeclaredConstructors()) {
+    final String descriptor=ctConstructor.getMethodInfo2().getDescriptor();
+    final boolean findConstructor=descriptor.startsWith(constructorSignature);
+    if (findConstructor) {
+      return new JavassistMethodInfo(ctConstructor);
+    }
   }
- catch (  NotFoundException e) {
-    return null;
-  }
+  return null;
 }

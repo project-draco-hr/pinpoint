@@ -1,10 +1,11 @@
 {
-  try {
-    CtClass[] params=JavaAssistUtils.getCtParameter(parameterTypes,instrumentor.getClassPool());
-    CtMethod ctMethod=ctClass.getDeclaredMethod(name,params);
-    return new JavassistMethodInfo(ctMethod);
+  final String methodSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
+  for (  CtMethod ctMethod : ctClass.getDeclaredMethods()) {
+    final String descriptor=ctMethod.getMethodInfo2().getDescriptor();
+    final boolean findMethod=descriptor.startsWith(methodSignature);
+    if (findMethod) {
+      return new JavassistMethodInfo(ctMethod);
+    }
   }
- catch (  NotFoundException e) {
-    return null;
-  }
+  return null;
 }

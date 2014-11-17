@@ -3,12 +3,13 @@
     logger.info("defineClass class:{}, cl:{}",defineClass,classLoader);
   }
   try {
+    final NamedClassPool classPool=findClassPool(classLoader);
 synchronized (classLoader) {
       if (this.classLoadChecker.exist(classLoader,defineClass)) {
         return classLoader.loadClass(defineClass);
       }
  else {
-        final CtClass clazz=childClassPool.get(defineClass);
+        final CtClass clazz=classPool.get(defineClass);
         checkTargetClassInterface(clazz);
         defineAbstractSuperClass(clazz,classLoader,protectedDomain);
         defineNestedClass(clazz,classLoader,protectedDomain);
