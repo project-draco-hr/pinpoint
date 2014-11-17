@@ -1,0 +1,12 @@
+{
+  boolean traceArcusKey=context.getConfig().isArucsKeyTrace();
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.editWhen(new Condition(){
+    @Override public boolean check(    InstrumentClass target){
+      return target.hasDeclaredMethod("putFrontCache",TypeUtils.toClassNames(String.class,Future.class,long.class));
+    }
+  }
+);
+  builder.interceptMethodsFilteredBy(new FrontCacheMemcachedMethodFilter()).with(ApiInterceptor.class).in(Commons.ARCUS_SCOPE).using(traceArcusKey ? Commons.ARCUS_KEY_EXTRACTOR_FACTORY : null);
+  return builder.build();
+}

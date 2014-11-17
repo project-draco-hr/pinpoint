@@ -1,0 +1,13 @@
+{
+  boolean traceArcusKey=context.getConfig().isArucsKeyTrace();
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.editWhen(new Condition(){
+    @Override public boolean check(    InstrumentClass target){
+      return target.hasMethod("addOp","(Ljava/lang/String;Lnet/spy/memcached/ops/OperationAccessor;)Lnet/spy/memcached/ops/OperationAccessor;");
+    }
+  }
+);
+  builder.intercept("setCacheManager",CacheManager.class).with(SetCacheManagerInterceptor.class);
+  builder.interceptMethodsFilteredBy(new ArcusMethodFilter()).with(ApiInterceptor.class).in(Commons.ARCUS_SCOPE).using(traceArcusKey ? Commons.ARCUS_KEY_EXTRACTOR_FACTORY : null);
+  return builder.build();
+}

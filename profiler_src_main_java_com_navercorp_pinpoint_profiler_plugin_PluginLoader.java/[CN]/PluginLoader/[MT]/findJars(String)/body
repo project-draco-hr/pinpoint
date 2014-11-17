@@ -6,5 +6,14 @@
     }
   }
 );
-  return jars;
+  URL[] urls=new URL[jars.length];
+  for (int i=0; i < jars.length; i++) {
+    try {
+      urls[i]=jars[i].toURI().toURL();
+    }
+ catch (    MalformedURLException e) {
+      throw new PinpointException("Fail to load plugin jars",e);
+    }
+  }
+  return urls;
 }

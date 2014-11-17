@@ -1,12 +1,17 @@
 {
-  InterceptorFactory interceptorFactory=new DefaultInterceptorFactory(instrumentor,traceContext,interceptorClassName,constructorArguments,parameterExtractorFactory,scopeName);
+  InterceptorFactory interceptorFactory=new DefaultInterceptorFactory(instrumentor,traceContext,interceptorClass,constructorArguments,parameterExtractorFactory,scopeName);
+  InterceptorInjector injector;
   if (filter != null) {
-    return new FilteringInterceptorInjector(filter,interceptorFactory,singleton);
+    injector=new FilteringInterceptorInjector(filter,interceptorFactory,singleton);
   }
  else   if (methodName != null) {
-    return new DedicatedInterceptorInjector(methodName,parameterTypes,interceptorFactory);
+    injector=new DedicatedInterceptorInjector(methodName,parameterTypes,interceptorFactory);
   }
  else {
-    return new ConstructorInterceptorInjector(parameterTypes,interceptorFactory);
+    injector=new ConstructorInterceptorInjector(parameterTypes,interceptorFactory);
   }
+  if (condition != null) {
+    injector=new ConditionalInterceptorInjector(condition,injector);
+  }
+  return injector;
 }

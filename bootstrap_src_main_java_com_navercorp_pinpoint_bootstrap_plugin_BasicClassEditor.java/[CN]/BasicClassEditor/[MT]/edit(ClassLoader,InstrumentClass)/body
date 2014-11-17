@@ -1,0 +1,14 @@
+{
+  try {
+    for (    MetadataInjector injector : metadataInjectors) {
+      injector.inject(classLoader,target);
+    }
+    for (    InterceptorInjector injector : interceptorInjectors) {
+      injector.inject(classLoader,target);
+    }
+    return target.toBytecode();
+  }
+ catch (  Throwable t) {
+    throw new PinpointException("Fail to edit class",t);
+  }
+}

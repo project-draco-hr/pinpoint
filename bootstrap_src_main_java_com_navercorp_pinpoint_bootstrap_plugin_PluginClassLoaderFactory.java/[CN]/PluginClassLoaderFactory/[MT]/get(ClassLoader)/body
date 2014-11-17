@@ -1,0 +1,9 @@
+{
+  ClassLoader forPlugin=cache.get(loader);
+  if (forPlugin != null) {
+    return forPlugin;
+  }
+  ClassLoader newInstance=new URLClassLoader(pluginJars,loader);
+  ClassLoader inCache=cache.putIfAbsent(loader,newInstance);
+  return inCache == null ? newInstance : inCache;
+}

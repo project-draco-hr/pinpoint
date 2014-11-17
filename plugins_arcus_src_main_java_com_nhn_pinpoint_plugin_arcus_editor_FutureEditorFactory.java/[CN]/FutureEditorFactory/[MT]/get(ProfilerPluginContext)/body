@@ -1,0 +1,7 @@
+{
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.inject(OperationAccessor.class);
+  builder.intercept("setOperation",net.spy.memcached.ops.Operation.class).with(FutureSetOperationInterceptor.class);
+  builder.intercept("get",long.class,TimeUnit.class).with(FutureGetInterceptor.class).in(Commons.ARCUS_SCOPE);
+  return builder.build();
+}
