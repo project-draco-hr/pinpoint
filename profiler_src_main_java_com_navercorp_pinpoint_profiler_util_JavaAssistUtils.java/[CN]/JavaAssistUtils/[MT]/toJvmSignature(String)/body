@@ -3,7 +3,7 @@
     throw new NullPointerException("javaType must not be null");
   }
   if (javaType.isEmpty()) {
-    return "";
+    throw new IllegalArgumentException("invalid javaType. \"\"");
   }
   final int javaObjectArraySize=getJavaObjectArraySize(javaType);
   final int javaArrayLength=javaObjectArraySize * 2;
