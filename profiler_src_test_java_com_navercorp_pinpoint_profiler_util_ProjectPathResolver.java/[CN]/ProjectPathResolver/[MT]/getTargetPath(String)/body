@@ -2,16 +2,12 @@
   if (testClassDir == null) {
     throw new NullPointerException("testClassDir must not be null");
   }
-  testClassDir=testClassDir.substring(1,testClassDir.length() - 1);
-  logger.debug("normalized testClassDir:{}",testClassDir);
   final String target="target";
   int targetFound=testClassDir.lastIndexOf(target);
   if (targetFound == -1) {
     throw new NullPointerException("targetDir not found.");
   }
   String targetDir=testClassDir.substring(0,targetFound + target.length());
-  logger.debug("target:{}",targetDir);
-  String pinpointAgentDir=targetDir + "/pinpoint-agent/";
-  logger.debug("pinpointAgentDir:{}",pinpointAgentDir);
-  return pinpointAgentDir;
+  logger.debug("targetDir:{}",targetDir);
+  return targetDir;
 }

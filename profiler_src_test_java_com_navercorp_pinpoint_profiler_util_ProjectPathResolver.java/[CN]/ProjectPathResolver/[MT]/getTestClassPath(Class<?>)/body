@@ -8,11 +8,11 @@
   }
   logger.debug("url TestClass={}",testClassResource);
   final String testClassPath=testClassResource.getPath();
-  final int classClassDirFind=testClassPath.indexOf(testClassName);
+  final int classClassDirFind=testClassPath.indexOf("/" + testClassName);
   if (classClassDirFind == -1) {
     throw new IllegalArgumentException(testClassName + "not found.");
   }
-  final String testClassesDir=testClassPath.substring(0,classClassDirFind);
-  logger.debug("testClassesDir:{}",testClassesDir);
-  return testClassesDir;
+  final String testClassDir=testClassPath.substring(1,classClassDirFind);
+  logger.debug("testClassDir:{}",testClassDir);
+  return testClassDir;
 }

@@ -1,0 +1,12 @@
+{
+  if (modulePath == null) {
+    throw new NullPointerException("modulePath must not be null");
+  }
+  final int projectPathFound=modulePath.lastIndexOf('/');
+  if (projectPathFound == -1) {
+    throw new RuntimeException("projectPathFound not found");
+  }
+  String projectPath=modulePath.substring(0,projectPathFound);
+  logger.debug("projectPath:{}",projectPath);
+  return projectPath;
+}

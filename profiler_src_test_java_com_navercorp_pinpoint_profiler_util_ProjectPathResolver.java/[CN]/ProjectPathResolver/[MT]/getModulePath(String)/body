@@ -1,0 +1,9 @@
+{
+  final int targetFound=targetPath.lastIndexOf("target");
+  if (targetFound == -1) {
+    throw new RuntimeException("target not found " + targetPath);
+  }
+  String modulePath=targetPath.substring(0,targetFound - 1);
+  logger.debug("modulePath:{}",modulePath);
+  return modulePath;
+}

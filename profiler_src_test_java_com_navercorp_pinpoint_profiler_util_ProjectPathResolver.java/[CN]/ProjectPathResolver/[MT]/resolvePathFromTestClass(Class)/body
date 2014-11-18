@@ -1,0 +1,11 @@
+{
+  if (testClass == null) {
+    throw new NullPointerException("testClass must not be null");
+  }
+  String testClassDir=getTestClassPath(testClass);
+  String targetPath=getTargetPath(testClassDir);
+  String modulePath=getModulePath(targetPath);
+  String projectPath=getProjectPath(modulePath);
+  String pinpointAgentPath=getPinpointAgentPath(projectPath);
+  return new ProjectPath(testClassDir,targetPath,modulePath,projectPath,pinpointAgentPath);
+}
