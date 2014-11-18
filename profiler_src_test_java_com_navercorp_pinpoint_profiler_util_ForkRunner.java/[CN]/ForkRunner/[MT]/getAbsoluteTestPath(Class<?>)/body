@@ -1,0 +1,18 @@
+{
+  logger.debug("testClass:{}",testClass);
+  final ClassLoader classLoader=getDefaultClassLoader(testClass);
+  final String testClassName=JavaAssistUtils.javaNameToJvmName(testClass.getName()) + ".class";
+  final URL testClassResource=classLoader.getResource(testClassName);
+  if (testClassResource == null) {
+    throw new IllegalArgumentException("testClassName not found." + testClassName);
+  }
+  logger.debug("url TestClass={}",testClassResource);
+  final String testClassPath=testClassResource.getPath();
+  final int classClassDirFind=testClassPath.indexOf(testClassName);
+  if (classClassDirFind == -1) {
+    throw new IllegalArgumentException(testClassName + "not found.");
+  }
+  final String testClassesDir=testClassPath.substring(0,classClassDirFind);
+  logger.debug("testClassesDir:{}",testClassesDir);
+  return testClassesDir;
+}
