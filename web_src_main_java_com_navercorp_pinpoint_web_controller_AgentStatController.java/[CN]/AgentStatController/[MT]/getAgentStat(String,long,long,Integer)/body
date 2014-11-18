@@ -1,17 +1,16 @@
 {
   StopWatch watch=new StopWatch();
   watch.start("agentStatService.selectAgentStatList");
-  Range range=new Range(from,to);
-  List<AgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,range);
+  TimeWindow timeWindow=new TimeWindow(new Range(from,to),new TimeWindowSlotCentricSampler());
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range rangeToScan=new Range(scanFrom,scanTo);
+  List<AgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,rangeToScan);
   watch.stop();
   if (logger.isInfoEnabled()) {
     logger.info("getAgentStat(agentId={}, from={}, to={}) : {}ms",agentId,from,to,watch.getLastTaskTimeMillis());
   }
-  int nPoints=(int)(to - from) / 5000;
-  if (sampleRate == null) {
-    sampleRate=nPoints < 300 ? 1 : nPoints / 300;
-  }
-  AgentStatChartGroup chartGroup=new AgentStatChartGroup(sampleRate);
+  AgentStatChartGroup chartGroup=new AgentStatChartGroup(timeWindow);
   chartGroup.addAgentStats(agentStatList);
   chartGroup.buildCharts();
   return chartGroup;

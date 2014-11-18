@@ -5,6 +5,6 @@
   long timestamp=data.getTimestamp();
   double jvmCpuLoadPercentage=data.getJvmCpuLoad() * 100;
   double systemCpuLoadPercentage=data.getSystemCpuLoad() * 100;
-  ((SampledDataDoubleChartBuilder)this.chartBuilders.get(ChartType.CPU_LOAD_JVM)).addDataPoint(new DataPoint<Long,Double>(timestamp,jvmCpuLoadPercentage));
-  ((SampledDataDoubleChartBuilder)this.chartBuilders.get(ChartType.CPU_LOAD_SYSTEM)).addDataPoint(new DataPoint<Long,Double>(timestamp,systemCpuLoadPercentage));
+  ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.CPU_LOAD_JVM)).addDataPoint(new DataPoint<Long,Double>(timestamp,jvmCpuLoadPercentage));
+  ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.CPU_LOAD_SYSTEM)).addDataPoint(new DataPoint<Long,Double>(timestamp,systemCpuLoadPercentage));
 }

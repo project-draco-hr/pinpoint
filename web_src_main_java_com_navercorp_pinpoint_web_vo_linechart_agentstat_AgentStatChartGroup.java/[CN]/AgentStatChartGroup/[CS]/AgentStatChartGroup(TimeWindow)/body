@@ -1,0 +1,12 @@
+{
+  this.chartBuilders=new EnumMap<ChartType,ChartBuilder<? extends Number,? extends Number>>(ChartType.class);
+  this.chartBuilders.put(ChartType.JVM_MEMORY_HEAP_USED,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_HEAP_MAX,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_NON_HEAP_USED,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.JVM_MEMORY_NON_HEAP_MAX,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.JVM_GC_OLD_COUNT,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.JVM_GC_OLD_TIME,new SampledTimeSeriesLongChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.CPU_LOAD_JVM,new SampledTimeSeriesDoubleChartBuilder(timeWindow,uncollectedData));
+  this.chartBuilders.put(ChartType.CPU_LOAD_SYSTEM,new SampledTimeSeriesDoubleChartBuilder(timeWindow,uncollectedData));
+  this.charts=new EnumMap<ChartType,Chart>(ChartType.class);
+}

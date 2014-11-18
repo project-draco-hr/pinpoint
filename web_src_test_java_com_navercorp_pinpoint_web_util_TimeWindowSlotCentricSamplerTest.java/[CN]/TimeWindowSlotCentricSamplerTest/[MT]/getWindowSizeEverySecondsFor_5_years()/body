@@ -1,0 +1,10 @@
+{
+  final long numSecondsPerYear=60 * 60 * 24* 365;
+  for (long periodMs=0; periodMs <= numSecondsPerYear * 5; periodMs+=ONE_SECOND) {
+    final long from=START_TIME_STAMP;
+    final long to=START_TIME_STAMP + periodMs;
+    final Range range=new Range(from,to);
+    final long idealWindowSize=sampler.getWindowSize(range);
+    assertWindowSizeIsIdeal(from,to,idealWindowSize);
+  }
+}
