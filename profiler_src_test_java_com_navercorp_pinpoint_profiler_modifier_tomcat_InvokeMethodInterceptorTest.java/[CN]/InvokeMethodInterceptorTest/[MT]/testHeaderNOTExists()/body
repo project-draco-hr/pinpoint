@@ -6,6 +6,7 @@
   when(request.getHeader(Header.HTTP_SPAN_ID.toString())).thenReturn(null);
   when(request.getHeader(Header.HTTP_SAMPLED.toString())).thenReturn(null);
   when(request.getHeader(Header.HTTP_FLAGS.toString())).thenReturn(null);
+  Enumeration<?> enumeration=mock(Enumeration.class);
   when(request.getParameterNames()).thenReturn(enumeration);
   StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor();
   TraceContext traceContext=new MockTraceContextFactory().create();
