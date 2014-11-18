@@ -1,0 +1,8 @@
+{
+  ByteCodeInstrumentor byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  String testObjectName="com.nhn.pinpoint.profiler.interceptor.bci.TestObject";
+  InstrumentClass testObject=byteCodeInstrumentor.getClass(null,testObjectName,null);
+  Assert.assertEquals(testObject.getName(),testObjectName);
+  MethodInfo declaredMethod=testObject.getDeclaredMethod("callA",null);
+  Assert.assertNotNull(declaredMethod);
+}

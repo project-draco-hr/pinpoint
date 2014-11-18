@@ -1,0 +1,17 @@
+{
+  ByteCodeInstrumentor byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor();
+  String testObjectName="com.nhn.pinpoint.profiler.interceptor.bci.TestObject";
+  InstrumentClass testObject=byteCodeInstrumentor.getClass(null,testObjectName,null);
+  Assert.assertEquals(testObject.getName(),testObjectName);
+  int findMethodCount=0;
+  for (  MethodInfo methodInfo : testObject.getDeclaredMethods()) {
+    if (!methodInfo.getName().equals("callA")) {
+      continue;
+    }
+    String[] parameterTypes=methodInfo.getParameterTypes();
+    if (parameterTypes == null || parameterTypes.length == 0) {
+      findMethodCount++;
+    }
+  }
+  Assert.assertEquals(findMethodCount,1);
+}
