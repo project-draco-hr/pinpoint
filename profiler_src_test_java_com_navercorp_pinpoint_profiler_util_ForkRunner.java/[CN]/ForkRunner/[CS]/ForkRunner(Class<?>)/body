@@ -1,17 +1,24 @@
 {
-  super(klass);
-  PinpointAgent path=klass.getAnnotation(PinpointAgent.class);
+  super(testClass);
+  final String property=System.getProperty("user.dir");
+  logger.debug("user.dir:{}",property);
+  ProjectPathResolver projectPathResolver=new ProjectPathResolver();
+  ProjectPathResolver.ProjectPath projectPath=projectPathResolver.resolvePathFromTestClass(testClass);
+  logger.debug("path:{}",projectPath);
+  PinpointAgent path=testClass.getAnnotation(PinpointAgent.class);
   if (path != null && path.value() != null) {
-    agentJar=path.value();
+    agentJar=projectPath.getPinpointAgentPath() + path.value();
   }
  else {
-    agentJar="target/pinpoint-agent/pinpoint-bootstrap-" + Version.VERSION + ".jar";
+    agentJar=projectPath.getPinpointAgentPath() + "pinpoint-bootstrap-" + Version.VERSION+ ".jar";
   }
-  PinpointConfig config=klass.getAnnotation(PinpointConfig.class);
+  logger.debug("agentJar:{}",agentJar);
+  PinpointConfig config=testClass.getAnnotation(PinpointConfig.class);
   if (config != null && config.value() != null) {
-    configPath=config.value();
+    configPath=projectPath.getTestClassPath() + "/" + config.value();
   }
  else {
-    configPath=null;
+    configPath=projectPath.getPinpointAgentPath() + "/" + "pinpoint.config";
   }
+  logger.debug("configPath:{}",configPath);
 }

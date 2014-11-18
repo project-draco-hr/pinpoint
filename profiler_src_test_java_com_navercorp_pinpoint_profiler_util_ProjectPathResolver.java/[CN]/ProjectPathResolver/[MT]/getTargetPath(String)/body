@@ -1,0 +1,13 @@
+{
+  if (testClassDir == null) {
+    throw new NullPointerException("testClassDir must not be null");
+  }
+  final String target="target";
+  int targetFound=testClassDir.lastIndexOf(target);
+  if (targetFound == -1) {
+    throw new NullPointerException("targetDir not found.");
+  }
+  String targetDir=testClassDir.substring(0,targetFound + target.length());
+  logger.debug("targetDir:{}",targetDir);
+  return targetDir;
+}
