@@ -1,11 +1,9 @@
 {
-  String className=this.ctClass.getName();
-  LoggingInterceptor loggingInterceptor=new LoggingInterceptor(className);
-  int id=InterceptorRegistry.addInterceptor(loggingInterceptor);
+  final String className=this.ctClass.getName();
+  final LoggingInterceptor loggingInterceptor=new LoggingInterceptor(className);
+  final int id=InterceptorRegistry.addInterceptor(loggingInterceptor);
   try {
-    CtClass cc=this.instrumentor.getClassPool().get(className);
-    CtConstructor[] constructors=cc.getConstructors();
-    for (    CtConstructor constructor : constructors) {
+    for (    CtConstructor constructor : ctClass.getConstructors()) {
       if (constructor.isEmpty()) {
         if (isDebug) {
           logger.debug("{} is empty.",constructor.getLongName());
