@@ -13,8 +13,8 @@
     ProfilerConfig profilerConfig=new ProfilerConfig();
     profilerConfig.readConfigFile(configPath);
     String collector=profilerConfig.getCollectorServerIp();
-    int uPort=profilerConfig.getCollectorUdpServerPort();
-    int usPort=profilerConfig.getCollectorUdpSpanServerPort();
+    int uPort=profilerConfig.getCollectorStatServerPort();
+    int usPort=profilerConfig.getCollectorSpanServerPort();
     int tPort=profilerConfig.getCollectorTcpServerPort();
     udpSender=new UdpDataSender(collector,uPort,"UDP",10);
     udpSpanSender=new UdpDataSender(collector,usPort,"UDP-SPAN",10);

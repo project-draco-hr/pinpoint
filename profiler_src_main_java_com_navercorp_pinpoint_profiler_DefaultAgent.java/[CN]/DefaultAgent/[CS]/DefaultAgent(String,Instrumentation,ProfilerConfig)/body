@@ -27,11 +27,11 @@
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
   this.factory=createPinpointSocketFactory(this.profilerConfig.isTcpDataSenderCommandAcceptEnable());
-  this.socket=createPinpointSocket(this.profilerConfig.getCollectorServerIp(),this.profilerConfig.getCollectorTcpServerPort(),factory);
+  this.socket=createPinpointSocket(this.profilerConfig.getCollectorTcpServerIp(),this.profilerConfig.getCollectorTcpServerPort(),factory);
   this.serverMetaDataHolder=createServerMetaDataHolder();
   this.tcpDataSender=createTcpDataSender(socket);
-  this.spanDataSender=createBufferedUdpDataSender(this.profilerConfig.getCollectorUdpSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize(),this.profilerConfig.getSpanDataSenderChunkSize());
-  this.statDataSender=createUdpDataSender(this.profilerConfig.getCollectorUdpServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
+  this.spanDataSender=createBufferedUdpSpanDataSender(this.profilerConfig.getCollectorSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize(),this.profilerConfig.getSpanDataSenderChunkSize());
+  this.statDataSender=createUdpStatDataSender(this.profilerConfig.getCollectorStatServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext(agentInformation.getServerType());
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation,this.serverMetaDataHolder);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
