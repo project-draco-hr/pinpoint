@@ -1,0 +1,19 @@
+{
+  if (placeholderPrefix == null) {
+    throw new NullPointerException("placeholderPrefix must not be null");
+  }
+  if (placeholderSuffix == null) {
+    throw new NullPointerException("placeholderSuffix must not be null");
+  }
+  this.placeholderPrefix=placeholderPrefix;
+  this.placeholderSuffix=placeholderSuffix;
+  String simplePrefixForSuffix=wellKnownSimplePrefixes.get(this.placeholderSuffix);
+  if (simplePrefixForSuffix != null && this.placeholderPrefix.endsWith(simplePrefixForSuffix)) {
+    this.simplePrefix=simplePrefixForSuffix;
+  }
+ else {
+    this.simplePrefix=this.placeholderPrefix;
+  }
+  this.valueSeparator=valueSeparator;
+  this.ignoreUnresolvablePlaceholders=ignoreUnresolvablePlaceholders;
+}

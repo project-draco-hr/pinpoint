@@ -1,0 +1,11 @@
+{
+  if (valueResolver == null) {
+    throw new NullPointerException("valueResolver must not be null");
+  }
+  String value=properties.getProperty(propertyName,defaultValue);
+  value=valueResolver.resolve(value,properties);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info(propertyName + "=" + value);
+  }
+  return value;
+}
