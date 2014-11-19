@@ -1,0 +1,21 @@
+{
+  logger.debug("Editing class {}",className);
+  ClassLoader forPlugin=classLoaderFactory.get(classLoader);
+  ClassLoader old=Thread.currentThread().getContextClassLoader();
+  Thread.currentThread().setContextClassLoader(forPlugin);
+  try {
+    InstrumentClass target=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
+    return editor.edit(classLoader,target);
+  }
+ catch (  PinpointException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    String msg="Fail to invoke plugin class editor " + editor.getClass().getName() + " for "+ editor.getTargetClassName();
+    logger.warn(msg,e);
+    throw new PinpointException(msg,e);
+  }
+ finally {
+    Thread.currentThread().setContextClassLoader(old);
+  }
+}

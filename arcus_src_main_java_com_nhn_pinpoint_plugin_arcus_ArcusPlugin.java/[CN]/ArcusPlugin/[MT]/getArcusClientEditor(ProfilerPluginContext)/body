@@ -1,0 +1,14 @@
+{
+  boolean traceArcusKey=context.getConfig().isArucsKeyTrace();
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.edit("net.spy.memcached.ArcusClient");
+  builder.when(new Condition(){
+    @Override public boolean check(    InstrumentClass target){
+      return target.hasMethod("addOp",new String[]{"java.lang.String","net.spy.memcached.ops.Operation"},"net.spy.memcached.ops.Operation");
+    }
+  }
+);
+  builder.intercept("setCacheManager","net.spy.memcached.CacheManager").with("com.nhn.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
+  builder.interceptMethodsFilteredBy(new ArcusMethodFilter()).with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor").in(Commons.ARCUS_SCOPE).using(traceArcusKey ? Commons.ARCUS_KEY_EXTRACTOR_FACTORY : null);
+  return builder.build();
+}

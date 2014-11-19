@@ -1,0 +1,17 @@
+{
+  URLClassLoader cl=(URLClassLoader)ClassLoader.getSystemClassLoader();
+  outer:   for (  URL url : cl.getURLs()) {
+    String urlAsString=url.toString();
+    for (    String exclude : excludedLibraries) {
+      if (urlAsString.contains(exclude)) {
+        continue outer;
+      }
+    }
+    classPath.append(new File(url.toURI()).getAbsolutePath());
+    classPath.append(File.pathSeparatorChar);
+  }
+  for (  String include : includedLibraries) {
+    classPath.append(include);
+    classPath.append(File.pathSeparatorChar);
+  }
+}

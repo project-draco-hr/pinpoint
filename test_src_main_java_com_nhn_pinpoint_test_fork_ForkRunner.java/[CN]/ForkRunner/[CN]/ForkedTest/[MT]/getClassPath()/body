@@ -1,0 +1,19 @@
+{
+  StringBuilder classPath=new StringBuilder();
+  if (testOnChildClassLoader) {
+    URLClassLoader cl=(URLClassLoader)ClassLoader.getSystemClassLoader();
+    outer:     for (    URL url : cl.getURLs()) {
+      for (      String required : REQUIRED_CLASS_PATHS) {
+        if (url.getFile().contains(required)) {
+          classPath.append(new File(url.toURI()).getAbsolutePath());
+          classPath.append(File.pathSeparatorChar);
+          continue outer;
+        }
+      }
+    }
+  }
+ else {
+    appendClassPath(classPath);
+  }
+  return classPath.toString();
+}

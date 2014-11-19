@@ -1,4 +1,15 @@
 {
+  Class<?> type;
+  try {
+    type=classLoader.loadClass(metadataAccessorTypeName);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new PinpointException("Fail to load metadata accessor: " + metadataAccessorTypeName,e);
+  }
+  if (!TraceValue.class.isAssignableFrom(type)) {
+    throw new PinpointException("Given type " + metadataAccessorTypeName + " is not a subtype of TraceValue");
+  }
+  Class<? extends TraceValue> metadataAccessorType=(Class<? extends TraceValue>)type;
   if (strategy == null) {
     target.addTraceValue(metadataAccessorType);
   }
@@ -8,7 +19,7 @@
       target.addTraceValue(metadataAccessorType,javaExpression);
     }
  else {
-      throw new IllegalArgumentException("Unsupported strategy: " + strategy);
+      throw new PinpointException("Unsupported strategy: " + strategy);
     }
   }
 }

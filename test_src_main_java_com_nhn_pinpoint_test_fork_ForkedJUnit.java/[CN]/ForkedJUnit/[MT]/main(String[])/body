@@ -1,0 +1,15 @@
+{
+  forked=true;
+  int from=0;
+  ClassLoader classLoader=ClassLoader.getSystemClassLoader();
+  if (args[0].startsWith(CHILD_CLASS_PATH_PREFIX)) {
+    String jars=args[0].substring(CHILD_CLASS_PATH_PREFIX.length());
+    List<URL> urls=getJarUrls(jars);
+    classLoader=new URLClassLoader(urls.toArray(new URL[urls.size()]),classLoader);
+    from=1;
+  }
+  List<String> testClassNames=Arrays.asList(args).subList(from,args.length);
+  List<Class<?>> classes=loadTestClasses(classLoader,testClassNames);
+  Result result=runTests(classes);
+  System.exit(result.getFailureCount());
+}

@@ -1,0 +1,7 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  String serviceCode=((ServiceCodeAccessor)target).__getServiceCode();
+  ((ServiceCodeAccessor)args[1]).__setServiceCode(serviceCode);
+}

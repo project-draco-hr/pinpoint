@@ -1,0 +1,10 @@
+{
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.edit("net.spy.memcached.plugin.FrontCacheGetFuture");
+  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheNameAccessor");
+  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheKeyAccessor");
+  builder.interceptConstructor("net.sf.ehcache.Element").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureConstructInterceptor");
+  builder.intercept("get","long","java.util.concurrent.TimeUnit").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor").in(Commons.ARCUS_SCOPE);
+  builder.intercept("get").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor").in(Commons.ARCUS_SCOPE);
+  return builder.build();
+}

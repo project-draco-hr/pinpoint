@@ -1,0 +1,62 @@
+{
+  ProcessBuilder builder=new ProcessBuilder();
+  builder.command(buildCommand());
+  builder.redirectErrorStream(true);
+  System.out.println("Working directory: " + System.getProperty("user.dir"));
+  System.out.println("Command: " + builder.command());
+  Process process;
+  try {
+    process=builder.start();
+  }
+ catch (  IOException e) {
+    return;
+  }
+  Scanner out=new Scanner(process.getInputStream());
+  try {
+    while (out.hasNextLine()) {
+      String line=out.nextLine();
+      if (line.startsWith(ForkedJUnit.JUNIT_OUTPUT_DELIMETER)) {
+        String[] tokens=line.split(ForkedJUnit.JUNIT_OUTPUT_DELIMETER_REGEXP);
+        String event=tokens[1];
+        if ("testRunStarted".equals(event)) {
+          notifier.fireTestRunStarted(getDescription());
+        }
+ else         if ("testRunFinished".equals(event)) {
+          notifier.fireTestRunFinished(result);
+        }
+ else         if ("testStarted".equals(event)) {
+          Description ofTest=findDescription(getDescription(),tokens[2]);
+          notifier.fireTestStarted(ofTest);
+        }
+ else         if ("testFinished".equals(event)) {
+          Description ofTest=findDescription(getDescription(),tokens[2]);
+          notifier.fireTestFinished(ofTest);
+        }
+ else         if ("testFailure".equals(event)) {
+          Failure failure=toFailure(tokens[2],tokens[3],tokens[4],Arrays.asList(tokens).subList(5,tokens.length - 1));
+          notifier.fireTestFailure(failure);
+        }
+ else         if ("testAssumptionFailure".equals(event)) {
+          Failure failure=toFailure(tokens[2],tokens[3],tokens[4],Arrays.asList(tokens).subList(5,tokens.length - 1));
+          notifier.fireTestAssumptionFailed(failure);
+        }
+ else         if ("testIgnored".equals(event)) {
+          Description ofTest=findDescription(getDescription(),tokens[2]);
+          notifier.fireTestIgnored(ofTest);
+        }
+      }
+ else {
+        System.out.println(line);
+      }
+    }
+  }
+  finally {
+    out.close();
+  }
+  try {
+    process.waitFor();
+  }
+ catch (  InterruptedException e) {
+    process.destroy();
+  }
+}

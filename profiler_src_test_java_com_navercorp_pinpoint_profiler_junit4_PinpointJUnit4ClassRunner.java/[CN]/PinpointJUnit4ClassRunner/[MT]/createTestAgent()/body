@@ -1,13 +1,9 @@
 {
   PLoggerFactory.initialize(new Slf4jLoggerBinder());
-  ProfilerConfig profilerConfig=new ProfilerConfig();
-  String path=MockAgent.class.getClassLoader().getResource("pinpoint.config").getPath();
   try {
-    profilerConfig.readConfigFile(path);
+    return MockAgent.of("pinpoint.config");
   }
  catch (  IOException e) {
     throw new InitializationError("Unable to read pinpoint.config");
   }
-  profilerConfig.setApplicationServerType(ServiceType.TEST_STAND_ALONE);
-  return new MockAgent("",new DummyInstrumentation(),profilerConfig);
 }

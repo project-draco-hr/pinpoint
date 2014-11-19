@@ -1,0 +1,10 @@
+{
+  URLClassLoader classLoader=new URLClassLoader(jars,ClassLoader.getSystemClassLoader());
+  ServiceLoader<ProfilerPlugin> loader=ServiceLoader.load(ProfilerPlugin.class,classLoader);
+  Iterator<ProfilerPlugin> iterator=loader.iterator();
+  List<ProfilerPlugin> plugins=new ArrayList<ProfilerPlugin>(jars.length);
+  while (iterator.hasNext()) {
+    plugins.add(iterator.next());
+  }
+  return plugins;
+}

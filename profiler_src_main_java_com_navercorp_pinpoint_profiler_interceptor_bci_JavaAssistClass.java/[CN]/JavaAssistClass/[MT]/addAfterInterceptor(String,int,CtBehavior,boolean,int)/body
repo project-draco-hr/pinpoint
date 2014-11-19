@@ -35,7 +35,7 @@
       after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null);",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier,returnType);
     }
  else {
-      after.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
+      after.format("  %1$s interceptor = (%1$s)com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
       after.format("  interceptor.after(%1$s, %2$s, %3$s, null);",target,parameterIdentifier,returnType);
     }
     after.end();

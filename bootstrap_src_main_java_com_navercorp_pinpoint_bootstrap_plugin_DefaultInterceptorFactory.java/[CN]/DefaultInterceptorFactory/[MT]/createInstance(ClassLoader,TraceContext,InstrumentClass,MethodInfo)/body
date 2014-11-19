@@ -1,0 +1,19 @@
+{
+  Class<?> interceptorClass;
+  try {
+    interceptorClass=classLoader.loadClass(interceptorClassName);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new PinpointException("Cannot load interceptor class: " + interceptorClassName,e);
+  }
+  Constructor<?>[] constructors=interceptorClass.getConstructors();
+  Arrays.sort(constructors,CONSTRUCTOR_COMPARATOR);
+  for (  Constructor<?> constructor : constructors) {
+    ConstructorResolver resolver=new ConstructorResolver(target,targetMethod,constructor);
+    Object[] resolvedArguments=resolver.resolve();
+    if (resolvedArguments != null) {
+      return (Interceptor)invokeConstructor(constructor,resolvedArguments);
+    }
+  }
+  throw new PinpointException("Cannot find suitable constructor for " + interceptorClass.getName());
+}
