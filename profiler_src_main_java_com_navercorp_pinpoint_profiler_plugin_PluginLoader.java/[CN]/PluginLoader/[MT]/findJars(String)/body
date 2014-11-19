@@ -1,5 +1,8 @@
 {
   File file=new File(pluginPath);
+  if (!file.exists() || !file.isDirectory()) {
+    return new URL[0];
+  }
   File[] jars=file.listFiles(new FilenameFilter(){
     @Override public boolean accept(    File dir,    String name){
       return name.endsWith(".jar");
