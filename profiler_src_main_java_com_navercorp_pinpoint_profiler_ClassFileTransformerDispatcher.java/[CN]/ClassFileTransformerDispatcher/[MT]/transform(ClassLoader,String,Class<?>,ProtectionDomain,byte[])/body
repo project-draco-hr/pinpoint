@@ -1,9 +1,18 @@
 {
+  if (className.contains("CacheManager")) {
+    logger.debug("Start CacheManager");
+  }
   if (skipFilter.doFilter(classLoader,className,classBeingRedefined,protectionDomain,classFileBuffer)) {
+    if (className.equals("net/spy/memcached/CacheManager")) {
+      logger.debug("skip CacheManager");
+    }
     return null;
   }
   AbstractModifier findModifier=this.modifierRegistry.findModifier(className);
   if (findModifier == null) {
+    if (className.equals("net/spy/memcached/CacheManager")) {
+      logger.debug("no modifier for CacheManager");
+    }
     if (this.profilerConfig.getProfilableClassFilter().filter(className)) {
       findModifier=this.modifierRegistry.findModifier("*");
     }

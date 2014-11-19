@@ -1,19 +1,19 @@
 {
+  logger.debug("Editing class {}",className);
   ClassLoader forPlugin=classLoaderFactory.get(classLoader);
   ClassLoader old=Thread.currentThread().getContextClassLoader();
   Thread.currentThread().setContextClassLoader(forPlugin);
   try {
-    Class<?> editorFactoryClass=forPlugin.loadClass(mapping.getEditorFactoryClassName());
-    if (!ClassEditorFactory.class.isAssignableFrom(editorFactoryClass)) {
-      throw new PinpointException("Illegal class editor factory mapping. factory class[" + editorFactoryClass + "] did not implent ClassEditorFactory");
-    }
-    ClassEditorFactory editorFactory=(ClassEditorFactory)editorFactoryClass.newInstance();
-    ClassEditor editor=editorFactory.get(pluginContext);
     InstrumentClass target=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
     return editor.edit(classLoader,target);
   }
- catch (  Exception e) {
-    throw new PinpointException("Fail to invoke plugin class editor for " + mapping.getTargetClassName() + ", editor factory: "+ mapping.getEditorFactoryClassName(),e);
+ catch (  PinpointException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    String msg="Fail to invoke plugin class editor " + editor.getClass().getName() + " for "+ editor.getTargetClassName();
+    logger.warn(msg,e);
+    throw new PinpointException(msg,e);
   }
  finally {
     Thread.currentThread().setContextClassLoader(old);

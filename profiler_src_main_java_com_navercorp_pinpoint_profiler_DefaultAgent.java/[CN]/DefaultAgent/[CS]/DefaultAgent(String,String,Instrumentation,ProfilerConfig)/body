@@ -23,10 +23,6 @@
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
-  ClassFileRetransformer retransformer=new ClassFileRetransformer(instrumentation);
-  instrumentation.addTransformer(retransformer,true);
-  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer);
-  instrumentation.addTransformer(this.classFileTransformer);
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
   logger.info("agentInformation:{}",agentInformation);
@@ -39,6 +35,10 @@
   this.traceContext=createTraceContext(agentInformation.getServerType());
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation,this.serverMetaDataHolder);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
+  ClassFileRetransformer retransformer=new ClassFileRetransformer(instrumentation);
+  instrumentation.addTransformer(retransformer,true);
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer);
+  instrumentation.addTransformer(this.classFileTransformer);
   preLoadClass();
   if (typeResolver.isManuallyStartupRequired()) {
     start();

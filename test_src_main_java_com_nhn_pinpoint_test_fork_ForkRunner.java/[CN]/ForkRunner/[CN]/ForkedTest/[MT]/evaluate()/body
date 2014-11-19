@@ -2,6 +2,8 @@
   ProcessBuilder builder=new ProcessBuilder();
   builder.command(buildCommand());
   builder.redirectErrorStream(true);
+  System.out.println("Working directory: " + System.getProperty("user.dir"));
+  System.out.println("Command: " + builder.command());
   Process process;
   try {
     process=builder.start();

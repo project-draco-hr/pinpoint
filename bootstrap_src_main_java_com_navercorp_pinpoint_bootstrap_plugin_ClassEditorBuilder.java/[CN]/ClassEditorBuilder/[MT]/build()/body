@@ -7,7 +7,7 @@
   for (  InterceptorBuilder builder : interceptorBuilders) {
     interceptorInjectors.add(builder.build());
   }
-  ClassEditor editor=new BasicClassEditor(metadataInjectors,interceptorInjectors);
+  DedicatedClassEditor editor=new BasicClassEditor(targetClassName,metadataInjectors,interceptorInjectors);
   if (condition != null) {
     editor=new ConditionalClassEditor(condition,editor);
   }

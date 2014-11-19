@@ -1,12 +1,8 @@
 {
   super(klass);
-  PinpointAgent path=klass.getAnnotation(PinpointAgent.class);
-  if (path != null && path.value() != null) {
-    agentJar=path.value();
-  }
- else {
-    agentJar="target/pinpoint-agent/pinpoint-bootstrap-" + Version.VERSION + ".jar";
-  }
+  PinpointAgentPath path=klass.getAnnotation(PinpointAgentPath.class);
+  String agentPath=(path != null && path.value() != null) ? path.value() : "target/pinpoint-agent";
+  agentJar=agentPath + "/pinpoint-bootstrap-" + Version.VERSION+ ".jar";
   PinpointConfig config=klass.getAnnotation(PinpointConfig.class);
   if (config != null && config.value() != null) {
     configPath=config.value();
@@ -14,4 +10,9 @@
  else {
     configPath=null;
   }
+  testOnChildClassLoader=klass.isAnnotationPresent(OnChildClassLoader.class);
+  ExcludeLibraries exclude=klass.getAnnotation(ExcludeLibraries.class);
+  excludedLibraries=exclude == null ? new String[0] : exclude.value();
+  WithLibraries include=klass.getAnnotation(WithLibraries.class);
+  includedLibraries=include == null ? new String[0] : include.value();
 }

@@ -1,0 +1,20 @@
+{
+  StringBuilder builder=new StringBuilder();
+  builder.append(failure.getTestHeader());
+  builder.append(JUNIT_OUTPUT_DELIMETER);
+  builder.append(failure.getException().getClass().getName());
+  builder.append(JUNIT_OUTPUT_DELIMETER);
+  builder.append(failure.getMessage());
+  builder.append(JUNIT_OUTPUT_DELIMETER);
+  for (  StackTraceElement e : failure.getException().getStackTrace()) {
+    builder.append(e.getClassName());
+    builder.append(',');
+    builder.append(e.getMethodName());
+    builder.append(',');
+    builder.append(e.getFileName());
+    builder.append(',');
+    builder.append(e.getLineNumber());
+    builder.append(JUNIT_OUTPUT_DELIMETER);
+  }
+  return builder.toString();
+}

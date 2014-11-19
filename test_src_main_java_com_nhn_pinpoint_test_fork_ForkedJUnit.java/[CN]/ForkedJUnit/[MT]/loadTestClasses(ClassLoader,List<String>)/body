@@ -1,0 +1,10 @@
+{
+  List<Class<?>> classes=new ArrayList<Class<?>>(testClassNames.size());
+  ClassLoader old=Thread.currentThread().getContextClassLoader();
+  Thread.currentThread().setContextClassLoader(classLoader);
+  for (  String testClassName : testClassNames) {
+    classes.add(classLoader.loadClass(testClassName));
+  }
+  Thread.currentThread().setContextClassLoader(old);
+  return classes;
+}

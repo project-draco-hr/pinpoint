@@ -6,10 +6,16 @@
   list.add(getAgent());
   list.add("-Dpinpoint.agentId=build.test.0");
   list.add("-Dpinpoint.applicationName=test");
+  if (isDebugMode()) {
+    list.addAll(getDebugOptions());
+  }
   if (configPath != null) {
     list.add("-Dpinpoint.config=" + configPath);
   }
   list.add(ForkedJUnit.class.getName());
+  if (testOnChildClassLoader) {
+    list.add(getChildClassPath());
+  }
   list.add(getTestClass().getName());
   return list.toArray(new String[list.size()]);
 }
