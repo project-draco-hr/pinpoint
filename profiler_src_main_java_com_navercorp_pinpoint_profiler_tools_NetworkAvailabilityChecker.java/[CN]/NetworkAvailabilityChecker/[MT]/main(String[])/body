@@ -4,7 +4,7 @@
     return;
   }
   String configPath=args[0];
-  DataSender udpSender=null;
+  DataSender udpStatSender=null;
   DataSender udpSpanSender=null;
   DataSender tcpSender=null;
   PinpointSocketFactory socketFactory=null;
@@ -12,30 +12,32 @@
   try {
     ProfilerConfig profilerConfig=new ProfilerConfig();
     profilerConfig.readConfigFile(configPath);
-    String collector=profilerConfig.getCollectorServerIp();
-    int uPort=profilerConfig.getCollectorUdpServerPort();
-    int usPort=profilerConfig.getCollectorUdpSpanServerPort();
-    int tPort=profilerConfig.getCollectorTcpServerPort();
-    udpSender=new UdpDataSender(collector,uPort,"UDP",10);
-    udpSpanSender=new UdpDataSender(collector,usPort,"UDP-SPAN",10);
+    String collectorStatIp=profilerConfig.getCollectorStatServerIp();
+    int collectorStatPort=profilerConfig.getCollectorStatServerPort();
+    udpStatSender=new UdpDataSender(collectorStatIp,collectorStatPort,"UDP-STAT",10);
+    String collectorSpanIp=profilerConfig.getCollectorSpanServerIp();
+    int collectorSpanPort=profilerConfig.getCollectorSpanServerPort();
+    udpSpanSender=new UdpDataSender(collectorSpanIp,collectorSpanPort,"UDP-SPAN",10);
+    String collectorTcpIp=profilerConfig.getCollectorTcpServerIp();
+    int collectorTcpPort=profilerConfig.getCollectorTcpServerPort();
     socketFactory=createPinpointSocketFactory();
-    socket=createPinpointSocket(collector,tPort,socketFactory);
+    socket=createPinpointSocket(collectorTcpIp,collectorTcpPort,socketFactory);
     tcpSender=new TcpDataSender(socket);
-    boolean udpSenderResult=udpSender.isNetworkAvailable();
+    boolean udpSenderResult=udpStatSender.isNetworkAvailable();
     boolean udpSpanSenderResult=udpSpanSender.isNetworkAvailable();
     boolean tcpSenderResult=tcpSender.isNetworkAvailable();
-    StringBuilder sb=new StringBuilder();
-    sb.append("\nTEST RESULT\n");
-    sb.append("UDP://").append(collector).append(":").append(uPort).append("=").append((udpSenderResult) ? "OK" : "FAILED").append("\n");
-    sb.append("UDP://").append(collector).append(":").append(usPort).append("=").append((udpSpanSenderResult) ? "OK" : "FAILED").append("\n");
-    sb.append("TCP://").append(collector).append(":").append(tPort).append("=").append((tcpSenderResult) ? "OK" : "FAILED").append("\n");
-    System.out.println(sb.toString());
+    StringBuilder buffer=new StringBuilder();
+    buffer.append("\nTEST RESULT\n");
+    write(buffer,"UDP-STAT://",collectorStatIp,collectorStatPort,udpSenderResult);
+    write(buffer,"UDP-SPAN://",collectorSpanIp,collectorSpanPort,udpSpanSenderResult);
+    write(buffer,"TCP://",collectorTcpIp,collectorTcpPort,tcpSenderResult);
+    System.out.println(buffer.toString());
   }
  catch (  Exception e) {
     e.printStackTrace();
   }
  finally {
-    closeDataSender(udpSender);
+    closeDataSender(udpStatSender);
     closeDataSender(udpSpanSender);
     closeDataSender(tcpSender);
     System.out.println("END.");

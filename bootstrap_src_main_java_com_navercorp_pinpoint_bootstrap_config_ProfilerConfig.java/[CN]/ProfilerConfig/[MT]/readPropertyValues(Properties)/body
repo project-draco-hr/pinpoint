@@ -1,8 +1,11 @@
 {
+  final ValueResolver placeHolderResolver=new PlaceHolderResolver();
   this.profileEnable=readBoolean(prop,"profiler.enable",true);
-  this.collectorServerIp=readString(prop,"profiler.collector.ip","127.0.0.1");
-  this.collectorUdpSpanServerPort=readInt(prop,"profiler.collector.udpspan.port",9996);
-  this.collectorUdpServerPort=readInt(prop,"profiler.collector.udp.port",9995);
+  this.collectorSpanServerIp=readString(prop,"profiler.collector.span.ip","127.0.0.1",placeHolderResolver);
+  this.collectorSpanServerPort=readInt(prop,"profiler.collector.span.port",9996);
+  this.collectorStatServerIp=readString(prop,"profiler.collector.stat.ip","127.0.0.1",placeHolderResolver);
+  this.collectorStatServerPort=readInt(prop,"profiler.collector.stat.port",9995);
+  this.collectorTcpServerIp=readString(prop,"profiler.collector.tcp.ip","127.0.0.1",placeHolderResolver);
   this.collectorTcpServerPort=readInt(prop,"profiler.collector.tcp.port",9994);
   this.spanDataSenderWriteQueueSize=readInt(prop,"profiler.spandatasender.write.queue.size",1024 * 5);
   this.spanDataSenderSocketSendBufferSize=readInt(prop,"profiler.spandatasender.socket.sendbuffersize",1024 * 64 * 16);
