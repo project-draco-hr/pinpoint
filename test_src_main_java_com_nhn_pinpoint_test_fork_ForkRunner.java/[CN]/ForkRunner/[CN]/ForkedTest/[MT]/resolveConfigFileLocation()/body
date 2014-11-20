@@ -1,0 +1,16 @@
+{
+  URL url=getClass().getResource(configFile.startsWith("/") ? configFile : "/" + configFile);
+  if (url != null) {
+    try {
+      return new File(url.toURI()).getAbsolutePath();
+    }
+ catch (    URISyntaxException e) {
+      throw new PinpointException("Cannot find pinpoint configuration file: " + configFile,e);
+    }
+  }
+  File config=new File(configFile);
+  if (config.exists()) {
+    return config.getAbsolutePath();
+  }
+  throw new PinpointException("Cannot find pinpoint configuration file: " + configFile);
+}
