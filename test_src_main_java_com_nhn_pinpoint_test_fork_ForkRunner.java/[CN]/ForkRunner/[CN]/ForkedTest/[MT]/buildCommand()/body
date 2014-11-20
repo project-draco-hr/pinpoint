@@ -9,8 +9,8 @@
   if (isDebugMode()) {
     list.addAll(getDebugOptions());
   }
-  if (configPath != null) {
-    list.add("-Dpinpoint.config=" + configPath);
+  if (configFile != null) {
+    list.add("-Dpinpoint.config=" + resolveConfigFileLocation());
   }
   list.add(ForkedJUnit.class.getName());
   if (testOnChildClassLoader) {
