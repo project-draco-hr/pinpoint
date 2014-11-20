@@ -1,7 +1,6 @@
 {
-  ProfilerConfig profilerConfig=new ProfilerConfig();
   String path=MockAgent.class.getClassLoader().getResource(configPath).getPath();
-  profilerConfig.readConfigFile(path);
+  ProfilerConfig profilerConfig=ProfilerConfig.load(path);
   profilerConfig.setApplicationServerType(ServiceType.TEST_STAND_ALONE);
   return new MockAgent("","",profilerConfig);
 }

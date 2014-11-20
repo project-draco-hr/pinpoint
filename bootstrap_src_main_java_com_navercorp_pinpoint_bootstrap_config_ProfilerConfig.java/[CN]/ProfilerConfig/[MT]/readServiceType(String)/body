@@ -1,0 +1,11 @@
+{
+  String value=properties.getProperty(propertyName);
+  if (value == null) {
+    return null;
+  }
+  ServiceType serviceType=getServiceType(value);
+  if (logger.isLoggable(Level.INFO)) {
+    logger.info(propertyName + "=" + serviceType);
+  }
+  return serviceType;
+}
