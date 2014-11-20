@@ -1,9 +1,10 @@
 {
-  boolean arcus=context.getConfig().isArucs();
-  boolean memcached=context.getConfig().isMemcached();
+  ArcusPluginConfig config=new ArcusPluginConfig(context.getConfig());
+  boolean arcus=config.isArcus();
+  boolean memcached=config.isMemcached();
   List<ClassEditor> editors=new ArrayList<ClassEditor>();
   if (arcus) {
-    editors.add(getArcusClientEditor(context));
+    editors.add(getArcusClientEditor(context,config));
     editors.add(getCollectionFutureEditor(context));
   }
   if (arcus || memcached) {
@@ -12,8 +13,8 @@
     editors.add(getGetFutureEditor(context));
     editors.add(getOperationFutureEditor(context));
     editors.add(getFrontCacheGetFutureEditor(context));
-    editors.add(getFrontCacheMemcachedClientEditor(context));
-    editors.add(getMemcachedClientEditor(context));
+    editors.add(getFrontCacheMemcachedClientEditor(context,config));
+    editors.add(getMemcachedClientEditor(context,config));
   }
   return editors;
 }

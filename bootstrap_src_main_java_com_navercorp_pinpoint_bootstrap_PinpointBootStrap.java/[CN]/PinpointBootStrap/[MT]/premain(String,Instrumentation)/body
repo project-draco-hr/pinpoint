@@ -28,8 +28,7 @@
   }
   saveLogFilePath(classPathResolver);
   try {
-    ProfilerConfig profilerConfig=new ProfilerConfig();
-    profilerConfig.readConfigFile(configPath);
+    ProfilerConfig profilerConfig=ProfilerConfig.load(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);
     AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
     agentClassLoader.setBootClass(BOOT_CLASS);
