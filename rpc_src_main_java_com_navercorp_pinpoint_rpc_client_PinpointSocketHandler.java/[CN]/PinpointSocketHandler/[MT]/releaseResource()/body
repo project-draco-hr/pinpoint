@@ -3,7 +3,9 @@
   this.requestManager.close();
   if (this.channel != null) {
     SocketHandlerContext context=getChannelContext(channel);
-    context.getStreamChannelManager().close();
+    if (context != null) {
+      context.getStreamChannelManager().close();
+    }
   }
   this.channelTimer.stop();
 }
