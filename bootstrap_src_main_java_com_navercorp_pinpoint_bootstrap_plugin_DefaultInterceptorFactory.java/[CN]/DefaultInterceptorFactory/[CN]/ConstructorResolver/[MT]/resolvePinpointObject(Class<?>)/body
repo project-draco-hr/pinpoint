@@ -5,14 +5,14 @@
  else   if (type == MethodDescriptor.class) {
     return targetMethod.getDescriptor();
   }
- else   if (type == ParameterExtractor.class) {
-    if (parameterExtractorFactory == null) {
-      return null;
-    }
-    return parameterExtractorFactory.get(target,targetMethod);
-  }
  else   if (type == ByteCodeInstrumentor.class) {
     return instrumentor;
+  }
+ else   if (type == MethodInfo.class) {
+    return targetMethod;
+  }
+ else   if (type == InstrumentClass.class) {
+    return target;
   }
   return null;
 }
