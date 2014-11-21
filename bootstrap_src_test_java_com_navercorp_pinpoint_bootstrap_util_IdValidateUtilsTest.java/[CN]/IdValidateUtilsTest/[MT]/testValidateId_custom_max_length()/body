@@ -1,0 +1,12 @@
+{
+  Assert.assertTrue("check max length",IdValidateUtils.validateId("0",1));
+  Assert.assertFalse("check max length",IdValidateUtils.validateId("01",1));
+  Assert.assertTrue("check max length",IdValidateUtils.validateId("0",2));
+  Assert.assertFalse("check max length",IdValidateUtils.validateId("0123",2));
+  try {
+    IdValidateUtils.validateId("0123",-1);
+    Assert.fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+}
