@@ -1,0 +1,14 @@
+{
+  final long periodMs=range.getRange();
+  final long idealTimeslotSize=periodMs / this.idealNumTimeslots;
+  if (idealTimeslotSize < this.minTimeslot) {
+    return this.minTimeslot;
+  }
+  if (idealTimeslotSize % this.minTimeslot == 0) {
+    return idealTimeslotSize;
+  }
+ else {
+    final long nearestMultipleOfMinTimeslotSize=MathUtils.roundToNearestMultipleOf(idealTimeslotSize,this.minTimeslot);
+    return findOptimalWindowSize(periodMs,nearestMultipleOfMinTimeslotSize);
+  }
+}

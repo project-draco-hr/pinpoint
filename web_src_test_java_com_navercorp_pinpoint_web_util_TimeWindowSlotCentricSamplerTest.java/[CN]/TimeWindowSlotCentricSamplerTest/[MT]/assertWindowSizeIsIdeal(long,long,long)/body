@@ -1,0 +1,16 @@
+{
+  final long periodMs=to - from;
+  long lowerWindowSize=idealWindowSize - DEFAULT_MINIMUM_TIMESLOT;
+  if (lowerWindowSize < DEFAULT_MINIMUM_TIMESLOT) {
+    lowerWindowSize=DEFAULT_MINIMUM_TIMESLOT;
+  }
+  long higherWindowSize=idealWindowSize + DEFAULT_MINIMUM_TIMESLOT;
+  if (higherWindowSize > Long.MAX_VALUE) {
+    higherWindowSize=idealWindowSize;
+  }
+  double numTimeslotsWithLowerWindowSize=(double)periodMs / lowerWindowSize;
+  double numTimeslotsWithHigherWindowSize=(double)periodMs / higherWindowSize;
+  double numTimeslotsWithIdealWindowSize=(double)periodMs / idealWindowSize;
+  assertTrue(Math.abs(numTimeslotsWithIdealWindowSize - DEFAULT_IDEAL_NUM_TIMESLOTS) <= Math.abs(numTimeslotsWithLowerWindowSize - DEFAULT_IDEAL_NUM_TIMESLOTS));
+  assertTrue(Math.abs(numTimeslotsWithIdealWindowSize - DEFAULT_IDEAL_NUM_TIMESLOTS) <= Math.abs(numTimeslotsWithHigherWindowSize - DEFAULT_IDEAL_NUM_TIMESLOTS));
+}

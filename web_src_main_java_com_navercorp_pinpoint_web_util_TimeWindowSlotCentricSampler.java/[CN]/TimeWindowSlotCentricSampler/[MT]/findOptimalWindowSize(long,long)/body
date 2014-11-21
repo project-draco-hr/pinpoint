@@ -1,0 +1,10 @@
+{
+  final double idealTimeslotSize=(double)periodMs / this.idealNumTimeslots;
+  final long timeslotSizeToCompare=nearestMultipleOfMinTimeslotSize < idealTimeslotSize ? nearestMultipleOfMinTimeslotSize + this.minTimeslot : nearestMultipleOfMinTimeslotSize - this.minTimeslot;
+  if (Math.abs(nearestMultipleOfMinTimeslotSize - idealTimeslotSize) / ((double)nearestMultipleOfMinTimeslotSize / this.minTimeslot) < Math.abs(timeslotSizeToCompare - idealTimeslotSize) / ((double)timeslotSizeToCompare / this.minTimeslot)) {
+    return nearestMultipleOfMinTimeslotSize;
+  }
+ else {
+    return timeslotSizeToCompare;
+  }
+}
