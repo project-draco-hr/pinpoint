@@ -1,0 +1,20 @@
+{
+  super(ApiInterceptor.class);
+  if (traceKey) {
+    int index=ParameterUtils.findFirstString(targetMethod,3);
+    if (index != -1) {
+      this.traceKey=true;
+      this.keyIndex=index;
+    }
+ else {
+      this.traceKey=false;
+      this.keyIndex=-1;
+    }
+  }
+ else {
+    this.traceKey=false;
+    this.keyIndex=-1;
+  }
+  this.setTraceContext(context);
+  this.setMethodDescriptor(targetMethod.getDescriptor());
+}

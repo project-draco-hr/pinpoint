@@ -1,8 +1,7 @@
 {
-  if (parameterExtractor != null) {
-    final int index=parameterExtractor.getIndex();
-    final Object recordObject=parameterExtractor.extractObject(args);
-    trace.recordApi(getMethodDescriptor(),recordObject,index);
+  if (traceKey) {
+    final Object recordObject=args[keyIndex];
+    trace.recordApi(getMethodDescriptor(),recordObject,keyIndex);
   }
  else {
     trace.recordApi(getMethodDescriptor());
