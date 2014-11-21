@@ -1,0 +1,7 @@
+{
+  DefaultTraceContext traceContext=new DefaultTraceContext();
+  Trace trace=traceContext.disableSampling();
+  Assert.assertNotNull(trace);
+  Assert.assertFalse(trace.canSampled());
+  traceContext.detachTraceObject();
+}

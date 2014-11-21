@@ -9,7 +9,8 @@
   }
   final boolean sampling=samplingEnable(request);
   if (!sampling) {
-    final Trace trace=getTraceContext().disableSampling();
+    final TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.disableSampling();
     if (isDebug) {
       logger.debug("remotecall sampling flag found. skip trace requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
     }
@@ -17,7 +18,8 @@
   }
   final TraceId traceId=populateTraceIdFromRequest(request);
   if (traceId != null) {
-    final Trace trace=getTraceContext().continueTraceObject(traceId);
+    final TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.continueTraceObject(traceId);
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.getRequestURI(),request.getRemoteAddr()});
@@ -31,7 +33,8 @@
     return trace;
   }
  else {
-    final Trace trace=getTraceContext().newTraceObject();
+    final TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.newTraceObject();
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
