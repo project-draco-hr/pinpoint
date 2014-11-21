@@ -1,0 +1,15 @@
+{
+  if (id == null) {
+    throw new NullPointerException("id must not be null");
+  }
+  if (maxLength <= 0) {
+    throw new IllegalArgumentException("negative maxLength:" + maxLength);
+  }
+  final Matcher matcher=ID_PATTERN.matcher(id);
+  if (matcher.matches()) {
+    return checkBytesLength(id,maxLength);
+  }
+ else {
+    return false;
+  }
+}

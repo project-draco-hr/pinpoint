@@ -1,33 +1,19 @@
 {
   logger.info("check -D" + propertyName);
   String value=System.getProperty(propertyName);
-  if (value != null) {
-    value=value.trim();
-    if (validIdPattern.matcher(value).find()) {
-      logger.severe("invalid Id. " + propertyName + " can only contain alphanumeric, dot, dash and underscore. value:"+ value);
-      return false;
-    }
-    final byte[] bytes;
-    try {
-      bytes=toBytes(value);
-    }
- catch (    UnsupportedEncodingException e) {
-      logger.severe("toBytes() fail. propertyName:" + propertyName + " propertyValue:"+ value);
-      return false;
-    }
-    if (bytes.length == 0) {
-      logger.severe("invalid " + propertyName + ". agentId is empty. length:"+ bytes.length+ " value:"+ value);
-      return false;
-    }
-    if (bytes.length > maxSize) {
-      logger.severe("invalid " + propertyName + ". too large bytes. length:"+ bytes.length+ " value:"+ value);
-      return false;
-    }
-    logger.info("check success. -D" + propertyName + ":"+ value+ " length:"+ bytes.length);
-    return true;
-  }
- else {
-    logger.severe("-D" + propertyName + " is null.");
+  if (value == null) {
+    logger.severe("-D" + propertyName + " is null. value:null");
     return false;
   }
+  value=value.trim();
+  if (value.isEmpty()) {
+    logger.severe("-D" + propertyName + " is empty. value:''");
+    return false;
+  }
+  if (IdValidateUtils.validateId(value,maxSize)) {
+    logger.severe("invalid Id. " + propertyName + " can only contain alphanumeric, dot, dash and underscore. maxLength:"+ maxSize+ " value:"+ value);
+    return false;
+  }
+  logger.info("check success. -D" + propertyName + ":"+ value+ " length:"+ BytesUtils.toBytes(value));
+  return true;
 }
