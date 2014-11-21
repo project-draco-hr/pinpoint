@@ -8,7 +8,8 @@
   }
   final boolean sampling=isSamplingEnabled(request);
   if (!sampling) {
-    final Trace trace=getTraceContext().disableSampling();
+    final TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.disableSampling();
     if (isDebug) {
       String requestURL=request.getUri();
       String remoteAddr=getRemoteAddress(channel);
@@ -18,7 +19,8 @@
   }
   final TraceId traceId=populateTraceIdFromRequest(request);
   if (traceId != null) {
-    final Trace trace=getTraceContext().continueTraceObject(traceId);
+    final TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.continueTraceObject(traceId);
     if (trace.canSampled()) {
       if (isDebug) {
         String requestURL=request.getUri();
@@ -37,7 +39,8 @@
     }
   }
  else {
-    final Trace trace=getTraceContext().newTraceObject();
+    TraceContext traceContext=getTraceContext();
+    final Trace trace=traceContext.newTraceObject();
     if (trace.canSampled()) {
       if (isDebug) {
         String requestURL=request.getUri();
