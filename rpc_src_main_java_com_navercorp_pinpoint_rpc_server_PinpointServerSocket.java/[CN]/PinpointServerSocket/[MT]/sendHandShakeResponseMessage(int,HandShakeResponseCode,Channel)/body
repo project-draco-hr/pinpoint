@@ -1,0 +1,14 @@
+{
+  try {
+    logger.info("write HandShakeResponsePakcet channel:{}, HandShakeResponseCode:{}.",channel,handShakeResponseCode);
+    Map<String,Object> result=new HashMap<String,Object>();
+    result.put(ControlHandShakeResponsePacket.CODE,handShakeResponseCode.getCode());
+    result.put(ControlHandShakeResponsePacket.SUB_CODE,handShakeResponseCode.getSubCode());
+    byte[] resultPayload=ControlMessageEnDeconderUtils.encode(result);
+    ControlHandShakeResponsePacket packet=new ControlHandShakeResponsePacket(requestId,resultPayload);
+    channel.write(packet);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+}

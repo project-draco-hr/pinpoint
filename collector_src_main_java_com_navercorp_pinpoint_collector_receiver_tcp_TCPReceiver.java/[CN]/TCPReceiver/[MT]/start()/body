@@ -7,15 +7,21 @@
     @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
       requestResponse(requestPacket,channel);
     }
-    @Override public int handleEnableWorker(    Map properties){
+    @Override public HandShakeResponseCode handleHandShake(    Map properties){
       if (properties == null) {
-        return ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL;
+        return HandShakeResponseType.ProtocolError.PROTOCOL_ERROR;
       }
-      boolean hasAllType=AgentPropertiesType.hasAllType(properties);
+      boolean hasAllType=AgentHandShakePropertyType.hasAllType(properties);
       if (!hasAllType) {
-        return ControlEnableWorkerConfirmPacket.INVALID_PROPERTIES;
+        return HandShakeResponseType.PropertyError.PROPERTY_ERROR;
       }
-      return ControlEnableWorkerConfirmPacket.SUCCESS;
+      boolean supportServer=MapUtils.getBoolean(properties,AgentHandShakePropertyType.SUPPORT_SERVER.getName(),true);
+      if (supportServer) {
+        return HandShakeResponseType.Success.DUPLEX_COMMUNICATION;
+      }
+ else {
+        return HandShakeResponseType.Success.SIMPLEX_COMMUNICATION;
+      }
     }
   }
 );

@@ -37,9 +37,9 @@ case PacketType.CONTROL_PONG:
 logger.debug("receive pong. {}",channel);
 readPong(packetType,buffer);
 return null;
-case PacketType.CONTROL_ENABLE_WORKER:
+case PacketType.CONTROL_HANDSHAKE:
 return readEnableWorker(packetType,buffer);
-case PacketType.CONTROL_ENABLE_WORKER_CONFIRM:
+case PacketType.CONTROL_HANDSHAKE_RESPONSE:
 return readEnableWorkerConfirm(packetType,buffer);
 }
 logger.error("invalid packetType received. packetType:{}, channel:{}",packetType,channel);

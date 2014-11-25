@@ -36,25 +36,33 @@ case PacketType.APPLICATION_STREAM_PING:
 case PacketType.APPLICATION_STREAM_PONG:
 handleStreamPacket((StreamPacket)message,channel);
 return;
-case PacketType.CONTROL_ENABLE_WORKER:
-int requestId=((ControlEnableWorkerPacket)message).getRequestId();
-Map<Object,Object> properties=decodeSocketProperties((ControlEnableWorkerPacket)message);
+case PacketType.CONTROL_HANDSHAKE:
+int requestId=((ControlHandShakePacket)message).getRequestId();
+Map<Object,Object> properties=decodeSocketProperties((ControlHandShakePacket)message);
 if (properties == null) {
-sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ILLEGAL_PROTOCOL,channel);
+sendHandShakeResponseMessage(requestId,HandShakeResponseType.ProtocolError.PROTOCOL_ERROR,channel);
 return;
 }
-channelContext.setChannelProperties(properties);
-int returnCode=messageListener.handleEnableWorker(properties);
-if (returnCode == ControlEnableWorkerConfirmPacket.SUCCESS) {
-if (changeStateToRunDuplexCommunication(returnCode,channel)) {
-sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.SUCCESS,channel);
+HandShakeResponseCode code=messageListener.handleHandShake(properties);
+if (code.getCode() != HandShakeResponseType.Success.CODE) {
+sendHandShakeResponseMessage(requestId,code,channel);
 }
  else {
-sendEnableWorkerConfirmMessage(requestId,ControlEnableWorkerConfirmPacket.ALREADY_REGISTER,channel);
+boolean isSet=channelContext.setChannelProperties(properties);
+if (isSet) {
+if (code == HandShakeResponseCode.DUPLEX_COMMUNICATION) {
+changeStateToRunDuplexCommunication(code,channel);
 }
+sendHandShakeResponseMessage(requestId,code,channel);
 }
  else {
-sendEnableWorkerConfirmMessage(requestId,returnCode,channel);
+if (code == HandShakeResponseCode.DUPLEX_COMMUNICATION) {
+sendHandShakeResponseMessage(requestId,HandShakeResponseCode.ALREADY_DUPLEX_COMMUNICATION,channel);
+}
+ else {
+sendHandShakeResponseMessage(requestId,HandShakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION,channel);
+}
+}
 }
 return;
 case PacketType.CONTROL_CLIENT_CLOSE:
