@@ -1,0 +1,17 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    aClass.addTraceVariable("__serviceCode","__setServiceCode","__getServiceCode","java.lang.String");
+    aClass.addConstructorInterceptor(new String[]{"java.lang.String","java.lang.String","net.spy.memcached.ConnectionFactoryBuilder","java.util.concurrent.CountDownLatch","int","int"},new CacheManagerConstructInterceptor());
+    return aClass.toBytecode();
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+    return null;
+  }
+}

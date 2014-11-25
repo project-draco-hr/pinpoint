@@ -1,0 +1,8 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  String serviceCode=getServiceCode.invoke(target);
+  Operation op=(Operation)args[1];
+  setServiceCode.invoke(op,serviceCode);
+}
