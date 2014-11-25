@@ -1,13 +1,14 @@
 {
   PinpointServerSocket ss=new PinpointServerSocket();
   ss.bind("127.0.0.1",10234);
+  ss.setMessageListener(new SimpleListener());
   PinpointSocketFactory socketFactory=createPinpointSocketFactory();
   socketFactory.setMessageListener(SimpleLoggingMessageListener.LISTENER);
   try {
     PinpointSocket socket=socketFactory.connect("127.0.0.1",10234);
     Thread.sleep(500);
     List<ChannelContext> channelContextList=ss.getDuplexCommunicationChannelContext();
-    if (channelContextList.size() != 0) {
+    if (channelContextList.size() != 1) {
       Assert.fail();
     }
     socket.close();

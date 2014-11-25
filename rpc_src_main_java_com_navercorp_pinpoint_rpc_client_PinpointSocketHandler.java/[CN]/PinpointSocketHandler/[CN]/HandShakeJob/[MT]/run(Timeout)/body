@@ -1,0 +1,14 @@
+{
+  if (timeout.isCancelled()) {
+    reservationHandShakeJob(this);
+    return;
+  }
+  if (isClosed()) {
+    return;
+  }
+  if (state.getState() == State.RUN) {
+    incrementCurrentRetryCount();
+    sendHandShakePacket();
+    reservationHandShakeJob(this);
+  }
+}

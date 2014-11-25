@@ -1,6 +1,7 @@
 {
   PinpointServerSocket ss=new PinpointServerSocket();
   ss.bind("127.0.0.1",10234);
+  ss.setMessageListener(new SimpleListener());
   EchoMessageListener echoMessageListener=new EchoMessageListener();
   PinpointSocketFactory socketFactory=createPinpointSocketFactory();
   socketFactory.setMessageListener(echoMessageListener);

@@ -2,6 +2,6 @@
   byte[] payload=readData(inputStream);
   ChannelBuffer cb=ChannelBuffers.wrappedBuffer(payload);
   short packetType=cb.readShort();
-  ControlEnableWorkerConfirmPacket packet=ControlEnableWorkerConfirmPacket.readBuffer(packetType,cb);
+  ControlHandShakeResponsePacket packet=ControlHandShakeResponsePacket.readBuffer(packetType,cb);
   return packet;
 }

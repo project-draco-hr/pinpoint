@@ -1,6 +1,7 @@
 {
   PinpointServerSocket ss=new PinpointServerSocket();
   ss.bind("127.0.0.1",10234);
+  ss.setMessageListener(new SimpleListener());
   PinpointSocketFactory socketFactory1=createPinpointSocketFactory();
   socketFactory1.setMessageListener(new EchoMessageListener());
   PinpointSocketFactory socketFactory2=createPinpointSocketFactory();
@@ -9,7 +10,7 @@
     PinpointSocket socket2=socketFactory2.connect("127.0.0.1",10234);
     Thread.sleep(500);
     List<ChannelContext> channelContextList=ss.getDuplexCommunicationChannelContext();
-    if (channelContextList.size() != 1) {
+    if (channelContextList.size() != 2) {
       Assert.fail();
     }
     socket.close();

@@ -12,13 +12,13 @@
   for (  ChannelContext eachContext : duplexChannelContextList) {
     if (eachContext.getCurrentStateCode() == PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION) {
       Map agentProperties=eachContext.getChannelProperties();
-      if (!applicationName.equals(agentProperties.get(AgentPropertiesType.APPLICATION_NAME.getName()))) {
+      if (!applicationName.equals(agentProperties.get(AgentHandShakePropertyType.APPLICATION_NAME.getName()))) {
         continue;
       }
-      if (!agentId.equals(agentProperties.get(AgentPropertiesType.AGENT_ID.getName()))) {
+      if (!agentId.equals(agentProperties.get(AgentHandShakePropertyType.AGENT_ID.getName()))) {
         continue;
       }
-      if (startTimeMillis != (Long)agentProperties.get(AgentPropertiesType.START_TIMESTAMP.getName())) {
+      if (startTimeMillis != (Long)agentProperties.get(AgentHandShakePropertyType.START_TIMESTAMP.getName())) {
         continue;
       }
       channelContextList.add(eachContext);
