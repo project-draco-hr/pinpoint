@@ -34,14 +34,14 @@
       code.format("  interceptor.before(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s);",target,ctClass.getName(),methodName,parameterDescription,parameterIdentifier);
     }
  else {
-      code.format("  %1$s interceptor = (%1$s)com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleBeforeInterceptor.class.getName(),id);
+      code.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
       code.format("  interceptor.before(%1$s, %2$s);",target,parameterIdentifier);
     }
     code.end();
   }
   String buildBefore=code.toString();
   if (isDebug) {
-    logger.debug("addBeforeInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildBefore);
+    logger.debug("addStaticBeforeInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildBefore);
   }
   if (behavior instanceof CtConstructor) {
     ((CtConstructor)behavior).insertBeforeBody(buildBefore);
