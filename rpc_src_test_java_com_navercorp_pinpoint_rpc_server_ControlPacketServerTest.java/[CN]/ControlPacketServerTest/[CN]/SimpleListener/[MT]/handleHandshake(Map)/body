@@ -1,0 +1,10 @@
+{
+  if (properties == null) {
+    return HandshakeResponseType.ProtocolError.PROTOCOL_ERROR;
+  }
+  boolean hasAllType=AgentHandshakePropertyType.hasAllType(properties);
+  if (!hasAllType) {
+    return HandshakeResponseType.PropertyError.PROPERTY_ERROR;
+  }
+  return HandshakeResponseType.Success.DUPLEX_COMMUNICATION;
+}

@@ -1,0 +1,10 @@
+{
+  if (!isRun()) {
+    return;
+  }
+  byte[] payload=ControlMessageEncodingUtils.encode(properties);
+  ControlHandshakePacket packet=new ControlHandshakePacket(payload);
+  final ChannelFuture write=this.channel.write(packet);
+  logger.debug("HandshakePacket sended. channel:{}, packet:{}.",channel,packet);
+  write.addListener(handShakeFailFutureListener);
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    Map result=(Map)ControlMessageEncodingUtils.decode(payload);
+    int code=MapUtils.getInteger(result,ControlHandshakeResponsePacket.CODE,-1);
+    int subCode=MapUtils.getInteger(result,ControlHandshakeResponsePacket.SUB_CODE,-1);
+    return HandshakeResponseCode.getValue(code,subCode);
+  }
+ catch (  ProtocolException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return HandshakeResponseCode.UNKOWN_CODE;
+}

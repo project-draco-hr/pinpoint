@@ -1,6 +1,6 @@
 {
-  byte[] payload=ControlMessageEnDeconderUtils.encode(properties);
-  ControlHandShakePacket packet=new ControlHandShakePacket(1,payload);
+  byte[] payload=ControlMessageEncodingUtils.encode(properties);
+  ControlHandshakePacket packet=new ControlHandshakePacket(1,payload);
   ByteBuffer bb=packet.toBuffer().toByteBuffer(0,packet.toBuffer().writerIndex());
   sendData(outputStream,bb.array());
 }

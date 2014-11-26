@@ -1,0 +1,23 @@
+{
+  logger.info("Handshake retried({}/{}). channel:{}.",currentCount.get(),maxRetryCount,channel);
+  if (timeout.isCancelled()) {
+    reservationHandshakeJob(this);
+    return;
+  }
+  int currentState=state.getState();
+  if (currentState == State.RUN) {
+    incrementCurrentRetryCount();
+    try {
+      sendHandshakePacket(properties);
+      reservationHandshakeJob(this);
+    }
+ catch (    ProtocolException e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Handshake retry failed. channel:" + channel + ", caused:"+ e.getMessage()+ ".",e);
+      }
+    }
+  }
+ else {
+    logger.warn("Handshake retry completed. caused socket state {}.",state.getString(currentState));
+  }
+}

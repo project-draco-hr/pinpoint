@@ -1,0 +1,10 @@
+{
+  ChannelContext context=getChannelContext(channel);
+  if (returnCode == HandshakeResponseType.Success.DUPLEX_COMMUNICATION) {
+    if (context.getCurrentStateCode() != PinpointServerSocketStateCode.RUN_DUPLEX_COMMUNICATION) {
+      context.changeStateRunDuplexCommunication();
+      return true;
+    }
+  }
+  return false;
+}
