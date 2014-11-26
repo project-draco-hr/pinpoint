@@ -8,7 +8,13 @@
     }
   }
 );
-  builder.intercept("setCacheManager","net.spy.memcached.CacheManager").with("com.nhn.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
-  builder.interceptMethodsFilteredBy(new ArcusMethodFilter()).with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor").constructedWith(traceKey).in(Constants.ARCUS_SCOPE);
+  InterceptorBuilder ib=builder.newInterceptorBuilder();
+  ib.intercept("setCacheManager","net.spy.memcached.CacheManager");
+  ib.with("com.nhn.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
+  InterceptorBuilder ib2=builder.newInterceptorBuilder();
+  ib2.interceptMethodsFilteredBy(new ArcusMethodFilter());
+  ib2.with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor");
+  ib2.constructedWith(traceKey);
+  ib2.in(Constants.ARCUS_SCOPE);
   return builder.build();
 }

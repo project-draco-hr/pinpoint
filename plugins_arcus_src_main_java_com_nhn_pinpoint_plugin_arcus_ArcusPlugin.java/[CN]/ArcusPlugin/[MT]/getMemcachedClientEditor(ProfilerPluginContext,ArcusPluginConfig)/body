@@ -8,8 +8,15 @@
     }
   }
 );
-  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.ServiceCodeAccessor");
-  builder.intercept("addOp","java.lang.String","net.spy.memcached.ops.Operation").with("com.nhn.pinpoint.plugin.arcus.interceptor.AddOpInterceptor");
-  builder.interceptMethodsFilteredBy(new MemcachedMethodFilter()).with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor").in(Constants.ARCUS_SCOPE).constructedWith(traceKey);
+  MetadataBuilder mb=builder.newMetadataBuilder();
+  mb.inject("com.nhn.pinpoint.plugin.arcus.accessor.ServiceCodeAccessor");
+  InterceptorBuilder ib=builder.newInterceptorBuilder();
+  ib.intercept("addOp","java.lang.String","net.spy.memcached.ops.Operation");
+  ib.with("com.nhn.pinpoint.plugin.arcus.interceptor.AddOpInterceptor");
+  InterceptorBuilder ib2=builder.newInterceptorBuilder();
+  ib2.interceptMethodsFilteredBy(new MemcachedMethodFilter());
+  ib2.with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor");
+  ib2.in(Constants.ARCUS_SCOPE);
+  ib2.constructedWith(traceKey);
   return builder.build();
 }

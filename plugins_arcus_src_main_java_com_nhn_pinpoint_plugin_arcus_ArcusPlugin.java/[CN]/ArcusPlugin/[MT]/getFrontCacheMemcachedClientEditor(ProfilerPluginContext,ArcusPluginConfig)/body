@@ -8,6 +8,10 @@
     }
   }
 );
-  builder.interceptMethodsFilteredBy(new FrontCacheMemcachedMethodFilter()).with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor").in(Constants.ARCUS_SCOPE).constructedWith(traceKey);
+  InterceptorBuilder ib=builder.newInterceptorBuilder();
+  ib.interceptMethodsFilteredBy(new FrontCacheMemcachedMethodFilter());
+  ib.with("com.nhn.pinpoint.plugin.arcus.interceptor.ApiInterceptor");
+  ib.in(Constants.ARCUS_SCOPE);
+  ib.constructedWith(traceKey);
   return builder.build();
 }
