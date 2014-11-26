@@ -1,6 +1,12 @@
 {
-  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.OperationAccessor");
-  builder.intercept("setOperation","net.spy.memcached.ops.Operation").with("com.nhn.pinpoint.plugin.arcus.interceptor.FutureSetOperationInterceptor");
-  builder.intercept("get","long","java.util.concurrent.TimeUnit").with("com.nhn.pinpoint.plugin.arcus.interceptor.FutureGetInterceptor").in(Constants.ARCUS_SCOPE);
+  MetadataBuilder mb=builder.newMetadataBuilder();
+  mb.inject("com.nhn.pinpoint.plugin.arcus.accessor.OperationAccessor");
+  InterceptorBuilder ib=builder.newInterceptorBuilder();
+  ib.intercept("setOperation","net.spy.memcached.ops.Operation");
+  ib.with("com.nhn.pinpoint.plugin.arcus.interceptor.FutureSetOperationInterceptor");
+  InterceptorBuilder ib2=builder.newInterceptorBuilder();
+  ib2.intercept("get","long","java.util.concurrent.TimeUnit");
+  ib2.with("com.nhn.pinpoint.plugin.arcus.interceptor.FutureGetInterceptor");
+  ib2.in(Constants.ARCUS_SCOPE);
   return builder.build();
 }

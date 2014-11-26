@@ -1,10 +1,20 @@
 {
   ClassEditorBuilder builder=context.newClassEditorBuilder();
   builder.edit("net.spy.memcached.plugin.FrontCacheGetFuture");
-  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheNameAccessor");
-  builder.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheKeyAccessor");
-  builder.interceptConstructor("net.sf.ehcache.Element").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureConstructInterceptor");
-  builder.intercept("get","long","java.util.concurrent.TimeUnit").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor").in(Constants.ARCUS_SCOPE);
-  builder.intercept("get").with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor").in(Constants.ARCUS_SCOPE);
+  MetadataBuilder mb=builder.newMetadataBuilder();
+  mb.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheNameAccessor");
+  MetadataBuilder mb2=builder.newMetadataBuilder();
+  mb2.inject("com.nhn.pinpoint.plugin.arcus.accessor.CacheKeyAccessor");
+  InterceptorBuilder ib=builder.newInterceptorBuilder();
+  ib.interceptConstructor("net.sf.ehcache.Element");
+  ib.with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureConstructInterceptor");
+  InterceptorBuilder ib2=builder.newInterceptorBuilder();
+  ib2.intercept("get","long","java.util.concurrent.TimeUnit");
+  ib2.with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
+  ib2.in(Constants.ARCUS_SCOPE);
+  InterceptorBuilder ib3=builder.newInterceptorBuilder();
+  ib3.intercept("get");
+  ib3.with("com.nhn.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
+  ib3.in(Constants.ARCUS_SCOPE);
   return builder.build();
 }

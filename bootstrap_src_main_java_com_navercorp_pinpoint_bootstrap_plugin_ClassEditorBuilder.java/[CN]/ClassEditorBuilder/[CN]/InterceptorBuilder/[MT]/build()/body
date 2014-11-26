@@ -5,10 +5,10 @@
     injector=new FilteringInterceptorInjector(filter,interceptorFactory,singleton);
   }
  else   if (methodName != null) {
-    injector=new DedicatedInterceptorInjector(methodName,parameterTypes,interceptorFactory);
+    injector=new DedicatedInterceptorInjector(methodName,parameterNames,interceptorFactory);
   }
  else {
-    injector=new ConstructorInterceptorInjector(parameterTypes,interceptorFactory);
+    injector=new ConstructorInterceptorInjector(parameterNames,interceptorFactory);
   }
   if (condition != null) {
     injector=new ConditionalInterceptorInjector(condition,injector);
