@@ -1,0 +1,14 @@
+{
+  Map<String,Object> properties=this.pinpointSocketFactory.getProperties();
+  logger.info("Handshake started. channel:{}, data:{}.",channel,properties);
+  try {
+    sendHandshakePacket(properties);
+    HandshakeJob job=new HandshakeJob(properties,enableWorkerPacketRetryCount);
+    reservationHandshakeJob(job);
+  }
+ catch (  ProtocolException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Handshake failed. channel:" + channel + ", caused:"+ e.getMessage()+ ".",e);
+    }
+  }
+}

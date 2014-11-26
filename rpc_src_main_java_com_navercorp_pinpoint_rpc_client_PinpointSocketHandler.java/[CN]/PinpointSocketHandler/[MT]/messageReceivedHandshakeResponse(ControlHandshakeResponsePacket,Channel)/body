@@ -1,0 +1,18 @@
+{
+  HandshakeResponseCode code=getHandshakeResponseCode(message.getPayload());
+  logger.debug("Handshake Response Packet({}) code={} received. {}",message,code,channel);
+  if (code == HandshakeResponseCode.SUCCESS || code == HandshakeResponseCode.ALREADY_KNOWN) {
+    state.changeRunSimplexCommunication();
+  }
+ else   if (code == HandshakeResponseCode.DUPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_DUPLEX_COMMUNICATION) {
+    state.changeRunDuplexCommunication();
+  }
+ else   if (code == HandshakeResponseCode.SIMPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION) {
+    state.changeRunSimplexCommunication();
+  }
+ else {
+    logger.warn("Invalid Handshake Packet ({}) code={} received. {}",message,code,channel);
+    return;
+  }
+  logger.info("Handshake completed. channel:{}, state:{}.",channel,state.getString());
+}
