@@ -1,0 +1,11 @@
+{
+  String requestUri=request.getRequestURI();
+  String requestIp=request.getRemoteAddr();
+  logger.info("{} called from {}",requestUri,requestIp);
+  String requestPassword=request.getParameter("password");
+  if (password.equals(requestPassword)) {
+    return true;
+  }
+  response.sendRedirect("/");
+  return false;
+}
