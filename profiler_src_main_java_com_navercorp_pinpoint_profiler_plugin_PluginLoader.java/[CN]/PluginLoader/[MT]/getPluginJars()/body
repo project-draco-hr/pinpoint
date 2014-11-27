@@ -1,3 +1,8 @@
 {
-  return jars;
+  if (classLoader instanceof URLClassLoader) {
+    return ((URLClassLoader)classLoader).getURLs();
+  }
+ else {
+    return new URL[0];
+  }
 }

@@ -1,0 +1,15 @@
+{
+  PluginLoader<ModifierProvider> loader=new PluginLoader<ModifierProvider>(ModifierProvider.class,getClass().getClassLoader());
+  for (  ModifierProvider provider : loader.loadPlugins()) {
+    for (    Modifier modifier : provider.getModifiers(byteCodeInstrumentor,agent)) {
+      if (modifier instanceof AbstractModifier) {
+        AbstractModifier abstractModifier=(AbstractModifier)modifier;
+        modifierRepository.addModifier(abstractModifier);
+        logger.info("Registering modifier {} from {} for {} ",abstractModifier.getClass().getName(),abstractModifier.getClass().getProtectionDomain().getCodeSource(),abstractModifier.getTargetClass());
+      }
+ else {
+        logger.warn("Ignore modifier {} from {}",modifier.getClass().getName(),modifier.getClass().getProtectionDomain().getCodeSource());
+      }
+    }
+  }
+}

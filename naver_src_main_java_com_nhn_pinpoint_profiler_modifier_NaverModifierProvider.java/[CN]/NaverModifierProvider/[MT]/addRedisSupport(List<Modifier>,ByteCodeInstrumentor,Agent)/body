@@ -1,0 +1,13 @@
+{
+  ProfilerConfig profilerConfig=agent.getProfilerConfig();
+  if (profilerConfig.isRedisEnabled()) {
+    modifiers.add(new BinaryJedisModifier(byteCodeInstrumentor,agent));
+    modifiers.add(new JedisModifier(byteCodeInstrumentor,agent));
+  }
+  if (profilerConfig.isRedisPipelineEnabled()) {
+    modifiers.add(new JedisClientModifier(byteCodeInstrumentor,agent));
+    modifiers.add(new JedisPipelineBaseModifier(byteCodeInstrumentor,agent));
+    modifiers.add(new JedisMultiKeyPipelineBaseModifier(byteCodeInstrumentor,agent));
+    modifiers.add(new JedisPipelineModifier(byteCodeInstrumentor,agent));
+  }
+}

@@ -1,0 +1,16 @@
+{
+  ProfilerConfig profilerConfig=agent.getProfilerConfig();
+  if (profilerConfig.isNbaseArcEnabled() || profilerConfig.isNbaseArcPipelineEnabled()) {
+    modifiers.add(new GatewayModifier(byteCodeInstrumentor,agent));
+    modifiers.add(new GatewayServerModifier(byteCodeInstrumentor,agent));
+    if (profilerConfig.isNbaseArcEnabled()) {
+      modifiers.add(new RedisClusterModifier(byteCodeInstrumentor,agent));
+      modifiers.add(new BinaryRedisClusterModifier(byteCodeInstrumentor,agent));
+      modifiers.add(new TriplesRedisClusterModifier(byteCodeInstrumentor,agent));
+      modifiers.add(new BinaryTriplesRedisClusterModifier(byteCodeInstrumentor,agent));
+    }
+    if (profilerConfig.isNbaseArcPipelineEnabled()) {
+      modifiers.add(new RedisClusterPipelineModifier(byteCodeInstrumentor,agent));
+    }
+  }
+}
