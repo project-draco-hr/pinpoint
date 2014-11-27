@@ -1,6 +1,6 @@
 {
   String pluginPath=agent.getAgentPath() + File.separatorChar + "plugin";
-  PluginLoader loader=PluginLoader.get(pluginPath);
+  PluginLoader<ProfilerPlugin> loader=PluginLoader.get(ProfilerPlugin.class,pluginPath);
   PluginClassLoaderFactory classLoaderFactory=new PluginClassLoaderFactory(loader.getPluginJars());
   List<ProfilerPlugin> plugins=loader.loadPlugins();
   ProfilerPluginContext pluginContext=new ProfilerPluginContext(byteCodeInstrumentor,agent.getTraceContext());

@@ -1,0 +1,5 @@
+{
+  URL[] jars=findJars(pluginPath);
+  URLClassLoader classLoader=new URLClassLoader(jars,ClassLoader.getSystemClassLoader());
+  return new PluginLoader<T>(serviceType,classLoader);
+}
