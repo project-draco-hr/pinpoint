@@ -1,10 +1,11 @@
 {
-  logger.info("remove {}'s agentId [{}]",applicationName,agentId);
+  logger.info("remove agent id - ApplicationName: [{}], Agent ID: [{}]",applicationName,agentId);
   try {
     adminService.removeAgentId(applicationName,agentId);
     return "OK";
   }
  catch (  Exception e) {
+    logger.error("error while removing agentId",e);
     return e.getMessage();
   }
 }
