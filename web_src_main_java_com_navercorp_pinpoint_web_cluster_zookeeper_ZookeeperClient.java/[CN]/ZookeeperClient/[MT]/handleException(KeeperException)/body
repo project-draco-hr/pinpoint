@@ -12,8 +12,9 @@ case BADVERSION:
 case NOCHILDRENFOREPHEMERALS:
 case NOTEMPTY:
 case NODEEXISTS:
-case NONODE:
 throw new BadOperationException(keeperException.getMessage(),keeperException);
+case NONODE:
+throw new NoNodeException(keeperException.getMessage(),keeperException);
 case OPERATIONTIMEOUT:
 throw new TimeoutException(keeperException.getMessage(),keeperException);
 default :
