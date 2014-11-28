@@ -1,27 +1,13 @@
 {
-  logger.info("Received RequestPacket {} {}.",requestPacket,channel);
-  TBase<?,?> request=deserialize(requestPacket.getPayload());
+  logger.info("Message received {}. channel:{}, packet:{}.",packet.getClass().getSimpleName(),channel,packet);
+  TBase<?,?> request=deserialize(packet.getPayload());
   if (request == null) {
-    TResult tResult=new TResult(false);
-    tResult.setMessage("Unexpected decode result.");
-    channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(tResult)));
+    handleRouteRequestFail("Protocol decoding fail.",packet,channel);
   }
  else   if (request instanceof TCommandTransfer) {
-    byte[] payload=((TCommandTransfer)request).getPayload();
-    TBase command=deserialize(payload);
-    RouteResult routeResult=routeHandler.onRoute(new RequestEvent((TCommandTransfer)request,requestPacket.getRequestId(),channel,command));
-    if (RouteStatus.OK == routeResult.getStatus()) {
-      channel.write(new ResponsePacket(requestPacket.getRequestId(),routeResult.getResponseMessage().getMessage()));
-    }
- else {
-      TResult result=new TResult(false);
-      result.setMessage(routeResult.getStatus().getReasonPhrase());
-      channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(result)));
-    }
+    handleRouteRequest((TCommandTransfer)request,packet,channel);
   }
  else {
-    TResult tResult=new TResult(false);
-    tResult.setMessage("Unsupported command(" + request + ") type.");
-    channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(tResult)));
+    handleRouteRequestFail("Unknown error.",packet,channel);
   }
 }

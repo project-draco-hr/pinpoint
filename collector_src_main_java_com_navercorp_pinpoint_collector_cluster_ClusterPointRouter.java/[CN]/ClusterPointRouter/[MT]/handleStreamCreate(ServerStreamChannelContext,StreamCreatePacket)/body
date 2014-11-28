@@ -1,0 +1,13 @@
+{
+  logger.info("Message received {}. streamChannel:{}, packet:{}.",packet.getClass().getSimpleName(),streamChannelContext,packet);
+  TBase<?,?> request=deserialize(packet.getPayload());
+  if (request == null) {
+    return StreamCreateFailPacket.PACKET_ERROR;
+  }
+ else   if (request instanceof TCommandTransfer) {
+    return handleStreamRouteCreate((TCommandTransfer)request,packet,streamChannelContext);
+  }
+ else {
+    return StreamCreateFailPacket.UNKNWON_ERROR;
+  }
+}

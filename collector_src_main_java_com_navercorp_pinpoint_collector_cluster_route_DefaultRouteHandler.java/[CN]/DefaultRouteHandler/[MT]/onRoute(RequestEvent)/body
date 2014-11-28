@@ -1,6 +1,6 @@
 {
   requestFilterChain.doEvent(event);
   RouteResult routeResult=onRoute0(event);
-  responseFilterChain.doEvent(new ResponseEvent(event,routeResult));
+  responseFilterChain.doEvent(new ResponseEvent(event,event.getRequestId(),routeResult));
   return routeResult;
 }

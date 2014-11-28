@@ -1,0 +1,15 @@
+{
+  StreamChannelStateCode stateCode=consumer.getCurrentState();
+  if (StreamChannelStateCode.RUN == stateCode) {
+    ResponseMessage responseMessage=new ResponseMessage();
+    responseMessage.setMessage(packet.getPayload());
+    responseFilterChain.doEvent(new ResponseEvent(streamEvent,-1,new RouteResult(RouteStatus.OK,responseMessage)));
+    consumer.sendData(packet.getPayload());
+  }
+ else {
+    logger.warn("Can route stream data to consumer.(state:{})",stateCode);
+    if (StreamChannelStateCode.OPEN_ARRIVED != stateCode) {
+      close();
+    }
+  }
+}

@@ -1,7 +1,10 @@
 {
   this.targetClusterPointRepository=new ClusterPointRepository<TargetClusterPoint>();
-  this.routeHandler=new DefaultRouteHandler(targetClusterPointRepository);
   LoggingFilter loggingFilter=new LoggingFilter();
+  this.routeHandler=new DefaultRouteHandler(targetClusterPointRepository);
   this.routeHandler.addRequestFilter(loggingFilter.getRequestFilter());
   this.routeHandler.addResponseFilter(loggingFilter.getResponseFilter());
+  this.streamRouteHandler=new StreamRouteHandler(targetClusterPointRepository);
+  this.streamRouteHandler.addRequestFilter(loggingFilter.getStreamCreateFilter());
+  this.streamRouteHandler.addResponseFilter(loggingFilter.getResponseFilter());
 }

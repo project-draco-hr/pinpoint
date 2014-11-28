@@ -1,0 +1,7 @@
+{
+  ResponseMessage responseMessage=new ResponseMessage();
+  responseMessage.setMessage(packet.getPayload());
+  StreamRouteCloseEvent event=new StreamRouteCloseEvent(streamEvent.getDeliveryCommand(),producerContext,streamEvent.getStreamChannelContext());
+  streamCloseFilterchain.doEvent(event);
+  consumer.close();
+}

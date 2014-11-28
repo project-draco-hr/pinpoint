@@ -1,7 +1,13 @@
 {
-  final StringBuilder sb=new StringBuilder(super.toString());
+  final StringBuilder sb=new StringBuilder();
+  sb.append(this.getClass().getSimpleName());
   sb.append("{");
+  sb.append("{sourceChannel=").append(getSourceChannel()).append(",");
+  sb.append("applicationName=").append(getDeliveryCommand().getApplicationName()).append(",");
+  sb.append("agentId=").append(getDeliveryCommand().getAgentId()).append(",");
+  sb.append("startTimeStamp=").append(getDeliveryCommand().getStartTime());
+  sb.append("requestId=").append(requestId);
   sb.append("requestObject=").append(requestObject);
-  sb.append("}");
-  return super.toString();
+  sb.append('}');
+  return sb.toString();
 }
