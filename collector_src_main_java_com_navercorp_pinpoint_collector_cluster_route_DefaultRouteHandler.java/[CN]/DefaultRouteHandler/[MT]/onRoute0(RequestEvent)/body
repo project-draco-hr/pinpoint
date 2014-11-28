@@ -3,7 +3,7 @@
   if (requestObject == null) {
     return new RouteResult(RouteStatus.BAD_REQUEST);
   }
-  TargetClusterPoint clusterPoint=findClusterPoint(event);
+  TargetClusterPoint clusterPoint=findClusterPoint(event.getDeliveryCommand());
   if (clusterPoint == null) {
     return new RouteResult(RouteStatus.NOT_FOUND);
   }

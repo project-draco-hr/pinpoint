@@ -1,0 +1,15 @@
+{
+  byte[] payload=((TCommandTransfer)request).getPayload();
+  TBase command=deserialize(payload);
+  RouteResult routeResult=routeHandler.onRoute(new RequestEvent((TCommandTransfer)request,channel,requestPacket.getRequestId(),command));
+  if (RouteStatus.OK == routeResult.getStatus()) {
+    channel.write(new ResponsePacket(requestPacket.getRequestId(),routeResult.getResponseMessage().getMessage()));
+    return true;
+  }
+ else {
+    TResult result=new TResult(false);
+    result.setMessage(routeResult.getStatus().getReasonPhrase());
+    channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(result)));
+    return false;
+  }
+}

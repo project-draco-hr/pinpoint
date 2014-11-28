@@ -1,0 +1,33 @@
+{
+  TBase requestObject=event.getRequestObject();
+  if (requestObject == null) {
+    return new RouteResult(RouteStatus.BAD_REQUEST);
+  }
+  TargetClusterPoint clusterPoint=findClusterPoint(event.getDeliveryCommand());
+  if (clusterPoint == null) {
+    return new RouteResult(RouteStatus.NOT_FOUND);
+  }
+  TCommandTypeVersion commandVersion=TCommandTypeVersion.getVersion(clusterPoint.gerVersion());
+  if (!commandVersion.isSupportCommand(requestObject)) {
+    return new RouteResult(RouteStatus.NOT_ACCEPTABLE);
+  }
+  try {
+    if (clusterPoint instanceof ChannelContextClusterPoint) {
+      StreamRouteManager routeManager=new StreamRouteManager(event);
+      ServerStreamChannelContext consumerContext=event.getStreamChannelContext();
+      consumerContext.setAttributeIfAbsent(ATTACHMENT_KEY,routeManager);
+      ClientStreamChannelContext producerContext=createStreamChannel((ChannelContextClusterPoint)clusterPoint,event.getDeliveryCommand().getPayload(),routeManager);
+      routeManager.setProducer(producerContext.getStreamChannel());
+      return new RouteResult(RouteStatus.OK);
+    }
+ else {
+      return new RouteResult(RouteStatus.NOT_ACCEPTABLE_AGENT_TYPE);
+    }
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Create StreamChannel(" + clusterPoint + ") failed. caused:"+ e.getMessage(),e);
+    }
+  }
+  return new RouteResult(RouteStatus.NOT_ACCEPTABLE_UNKNOWN);
+}
