@@ -10,14 +10,14 @@
   final String after="}";
   callA.instrument(new ExprEditor(){
     @Override public void edit(    MethodCall m) throws CannotCompileException {
-      System.out.println(m.getClassName());
+      logger.debug("edit class{}",m.getClassName());
       try {
-        System.out.println(m.getMethod().toString());
+        logger.debug("edit method:{}",m.getMethod().toString());
       }
  catch (      NotFoundException e) {
-        e.printStackTrace();
+        logger.warn("getMethod() fail. Caused:{}",e.getMessage(),e);
       }
-      System.out.println(m.getMethodName());
+      logger.debug(m.getMethodName());
       m.replace(before + " try {$_ = $proceed($$); System.out.println(\"end---\"+ $_);} catch (java.lang.Throwable ex) { __throwable = ex; System.out.println(\"catch\"); } " + after);
     }
   }
