@@ -1,0 +1,34 @@
+{
+  logger.debug("traceId:{}",traceIdParam);
+  final TransactionId traceId=new TransactionId(traceIdParam);
+  final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
+  List<SpanAlign> spanAligns=spanResult.getSpanAlignList();
+  if (spanAligns.isEmpty()) {
+    final ModelAndView error=new ModelAndView();
+    error.addObject("errorCode",9);
+    error.addObject("message","Trace not found. traceId:" + traceId);
+    error.setViewName("error");
+    return error;
+  }
+  final ModelAndView mv=new ModelAndView();
+  mv.addObject("spanList",spanAligns);
+  mv.addObject("traceId",traceId);
+  ApplicationMap map=filteredMapService.selectApplicationMap(traceId);
+  mv.addObject("nodes",map.getNodes());
+  mv.addObject("links",map.getLinks());
+  RecordSet recordSet=this.transactionInfoService.createRecordSet(spanAligns,focusTimestamp);
+  mv.addObject("recordSet",recordSet);
+  mv.addObject("applicationName",recordSet.getApplicationName());
+  mv.addObject("callstack",recordSet.getRecordList());
+  mv.addObject("timeline",recordSet.getRecordList());
+  mv.addObject("callstackStart",recordSet.getStartTime());
+  mv.addObject("callstackEnd",recordSet.getEndTime());
+  mv.addObject("completeState",spanResult.getCompleteTypeString());
+  if (viewVersion == 2) {
+    mv.setViewName("transactionInfoJsonHash");
+  }
+ else {
+    mv.setViewName("transactionInfoJson");
+  }
+  return mv;
+}
