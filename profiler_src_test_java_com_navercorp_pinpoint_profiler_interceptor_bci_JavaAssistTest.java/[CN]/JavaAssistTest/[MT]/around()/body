@@ -14,17 +14,6 @@
   Class aClass=loader.loadClass(ctClass.getName());
   java.lang.reflect.Method callA1=aClass.getMethod("callA");
   Object target=aClass.newInstance();
-  try {
-    Object result=callA1.invoke(target);
-    logger.debug("result:{}",result);
-  }
- catch (  IllegalAccessException e) {
-    e.printStackTrace();
-  }
-catch (  IllegalArgumentException e) {
-    e.printStackTrace();
-  }
-catch (  InvocationTargetException e) {
-    e.printStackTrace();
-  }
+  Object result=callA1.invoke(target);
+  logger.debug("result:{}",result);
 }
