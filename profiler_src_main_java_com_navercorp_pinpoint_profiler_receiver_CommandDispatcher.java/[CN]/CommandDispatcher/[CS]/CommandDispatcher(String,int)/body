@@ -1,0 +1,10 @@
+{
+  TProtocolFactory protocolFactory=new TCompactProtocol.Factory();
+  TCommandRegistry commandTbaseRegistry=new TCommandRegistry(TCommandTypeVersion.getVersion(pinpointVersion));
+  SerializerFactory<HeaderTBaseSerializer> serializerFactory=new HeaderTBaseSerializerFactory(true,serializationMaxSize,protocolFactory,commandTbaseRegistry);
+  this.serializerFactory=wrappedThreadLocalSerializerFactory(serializerFactory);
+  AssertUtils.assertNotNull(this.serializerFactory);
+  DeserializerFactory<HeaderTBaseDeserializer> deserializerFactory=new HeaderTBaseDeserializerFactory(protocolFactory,commandTbaseRegistry);
+  this.deserializerFactory=wrappedThreadLocalDeserializerFactory(deserializerFactory);
+  AssertUtils.assertNotNull(this.deserializerFactory);
+}
