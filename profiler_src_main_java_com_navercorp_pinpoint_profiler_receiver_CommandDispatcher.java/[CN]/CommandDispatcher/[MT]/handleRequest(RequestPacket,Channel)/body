@@ -8,7 +8,7 @@
     response=tResult;
   }
  else {
-    ProfilerRequestCommandService service=locator.getRequestService(request);
+    ProfilerRequestCommandService service=commandServiceRegistry.getRequestService(request);
     if (service == null) {
       TResult tResult=new TResult(false);
       tResult.setMessage("Unsupported Listener.");
