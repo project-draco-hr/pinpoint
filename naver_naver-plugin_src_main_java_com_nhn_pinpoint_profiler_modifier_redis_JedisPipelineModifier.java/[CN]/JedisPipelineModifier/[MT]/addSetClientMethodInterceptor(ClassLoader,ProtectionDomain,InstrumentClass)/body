@@ -1,8 +1,0 @@
-{
-  for (  MethodInfo method : instrumentClass.getDeclaredMethods()) {
-    if (method.getName().equals("setClient")) {
-      final Interceptor methodInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.redis.interceptor.JedisPipelineSetClientMethodInterceptor");
-      instrumentClass.addInterceptor("setClient",new String[]{"redis.clients.jedis.Client"},methodInterceptor);
-    }
-  }
-}
