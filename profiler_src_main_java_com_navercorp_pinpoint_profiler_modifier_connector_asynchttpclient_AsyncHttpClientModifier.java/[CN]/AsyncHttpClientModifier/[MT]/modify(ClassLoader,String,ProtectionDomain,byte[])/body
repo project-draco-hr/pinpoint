@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    Interceptor executeRequestInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.asynchttpclient.interceptor.ExecuteRequestInterceptor");
+    Interceptor executeRequestInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.asynchttpclient.interceptor.ExecuteRequestInterceptor");
     aClass.addInterceptor("executeRequest",new String[]{"com.ning.http.client.Request","com.ning.http.client.AsyncHandler"},executeRequestInterceptor);
     return aClass.toBytecode();
   }

@@ -4,13 +4,13 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    Interceptor futureGetInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
+    Interceptor futureGetInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
     aClass.addInterceptor("get",null,futureGetInterceptor);
-    Interceptor futureGetInterceptor2=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
+    Interceptor futureGetInterceptor2=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
     aClass.addInterceptor("get",new String[]{"long","java.util.concurrent.TimeUnit"},futureGetInterceptor2);
-    Interceptor futureCompletedInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureCompletedInterceptor");
+    Interceptor futureCompletedInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureCompletedInterceptor");
     aClass.addInterceptor("completed",new String[]{"java.lang.Object"},futureCompletedInterceptor);
-    Interceptor futureFailedInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureFailedInterceptor");
+    Interceptor futureFailedInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureFailedInterceptor");
     aClass.addInterceptor("failed",new String[]{"java.lang.Exception"},futureFailedInterceptor);
     return aClass.toBytecode();
   }

@@ -1,12 +1,12 @@
 {
   final TestClassLoader loader=getTestClassLoader();
-  final String javassistClassName="com.nhn.pinpoint.profiler.interceptor.bci.TestObject";
+  final String javassistClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
   final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getAgent()){
     @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
       try {
         logger.info("modify cl:{}",classLoader);
         InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-        Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.interceptor.TestBeforeInterceptor");
+        Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.interceptor.TestBeforeInterceptor");
         addInterceptor(interceptor);
         aClass.addTraceValue(ObjectTraceValue.class);
         aClass.addTraceValue(IntTraceValue.class);

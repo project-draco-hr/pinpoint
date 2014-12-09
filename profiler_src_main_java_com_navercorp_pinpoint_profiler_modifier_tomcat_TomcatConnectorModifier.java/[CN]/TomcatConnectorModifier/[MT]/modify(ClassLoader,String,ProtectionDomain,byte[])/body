@@ -3,7 +3,7 @@
     logger.info("Modifing. {}",javassistClassName);
   }
   try {
-    Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.tomcat.interceptor.ConnectorInitializeInterceptor",null,null);
+    Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.tomcat.interceptor.ConnectorInitializeInterceptor",null,null);
     InstrumentClass connector=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     if (connector.hasDeclaredMethod("initialize",null)) {
       connector.addInterceptor("initialize",null,interceptor);

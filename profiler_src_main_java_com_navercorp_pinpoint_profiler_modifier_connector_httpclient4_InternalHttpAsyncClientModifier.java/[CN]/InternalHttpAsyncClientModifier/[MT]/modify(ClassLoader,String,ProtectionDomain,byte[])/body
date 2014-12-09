@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    Interceptor internalExecuteInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.connector.httpclient4.interceptor.AsyncInternalClientExecuteInterceptor");
+    Interceptor internalExecuteInterceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.AsyncInternalClientExecuteInterceptor");
     String[] internalExecuteParams=new String[]{"org.apache.http.nio.protocol.HttpAsyncRequestProducer","org.apache.http.nio.protocol.HttpAsyncResponseConsumer","org.apache.http.protocol.HttpContext","org.apache.http.concurrent.FutureCallback"};
     aClass.addInterceptor("execute",internalExecuteParams,internalExecuteInterceptor);
     return aClass.toBytecode();

@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass requestFacade=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    requestFacade.weaving("com.nhn.pinpoint.profiler.modifier.tomcat.aspect.RequestFacadeAspect");
+    requestFacade.weaving("com.navercorp.pinpoint.profiler.modifier.tomcat.aspect.RequestFacadeAspect");
     return requestFacade.toBytecode();
   }
  catch (  InstrumentException e) {

@@ -8,7 +8,7 @@
     aClass.addTraceVariable("__cacheKey","__setCacheKey","__getCacheKey","java.lang.String");
     Interceptor frontCacheGetFutureConstructInterceptor=new FrontCacheGetFutureConstructInterceptor();
     aClass.addConstructorInterceptor(new String[]{"net.sf.ehcache.Element"},frontCacheGetFutureConstructInterceptor);
-    SimpleAroundInterceptor frontCacheGetFutureGetInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.nhn.pinpoint.profiler.modifier.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
+    SimpleAroundInterceptor frontCacheGetFutureGetInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
     aClass.addScopeInterceptor("get",new String[]{Long.TYPE.toString(),"java.util.concurrent.TimeUnit"},frontCacheGetFutureGetInterceptor,ArcusScope.SCOPE);
     aClass.addScopeInterceptor("get",new String[]{},frontCacheGetFutureGetInterceptor,ArcusScope.SCOPE);
     return aClass.toBytecode();

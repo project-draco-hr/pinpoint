@@ -1,6 +1,6 @@
 {
   Object[] args=new Object[]{"arg0",1};
-  DefaultInterceptorFactory factory=new DefaultInterceptorFactory(instrumentor,traceContext,"com.nhn.pinpoint.bootstrap.plugin.TestInterceptors$TestInterceptor2",args,null);
+  DefaultInterceptorFactory factory=new DefaultInterceptorFactory(instrumentor,traceContext,"com.navercorp.pinpoint.bootstrap.plugin.TestInterceptors$TestInterceptor2",args,null);
   Interceptor interceptor=factory.getInterceptor(getClass().getClassLoader(),aClass,aMethod);
   assertEquals(TestInterceptor2.class,interceptor.getClass());
   assertEquals(args[0],getField(interceptor,"field0"));

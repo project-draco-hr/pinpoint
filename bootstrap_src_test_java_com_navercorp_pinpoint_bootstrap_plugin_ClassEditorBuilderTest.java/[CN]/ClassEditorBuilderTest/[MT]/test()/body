@@ -17,11 +17,11 @@
   ProfilerPluginContext helper=new ProfilerPluginContext(instrumentor,traceContext);
   ClassEditorBuilder builder=helper.newClassEditorBuilder();
   MetadataBuilder mb=builder.newMetadataBuilder();
-  mb.inject("com.nhn.pinpoint.bootstrap.plugin.ClassEditorBuilderTest$TestMetadata");
+  mb.inject("com.navercorp.pinpoint.bootstrap.plugin.ClassEditorBuilderTest$TestMetadata");
   mb.initializeWithDefaultConstructorOf("java.util.HashMap");
   InterceptorBuilder ib=builder.newInterceptorBuilder();
   ib.intercept(methodName,parameterTypeNames);
-  ib.with("com.nhn.pinpoint.bootstrap.plugin.TestInterceptor");
+  ib.with("com.navercorp.pinpoint.bootstrap.plugin.TestInterceptor");
   ib.constructedWith("provided");
   ib.in(scopeName);
   ClassEditor editor=builder.build();

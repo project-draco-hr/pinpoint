@@ -31,11 +31,11 @@
  else {
     after.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
-      after.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
+      after.format("  %1$s interceptor = com.navercorp.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
       after.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, %6$s, null);",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier,returnType);
     }
  else {
-      after.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
+      after.format("  %1$s interceptor = com.navercorp.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
       after.format("  interceptor.after(%1$s, %2$s, %3$s, null);",target,parameterIdentifier,returnType);
     }
     after.end();
@@ -70,11 +70,11 @@
  else {
     catchCode.begin();
     if (interceptorType == STATIC_INTERCEPTOR) {
-      catchCode.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
+      catchCode.format("  %1$s interceptor = com.navercorp.pinpoint.bootstrap.interceptor.InterceptorRegistry.getInterceptor(%2$d);",StaticAroundInterceptor.class.getName(),id);
       catchCode.format("  interceptor.after(%1$s, \"%2$s\", \"%3$s\", \"%4$s\", %5$s, null, $e);",target,ctClass.getName(),methodName,parameterTypeString,parameterIdentifier);
     }
  else {
-      catchCode.format("  %1$s interceptor = com.nhn.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
+      catchCode.format("  %1$s interceptor = com.navercorp.pinpoint.bootstrap.interceptor.InterceptorRegistry.getSimpleInterceptor(%2$d);",SimpleAroundInterceptor.class.getName(),id);
       catchCode.format("  interceptor.after(%1$s, %2$s, null, $e);",target,parameterIdentifier);
     }
     catchCode.append("  throw $e;");
