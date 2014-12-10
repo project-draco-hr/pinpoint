@@ -10,7 +10,7 @@
   watch.start();
   LinkDataSelector linkDataSelector=new LinkDataSelector(this.mapStatisticsCalleeDao,this.mapStatisticsCallerDao,hostApplicationMapDao);
   LinkDataDuplexMap linkDataDuplexMap=linkDataSelector.select(sourceApplication,range);
-  ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
+  ApplicationMapBuilder builder=new ApplicationMapBuilder(range,matcherGroup);
   ApplicationMap map=builder.build(linkDataDuplexMap,agentInfoService,this.mapResponseDao);
   watch.stop();
   logger.info("Fetch applicationmap elapsed. {}ms",watch.getLastTaskTimeMillis());

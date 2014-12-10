@@ -1,12 +1,2 @@
 {
-  if (trace.canSampled()) {
-    external.org.apache.coyote.Request request=(external.org.apache.coyote.Request)args[0];
-    String parameters=getRequestParameter(request,64,512);
-    if (parameters != null && parameters.length() > 0) {
-      trace.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
-    }
-    trace.recordApi(getMethodDescriptor());
-  }
-  trace.recordException(throwable);
-  trace.markAfterTime();
 }

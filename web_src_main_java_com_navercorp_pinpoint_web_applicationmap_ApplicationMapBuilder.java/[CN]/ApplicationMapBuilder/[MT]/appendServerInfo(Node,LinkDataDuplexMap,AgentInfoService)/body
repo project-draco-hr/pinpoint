@@ -4,7 +4,7 @@
     return;
   }
   if (nodeServiceType.isTerminal()) {
-    ServerBuilder builder=new ServerBuilder();
+    ServerBuilder builder=new ServerBuilder(matcherGroup);
     for (    LinkData linkData : linkDataDuplexMap.getSourceLinkDataList()) {
       Application toApplication=linkData.getToApplication();
       if (node.getApplication().equals(toApplication)) {
@@ -20,7 +20,7 @@
       return;
     }
     logger.debug("add agentInfo. {}, {}",node.getApplication(),agentList);
-    ServerBuilder builder=new ServerBuilder();
+    ServerBuilder builder=new ServerBuilder(matcherGroup);
     agentList=filterAgentInfoByResponseData(agentList,node);
     builder.addAgentInfo(agentList);
     ServerInstanceList serverInstanceList=builder.build();
