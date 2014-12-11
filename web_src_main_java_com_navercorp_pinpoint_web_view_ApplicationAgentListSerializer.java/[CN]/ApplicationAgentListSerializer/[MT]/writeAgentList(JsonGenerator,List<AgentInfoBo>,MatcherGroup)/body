@@ -1,0 +1,23 @@
+{
+  jgen.writeStartArray();
+  for (  AgentInfoBo agentInfoBo : agentList) {
+    jgen.writeStartObject();
+    jgen.writeStringField("hostName",agentInfoBo.getHostName());
+    jgen.writeStringField("ip",agentInfoBo.getIp());
+    jgen.writeStringField("ports",agentInfoBo.getPorts());
+    jgen.writeStringField("agentId",agentInfoBo.getAgentId());
+    jgen.writeStringField("applicationName",agentInfoBo.getApplicationName());
+    jgen.writeStringField("serviceType",agentInfoBo.getServiceType().toString());
+    jgen.writeNumberField("pid",agentInfoBo.getPid());
+    jgen.writeStringField("version",agentInfoBo.getVersion());
+    jgen.writeNumberField("startTime",agentInfoBo.getStartTime());
+    jgen.writeNumberField("endTimeStamp",agentInfoBo.getEndTimeStamp());
+    jgen.writeNumberField("endStatus",agentInfoBo.getEndStatus());
+    jgen.writeObjectField("serverMetaData",agentInfoBo.getServerMetaData());
+    ServerMatcher serverMatcher=matcherGroup.match(agentInfoBo.getIp());
+    jgen.writeStringField("linkName",serverMatcher.getLinkName());
+    jgen.writeStringField("linkURL",serverMatcher.getLink(agentInfoBo.getIp()));
+    jgen.writeEndObject();
+  }
+  jgen.writeEndArray();
+}
