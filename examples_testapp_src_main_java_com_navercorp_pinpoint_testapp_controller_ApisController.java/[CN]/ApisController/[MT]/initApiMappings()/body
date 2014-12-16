@@ -1,0 +1,19 @@
+{
+  Map<RequestMappingInfo,HandlerMethod> requestMappedHandlers=this.handlerMapping.getHandlerMethods();
+  for (  Map.Entry<RequestMappingInfo,HandlerMethod> requestMappedHandlerEntry : requestMappedHandlers.entrySet()) {
+    RequestMappingInfo requestMappingInfo=requestMappedHandlerEntry.getKey();
+    HandlerMethod handlerMethod=requestMappedHandlerEntry.getValue();
+    Class<?> handlerMethodBeanClazz=handlerMethod.getBeanType();
+    if (handlerMethodBeanClazz == this.getClass()) {
+      continue;
+    }
+    String controllerName=handlerMethodBeanClazz.getSimpleName();
+    Set<String> mappedRequests=requestMappingInfo.getPatternsCondition().getPatterns();
+    SortedSet<String> alreadyMappedRequests=this.apiMappings.get(controllerName);
+    if (alreadyMappedRequests == null) {
+      alreadyMappedRequests=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+      this.apiMappings.put(controllerName,alreadyMappedRequests);
+    }
+    alreadyMappedRequests.addAll(mappedRequests);
+  }
+}
