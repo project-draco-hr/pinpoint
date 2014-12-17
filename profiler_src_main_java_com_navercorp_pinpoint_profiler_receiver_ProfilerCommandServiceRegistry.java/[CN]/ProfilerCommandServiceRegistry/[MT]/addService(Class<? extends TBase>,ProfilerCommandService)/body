@@ -1,6 +1,12 @@
 {
-  ProfilerCommandService inValue=profilerCommandServiceRepository.putIfAbsent(clazz,service);
-  if (inValue != null) {
+  if (clazz == null) {
+    throw new NullPointerException("clazz must not be null");
+  }
+  if (service == null) {
+    throw new NullPointerException("service must not be null");
+  }
+  final ProfilerCommandService before=profilerCommandServiceRepository.putIfAbsent(clazz,service);
+  if (before != null) {
     logger.warn("Already Register Type({}).",clazz.getName());
     return false;
   }

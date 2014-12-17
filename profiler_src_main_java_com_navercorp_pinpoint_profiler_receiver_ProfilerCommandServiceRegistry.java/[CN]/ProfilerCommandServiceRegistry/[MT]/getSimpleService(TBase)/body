@@ -1,5 +1,8 @@
 {
-  ProfilerCommandService service=profilerCommandServiceRepository.get(tBase.getClass());
+  if (tBase == null) {
+    return null;
+  }
+  final ProfilerCommandService service=profilerCommandServiceRepository.get(tBase.getClass());
   if (service instanceof ProfilerSimpleCommandService) {
     return (ProfilerSimpleCommandService)service;
   }
