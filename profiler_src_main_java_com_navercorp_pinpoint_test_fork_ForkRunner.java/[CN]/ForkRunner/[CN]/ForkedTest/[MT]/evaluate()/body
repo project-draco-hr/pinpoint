@@ -9,9 +9,12 @@
     process=builder.start();
   }
  catch (  IOException e) {
+    System.out.println("builder start fail Caused:" + e.getMessage());
+    e.printStackTrace();
     return;
   }
-  Scanner out=new Scanner(process.getInputStream());
+  final InputStream inputStream=process.getInputStream();
+  final Scanner out=new Scanner(inputStream,DEFAULT_ENCODING);
   try {
     while (out.hasNextLine()) {
       String line=out.nextLine();
@@ -52,6 +55,7 @@
   }
   finally {
     out.close();
+    close(inputStream);
   }
   try {
     process.waitFor();
