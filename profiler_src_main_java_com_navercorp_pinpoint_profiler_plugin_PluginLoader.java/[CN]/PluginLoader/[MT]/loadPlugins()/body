@@ -1,9 +1,8 @@
 {
-  ServiceLoader<T> loader=ServiceLoader.load(serviceType,classLoader);
-  Iterator<T> iterator=loader.iterator();
+  ServiceLoader<T> serviceLoader=ServiceLoader.load(serviceType,classLoader);
   List<T> plugins=new ArrayList<T>();
-  while (iterator.hasNext()) {
-    plugins.add(iterator.next());
+  for (  T plugin : serviceLoader) {
+    plugins.add(plugin);
   }
   return plugins;
 }
