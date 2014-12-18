@@ -5,4 +5,6 @@
   this.queue=new LinkedBlockingQueue<T>(queueSize);
   this.executeThread=this.createExecuteThread(executorName);
   this.executorName=executeThread.getName();
+  this.maxDrainSize=10;
+  this.drain=new UnsafeArrayCollection<T>(maxDrainSize);
 }

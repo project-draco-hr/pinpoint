@@ -1,6 +1,6 @@
 {
   final Class<?> bootStrapClazz=getBootStrapClass();
-  agentBootStrap=(Agent)executeTemplate.execute(new Callable<Object>(){
+  final Object agent=executeTemplate.execute(new Callable<Object>(){
     @Override public Object call() throws Exception {
       try {
         Constructor<?> constructor=bootStrapClazz.getConstructor(String.class,String.class,Instrumentation.class,ProfilerConfig.class);
@@ -15,4 +15,17 @@ catch (      IllegalAccessException e) {
     }
   }
 );
+  if (agent instanceof Agent) {
+    this.agentBootStrap=(Agent)agent;
+  }
+ else {
+    String agentClassName;
+    if (agent == null) {
+      agentClassName="Agent is null";
+    }
+ else {
+      agentClassName=agent.getClass().getName();
+    }
+    throw new BootStrapException("Invalid AgentType. boot fail. AgentClass:" + agentClassName);
+  }
 }
