@@ -1,0 +1,13 @@
+{
+  try {
+    final Method method=ClassLoader.class.getDeclaredMethod("defineClass",String.class,byte[].class,int.class,int.class);
+    method.setAccessible(true);
+    return method;
+  }
+ catch (  NoSuchMethodException e) {
+    throw new RuntimeException("defineClass not found. Caused:" + e.getMessage(),e);
+  }
+catch (  SecurityException e) {
+    throw new RuntimeException("defineClass error. Caused:" + e.getMessage(),e);
+  }
+}
