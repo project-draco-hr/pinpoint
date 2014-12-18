@@ -1,7 +1,7 @@
 {
   if (workerState.isStarted()) {
     if (zNodePath.equals(path)) {
-      boolean offerSuccess=queue.offer(getAndRegisterTask);
+      final boolean offerSuccess=queue.offer(getAndRegisterTask);
       if (!offerSuccess) {
         logger.info("Message Queue is Full.");
       }
@@ -13,6 +13,5 @@
  else {
     WorkerState state=this.workerState.getCurrentState();
     logger.info("{} invalid state {}.",this.getClass().getSimpleName(),state.toString());
-    return;
   }
 }

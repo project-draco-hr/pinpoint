@@ -5,7 +5,10 @@
     return;
   }
   logger.info("{} destorying started.",this.getClass().getSimpleName());
-  queue.offer(stopTask);
+  final boolean stopOffer=queue.offer(stopTask);
+  if (!stopOffer) {
+    logger.warn("stopTask offer fail. Message Queue.");
+  }
   boolean interrupted=false;
   while (this.workerThread.isAlive()) {
     this.workerThread.interrupt();
