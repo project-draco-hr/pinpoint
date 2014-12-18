@@ -1,0 +1,14 @@
+{
+  try {
+    String encodedAddress=URLEncoder.encode(address,CharEncoding.UTF_8);
+    URI uri=new URIBuilder().setScheme("http").setHost("maps.googleapis.com").setPath("/maps/api/geocode/json").setParameter("address",encodedAddress).setParameter("sensor","false").build();
+    @SuppressWarnings("unchecked") Map<String,Object> response=this.getForObject(uri,Map.class);
+    return response;
+  }
+ catch (  UnsupportedEncodingException e) {
+    throw new RestClientException(e.getMessage());
+  }
+catch (  URISyntaxException e) {
+    throw new RestClientException(e.getMessage());
+  }
+}
