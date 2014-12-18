@@ -1,6 +1,6 @@
 {
   final Method findMethod=findMethod(target.getClass(),method,type);
-  return executeTemplate.execute(new Callable(){
+  return executeTemplate.execute(new Callable<Object>(){
     @Override public Object call(){
       try {
         return findMethod.invoke(agentBootStrap,args);
