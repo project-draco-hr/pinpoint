@@ -3,7 +3,7 @@
   if (forPlugin != null) {
     return forPlugin;
   }
-  final ClassLoader newInstance=new URLClassLoader(pluginJars,loader);
+  final ClassLoader newInstance=createPluginClassLoader(pluginJars,loader);
   final ClassLoader before=cache.putIfAbsent(loader,newInstance);
   if (before == null) {
     return newInstance;
