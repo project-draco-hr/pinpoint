@@ -1,0 +1,10 @@
+{
+  URIBuilder uri=new URIBuilder(url);
+  for (  Map.Entry<String,List<String>> entry : params.entrySet()) {
+    String key=entry.getKey();
+    for (    String value : entry.getValue()) {
+      uri.addParameter(key,value);
+    }
+  }
+  return new HttpGet(uri.build());
+}

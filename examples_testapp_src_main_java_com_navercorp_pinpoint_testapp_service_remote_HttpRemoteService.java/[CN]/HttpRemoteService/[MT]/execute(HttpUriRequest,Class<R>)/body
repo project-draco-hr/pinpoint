@@ -1,0 +1,6 @@
+{
+  CloseableHttpClient httpclient=HttpClients.createDefault();
+  CloseableHttpResponse response=httpclient.execute(httpMethod);
+  HttpEntity entity=response.getEntity();
+  return objectMapper.readValue(entity.getContent(),responseType);
+}

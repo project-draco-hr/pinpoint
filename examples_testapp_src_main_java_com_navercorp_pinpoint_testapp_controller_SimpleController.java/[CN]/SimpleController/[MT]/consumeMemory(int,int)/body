@@ -1,0 +1,9 @@
+{
+  long heapSize=Runtime.getRuntime().maxMemory();
+  int count=(int)Math.max(1,(heapSize / byteArraySize) * createMaxHeapCount);
+  List<WeakReference<byte[]>> weakReferece=new ArrayList<WeakReference<byte[]>>();
+  for (int i=0; i < count; i++) {
+    weakReferece.add(new WeakReference<byte[]>(new byte[byteArraySize]));
+  }
+  System.gc();
+}
