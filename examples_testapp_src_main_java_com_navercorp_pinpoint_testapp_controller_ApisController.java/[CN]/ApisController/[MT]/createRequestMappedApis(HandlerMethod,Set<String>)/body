@@ -1,0 +1,11 @@
+{
+  if (CollectionUtils.isEmpty(mappedUris)) {
+    return Collections.emptySet();
+  }
+  Set<RequestMappedUri> requestMappedUris=new HashSet<RequestMappedUri>(mappedUris.size());
+  Description description=handlerMethod.getMethodAnnotation(Description.class);
+  for (  String mappedUri : mappedUris) {
+    requestMappedUris.add(new RequestMappedUri(mappedUri,description));
+  }
+  return requestMappedUris;
+}

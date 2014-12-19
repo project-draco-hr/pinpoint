@@ -9,11 +9,11 @@
     }
     String controllerName=handlerMethodBeanClazz.getSimpleName();
     Set<String> mappedRequests=requestMappingInfo.getPatternsCondition().getPatterns();
-    SortedSet<String> alreadyMappedRequests=this.apiMappings.get(controllerName);
+    SortedSet<RequestMappedUri> alreadyMappedRequests=this.apiMappings.get(controllerName);
     if (alreadyMappedRequests == null) {
-      alreadyMappedRequests=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+      alreadyMappedRequests=new TreeSet<RequestMappedUri>(RequestMappedUri.MAPPED_URI_ORDER);
       this.apiMappings.put(controllerName,alreadyMappedRequests);
     }
-    alreadyMappedRequests.addAll(mappedRequests);
+    alreadyMappedRequests.addAll(createRequestMappedApis(handlerMethod,mappedRequests));
   }
 }
