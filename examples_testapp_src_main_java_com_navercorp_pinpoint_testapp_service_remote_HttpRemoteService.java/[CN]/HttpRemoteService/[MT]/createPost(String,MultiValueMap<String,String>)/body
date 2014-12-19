@@ -1,0 +1,12 @@
+{
+  HttpPost post=new HttpPost(url);
+  List<NameValuePair> nvps=new ArrayList<NameValuePair>();
+  for (  Map.Entry<String,List<String>> entry : params.entrySet()) {
+    String key=entry.getKey();
+    for (    String value : entry.getValue()) {
+      nvps.add(new BasicNameValuePair(key,value));
+    }
+  }
+  post.setEntity(new UrlEncodedFormEntity(nvps));
+  return post;
+}

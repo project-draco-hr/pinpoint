@@ -1,0 +1,15 @@
+{
+  int cpuCount=Runtime.getRuntime().availableProcessors();
+  int threadSize=Math.max(1,cpuCount - 1);
+  long limitTime=10000;
+  CountDownLatch latch=new CountDownLatch(threadSize);
+  for (int i=0; i < threadSize; i++) {
+    Thread thread=new Thread(new ConsumeCpu(latch,limitTime));
+    thread.setDaemon(true);
+    thread.start();
+  }
+  latch.await();
+  Map<String,Object> map=new HashMap<String,Object>();
+  map.put("message","ok");
+  return map;
+}
