@@ -1,0 +1,13 @@
+{
+  if (classLoader == null) {
+    return;
+  }
+  if (classLoader instanceof Closeable) {
+    try {
+      ((Closeable)classLoader).close();
+    }
+ catch (    IOException e) {
+      logger.log(Level.WARNING,"PluginClassLoader.close() fail. Caused:" + e.getMessage(),e);
+    }
+  }
+}
