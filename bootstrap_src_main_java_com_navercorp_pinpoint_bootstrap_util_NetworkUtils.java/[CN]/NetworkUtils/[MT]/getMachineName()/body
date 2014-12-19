@@ -1,24 +1,24 @@
 {
   try {
-    String name=null;
     Enumeration<NetworkInterface> enet=NetworkInterface.getNetworkInterfaces();
-    while (enet.hasMoreElements() && (name == null)) {
+    while (enet.hasMoreElements()) {
       NetworkInterface net=enet.nextElement();
-      if (net.isLoopback())       continue;
+      if (net.isLoopback()) {
+        continue;
+      }
       Enumeration<InetAddress> eaddr=net.getInetAddresses();
       while (eaddr.hasMoreElements()) {
         InetAddress inet=eaddr.nextElement();
         final String canonicalHostName=inet.getCanonicalHostName();
         if (!canonicalHostName.equalsIgnoreCase(inet.getHostAddress())) {
-          name=canonicalHostName;
-          break;
+          return canonicalHostName;
         }
       }
     }
-    return name;
+    return ERROR_HOST_NAME;
   }
  catch (  SocketException e) {
     Logger.getLogger(NetworkUtils.class.getClass().getName()).warning(e.getMessage());
-    return "UNKNOWN-HOST";
+    return ERROR_HOST_NAME;
   }
 }
