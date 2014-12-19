@@ -1,0 +1,16 @@
+{
+  long startTime=System.currentTimeMillis();
+  try {
+    BigDecimal decimal=new BigDecimal(0);
+    for (int num=1; num < Integer.MAX_VALUE; num++) {
+      long currentTimeMillis=System.currentTimeMillis();
+      if (currentTimeMillis - startTime > limitTime) {
+        break;
+      }
+      decimal.add(new BigDecimal(num));
+    }
+  }
+  finally {
+    latch.countDown();
+  }
+}
