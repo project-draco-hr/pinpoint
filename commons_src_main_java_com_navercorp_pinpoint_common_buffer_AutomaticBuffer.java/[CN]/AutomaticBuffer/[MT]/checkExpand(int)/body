@@ -1,0 +1,14 @@
+{
+  int length=buffer.length;
+  final int remain=length - offset;
+  if (remain >= size) {
+    return;
+  }
+  if (length == 0) {
+    length=1;
+  }
+  final int expandedBufferSize=computeExpandedBufferSize(size,length,remain);
+  final byte[] expandedBuffer=new byte[expandedBufferSize];
+  System.arraycopy(buffer,0,expandedBuffer,0,buffer.length);
+  buffer=expandedBuffer;
+}
