@@ -9,7 +9,7 @@
   write.addListener(new ChannelFutureListener(){
     @Override public void operationComplete(    ChannelFuture future) throws Exception {
       if (!future.isSuccess()) {
-        logger.warn("ClientClosePacket write fail. channel:{}",future.getCause(),future.getCause());
+        logger.warn("ClientClosePacket write failed. channel:{}",future.getCause(),future.getCause());
       }
  else {
         logger.debug("ClientClosePacket write success. channel:{}",future.getChannel());
