@@ -1,0 +1,16 @@
+{
+  JedisMock jedis=new JedisMock("localhost",6379);
+  try {
+    jedis.get("foo".getBytes());
+  }
+  finally {
+    if (jedis != null) {
+      jedis.close();
+    }
+  }
+  final List<SpanEventBo> events=getCurrentSpanEvents();
+  assertEquals(1,events.size());
+  final SpanEventBo eventBo=events.get(0);
+  assertEquals(HOST + ":" + PORT,eventBo.getEndPoint());
+  assertEquals("REDIS",eventBo.getDestinationId());
+}
