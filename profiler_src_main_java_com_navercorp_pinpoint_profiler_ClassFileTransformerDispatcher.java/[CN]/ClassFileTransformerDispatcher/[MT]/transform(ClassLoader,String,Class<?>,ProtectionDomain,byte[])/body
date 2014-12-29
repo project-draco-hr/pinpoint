@@ -1,19 +1,10 @@
 {
-  if (className.contains("CacheManager")) {
-    logger.debug("Start CacheManager");
-  }
-  if (skipFilter.doFilter(classLoader,className,classBeingRedefined,protectionDomain,classFileBuffer)) {
-    if (className.equals("net/spy/memcached/CacheManager")) {
-      logger.debug("skip CacheManager");
-    }
+  if (skipFilter.doFilter(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
-  AbstractModifier findModifier=this.modifierRegistry.findModifier(className);
+  AbstractModifier findModifier=this.modifierRegistry.findModifier(jvmClassName);
   if (findModifier == null) {
-    if (className.equals("net/spy/memcached/CacheManager")) {
-      logger.debug("no modifier for CacheManager");
-    }
-    if (this.profilerConfig.getProfilableClassFilter().filter(className)) {
+    if (this.profilerConfig.getProfilableClassFilter().filter(jvmClassName)) {
       findModifier=this.modifierRegistry.findModifier("*");
     }
  else {
@@ -21,15 +12,15 @@
     }
   }
   if (isDebug) {
-    logger.debug("[transform] cl:{} className:{} Modifier:{}",classLoader,className,findModifier.getClass().getName());
+    logger.debug("[transform] cl:{} className:{} Modifier:{}",classLoader,jvmClassName,findModifier.getClass().getName());
   }
-  final String javassistClassName=className.replace('/','.');
+  final String javaClassName=JavaAssistUtils.jvmNameToJavaName(jvmClassName);
   try {
     final Thread thread=Thread.currentThread();
     final ClassLoader before=getContextClassLoader(thread);
     thread.setContextClassLoader(this.agentClassLoader);
     try {
-      return findModifier.modify(classLoader,javassistClassName,protectionDomain,classFileBuffer);
+      return findModifier.modify(classLoader,javaClassName,protectionDomain,classFileBuffer);
     }
   finally {
       thread.setContextClassLoader(before);
