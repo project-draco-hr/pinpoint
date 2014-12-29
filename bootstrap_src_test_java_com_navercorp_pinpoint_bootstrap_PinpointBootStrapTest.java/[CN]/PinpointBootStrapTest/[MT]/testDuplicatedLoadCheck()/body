@@ -1,8 +1,6 @@
 {
+  Assert.assertFalse(PinpointBootStrap.getLoadState());
   PinpointBootStrap.premain("test",new DummyInstrumentation());
-  String exist=System.getProperty(PinpointBootStrap.BOOT_STRAP_LOAD_STATE);
-  Assert.assertTrue(exist != null);
+  Assert.assertTrue(PinpointBootStrap.getLoadState());
   PinpointBootStrap.premain("test",new DummyInstrumentation());
-  String recheck=System.getProperty(PinpointBootStrap.BOOT_STRAP_LOAD_STATE);
-  Assert.assertEquals(exist,recheck);
 }
