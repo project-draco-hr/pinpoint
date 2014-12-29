@@ -1,0 +1,14 @@
+{
+  JedisMock jedis=new JedisMock("localhost",6379);
+  try {
+    Pipeline pipeline=jedis.pipelined();
+    pipeline.get("foo");
+  }
+  finally {
+    if (jedis != null) {
+      jedis.close();
+    }
+  }
+  final List<SpanEventBo> events=getCurrentSpanEvents();
+  assertEquals(1,events.size());
+}
