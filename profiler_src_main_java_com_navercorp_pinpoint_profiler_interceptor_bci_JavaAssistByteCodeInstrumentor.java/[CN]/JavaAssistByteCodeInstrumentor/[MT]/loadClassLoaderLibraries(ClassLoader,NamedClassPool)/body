@@ -1,20 +1,18 @@
 {
-  if (classLoader instanceof URLClassLoader) {
-    URLClassLoader urlClassLoader=(URLClassLoader)classLoader;
-    URL[] urlList=urlClassLoader.getURLs();
-    for (    URL tempURL : urlList) {
-      String filePath=tempURL.getFile();
-      try {
-        classPool.appendClassPath(filePath);
-        if (isInfo) {
-          logger.info("Loaded cl:{} classPool:{} {} ",classLoader.getClass().getName(),classPool.getName(),filePath);
-        }
-      }
- catch (      NotFoundException e) {
-        if (logger.isWarnEnabled()) {
-          logger.warn("lib load fail. path:{} cl:{} clPool:{}, Cause:{}",filePath,classLoader,classPool.getName(),e.getMessage(),e);
+  if (isInfo) {
+    if (classLoader instanceof URLClassLoader) {
+      URLClassLoader urlClassLoader=(URLClassLoader)classLoader;
+      URL[] urlList=urlClassLoader.getURLs();
+      if (urlList != null) {
+        final String classLoaderName=classLoader.getClass().getName();
+        final String classPoolName=classPool.getName();
+        for (        URL tempURL : urlList) {
+          String filePath=tempURL.getFile();
+          logger.info("classLoader lib cl:{} classPool:{} {} ",classLoaderName,classPoolName,filePath);
         }
       }
     }
   }
+  logger.info("appendClassPath. classPool:{} ClassLoader:{}",classPool.getName(),classLoader);
+  classPool.appendClassPath(new LoaderClassPath(classLoader));
 }
