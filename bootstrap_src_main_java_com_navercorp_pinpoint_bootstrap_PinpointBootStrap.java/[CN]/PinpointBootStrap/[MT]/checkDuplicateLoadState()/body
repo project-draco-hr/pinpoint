@@ -1,13 +1,12 @@
 {
-  final String exist=System.getProperty(BOOT_STRAP_LOAD_STATE);
-  if (exist == null) {
-    changeLoadState(BOOT_STRAP_LOAD_STATE_LOADING);
+  final boolean startSuccess=LOAD_STATE.compareAndSet(STATE_NONE,STATE_STARTED);
+  if (startSuccess) {
+    return false;
   }
  else {
     if (logger.isLoggable(Level.SEVERE)) {
-      logger.severe("pinpoint-bootstrap already started. skipping agent loading. loadState:" + exist);
+      logger.severe("pinpoint-bootstrap already started. skipping agent loading.");
     }
     return true;
   }
-  return false;
 }
