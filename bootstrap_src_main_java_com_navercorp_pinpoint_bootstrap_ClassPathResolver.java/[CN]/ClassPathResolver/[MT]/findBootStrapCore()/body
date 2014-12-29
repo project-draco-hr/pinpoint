@@ -1,0 +1,30 @@
+{
+  String bootDir=agentDirPath + File.separator + "boot";
+  File file=new File(bootDir);
+  File[] files=file.listFiles(new FilenameFilter(){
+    @Override public boolean accept(    File dir,    String name){
+      boolean isBootStrapCore=name.startsWith("pinpoint-bootstrap-core");
+      if (!isBootStrapCore) {
+        return false;
+      }
+      int isJar=name.lastIndexOf(".jar");
+      if (isJar == -1) {
+        return false;
+      }
+      logger.info("found bootStrapCore. " + name);
+      return true;
+    }
+  }
+);
+  if (files.length == 1) {
+    return files[0].getAbsolutePath();
+  }
+ else   if (files.length == 0) {
+    logger.info("bootStrapCore not found.");
+    return null;
+  }
+ else {
+    logger.info("too many bootStrapCore found. " + Arrays.toString(files));
+    return null;
+  }
+}

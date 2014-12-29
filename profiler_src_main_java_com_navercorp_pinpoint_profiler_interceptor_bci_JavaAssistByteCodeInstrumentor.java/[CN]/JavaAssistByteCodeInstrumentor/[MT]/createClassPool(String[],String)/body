@@ -1,10 +1,6 @@
 {
   NamedClassPool classPool=new NamedClassPool(null,classPoolName);
   classPool.appendSystemPath();
-  if (pathNames != null) {
-    for (    String path : pathNames) {
-      appendClassPath(classPool,path);
-    }
-  }
+  classPool.appendClassPath(new LoaderClassPath(this.getClass().getClassLoader()));
   return classPool;
 }

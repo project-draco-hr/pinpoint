@@ -28,6 +28,15 @@
     return;
   }
   saveLogFilePath(classPathResolver);
+  final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
+  JarFile bootStrapCoreJarFile=getBootStrapJarFile(bootStrapCoreJar);
+  if (bootStrapCoreJar == null || bootStrapCoreJarFile == null) {
+    logger.severe("pinpoint-bootstrap-core.jar not found");
+    logPinpointAgentLoadFail();
+    return;
+  }
+  logger.info("load pinpoint-bootstrap-core.jar :" + bootStrapCoreJar);
+  instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreJarFile);
   try {
     ProfilerConfig profilerConfig=ProfilerConfig.load(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);

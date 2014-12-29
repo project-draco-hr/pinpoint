@@ -2,6 +2,10 @@
   if (className == null) {
     throw new NullPointerException("className must not be null");
   }
-  this.classLoader=classLoader;
+  if (classLoader == null) {
+    classLoader=ClassLoader.getSystemClassLoader();
+  }
+  this.classLoaderReference=new WeakReference<ClassLoader>(classLoader);
+  classLoaderHash=classLoader.hashCode();
   this.className=className;
 }

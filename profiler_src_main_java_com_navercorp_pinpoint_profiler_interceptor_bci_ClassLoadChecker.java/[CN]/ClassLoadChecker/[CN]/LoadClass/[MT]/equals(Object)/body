@@ -2,7 +2,12 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   LoadClass loadClass=(LoadClass)o;
-  if (classLoader != null ? !classLoader.equals(loadClass.classLoader) : loadClass.classLoader != null)   return false;
+  ClassLoader thisClassLoader=classLoaderReference.get();
+  ClassLoader thatClassLoader=loadClass.classLoaderReference.get();
+  if (thisClassLoader == null || thatClassLoader == null) {
+    return false;
+  }
+  if (!thisClassLoader.equals(thatClassLoader))   return false;
   if (!className.equals(loadClass.className))   return false;
   return true;
 }
