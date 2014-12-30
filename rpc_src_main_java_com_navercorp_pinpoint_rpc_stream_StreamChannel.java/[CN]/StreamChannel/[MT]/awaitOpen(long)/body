@@ -3,6 +3,7 @@
     return openLatch.await(timeoutMillis,TimeUnit.MILLISECONDS);
   }
  catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
   }
   return false;
 }
