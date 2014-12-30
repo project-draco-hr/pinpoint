@@ -1,11 +1,11 @@
 {
   List<String> agentNameList=clusterManager.getRegisteredAgentList(applicationName,agentId,startTimeStamp);
   if (agentNameList.size() == 0) {
-    logger.warn("{}/{} Can't find agent.",applicationName,agentId);
+    logger.warn("{}/{} couldn't find agent.",applicationName,agentId);
     return null;
   }
  else   if (agentNameList.size() > 1) {
-    logger.warn("{}/{} find dupplicate agent {}.",applicationName,agentId,agentNameList);
+    logger.warn("{}/{} found duplicate agent {}.",applicationName,agentId,agentNameList);
     return null;
   }
   String agentName=agentNameList.get(0);
