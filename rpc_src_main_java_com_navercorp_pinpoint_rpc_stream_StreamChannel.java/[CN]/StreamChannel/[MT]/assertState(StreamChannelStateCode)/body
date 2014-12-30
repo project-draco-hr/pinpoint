@@ -1,4 +1,6 @@
 {
-  StreamChannelStateCode currentCode=getCurrentState();
-  AssertUtils.assertTrue(checkState(currentCode,stateCode),new PinpointSocketException("expected:<" + stateCode + "> but was:<"+ currentCode+ ">;"));
+  final StreamChannelStateCode currentCode=getCurrentState();
+  if (!checkState(currentCode,stateCode)) {
+    throw new PinpointSocketException("expected:<" + stateCode + "> but was:<"+ currentCode+ ">;");
+  }
 }
