@@ -14,20 +14,6 @@
     logPinpointAgentLoadFail();
     return;
   }
-  if (!isValidId("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
-    logPinpointAgentLoadFail();
-    return;
-  }
-  if (!isValidId("pinpoint.applicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN)) {
-    logPinpointAgentLoadFail();
-    return;
-  }
-  String configPath=getConfigPath(classPathResolver);
-  if (configPath == null) {
-    logPinpointAgentLoadFail();
-    return;
-  }
-  saveLogFilePath(classPathResolver);
   final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
   if (bootStrapCoreJar == null) {
     logger.severe("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
@@ -42,6 +28,20 @@
   }
   logger.info("load pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar :" + bootStrapCoreJar);
   instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreJarFile);
+  if (!isValidId("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
+    logPinpointAgentLoadFail();
+    return;
+  }
+  if (!isValidId("pinpoint.applicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN)) {
+    logPinpointAgentLoadFail();
+    return;
+  }
+  String configPath=getConfigPath(classPathResolver);
+  if (configPath == null) {
+    logPinpointAgentLoadFail();
+    return;
+  }
+  saveLogFilePath(classPathResolver);
   try {
     ProfilerConfig profilerConfig=ProfilerConfig.load(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);
