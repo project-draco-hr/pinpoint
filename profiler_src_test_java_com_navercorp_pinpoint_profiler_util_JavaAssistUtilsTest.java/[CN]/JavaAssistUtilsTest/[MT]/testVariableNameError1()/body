@@ -1,9 +1,8 @@
 {
   CtClass ctClass=pool.get("com.mysql.jdbc.ConnectionImpl");
-  CtClass params=pool.get("org.apache.http.params.HttpParams");
   CtMethod setParams=ctClass.getDeclaredMethod("setAutoCommit",new CtClass[]{CtClass.booleanType});
   int lineNumber=JavaAssistUtils.getLineNumber(setParams);
-  logger.info("line:" + lineNumber);
+  logger.info("line:{}",lineNumber);
   logger.info(setParams.getName());
   logger.info(setParams.getLongName());
   String[] paramName=JavaAssistUtils.getParameterVariableName(setParams);
