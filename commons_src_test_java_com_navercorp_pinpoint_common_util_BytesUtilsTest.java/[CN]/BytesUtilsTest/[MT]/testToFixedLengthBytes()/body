@@ -6,13 +6,13 @@
     BytesUtils.toFixedLengthBytes("test",2);
     Assert.fail();
   }
- catch (  Exception e) {
+ catch (  IndexOutOfBoundsException ignore) {
   }
   try {
     BytesUtils.toFixedLengthBytes("test",-1);
     Assert.fail();
   }
- catch (  Exception e) {
+ catch (  IndexOutOfBoundsException ignore) {
   }
   byte[] testValue2=BytesUtils.toFixedLengthBytes(null,10);
   Assert.assertEquals(testValue2.length,10);

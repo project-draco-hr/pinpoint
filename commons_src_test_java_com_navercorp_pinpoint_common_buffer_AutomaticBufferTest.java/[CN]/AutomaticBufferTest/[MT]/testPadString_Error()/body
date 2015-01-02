@@ -2,15 +2,16 @@
   Buffer buffer1_1=new AutomaticBuffer(32);
   try {
     buffer1_1.putPadString(StringUtils.repeat('a',11),10);
+    Assert.fail("error");
   }
- catch (  Exception e) {
+ catch (  IndexOutOfBoundsException ignore) {
   }
   Buffer buffer1_2=new AutomaticBuffer(32);
   try {
     buffer1_2.putPadString(StringUtils.repeat('a',20),10);
-    junit.framework.Assert.fail("error");
+    Assert.fail("error");
   }
- catch (  Exception e) {
+ catch (  Exception ignore) {
   }
   Buffer buffer2=new AutomaticBuffer(32);
   buffer2.putPadString(StringUtils.repeat('a',10),10);

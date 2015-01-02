@@ -1,12 +1,6 @@
 {
-  if (buffer == null) {
-    throw new NullPointerException("buffer must not be null");
+  if (srcBytes == null) {
+    throw new NullPointerException("srcBytes must not be null");
   }
-  if (stringBytes == null) {
-    throw new NullPointerException("stringBytes must not be null");
-  }
-  if (offset < 0) {
-    throw new IllegalArgumentException("negative offset:" + offset);
-  }
-  System.arraycopy(stringBytes,0,buffer,offset,stringBytes.length);
+  return writeBytes(buffer,bufferOffset,srcBytes,0,srcBytes.length);
 }

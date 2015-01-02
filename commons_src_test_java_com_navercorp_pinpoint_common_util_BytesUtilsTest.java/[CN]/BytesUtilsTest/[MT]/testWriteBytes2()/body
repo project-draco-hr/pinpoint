@@ -1,0 +1,7 @@
+{
+  byte[] buffer=new byte[10];
+  byte[] write=new byte[]{1,2,3,4};
+  int startOffset=1;
+  Assert.assertEquals(BytesUtils.writeBytes(buffer,startOffset,write),write.length + startOffset);
+  Assert.assertArrayEquals(Arrays.copyOfRange(buffer,startOffset,write.length + startOffset),write);
+}
