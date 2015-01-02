@@ -27,7 +27,7 @@
   testModifier.setTargetClass(javassistClassName);
   loader.addModifier(testModifier);
   loader.initialize();
-  Class testObjectClazz=loader.loadClass(javassistClassName);
+  Class<?> testObjectClazz=loader.loadClass(javassistClassName);
   final String methodName="callA";
   logger.info("class:{}",testObjectClazz.toString());
   final Object testObject=testObjectClazz.newInstance();
