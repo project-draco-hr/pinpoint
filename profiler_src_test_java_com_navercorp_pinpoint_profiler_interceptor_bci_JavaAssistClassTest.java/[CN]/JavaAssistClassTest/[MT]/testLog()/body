@@ -20,10 +20,10 @@
   loader.addModifier(testModifier);
   loader.initialize();
   Object testObject=loader.loadClass(testClassObject).newInstance();
-  Method test=testObject.getClass().getMethod("test",null);
+  Method test=testObject.getClass().getMethod("test");
   test.invoke(testObject);
   Method testString=testObject.getClass().getMethod("test",new Class[]{String.class});
   testString.invoke(testObject,"method");
-  Constructor<?> constructor=testObject.getClass().getConstructor(null);
+  Constructor<?> constructor=testObject.getClass().getConstructor();
   Object o=constructor.newInstance();
 }
