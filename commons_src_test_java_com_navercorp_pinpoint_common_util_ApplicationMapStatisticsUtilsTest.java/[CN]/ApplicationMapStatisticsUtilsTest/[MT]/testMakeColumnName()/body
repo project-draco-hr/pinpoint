@@ -1,0 +1,7 @@
+{
+  final byte[] columnNameBytes=ApplicationMapStatisticsUtils.makeColumnName("test",(short)10);
+  short slotNumber=Bytes.toShort(columnNameBytes);
+  Assert.assertEquals(slotNumber,10);
+  String columnName=Bytes.toString(columnNameBytes,Bytes.SIZEOF_SHORT,columnNameBytes.length - Bytes.SIZEOF_SHORT);
+  Assert.assertEquals(columnName,"test");
+}

@@ -3,10 +3,10 @@
     throw new NullPointerException("buf must not be null");
   }
   if (offset < 0) {
-    throw new IllegalArgumentException("negative offset:" + offset);
+    throw new IndexOutOfBoundsException("negative offset:" + offset);
   }
   if (buf.length < offset + LONG_BYTE_LENGTH) {
-    throw new IllegalArgumentException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 8));
+    throw new IndexOutOfBoundsException("buf.length is too small. buf.length:" + buf.length + " offset:"+ (offset + 8));
   }
   buf[offset++]=(byte)(value >> 56);
   buf[offset++]=(byte)(value >> 48);

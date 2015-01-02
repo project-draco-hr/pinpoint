@@ -1,0 +1,16 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer must not be null");
+  }
+  if (srcBytes == null) {
+    throw new NullPointerException("stringBytes must not be null");
+  }
+  if (bufferOffset < 0) {
+    throw new IndexOutOfBoundsException("negative bufferOffset:" + bufferOffset);
+  }
+  if (srcOffset < 0) {
+    throw new IndexOutOfBoundsException("negative srcOffset offset:" + srcOffset);
+  }
+  System.arraycopy(srcBytes,srcOffset,buffer,bufferOffset,srcLength);
+  return bufferOffset + srcLength;
+}

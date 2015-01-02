@@ -5,10 +5,10 @@
   if (destHost == null) {
     destHost="";
   }
-  byte[] serviceTypeBytes=Bytes.toBytes(serviceType);
-  byte[] slotNumberBytes=Bytes.toBytes(slotNumber);
-  byte[] applicationNameBytes=Bytes.toBytes(applicationName);
-  byte[] applicationNameLenBytes=Bytes.toBytes((short)applicationNameBytes.length);
-  byte[] destHostBytes=Bytes.toBytes(destHost);
-  return BytesUtils.concat(serviceTypeBytes,slotNumberBytes,applicationNameLenBytes,applicationNameBytes,destHostBytes);
+  final Buffer buffer=new AutomaticBuffer(BytesUtils.SHORT_BYTE_LENGTH + PinpointConstants.APPLICATION_NAME_MAX_LEN + destHost.length()+ BytesUtils.SHORT_BYTE_LENGTH);
+  buffer.put(serviceType);
+  buffer.put(slotNumber);
+  buffer.put2PrefixedString(applicationName);
+  buffer.put(BytesUtils.toBytes(destHost));
+  return buffer.getBuffer();
 }

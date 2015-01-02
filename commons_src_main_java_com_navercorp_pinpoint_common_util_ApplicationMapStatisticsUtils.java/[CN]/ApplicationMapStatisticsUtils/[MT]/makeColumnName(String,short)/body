@@ -2,7 +2,9 @@
   if (agentId == null) {
     agentId="";
   }
-  final byte[] slotNumber=Bytes.toBytes(columnSlotNumber);
-  final byte[] agentIdBytes=Bytes.toBytes(agentId);
-  return BytesUtils.concat(slotNumber,agentIdBytes);
+  final Buffer buffer=new AutomaticBuffer(agentId.length() + BytesUtils.SHORT_BYTE_LENGTH);
+  buffer.put(columnSlotNumber);
+  final byte[] agentIdBytes=BytesUtils.toBytes(agentId);
+  buffer.put(agentIdBytes);
+  return buffer.getBuffer();
 }
