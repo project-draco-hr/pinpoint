@@ -1,0 +1,12 @@
+{
+  Enumeration<String> enumeration=mock(Enumeration.class);
+  when(enumeration.hasMoreElements()).thenReturn(true);
+  when(enumeration.nextElement()).thenReturn(null);
+  DelegateEnumeration<String> delegateEnumeration=new DelegateEnumeration<String>(enumeration);
+  Assert.assertNull(delegateEnumeration.nextElement());
+  verify(enumeration,times(1)).nextElement();
+  Assert.assertNull(delegateEnumeration.nextElement());
+  verify(enumeration,times(2)).nextElement();
+  Assert.assertNull(delegateEnumeration.nextElement());
+  verify(enumeration,times(3)).nextElement();
+}

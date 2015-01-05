@@ -1,0 +1,8 @@
+{
+  Hashtable<String,String> hashTable=new Hashtable<String,String>();
+  Enumeration<String> enumeration=hashTable.elements();
+  DelegateEnumeration<String> delegateEnumeration=new DelegateEnumeration<String>(enumeration);
+  Assert.assertFalse(delegateEnumeration.hasMoreElements());
+  Assert.assertNull(delegateEnumeration._getNextException());
+  assertNextElements_Expected_ExceptionEmulation(enumeration,delegateEnumeration);
+}
