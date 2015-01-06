@@ -1,4 +1,22 @@
 {
+  if (methodName == null) {
+    throw new NullPointerException("methodName must not be null");
+  }
+  if (interceptor == null) {
+    throw new IllegalArgumentException("interceptor is null");
+  }
+  if (scopeName == null) {
+    throw new NullPointerException("scopeName must not be null");
+  }
   final Scope scope=this.instrumentor.getScope(scopeName);
-  return addScopeInterceptorIfDeclared(methodName,args,interceptor,scope);
+  if (hasDeclaredMethod(methodName,args)) {
+    interceptor=wrapScopeInterceptor(interceptor,scope);
+    return addInterceptor(methodName,args,interceptor);
+  }
+ else {
+    if (logger.isWarnEnabled()) {
+      logger.warn("Method is not declared. class={}, methodName={}, args={}",ctClass.getName(),methodName,Arrays.toString(args));
+    }
+    return -1;
+  }
 }
