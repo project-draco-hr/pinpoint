@@ -23,7 +23,9 @@
       }
       recordRequest(trace,httpMethod,throwable);
     }
-    trace.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,result);
+    if (result != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,result);
+    }
     trace.recordApi(descriptor);
     trace.recordException(throwable);
     trace.markAfterTime();

@@ -1,13 +1,18 @@
 {
-  HttpClient4Modifier httpClient4Modifier=new HttpClient4Modifier(byteCodeInstrumentor,agent);
-  addModifier(httpClient4Modifier);
+  if (profilerConfig.isApacheHttpClient4Profile()) {
+    HttpClient4Modifier httpClient4Modifier=new HttpClient4Modifier(byteCodeInstrumentor,agent);
+    addModifier(httpClient4Modifier);
+    addModifier(new DefaultHttpRequestRetryHandlerModifier(byteCodeInstrumentor,agent));
+  }
+  if (profilerConfig.isApacheHttpClient3Profile()) {
+    HttpClientModifier httpClientModifier=new HttpClientModifier(byteCodeInstrumentor,agent);
+    addModifier(httpClientModifier);
+    addModifier(new DefaultHttpMethodRetryHandlerModifier(byteCodeInstrumentor,agent));
+  }
   HttpURLConnectionModifier httpURLConnectionModifier=new HttpURLConnectionModifier(byteCodeInstrumentor,agent);
   addModifier(httpURLConnectionModifier);
   addModifier(new AsyncHttpClientModifier(byteCodeInstrumentor,agent));
   addModifier(new ClosableHttpAsyncClientModifier(byteCodeInstrumentor,agent));
   addModifier(new ClosableHttpClientModifier(byteCodeInstrumentor,agent));
   addModifier(new BasicFutureModifier(byteCodeInstrumentor,agent));
-  HttpClientModifier httpClientModifier=new HttpClientModifier(byteCodeInstrumentor,agent);
-  addModifier(httpClientModifier);
-  addModifier(new DefaultHttpRequestRetryHandlerModifier(byteCodeInstrumentor,agent));
 }

@@ -1,5 +1,8 @@
 {
-  int length=entity.getContent().length > 1024 ? 1024 : entity.getContent().length;
+  if (entity.getContent() == null) {
+    return "";
+  }
+  int length=entity.getContent().length > MAX_READ_SIZE ? MAX_READ_SIZE : entity.getContent().length;
   if (length <= 0) {
     return "";
   }
