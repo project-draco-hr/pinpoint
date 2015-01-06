@@ -1,0 +1,36 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    HttpMethod httpMethod=getHttpMethod(args);
+    if (httpMethod != null) {
+      try {
+        final URI uri=httpMethod.getURI();
+        String uriString=uri.getURI();
+        trace.recordAttribute(AnnotationKey.HTTP_URL,uriString);
+        final NameIntValuePair<String> host=new NameIntValuePair<String>(uri.getHost(),uri.getPort());
+        if (host != null) {
+          trace.recordDestinationId(getEndpoint(host.getName(),host.getValue()));
+        }
+      }
+ catch (      URIException e) {
+        logger.error("Fail get URI",e);
+      }
+      recordRequest(trace,httpMethod,throwable);
+    }
+    if (result != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,result);
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
