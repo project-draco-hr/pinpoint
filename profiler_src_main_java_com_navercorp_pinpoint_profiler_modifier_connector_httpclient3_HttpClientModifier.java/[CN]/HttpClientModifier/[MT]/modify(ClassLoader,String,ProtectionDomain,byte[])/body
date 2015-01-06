@@ -1,0 +1,14 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  try {
+    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    addInterceptorForExecuteMethod(classLoader,protectedDomain,aClass);
+    return aClass.toBytecode();
+  }
+ catch (  Throwable e) {
+    logger.warn("org.apache.commons.httpclient.HttpClient modifier error. Caused:{}",e.getMessage(),e);
+    return null;
+  }
+}

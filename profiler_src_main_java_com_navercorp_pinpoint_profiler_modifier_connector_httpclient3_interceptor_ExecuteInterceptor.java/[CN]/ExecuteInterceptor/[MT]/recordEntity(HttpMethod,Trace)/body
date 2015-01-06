@@ -1,0 +1,30 @@
+{
+  if (httpMethod instanceof EntityEnclosingMethod) {
+    final EntityEnclosingMethod entityEnclosingMethod=(EntityEnclosingMethod)httpMethod;
+    final RequestEntity entity=entityEnclosingMethod.getRequestEntity();
+    if (entity != null && entity.isRepeatable() && entity.getContentLength() > 0) {
+      if (entitySampler.isSampling()) {
+        try {
+          String entityValue;
+          String charSet=entityEnclosingMethod.getRequestCharSet();
+          if (charSet == null || charSet.isEmpty()) {
+            charSet=HttpConstants.DEFAULT_CONTENT_CHARSET;
+          }
+          if (entity instanceof ByteArrayRequestEntity) {
+            entityValue=readByteArray((ByteArrayRequestEntity)entity,charSet);
+          }
+ else           if (entity instanceof StringRequestEntity) {
+            entityValue=readString((StringRequestEntity)entity);
+          }
+ else {
+            entityValue=entity.getClass() + " (ContentType:" + entity.getContentType()+ ")";
+          }
+          trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,entityValue);
+        }
+ catch (        Exception e) {
+          logger.debug("HttpEntityEnclosingRequest entity record fail. Caused:{}",e.getMessage(),e);
+        }
+      }
+    }
+  }
+}

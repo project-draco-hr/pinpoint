@@ -7,5 +7,7 @@
   addModifier(new ClosableHttpAsyncClientModifier(byteCodeInstrumentor,agent));
   addModifier(new ClosableHttpClientModifier(byteCodeInstrumentor,agent));
   addModifier(new BasicFutureModifier(byteCodeInstrumentor,agent));
+  HttpClientModifier httpClientModifier=new HttpClientModifier(byteCodeInstrumentor,agent);
+  addModifier(httpClientModifier);
   addModifier(new DefaultHttpRequestRetryHandlerModifier(byteCodeInstrumentor,agent));
 }
