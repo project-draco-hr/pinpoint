@@ -1,7 +1,7 @@
 {
   SocketChannel socketChannel=new SocketChannel(channel,DEFAULT_TIMEOUTMILLIS,requestManagerTimer);
   StreamChannelManager streamChannelManager=new StreamChannelManager(channel,IDGenerator.createEvenIdGenerator(),serverStreamChannelMessageListener);
-  ChannelContext channelContext=new ChannelContext(socketChannel,streamChannelManager,channelStateChangeEventListener);
+  ChannelContext channelContext=new ChannelContext(socketChannel,streamChannelManager,channelStateChangeEventHandler);
   channel.setAttachment(channelContext);
   channelGroup.add(channel);
 }
