@@ -3,9 +3,9 @@
     return -1;
   }
   final int newId=nextId();
-  if (newId >= max) {
-    throw new IndexOutOfBoundsException("size=" + index.length + " id="+ id);
+  if (newId >= registrySize) {
+    throw new IndexOutOfBoundsException("size=" + staticIndex.length() + " id="+ id);
   }
-  this.simpleIndex[newId]=interceptor;
+  this.simpleIndex.set(newId,interceptor);
   return newId;
 }

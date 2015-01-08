@@ -1,5 +1,8 @@
 {
-  this.max=max;
-  this.index=new StaticAroundInterceptor[max];
-  this.simpleIndex=new SimpleAroundInterceptor[max];
+  if (maxRegistrySize < 0) {
+    throw new IllegalArgumentException("negative maxRegistrySize:" + maxRegistrySize);
+  }
+  this.registrySize=maxRegistrySize;
+  this.staticIndex=new WeakAtomicReferenceArray<StaticAroundInterceptor>(maxRegistrySize,StaticAroundInterceptor.class);
+  this.simpleIndex=new WeakAtomicReferenceArray<SimpleAroundInterceptor>(maxRegistrySize,SimpleAroundInterceptor.class);
 }

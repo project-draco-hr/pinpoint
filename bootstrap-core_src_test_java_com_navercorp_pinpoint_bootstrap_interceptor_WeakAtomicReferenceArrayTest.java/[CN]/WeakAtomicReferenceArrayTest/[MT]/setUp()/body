@@ -1,0 +1,9 @@
+{
+  writer=(ThreadPoolExecutor)Executors.newFixedThreadPool(writerThreadSize);
+  reader=(ThreadPoolExecutor)Executors.newFixedThreadPool(readThreadSize);
+  writer.prestartAllCoreThreads();
+  reader.prestartAllCoreThreads();
+  for (int i=0; i < testMapSize; i++) {
+    map.put(i,new AtomicReferenceTest());
+  }
+}

@@ -1,0 +1,17 @@
+{
+  if (writerThreadSize != 1) {
+    return true;
+  }
+  final int maxIndex=afterLast.get();
+  if (maxIndex == -1) {
+    return true;
+  }
+  int randomIndex;
+  if (maxIndex == 0) {
+    randomIndex=0;
+  }
+ else {
+    randomIndex=Math.abs(random.nextInt()) % (maxIndex);
+  }
+  return get(randomIndex);
+}

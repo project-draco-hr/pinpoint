@@ -1,0 +1,50 @@
+{
+  final AtomicBoolean start=new AtomicBoolean(true);
+  final Runnable writeJob=new Runnable(){
+    @Override public void run(){
+      logger.info("WriteJob-start");
+      int i=0;
+      while (start.get()) {
+        AtomicReferenceTest referenceTest=getTestMock();
+        referenceTest.nextId();
+        try {
+          Thread.sleep(10);
+        }
+ catch (        InterruptedException ignore) {
+        }
+        i++;
+      }
+      logger.info("WriteJob-end");
+    }
+  }
+;
+  final Runnable readJob=new Runnable(){
+    @Override public void run(){
+      logger.info("ReaderJob-start");
+      while (start.get()) {
+        AtomicReferenceTest atomicReferenceTest=getTestMock();
+        if (!atomicReferenceTest.lastGet()) {
+          failCounter.getAndIncrement();
+        }
+      }
+      logger.info("ReaderJob-end");
+    }
+  }
+;
+  for (int i=0; i < readThreadSize; i++) {
+    reader.execute(readJob);
+  }
+  for (int i=0; i < writerThreadSize; i++) {
+    writer.execute(writeJob);
+  }
+  System.out.println("start");
+  for (int i=0; i < 100; i++) {
+    Thread.sleep(1000);
+    logger.info("failCounter:{}",failCounter.get());
+  }
+  start.set(false);
+  Thread.sleep(1000);
+  Assert.assertEquals("raceCondition test",failCounter.get(),0);
+  writer.shutdown();
+  reader.shutdown();
+}
