@@ -1,0 +1,8 @@
+{
+  int retryInterval=100;
+  int maxHandshakeCount=10;
+  PinpointClientSocketHandshaker handshaker=new PinpointClientSocketHandshaker(timer,retryInterval,maxHandshakeCount);
+  handshaker.handshakeComplete(null);
+  Assert.assertEquals(null,handshaker.getHandshakeResult());
+  Assert.assertTrue(handshaker.isFinished());
+}

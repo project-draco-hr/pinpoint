@@ -38,32 +38,13 @@ handleStreamPacket((StreamPacket)message,channel);
 return;
 case PacketType.CONTROL_HANDSHAKE:
 int requestId=((ControlHandshakePacket)message).getRequestId();
-Map<Object,Object> properties=decodeSocketProperties((ControlHandshakePacket)message);
-if (properties == null) {
-sendHandshakeResponseMessage(requestId,HandshakeResponseType.ProtocolError.PROTOCOL_ERROR,channel);
-return;
+Map<Object,Object> handshakeData=this.handshaker.decodeHandshakePacket((ControlHandshakePacket)message);
+HandshakeResponseCode responseCode=this.handshaker.handleHandshake(handshakeData,messageListener);
+boolean isFirst=channelContext.setChannelProperties(handshakeData);
+if (isFirst && responseCode == HandshakeResponseCode.DUPLEX_COMMUNICATION) {
+changeStateToRunDuplexCommunication(channel);
 }
-HandshakeResponseCode code=messageListener.handleHandshake(properties);
-if (code.getCode() != HandshakeResponseType.Success.CODE) {
-sendHandshakeResponseMessage(requestId,code,channel);
-}
- else {
-boolean isSet=channelContext.setChannelProperties(properties);
-if (isSet) {
-if (code == HandshakeResponseCode.DUPLEX_COMMUNICATION) {
-changeStateToRunDuplexCommunication(code,channel);
-}
-sendHandshakeResponseMessage(requestId,code,channel);
-}
- else {
-if (code == HandshakeResponseCode.DUPLEX_COMMUNICATION) {
-sendHandshakeResponseMessage(requestId,HandshakeResponseCode.ALREADY_DUPLEX_COMMUNICATION,channel);
-}
- else {
-sendHandshakeResponseMessage(requestId,HandshakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION,channel);
-}
-}
-}
+this.handshaker.sendHandshakeResponse(channel,requestId,responseCode,isFirst);
 return;
 case PacketType.CONTROL_CLIENT_CLOSE:
 {

@@ -8,7 +8,7 @@
   this.pinpointSocketFactory=pinpointSocketFactory;
   this.requestManager=new RequestManager(timer);
   this.pingDelay=pingDelay;
-  this.enableWorkerPacketDelay=enableWorkerPacketDelay;
+  this.handshakeRetryInterval=handshakeRetryInterval;
   this.timeoutMillis=timeoutMillis;
   MessageListener messageLisener=pinpointSocketFactory.getMessageListener();
   if (messageLisener != null) {
@@ -25,4 +25,5 @@
     this.serverStreamChannelMessageListener=DisabledServerStreamChannelMessageListener.INSTANCE;
   }
   pinpointSocketFactory.getServerStreamChannelMessageListener();
+  this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
 }

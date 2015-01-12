@@ -1,0 +1,10 @@
+{
+  AssertUtils.assertNotNull(handshakerTimer,"handshakerTimer may not be null.");
+  AssertUtils.assertTrue(retryInterval > 0,"retryInterval must greater than zero.");
+  AssertUtils.assertTrue(maxHandshakeCount > 0,"maxHandshakeCount must greater than zero.");
+  this.state=new AtomicInteger(STATE_INIT);
+  this.handshakerTimer=handshakerTimer;
+  this.retryInterval=retryInterval;
+  this.maxHandshakeCount=maxHandshakeCount;
+  this.handshakeCount=new AtomicInteger(0);
+}

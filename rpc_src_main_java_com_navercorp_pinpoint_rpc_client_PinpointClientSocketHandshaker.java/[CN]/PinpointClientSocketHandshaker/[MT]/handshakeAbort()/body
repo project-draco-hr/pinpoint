@@ -1,0 +1,9 @@
+{
+  logger.info("{} handshakeAbort method started.",simpleClassNameAndHashCodeString());
+  if (!state.compareAndSet(STATE_STARTED,STATE_FINISHED)) {
+    logger.info("{} handshakeStart method failed. beforeState:{}",simpleClassNameAndHashCodeString(),state.get());
+    this.state.set(STATE_FINISHED);
+    return;
+  }
+  logger.info("{} handshakeAbort method completed.",simpleClassNameAndHashCodeString());
+}
