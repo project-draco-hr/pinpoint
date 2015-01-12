@@ -1,0 +1,8 @@
+{
+  this.socketChannel=socketChannel;
+  this.streamChannelManager=streamChannelManager;
+  this.stateChangeEventListeners=new ArrayList<ChannelStateChangeEventHandler>(Array.getLength(stateChangeEventListeners) + 1);
+  ListUtils.addIfValueNotNull(this.stateChangeEventListeners,stateChangeEventListener);
+  ListUtils.addAllExceptNullValue(this.stateChangeEventListeners,stateChangeEventListeners);
+  this.state=new PinpointServerSocketState();
+}
