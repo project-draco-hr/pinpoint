@@ -1,0 +1,14 @@
+{
+  logger.info("{} handshakeComplete method started. params:{}",simpleClassNameAndHashCodeString(),message);
+synchronized (lock) {
+    if (!this.state.compareAndSet(STATE_STARTED,STATE_FINISHED)) {
+      logger.info("{} handshakeComplete method failed. beforeState:{}",simpleClassNameAndHashCodeString(),state.get());
+      this.state.set(STATE_FINISHED);
+      return false;
+    }
+    HandshakeResponseCode code=getHandshakeResponseCode(message);
+    handshakeResult.compareAndSet(null,code);
+    logger.info("{} handshakeComplete method completed. handshakeResult:{} / {}",simpleClassNameAndHashCodeString(),code,handshakeResult.get());
+    return true;
+  }
+}

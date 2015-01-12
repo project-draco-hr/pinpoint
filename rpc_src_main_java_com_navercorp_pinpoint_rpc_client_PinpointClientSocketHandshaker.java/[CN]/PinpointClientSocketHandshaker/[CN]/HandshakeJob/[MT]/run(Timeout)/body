@@ -1,0 +1,18 @@
+{
+  logger.info("Do handshake ({}/{}). channel:{}.",handshakeCount.get(),maxHandshakeCount,channel);
+  if (timeout.isCancelled()) {
+    reservationJob(this);
+    return;
+  }
+  int currentState=currentState();
+  if (isRun(currentState)) {
+    handshake(this);
+    reservationJob(this);
+  }
+ else   if (isFinished(currentState)) {
+    logger.warn("Handshake already completed.");
+  }
+ else {
+    logger.warn("Handshake invalid state. {}",state.get());
+  }
+}

@@ -1,5 +1,6 @@
 {
   logger.debug("close() call");
+  this.handshaker.handshakeAbort();
   int currentState=this.state.getState();
   if (currentState == State.CLOSED) {
     logger.debug("already close()");
