@@ -1,14 +1,4 @@
 {
-  if (methodName == null) {
-    throw new NullPointerException("methodName must not be null");
-  }
-  if (interceptor == null) {
-    throw new IllegalArgumentException("interceptor is null");
-  }
-  if (scopeName == null) {
-    throw new NullPointerException("scopeName must not be null");
-  }
-  final Scope scope=this.instrumentor.getScope(scopeName);
-  interceptor=wrapScopeInterceptor(interceptor,scope);
-  return addInterceptor(methodName,args,interceptor);
+  final ScopeDefinition scopeDefinition=new DefaultScopeDefinition(scopeName,ScopeDefinition.ScopeType.SIMPLE);
+  return addScopeInterceptor(methodName,args,interceptor,scopeDefinition);
 }
