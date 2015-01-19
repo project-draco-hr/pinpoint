@@ -1,16 +1,3 @@
 {
-  if (scopeName == null) {
-    throw new NullPointerException("scopeName must not be null");
-  }
-  final Scope scope=this.pool.get(scopeName);
-  if (scope != null) {
-    return scope;
-  }
-  final ScopeFactory factory=new SimpleScopeFactory(scopeName);
-  final Scope newScope=new ThreadLocalScope(factory);
-  final Scope exist=this.pool.putIfAbsent(scopeName,newScope);
-  if (exist != null) {
-    return exist;
-  }
-  return newScope;
+  return getScope(scopeName,false);
 }
