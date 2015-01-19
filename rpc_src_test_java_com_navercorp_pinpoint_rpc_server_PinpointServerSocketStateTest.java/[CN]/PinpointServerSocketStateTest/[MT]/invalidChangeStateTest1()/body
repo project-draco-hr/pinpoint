@@ -1,4 +1,5 @@
 {
   PinpointServerSocketState state=new PinpointServerSocketState();
-  state.changeStateBeingShutdown();
+  PinpointServerSocketStateCode beforeCode=state.changeState(PinpointServerSocketStateCode.BEING_SHUTDOWN);
+  Assert.assertEquals(PinpointServerSocketStateCode.NONE,beforeCode);
 }

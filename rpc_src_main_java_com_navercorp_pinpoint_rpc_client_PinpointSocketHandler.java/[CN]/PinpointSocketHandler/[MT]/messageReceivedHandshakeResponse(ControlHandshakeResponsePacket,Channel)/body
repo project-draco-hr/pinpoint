@@ -4,13 +4,13 @@
     HandshakeResponseCode code=handshaker.getHandshakeResult();
     logger.debug("HandshakeResponse packet({} code={}) received. {}",message,code,channel);
     if (code == HandshakeResponseCode.SUCCESS || code == HandshakeResponseCode.ALREADY_KNOWN) {
-      state.changeRunSimplexCommunication();
+      state.changeToRunSimplexCommunication();
     }
  else     if (code == HandshakeResponseCode.DUPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_DUPLEX_COMMUNICATION) {
-      state.changeRunDuplexCommunication();
+      state.changeToRunDuplexCommunication();
     }
  else     if (code == HandshakeResponseCode.SIMPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION) {
-      state.changeRunSimplexCommunication();
+      state.changeToRunSimplexCommunication();
     }
  else {
       logger.warn("Invalid Handshake Packet ({}) code={} received. {}",message,code,channel);
