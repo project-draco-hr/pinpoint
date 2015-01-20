@@ -1,5 +1,6 @@
 {
   ScopePool pool=new ThreadLocalScopePool();
-  Scope test=pool.getScope(new DefaultScopeDefinition("test",ScopeDefinition.Type.SIMPLE));
-  Assert.assertTrue(test instanceof ThreadLocalScope);
+  Scope scope=pool.getScope(new DefaultScopeDefinition("test",ScopeDefinition.Type.SIMPLE));
+  Assert.assertTrue(scope instanceof ThreadLocalScope);
+  Assert.assertEquals("name",scope.getName(),"test");
 }

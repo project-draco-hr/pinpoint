@@ -1,5 +1,6 @@
 {
   ScopePool pool=new ThreadLocalScopePool();
-  Scope test=pool.getScope(new DefaultScopeDefinition("test",ScopeDefinition.Type.ATTACHMENT));
-  Assert.assertTrue(test instanceof AttachmentThreadLocalScope);
+  Scope scope=pool.getScope(new DefaultScopeDefinition("test",ScopeDefinition.Type.ATTACHMENT));
+  Assert.assertTrue(scope instanceof AttachmentThreadLocalScope);
+  Assert.assertEquals("name",scope.getName(),"test");
 }
