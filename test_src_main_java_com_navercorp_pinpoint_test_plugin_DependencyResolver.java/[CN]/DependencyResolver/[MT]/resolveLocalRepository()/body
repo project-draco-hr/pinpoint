@@ -1,0 +1,34 @@
+{
+  String userHome=System.getProperty("user.home");
+  if (userHome == null) {
+    logger.fine("Cannot find user.home property. Use default local repository");
+    return DEFAULT_LOCAL_REPOSITORY;
+  }
+  File mavenHomeDir=new File(userHome,".m2");
+  if (!mavenHomeDir.exists() || !mavenHomeDir.isDirectory()) {
+    logger.fine("Cannot find maven home directory " + mavenHomeDir + ". Use default local repository");
+    return DEFAULT_LOCAL_REPOSITORY;
+  }
+  File localRepository=new File(mavenHomeDir,"repository");
+  File mavenConfigFile=new File(mavenHomeDir,"settings.xml");
+  if (mavenConfigFile.exists() && mavenConfigFile.isFile()) {
+    try {
+      DocumentBuilder builder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      Document document=builder.parse(mavenConfigFile);
+      NodeList nodeList=document.getElementsByTagName("localRepository");
+      if (nodeList.getLength() != 0) {
+        Node node=nodeList.item(0);
+        localRepository=new File(node.getTextContent());
+        logger.fine("Use local repository " + localRepository + " configured at "+ mavenConfigFile);
+      }
+    }
+ catch (    Exception e) {
+      logger.log(Level.INFO,"Fail to read maven configuration file: " + mavenConfigFile + ". Use defaul local repository",e);
+    }
+  }
+  if (localRepository.exists() && localRepository.isDirectory()) {
+    return localRepository.getAbsolutePath();
+  }
+  logger.fine("Local repository " + localRepository + " is not exists. Use default local repository");
+  return DEFAULT_LOCAL_REPOSITORY;
+}

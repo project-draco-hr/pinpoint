@@ -1,0 +1,50 @@
+{
+  List<List<Artifact>> companions=new ArrayList<List<Artifact>>();
+  List<Artifact> lastCompanion=null;
+  for (  String a : artifacts) {
+    int first=a.indexOf(':');
+    if (first == -1) {
+      throw new IllegalArgumentException("Bad artifact coordinates: " + a + ", artifacts: "+ Arrays.deepToString(artifacts));
+    }
+    int second=a.indexOf(':',first + 1);
+    if (second == -1) {
+      a+=":" + FOLLOW_PRECEDING;
+    }
+    DefaultArtifact artifact=new DefaultArtifact(a);
+    if (FOLLOW_PRECEDING.equals(artifact.getVersion())) {
+      if (lastCompanion != null) {
+        lastCompanion.add(artifact);
+      }
+ else {
+        throw new IllegalArgumentException("Version is not specified: " + a + ", artifacts: "+ Arrays.deepToString(artifacts));
+      }
+    }
+ else {
+      lastCompanion=new ArrayList<Artifact>();
+      lastCompanion.add(artifact);
+      companions.add(lastCompanion);
+    }
+  }
+  List<List<List<Artifact>>> xxx=new ArrayList<List<List<Artifact>>>();
+  for (  List<Artifact> companion : companions) {
+    Artifact representative=companion.get(0);
+    List<Version> versions;
+    try {
+      versions=getVersions(representative);
+    }
+ catch (    VersionRangeResolutionException e) {
+      throw new IllegalArgumentException("Fail to resolve version of: " + representative);
+    }
+    List<List<Artifact>> companionVersions=new ArrayList<List<Artifact>>(versions.size());
+    for (    Version version : versions) {
+      List<Artifact> companionVersion=new ArrayList<Artifact>(companion.size());
+      for (      Artifact artifact : companion) {
+        companionVersion.add(new DefaultArtifact(artifact.getGroupId(),artifact.getArtifactId(),"jar",version.toString()));
+      }
+      companionVersions.add(companionVersion);
+    }
+    xxx.add(companionVersions);
+  }
+  Map<String,List<Artifact>> result=combination(xxx);
+  return result;
+}

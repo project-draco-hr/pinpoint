@@ -1,0 +1,18 @@
+{
+  super(testClass,Collections.<Runner>emptyList());
+  PinpointAgent agent=testClass.getAnnotation(PinpointAgent.class);
+  this.agentJar=resolveAgentPath(agent);
+  PinpointConfig config=testClass.getAnnotation(PinpointConfig.class);
+  this.configFile=config == null ? null : config.value();
+  this.testOnChildClassLoader=testClass.isAnnotationPresent(OnChildClassLoader.class);
+  Dependency deps=testClass.getAnnotation(Dependency.class);
+  this.dependencies=deps == null ? new String[0] : deps.value();
+  Repository repos=testClass.getAnnotation(Repository.class);
+  this.repositories=deps == null ? new String[0] : repos.value();
+  JvmArgument jvmArgument=testClass.getAnnotation(JvmArgument.class);
+  this.jvmArguments=jvmArgument == null ? new String[0] : jvmArgument.value();
+  JavaVersion javaVersion=testClass.getAnnotation(JavaVersion.class);
+  this.javaHomeEnvName=javaVersion == null ? null : "JAVA_" + javaVersion.value() + "_HOME";
+  this.systemLibs=resolveSystemLibraries();
+  createRunners(testClass);
+}
