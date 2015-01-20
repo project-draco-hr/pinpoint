@@ -1,21 +1,15 @@
 {
-  PinpointServerSocket pinpointServerSocket=new PinpointServerSocket();
-  pinpointServerSocket.setMessageListener(new SimpleListener());
-  pinpointServerSocket.bind("127.0.0.1",22234);
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new SimpleListener());
   Socket socket=null;
   try {
-    socket=new Socket("127.0.0.1",22234);
+    socket=new Socket("127.0.0.1",bindPort);
     sendAndReceiveSimplePacket(socket);
-    int code=sendAndReceiveRegisterPacket(socket,getParams());
+    int code=sendAndReceiveRegisterPacket(socket,PinpointRPCTestUtils.getParams());
     Assert.assertEquals(0,code);
     sendAndReceiveSimplePacket(socket);
   }
   finally {
-    if (socket != null) {
-      socket.close();
-    }
-    if (pinpointServerSocket != null) {
-      pinpointServerSocket.close();
-    }
+    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

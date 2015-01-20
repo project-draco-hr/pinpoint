@@ -1,13 +1,10 @@
 {
-  PinpointServerSocket ss=new PinpointServerSocket();
-  ss.bind("127.0.0.1",10234);
-  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort);
   try {
-    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
-    socket.close();
+    PinpointSocket socket=socketFactory.connect("127.0.0.1",bindPort);
+    PinpointRPCTestUtils.close(socket);
   }
   finally {
-    pinpointSocketFactory.release();
-    ss.close();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

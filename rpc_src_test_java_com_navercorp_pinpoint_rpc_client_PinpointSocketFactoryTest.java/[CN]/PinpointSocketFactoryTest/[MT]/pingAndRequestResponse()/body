@@ -1,21 +1,13 @@
 {
-  PinpointServerSocket ss=new PinpointServerSocket();
-  ss.setMessageListener(new RequestResponseServerMessageListener());
-  ss.bind("127.0.0.1",10234);
-  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
-  pinpointSocketFactory.setPingDelay(100);
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new RequestResponseServerMessageListener());
   try {
-    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
+    PinpointSocket socket=socketFactory.connect("127.0.0.1",bindPort);
     byte[] randomByte=TestByteUtils.createRandomByte(10);
-    Future<ResponseMessage> response=socket.request(randomByte);
-    Thread.sleep(1000);
-    response.await();
-    ResponseMessage result=response.getResult();
-    Assert.assertArrayEquals(randomByte,result.getMessage());
-    socket.close();
+    byte[] response=PinpointRPCTestUtils.request(socket,randomByte);
+    Assert.assertArrayEquals(randomByte,response);
+    PinpointRPCTestUtils.close(socket);
   }
   finally {
-    pinpointSocketFactory.release();
-    ss.close();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

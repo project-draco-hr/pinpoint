@@ -1,21 +1,18 @@
 {
-  PinpointServerSocket ss=new PinpointServerSocket();
-  ss.bind("127.0.0.1",10234);
-  ss.setMessageListener(new AlwaysHandshakeSuccessListener());
-  Map params=getParams();
-  PinpointSocketFactory socketFactory=createPinpointSocketFactory(params);
-  socketFactory.setMessageListener(new EchoMessageListener());
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new AlwaysHandshakeSuccessListener());
+  Map params=PinpointRPCTestUtils.getParams();
+  PinpointSocketFactory clientSocketFactory1=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
   try {
-    PinpointSocket socket=socketFactory.connect("127.0.0.1",10234);
+    PinpointSocket socket=clientSocketFactory1.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    ChannelContext channelContext=getChannelContext("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()),ss.getDuplexCommunicationChannelContext());
+    ChannelContext channelContext=getChannelContext("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()),serverSocket.getDuplexCommunicationChannelContext());
     Assert.assertNotNull(channelContext);
-    channelContext=getChannelContext("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()) + 1,ss.getDuplexCommunicationChannelContext());
+    channelContext=getChannelContext("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()) + 1,serverSocket.getDuplexCommunicationChannelContext());
     Assert.assertNull(channelContext);
-    socket.close();
+    PinpointRPCTestUtils.close(socket);
   }
   finally {
-    socketFactory.release();
-    ss.close();
+    clientSocketFactory1.release();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

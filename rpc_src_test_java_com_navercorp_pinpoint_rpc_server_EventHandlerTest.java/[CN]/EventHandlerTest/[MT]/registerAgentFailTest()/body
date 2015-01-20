@@ -1,11 +1,11 @@
 {
   ThrowExceptionEventHandler eventHandler=new ThrowExceptionEventHandler();
-  PinpointServerSocket pinpointServerSocket=new PinpointServerSocket(eventHandler);
-  pinpointServerSocket.setMessageListener(new SimpleListener());
-  pinpointServerSocket.bind("127.0.0.1",22234);
+  PinpointServerSocket serverSocket=new PinpointServerSocket(eventHandler);
+  serverSocket.setMessageListener(new SimpleListener());
+  serverSocket.bind("127.0.0.1",bindPort);
   Socket socket=null;
   try {
-    socket=new Socket("127.0.0.1",22234);
+    socket=new Socket("127.0.0.1",bindPort);
     sendAndReceiveSimplePacket(socket);
     Assert.assertTrue(eventHandler.getErrorCount() > 0);
   }
@@ -13,8 +13,6 @@
     if (socket != null) {
       socket.close();
     }
-    if (pinpointServerSocket != null) {
-      pinpointServerSocket.close();
-    }
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

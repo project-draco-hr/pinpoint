@@ -1,14 +1,8 @@
 {
-  PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
-  try {
-    InetSocketAddress remoteAddress=new InetSocketAddress("127.0.0.1",10234);
-    ChannelFuture reconnect=pinpointSocketFactory.reconnect(remoteAddress);
-    reconnect.await();
-    Assert.assertFalse(reconnect.isSuccess());
-    Assert.assertTrue(ConnectException.class.isInstance(reconnect.getCause()));
-  }
-  finally {
-    pinpointSocketFactory.release();
-  }
+  InetSocketAddress remoteAddress=new InetSocketAddress("127.0.0.1",bindPort);
+  ChannelFuture reconnect=socketFactory.reconnect(remoteAddress);
+  reconnect.await();
+  Assert.assertFalse(reconnect.isSuccess());
+  Assert.assertTrue(ConnectException.class.isInstance(reconnect.getCause()));
   Thread.sleep(1000);
 }
