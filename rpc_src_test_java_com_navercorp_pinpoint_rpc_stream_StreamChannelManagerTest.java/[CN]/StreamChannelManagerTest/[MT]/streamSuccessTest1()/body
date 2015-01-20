@@ -1,10 +1,10 @@
 {
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointServerSocket ss=createServerSocket(new TestSeverMessageListener(),new ServerListener(bo));
-  ss.bind("localhost",10234);
+  PinpointServerSocket serverSocket=createServerSocket(new TestSeverMessageListener(),new ServerListener(bo));
+  serverSocket.bind("localhost",bindPort);
   PinpointSocketFactory pinpointSocketFactory=createSocketFactory();
   try {
-    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",10234);
+    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",bindPort);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
     ClientStreamChannelContext clientContext=socket.createStreamChannel(new byte[0],clientListener);
     int sendCount=4;
@@ -14,10 +14,10 @@
     Thread.sleep(100);
     Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
     clientContext.getStreamChannel().close();
-    socket.close();
+    PinpointRPCTestUtils.close(socket);
   }
   finally {
     pinpointSocketFactory.release();
-    ss.close();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

@@ -1,24 +1,20 @@
 {
-  PinpointServerSocket ss=new PinpointServerSocket();
-  ss.bind("127.0.0.1",10234);
-  ss.setMessageListener(new AlwaysHandshakeSuccessListener());
-  PinpointSocketFactory socketFactory1=createPinpointSocketFactory();
-  socketFactory1.setMessageListener(new EchoMessageListener());
-  PinpointSocketFactory socketFactory2=createPinpointSocketFactory();
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new AlwaysHandshakeSuccessListener());
+  PinpointSocketFactory clientSocketFactory1=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
+  PinpointSocketFactory clientSocketFactory2=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),null);
   try {
-    PinpointSocket socket=socketFactory1.connect("127.0.0.1",10234);
-    PinpointSocket socket2=socketFactory2.connect("127.0.0.1",10234);
+    PinpointSocket socket=clientSocketFactory1.connect("127.0.0.1",bindPort);
+    PinpointSocket socket2=clientSocketFactory2.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    List<ChannelContext> channelContextList=ss.getDuplexCommunicationChannelContext();
+    List<ChannelContext> channelContextList=serverSocket.getDuplexCommunicationChannelContext();
     if (channelContextList.size() != 2) {
       Assert.fail();
     }
-    socket.close();
-    socket2.close();
+    PinpointRPCTestUtils.close(socket,socket2);
   }
   finally {
-    socketFactory1.release();
-    socketFactory2.release();
-    ss.close();
+    clientSocketFactory1.release();
+    clientSocketFactory2.release();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }
