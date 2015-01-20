@@ -6,8 +6,7 @@
   if (scope != null) {
     return scope;
   }
-  final ScopeFactory factory=createScopeFactory(scopeDefinition);
-  final Scope newScope=new ThreadLocalScope(factory);
+  final Scope newScope=createScope(scopeDefinition);
   final Scope exist=this.pool.putIfAbsent(scopeDefinition,newScope);
   if (exist != null) {
     return exist;
