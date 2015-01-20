@@ -1,0 +1,17 @@
+{
+  PluginClassLoaderFactory classLoaderFactory=new PluginClassLoaderFactory(pluginJars);
+  ProfilerPluginContext pluginContext=new ProfilerPluginContext(byteCodeInstrumentor,agent.getTraceContext());
+  for (  ProfilerPlugin plugin : plugins) {
+    logger.info("Loading plugin: {}",plugin.getClass().getName());
+    for (    ClassEditor editor : plugin.getClassEditors(pluginContext)) {
+      if (editor instanceof DedicatedClassEditor) {
+        DedicatedClassEditor dedicated=(DedicatedClassEditor)editor;
+        logger.info("Registering class editor {} for {} ",dedicated.getClass().getName(),dedicated.getTargetClassName());
+        modifierRepository.addModifier(new ClassEditorAdaptor(byteCodeInstrumentor,agent,dedicated,classLoaderFactory));
+      }
+ else {
+        logger.warn("Ignore class editor {}",editor.getClass().getName());
+      }
+    }
+  }
+}
