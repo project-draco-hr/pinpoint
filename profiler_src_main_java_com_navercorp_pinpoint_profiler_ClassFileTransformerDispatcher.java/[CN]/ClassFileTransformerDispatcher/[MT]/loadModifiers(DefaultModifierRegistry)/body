@@ -1,6 +1,5 @@
 {
-  PluginLoader<ModifierProvider> loader=new PluginLoader<ModifierProvider>(ModifierProvider.class,getClass().getClassLoader());
-  for (  ModifierProvider provider : loader.loadPlugins()) {
+  for (  ModifierProvider provider : PluginLoader.load(ModifierProvider.class,getClass().getClassLoader())) {
     for (    Modifier modifier : provider.getModifiers(byteCodeInstrumentor,agent)) {
       if (modifier instanceof AbstractModifier) {
         AbstractModifier abstractModifier=(AbstractModifier)modifier;

@@ -1,0 +1,24 @@
+{
+  Object obj=getPeekableSpanDataSender().poll();
+  short code=serviceType.getCode();
+  if (!(obj instanceof SpanEvent)) {
+    throw new AssertionError("Expected an instance of SpanEvent but was " + obj.getClass().getName() + ". expected: "+ toString(code,annotations)+ ", was: "+ obj);
+  }
+  SpanEvent span=(SpanEvent)obj;
+  if (code != span.getServiceType()) {
+    throw new AssertionError("Expected a SpanEvent with serviceType[" + code + "] but was ["+ span.getServiceType()+ "]. expected: "+ toString(code,annotations)+ ", was: "+ toString(span));
+  }
+  List<TAnnotation> actualAnnotations=span.getAnnotations();
+  int actualLen=actualAnnotations.size();
+  int len=annotations.length;
+  if (actualLen != len) {
+    throw new AssertionError("Expected a SpanEvent with [" + len + "] annotations but was ["+ actualLen+ "]. expected: "+ toString(code,annotations)+ ", was: "+ toString(span));
+  }
+  for (int i=0; i < len; i++) {
+    ExpectedAnnotation expect=annotations[i];
+    TAnnotation actual=actualAnnotations.get(i);
+    if (expect.getKey() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
+      throw new AssertionError("Expected a SpanEvent with " + i + "th annotation ["+ expect+ "] but was ["+ toString(actual)+ "]. expected: "+ toString(code,annotations)+ ", was: "+ toString(span));
+    }
+  }
+}

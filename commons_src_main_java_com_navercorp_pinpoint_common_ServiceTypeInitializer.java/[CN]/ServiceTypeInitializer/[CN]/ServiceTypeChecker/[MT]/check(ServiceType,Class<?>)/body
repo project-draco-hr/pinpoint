@@ -1,0 +1,10 @@
+{
+  Class<?> prevProviderClass=serviceTypeNameMap.put(type.getName(),providerClass);
+  if (prevProviderClass != null) {
+    throw new RuntimeException("Duplicated ServiceType name '" + type.getName() + "'. provided by "+ providerClass.getName()+ " and "+ prevProviderClass.getName());
+  }
+  prevProviderClass=serviceTypeCodeMap.put(type.getCode(),providerClass);
+  if (prevProviderClass != null) {
+    throw new RuntimeException("Duplicated ServiceType code '" + type.getCode() + "'. provided by "+ providerClass.getName()+ " and "+ prevProviderClass.getName());
+  }
+}

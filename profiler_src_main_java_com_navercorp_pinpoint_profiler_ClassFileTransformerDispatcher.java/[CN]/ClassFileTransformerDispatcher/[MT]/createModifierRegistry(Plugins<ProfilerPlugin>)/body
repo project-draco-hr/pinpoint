@@ -1,0 +1,14 @@
+{
+  DefaultModifierRegistry modifierRepository=new DefaultModifierRegistry(agent,byteCodeInstrumentor,retransformer);
+  modifierRepository.addMethodModifier();
+  modifierRepository.addTomcatModifier();
+  modifierRepository.addJdbcModifier();
+  modifierRepository.addConnectorModifier();
+  modifierRepository.addArcusModifier();
+  modifierRepository.addOrmModifier();
+  modifierRepository.addSpringBeansModifier();
+  modifierRepository.addRedisModifier();
+  loadModifiers(modifierRepository);
+  loadPlugins(modifierRepository,plugins);
+  return modifierRepository;
+}

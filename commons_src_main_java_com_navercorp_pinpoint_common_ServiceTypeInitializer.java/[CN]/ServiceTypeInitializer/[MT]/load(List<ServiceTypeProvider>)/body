@@ -1,0 +1,31 @@
+{
+  List<ServiceType> serviceTypes=new ArrayList<ServiceType>();
+  List<AnnotationKey> annotationKeys=new ArrayList<AnnotationKey>();
+  ServiceTypeChecker serviceTypeChecker=new ServiceTypeChecker();
+  AnnotationKeyChecker annotationKeyChecker=new AnnotationKeyChecker();
+  for (  ServiceType type : ServiceType.DEFAULT_VALUES) {
+    serviceTypeChecker.check(type,ServiceType.class);
+    serviceTypes.add(type);
+    logger.info("Adding default service type: " + type.getName() + "["+ type.getCode()+ "]");
+  }
+  for (  AnnotationKey key : AnnotationKey.DEFAULT_VALUES) {
+    annotationKeyChecker.check(key,AnnotationKey.class);
+    annotationKeys.add(key);
+    logger.info("Adding default annotaion key: " + key.getValue() + "["+ key.getCode()+ "]");
+  }
+  for (  ServiceTypeProvider provider : providers) {
+    Class<?> providerClass=provider.getClass();
+    for (    ServiceType type : provider.getServiceTypes()) {
+      serviceTypeChecker.check(type,providerClass);
+      serviceTypes.add(type);
+      logger.info("Adding service type from " + providerClass.getName() + ": "+ type.getName()+ "["+ type.getCode()+ "]");
+    }
+    for (    AnnotationKey key : provider.getAnnotationKeys()) {
+      annotationKeyChecker.check(key,providerClass);
+      annotationKeys.add(key);
+      logger.info("Adding annotation key from " + providerClass.getName() + ": "+ key.getValue()+ "["+ key.getCode()+ "]");
+    }
+  }
+  ServiceType.initialize(serviceTypes);
+  AnnotationKey.initialize(annotationKeys);
+}

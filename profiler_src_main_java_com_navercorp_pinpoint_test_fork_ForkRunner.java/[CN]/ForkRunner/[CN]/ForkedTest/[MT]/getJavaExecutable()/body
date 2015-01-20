@@ -1,6 +1,13 @@
 {
   StringBuilder builder=new StringBuilder();
-  builder.append(System.getProperty("java.home"));
+  String javaHome;
+  if (javaHomeEnvName == null) {
+    javaHome=System.getProperty("java.home");
+  }
+ else {
+    javaHome=System.getenv(javaHomeEnvName);
+  }
+  builder.append(javaHome);
   builder.append(File.separatorChar);
   builder.append("bin");
   builder.append(File.separatorChar);

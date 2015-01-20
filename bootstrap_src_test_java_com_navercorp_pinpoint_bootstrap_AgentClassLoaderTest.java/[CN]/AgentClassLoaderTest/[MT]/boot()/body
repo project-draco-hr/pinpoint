@@ -1,5 +1,5 @@
 {
   AgentClassLoader agentClassLoader=new AgentClassLoader(new URL[0]);
   agentClassLoader.setBootClass("com.navercorp.pinpoint.bootstrap.DummyAgent");
-  agentClassLoader.boot("agentPath","test",new DummyInstrumentation(),new ProfilerConfig());
+  agentClassLoader.boot("test",new DummyInstrumentation(),new ProfilerConfig(),new Plugins<ProfilerPlugin>(Collections.<ProfilerPlugin>emptyList(),new URL[0]));
 }

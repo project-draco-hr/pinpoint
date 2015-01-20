@@ -1,9 +1,16 @@
 {
-  String applicationHome=null;
-  applicationHome=applicationHomePath();
-  if (blocResolve(applicationHome)) {
-    return initializeApplicationInfo(applicationHome,ServiceType.BLOC);
+  for (  ApplicationServerProfilerPlugin plugin : plugins) {
+    logger.debug("try resolve using {}",plugin.getClass());
+    if (plugin.isInstance()) {
+      this.serverType=plugin.getServerType();
+      this.serverLibPath=plugin.getClassPath();
+      if (logger.isInfoEnabled()) {
+        logger.info("Configured applicationServerType [{}] by {}",serverType,plugin.getClass().getName());
+      }
+      return true;
+    }
   }
+  String applicationHome=applicationHomePath();
   if (tomcatResolve(applicationHome)) {
     return initializeApplicationInfo(applicationHome,ServiceType.TOMCAT);
   }

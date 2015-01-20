@@ -17,8 +17,11 @@
   ProfilerPluginContext helper=new ProfilerPluginContext(instrumentor,traceContext);
   ClassEditorBuilder builder=helper.newClassEditorBuilder();
   MetadataBuilder mb=builder.newMetadataBuilder();
-  mb.inject("com.navercorp.pinpoint.bootstrap.plugin.ClassEditorBuilderTest$TestMetadata");
+  mb.inject(ObjectTraceValue.class);
   mb.initializeWithDefaultConstructorOf("java.util.HashMap");
+  FieldSnooperBuilder fb=builder.newFieldAccessorBuilder();
+  fb.inject(ObjectSnooper.class);
+  fb.toAccess("someField");
   InterceptorBuilder ib=builder.newInterceptorBuilder();
   ib.intercept(methodName,parameterTypeNames);
   ib.with("com.navercorp.pinpoint.bootstrap.plugin.TestInterceptor");
@@ -27,5 +30,6 @@
   ClassEditor editor=builder.build();
   editor.edit(classLoader,aClass);
   verify(aClass).addInterceptor(eq(methodName),isA(String[].class),isA(Interceptor.class));
-  verify(aClass).addTraceValue(TestMetadata.class,"new java.util.HashMap();");
+  verify(aClass).addTraceValue(ObjectTraceValue.class,"new java.util.HashMap();");
+  verify(aClass).addGetter(ObjectSnooper.class,"someField");
 }

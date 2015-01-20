@@ -4,13 +4,13 @@
   list.addLink(tomcatToBlocLink);
   Link tomcatToTomcatLink=createTomcatToTomcatLink();
   list.addLink(tomcatToTomcatLink);
-  Application tomcat=new Application("from",ServiceType.TOMCAT);
+  Application tomcat=new Application("from",TOMCAT);
   List<Link> findFromLink=list.findFromLink(tomcat);
   Assert.assertEquals(findFromLink.size(),2);
   for (  Link link : findFromLink) {
     Application linkFrom=link.getFrom().getApplication();
     Assert.assertTrue(linkFrom.equals(tomcat));
   }
-  List<Link> unknown=list.findFromLink(new Application("unknown",ServiceType.TOMCAT));
+  List<Link> unknown=list.findFromLink(new Application("unknown",TOMCAT));
   Assert.assertEquals(unknown.size(),0);
 }

@@ -6,14 +6,6 @@
   if (ServiceType.TOMCAT.equals(serviceType)) {
     this.serverLibPath=new String[]{applicationHome + "/lib/servlet-api.jar",applicationHome + "/lib/catalina.jar"};
   }
- else   if (ServiceType.BLOC.equals(serviceType)) {
-    if (manuallyStartupRequired) {
-      this.serverLibPath=new String[]{"/libs"};
-    }
- else {
-      this.serverLibPath=new String[]{applicationHome + "/server/lib/catalina.jar",applicationHome + "/common/lib/servlet-api.jar"};
-    }
-  }
  else   if (ServiceType.STAND_ALONE.equals(serviceType)) {
     this.serverLibPath=new String[]{};
   }

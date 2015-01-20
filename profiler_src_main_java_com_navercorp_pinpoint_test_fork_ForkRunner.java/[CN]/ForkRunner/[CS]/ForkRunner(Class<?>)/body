@@ -9,4 +9,8 @@
   excludedLibraries=exclude == null ? new String[0] : exclude.value();
   WithLibraries include=testClass.getAnnotation(WithLibraries.class);
   includedLibraries=include == null ? new String[0] : include.value();
+  JvmArgument jvmArgument=testClass.getAnnotation(JvmArgument.class);
+  jvmArguments=jvmArgument == null ? new String[0] : jvmArgument.value();
+  JavaVersion javaVersion=testClass.getAnnotation(JavaVersion.class);
+  javaHomeEnvName=javaVersion == null ? null : "JAVA_" + javaVersion.value() + "_HOME";
 }
