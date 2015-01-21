@@ -1,0 +1,10 @@
+{
+  if (testOnChildClassLoader) {
+    PinpointPluginTestRunner runner=new PinpointPluginTestRunner(testClass,testName + ":child",libraries,true);
+    runners.add(runner);
+  }
+  if (testOnSystemClassLoader) {
+    PinpointPluginTestRunner runner=new PinpointPluginTestRunner(testClass,testName + ":system",libraries,false);
+    runners.add(runner);
+  }
+}
