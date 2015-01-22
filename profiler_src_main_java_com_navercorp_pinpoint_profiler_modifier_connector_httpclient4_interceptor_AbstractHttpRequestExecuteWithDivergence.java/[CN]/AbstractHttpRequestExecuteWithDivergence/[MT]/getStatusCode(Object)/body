@@ -1,0 +1,12 @@
+{
+  if (result instanceof HttpResponse) {
+    HttpResponse response=(HttpResponse)result;
+    if (response.getStatusLine() != null) {
+      return response.getStatusLine().getStatusCode();
+    }
+  }
+  if (scope.getAttachment() != null && scope.getAttachment() instanceof HttpCallContext) {
+    return ((HttpCallContext)scope.getAttachment()).getStatusCode();
+  }
+  return null;
+}
