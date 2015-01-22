@@ -5,5 +5,8 @@
       return response.getStatusLine().getStatusCode();
     }
   }
+  if (scope.getAttachment() != null && scope.getAttachment() instanceof HttpCallContext) {
+    return ((HttpCallContext)scope.getAttachment()).getStatusCode();
+  }
   return null;
 }

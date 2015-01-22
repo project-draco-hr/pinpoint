@@ -1,0 +1,13 @@
+{
+  if (!needGetStatusCode()) {
+    return;
+  }
+  if (result instanceof HttpResponse) {
+    HttpResponse response=(HttpResponse)result;
+    if (response.getStatusLine() != null) {
+      HttpCallContext context=new HttpCallContext();
+      context.setStatusCode(response.getStatusLine().getStatusCode());
+      scope.setAttachment(context);
+    }
+  }
+}
