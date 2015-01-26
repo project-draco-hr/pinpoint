@@ -1,0 +1,13 @@
+{
+  final Statement fromSuper=super.methodBlock(method);
+  final boolean manageTraceObject=this.manageTraceObject && (method.getAnnotation(TraceObjectManagable.class) == null);
+  return new Statement(){
+    @Override public void evaluate() throws Throwable {
+      PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+      verifier.initialize(manageTraceObject);
+      fromSuper.evaluate();
+      verifier.cleanUp(manageTraceObject);
+    }
+  }
+;
+}

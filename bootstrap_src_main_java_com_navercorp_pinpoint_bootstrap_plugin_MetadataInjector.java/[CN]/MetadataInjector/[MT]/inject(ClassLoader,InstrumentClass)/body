@@ -1,11 +1,11 @@
 {
   if (strategy == null) {
-    target.addTraceValue(metadataAccessorType);
+    target.addTraceValue(metadataHolder.getType());
   }
  else {
     if (strategy instanceof ByConstructor) {
       String javaExpression="new " + ((ByConstructor)strategy).getClassName() + "();";
-      target.addTraceValue(metadataAccessorType,javaExpression);
+      target.addTraceValue(metadataHolder.getType(),javaExpression);
     }
  else {
       throw new PinpointException("Unsupported strategy: " + strategy);

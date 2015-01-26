@@ -1,6 +1,9 @@
 {
   Object obj=getPeekableSpanDataSender().poll();
   short code=serviceType.getCode();
+  if (obj == null) {
+    throw new AssertionError("No Span. expected: " + toString(code,annotations));
+  }
   if (!(obj instanceof Span)) {
     throw new AssertionError("Expected an instance of Span but was " + obj.getClass().getName() + ". expected: "+ toString(code,annotations)+ ", was: "+ obj);
   }
@@ -10,7 +13,7 @@
   }
   List<TAnnotation> actualAnnotations=span.getAnnotations();
   int len=annotations.length;
-  int actualLen=actualAnnotations.size();
+  int actualLen=actualAnnotations == null ? 0 : actualAnnotations.size();
   if (actualLen != len) {
     throw new AssertionError("Expected a Span with [" + len + "] annotations but was ["+ actualLen+ "]. expected: "+ toString(code,annotations)+ ", was: "+ toString(span));
   }
