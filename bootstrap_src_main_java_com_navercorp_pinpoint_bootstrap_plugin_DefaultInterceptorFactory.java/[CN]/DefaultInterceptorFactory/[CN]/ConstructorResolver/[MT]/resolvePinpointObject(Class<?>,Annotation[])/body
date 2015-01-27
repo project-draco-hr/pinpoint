@@ -3,7 +3,13 @@
     return traceContext;
   }
  else   if (type == MethodDescriptor.class) {
-    return targetMethod.getDescriptor();
+    MethodDescriptor descriptor=targetMethod.getDescriptor();
+    for (    Annotation a : annotations) {
+      if (a.annotationType().equals(CacheApi.class)) {
+        traceContext.cacheApi(descriptor);
+      }
+    }
+    return descriptor;
   }
  else   if (type == ByteCodeInstrumentor.class) {
     return instrumentor;

@@ -3,16 +3,7 @@
   builder.append('(');
   builder.append(span.getServiceType());
   builder.append(", [");
-  boolean first=true;
-  for (  TAnnotation a : span.getAnnotations()) {
-    if (first) {
-      first=false;
-    }
- else {
-      builder.append(", ");
-    }
-    builder.append(toString(a));
-  }
+  appendAnnotations(builder,span.getAnnotations());
   builder.append("])");
   return builder.toString();
 }
