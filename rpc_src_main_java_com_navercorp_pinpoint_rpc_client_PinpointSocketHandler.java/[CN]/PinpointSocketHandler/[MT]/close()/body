@@ -1,6 +1,5 @@
 {
   logger.debug("close() call");
-  this.handshaker.handshakeAbort();
   int currentState=this.state.getState();
   if (currentState == State.CLOSED) {
     logger.debug("already close()");
@@ -13,11 +12,11 @@
   }
   logger.debug("close() state change complete");
   final Channel channel=this.channel;
+  closeStreamChannelManager(channel);
   sendClosedPacket(channel);
-  releaseResource();
   logger.debug("channel.close()");
-  ChannelFuture channelFuture=channel.close();
-  channelFuture.addListener(new WriteFailFutureListener(logger,"close() event failed.","close() event success."));
-  channelFuture.awaitUninterruptibly();
+  ChannelFuture closeFuture=channel.close();
+  closeFuture.addListener(new WriteFailFutureListener(logger,"close() event failed.","close() event success."));
+  closeFuture.awaitUninterruptibly();
   logger.debug("close() complete");
 }

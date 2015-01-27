@@ -1,0 +1,10 @@
+{
+  if (!channel.isConnected()) {
+    logger.debug("channel already closed. skip closeStreamChannelManager() {}",channel);
+    return;
+  }
+  SocketHandlerContext context=getChannelContext(channel);
+  if (context != null) {
+    context.getStreamChannelManager().close();
+  }
+}
