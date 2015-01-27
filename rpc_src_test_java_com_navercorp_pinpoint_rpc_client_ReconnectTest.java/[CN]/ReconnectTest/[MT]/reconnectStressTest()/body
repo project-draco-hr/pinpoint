@@ -1,0 +1,24 @@
+{
+  int count=3;
+  ThreadMXBean tbean=ManagementFactory.getThreadMXBean();
+  int threadCount=tbean.getThreadCount();
+  for (int i=0; i < count; i++) {
+    logger.info((i + 1) + "th's start.");
+    PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new TestSeverMessageListener());
+    PinpointSocket socket=socketFactory.connect("localhost",bindPort);
+    PinpointRPCTestUtils.close(serverSocket);
+    logger.info("server.close()---------------------------");
+    Thread.sleep(10000);
+    serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new TestSeverMessageListener());
+    logger.info("bind server---------------------------");
+    Thread.sleep(10000);
+    logger.info("request server---------------------------");
+    byte[] randomByte=TestByteUtils.createRandomByte(10);
+    byte[] response=PinpointRPCTestUtils.request(socket,randomByte);
+    Assert.assertArrayEquals(randomByte,response);
+    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(serverSocket);
+  }
+  Thread.sleep(10000);
+  Assert.assertEquals(threadCount,tbean.getThreadCount());
+}
