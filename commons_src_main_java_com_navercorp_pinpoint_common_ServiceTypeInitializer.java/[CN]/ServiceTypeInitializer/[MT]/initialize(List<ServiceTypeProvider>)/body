@@ -1,4 +1,8 @@
 {
+  if (ServiceType.isInitialized()) {
+    logger.warning("ServiceType is already initialized. Do nothing. providers: " + providers);
+    return;
+  }
   List<ServiceType> serviceTypes=new ArrayList<ServiceType>();
   List<AnnotationKey> annotationKeys=new ArrayList<AnnotationKey>();
   ServiceTypeChecker serviceTypeChecker=new ServiceTypeChecker();
@@ -26,6 +30,6 @@
       logger.info("Adding annotation key from " + providerClass.getName() + ": "+ key.getValue()+ "["+ key.getCode()+ "]");
     }
   }
-  initializeServiceType(serviceTypes);
-  initializeAnnotationKey(annotationKeys);
+  ServiceType.initialize(Collections.unmodifiableList(serviceTypes));
+  AnnotationKey.initialize(Collections.unmodifiableList(annotationKeys));
 }
