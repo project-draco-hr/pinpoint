@@ -1,0 +1,15 @@
+{
+  if (attachmentSimpleScopeFactory == null) {
+    throw new NullPointerException("attachmentSimpleScopeFactory must not be null");
+  }
+  this.scope=new NamedThreadLocal<AttachmentScope<T>>(attachmentSimpleScopeFactory.getName()){
+    @Override @SuppressWarnings("unchecked") protected AttachmentScope<T> initialValue(){
+      final Scope newScope=attachmentSimpleScopeFactory.createScope();
+      if (newScope instanceof AttachmentScope) {
+        return (AttachmentScope<T>)newScope;
+      }
+      throw new IllegalArgumentException("invalid scope type");
+    }
+  }
+;
+}

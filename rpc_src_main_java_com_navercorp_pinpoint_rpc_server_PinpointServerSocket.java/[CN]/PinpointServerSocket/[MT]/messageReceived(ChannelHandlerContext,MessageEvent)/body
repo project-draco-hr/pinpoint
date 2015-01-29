@@ -11,19 +11,19 @@
 switch (packetType) {
 case PacketType.APPLICATION_SEND:
 {
-      SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+      SocketChannel socketChannel=channelContext.getSocketChannel();
       messageListener.handleSend((SendPacket)message,socketChannel);
       return;
     }
 case PacketType.APPLICATION_REQUEST:
 {
-    SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+    SocketChannel socketChannel=channelContext.getSocketChannel();
     messageListener.handleRequest((RequestPacket)message,socketChannel);
     return;
   }
 case PacketType.APPLICATION_RESPONSE:
 {
-  SocketChannel socketChannel=getChannelContext(channel).getSocketChannel();
+  SocketChannel socketChannel=channelContext.getSocketChannel();
   socketChannel.receiveResponsePacket((ResponsePacket)message);
   return;
 }
@@ -41,14 +41,19 @@ int requestId=((ControlHandshakePacket)message).getRequestId();
 Map<Object,Object> handshakeData=this.handshaker.decodeHandshakePacket((ControlHandshakePacket)message);
 HandshakeResponseCode responseCode=this.handshaker.handleHandshake(handshakeData,messageListener);
 boolean isFirst=channelContext.setChannelProperties(handshakeData);
-if (isFirst && responseCode == HandshakeResponseCode.DUPLEX_COMMUNICATION) {
-changeStateToRunDuplexCommunication(channel);
+if (isFirst) {
+if (HandshakeResponseCode.DUPLEX_COMMUNICATION == responseCode) {
+channelContext.changeStateToRunDuplex(PinpointServerSocketStateCode.RUN_DUPLEX);
+}
+ else if (HandshakeResponseCode.SIMPLEX_COMMUNICATION == responseCode) {
+channelContext.changeStateToRunSimplex(PinpointServerSocketStateCode.RUN_SIMPLEX);
+}
 }
 this.handshaker.sendHandshakeResponse(channel,requestId,responseCode,isFirst);
 return;
 case PacketType.CONTROL_CLIENT_CLOSE:
 {
-closeChannel(channel);
+handleClosePacket(channel);
 return;
 }
 default :

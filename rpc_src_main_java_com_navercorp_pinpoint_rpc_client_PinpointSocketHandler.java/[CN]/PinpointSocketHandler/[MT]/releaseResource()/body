@@ -1,11 +1,6 @@
 {
   logger.debug("releaseResource()");
+  this.handshaker.handshakeAbort();
   this.requestManager.close();
-  if (this.channel != null) {
-    SocketHandlerContext context=getChannelContext(channel);
-    if (context != null) {
-      context.getStreamChannelManager().close();
-    }
-  }
   this.channelTimer.stop();
 }

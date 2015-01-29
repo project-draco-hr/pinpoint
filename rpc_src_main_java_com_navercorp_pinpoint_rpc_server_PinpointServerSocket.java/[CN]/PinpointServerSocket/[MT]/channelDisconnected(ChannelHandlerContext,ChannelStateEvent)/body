@@ -1,22 +1,17 @@
 {
   final Channel channel=e.getChannel();
+  logger.info("channelDisconnected channel:{}",channel);
   final ChannelContext channelContext=getChannelContext(channel);
-  PinpointServerSocketStateCode currentStateCode=channelContext.getCurrentStateCode();
-  if (currentStateCode == PinpointServerSocketStateCode.BEING_SHUTDOWN) {
-    channelContext.changeStateShutdown();
-  }
- else   if (released) {
-    channelContext.changeStateShutdown();
+  if (isExpectedShutdown(channelContext)) {
+    channelContext.changeStateToShutdown();
   }
  else {
-    boolean check=checkIgnoreAddress(channel);
-    if (check) {
-      channelContext.changeStateUnexpectedShutdown();
+    boolean isIgnore=isIgnoreAddress(channel);
+    if (!isIgnore) {
+      channelContext.changeStateToUnexpectedShutdown();
     }
   }
-  if (logger.isDebugEnabled()) {
-    logger.debug("server channelDisconnected {}",channel);
-  }
+  channelContext.closeAllStreamChannel();
   this.channelGroup.remove(channel);
   super.channelDisconnected(ctx,e);
 }

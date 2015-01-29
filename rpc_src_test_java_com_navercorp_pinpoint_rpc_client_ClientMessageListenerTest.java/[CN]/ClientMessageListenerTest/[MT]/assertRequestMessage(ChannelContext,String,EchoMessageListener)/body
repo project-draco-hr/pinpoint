@@ -1,9 +1,0 @@
-{
-  Future<ResponseMessage> future=channelContext.getSocketChannel().sendRequestMessage(message.getBytes());
-  future.await();
-  ResponseMessage result=future.getResult();
-  Assert.assertEquals(message,new String(result.getMessage()));
-  if (echoMessageListener != null) {
-    Assert.assertEquals(message,new String(echoMessageListener.getRequestPacketRepository().get(0).getPayload()));
-  }
-}

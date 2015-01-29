@@ -1,0 +1,11 @@
+{
+  if (scopeFactory == null) {
+    throw new NullPointerException("scopeFactory must not be null");
+  }
+  this.scope=new NamedThreadLocal<Scope>(scopeFactory.getName()){
+    @Override protected Scope initialValue(){
+      return scopeFactory.createScope();
+    }
+  }
+;
+}

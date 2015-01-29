@@ -1,18 +1,14 @@
 {
-  PinpointServerSocket ss=new PinpointServerSocket();
-  ss.bind("127.0.0.1",10234);
-  ss.setMessageListener(new AlwaysHandshakeSuccessListener());
-  PinpointSocketFactory socketFactory1=createPinpointSocketFactory();
-  EchoMessageListener echoMessageListener1=new EchoMessageListener();
-  socketFactory1.setMessageListener(echoMessageListener1);
-  PinpointSocketFactory socketFactory2=createPinpointSocketFactory();
-  EchoMessageListener echoMessageListener2=new EchoMessageListener();
-  socketFactory2.setMessageListener(echoMessageListener2);
+  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new AlwaysHandshakeSuccessListener());
+  EchoClientListener echoMessageListener1=PinpointRPCTestUtils.createEchoClientListener();
+  PinpointSocketFactory clientSocketFactory1=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),echoMessageListener1);
+  EchoClientListener echoMessageListener2=PinpointRPCTestUtils.createEchoClientListener();
+  PinpointSocketFactory clientSocketFactory2=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),echoMessageListener2);
   try {
-    PinpointSocket socket=socketFactory1.connect("127.0.0.1",10234);
-    PinpointSocket socket2=socketFactory2.connect("127.0.0.1",10234);
+    PinpointSocket socket=clientSocketFactory1.connect("127.0.0.1",bindPort);
+    PinpointSocket socket2=clientSocketFactory2.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    List<ChannelContext> channelContextList=ss.getDuplexCommunicationChannelContext();
+    List<ChannelContext> channelContextList=serverSocket.getDuplexCommunicationChannelContext();
     if (channelContextList.size() != 2) {
       Assert.fail();
     }
@@ -22,12 +18,11 @@
     assertRequestMessage(channelContext2,"socket2",null);
     Assert.assertEquals(1,echoMessageListener1.getRequestPacketRepository().size());
     Assert.assertEquals(1,echoMessageListener2.getRequestPacketRepository().size());
-    socket.close();
-    socket2.close();
+    PinpointRPCTestUtils.close(socket,socket2);
   }
   finally {
-    socketFactory1.release();
-    socketFactory2.release();
-    ss.close();
+    clientSocketFactory1.release();
+    clientSocketFactory2.release();
+    PinpointRPCTestUtils.close(serverSocket);
   }
 }

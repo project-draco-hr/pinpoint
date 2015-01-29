@@ -1,8 +1,6 @@
 {
   final Channel channel=e.getChannel();
-  if (logger.isDebugEnabled()) {
-    logger.debug("server channelConnected {}",channel);
-  }
+  logger.info("channelConnected channel:{}",channel);
   if (released) {
     logger.warn("already released. channel:{}",channel);
     channel.write(new ServerClosePacket()).addListener(new ChannelFutureListener(){
@@ -15,9 +13,9 @@
   }
   prepareChannel(channel);
   ChannelContext channelContext=getChannelContext(channel);
-  boolean check=checkIgnoreAddress(channel);
-  if (check) {
-    channelContext.changeStateRun();
+  boolean isIgnore=isIgnoreAddress(channel);
+  if (!isIgnore) {
+    channelContext.changeStateToRunWithoutHandshake();
   }
   super.channelConnected(ctx,e);
 }
