@@ -1,0 +1,17 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifing. {}",javassistClassName);
+  }
+  try {
+    InstrumentClass loggingEvent=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    Interceptor interceptor1=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.log.logback.interceptor.LoggingEventOfLogbackInterceptor");
+    loggingEvent.addConstructorInterceptor(new String[]{"java.lang.String","ch.qos.logback.classic.Logger","ch.qos.logback.classic.Level","java.lang.String","java.lang.Throwable","java.lang.Object[]"},interceptor1);
+    Interceptor interceptor2=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.log.logback.interceptor.LoggingEventOfLogbackInterceptor");
+    loggingEvent.addConstructorInterceptor(new String[]{},interceptor2);
+    return loggingEvent.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.warn("modify fail. Cause:" + e.getMessage(),e);
+    return null;
+  }
+}
