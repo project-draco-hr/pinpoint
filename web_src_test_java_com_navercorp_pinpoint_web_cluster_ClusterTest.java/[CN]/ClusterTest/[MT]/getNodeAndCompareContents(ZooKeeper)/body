@@ -1,4 +1,5 @@
 {
+  LOGGER.info("getNodeAndCompareContents() {}",CLUSTER_NODE_PATH);
   byte[] conetents=zookeeper.getData(CLUSTER_NODE_PATH,null,null);
   String[] registeredIplist=new String(conetents).split("\r\n");
   List<String> ipList=NetUtils.getLocalV4IpList();

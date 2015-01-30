@@ -1,11 +1,16 @@
 {
+  acceptorPort=PinpointWebTestUtils.findAvailablePort();
+  zookeeperPort=PinpointWebTestUtils.findAvailablePort(acceptorPort + 1);
+  zookeeperAddress=DEFAULT_IP + ":" + zookeeperPort;
+  CLUSTER_NODE_PATH="/pinpoint-cluster/web/" + DEFAULT_IP + ":"+ acceptorPort;
+  LOGGER.info("CLUSTER_NODE_PATH:{}",CLUSTER_NODE_PATH);
   WebConfig config=mock(WebConfig.class);
   when(config.isClusterEnable()).thenReturn(true);
-  when(config.getClusterTcpPort()).thenReturn(DEFAULT_ACCEPTOR_PORT);
-  when(config.getClusterZookeeperAddress()).thenReturn("127.0.0.1:22213");
+  when(config.getClusterTcpPort()).thenReturn(acceptorPort);
+  when(config.getClusterZookeeperAddress()).thenReturn(zookeeperAddress);
   when(config.getClusterZookeeperRetryInterval()).thenReturn(60000);
   when(config.getClusterZookeeperSessionTimeout()).thenReturn(3000);
   socketManager=new PinpointSocketManager(config);
   socketManager.start();
-  ts=createZookeeperServer(DEFAULT_ZOOKEEPER_PORT);
+  ts=createZookeeperServer(zookeeperPort);
 }
