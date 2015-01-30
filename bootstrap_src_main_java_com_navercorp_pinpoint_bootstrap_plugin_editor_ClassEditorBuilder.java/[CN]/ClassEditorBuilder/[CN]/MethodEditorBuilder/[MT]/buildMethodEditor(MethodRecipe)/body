@@ -1,0 +1,16 @@
+{
+  MethodEditor editor;
+  if (filter != null) {
+    editor=new FilteringMethodEditor(filter,recipe);
+  }
+ else   if (methodName != null) {
+    editor=new DedicatedMethodEditor(methodName,parameterNames,recipe);
+  }
+ else {
+    editor=new ConstructorEditor(parameterNames,recipe);
+  }
+  if (condition != null) {
+    editor=new ConditionalMethodEditor(condition,editor);
+  }
+  return editor;
+}

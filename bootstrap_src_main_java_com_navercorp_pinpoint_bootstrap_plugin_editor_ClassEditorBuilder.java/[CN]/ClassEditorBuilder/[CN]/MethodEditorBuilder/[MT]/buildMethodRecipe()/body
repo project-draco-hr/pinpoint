@@ -1,0 +1,11 @@
+{
+  List<MethodRecipe> recipes=new ArrayList<MethodRecipe>();
+  if (cacheApi) {
+    recipes.add(new CacheApiMethodRecipe(pluginContext));
+  }
+  for (  InterceptorBuilder ib : interceptorBuilders) {
+    recipes.add(ib.build());
+  }
+  MethodRecipe recipe=recipes.size() == 1 ? recipes.get(0) : new MethodCookBook(recipes);
+  return recipe;
+}

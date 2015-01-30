@@ -1,0 +1,7 @@
+{
+  InterceptorFactory factory=new DefaultInterceptorFactory(pluginContext,instrumentor,traceContext,interceptorClassName,constructorArguments);
+  if (scopeName != null) {
+    factory=new ScopedInterceptorFactory(factory,instrumentor,scopeName);
+  }
+  return factory;
+}

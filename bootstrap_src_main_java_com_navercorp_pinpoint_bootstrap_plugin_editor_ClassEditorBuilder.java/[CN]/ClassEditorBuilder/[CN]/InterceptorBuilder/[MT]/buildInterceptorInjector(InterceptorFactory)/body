@@ -1,0 +1,13 @@
+{
+  InterceptorInjector injector;
+  if (singleton) {
+    injector=new SingletonInterceptorInjector(factory);
+  }
+ else {
+    injector=new DefaultInterceptorInjector(factory);
+  }
+  if (condition != null) {
+    injector=new ConditionalInterceptorInjector(injector,condition);
+  }
+  return injector;
+}
