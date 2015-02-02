@@ -1,12 +1,8 @@
 {
-  if (result instanceof HttpResponse) {
-    HttpResponse response=(HttpResponse)result;
-    if (response.getStatusLine() != null) {
-      return response.getStatusLine().getStatusCode();
-    }
+  if (isHasCallbackParam) {
+    return getStatusCodeFromAttachment();
   }
-  if (scope.getAttachment() != null && scope.getAttachment() instanceof HttpCallContext) {
-    return ((HttpCallContext)scope.getAttachment()).getStatusCode();
+ else {
+    return getStatusCodeFromResponse(result);
   }
-  return null;
 }
