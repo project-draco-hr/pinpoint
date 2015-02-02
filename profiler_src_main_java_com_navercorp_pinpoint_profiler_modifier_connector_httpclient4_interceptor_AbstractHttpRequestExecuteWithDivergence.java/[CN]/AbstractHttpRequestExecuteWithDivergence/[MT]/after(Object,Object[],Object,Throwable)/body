@@ -1,9 +1,13 @@
 {
-  if (!isPassibleAfterProcess()) {
-    addStatusCode(result);
-    scope.pop();
-    return;
+  try {
+    if (isPassibleAfterProcess()) {
+      after2(target,args,result,throwable);
+    }
+ else {
+      addStatusCode(result);
+    }
   }
-  after2(target,args,result,throwable);
-  scope.pop();
+  finally {
+    scope.pop();
+  }
 }
