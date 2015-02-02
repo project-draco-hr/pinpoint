@@ -3,7 +3,10 @@
     return false;
   }
   final Trace trace=traceContext.currentTraceObject();
-  if (trace == null || trace.getServiceType() != ServiceType.HTTP_CLIENT) {
+  if (trace == null) {
+    return false;
+  }
+  if (trace.getServiceType() != ServiceType.HTTP_CLIENT) {
     return false;
   }
   if (scope.getAttachment() != null) {

@@ -6,8 +6,11 @@
     HttpResponse response=(HttpResponse)result;
     if (response.getStatusLine() != null) {
       HttpCallContext context=new HttpCallContext();
-      context.setStatusCode(response.getStatusLine().getStatusCode());
-      scope.setAttachment(context);
+      final StatusLine statusLine=response.getStatusLine();
+      if (statusLine != null) {
+        context.setStatusCode(statusLine.getStatusCode());
+        scope.setAttachment(context);
+      }
     }
   }
 }
