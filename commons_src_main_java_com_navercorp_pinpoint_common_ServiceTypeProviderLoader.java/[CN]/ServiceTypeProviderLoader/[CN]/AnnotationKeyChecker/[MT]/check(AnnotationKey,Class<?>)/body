@@ -1,0 +1,7 @@
+{
+  Pair<AnnotationKey> pair=new Pair<AnnotationKey>(key,providerClass);
+  Pair<AnnotationKey> prev=annotationKeyCodeMap.put(key.getCode(),pair);
+  if (prev != null) {
+    throw new RuntimeException("AnnotationKey code of " + annotationKeyPairToString(pair) + " is duplicated with "+ annotationKeyPairToString(prev));
+  }
+}

@@ -1,0 +1,11 @@
+{
+  Pair<ServiceType> pair=new Pair<ServiceType>(type,providerClass);
+  Pair<ServiceType> prev=serviceTypeNameMap.put(type.getName(),pair);
+  if (prev != null) {
+    throw new RuntimeException("ServiceType name of " + serviceTypePairToString(pair) + " is duplicated with "+ serviceTypePairToString(prev));
+  }
+  prev=serviceTypeCodeMap.put(type.getCode(),pair);
+  if (prev != null) {
+    throw new RuntimeException("ServiceType code of " + serviceTypePairToString(pair) + " is duplicated with "+ serviceTypePairToString(prev));
+  }
+}

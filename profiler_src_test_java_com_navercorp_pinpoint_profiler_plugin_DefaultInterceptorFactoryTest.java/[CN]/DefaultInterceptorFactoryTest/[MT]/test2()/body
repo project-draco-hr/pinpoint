@@ -1,5 +1,5 @@
 {
   Object[] args=new Object[]{1};
-  DefaultInterceptorFactory factory=new DefaultInterceptorFactory(pluginContext,instrumentor,traceContext,"com.navercorp.pinpoint.bootstrap.plugin.TestInterceptors$TestInterceptor0",args);
+  AnnotatedInterceptorFactory factory=new AnnotatedInterceptorFactory(traceContext,pluginContext,instrumentor,TestInterceptors.TestInterceptor0.class,args);
   factory.getInterceptor(getClass().getClassLoader(),aClass,aMethod);
 }

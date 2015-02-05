@@ -1,0 +1,10 @@
+{
+  logger.info("Loading ServiceTypeProviders");
+  loadDefaults();
+  for (  ServiceTypeProvider provider : providers) {
+    logger.fine("Loading ServiceTypeProvider: " + provider.getClass());
+    ServiceTypeSetupContextImpl context=new ServiceTypeSetupContextImpl(provider.getClass());
+    provider.setUp(context);
+  }
+  logResult();
+}

@@ -1,0 +1,15 @@
+{
+  MetadataAccessor accessor=metadataAccessorMap.get(name);
+  if (accessor != null) {
+    return accessor;
+  }
+  try {
+    accessor=MetadataAccessor.get(metadataAccessorIndex);
+  }
+ catch (  ArrayIndexOutOfBoundsException e) {
+    throw new IllegalStateException("Cannot allocate MetadataAccessor. Exceeded max:" + metadataAccessorIndex);
+  }
+  metadataAccessorMap.put(name,accessor);
+  metadataAccessorIndex++;
+  return accessor;
+}

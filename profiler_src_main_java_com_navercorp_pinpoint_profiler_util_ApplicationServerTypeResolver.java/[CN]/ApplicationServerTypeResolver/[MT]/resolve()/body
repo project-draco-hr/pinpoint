@@ -1,11 +1,12 @@
 {
-  for (  ApplicationServerProfilerPlugin plugin : plugins) {
-    logger.debug("try resolve using {}",plugin.getClass());
-    if (plugin.isInstance()) {
-      this.serverType=plugin.getServerType();
-      this.serverLibPath=plugin.getClassPath();
+  for (  ServerTypeDetector detector : detectors) {
+    logger.debug("try resolve using {}",detector.getClass());
+    if (detector.detect()) {
+      this.serverType=detector.getServerType();
+      this.serverLibPath=detector.getServerClassPath();
+      this.manuallyStartupRequired=!detector.hasServerProperty(ApplicationServerProperty.MANAGE_PINPOINT_AGENT_LIFECYCLE);
       if (logger.isInfoEnabled()) {
-        logger.info("Configured applicationServerType [{}] by {}",serverType,plugin.getClass().getName());
+        logger.info("Configured applicationServerType [{}] by {}",serverType,detector.getClass().getName());
       }
       return true;
     }

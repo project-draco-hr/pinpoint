@@ -1,10 +1,8 @@
 {
-  ServiceTypeInitializer.initialize(Arrays.<ServiceTypeProvider>asList(new ServiceTypeProvider(){
-    @Override public ServiceType[] getServiceTypes(){
-      return new ServiceType[]{APPLICATION_SERVER,NON_APPLICATION_SERVER};
-    }
-    @Override public AnnotationKey[] getAnnotationKeys(){
-      return new AnnotationKey[0];
+  ServiceTypeProviderLoader.initializeServiceType(Arrays.<ServiceTypeProvider>asList(new ServiceTypeProvider(){
+    @Override public void setUp(    ServiceTypeSetupContext context){
+      context.addServiceType(APPLICATION_SERVER);
+      context.addServiceType(NON_APPLICATION_SERVER);
     }
   }
 ));

@@ -1,8 +1,10 @@
 {
-  ServiceLoader<T> serviceLoader=ServiceLoader.load(serviceType,classLoader);
+  ServiceLoader<PinpointPlugin> serviceLoader=ServiceLoader.load(PinpointPlugin.class,classLoader);
   List<T> plugins=new ArrayList<T>();
-  for (  T plugin : serviceLoader) {
-    plugins.add(plugin);
+  for (  PinpointPlugin plugin : serviceLoader) {
+    if (serviceType.isInstance(plugin)) {
+      plugins.add(serviceType.cast(plugin));
+    }
   }
   return plugins;
 }

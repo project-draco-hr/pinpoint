@@ -1,0 +1,6 @@
+{
+  Class<? extends Interceptor> interceptorType=TypeUtils.loadClass(targetClassLoader,interceptorName);
+  InterceptorFactory factory=createInterceptorFactory(interceptorType);
+  InterceptorInjector injector=createInterceptorInjector(interceptorType,factory);
+  injector.edit(targetClassLoader,targetClass,targetMethod);
+}
