@@ -1,0 +1,10 @@
+{
+  PLoggerFactory.initialize(loggerBinder);
+  logger.trace("agent create");
+  try {
+    return MockAgent.of("pinpoint.config");
+  }
+ catch (  IOException e) {
+    throw new InitializationError("Unable to read pinpoint.config");
+  }
+}

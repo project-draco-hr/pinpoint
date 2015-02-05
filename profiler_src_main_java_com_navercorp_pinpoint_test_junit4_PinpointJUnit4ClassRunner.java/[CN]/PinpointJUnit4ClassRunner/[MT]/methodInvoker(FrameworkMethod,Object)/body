@@ -5,9 +5,9 @@
     for (    Method m : methods) {
       if (m.getName().equals("setCurrentHolder")) {
         try {
-          this.testDataSender.clear();
+          this.testAgent.getPeekableSpanDataSender().clear();
           m.setAccessible(true);
-          m.invoke(test,this.testDataSender);
+          m.invoke(test,this.testAgent.getPeekableSpanDataSender());
         }
  catch (        IllegalAccessException e) {
           throw new RuntimeException(e);
