@@ -4,7 +4,7 @@
   final Thread thread=Thread.currentThread();
   ClassLoader originalClassLoader=thread.getContextClassLoader();
   try {
-    thread.setContextClassLoader(this.testClassLoader);
+    thread.setContextClassLoader(this.testContext.getTestClassLoader());
     super.runChild(method,notifier);
   }
   finally {

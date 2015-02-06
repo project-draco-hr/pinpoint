@@ -1,6 +1,15 @@
 {
-  String path=MockAgent.class.getClassLoader().getResource(configPath).getPath();
-  ProfilerConfig profilerConfig=ProfilerConfig.load(path);
-  profilerConfig.setApplicationServerType(ServiceType.TEST_STAND_ALONE);
+  ProfilerConfig profilerConfig=null;
+  try {
+    URL resource=MockAgent.class.getClassLoader().getResource(configPath);
+    if (resource == null) {
+      throw new FileNotFoundException("pinpoint.config not found. configPath:" + configPath);
+    }
+    profilerConfig=ProfilerConfig.load(resource.getPath());
+    profilerConfig.setApplicationServerType(ServiceType.TEST_STAND_ALONE);
+  }
+ catch (  IOException ex) {
+    throw new RuntimeException(ex.getMessage(),ex);
+  }
   return new MockAgent("","",profilerConfig);
 }

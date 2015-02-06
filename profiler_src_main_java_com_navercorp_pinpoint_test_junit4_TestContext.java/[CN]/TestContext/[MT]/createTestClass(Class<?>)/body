@@ -1,6 +1,7 @@
 {
   try {
-    return new TestClass(classLoader.loadClass(testClass.getName()));
+    final Class<?> testClazz=testClassLoader.loadClass(testClass.getName());
+    return new TestClass(testClazz);
   }
  catch (  ClassNotFoundException e) {
     throw new IllegalStateException(e.getMessage(),e);

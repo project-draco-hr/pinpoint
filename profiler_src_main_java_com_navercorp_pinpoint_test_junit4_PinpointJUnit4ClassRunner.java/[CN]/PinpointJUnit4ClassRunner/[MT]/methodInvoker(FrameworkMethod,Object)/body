@@ -1,35 +1,4 @@
 {
-  @SuppressWarnings("unchecked") Class<BasePinpointTest> baseTestClass=(Class<BasePinpointTest>)this.testContext.getBaseTestClass();
-  if (baseTestClass.isInstance(test)) {
-    Method[] methods=baseTestClass.getDeclaredMethods();
-    for (    Method m : methods) {
-      if (m.getName().equals("setCurrentHolder")) {
-        try {
-          this.testAgent.getPeekableSpanDataSender().clear();
-          m.setAccessible(true);
-          m.invoke(test,this.testAgent.getPeekableSpanDataSender());
-        }
- catch (        IllegalAccessException e) {
-          throw new RuntimeException(e);
-        }
-catch (        InvocationTargetException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      if (m.getName().equals("setServerMetaDataHolder")) {
-        try {
-          ResettableServerMetaDataHolder serverMetaDataHolder=(ResettableServerMetaDataHolder)this.testAgent.getTraceContext().getServerMetaDataHolder();
-          m.setAccessible(true);
-          m.invoke(test,serverMetaDataHolder);
-        }
- catch (        IllegalAccessException e) {
-          throw new RuntimeException(e);
-        }
-catch (        InvocationTargetException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }
-  }
+  setupTest(test);
   return super.methodInvoker(method,test);
 }

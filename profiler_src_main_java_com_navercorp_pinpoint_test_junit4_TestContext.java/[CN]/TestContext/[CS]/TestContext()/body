@@ -1,0 +1,11 @@
+{
+  this.mockAgent=createMockAgent();
+  this.testClassLoader=TestClassLoaderFactory.createTestClassLoader(this.mockAgent.getProfilerConfig(),this.mockAgent.getByteCodeInstrumentor(),this.mockAgent.getClassFileTransformer());
+  this.testClassLoader.initialize();
+  try {
+    this.baseTestClass=testClassLoader.loadClass(BasePinpointTest.class.getName());
+  }
+ catch (  ClassNotFoundException e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}

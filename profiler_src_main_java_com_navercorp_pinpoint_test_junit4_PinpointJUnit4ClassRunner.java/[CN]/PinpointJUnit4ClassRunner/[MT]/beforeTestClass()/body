@@ -1,9 +1,8 @@
 {
   try {
-    this.testAgent=createMockAgent();
-    this.testClassLoader=getTestClassLoader();
-    this.testClassLoader.initialize();
-    this.testContext=new TestContext(this.testClassLoader);
+    if (testContext == null) {
+      this.testContext=new TestContext();
+    }
   }
  catch (  Throwable ex) {
     throw new RuntimeException(ex.getMessage(),ex);

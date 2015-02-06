@@ -1,7 +1,7 @@
 {
   final String className=this.ctClass.getName();
   final LoggingInterceptor loggingInterceptor=new LoggingInterceptor(className);
-  final int id=interceptorRegistryAdaptor.addSimpleInterceptor(loggingInterceptor);
+  final int id=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor(loggingInterceptor);
   try {
     for (    CtMethod method : ctClass.getDeclaredMethods()) {
       if (method.isEmpty()) {

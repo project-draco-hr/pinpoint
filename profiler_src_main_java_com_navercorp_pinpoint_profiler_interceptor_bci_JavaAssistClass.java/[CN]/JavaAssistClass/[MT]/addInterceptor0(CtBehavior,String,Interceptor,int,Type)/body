@@ -3,11 +3,11 @@
     if (interceptor != null) {
       if (interceptor instanceof StaticAroundInterceptor) {
         StaticAroundInterceptor staticAroundInterceptor=(StaticAroundInterceptor)interceptor;
-        interceptorId=interceptorRegistryAdaptor.addStaticInterceptor(staticAroundInterceptor);
+        interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addStaticInterceptor(staticAroundInterceptor);
       }
  else       if (interceptor instanceof SimpleAroundInterceptor) {
         SimpleAroundInterceptor simpleAroundInterceptor=(SimpleAroundInterceptor)interceptor;
-        interceptorId=interceptorRegistryAdaptor.addSimpleInterceptor(simpleAroundInterceptor);
+        interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor(simpleAroundInterceptor);
       }
  else {
         throw new InstrumentException("unsupported Interceptor Type:" + interceptor);

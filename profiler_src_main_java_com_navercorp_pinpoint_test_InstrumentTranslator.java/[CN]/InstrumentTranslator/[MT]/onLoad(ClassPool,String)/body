@@ -1,9 +1,8 @@
 {
   logger.debug("loading className:{}",classname);
   try {
-    String replace=classname.replace('.','/');
-    ClassFileTransformer classFileTransformer=agent.getClassFileTransformer();
-    byte[] transform=classFileTransformer.transform(this.loader,replace,null,null,null);
+    final String jvmName=JavaAssistUtils.javaNameToJvmName(classname);
+    byte[] transform=classFileTransformer.transform(this.loader,jvmName,null,null,null);
     if (transform != null) {
       pool.makeClass(new ByteArrayInputStream(transform));
       return;
