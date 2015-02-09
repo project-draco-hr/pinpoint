@@ -1,4 +1,9 @@
 {
   final Statement afterClasses=super.withAfterClasses(statement);
-  return new AfterCallbackStatement(afterClasses,this);
+  return new AfterCallbackStatement(afterClasses,new Statement(){
+    @Override public void evaluate() throws Throwable {
+      after();
+    }
+  }
+);
 }

@@ -1,4 +1,8 @@
 {
   MockitoAnnotations.initMocks(this);
-  this.peekableDataSender=new PeekableDataSender<TAgentStatBatch>();
+  this.tBaseRecorder=new TBaseRecorder<TAgentStatBatch>();
+  TBaseRecorderAdaptor recorderAdaptor=new TBaseRecorderAdaptor(tBaseRecorder);
+  ListenableDataSender listenableDataSender=new ListenableDataSender();
+  listenableDataSender.setListener(recorderAdaptor);
+  this.dataSender=listenableDataSender;
 }

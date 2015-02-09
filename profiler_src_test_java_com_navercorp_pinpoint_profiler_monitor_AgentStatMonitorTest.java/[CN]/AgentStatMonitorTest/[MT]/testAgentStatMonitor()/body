@@ -4,12 +4,12 @@
   final int minNumBatchToTest=2;
   final long totalTestDurationMs=collectionIntervalMs * numCollectionsPerBatch * minNumBatchToTest;
   System.setProperty("pinpoint.log","test.");
-  AgentStatMonitor monitor=new AgentStatMonitor(this.peekableDataSender,"agentId",System.currentTimeMillis(),collectionIntervalMs,numCollectionsPerBatch);
+  AgentStatMonitor monitor=new AgentStatMonitor(this.dataSender,"agentId",System.currentTimeMillis(),collectionIntervalMs,numCollectionsPerBatch);
   monitor.start();
   Thread.sleep(totalTestDurationMs);
   monitor.stop();
-  assertTrue(peekableDataSender.size() >= minNumBatchToTest);
-  for (  TAgentStatBatch agentStatBatch : peekableDataSender) {
+  assertTrue(tBaseRecorder.size() >= minNumBatchToTest);
+  for (  TAgentStatBatch agentStatBatch : tBaseRecorder) {
     logger.debug("agentStatBatch:{}",agentStatBatch);
     assertTrue(agentStatBatch.getAgentStats().size() <= numCollectionsPerBatch);
   }

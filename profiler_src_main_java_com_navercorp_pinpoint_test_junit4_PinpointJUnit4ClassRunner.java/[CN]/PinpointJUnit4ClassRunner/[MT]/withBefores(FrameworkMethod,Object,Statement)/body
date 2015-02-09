@@ -1,0 +1,10 @@
+{
+  Statement before=super.withBefores(method,target,statement);
+  BeforeCallbackStatement callbackStatement=new BeforeCallbackStatement(before,new Statement(){
+    @Override public void evaluate() throws Throwable {
+      setupBaseTest(target);
+    }
+  }
+);
+  return callbackStatement;
+}
