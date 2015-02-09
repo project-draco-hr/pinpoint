@@ -1,9 +1,9 @@
 {
   List<ProfilerPlugin> plugins=PluginLoader.load(ProfilerPlugin.class,pluginJars);
-  List<ProfilerPluginContext> pluginContexts=new ArrayList<ProfilerPluginContext>(plugins.size());
+  List<DefaultProfilerPluginContext> pluginContexts=new ArrayList<DefaultProfilerPluginContext>(plugins.size());
   for (  ProfilerPlugin plugin : plugins) {
     logger.info("Loading plugin: {}",plugin.getClass().getName());
-    ProfilerPluginContext context=new ProfilerPluginContext(profilerConfig);
+    DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(profilerConfig);
     plugin.setUp(context);
     pluginContexts.add(context);
   }

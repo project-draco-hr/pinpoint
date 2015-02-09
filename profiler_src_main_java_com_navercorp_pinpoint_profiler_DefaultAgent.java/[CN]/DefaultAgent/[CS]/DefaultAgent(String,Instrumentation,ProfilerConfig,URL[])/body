@@ -11,7 +11,7 @@
   dumpConfig(profilerConfig);
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=profilerConfig;
-  List<ProfilerPluginContext> pluginContexts=loadProfilerPlugins(profilerConfig,pluginJars);
+  List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(profilerConfig,pluginJars);
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,profilerConfig.getApplicationServerType());
   if (!typeResolver.resolve()) {
     throw new PinpointException("ApplicationServerType not found.");

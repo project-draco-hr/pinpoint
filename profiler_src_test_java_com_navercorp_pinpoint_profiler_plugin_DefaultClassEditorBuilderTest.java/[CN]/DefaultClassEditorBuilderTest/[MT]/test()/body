@@ -15,7 +15,7 @@
   when(aMethod.getParameterTypes()).thenReturn(parameterTypeNames);
   when(aMethod.getDescriptor()).thenReturn(aDescriptor);
   when(aClass.addInterceptor(eq(methodName),eq(parameterTypeNames),isA(Interceptor.class))).thenReturn(0);
-  ProfilerPluginContext context=new ProfilerPluginContext(null);
+  DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(null);
   DefaultClassEditorBuilder builder=new DefaultClassEditorBuilder(context);
   builder.injectMetadata("a","java.util.HashMap");
   builder.injectFieldSnooper("someField");

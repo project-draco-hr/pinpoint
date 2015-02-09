@@ -1,0 +1,43 @@
+{
+  if (type == Trace.class) {
+    return Option.<Object>withValue(traceContext.currentTraceObject());
+  }
+ else   if (type == TraceContext.class) {
+    return Option.<Object>withValue(traceContext);
+  }
+ else   if (type == ProfilerPluginContext.class) {
+    return Option.<Object>withValue(pluginContext);
+  }
+ else   if (type == ByteCodeInstrumentor.class) {
+    return Option.<Object>withValue(instrumentor);
+  }
+ else   if (type == InstrumentClass.class) {
+    return Option.<Object>withValue(targetClass);
+  }
+ else   if (type == MethodDescriptor.class) {
+    MethodDescriptor descriptor=targetMethod.getDescriptor();
+    cacheApiIfAnnotationPresent(annotations,descriptor);
+    return Option.<Object>withValue(descriptor);
+  }
+ else   if (type == MethodInfo.class) {
+    cacheApiIfAnnotationPresent(annotations,targetMethod.getDescriptor());
+    return Option.<Object>withValue(targetMethod);
+  }
+ else   if (type == MetadataAccessor.class) {
+    Annotation annotation=TypeUtils.findAnnotation(annotations,Name.class);
+    if (annotation == null) {
+      return null;
+    }
+    MetadataAccessor accessor=pluginContext.getMetadataAccessor(((Name)annotation).value());
+    return Option.<Object>withValue(accessor);
+  }
+ else   if (type == FieldSnooper.class) {
+    Annotation annotation=TypeUtils.findAnnotation(annotations,Name.class);
+    if (annotation == null) {
+      return null;
+    }
+    FieldSnooper snooper=pluginContext.getFieldSnooper(((Name)annotation).value());
+    return Option.<Object>withValue(snooper);
+  }
+  return Option.<Object>empty();
+}
