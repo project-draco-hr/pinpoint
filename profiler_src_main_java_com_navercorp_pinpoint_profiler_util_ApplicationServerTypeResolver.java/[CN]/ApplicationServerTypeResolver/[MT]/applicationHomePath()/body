@@ -1,10 +1,11 @@
 {
   String path=null;
-  if (System.getProperty("catalina.home") != null) {
-    path=System.getProperty("catalina.home");
+  final SimpleProperty system=this.systemProperty;
+  if (system.getProperty("catalina.home") != null) {
+    path=system.getProperty("catalina.home");
   }
  else {
-    path=System.getProperty("user.dir");
+    path=system.getProperty("user.dir");
   }
   if (logger.isInfoEnabled()) {
     logger.info("Resolved ApplicationHome : {}",path);
