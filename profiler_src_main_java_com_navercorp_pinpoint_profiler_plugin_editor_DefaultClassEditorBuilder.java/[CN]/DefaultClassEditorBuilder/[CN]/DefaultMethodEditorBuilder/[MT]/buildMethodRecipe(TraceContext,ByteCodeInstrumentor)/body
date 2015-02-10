@@ -1,0 +1,13 @@
+{
+  if (recipeBuilders.isEmpty()) {
+    throw new IllegalStateException("No interceptors are defiend");
+  }
+  if (recipeBuilders.size() == 1) {
+    return recipeBuilders.get(0).build(context,instrumentor);
+  }
+  List<MethodRecipe> recipes=new ArrayList<MethodRecipe>(recipeBuilders.size());
+  for (  RecipeBuilder<MethodRecipe> builder : recipeBuilders) {
+    recipes.add(builder.build(context,instrumentor));
+  }
+  return new MethodCookBook(recipes);
+}

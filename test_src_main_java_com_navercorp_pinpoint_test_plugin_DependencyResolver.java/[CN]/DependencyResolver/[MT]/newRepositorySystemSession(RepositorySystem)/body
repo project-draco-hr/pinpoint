@@ -1,0 +1,8 @@
+{
+  DefaultRepositorySystemSession session=MavenRepositorySystemUtils.newSession();
+  String localRepositoryPath=resolveLocalRepository();
+  logger.info("Local repository: " + localRepositoryPath);
+  LocalRepository localRepository=new LocalRepository(localRepositoryPath);
+  session.setLocalRepositoryManager(system.newLocalRepositoryManager(session,localRepository));
+  return session;
+}

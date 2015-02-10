@@ -1,0 +1,7 @@
+{
+  MethodInfo targetMethod=target.getDeclaredMethod(targetMethodName,targetMethodParameterTypes);
+  if (targetMethod == null) {
+    throw new InstrumentException("No such method: " + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ")");
+  }
+  recipe.edit(classLoader,target,targetMethod);
+}

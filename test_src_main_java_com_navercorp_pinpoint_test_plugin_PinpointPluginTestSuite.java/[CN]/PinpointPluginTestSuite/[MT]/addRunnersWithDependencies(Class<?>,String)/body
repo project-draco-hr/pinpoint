@@ -1,0 +1,12 @@
+{
+  DependencyResolver resolver=DependencyResolver.get(repositories);
+  Map<String,List<Artifact>> dependencyCases=resolver.resolveDependencySets(dependencies);
+  for (  Map.Entry<String,List<Artifact>> dependencyCase : dependencyCases.entrySet()) {
+    List<String> libs=new ArrayList<String>();
+    libs.add(testClassLocation);
+    for (    File lib : resolver.resolveArtifactsAndDependencies(dependencyCase.getValue())) {
+      libs.add(lib.getAbsolutePath());
+    }
+    addRunner(testClass,dependencyCase.getKey(),libs);
+  }
+}

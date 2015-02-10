@@ -1,0 +1,12 @@
+{
+  if (displayName.equals(description.getDisplayName())) {
+    return description;
+  }
+  for (  Description desc : description.getChildren()) {
+    Description found=findDescription(desc,displayName);
+    if (found != null) {
+      return found;
+    }
+  }
+  return null;
+}

@@ -1,9 +1,17 @@
 {
-  String applicationHome=null;
-  applicationHome=applicationHomePath();
-  if (blocResolve(applicationHome)) {
-    return initializeApplicationInfo(applicationHome,ServiceType.BLOC);
+  for (  ServerTypeDetector detector : detectors) {
+    logger.debug("try resolve using {}",detector.getClass());
+    if (detector.detect()) {
+      this.serverType=detector.getServerType();
+      this.serverLibPath=detector.getServerClassPath();
+      this.manuallyStartupRequired=!detector.hasServerProperty(ApplicationServerProperty.MANAGE_PINPOINT_AGENT_LIFECYCLE);
+      if (logger.isInfoEnabled()) {
+        logger.info("Configured applicationServerType [{}] by {}",serverType,detector.getClass().getName());
+      }
+      return true;
+    }
   }
+  String applicationHome=applicationHomePath();
   if (tomcatResolve(applicationHome)) {
     return initializeApplicationInfo(applicationHome,ServiceType.TOMCAT);
   }

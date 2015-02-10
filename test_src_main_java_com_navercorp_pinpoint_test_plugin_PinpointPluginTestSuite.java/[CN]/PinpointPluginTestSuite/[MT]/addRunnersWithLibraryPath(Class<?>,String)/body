@@ -1,0 +1,17 @@
+{
+  File file=new File(libraryPath);
+  for (  File child : file.listFiles()) {
+    if (!child.isDirectory()) {
+      continue;
+    }
+    List<String> libraries=new ArrayList<String>();
+    for (    File f : file.listFiles()) {
+      if (f.getName().endsWith(".jar")) {
+        libraries.add(f.getAbsolutePath());
+      }
+    }
+    libraries.add(child.getAbsolutePath());
+    libraries.add(testClassLocation);
+    addRunner(testClass,child.getName(),libraries);
+  }
+}

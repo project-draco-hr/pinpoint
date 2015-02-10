@@ -1,0 +1,15 @@
+{
+  List<Dependency> dependencies=new ArrayList<Dependency>();
+  for (  Artifact artifact : artifacts) {
+    dependencies.add(new Dependency(artifact,JavaScopes.RUNTIME));
+  }
+  CollectRequest collectRequest=new CollectRequest((Dependency)null,dependencies,repositories);
+  DependencyFilter classpathFlter=DependencyFilterUtils.classpathFilter(JavaScopes.RUNTIME);
+  DependencyRequest dependencyRequest=new DependencyRequest(collectRequest,classpathFlter);
+  DependencyResult result=system.resolveDependencies(session,dependencyRequest);
+  List<File> files=new ArrayList<File>();
+  for (  ArtifactResult artifactResult : result.getArtifactResults()) {
+    files.add(artifactResult.getArtifact().getFile());
+  }
+  return files;
+}

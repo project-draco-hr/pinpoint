@@ -1,0 +1,9 @@
+{
+  Interceptor interceptor=factory.getInterceptor(targetClassLoader,targetClass,targetMethod);
+  if (targetMethod.isConstructor()) {
+    targetClass.addConstructorInterceptor(targetMethod.getParameterTypes(),interceptor);
+  }
+ else {
+    targetClass.addInterceptor(targetMethod.getName(),targetMethod.getParameterTypes(),interceptor);
+  }
+}

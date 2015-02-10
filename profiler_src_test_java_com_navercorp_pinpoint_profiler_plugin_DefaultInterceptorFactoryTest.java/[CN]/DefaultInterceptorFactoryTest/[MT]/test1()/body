@@ -1,0 +1,7 @@
+{
+  Object[] args=new Object[]{"arg0"};
+  AnnotatedInterceptorFactory factory=new AnnotatedInterceptorFactory(traceContext,pluginContext,instrumentor,TestInterceptors.TestInterceptor0.class,args);
+  Interceptor interceptor=factory.getInterceptor(getClass().getClassLoader(),aClass,aMethod);
+  assertEquals(TestInterceptor0.class,interceptor.getClass());
+  assertEquals(args[0],getField(interceptor,"field0"));
+}
