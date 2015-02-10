@@ -13,13 +13,7 @@ synchronized (this) {
   this.agentStatMonitor.stop();
   this.spanDataSender.stop();
   this.statDataSender.stop();
-  this.tcpDataSender.stop();
-  if (this.socket != null) {
-    this.socket.close();
-  }
-  if (this.factory != null) {
-    this.factory.release();
-  }
+  closeTcpDataSender();
   PLoggerFactory.unregister(this.binder);
   this.interceptorRegistryBinder.unbind();
 }
