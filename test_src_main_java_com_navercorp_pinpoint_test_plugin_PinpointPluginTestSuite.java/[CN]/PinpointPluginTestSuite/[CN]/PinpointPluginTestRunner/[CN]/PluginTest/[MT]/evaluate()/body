@@ -2,7 +2,7 @@
   ProcessBuilder builder=new ProcessBuilder();
   builder.command(buildCommand(systemLibs,dependencyLibs));
   builder.redirectErrorStream(true);
-  System.out.println("Working directory: " + System.getProperty("user.dir"));
+  System.out.println("Working directory: " + simpleProperty.getProperty("user.dir"));
   System.out.println("Command: " + builder.command());
   Process process=builder.start();
   final InputStream inputStream=process.getInputStream();
