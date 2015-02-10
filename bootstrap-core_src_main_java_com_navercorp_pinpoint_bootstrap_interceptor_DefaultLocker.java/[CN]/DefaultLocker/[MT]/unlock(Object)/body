@@ -1,0 +1,14 @@
+{
+  final Object lockExist=lockRef.get();
+  if (lockExist == null) {
+    return lockRef.compareAndSet(null,null);
+  }
+ else {
+    if (lockExist == lock) {
+      return lockRef.compareAndSet(lockExist,null);
+    }
+ else {
+      return false;
+    }
+  }
+}

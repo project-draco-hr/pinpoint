@@ -1,0 +1,7 @@
+{
+  StaticAroundInterceptor mock=mock(StaticAroundInterceptor.class);
+  InterceptorRegistryAdaptor registry=new DefaultInterceptorRegistryAdaptor();
+  int key=registry.addStaticInterceptor(mock);
+  StaticAroundInterceptor find=registry.getStaticInterceptor(key);
+  Assert.assertSame(mock,find);
+}

@@ -1,6 +1,6 @@
 {
   PLoggerFactory.initialize(new Slf4jLoggerBinder());
-  DefaultAgent agent=MockAgent.of("pinpoint.config");
-  loader=new TestClassLoader(agent);
+  agent=MockAgent.of("pinpoint.config");
+  loader=new TestClassLoader(agent.getProfilerConfig(),agent.getByteCodeInstrumentor(),agent.getClassFileTransformer());
   loader.initialize();
 }

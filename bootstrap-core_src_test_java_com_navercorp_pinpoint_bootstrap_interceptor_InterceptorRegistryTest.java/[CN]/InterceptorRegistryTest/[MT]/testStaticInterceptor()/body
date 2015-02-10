@@ -1,0 +1,7 @@
+{
+  StaticAroundInterceptor staticAroundInterceptor=mock(StaticAroundInterceptor.class);
+  when(registryAdaptor.getStaticInterceptor(0)).thenReturn(staticAroundInterceptor);
+  int findId=registryAdaptor.addStaticInterceptor(staticAroundInterceptor);
+  StaticAroundInterceptor find=InterceptorRegistry.getStaticInterceptor(findId);
+  Assert.assertSame(find,staticAroundInterceptor);
+}

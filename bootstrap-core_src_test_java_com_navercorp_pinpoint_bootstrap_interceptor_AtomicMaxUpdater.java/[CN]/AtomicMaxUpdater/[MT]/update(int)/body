@@ -1,0 +1,12 @@
+{
+  while (true) {
+    final int currentMax=getIndex();
+    if (currentMax >= max) {
+      return false;
+    }
+    final boolean update=UPDATER.compareAndSet(this,currentMax,max);
+    if (update) {
+      return true;
+    }
+  }
+}

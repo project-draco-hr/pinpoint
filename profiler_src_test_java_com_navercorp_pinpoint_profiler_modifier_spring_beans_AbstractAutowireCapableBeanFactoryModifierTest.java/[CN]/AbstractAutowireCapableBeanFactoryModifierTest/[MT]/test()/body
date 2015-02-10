@@ -2,7 +2,7 @@
   DefaultAgent agent=MockAgent.of("pinpoint-spring-bean-test.config");
   ClassFileRetransformer retransformer=mock(ClassFileRetransformer.class);
   Modifier beanModifier=mock(Modifier.class);
-  AbstractAutowireCapableBeanFactoryModifier modifier=AbstractAutowireCapableBeanFactoryModifier.of(agent.getByteCodeInstrumentor(),agent,retransformer,beanModifier);
+  AbstractAutowireCapableBeanFactoryModifier modifier=AbstractAutowireCapableBeanFactoryModifier.of(agent.getByteCodeInstrumentor(),agent.getProfilerConfig(),retransformer,beanModifier);
   ClassLoader loader=getClass().getClassLoader();
   ClassTransformHelper.transformClass(loader,"org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory",modifier);
   ApplicationContext context=new ClassPathXmlApplicationContext("spring-beans-test.xml");

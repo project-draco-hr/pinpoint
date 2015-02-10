@@ -1,0 +1,20 @@
+{
+  MockAgent mockAgent=testContext.getMockAgent();
+  DataSender spanDataSender=mockAgent.getSpanDataSender();
+  if (spanDataSender instanceof ListenableDataSender) {
+    ListenableDataSender listenableDataSender=(ListenableDataSender)spanDataSender;
+    final TBaseRecorder tBaseRecord=new TBaseRecorder();
+    listenableDataSender.setListener(new ListenableDataSender.Listener(){
+      @Override public boolean handleSend(      TBase<?,?> data){
+        return tBaseRecord.add(data);
+      }
+    }
+);
+    setTBaseRecorder(tBaseRecord);
+  }
+  ServerMetaDataHolder serverMetaDataHolder=mockAgent.getTraceContext().getServerMetaDataHolder();
+  if (serverMetaDataHolder instanceof ResettableServerMetaDataHolder) {
+    ResettableServerMetaDataHolder resettableServerMetaDataHolder=(ResettableServerMetaDataHolder)serverMetaDataHolder;
+    this.setServerMetaDataHolder(resettableServerMetaDataHolder);
+  }
+}

@@ -13,7 +13,7 @@
     List<MethodInfo> declaredMethods=arcusClient.getDeclaredMethods(new ArcusMethodFilter());
     for (    MethodInfo method : declaredMethods) {
       SimpleAroundInterceptor apiInterceptor=(SimpleAroundInterceptor)byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.modifier.arcus.interceptor.ApiInterceptor");
-      if (agent.getProfilerConfig().isArucsKeyTrace()) {
+      if (this.getProfilerConfig().isArucsKeyTrace()) {
         final int index=ParameterUtils.findFirstString(method,3);
         if (index != -1) {
           ((ParameterExtractorSupport)apiInterceptor).setParameterExtractor(new IndexParameterExtractor(index));

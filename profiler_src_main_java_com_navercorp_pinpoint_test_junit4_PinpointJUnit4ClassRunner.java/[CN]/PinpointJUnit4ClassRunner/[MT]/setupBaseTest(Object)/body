@@ -1,0 +1,13 @@
+{
+  logger.debug("setupBaseTest");
+  final Class<?> baseTestClass=this.testContext.getBaseTestClass();
+  if (baseTestClass.isInstance(test)) {
+    try {
+      Method reset=baseTestClass.getDeclaredMethod("setup",TestContext.class);
+      reset.invoke(test,this.testContext);
+    }
+ catch (    Exception e) {
+      throw new RuntimeException("setCurrentHolder Error. Caused by:" + e.getMessage(),e);
+    }
+  }
+}

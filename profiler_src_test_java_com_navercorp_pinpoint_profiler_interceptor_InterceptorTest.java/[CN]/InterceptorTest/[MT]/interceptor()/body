@@ -8,7 +8,7 @@
     }
   }
 ;
-  int interceptorId=InterceptorRegistry.addSimpleInterceptor(aroundInterceptor);
+  int interceptorId=INTERCEPTOR_REGISTRY_ADAPTOR.addSimpleInterceptor(aroundInterceptor);
   final ClassPool classPool=new ClassPool(true);
   CtClass throwable=classPool.get(Throwable.class.getName());
   CtClass ctClass=classPool.get("com.navercorp.pinpoint.profiler.interceptor.JavaAssistTestObject");

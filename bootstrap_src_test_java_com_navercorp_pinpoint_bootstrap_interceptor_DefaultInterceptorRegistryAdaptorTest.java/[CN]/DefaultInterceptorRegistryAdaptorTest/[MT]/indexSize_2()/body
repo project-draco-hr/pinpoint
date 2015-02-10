@@ -1,0 +1,10 @@
+{
+  InterceptorRegistryAdaptor interceptorRegistry=new DefaultInterceptorRegistryAdaptor(1);
+  interceptorRegistry.addStaticInterceptor(mock(StaticAroundInterceptor.class));
+  try {
+    interceptorRegistry.addStaticInterceptor(mock(StaticAroundInterceptor.class));
+    Assert.fail();
+  }
+ catch (  IndexOutOfBoundsException ignore) {
+  }
+}
