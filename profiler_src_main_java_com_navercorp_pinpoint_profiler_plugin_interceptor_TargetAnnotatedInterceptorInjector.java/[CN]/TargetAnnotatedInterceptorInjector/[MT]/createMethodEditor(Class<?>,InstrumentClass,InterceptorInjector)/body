@@ -1,0 +1,31 @@
+{
+  List<MethodEditor> editors=new ArrayList<MethodEditor>();
+  Targets targets=interceptorType.getAnnotation(Targets.class);
+  if (targets != null) {
+    for (    TargetMethod m : targets.methods()) {
+      editors.add(createDedicatedMethodEditor(m,injector));
+    }
+    for (    TargetConstructor c : targets.constructors()) {
+      editors.add(createConstructorEditor(c,injector));
+    }
+    for (    TargetFilter f : targets.filters()) {
+      editors.add(createFilteredMethodEditor(f,targetClass,injector));
+    }
+  }
+  TargetMethod targetMethod=interceptorType.getAnnotation(TargetMethod.class);
+  if (targetMethod != null) {
+    editors.add(createDedicatedMethodEditor(targetMethod,injector));
+  }
+  TargetConstructor targetConstructor=interceptorType.getAnnotation(TargetConstructor.class);
+  if (targetConstructor != null) {
+    editors.add(createConstructorEditor(targetConstructor,injector));
+  }
+  TargetFilter targetFilter=interceptorType.getAnnotation(TargetFilter.class);
+  if (targetFilter != null) {
+    editors.add(createFilteredMethodEditor(targetFilter,targetClass,injector));
+  }
+  if (editors.isEmpty()) {
+    throw new PinpointException("No target is specified. At least one of @Targets, @TargetMethod, @TargetConstructor, @TargetFilter must present. interceptor: " + interceptorName);
+  }
+  return editors.size() == 1 ? editors.get(0) : new ClassCookBook(editors);
+}

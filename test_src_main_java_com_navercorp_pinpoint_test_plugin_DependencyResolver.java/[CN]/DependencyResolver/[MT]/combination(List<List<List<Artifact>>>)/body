@@ -1,0 +1,44 @@
+{
+  if (groups.size() == 1) {
+    Map<String,List<Artifact>> result=new HashMap<String,List<Artifact>>();
+    List<List<Artifact>> group=groups.get(0);
+    if (group.size() == 1) {
+      result.put("",group.get(0));
+    }
+ else {
+      for (      List<Artifact> aCase : group) {
+        Artifact representative=aCase.get(0);
+        result.put(representative.getArtifactId() + "-" + representative.getVersion(),aCase);
+      }
+    }
+    return result;
+  }
+  List<List<Artifact>> thisGroup=groups.get(0);
+  Map<String,List<Artifact>> sub=combination(groups.subList(1,groups.size()));
+  Map<String,List<Artifact>> result=new HashMap<String,List<Artifact>>();
+  if (thisGroup.size() == 1) {
+    List<Artifact> thisArtifacts=thisGroup.get(0);
+    for (    Entry<String,List<Artifact>> subEntry : sub.entrySet()) {
+      List<Artifact> subArtifacts=subEntry.getValue();
+      List<Artifact> t=new ArrayList<Artifact>(thisArtifacts.size() + subArtifacts.size());
+      t.addAll(thisArtifacts);
+      t.addAll(subArtifacts);
+      result.put(subEntry.getKey(),t);
+    }
+  }
+ else {
+    for (    List<Artifact> thisArtifacts : thisGroup) {
+      Artifact representative=thisArtifacts.get(0);
+      String thisKey=representative.getArtifactId() + "-" + representative.getVersion();
+      for (      Entry<String,List<Artifact>> subEntry : sub.entrySet()) {
+        List<Artifact> subArtifacts=subEntry.getValue();
+        List<Artifact> t=new ArrayList<Artifact>(thisArtifacts.size() + subArtifacts.size());
+        t.addAll(thisArtifacts);
+        t.addAll(subArtifacts);
+        String key=thisKey + ", " + subEntry.getKey();
+        result.put(key,t);
+      }
+    }
+  }
+  return result;
+}

@@ -1,0 +1,22 @@
+{
+  if (interfaceType.getClassLoader() != InstrumentClass.class.getClassLoader()) {
+    throw new InstrumentException(interfaceType + " must be loaded by the class loader which loaded pinpint-bootstrap");
+  }
+  java.lang.reflect.Method[] methods=interfaceType.getMethods();
+  if (methods.length != 1) {
+    throw new InstrumentException("Getter interface must have only one method: " + interfaceType.getName());
+  }
+  java.lang.reflect.Method getter=methods[0];
+  if (getter.getParameterTypes().length != 0) {
+    throw new InstrumentException("Getter interface method must be no-args and non-void: " + interfaceType.getName());
+  }
+  try {
+    CtMethod getterMethod=CtNewMethod.make("public " + getter.getReturnType().getName() + " "+ getter.getName()+ "() { return "+ fieldName+ "; }",ctClass);
+    ctClass.addMethod(getterMethod);
+    CtClass ctInterface=instrumentor.getClass(interfaceType.getClassLoader(),interfaceType.getName());
+    ctClass.addInterface(ctInterface);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Fail to add getter: " + interfaceType.getName(),e);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  Class<? extends MethodFilter> type=annotation.value();
+  if (type == null) {
+    type=annotation.type();
+  }
+  if (type == null) {
+    throw new PinpointException("value and type of @TargetFilter are null: " + interceptorName);
+  }
+  String[] constructorArguments=annotation.constructorArguments();
+  AutoBindingObjectFactory<MethodFilter> filterFactory=new AutoBindingObjectFactory<MethodFilter>(traceContext,pluginContext,instrumentor,targetClass,constructorArguments);
+  MethodFilter filter=filterFactory.createInstance(type);
+  return new FilteringMethodEditor(filter,injector);
+}

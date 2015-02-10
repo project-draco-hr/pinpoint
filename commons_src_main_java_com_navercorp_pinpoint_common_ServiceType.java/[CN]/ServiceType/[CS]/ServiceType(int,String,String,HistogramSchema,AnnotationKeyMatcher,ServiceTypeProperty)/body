@@ -1,0 +1,29 @@
+{
+  if (code > Short.MAX_VALUE || code < Short.MIN_VALUE) {
+    throw new IllegalArgumentException("code must be a short value");
+  }
+  this.code=(short)code;
+  this.name=name;
+  this.desc=desc;
+  this.histogramSchema=histogramSchema;
+  this.displayArgumentMatcher=displayArgumentMatcher;
+  boolean terminal=false;
+  boolean recordStatistics=false;
+  boolean includeDestinationId=false;
+  for (  ServiceTypeProperty property : properties) {
+switch (property) {
+case TERMINAL:
+      terminal=true;
+    break;
+case RECORD_STATISTICS:
+  recordStatistics=true;
+break;
+case INCLUDE_DESTINATION_ID:
+includeDestinationId=true;
+break;
+}
+}
+this.terminal=terminal;
+this.recordStatistics=recordStatistics;
+this.includeDestinationId=includeDestinationId;
+}

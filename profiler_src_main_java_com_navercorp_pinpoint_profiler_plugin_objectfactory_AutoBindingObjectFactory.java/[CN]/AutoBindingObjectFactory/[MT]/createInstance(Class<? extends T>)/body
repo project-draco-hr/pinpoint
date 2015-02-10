@@ -1,0 +1,9 @@
+{
+  ConstructorResolver<T> resolver=createConstructorResolver(targetClass,targetMethod,type);
+  if (!resolver.resolve()) {
+    throw new PinpointException("Cannot find suitable constructor for " + type.getName());
+  }
+  Constructor<? extends T> constructor=resolver.getResolvedConstructor();
+  Object[] resolvedArguments=resolver.getResolvedArguments();
+  return invokeConstructor(constructor,resolvedArguments);
+}
