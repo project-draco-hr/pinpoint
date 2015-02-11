@@ -1,7 +1,7 @@
 {
-  Result result=this.resultReference.get();
+  final Result result=this.result;
   if (result == null) {
-    if (this.resultReference.compareAndSet(null,connectResult)) {
+    if (FIELD_UPDATER.compareAndSet(this,null,connectResult)) {
       latch.countDown();
     }
   }
