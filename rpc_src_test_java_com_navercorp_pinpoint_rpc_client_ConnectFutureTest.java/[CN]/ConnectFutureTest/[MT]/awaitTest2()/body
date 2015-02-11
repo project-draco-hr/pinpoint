@@ -1,0 +1,8 @@
+{
+  ConnectFuture future=new ConnectFuture();
+  long waitTime=100;
+  Thread thread=new Thread(new SetResultRunnable(future,waitTime));
+  thread.start();
+  future.awaitUninterruptibly();
+  Assert.assertEquals(Result.SUCCESS,future.getResult());
+}

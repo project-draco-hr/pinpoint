@@ -1,0 +1,8 @@
+{
+  Result result=this.resultReference.get();
+  if (result == null) {
+    if (this.resultReference.compareAndSet(null,connectResult)) {
+      latch.countDown();
+    }
+  }
+}

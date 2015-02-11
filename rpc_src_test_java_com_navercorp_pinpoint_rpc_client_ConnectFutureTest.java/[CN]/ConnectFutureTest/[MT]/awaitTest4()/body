@@ -1,0 +1,12 @@
+{
+  ConnectFuture future=new ConnectFuture();
+  long waitTime=100;
+  Thread thread=new Thread(new SetResultRunnable(future,waitTime));
+  thread.start();
+  boolean isReady=future.await(waitTime / 2,TimeUnit.MILLISECONDS);
+  Assert.assertFalse(isReady);
+  Assert.assertEquals(null,future.getResult());
+  isReady=future.await(waitTime,TimeUnit.MILLISECONDS);
+  Assert.assertTrue(isReady);
+  Assert.assertEquals(Result.SUCCESS,future.getResult());
+}

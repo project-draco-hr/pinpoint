@@ -14,9 +14,5 @@
   final Channel channel=this.channel;
   closeStreamChannelManager(channel);
   sendClosedPacket(channel);
-  logger.debug("channel.close()");
-  ChannelFuture closeFuture=channel.close();
-  closeFuture.addListener(new WriteFailFutureListener(logger,"close() event failed.","close() event success."));
-  closeFuture.awaitUninterruptibly();
-  logger.debug("close() complete");
+  closeChannel(channel);
 }
