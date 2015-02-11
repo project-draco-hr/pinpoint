@@ -1,6 +1,13 @@
 {
-  if (logger.isDebugEnabled()) {
-    logger.debug("channelConnected() state:{} {}",state.getString(),channel);
+  logger.info("channelConnected() change state=RUN");
+  Channel channel=ctx.getChannel();
+  if ((null == channel) || (this.channel != channel)) {
+    throw new IllegalArgumentException("Invalid channel variable. this.channel:" + this.channel + ", channel:"+ channel+ ".");
   }
+  if (!state.changeToRun()) {
+    throw new IllegalStateException("invalid open state:" + state.getString());
+  }
+  prepareChannel(channel);
   registerPing();
+  connectFuture.setResult(Result.SUCCESS);
 }
