@@ -1,0 +1,6 @@
+{
+  StaticFieldLookUp<DisplayArgumentMatcher> staticFieldLookUp=new StaticFieldLookUp<DisplayArgumentMatcher>(DefaultDisplayArgument.class,DisplayArgumentMatcher.class);
+  List<DisplayArgumentMatcher> lookup=staticFieldLookUp.lookup();
+  DisplayArgumentMatcher notExist=new DisplayArgumentMatcher(ServiceType.UNDEFINED,AnnotationKeyMatcher.NOTHING_MATCHER);
+  Assert.assertFalse(findType(lookup,notExist));
+}

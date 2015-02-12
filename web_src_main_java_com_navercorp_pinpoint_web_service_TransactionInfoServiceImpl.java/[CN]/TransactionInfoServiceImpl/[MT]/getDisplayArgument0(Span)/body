@@ -1,0 +1,19 @@
+{
+  List<AnnotationBo> list=span.getAnnotationBoList();
+  if (list == null) {
+    return null;
+  }
+  final ServiceType serviceType=span.getServiceType();
+  final AnnotationKeyMatcher matcher=annotationKeyMatcherService.findAnnotationKeyMatcher(serviceType);
+  ;
+  if (matcher == null) {
+    return null;
+  }
+  for (  AnnotationBo annotation : list) {
+    int key=annotation.getKey();
+    if (matcher.matches(key)) {
+      return annotation;
+    }
+  }
+  return null;
+}

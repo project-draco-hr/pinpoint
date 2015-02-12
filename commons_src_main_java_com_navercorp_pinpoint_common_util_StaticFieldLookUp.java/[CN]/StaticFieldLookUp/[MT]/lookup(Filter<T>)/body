@@ -1,0 +1,27 @@
+{
+  if (filter == null) {
+    throw new NullPointerException("filter must not be null");
+  }
+  final List<T> lookup=new ArrayList<T>();
+  Field[] declaredFields=targetClazz.getDeclaredFields();
+  for (  Field field : declaredFields) {
+    if (!Modifier.isStatic(field.getModifiers())) {
+      continue;
+    }
+    if (!Modifier.isPublic(field.getModifiers())) {
+      continue;
+    }
+    if (!field.getType().equals(findClazz)) {
+      continue;
+    }
+    final Object serviceTypeObject=getObject(field);
+    if (findClazz.isInstance(serviceTypeObject)) {
+      T type=findClazz.cast(serviceTypeObject);
+      if (filter.filter(type) == Filter.FILTERED) {
+        continue;
+      }
+      lookup.add(type);
+    }
+  }
+  return lookup;
+}
