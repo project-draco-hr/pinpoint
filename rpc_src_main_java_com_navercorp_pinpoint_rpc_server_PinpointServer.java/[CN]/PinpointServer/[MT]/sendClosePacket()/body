@@ -1,0 +1,14 @@
+{
+  logger.info("sendServerClosedPacket start");
+  PinpointServerStateCode errorCode=changeStateBeingShutdown();
+  if (errorCode == null) {
+    final ChannelFuture writeFuture=this.channel.write(ServerClosePacket.DEFAULT_SERVER_CLOSE_PACKET);
+    writeFuture.addListener(serverCloseWriteListener);
+    logger.info("sendServerClosedPacket end");
+    return writeFuture;
+  }
+ else {
+    logger.info("sendServerClosedPacket fail. Error: change state failed.");
+    return null;
+  }
+}

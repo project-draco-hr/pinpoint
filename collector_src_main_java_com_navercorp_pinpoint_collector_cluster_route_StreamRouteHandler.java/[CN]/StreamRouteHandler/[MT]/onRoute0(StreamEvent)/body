@@ -12,11 +12,11 @@
     return new RouteResult(RouteStatus.NOT_ACCEPTABLE);
   }
   try {
-    if (clusterPoint instanceof ChannelContextClusterPoint) {
+    if (clusterPoint instanceof PinpointServerClusterPoint) {
       StreamRouteManager routeManager=new StreamRouteManager(event);
       ServerStreamChannelContext consumerContext=event.getStreamChannelContext();
       consumerContext.setAttributeIfAbsent(ATTACHMENT_KEY,routeManager);
-      ClientStreamChannelContext producerContext=createStreamChannel((ChannelContextClusterPoint)clusterPoint,event.getDeliveryCommand().getPayload(),routeManager);
+      ClientStreamChannelContext producerContext=createStreamChannel((PinpointServerClusterPoint)clusterPoint,event.getDeliveryCommand().getPayload(),routeManager);
       routeManager.setProducer(producerContext.getStreamChannel());
       return new RouteResult(RouteStatus.OK);
     }

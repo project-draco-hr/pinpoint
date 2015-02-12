@@ -1,13 +1,13 @@
 {
-  ChannelContext channelContext=job.getChannelContext();
+  PinpointServer pinpointServer=job.getPinpointServer();
   try {
     if (zookeeperClient.exists(collectorUniqPath)) {
       byte[] contents=zookeeperClient.getData(collectorUniqPath);
-      String removeContents=createProfilerContents(channelContext);
+      String removeContents=createProfilerContents(pinpointServer);
       String data=removeIfExistContents(new String(contents,charset),removeContents);
       zookeeperClient.setData(collectorUniqPath,data.getBytes(charset));
     }
-    channelContextRepository.remove(channelContext);
+    pinpointServerRepository.remove(pinpointServer);
     return true;
   }
  catch (  Exception e) {

@@ -1,21 +1,21 @@
 {
-  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new AlwaysHandshakeSuccessListener());
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new AlwaysHandshakeSuccessListener());
   EchoClientListener echoMessageListener=new EchoClientListener();
   PinpointSocketFactory clientSocketFactory=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),echoMessageListener);
   try {
     PinpointSocket socket=clientSocketFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    List<ChannelContext> channelContextList=serverSocket.getDuplexCommunicationChannelContext();
-    if (channelContextList.size() != 1) {
+    List<WritablePinpointServer> writableServerList=serverAcceptor.getWritableServerList();
+    if (writableServerList.size() != 1) {
       Assert.fail();
     }
-    ChannelContext channelContext=channelContextList.get(0);
-    assertSendMessage(channelContextList.get(0),"simple",echoMessageListener);
-    assertRequestMessage(channelContext,"request",echoMessageListener);
+    WritablePinpointServer writableServer=writableServerList.get(0);
+    assertSendMessage(writableServer,"simple",echoMessageListener);
+    assertRequestMessage(writableServer,"request",echoMessageListener);
     PinpointRPCTestUtils.close(socket);
   }
   finally {
     clientSocketFactory.release();
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

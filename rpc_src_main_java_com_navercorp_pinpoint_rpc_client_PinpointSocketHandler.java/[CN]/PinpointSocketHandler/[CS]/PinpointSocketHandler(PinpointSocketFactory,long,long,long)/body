@@ -6,7 +6,7 @@
   timer.start();
   this.channelTimer=timer;
   this.pinpointSocketFactory=pinpointSocketFactory;
-  this.requestManager=new RequestManager(timer);
+  this.requestManager=new RequestManager(timer,timeoutMillis);
   this.pingDelay=pingDelay;
   this.handshakeRetryInterval=handshakeRetryInterval;
   this.timeoutMillis=timeoutMillis;
@@ -24,6 +24,7 @@
  else {
     this.serverStreamChannelMessageListener=DisabledServerStreamChannelMessageListener.INSTANCE;
   }
+  this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
   pinpointSocketFactory.getServerStreamChannelMessageListener();
   this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
 }

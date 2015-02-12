@@ -1,12 +1,12 @@
 {
-  ChannelContext channelContext=job.getChannelContext();
-  PinpointServerSocketStateCode code=channelContext.getCurrentStateCode();
-  if (PinpointServerSocketStateCode.isFinished(code)) {
-    putJob(new DeleteJob(channelContext));
+  PinpointServer pinpointServer=job.getPinpointServer();
+  PinpointServerStateCode code=pinpointServer.getCurrentStateCode();
+  if (PinpointServerStateCode.isFinished(code)) {
+    putJob(new DeleteJob(pinpointServer));
     return false;
   }
   try {
-    String addContents=createProfilerContents(channelContext);
+    String addContents=createProfilerContents(pinpointServer);
     if (zookeeperClient.exists(collectorUniqPath)) {
       byte[] contents=zookeeperClient.getData(collectorUniqPath);
       String data=addIfAbsentContents(new String(contents,charset),addContents);

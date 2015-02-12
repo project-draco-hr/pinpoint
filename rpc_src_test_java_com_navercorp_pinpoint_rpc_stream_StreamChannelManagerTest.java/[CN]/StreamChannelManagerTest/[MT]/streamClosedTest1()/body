@@ -1,6 +1,6 @@
 {
-  PinpointServerSocket serverSocket=createServerSocket(new TestSeverMessageListener(),null);
-  serverSocket.bind("localhost",bindPort);
+  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),null);
+  serverAcceptor.bind("localhost",bindPort);
   PinpointSocketFactory pinpointSocketFactory=createSocketFactory();
   try {
     PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",bindPort);
@@ -12,6 +12,6 @@
   }
   finally {
     pinpointSocketFactory.release();
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

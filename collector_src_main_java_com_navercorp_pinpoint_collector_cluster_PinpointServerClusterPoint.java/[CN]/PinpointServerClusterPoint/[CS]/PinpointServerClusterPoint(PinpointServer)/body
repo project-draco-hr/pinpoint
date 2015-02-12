@@ -1,0 +1,13 @@
+{
+  AssertUtils.assertNotNull(pinpointServer,"pinpointServer may not be null.");
+  this.pinpointServer=pinpointServer;
+  Map<Object,Object> properties=pinpointServer.getChannelProperties();
+  this.version=MapUtils.getString(properties,AgentHandshakePropertyType.VERSION.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(version),"Version may not be null or empty.");
+  this.applicationName=MapUtils.getString(properties,AgentHandshakePropertyType.APPLICATION_NAME.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(applicationName),"ApplicationName may not be null or empty.");
+  this.agentId=MapUtils.getString(properties,AgentHandshakePropertyType.AGENT_ID.getName());
+  AssertUtils.assertTrue(!StringUtils.isBlank(agentId),"AgentId may not be null or empty.");
+  this.startTimeStamp=MapUtils.getLong(properties,AgentHandshakePropertyType.START_TIMESTAMP.getName());
+  AssertUtils.assertTrue(startTimeStamp > 0,"StartTimeStamp is must greater than zero.");
+}

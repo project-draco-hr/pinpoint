@@ -6,10 +6,11 @@
     throw new NullPointerException("bindAddress must not be null");
   }
   if (service == null || !service.isEnable()) {
-    this.pinpointServerSocket=new PinpointServerSocket();
+    this.serverAcceptor=new PinpointServerAcceptor();
   }
  else {
-    this.pinpointServerSocket=new PinpointServerSocket(service.getChannelStateChangeEventHandler());
+    this.serverAcceptor=new PinpointServerAcceptor();
+    this.serverAcceptor.setStateChangeEventHandler(service.getChannelStateChangeEventHandler());
   }
   this.dispatchHandler=dispatchHandler;
   this.bindAddress=bindAddress;

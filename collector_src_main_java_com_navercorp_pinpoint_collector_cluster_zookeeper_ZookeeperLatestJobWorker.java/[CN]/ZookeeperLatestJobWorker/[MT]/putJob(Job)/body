@@ -1,11 +1,11 @@
 {
-  ChannelContext channelContext=job.getChannelContext();
-  if (!checkRequiredProperties(channelContext)) {
+  PinpointServer pinpointServer=job.getPinpointServer();
+  if (!checkRequiredProperties(pinpointServer)) {
     return;
   }
 synchronized (lock) {
-    channelContextRepository.addIfAbsent(channelContext);
-    latestJobRepository.put(channelContext,job);
+    pinpointServerRepository.addIfAbsent(pinpointServer);
+    latestJobRepository.put(pinpointServer,job);
     lock.notifyAll();
   }
 }

@@ -1,21 +1,22 @@
 {
   EventHandler eventHandler=new EventHandler();
-  PinpointServerSocket serverSocket=new PinpointServerSocket(eventHandler);
-  serverSocket.setMessageListener(new SimpleListener());
-  serverSocket.bind("127.0.0.1",bindPort);
+  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor();
+  serverAcceptor.setStateChangeEventHandler(eventHandler);
+  serverAcceptor.setMessageListener(new SimpleListener());
+  serverAcceptor.bind("127.0.0.1",bindPort);
   Socket socket=null;
   try {
     socket=new Socket("127.0.0.1",bindPort);
     sendAndReceiveSimplePacket(socket);
-    Assert.assertEquals(eventHandler.getCode(),PinpointServerSocketStateCode.RUN_WITHOUT_HANDSHAKE);
+    Assert.assertEquals(eventHandler.getCode(),PinpointServerStateCode.RUN_WITHOUT_HANDSHAKE);
     int code=sendAndReceiveRegisterPacket(socket,PinpointRPCTestUtils.getParams());
-    Assert.assertEquals(eventHandler.getCode(),PinpointServerSocketStateCode.RUN_DUPLEX);
+    Assert.assertEquals(eventHandler.getCode(),PinpointServerStateCode.RUN_DUPLEX);
     sendAndReceiveSimplePacket(socket);
   }
   finally {
     if (socket != null) {
       socket.close();
     }
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

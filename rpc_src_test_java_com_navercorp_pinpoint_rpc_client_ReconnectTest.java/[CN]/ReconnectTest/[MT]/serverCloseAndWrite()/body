@@ -1,7 +1,7 @@
 {
-  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort);
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort);
   PinpointSocket socket=socketFactory.connect("127.0.0.1",bindPort);
-  PinpointRPCTestUtils.close(serverSocket);
+  PinpointRPCTestUtils.close(serverAcceptor);
   byte[] randomByte=TestByteUtils.createRandomByte(10);
   Future<ResponseMessage> response=socket.request(randomByte);
   response.await();

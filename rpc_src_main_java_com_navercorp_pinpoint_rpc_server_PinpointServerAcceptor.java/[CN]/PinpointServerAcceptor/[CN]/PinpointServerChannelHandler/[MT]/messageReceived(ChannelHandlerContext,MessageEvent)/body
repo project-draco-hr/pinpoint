@@ -1,0 +1,9 @@
+{
+  final Channel channel=e.getChannel();
+  PinpointServer pinpointServer=(PinpointServer)channel.getAttachment();
+  if (pinpointServer != null) {
+    Object message=e.getMessage();
+    pinpointServer.messageReceived(message);
+  }
+  super.messageReceived(ctx,e);
+}

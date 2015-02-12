@@ -1,7 +1,7 @@
 {
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointServerSocket serverSocket=createServerSocket(new TestSeverMessageListener(),new ServerListener(bo));
-  serverSocket.bind("localhost",bindPort);
+  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),new ServerListener(bo));
+  serverAcceptor.bind("localhost",bindPort);
   PinpointSocketFactory pinpointSocketFactory=createSocketFactory();
   try {
     PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",bindPort);
@@ -30,6 +30,6 @@
   }
   finally {
     pinpointSocketFactory.release();
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

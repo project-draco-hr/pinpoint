@@ -1,11 +1,11 @@
 {
-  PinpointServerSocket serverSocket=new PinpointServerSocket();
-  serverSocket.setPipelineFactory(new DiscardPipelineFactory());
-  serverSocket.bind("127.0.0.1",bindPort);
+  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor();
+  serverAcceptor.setPipelineFactory(new DiscardPipelineFactory());
+  serverAcceptor.bind("127.0.0.1",bindPort);
   Socket socket=new Socket("127.0.0.1",bindPort);
   socket.getOutputStream().write(new byte[10]);
   socket.getOutputStream().flush();
   socket.close();
   Thread.sleep(1000);
-  PinpointRPCTestUtils.close(serverSocket);
+  PinpointRPCTestUtils.close(serverAcceptor);
 }

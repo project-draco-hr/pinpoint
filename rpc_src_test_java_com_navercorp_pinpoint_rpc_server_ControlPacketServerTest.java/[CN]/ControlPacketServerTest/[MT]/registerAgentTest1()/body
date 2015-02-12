@@ -1,5 +1,5 @@
 {
-  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new SimpleListener());
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new SimpleListener());
   Socket socket=null;
   try {
     socket=new Socket("127.0.0.1",bindPort);
@@ -10,6 +10,6 @@
   }
   finally {
     PinpointRPCTestUtils.close(socket);
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

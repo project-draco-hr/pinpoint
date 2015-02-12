@@ -1,7 +1,7 @@
 {
-  ChannelContext context=socketManager.getCollectorChannelContext(applicationName,agentId,startTimeStamp);
-  if (context == null) {
-    return createResponse(false,String.format("Can't find suitable ChannelContext(%s/%s/%d).",applicationName,agentId,startTimeStamp));
+  WritablePinpointServer collector=socketManager.getCollector(applicationName,agentId,startTimeStamp);
+  if (collector == null) {
+    return createResponse(false,String.format("Can't find suitable PinpointServer(%s/%s/%d).",applicationName,agentId,startTimeStamp));
   }
   TCommandEcho echo=new TCommandEcho();
   echo.setMessage(message);
@@ -11,14 +11,14 @@
   transfer.setAgentId(agentId);
   transfer.setStartTime(startTimeStamp);
   transfer.setPayload(payload);
-  Future<ResponseMessage> future=context.getSocketChannel().sendRequestMessage(serialize(transfer));
+  Future<ResponseMessage> future=collector.request(serialize(transfer));
   future.await();
   String exceptionMessage=StringUtils.EMPTY;
   ResponseMessage responseMessage=future.getResult();
   try {
     TBase result=deserialize(responseMessage.getMessage());
     if (result == null) {
-      return createResponse(false,String.format("Can't get message from %s.",context));
+      return createResponse(false,String.format("Can't get message from %s.",collector));
     }
  else     if (result instanceof TCommandEcho) {
       return createResponse(true,((TCommandEcho)result).getMessage());

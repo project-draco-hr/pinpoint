@@ -1,0 +1,21 @@
+{
+  HandshakeResponseCode createdCode=null;
+  if (isFirst) {
+    createdCode=responseCode;
+  }
+ else {
+    if (HandshakeResponseCode.DUPLEX_COMMUNICATION == responseCode) {
+      createdCode=HandshakeResponseCode.ALREADY_DUPLEX_COMMUNICATION;
+    }
+ else     if (HandshakeResponseCode.SIMPLEX_COMMUNICATION == responseCode) {
+      createdCode=HandshakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION;
+    }
+ else {
+      createdCode=responseCode;
+    }
+  }
+  Map<String,Object> result=new HashMap<String,Object>();
+  result.put(ControlHandshakeResponsePacket.CODE,createdCode.getCode());
+  result.put(ControlHandshakeResponsePacket.SUB_CODE,createdCode.getSubCode());
+  return result;
+}
