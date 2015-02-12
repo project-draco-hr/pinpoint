@@ -1,0 +1,14 @@
+{
+  if (loader == null) {
+    throw new NullPointerException("loader must not be null");
+  }
+  final List<Type> typeList=loader.getTypes();
+  if (typeList == null) {
+    return Collections.emptyList();
+  }
+  List<ServiceType> serviceTypeList=new ArrayList<ServiceType>(typeList.size());
+  for (  Type type : typeList) {
+    serviceTypeList.add(type.getServiceType());
+  }
+  return serviceTypeList;
+}

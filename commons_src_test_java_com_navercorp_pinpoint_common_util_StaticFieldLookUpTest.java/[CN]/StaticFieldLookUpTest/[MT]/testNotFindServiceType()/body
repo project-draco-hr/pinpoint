@@ -1,0 +1,6 @@
+{
+  StaticFieldLookUp<ServiceType> staticFieldLookUp=new StaticFieldLookUp<ServiceType>(ServiceType.class,ServiceType.class);
+  List<ServiceType> lookup=staticFieldLookUp.lookup();
+  ServiceType notExist=new ServiceType(Short.MIN_VALUE,"test","test",HistogramSchema.NORMAL_SCHEMA);
+  Assert.assertFalse(findType(lookup,notExist));
+}
