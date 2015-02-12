@@ -1,0 +1,45 @@
+{
+  if (!PinpointServerStateCode.isRun(getCurrentStateCode())) {
+    logger.warn("{} messageReceived:{} from IllegalState this message will be ignore.",this,message);
+    return;
+  }
+  final short packetType=getPacketType(message);
+switch (packetType) {
+case PacketType.APPLICATION_SEND:
+{
+      handleSend((SendPacket)message);
+      return;
+    }
+case PacketType.APPLICATION_REQUEST:
+{
+    handleRequest((RequestPacket)message);
+    return;
+  }
+case PacketType.APPLICATION_RESPONSE:
+{
+  handleResponse((ResponsePacket)message);
+  return;
+}
+case PacketType.APPLICATION_STREAM_CREATE:
+case PacketType.APPLICATION_STREAM_CLOSE:
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+case PacketType.APPLICATION_STREAM_RESPONSE:
+case PacketType.APPLICATION_STREAM_PING:
+case PacketType.APPLICATION_STREAM_PONG:
+handleStreamEvent((StreamPacket)message);
+return;
+case PacketType.CONTROL_HANDSHAKE:
+handleHandshake((ControlHandshakePacket)message);
+return;
+case PacketType.CONTROL_CLIENT_CLOSE:
+{
+handleClosePacket(channel);
+return;
+}
+default :
+{
+logger.warn("invalid messageReceived msg:{}, connection:{}",message,channel);
+}
+}
+}

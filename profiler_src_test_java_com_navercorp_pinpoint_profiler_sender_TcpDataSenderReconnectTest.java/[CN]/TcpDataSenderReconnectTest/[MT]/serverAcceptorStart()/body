@@ -1,0 +1,18 @@
+{
+  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor();
+  serverAcceptor.setMessageListener(new ServerMessageListener(){
+    @Override public void handleSend(    SendPacket sendPacket,    WritablePinpointServer pinpointServer){
+      logger.info("handleSend:{}",sendPacket);
+      send++;
+    }
+    @Override public void handleRequest(    RequestPacket requestPacket,    WritablePinpointServer pinpointServer){
+      logger.info("handleRequest:{}",requestPacket);
+    }
+    @Override public HandshakeResponseCode handleHandshake(    Map properties){
+      return HandshakeResponseType.Success.DUPLEX_COMMUNICATION;
+    }
+  }
+);
+  serverAcceptor.bind(HOST,PORT);
+  return serverAcceptor;
+}

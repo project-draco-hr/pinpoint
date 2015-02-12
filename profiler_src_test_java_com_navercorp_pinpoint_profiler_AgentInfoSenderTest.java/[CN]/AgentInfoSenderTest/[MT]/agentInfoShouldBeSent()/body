@@ -3,7 +3,7 @@
   final AtomicInteger successCount=new AtomicInteger();
   final long agentInfoSendRetryIntervalMs=1000L;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
-  PinpointServerSocket server=createServer(serverListener);
+  PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointSocketFactory socketFactory=createPinpointSocketFactory();
   PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
   TcpDataSender sender=new TcpDataSender(socket);
@@ -13,7 +13,7 @@
     Thread.sleep(10000L);
   }
   finally {
-    closeAll(server,agentInfoSender,socket,socketFactory);
+    closeAll(serverAcceptor,agentInfoSender,socket,socketFactory);
   }
   assertEquals(1,requestCount.get());
   assertEquals(1,successCount.get());

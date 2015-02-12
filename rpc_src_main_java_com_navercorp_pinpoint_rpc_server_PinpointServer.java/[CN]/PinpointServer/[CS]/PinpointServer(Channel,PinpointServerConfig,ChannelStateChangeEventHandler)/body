@@ -1,0 +1,15 @@
+{
+  this.channel=channel;
+  this.messageListener=serverConfig.getMessageListener();
+  StreamChannelManager streamChannelManager=new StreamChannelManager(channel,IDGenerator.createEvenIdGenerator(),serverConfig.getStreamMessageListener());
+  this.streamChannelManager=streamChannelManager;
+  this.stateChangeEventListeners=new ArrayList<ChannelStateChangeEventHandler>(Array.getLength(stateChangeEventListeners) + 1);
+  ListUtils.addIfValueNotNull(this.stateChangeEventListeners,serverConfig.getStateChangeEventHandler());
+  ListUtils.addAllExceptNullValue(this.stateChangeEventListeners,stateChangeEventListeners);
+  RequestManager requestManager=new RequestManager(serverConfig.getRequestManagerTimer(),serverConfig.getDefaultRequestTimeout());
+  this.requestManager=requestManager;
+  this.state=new PinpointServerState();
+  this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
+  this.serverCloseWriteListener=new WriteFailFutureListener(logger,objectUniqName + " sendClosePacket() write fail.","serverClosePacket write success");
+  this.responseWriteFailListener=new WriteFailFutureListener(logger,objectUniqName + " response() write fail.");
+}

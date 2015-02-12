@@ -1,6 +1,6 @@
 {
   byte[] bytes=requestPacket.getPayload();
-  SocketAddress remoteAddress=socketChannel.getRemoteAddress();
+  SocketAddress remoteAddress=pinpointServer.getRemoteAddress();
   try {
     TBase<?,?> tBase=SerializationUtils.deserialize(bytes,deserializerFactory);
     if (tBase instanceof L4Packet) {
@@ -13,7 +13,7 @@
     TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
     if (result != null) {
       byte[] resultBytes=SerializationUtils.serialize(result,serializerFactory);
-      socketChannel.sendResponseMessage(requestPacket,resultBytes);
+      pinpointServer.response(requestPacket,resultBytes);
     }
   }
  catch (  TException e) {

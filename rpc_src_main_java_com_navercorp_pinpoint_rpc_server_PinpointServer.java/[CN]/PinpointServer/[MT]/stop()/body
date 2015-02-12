@@ -1,0 +1,12 @@
+{
+  if (PinpointServerStateCode.BEING_SHUTDOWN == getCurrentStateCode()) {
+    changeStateToShutdown();
+  }
+ else {
+    changeStateToUnexpectedShutdown();
+  }
+  if (this.channel.isConnected()) {
+    channel.close();
+  }
+  streamChannelManager.close();
+}

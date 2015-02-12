@@ -2,10 +2,10 @@
   final PinpointSocketFactory pinpointSocketFactory=new PinpointSocketFactory();
   pinpointSocketFactory.setReconnectDelay(200);
   PinpointSocket socket=null;
-  PinpointServerSocket serverSocket=null;
+  PinpointServerAcceptor serverAcceptor=null;
   try {
     socket=pinpointSocketFactory.scheduledConnect("localhost",bindPort);
-    serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new TestSeverMessageListener());
+    serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
     Thread.sleep(2000);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);
@@ -15,6 +15,6 @@
   finally {
     PinpointRPCTestUtils.close(socket);
     pinpointSocketFactory.release();
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

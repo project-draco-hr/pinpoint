@@ -1,13 +1,13 @@
 {
-  server=new PinpointServerSocket();
-  server.setMessageListener(new ServerMessageListener(){
-    @Override public void handleSend(    SendPacket sendPacket,    SocketChannel channel){
+  serverAcceptor=new PinpointServerAcceptor();
+  serverAcceptor.setMessageListener(new ServerMessageListener(){
+    @Override public void handleSend(    SendPacket sendPacket,    WritablePinpointServer pinpointServer){
       logger.info("handleSend:{}",sendPacket);
       if (sendLatch != null) {
         sendLatch.countDown();
       }
     }
-    @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
+    @Override public void handleRequest(    RequestPacket requestPacket,    WritablePinpointServer pinpointServer){
       logger.info("handleRequest:{}",requestPacket);
     }
     @Override public HandshakeResponseCode handleHandshake(    Map arg0){
@@ -15,5 +15,5 @@
     }
   }
 );
-  server.bind(HOST,PORT);
+  serverAcceptor.bind(HOST,PORT);
 }

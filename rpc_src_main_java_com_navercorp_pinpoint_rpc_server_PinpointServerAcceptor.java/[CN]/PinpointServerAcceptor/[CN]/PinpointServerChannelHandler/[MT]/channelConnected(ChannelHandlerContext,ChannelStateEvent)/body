@@ -1,0 +1,24 @@
+{
+  final Channel channel=e.getChannel();
+  logger.info("channelConnected channel:{}",channel);
+  if (released) {
+    logger.warn("already released. channel:{}",channel);
+    channel.write(new ServerClosePacket()).addListener(new ChannelFutureListener(){
+      @Override public void operationComplete(      ChannelFuture future) throws Exception {
+        future.getChannel().close();
+      }
+    }
+);
+    return;
+  }
+  boolean isIgnore=isIgnoreAddress(channel);
+  if (isIgnore) {
+    logger.debug("channelConnected ignore address. channel:" + channel);
+    return;
+  }
+  PinpointServer pinpointServer=createPinpointServer(channel);
+  channel.setAttachment(pinpointServer);
+  channelGroup.add(channel);
+  pinpointServer.start();
+  super.channelConnected(ctx,e);
+}

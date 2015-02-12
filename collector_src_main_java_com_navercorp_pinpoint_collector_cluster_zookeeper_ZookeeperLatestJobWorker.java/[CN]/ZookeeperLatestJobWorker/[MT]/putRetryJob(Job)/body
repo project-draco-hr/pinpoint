@@ -7,9 +7,9 @@
     leakJobQueue.add(job);
     return;
   }
-  ChannelContext channelContext=job.getChannelContext();
+  PinpointServer pinpointServer=job.getPinpointServer();
 synchronized (lock) {
-    latestJobRepository.putIfAbsent(channelContext,job);
+    latestJobRepository.putIfAbsent(pinpointServer,job);
     lock.notifyAll();
   }
 }
