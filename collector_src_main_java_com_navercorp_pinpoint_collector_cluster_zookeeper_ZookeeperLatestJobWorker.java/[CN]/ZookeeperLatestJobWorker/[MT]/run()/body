@@ -5,10 +5,10 @@
       break;
     }
     if (eventCreated) {
-      Iterator<ChannelContext> keyIterator=getLatestJobRepositoryKeyIterator();
+      Iterator<PinpointServer> keyIterator=getLatestJobRepositoryKeyIterator();
       while (keyIterator.hasNext()) {
-        ChannelContext channelContext=keyIterator.next();
-        Job job=getJob(channelContext);
+        PinpointServer pinpointServer=keyIterator.next();
+        Job job=getJob(pinpointServer);
         if (job == null) {
           continue;
         }
@@ -29,13 +29,13 @@
           break;
         }
         if (job instanceof UpdateJob) {
-          putRetryJob(new UpdateJob(job.getChannelContext(),1,((UpdateJob)job).getContents()));
+          putRetryJob(new UpdateJob(job.getPinpointServer(),1,((UpdateJob)job).getContents()));
         }
       }
-      for (      ChannelContext channelContext : channelContextRepository) {
-        if (PinpointServerSocketStateCode.isFinished(channelContext.getCurrentStateCode())) {
-          logger.info("LeakDetector Find Leak ChannelContext={}.",channelContext);
-          putJob(new DeleteJob(channelContext));
+      for (      PinpointServer pinpointServer : pinpointServerRepository) {
+        if (PinpointServerStateCode.isFinished(pinpointServer.getCurrentStateCode())) {
+          logger.info("LeakDetector Find Leak PinpointServer={}.",pinpointServer);
+          putJob(new DeleteJob(pinpointServer));
         }
       }
     }

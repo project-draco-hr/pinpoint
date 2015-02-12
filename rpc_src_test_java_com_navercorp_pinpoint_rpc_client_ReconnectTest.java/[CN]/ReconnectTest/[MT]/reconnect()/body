@@ -1,7 +1,7 @@
 {
-  PinpointServerSocket serverSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new TestSeverMessageListener());
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
   final AtomicBoolean reconnectPerformed=new AtomicBoolean(false);
-  PinpointServerSocket newServerSocket=null;
+  PinpointServerAcceptor newServerAcceptor=null;
   try {
     PinpointSocket socket=socketFactory.connect("localhost",bindPort);
     socket.addPinpointSocketReconnectEventListener(new PinpointSocketReconnectEventListener(){
@@ -10,7 +10,7 @@
       }
     }
 );
-    PinpointRPCTestUtils.close(serverSocket);
+    PinpointRPCTestUtils.close(serverAcceptor);
     logger.info("server.close()---------------------------");
     Thread.sleep(1000);
     try {
@@ -19,7 +19,7 @@
     }
  catch (    Exception e) {
     }
-    newServerSocket=PinpointRPCTestUtils.createServerSocket(bindPort,new TestSeverMessageListener());
+    newServerAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
     logger.info("bind server---------------------------");
     Thread.sleep(3000);
     logger.info("request server---------------------------");
@@ -29,7 +29,7 @@
     PinpointRPCTestUtils.close(socket);
   }
   finally {
-    PinpointRPCTestUtils.close(newServerSocket);
+    PinpointRPCTestUtils.close(newServerAcceptor);
   }
   Assert.assertTrue(reconnectPerformed.get());
 }

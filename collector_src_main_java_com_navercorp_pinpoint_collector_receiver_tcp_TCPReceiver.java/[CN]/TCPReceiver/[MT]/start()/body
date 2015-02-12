@@ -1,11 +1,11 @@
 {
-  setL4TcpChannel(pinpointServerSocket);
-  this.pinpointServerSocket.setMessageListener(new ServerMessageListener(){
-    @Override public void handleSend(    SendPacket sendPacket,    SocketChannel channel){
-      receive(sendPacket,channel);
+  setL4TcpChannel(serverAcceptor);
+  this.serverAcceptor.setMessageListener(new ServerMessageListener(){
+    @Override public void handleSend(    SendPacket sendPacket,    WritablePinpointServer pinpointServer){
+      receive(sendPacket,pinpointServer);
     }
-    @Override public void handleRequest(    RequestPacket requestPacket,    SocketChannel channel){
-      requestResponse(requestPacket,channel);
+    @Override public void handleRequest(    RequestPacket requestPacket,    WritablePinpointServer pinpointServer){
+      requestResponse(requestPacket,pinpointServer);
     }
     @Override public HandshakeResponseCode handleHandshake(    Map properties){
       if (properties == null) {
@@ -25,5 +25,5 @@
     }
   }
 );
-  this.pinpointServerSocket.bind(bindAddress,port);
+  this.serverAcceptor.bind(bindAddress,port);
 }

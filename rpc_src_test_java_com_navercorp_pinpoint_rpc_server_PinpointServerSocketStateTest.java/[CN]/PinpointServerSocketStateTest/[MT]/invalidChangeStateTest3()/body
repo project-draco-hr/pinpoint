@@ -1,9 +1,9 @@
 {
-  PinpointServerSocketState state=new PinpointServerSocketState();
-  state.changeState(PinpointServerSocketStateCode.RUN_DUPLEX);
-  Assert.assertEquals(PinpointServerSocketStateCode.RUN_DUPLEX,state.getCurrentState());
-  state.changeStateThrowWhenFailed(PinpointServerSocketStateCode.BEING_SHUTDOWN);
-  Assert.assertEquals(PinpointServerSocketStateCode.BEING_SHUTDOWN,state.getCurrentState());
-  PinpointServerSocketStateCode beforeCode=state.changeState(PinpointServerSocketStateCode.UNEXPECTED_SHUTDOWN);
-  Assert.assertEquals(PinpointServerSocketStateCode.BEING_SHUTDOWN,beforeCode);
+  PinpointServerState state=new PinpointServerState();
+  state.changeState(PinpointServerStateCode.RUN_DUPLEX);
+  Assert.assertEquals(PinpointServerStateCode.RUN_DUPLEX,state.getCurrentState());
+  state.changeStateThrowWhenFailed(PinpointServerStateCode.BEING_SHUTDOWN);
+  Assert.assertEquals(PinpointServerStateCode.BEING_SHUTDOWN,state.getCurrentState());
+  PinpointServerStateCode beforeCode=state.changeState(PinpointServerStateCode.UNEXPECTED_SHUTDOWN);
+  Assert.assertEquals(PinpointServerStateCode.BEING_SHUTDOWN,beforeCode);
 }

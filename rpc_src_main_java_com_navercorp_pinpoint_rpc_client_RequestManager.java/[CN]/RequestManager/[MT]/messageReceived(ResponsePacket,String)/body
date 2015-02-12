@@ -1,0 +1,14 @@
+{
+  final int requestId=responsePacket.getRequestId();
+  final DefaultFuture<ResponseMessage> future=removeMessageFuture(requestId);
+  if (future == null) {
+    logger.warn("future not found:{}, objectUniqName:{}",responsePacket,objectUniqName);
+    return;
+  }
+ else {
+    logger.debug("responsePacket arrived packet:{}, objectUniqName:{}",responsePacket,objectUniqName);
+  }
+  ResponseMessage response=new ResponseMessage();
+  response.setMessage(responsePacket.getPayload());
+  future.setResult(response);
+}
