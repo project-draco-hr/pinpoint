@@ -14,9 +14,9 @@
     if (!field.getType().equals(findClazz)) {
       continue;
     }
-    final Object serviceTypeObject=getObject(field);
-    if (findClazz.isInstance(serviceTypeObject)) {
-      T type=findClazz.cast(serviceTypeObject);
+    final Object filedObject=getObject(field);
+    if (findClazz.isInstance(filedObject)) {
+      T type=findClazz.cast(filedObject);
       if (filter.filter(type) == Filter.FILTERED) {
         continue;
       }

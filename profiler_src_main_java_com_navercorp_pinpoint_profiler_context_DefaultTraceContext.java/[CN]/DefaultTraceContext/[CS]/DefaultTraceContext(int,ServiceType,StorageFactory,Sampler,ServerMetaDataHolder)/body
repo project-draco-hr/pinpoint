@@ -6,7 +6,7 @@
     throw new NullPointerException("sampler must not be null");
   }
   this.sqlCache=new SimpleCache<String>(sqlCacheSize);
-  this.contextServiceType=ServiceType.findServiceType(contextServiceType);
+  this.contextServiceType=contextServiceType;
   this.metricRegistry=new MetricRegistry(this.contextServiceType);
   this.traceFactory=new ThreadLocalTraceFactory(this,metricRegistry,storageFactory,sampler);
   this.serverMetaDataHolder=serverMetaDataHolder;
