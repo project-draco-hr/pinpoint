@@ -1,13 +1,13 @@
 {
   serverAcceptor=new PinpointServerAcceptor();
   serverAcceptor.setMessageListener(new ServerMessageListener(){
-    @Override public void handleSend(    SendPacket sendPacket,    WritablePinpointServer pinpointServer){
+    @Override public void handleSend(    SendPacket sendPacket,    PinpointServer pinpointServer){
       logger.info("handleSend:{}",sendPacket);
       if (sendLatch != null) {
         sendLatch.countDown();
       }
     }
-    @Override public void handleRequest(    RequestPacket requestPacket,    WritablePinpointServer pinpointServer){
+    @Override public void handleRequest(    RequestPacket requestPacket,    PinpointServer pinpointServer){
       logger.info("handleRequest:{}",requestPacket);
     }
     @Override public HandshakeResponseCode handleHandshake(    Map arg0){

@@ -1,10 +1,10 @@
 {
   setL4TcpChannel(serverAcceptor);
   this.serverAcceptor.setMessageListener(new ServerMessageListener(){
-    @Override public void handleSend(    SendPacket sendPacket,    WritablePinpointServer pinpointServer){
+    @Override public void handleSend(    SendPacket sendPacket,    PinpointServer pinpointServer){
       receive(sendPacket,pinpointServer);
     }
-    @Override public void handleRequest(    RequestPacket requestPacket,    WritablePinpointServer pinpointServer){
+    @Override public void handleRequest(    RequestPacket requestPacket,    PinpointServer pinpointServer){
       requestResponse(requestPacket,pinpointServer);
     }
     @Override public HandshakeResponseCode handleHandshake(    Map properties){

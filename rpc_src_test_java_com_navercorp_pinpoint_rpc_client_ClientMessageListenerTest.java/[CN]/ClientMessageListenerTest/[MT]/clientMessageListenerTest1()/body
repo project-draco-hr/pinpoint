@@ -5,11 +5,11 @@
   try {
     PinpointSocket socket=clientSocketFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    List<WritablePinpointServer> writableServerList=serverAcceptor.getWritableServerList();
+    List<PinpointServer> writableServerList=serverAcceptor.getWritableServerList();
     if (writableServerList.size() != 1) {
       Assert.fail();
     }
-    WritablePinpointServer writableServer=writableServerList.get(0);
+    PinpointServer writableServer=writableServerList.get(0);
     assertSendMessage(writableServer,"simple",echoMessageListener);
     assertRequestMessage(writableServer,"request",echoMessageListener);
     PinpointRPCTestUtils.close(socket);

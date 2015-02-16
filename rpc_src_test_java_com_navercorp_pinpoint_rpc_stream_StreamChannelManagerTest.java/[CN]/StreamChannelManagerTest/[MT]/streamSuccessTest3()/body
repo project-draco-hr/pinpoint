@@ -6,9 +6,9 @@
   try {
     PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(100);
-    List<WritablePinpointServer> writableServerList=serverAcceptor.getWritableServerList();
+    List<PinpointServer> writableServerList=serverAcceptor.getWritableServerList();
     Assert.assertEquals(1,writableServerList.size());
-    WritablePinpointServer writableServer=writableServerList.get(0);
+    PinpointServer writableServer=writableServerList.get(0);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
     ClientStreamChannelContext clientContext=writableServer.createStream(new byte[0],clientListener);
     int sendCount=4;

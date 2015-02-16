@@ -1,0 +1,10 @@
+{
+  AssertUtils.assertNotNull(payload,"payload may not be null.");
+  if (!isEnableDuplexCommunication()) {
+    throw new IllegalStateException("Request fail. Error: Illegal State. pinpointServer:" + toString());
+  }
+  RequestPacket requestPacket=new RequestPacket(payload);
+  ChannelWriteFailListenableFuture<ResponseMessage> messageFuture=this.requestManager.register(requestPacket);
+  write0(requestPacket,messageFuture);
+  return messageFuture;
+}
