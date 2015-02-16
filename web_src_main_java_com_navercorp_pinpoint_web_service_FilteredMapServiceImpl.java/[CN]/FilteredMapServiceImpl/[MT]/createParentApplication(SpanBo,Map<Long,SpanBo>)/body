@@ -7,7 +7,7 @@
   }
  else {
     String parentApplicationName=parentSpan.getApplicationId();
-    ServiceType serviceType=parentSpan.getServiceType();
+    ServiceType serviceType=ServiceType.findServiceType(parentSpan.getServiceType());
     return new Application(parentApplicationName,serviceType);
   }
 }

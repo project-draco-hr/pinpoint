@@ -14,13 +14,13 @@
   List<SpanBo> filteredTransactionList=filterList(originalList,filter);
   LoadFactor statistics=new LoadFactor(range);
   for (  SpanBo span : filteredTransactionList) {
-    if (sourceApplication.equals(span.getApplicationId(),span.getServiceType())) {
+    if (sourceApplication.equals(span.getApplicationId(),ServiceType.findServiceType(span.getServiceType()))) {
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
       if (spanEventBoList == null) {
         continue;
       }
       for (      SpanEventBo spanEventBo : spanEventBoList) {
-        if (destinationApplication.equals(spanEventBo.getDestinationId(),spanEventBo.getServiceType())) {
+        if (destinationApplication.equals(spanEventBo.getDestinationId(),ServiceType.findServiceType(spanEventBo.getServiceType()))) {
           boolean hasException=spanEventBo.hasException();
           statistics.addSample(span.getStartTime() + spanEventBo.getStartElapsed(),spanEventBo.getEndElapsed(),1,hasException);
           break;
