@@ -1,0 +1,8 @@
+{
+  AssertUtils.assertNotNull(payload,"payload may not be null.");
+  if (!isEnableDuplexCommunication()) {
+    throw new IllegalStateException("Send fail. Error: Illegal State. pinpointServer:" + toString());
+  }
+  SendPacket send=new SendPacket(payload);
+  write0(send);
+}

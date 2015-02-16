@@ -9,8 +9,8 @@
     return null;
   }
   String agentName=agentNameList.get(0);
-  List<WritablePinpointServer> collectorList=getCollectorList();
-  for (  WritablePinpointServer collector : collectorList) {
+  List<PinpointServer> collectorList=getCollectorList();
+  for (  PinpointServer collector : collectorList) {
     String id=(String)collector.getChannelProperties().get("id");
     if (agentName.startsWith(id)) {
       return collector;

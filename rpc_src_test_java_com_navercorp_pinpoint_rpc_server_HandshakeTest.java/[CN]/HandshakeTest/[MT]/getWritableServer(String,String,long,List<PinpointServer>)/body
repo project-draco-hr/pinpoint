@@ -1,0 +1,35 @@
+{
+  if (applicationName == null) {
+    return null;
+  }
+  if (agentId == null) {
+    return null;
+  }
+  if (startTimeMillis <= 0) {
+    return null;
+  }
+  List<PinpointServer> result=new ArrayList<PinpointServer>();
+  for (  PinpointServer writableServer : writableServerList) {
+    Map agentProperties=writableServer.getChannelProperties();
+    if (!applicationName.equals(agentProperties.get(AgentHandshakePropertyType.APPLICATION_NAME.getName()))) {
+      continue;
+    }
+    if (!agentId.equals(agentProperties.get(AgentHandshakePropertyType.AGENT_ID.getName()))) {
+      continue;
+    }
+    if (startTimeMillis != (Long)agentProperties.get(AgentHandshakePropertyType.START_TIMESTAMP.getName())) {
+      continue;
+    }
+    result.add(writableServer);
+  }
+  if (result.size() == 0) {
+    return null;
+  }
+  if (result.size() == 1) {
+    return result.get(0);
+  }
+ else {
+    logger.warn("Ambiguous Channel Context {}, {}, {} (Valid Agent list={}).",applicationName,agentId,startTimeMillis,result);
+    return null;
+  }
+}
