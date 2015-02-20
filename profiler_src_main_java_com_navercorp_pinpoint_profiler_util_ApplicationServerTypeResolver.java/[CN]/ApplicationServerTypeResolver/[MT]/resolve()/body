@@ -1,25 +1,29 @@
 {
+  String serverType=null;
   for (  ServerTypeDetector detector : detectors) {
-    logger.debug("try resolve using {}",detector.getClass());
+    logger.debug("try to resolve using {}",detector.getClass());
+    if (serverType != null && !detector.canOverride(serverType)) {
+      continue;
+    }
     if (detector.detect()) {
-      this.serverType=detector.getServerType();
-      this.serverLibPath=detector.getServerClassPath();
-      this.manuallyStartupRequired=!detector.hasServerProperty(ApplicationServerProperty.MANAGE_PINPOINT_AGENT_LIFECYCLE);
+      serverType=detector.getServerTypeName();
       if (logger.isInfoEnabled()) {
-        logger.info("Configured applicationServerType [{}] by {}",serverType,detector.getClass().getName());
+        logger.info("Resolved applicationServerType [{}] by {}",serverType,detector.getClass().getName());
       }
-      return true;
     }
   }
-  String applicationHome=applicationHomePath();
-  if (tomcatResolve(applicationHome)) {
-    return initializeApplicationInfo(applicationHome,ServiceType.TOMCAT);
+  if (serverType != null) {
+    this.serverType=ServiceType.valueOf(serverType);
+    return true;
   }
   if (defaultType != null) {
-    if (logger.isInfoEnabled()) {
-      logger.info("Configured applicationServerType:{}",defaultType);
-    }
-    return initializeApplicationInfo(applicationHome,defaultType);
+    this.serverType=defaultType;
   }
-  return initializeApplicationInfo(applicationHome,ServiceType.STAND_ALONE);
+ else {
+    this.serverType=ServiceType.STAND_ALONE;
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("Configured applicationServerType:{}",defaultType);
+  }
+  return true;
 }

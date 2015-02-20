@@ -1,0 +1,18 @@
+{
+  if (target instanceof WebappLoader) {
+    WebappLoader webappLoader=(WebappLoader)target;
+    try {
+      String contextKey=extractContextKey(webappLoader);
+      List<String> loadedJarNames=extractLibJars(webappLoader);
+      dispatchLibJars(contextKey,loadedJarNames);
+    }
+ catch (    Exception e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn(e.getMessage(),e);
+      }
+    }
+  }
+ else {
+    logger.warn("Webapp loader is not an instance of org.apache.catalina.loader.WebappLoader. Found [{}]",target.getClass().toString());
+  }
+}

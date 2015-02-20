@@ -4,10 +4,10 @@
     editor=new FilteringMethodEditor(filter,recipe);
   }
  else   if (methodName != null) {
-    editor=new DedicatedMethodEditor(methodName,parameterTypeNames,recipe);
+    editor=new DedicatedMethodEditor(methodName,parameterTypeNames,recipe,properties.contains(MethodEditorProperty.IGNORE_IF_NOT_EXIST));
   }
  else {
-    editor=new ConstructorEditor(parameterTypeNames,recipe);
+    editor=new ConstructorEditor(parameterTypeNames,recipe,properties.contains(MethodEditorProperty.IGNORE_IF_NOT_EXIST));
   }
   if (condition != null) {
     editor=new ConditionalMethodEditor(condition,editor);

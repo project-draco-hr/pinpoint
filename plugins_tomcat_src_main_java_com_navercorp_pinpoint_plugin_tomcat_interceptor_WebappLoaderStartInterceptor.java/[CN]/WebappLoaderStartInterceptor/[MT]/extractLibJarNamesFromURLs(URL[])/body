@@ -1,0 +1,13 @@
+{
+  if (urls == null) {
+    return Collections.emptyList();
+  }
+  List<String> libJarNames=new ArrayList<String>(urls.length);
+  for (  URL url : urls) {
+    String libJarName=extractLibJarName(url);
+    if (libJarName.length() > 0) {
+      libJarNames.add(libJarName);
+    }
+  }
+  return libJarNames;
+}
