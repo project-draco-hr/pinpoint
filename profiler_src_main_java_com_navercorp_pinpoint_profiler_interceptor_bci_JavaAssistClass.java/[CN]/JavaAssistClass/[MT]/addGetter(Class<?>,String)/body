@@ -1,7 +1,4 @@
 {
-  if (interfaceType.getClassLoader() != InstrumentClass.class.getClassLoader()) {
-    throw new InstrumentException(interfaceType + " must be loaded by the class loader which loaded pinpint-bootstrap");
-  }
   java.lang.reflect.Method[] methods=interfaceType.getMethods();
   if (methods.length != 1) {
     throw new InstrumentException("Getter interface must have only one method: " + interfaceType.getName());

@@ -7,8 +7,14 @@
   list.add("-Dpinpoint.agentId=build.test.0");
   list.add("-Dpinpoint.applicationName=test");
   list.add("-Dfile.encoding=" + DEFAULT_ENCODING);
+  list.add("-D" + PluginTestProperty.PINPOINT_TEST_ID + "="+ testId);
+  String testDirectory=libraryPath + "/" + testId;
+  if (libraryPath != null) {
+    list.add("-D" + PluginTestProperty.PINPOINT_TEST_DIRECTORY + "="+ testDirectory);
+  }
   for (  String arg : jvmArguments) {
-    list.add(arg);
+    String replaced=arg.replace("${" + PluginTestProperty.PINPOINT_TEST_DIRECTORY + "}",testDirectory);
+    list.add(replaced);
   }
   if (isDebugMode()) {
     list.addAll(getDebugOptions());
@@ -17,10 +23,9 @@
     list.add("-Dpinpoint.config=" + resolveConfigFileLocation());
   }
   list.add(ForkedPinpointPluginTest.class.getName());
+  list.add(getTestClass().getName());
   if (testOnChildClassLoader) {
     list.add(getChildClassPath(dependencyLibs));
   }
-  list.add(String.valueOf(testId));
-  list.add(getTestClass().getName());
   return list.toArray(new String[list.size()]);
 }

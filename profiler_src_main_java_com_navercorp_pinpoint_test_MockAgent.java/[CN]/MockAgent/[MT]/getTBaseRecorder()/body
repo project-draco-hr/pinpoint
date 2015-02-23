@@ -1,9 +1,0 @@
-{
-  DataSender spanDataSender=getSpanDataSender();
-  if (spanDataSender instanceof ListenableDataSender) {
-    ListenableDataSender listenableDataSender=(ListenableDataSender)spanDataSender;
-    TBaseRecorderAdaptor listener=(TBaseRecorderAdaptor)listenableDataSender.getListener();
-    return listener.getRecorder();
-  }
-  throw new IllegalStateException("unknown type");
-}

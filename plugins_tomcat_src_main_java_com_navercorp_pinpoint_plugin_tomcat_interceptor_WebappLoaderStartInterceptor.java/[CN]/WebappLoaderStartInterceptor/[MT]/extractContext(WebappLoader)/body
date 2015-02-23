@@ -1,0 +1,20 @@
+{
+  Method m;
+  try {
+    m=webappLoader.getClass().getDeclaredMethod("getContainer");
+  }
+ catch (  NoSuchMethodException e1) {
+    try {
+      m=webappLoader.getClass().getDeclaredMethod("getContext");
+    }
+ catch (    NoSuchMethodException e2) {
+      logger.warn("Webapp loader does not have access to its container.");
+      return null;
+    }
+  }
+  Object container=m.invoke(webappLoader);
+  if (container instanceof Container) {
+    return (Container)container;
+  }
+  return null;
+}

@@ -1,8 +1,8 @@
 {
   final short slotNumber=10;
-  final byte[] columnNameBytes=ApplicationMapStatisticsUtils.makeColumnName(ServiceType.TOMCAT.getCode(),"applicationName","dest",slotNumber);
+  final byte[] columnNameBytes=ApplicationMapStatisticsUtils.makeColumnName(ServiceType.STAND_ALONE.getCode(),"applicationName","dest",slotNumber);
   Buffer buffer=new FixedBuffer(columnNameBytes);
-  Assert.assertEquals(ServiceType.TOMCAT.getCode(),buffer.readShort());
+  Assert.assertEquals(ServiceType.STAND_ALONE.getCode(),buffer.readShort());
   Assert.assertEquals(10,buffer.readShort());
   Assert.assertEquals("applicationName",buffer.read2PrefixedString());
   int offset=buffer.getOffset();

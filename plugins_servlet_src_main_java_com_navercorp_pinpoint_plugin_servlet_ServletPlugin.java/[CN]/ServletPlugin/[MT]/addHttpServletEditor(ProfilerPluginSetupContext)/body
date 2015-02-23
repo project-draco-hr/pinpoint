@@ -1,0 +1,8 @@
+{
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.target("javax.servlet.http.HttpServlet");
+  MethodEditorBuilder doGetBuilder=builder.editMethod("doGet","javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse");
+  doGetBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor",ServletConstants.SERVLET);
+  MethodEditorBuilder doPostBuilder=builder.editMethod("doPost","javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse");
+  doPostBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.method.interceptor.MethodInterceptor",ServletConstants.SERVLET);
+}

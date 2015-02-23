@@ -5,12 +5,17 @@
       continue;
     }
     List<String> libraries=new ArrayList<String>();
-    for (    File f : file.listFiles()) {
-      if (f.getName().endsWith(".jar")) {
-        libraries.add(f.getAbsolutePath());
+    if (librarySubDirs.length == 0) {
+      addJars(child,libraries);
+      libraries.add(child.getAbsolutePath());
+    }
+ else {
+      for (      String subDir : librarySubDirs) {
+        File libDir=new File(child,subDir);
+        addJars(libDir,libraries);
+        libraries.add(libDir.getAbsolutePath());
       }
     }
-    libraries.add(child.getAbsolutePath());
     libraries.add(testClassLocation);
     addRunner(testClass,child.getName(),libraries);
   }

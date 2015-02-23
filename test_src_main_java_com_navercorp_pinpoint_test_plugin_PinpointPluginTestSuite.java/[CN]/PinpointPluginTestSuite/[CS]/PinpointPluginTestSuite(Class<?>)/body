@@ -9,13 +9,24 @@
   this.testOnSystemClassLoader=onClassLoader == null ? true : onClassLoader.system();
   Dependency deps=testClass.getAnnotation(Dependency.class);
   this.dependencies=deps == null ? null : deps.value();
-  Library lib=testClass.getAnnotation(Library.class);
-  this.libraryPath=lib == null ? null : lib.value();
+  TestRoot lib=testClass.getAnnotation(TestRoot.class);
+  if (lib == null) {
+    this.libraryPath=null;
+    this.librarySubDirs=null;
+  }
+ else {
+    String path=lib.value();
+    if (path.isEmpty()) {
+      path=lib.path();
+    }
+    this.libraryPath=path;
+    this.librarySubDirs=lib.libraryDir();
+  }
   if (deps != null && lib != null) {
-    throw new IllegalArgumentException("@Dependency and @Library can not annotate a class at the same time");
+    throw new IllegalArgumentException("@Dependency and @TestRoot can not annotate a class at the same time");
   }
   Repository repos=testClass.getAnnotation(Repository.class);
-  this.repositories=deps == null ? new String[0] : repos.value();
+  this.repositories=repos == null ? new String[0] : repos.value();
   JvmArgument jvmArgument=testClass.getAnnotation(JvmArgument.class);
   this.jvmArguments=jvmArgument == null ? new String[0] : jvmArgument.value();
   JavaVersion javaVersion=testClass.getAnnotation(JavaVersion.class);
