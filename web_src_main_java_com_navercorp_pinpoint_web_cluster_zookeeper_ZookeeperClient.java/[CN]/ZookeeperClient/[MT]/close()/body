@@ -1,5 +1,8 @@
 {
   if (clientState.compareAndSet(true,false)) {
+    if (timer != null) {
+      timer.stop();
+    }
     if (zookeeper != null) {
       try {
         zookeeper.close();
