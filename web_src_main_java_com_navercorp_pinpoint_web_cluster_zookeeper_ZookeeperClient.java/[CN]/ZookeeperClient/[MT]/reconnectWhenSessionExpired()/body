@@ -1,0 +1,34 @@
+{
+  if (!clientState.get()) {
+    logger.warn("ZookeeperClient.reconnectWhenSessionExpired() failed. Error: Already closed.");
+    return;
+  }
+  ZooKeeper zookeeper=this.zookeeper;
+  if (zookeeper.getState().isConnected()) {
+    logger.warn("ZookeeperClient.reconnectWhenSessionExpired() failed. Error: session(0x{}) is connected.",Long.toHexString(zookeeper.getSessionId()));
+    return;
+  }
+  logger.warn("Exeucte ZookeeperClient.reconnectWhenSessionExpired()(Expired session:0x{}).",Long.toHexString(zookeeper.getSessionId()));
+  try {
+    zookeeper.close();
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+  ZooKeeper newZookeeper=createNewZookeeper();
+  if (newZookeeper == null) {
+    logger.warn("Failed to create new Zookeeper instance. It will be retry  after {}ms.",reconnectDelayWhenSessionExpired);
+    timer.newTimeout(new TimerTask(){
+      @Override public void run(      Timeout timeout) throws Exception {
+        if (timeout.isCancelled()) {
+          return;
+        }
+        reconnectWhenSessionExpired();
+      }
+    }
+,reconnectDelayWhenSessionExpired,TimeUnit.MILLISECONDS);
+  }
+ else {
+    this.zookeeper=newZookeeper;
+  }
+}
