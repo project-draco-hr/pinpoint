@@ -1,0 +1,10 @@
+{
+  try {
+    JarFile bootstrapJar=new JarFile(jarName);
+    return bootstrapJar.getManifest().getMainAttributes().getValue(MANIFEST_MAIN_CLASS_KEY);
+  }
+ catch (  Throwable t) {
+    logger.log(Level.WARNING,"Error retrieving main class from jar file : " + jarName,t);
+    return NOT_FOUND;
+  }
+}

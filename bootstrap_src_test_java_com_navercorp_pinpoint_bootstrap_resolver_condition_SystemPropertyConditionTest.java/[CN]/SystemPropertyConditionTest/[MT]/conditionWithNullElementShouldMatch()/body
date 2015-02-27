@@ -1,0 +1,8 @@
+{
+  final String existingSystemProperty="existing.system.property";
+  SystemProperty property=createTestProperty(existingSystemProperty);
+  SystemPropertyCondition systemPropertyCondition=new SystemPropertyCondition(property);
+  final String[] conditionWithNullElement=new String[]{null};
+  boolean matches=systemPropertyCondition.check(conditionWithNullElement);
+  assertFalse(matches);
+}

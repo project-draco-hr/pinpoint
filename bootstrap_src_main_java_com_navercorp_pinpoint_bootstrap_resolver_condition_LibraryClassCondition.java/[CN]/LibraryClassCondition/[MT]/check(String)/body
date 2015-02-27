@@ -1,0 +1,12 @@
+{
+  if (requiredClasses == null) {
+    return false;
+  }
+  for (  String condition : requiredClasses) {
+    String classNameAsResource=getClassNameAsResource(condition);
+    if (ClassLoader.getSystemResource(classNameAsResource) == null) {
+      return false;
+    }
+  }
+  return true;
+}

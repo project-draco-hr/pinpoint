@@ -1,0 +1,13 @@
+{
+  String javaCommand=property.getProperty(SystemPropertyKey.SUN_JAVA_COMMAND.getKey(),"").split(" ")[0];
+  if (javaCommand.isEmpty()) {
+    logger.log(Level.WARNING,"Error retrieving main class from " + property.getClass().getName());
+    return NOT_FOUND;
+  }
+ else   if (javaCommand.endsWith(".jar")) {
+    return extractMainClassFromJar(javaCommand);
+  }
+ else {
+    return javaCommand;
+  }
+}
