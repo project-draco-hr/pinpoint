@@ -4,7 +4,11 @@
   EventType eventType=event.getType();
   String path=event.getPath();
   boolean result=false;
-  if (state == KeeperState.Disconnected || state == KeeperState.Expired) {
+  if (state == KeeperState.Expired) {
+    result=handleDisconnected();
+    client.reconnectWhenSessionExpired();
+  }
+ else   if (state == KeeperState.Expired) {
     result=handleDisconnected();
   }
  else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.None) {

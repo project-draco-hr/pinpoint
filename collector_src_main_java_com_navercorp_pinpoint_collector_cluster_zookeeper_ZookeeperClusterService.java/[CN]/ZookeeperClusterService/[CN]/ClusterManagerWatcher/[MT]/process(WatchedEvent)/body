@@ -4,6 +4,11 @@
   EventType eventType=event.getType();
   if (ZookeeperUtils.isDisconnectedEvent(state,eventType)) {
     connected.compareAndSet(true,false);
+    if (state == KeeperState.Expired) {
+      if (client != null) {
+        client.reconnectWhenSessionExpired();
+      }
+    }
     return;
   }
   if (ZookeeperUtils.isConnectedEvent(state,eventType)) {

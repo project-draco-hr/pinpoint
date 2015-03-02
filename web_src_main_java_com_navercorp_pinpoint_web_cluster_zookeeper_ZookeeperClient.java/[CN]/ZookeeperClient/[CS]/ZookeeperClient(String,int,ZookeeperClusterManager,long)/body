@@ -1,0 +1,8 @@
+{
+  this.hostPort=hostPort;
+  this.sessionTimeout=sessionTimeout;
+  this.manager=manager;
+  this.reconnectDelayWhenSessionExpired=reconnectDelayWhenSessionExpired;
+  this.zookeeper=new ZooKeeper(hostPort,sessionTimeout,manager);
+  this.timer=TimerFactory.createHashedWheelTimer(this.getClass().getSimpleName(),100,TimeUnit.MILLISECONDS,512);
+}
