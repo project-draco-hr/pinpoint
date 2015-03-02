@@ -33,10 +33,11 @@
           break;
         }
         final AgentInfoBo.Builder agentInfoBoBuilder=new AgentInfoBo.Builder(serializedAgentInfo);
-        agentInfoBoBuilder.agentId(agentId);
-        agentInfoBoBuilder.startTime(startTime);
+        agentInfoBoBuilder.setAgentId(agentId);
+        agentInfoBoBuilder.setStartTime(startTime);
+        agentInfoBoBuilder.setServiceType(registry.findServiceType(agentInfoBoBuilder.getServiceTypeCode()));
         if (serializedServerMetaData != null) {
-          agentInfoBoBuilder.serverMetaData(new ServerMetaDataBo.Builder(serializedServerMetaData).build());
+          agentInfoBoBuilder.setServerMetaData(new ServerMetaDataBo.Builder(serializedServerMetaData).build());
         }
         final AgentInfoBo agentInfoBo=agentInfoBoBuilder.build();
         logger.debug("found agentInfoBo {}",agentInfoBo);

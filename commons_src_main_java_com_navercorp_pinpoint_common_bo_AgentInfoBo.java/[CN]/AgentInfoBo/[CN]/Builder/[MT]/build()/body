@@ -4,6 +4,14 @@
   if (this.ports == null)   this.ports="";
   if (this.agentId == null)   this.agentId="";
   if (this.applicationName == null)   this.applicationName="";
-  if (this.version == null)   this.version="";
+  if (this.version == null) {
+    this.version="";
+  }
+  if (this.serviceType == null) {
+    throw new IllegalStateException("serviceType not set");
+  }
+  if (this.serviceType.getCode() != this.serviceTypeCode) {
+    throw new IllegalStateException("serviceType not equals");
+  }
   return new AgentInfoBo(this);
 }

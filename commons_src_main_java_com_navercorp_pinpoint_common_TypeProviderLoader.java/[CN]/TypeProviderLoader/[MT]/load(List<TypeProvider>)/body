@@ -1,6 +1,8 @@
 {
   logger.info("Loading ServiceTypeProviders");
-  loadDefaults();
+  if (defaultServiceTypeLoad) {
+    loadDefaults();
+  }
   for (  TypeProvider provider : providers) {
     logger.fine("Loading ServiceTypeProvider: " + provider.getClass());
     TypeSetupContextImpl context=new TypeSetupContextImpl(provider.getClass());

@@ -1,5 +1,4 @@
 {
-  ServiceTypeRegistry serviceTypeRegistry=new ServiceTypeRegistry(buildMap);
-  buildMap=new IntHashMap<ServiceType>();
-  return serviceTypeRegistry;
+  IntHashMap<ServiceType> copy=IntHashMapUtils.copy(buildMap);
+  return new ServiceTypeRegistry(copy);
 }
