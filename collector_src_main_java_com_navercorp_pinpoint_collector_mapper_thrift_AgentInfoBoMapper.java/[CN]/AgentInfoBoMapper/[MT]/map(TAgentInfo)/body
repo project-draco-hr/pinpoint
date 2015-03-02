@@ -11,16 +11,17 @@
   final long endTimeStamp=thriftObject.getEndTimestamp();
   final int endStatus=thriftObject.getEndStatus();
   AgentInfoBo.Builder builder=new AgentInfoBo.Builder();
-  builder.hostName(hostName);
-  builder.ip(ip);
-  builder.ports(ports);
-  builder.agentId(agentId);
-  builder.applicationName(applicationName);
-  builder.serviceType(serviceType);
-  builder.pid(pid);
-  builder.version(version);
-  builder.startTime(startTime);
-  builder.endTimeStamp(endTimeStamp);
-  builder.endStatus(endStatus);
+  builder.setHostName(hostName);
+  builder.setIp(ip);
+  builder.setPorts(ports);
+  builder.setAgentId(agentId);
+  builder.setApplicationName(applicationName);
+  builder.setServiceTypeCode(serviceType);
+  builder.setServiceType(registry.findServiceType(serviceType));
+  builder.setPid(pid);
+  builder.setVersion(version);
+  builder.setStartTime(startTime);
+  builder.setEndTimeStamp(endTimeStamp);
+  builder.setEndStatus(endStatus);
   return builder.build();
 }

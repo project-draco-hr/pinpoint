@@ -1,6 +1,6 @@
 {
-  final Application sourceApplication=new Application(sourceApplicationName,sourceServiceType);
-  final Application destinationApplication=new Application(targetApplicationName,targetServiceType);
+  final Application sourceApplication=new Application(sourceApplicationName,registry.findServiceType(sourceServiceType));
+  final Application destinationApplication=new Application(targetApplicationName,registry.findServiceType(targetServiceType));
   final Range range=new Range(from,to);
   NodeHistogram nodeHistogram=mapService.linkStatistics(sourceApplication,destinationApplication,range);
   model.addAttribute("range",range);

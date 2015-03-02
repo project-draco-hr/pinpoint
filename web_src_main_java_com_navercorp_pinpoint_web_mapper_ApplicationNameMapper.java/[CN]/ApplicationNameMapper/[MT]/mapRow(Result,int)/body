@@ -3,6 +3,7 @@
     return null;
   }
   String applicationName=Bytes.toString(result.getRow());
-  short serviceType=Bytes.toShort(result.value());
+  short serviceTypeCode=Bytes.toShort(result.value());
+  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
   return new Application(applicationName,serviceType);
 }

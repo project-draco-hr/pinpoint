@@ -5,11 +5,7 @@
   if (!ServiceType.isWas(serviceTypeCode)) {
     return false;
   }
-  final ServiceType serviceType=ServiceType.findServiceType(serviceTypeCode);
-  if (serviceType == ServiceType.UNDEFINED) {
-    return false;
-  }
-  final ResponseKey responseKey=new ResponseKey(parentApplicationName,serviceType);
+  final ResponseKey responseKey=new ResponseKey(parentApplicationName,serviceTypeCode);
   final Histogram histogram=getHistogram(responseKey);
   histogram.addResponseTime(millis);
   return true;

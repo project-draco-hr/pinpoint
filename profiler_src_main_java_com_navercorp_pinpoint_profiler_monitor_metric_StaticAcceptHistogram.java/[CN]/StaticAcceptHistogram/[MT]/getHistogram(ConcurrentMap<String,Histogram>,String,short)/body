@@ -3,8 +3,7 @@
   if (hit != null) {
     return hit;
   }
-  final ServiceType serviceType=ServiceType.findServiceType(serviceTypeCode);
-  final Histogram histogram=new LongAdderHistogram(serviceType);
+  final Histogram histogram=new LongAdderHistogram(serviceTypeCode,HistogramSchema.NORMAL_SCHEMA);
   final Histogram old=histogramMap.putIfAbsent(parentApplicationName,histogram);
   if (old != null) {
     return old;

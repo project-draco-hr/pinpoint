@@ -7,6 +7,7 @@
     logger.warn("Invalid value. {}",Arrays.toString(value));
   }
   String applicationName=Bytes.toString(value,0,HBaseTables.APPLICATION_NAME_MAX_LEN - 1).trim();
-  short serviceType=Bytes.toShort(value,HBaseTables.APPLICATION_NAME_MAX_LEN);
+  short serviceTypeCode=Bytes.toShort(value,HBaseTables.APPLICATION_NAME_MAX_LEN);
+  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
   return new Application(applicationName,serviceType);
 }

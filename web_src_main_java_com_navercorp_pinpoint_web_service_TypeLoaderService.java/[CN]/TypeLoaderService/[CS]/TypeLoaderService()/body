@@ -1,0 +1,8 @@
+{
+  TypeProviderLoader typeProviderLoader=new TypeProviderLoader();
+  ClassLoader defaultClassLoader=ClassLoaderUtils.getDefaultClassLoader();
+  typeProviderLoader.load(defaultClassLoader);
+  this.typeList=typeProviderLoader.getTypes();
+  TypeProviderLoader.initializeServiceType(typeProviderLoader);
+  this.typeProviderLoader=typeProviderLoader;
+}

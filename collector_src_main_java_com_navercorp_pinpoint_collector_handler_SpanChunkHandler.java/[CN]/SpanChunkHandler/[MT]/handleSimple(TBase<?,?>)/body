@@ -8,18 +8,19 @@
       logger.debug("Received SpanChunk={}",spanChunk);
     }
     traceDao.insertSpanChunk(spanChunk);
+    final ServiceType spanType=registry.findServiceType(spanChunk.getServiceType());
     List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
     if (spanEventList != null) {
       logger.debug("SpanChunk Size:{}",spanEventList.size());
       for (      TSpanEvent spanEvent : spanEventList) {
-        final ServiceType serviceType=ServiceType.findServiceType(spanEvent.getServiceType());
-        if (!serviceType.isRecordStatistics()) {
+        final ServiceType spanEventType=registry.findServiceType(spanEvent.getServiceType());
+        if (!spanEventType.isRecordStatistics()) {
           continue;
         }
         final int elapsed=spanEvent.getEndElapsed();
         final boolean hasException=SpanEventUtils.hasException(spanEvent);
-        statisticsHandler.updateCaller(spanChunk.getApplicationName(),spanChunk.getServiceType(),spanChunk.getAgentId(),spanEvent.getDestinationId(),serviceType.getCode(),spanEvent.getEndPoint(),elapsed,hasException);
-        statisticsHandler.updateCallee(spanEvent.getDestinationId(),spanEvent.getServiceType(),spanChunk.getApplicationName(),spanChunk.getServiceType(),spanChunk.getEndPoint(),elapsed,hasException);
+        statisticsHandler.updateCaller(spanChunk.getApplicationName(),spanType,spanChunk.getAgentId(),spanEvent.getDestinationId(),spanEventType,spanEvent.getEndPoint(),elapsed,hasException);
+        statisticsHandler.updateCallee(spanEvent.getDestinationId(),spanEventType,spanChunk.getApplicationName(),spanType,spanChunk.getEndPoint(),elapsed,hasException);
       }
     }
   }
