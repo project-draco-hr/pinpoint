@@ -1,18 +1,8 @@
 {
-  ZooKeeper zookeeper=null;
   try {
-    zookeeper=new ZooKeeper(hostPort,sessionTimeout,watcher);
-    return zookeeper;
+    return new ZooKeeper(hostPort,sessionTimeout,watcher);
   }
- catch (  IOException e) {
-    if (zookeeper != null) {
-      try {
-        zookeeper.close();
-      }
- catch (      InterruptedException ie) {
-        Thread.currentThread().interrupt();
-      }
-    }
+ catch (  IOException ignore) {
   }
   return null;
 }
