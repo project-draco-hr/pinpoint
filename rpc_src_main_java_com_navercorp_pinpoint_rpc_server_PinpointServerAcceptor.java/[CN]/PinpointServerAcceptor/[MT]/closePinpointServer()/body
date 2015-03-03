@@ -1,6 +1,8 @@
 {
   for (  Channel channel : channelGroup) {
     DefaultPinpointServer pinpointServer=(DefaultPinpointServer)channel.getAttachment();
-    pinpointServer.sendClosePacket();
+    if (pinpointServer != null) {
+      pinpointServer.sendClosePacket();
+    }
   }
 }

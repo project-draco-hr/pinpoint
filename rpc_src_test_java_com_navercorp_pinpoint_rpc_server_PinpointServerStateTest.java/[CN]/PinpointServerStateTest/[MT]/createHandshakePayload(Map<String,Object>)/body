@@ -1,0 +1,6 @@
+{
+  byte[] payload=ControlMessageEncodingUtils.encode(data);
+  ControlHandshakePacket handshakePacket=new ControlHandshakePacket(payload);
+  ChannelBuffer channelBuffer=handshakePacket.toBuffer();
+  return channelBuffer.toByteBuffer().array();
+}

@@ -9,9 +9,7 @@
     return closedException;
   }
   RequestPacket request=new RequestPacket(bytes);
-  final Channel channel=this.channel;
   final ChannelWriteFailListenableFuture<ResponseMessage> messageFuture=this.requestManager.register(request,this.timeoutMillis);
-  ChannelFuture write=channel.write(request);
-  write.addListener(messageFuture);
+  write0(request,messageFuture);
   return messageFuture;
 }

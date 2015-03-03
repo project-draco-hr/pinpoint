@@ -1,0 +1,24 @@
+{
+  if (workerState.isStarted()) {
+    logger.info("eventPerformed PinpointServer={}, State={}",pinpointServer,stateCode);
+    Map agentProperties=pinpointServer.getChannelProperties();
+    if (skipAgent(agentProperties)) {
+      return;
+    }
+    if (SocketStateCode.RUN_DUPLEX == stateCode) {
+      UpdateJob job=new UpdateJob(pinpointServer,new byte[0]);
+      worker.putJob(job);
+      profileCluster.addClusterPoint(new PinpointServerClusterPoint(pinpointServer));
+    }
+ else     if (SocketStateCode.isClosed(stateCode)) {
+      DeleteJob job=new DeleteJob(pinpointServer);
+      worker.putJob(job);
+      profileCluster.removeClusterPoint(new PinpointServerClusterPoint(pinpointServer));
+    }
+  }
+ else {
+    WorkerState state=this.workerState.getCurrentState();
+    logger.info("{} invalid state {}.",this.getClass().getSimpleName(),state.toString());
+    return;
+  }
+}

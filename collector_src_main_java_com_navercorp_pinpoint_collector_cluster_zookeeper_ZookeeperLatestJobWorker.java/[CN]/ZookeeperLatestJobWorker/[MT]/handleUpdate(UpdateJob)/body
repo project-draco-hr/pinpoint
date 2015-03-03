@@ -1,7 +1,7 @@
 {
   PinpointServer pinpointServer=job.getPinpointServer();
-  PinpointServerStateCode code=pinpointServer.getCurrentStateCode();
-  if (PinpointServerStateCode.isFinished(code)) {
+  SocketStateCode code=pinpointServer.getCurrentStateCode();
+  if (SocketStateCode.isClosed(code)) {
     putJob(new DeleteJob(pinpointServer));
     return false;
   }

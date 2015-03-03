@@ -1,16 +1,19 @@
 {
+  logger.info("{} handleHandshake() started. Packet:{}",objectUniqName,handshakepacket);
   int requestId=handshakepacket.getRequestId();
   Map<Object,Object> handshakeData=decodeHandshakePacket(handshakepacket);
   HandshakeResponseCode responseCode=messageListener.handleHandshake(handshakeData);
   boolean isFirst=setChannelProperties(handshakeData);
   if (isFirst) {
     if (HandshakeResponseCode.DUPLEX_COMMUNICATION == responseCode) {
-      changeStateToRunDuplex(PinpointServerStateCode.RUN_DUPLEX);
+      stateToRunDuplex();
     }
  else     if (HandshakeResponseCode.SIMPLEX_COMMUNICATION == responseCode) {
-      changeStateToRunSimplex(PinpointServerStateCode.RUN_SIMPLEX);
+      stateToRunSimplex();
     }
   }
+  logger.info("{} handleHandshake(). ResponseCode:{}",objectUniqName,responseCode);
   Map<String,Object> responseData=createHandshakeResponse(responseCode,isFirst);
   sendHandshakeResponse0(requestId,responseData);
+  logger.info("{} handleHandshake() completed.",objectUniqName);
 }
