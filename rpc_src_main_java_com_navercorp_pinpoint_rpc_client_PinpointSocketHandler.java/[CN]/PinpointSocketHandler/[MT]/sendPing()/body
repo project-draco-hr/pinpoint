@@ -3,10 +3,10 @@
     return;
   }
   logger.debug("sendPing {}",channel);
-  ChannelFuture write=this.channel.write(PingPacket.PING_PACKET);
-  write.awaitUninterruptibly();
-  if (!write.isSuccess()) {
-    Throwable cause=write.getCause();
+  ChannelFuture future=write0(PingPacket.PING_PACKET);
+  future.awaitUninterruptibly();
+  if (!future.isSuccess()) {
+    Throwable cause=future.getCause();
     throw new PinpointSocketException("send ping failed. Error:" + cause.getMessage(),cause);
   }
   logger.debug("sendPing success {}",channel);

@@ -1,0 +1,16 @@
+{
+  SocketStateCode beforeState;
+  SocketStateCode currentState;
+synchronized (this) {
+    beforeState=this.beforeState;
+    currentState=this.currentState;
+  }
+  StringBuilder toString=new StringBuilder();
+  toString.append(this.getClass().getSimpleName());
+  toString.append("(");
+  toString.append(beforeState);
+  toString.append("->");
+  toString.append(currentState);
+  toString.append(")");
+  return toString.toString();
+}

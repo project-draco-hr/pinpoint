@@ -1,4 +1,10 @@
 {
-  logger.debug("handleClosePacket channel:{}",channel);
-  changeStateBeingShutdown(PinpointServerStateCode.BEING_SHUTDOWN);
+  logger.info("{} handleClosePacket() started.",objectUniqName);
+  SocketStateChangeResult stateChangeResult=stateToBeingCloseByPeer();
+  if (!stateChangeResult.isChange()) {
+    logger.info("{} handleClosePacket() failed. Error: {}",objectUniqName,stateChangeResult);
+  }
+ else {
+    logger.info("{} handleClosePacket() completed.",objectUniqName);
+  }
 }

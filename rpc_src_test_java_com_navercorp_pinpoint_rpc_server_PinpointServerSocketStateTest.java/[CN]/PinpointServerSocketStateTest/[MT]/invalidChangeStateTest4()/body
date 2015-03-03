@@ -1,8 +1,0 @@
-{
-  PinpointServerState state=new PinpointServerState();
-  state.changeState(PinpointServerStateCode.RUN_DUPLEX);
-  Assert.assertEquals(PinpointServerStateCode.RUN_DUPLEX,state.getCurrentState());
-  state.changeStateThrowWhenFailed(PinpointServerStateCode.BEING_SHUTDOWN);
-  Assert.assertEquals(PinpointServerStateCode.BEING_SHUTDOWN,state.getCurrentState());
-  PinpointServerStateCode beforeCode=state.changeStateThrowWhenFailed(PinpointServerStateCode.UNEXPECTED_SHUTDOWN);
-}

@@ -1,6 +1,6 @@
 {
   ensureOpen();
   final Channel channel=this.channel;
-  SocketHandlerContext context=getChannelContext(channel);
-  return context.getStreamChannelManager().openStreamChannel(payload,clientStreamChannelMessageListener);
+  PinpointSocketHandlerContext context=getChannelContext(channel);
+  return context.createStream(payload,clientStreamChannelMessageListener);
 }

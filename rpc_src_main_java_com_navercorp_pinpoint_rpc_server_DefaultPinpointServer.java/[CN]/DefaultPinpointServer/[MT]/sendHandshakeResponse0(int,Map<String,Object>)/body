@@ -1,6 +1,5 @@
 {
   try {
-    logger.info("write HandshakeResponsePakcet. channel:{}, HandshakeResponseCode:{}.",channel,data);
     byte[] resultPayload=ControlMessageEncodingUtils.encode(data);
     ControlHandshakeResponsePacket packet=new ControlHandshakeResponsePacket(requestId,resultPayload);
     channel.write(packet);

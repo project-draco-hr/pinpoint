@@ -10,21 +10,8 @@
   this.pingDelay=pingDelay;
   this.handshakeRetryInterval=handshakeRetryInterval;
   this.timeoutMillis=timeoutMillis;
-  MessageListener messageLisener=pinpointSocketFactory.getMessageListener();
-  if (messageLisener != null) {
-    this.messageListener=messageLisener;
-  }
- else {
-    this.messageListener=SimpleLoggingMessageListener.LISTENER;
-  }
-  ServerStreamChannelMessageListener serverStreamChannelMessageListener=pinpointSocketFactory.getServerStreamChannelMessageListener();
-  if (serverStreamChannelMessageListener != null) {
-    this.serverStreamChannelMessageListener=serverStreamChannelMessageListener;
-  }
- else {
-    this.serverStreamChannelMessageListener=DisabledServerStreamChannelMessageListener.INSTANCE;
-  }
+  this.messageListener=pinpointSocketFactory.getMessageListener(SimpleLoggingMessageListener.LISTENER);
+  this.serverStreamChannelMessageListener=pinpointSocketFactory.getServerStreamChannelMessageListener(DisabledServerStreamChannelMessageListener.INSTANCE);
   this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
-  pinpointSocketFactory.getServerStreamChannelMessageListener();
   this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
 }

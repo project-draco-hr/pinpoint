@@ -8,9 +8,9 @@
   try {
     socket=new Socket("127.0.0.1",bindPort);
     sendAndReceiveSimplePacket(socket);
-    Assert.assertEquals(eventHandler.getCode(),PinpointServerStateCode.RUN_WITHOUT_HANDSHAKE);
+    Assert.assertEquals(eventHandler.getCode(),SocketStateCode.RUN_WITHOUT_HANDSHAKE);
     int code=sendAndReceiveRegisterPacket(socket,PinpointRPCTestUtils.getParams());
-    Assert.assertEquals(eventHandler.getCode(),PinpointServerStateCode.RUN_DUPLEX);
+    Assert.assertEquals(eventHandler.getCode(),SocketStateCode.RUN_DUPLEX);
     sendAndReceiveSimplePacket(socket);
   }
   finally {

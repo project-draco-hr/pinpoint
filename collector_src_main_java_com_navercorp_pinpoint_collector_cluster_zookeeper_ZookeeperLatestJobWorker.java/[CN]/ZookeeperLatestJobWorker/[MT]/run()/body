@@ -33,7 +33,7 @@
         }
       }
       for (      PinpointServer pinpointServer : pinpointServerRepository) {
-        if (PinpointServerStateCode.isFinished(pinpointServer.getCurrentStateCode())) {
+        if (SocketStateCode.isClosed(pinpointServer.getCurrentStateCode())) {
           logger.info("LeakDetector Find Leak PinpointServer={}.",pinpointServer);
           putJob(new DeleteJob(pinpointServer));
         }

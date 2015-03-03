@@ -1,0 +1,9 @@
+{
+  boolean enable=this.currentState.canChangeState(nextState);
+  if (enable) {
+    this.beforeState=this.currentState;
+    this.currentState=nextState;
+    return new SocketStateChangeResult(true,beforeState,currentState,nextState);
+  }
+  return new SocketStateChangeResult(false,beforeState,currentState,nextState);
+}

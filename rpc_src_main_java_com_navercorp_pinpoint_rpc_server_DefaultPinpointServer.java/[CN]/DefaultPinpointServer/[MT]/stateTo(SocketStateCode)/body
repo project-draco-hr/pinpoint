@@ -1,0 +1,9 @@
+{
+  logger.debug("{} stateTo() started. to:{}",objectUniqName,nextState);
+  SocketStateChangeResult stateChangeResult=state.changeState(nextState);
+  if (stateChangeResult.isChange()) {
+    executeChangeEventHandler(this,nextState);
+  }
+  logger.info("{} stateTo() completed. {}",objectUniqName,stateChangeResult);
+  return stateChangeResult;
+}

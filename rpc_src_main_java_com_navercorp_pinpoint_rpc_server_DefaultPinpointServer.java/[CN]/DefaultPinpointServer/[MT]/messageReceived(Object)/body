@@ -1,6 +1,6 @@
 {
-  if (!PinpointServerStateCode.isRun(getCurrentStateCode())) {
-    logger.warn("{} messageReceived:{} from IllegalState this message will be ignore.",this,message);
+  if (!isEnableCommunication()) {
+    logger.warn("{} messageReceived() failed. Error: Illegal state this message({}) will be ignore.",objectUniqName,message);
     return;
   }
   final short packetType=getPacketType(message);
