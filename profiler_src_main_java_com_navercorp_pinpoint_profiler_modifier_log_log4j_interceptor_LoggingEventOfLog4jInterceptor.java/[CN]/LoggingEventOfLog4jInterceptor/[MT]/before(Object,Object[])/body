@@ -4,7 +4,10 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
+    MDC.remove(MdcKey.TRANSACTION_ID);
     return;
   }
-  MDC.put("TransactionID",trace.getTraceId().getTransactionId());
+ else {
+    MDC.put(MdcKey.TRANSACTION_ID,trace.getTraceId().getTransactionId());
+  }
 }
