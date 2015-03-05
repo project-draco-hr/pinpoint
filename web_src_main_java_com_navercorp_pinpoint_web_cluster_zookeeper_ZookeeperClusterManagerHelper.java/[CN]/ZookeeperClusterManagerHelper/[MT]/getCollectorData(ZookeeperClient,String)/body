@@ -1,9 +1,9 @@
 {
   try {
-    List<String> collectorList=client.getChildren(PINPOINT_COLLECTOR_CLUSTER_PATH,true);
+    List<String> collectorList=client.getChildren(path,true);
     Map<String,byte[]> map=new HashMap<String,byte[]>();
     for (    String collector : collectorList) {
-      String node=bindingPathAndZnode(PINPOINT_COLLECTOR_CLUSTER_PATH,collector);
+      String node=bindingPathAndZnode(path,collector);
       byte[] data=client.getData(node,true);
       map.put(node,data);
     }

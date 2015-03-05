@@ -1,27 +1,30 @@
 {
+synchronized (initilizeLock) {
+  }
   logger.info("Zookeepr Event({}) ocurred.",event);
   KeeperState state=event.getState();
   EventType eventType=event.getType();
   String path=event.getPath();
   boolean result=false;
-  if (state == KeeperState.Expired) {
+  if (ZookeeperUtils.isDisconnectedEvent(event)) {
     result=handleDisconnected();
-    client.reconnectWhenSessionExpired();
+    if (state == KeeperState.Expired) {
+      client.reconnectWhenSessionExpired();
+    }
   }
- else   if (state == KeeperState.Expired) {
-    result=handleDisconnected();
-  }
- else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.None) {
-    result=handleConnected();
-  }
- else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeChildrenChanged) {
-    result=handleNodeChildrenChanged(path);
-  }
- else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeDeleted) {
-    result=handleNodeDeleted(path);
-  }
- else   if ((state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) && eventType == EventType.NodeDataChanged) {
-    result=handleNodeDataChanged(path);
+ else   if (state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) {
+    if (eventType == EventType.None) {
+      result=handleConnected();
+    }
+ else     if (eventType == EventType.NodeChildrenChanged) {
+      result=handleNodeChildrenChanged(path);
+    }
+ else     if (eventType == EventType.NodeDeleted) {
+      result=handleNodeDeleted(path);
+    }
+ else     if (eventType == EventType.NodeDataChanged) {
+      result=handleNodeDataChanged(path);
+    }
   }
   if (result) {
     logger.info("Zookeeper Event({}) successed.",event);

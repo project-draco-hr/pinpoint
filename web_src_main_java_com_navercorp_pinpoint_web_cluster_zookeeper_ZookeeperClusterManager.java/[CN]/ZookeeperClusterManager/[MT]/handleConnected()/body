@@ -4,13 +4,13 @@
   if (changed) {
     PushWebClusterJob job=this.job.get();
     if (job != null) {
-      if (!syncWebCluster(job)) {
+      if (!zookeeperClusterManagerHelper.pushWebClusterResource(client,job)) {
         timer.newTimeout(job,job.getRetryInterval(),TimeUnit.MILLISECONDS);
         result=false;
       }
     }
-    if (!syncCollectorCluster()) {
-      timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+    if (!syncPullCollectorCluster()) {
+      timer.newTimeout(new PullCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
       result=false;
     }
   }

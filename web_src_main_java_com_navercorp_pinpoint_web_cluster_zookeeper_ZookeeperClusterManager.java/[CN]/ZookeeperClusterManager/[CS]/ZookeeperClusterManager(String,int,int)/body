@@ -1,5 +1,8 @@
 {
-  this.client=new ZookeeperClient(zookeeperAddress,sessionTimeout,this,DEFAULT_RECONNECT_DELAY_WHEN_SESSION_EXPIRED);
-  this.retryInterval=retryInterval;
-  this.timer=createTimer();
+synchronized (initilizeLock) {
+    this.client=new ZookeeperClient(zookeeperAddress,sessionTimeout,this,DEFAULT_RECONNECT_DELAY_WHEN_SESSION_EXPIRED);
+    this.retryInterval=retryInterval;
+    this.timer=createTimer();
+    this.zookeeperClusterManagerHelper=new ZookeeperClusterManagerHelper();
+  }
 }

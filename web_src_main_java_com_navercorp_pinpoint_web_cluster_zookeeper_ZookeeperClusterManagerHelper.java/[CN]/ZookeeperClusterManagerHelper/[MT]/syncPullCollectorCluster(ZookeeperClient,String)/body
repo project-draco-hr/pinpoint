@@ -1,0 +1,18 @@
+{
+  Map<String,byte[]> map=getCollectorData(client,path);
+  if (map == null) {
+    return Collections.emptyMap();
+  }
+  Map<String,byte[]> result=new HashMap<String,byte[]>();
+  for (  Map.Entry<String,byte[]> entry : map.entrySet()) {
+    String key=entry.getKey();
+    byte[] value=entry.getValue();
+    String id=extractCollectorClusterId(key,path);
+    if (id == null) {
+      logger.error("Illegal Collector Path({}) finded.",key);
+      continue;
+    }
+    result.put(id,value);
+  }
+  return result;
+}
