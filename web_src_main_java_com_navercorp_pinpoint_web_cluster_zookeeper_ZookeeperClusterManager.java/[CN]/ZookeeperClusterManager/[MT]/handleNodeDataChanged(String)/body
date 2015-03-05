@@ -1,11 +1,11 @@
 {
   if (path != null) {
-    String id=extractCollectorClusterId(path);
+    String id=zookeeperClusterManagerHelper.extractCollectorClusterId(path,PINPOINT_COLLECTOR_CLUSTER_PATH);
     if (id != null) {
-      if (syncCollectorCluster(id)) {
+      if (pushCollectorClusterData(id)) {
         return true;
       }
-      timer.newTimeout(new FetchCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+      timer.newTimeout(new PullCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
     }
   }
   return false;

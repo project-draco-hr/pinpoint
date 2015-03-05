@@ -3,7 +3,7 @@
   if (!isConnected()) {
     return;
   }
-  if (!syncWebCluster(this)) {
+  if (!zookeeperClusterManagerHelper.pushWebClusterResource(client,this)) {
     timer.newTimeout(this,getRetryInterval(),TimeUnit.MILLISECONDS);
   }
 }
