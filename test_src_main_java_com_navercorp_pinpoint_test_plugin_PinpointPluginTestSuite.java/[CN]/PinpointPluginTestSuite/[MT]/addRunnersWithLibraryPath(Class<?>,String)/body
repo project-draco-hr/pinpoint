@@ -1,6 +1,10 @@
 {
   File file=new File(libraryPath);
-  for (  File child : file.listFiles()) {
+  final File[] fileList=file.listFiles();
+  if (fileList == null) {
+    return;
+  }
+  for (  File child : fileList) {
     if (!child.isDirectory()) {
       continue;
     }
