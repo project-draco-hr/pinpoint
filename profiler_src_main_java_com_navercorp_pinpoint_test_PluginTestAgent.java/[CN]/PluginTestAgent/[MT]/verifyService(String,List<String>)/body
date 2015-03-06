@@ -1,0 +1,15 @@
+{
+  List<ServiceInfo> serviceInfos=getTraceContext().getServerMetaDataHolder().getServerMetaData().getServiceInfos();
+  for (  ServiceInfo serviceInfo : serviceInfos) {
+    if (serviceInfo.getServiceName().equals(name)) {
+      List<String> actualLibs=serviceInfo.getServiceLibs();
+      if (actualLibs.equals(libs)) {
+        return;
+      }
+ else {
+        throw new AssertionError("Expected service [" + name + "] with libraries ["+ libs+ "] but was ["+ actualLibs+ "]");
+      }
+    }
+  }
+  throw new AssertionError("Expected service [" + name + "] with libraries ["+ libs+ "] but there is no such service");
+}

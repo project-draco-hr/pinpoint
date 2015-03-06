@@ -1,0 +1,18 @@
+{
+  List<PinpointPluginTestInstance> cases=new ArrayList<PinpointPluginTestInstance>();
+  DependencyResolver resolver=DependencyResolver.get(repositories);
+  Map<String,List<Artifact>> dependencyCases=resolver.resolveDependencySets(dependencies);
+  for (  Map.Entry<String,List<Artifact>> dependencyCase : dependencyCases.entrySet()) {
+    List<String> libs=new ArrayList<String>();
+    for (    File lib : resolver.resolveArtifactsAndDependencies(dependencyCase.getValue())) {
+      libs.add(lib.getAbsolutePath());
+    }
+    if (testOnSystemClassLoader) {
+      cases.add(new NormalPluginTestCase(context,dependencyCase.getKey(),libs,true));
+    }
+    if (testOnChildClassLoader) {
+      cases.add(new NormalPluginTestCase(context,dependencyCase.getKey(),libs,false));
+    }
+  }
+  return cases;
+}

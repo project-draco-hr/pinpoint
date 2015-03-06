@@ -1,0 +1,18 @@
+{
+  List<Runner> runners=new ArrayList<Runner>();
+  try {
+    for (    int ver : jvmVersions) {
+      String javaExe=getJavaExecutable(ver);
+      PinpointPluginTestContext context=new PinpointPluginTestContext(agentJar,configFile,requiredLibraries,getTestClass().getJavaClass(),testClassLocation,jvmArguments,debug,ver,javaExe);
+      List<PinpointPluginTestInstance> cases=createTestCases(context);
+      for (      PinpointPluginTestInstance c : cases) {
+        runners.add(new PinpointPluginTestRunner(context,c));
+      }
+    }
+  }
+ catch (  Exception e) {
+    System.out.println(e.getMessage());
+    throw new RuntimeException("Fail to create test runners",e);
+  }
+  return runners;
+}

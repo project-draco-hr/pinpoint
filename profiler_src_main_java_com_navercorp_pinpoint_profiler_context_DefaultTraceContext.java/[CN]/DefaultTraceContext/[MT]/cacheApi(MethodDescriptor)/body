@@ -1,8 +1,8 @@
 {
   final String fullName=methodDescriptor.getFullName();
   final Result result=this.apiCache.put(fullName);
+  methodDescriptor.setApiId(result.getId());
   if (result.isNewValue()) {
-    methodDescriptor.setApiId(result.getId());
     final TApiMetaData apiMetadata=new TApiMetaData();
     apiMetadata.setAgentId(getAgentId());
     apiMetadata.setAgentStartTime(getAgentStartTime());

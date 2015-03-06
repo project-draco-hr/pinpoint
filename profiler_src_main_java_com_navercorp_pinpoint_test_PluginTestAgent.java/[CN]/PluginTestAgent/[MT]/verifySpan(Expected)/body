@@ -1,0 +1,41 @@
+{
+  Object obj=getTBaseRecorder().poll();
+  if (obj == null) {
+    throw new AssertionError("No " + expected.type.getSimpleName() + ". expected: "+ expected);
+  }
+  if (!expected.type.isInstance(obj)) {
+    throw new AssertionError("Expected an instance of " + expected.type.getSimpleName() + " but was "+ obj.getClass().getName()+ ". expected: "+ expected+ ", was: "+ obj);
+  }
+  Facade span=wrap(obj);
+  if (expected.serviceType.getCode() != span.getServiceType()) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with serviceType["+ expected.serviceType.getCode()+ "] but was ["+ span.getServiceType()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  if (!equals(expected.apiId,span.getApiId())) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with apiId["+ expected.apiId+ "] but was ["+ span.getApiId()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  if (!equals(expected.rpc,span.getRpc())) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with rpc["+ expected.rpc+ "] but was ["+ span.getRpc()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  if (!equals(expected.endPoint,span.getEndPoint())) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with endPoint["+ expected.endPoint+ "] but was ["+ span.getEndPoint()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  if (!equals(expected.remoteAddr,span.getRemoteAddr())) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with remoteAddr["+ expected.remoteAddr+ "] but was ["+ span.getRemoteAddr()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  if (!equals(expected.destinationId,span.getDestinationId())) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with destinationId["+ expected.destinationId+ "] but was ["+ span.getDestinationId()+ "]. expected: "+ expected+ ", was: "+ span);
+  }
+  List<TAnnotation> actualAnnotations=span.getAnnotations();
+  int len=expected.annotations.length;
+  int actualLen=actualAnnotations == null ? 0 : actualAnnotations.size();
+  if (actualLen != len) {
+    throw new AssertionError("Expected [" + len + "] annotations but was ["+ actualLen+ "], expected: "+ expected+ ", was: "+ span);
+  }
+  for (int i=0; i < len; i++) {
+    ExpectedAnnotation expect=expected.annotations[i];
+    TAnnotation actual=actualAnnotations.get(i);
+    if (expect.getKey() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
+      throw new AssertionError("Expected " + i + "th annotation ["+ expect+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
+    }
+  }
+}

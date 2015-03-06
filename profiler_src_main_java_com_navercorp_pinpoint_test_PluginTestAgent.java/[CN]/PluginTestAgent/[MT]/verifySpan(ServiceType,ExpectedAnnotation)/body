@@ -1,21 +1,4 @@
 {
-  Object obj=getTBaseRecorder().poll();
-  short code=serviceType.getCode();
-  if (obj == null) {
-    throw new AssertionError("No Span. expected: " + toString(code,annotations));
-  }
-  if (!(obj instanceof Span)) {
-    throw new AssertionError("Expected an instance of Span but was " + obj.getClass().getName() + ". expected: "+ toString(code,annotations)+ ", was: "+ obj);
-  }
-  Span span=(Span)obj;
-  if (code != span.getServiceType()) {
-    throw new AssertionError("Expected a Span with serviceType[" + code + "] but was ["+ span.getServiceType()+ "]. expected: "+ toString(code,annotations)+ ", was: "+ toString(span));
-  }
-  List<TAnnotation> actualAnnotations=span.getAnnotations();
-  try {
-    verifyAnnotations(actualAnnotations,annotations);
-  }
- catch (  AssertionError e) {
-    throw new AssertionError("expected: " + toString(code,annotations) + ", was: "+ toString(span));
-  }
+  Expected expected=new Expected(Span.class,serviceType,null,null,null,null,null,annotations);
+  verifySpan(expected);
 }

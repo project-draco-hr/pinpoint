@@ -1,0 +1,11 @@
+{
+  if (onSystemClassLoader) {
+    List<String> libs=new ArrayList<String>(context.getRequiredLibraries());
+    libs.addAll(this.libs);
+    libs.add(context.getTestClassLocation());
+    return libs;
+  }
+ else {
+    return context.getRequiredLibraries();
+  }
+}

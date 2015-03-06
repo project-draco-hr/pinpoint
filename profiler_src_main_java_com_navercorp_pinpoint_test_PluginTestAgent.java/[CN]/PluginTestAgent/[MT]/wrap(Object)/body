@@ -1,0 +1,9 @@
+{
+  if (obj instanceof Span) {
+    return new SpanFacade((Span)obj);
+  }
+ else   if (obj instanceof SpanEvent) {
+    return new SpanEventFacade((SpanEvent)obj);
+  }
+  throw new IllegalArgumentException("Unexpected type: " + obj.getClass());
+}

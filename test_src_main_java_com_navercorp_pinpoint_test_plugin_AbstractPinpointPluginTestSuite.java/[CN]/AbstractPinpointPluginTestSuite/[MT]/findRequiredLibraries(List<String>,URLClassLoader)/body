@@ -1,0 +1,10 @@
+{
+  outer:   for (  URL url : cl.getURLs()) {
+    for (    String required : REQUIRED_CLASS_PATHS) {
+      if (url.getFile().contains(required)) {
+        result.add(toPathString(url));
+        continue outer;
+      }
+    }
+  }
+}

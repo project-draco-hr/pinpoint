@@ -1,0 +1,15 @@
+{
+  List<String> args=new ArrayList<String>();
+  args.add(context.getTestClass().getName());
+  if (!onSystemClassLoader) {
+    StringBuilder classPath=new StringBuilder();
+    classPath.append(CHILD_CLASS_PATH_PREFIX);
+    for (    String lib : libs) {
+      classPath.append(lib);
+      classPath.append(File.pathSeparatorChar);
+    }
+    classPath.append(context.getTestClassLocation());
+    args.add(classPath.toString());
+  }
+  return args;
+}
