@@ -1,8 +1,12 @@
 {
   if (data instanceof TApiMetaData) {
     TApiMetaData md=(TApiMetaData)data;
-    idMap.put(md.getApiId(),md.getApiInfo());
-    descriptionMap.put(md.getApiInfo(),md.getApiId());
+    String api=md.getApiInfo();
+    if (md.getLine() != -1) {
+      api+=":" + md.getLine();
+    }
+    idMap.put(md.getApiId(),api);
+    descriptionMap.put(api,md.getApiId());
   }
   datas.add(data);
 }

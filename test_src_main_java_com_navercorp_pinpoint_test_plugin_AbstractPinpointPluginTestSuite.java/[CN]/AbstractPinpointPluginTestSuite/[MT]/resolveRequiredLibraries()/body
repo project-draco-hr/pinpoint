@@ -1,0 +1,14 @@
+{
+  List<String> result=new ArrayList<String>();
+  ClassLoader cl=getClass().getClassLoader();
+  while (true) {
+    if (cl instanceof URLClassLoader) {
+      findRequiredLibraries(result,(URLClassLoader)cl);
+    }
+    cl=cl.getParent();
+    if (cl == null) {
+      break;
+    }
+  }
+  return result;
+}

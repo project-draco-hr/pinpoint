@@ -1,9 +1,8 @@
 {
-  final File[] libList=libDir.listFiles();
-  if (libList == null) {
+  if (!libDir.isDirectory()) {
     return;
   }
-  for (  File f : libList) {
+  for (  File f : libDir.listFiles()) {
     if (f.getName().endsWith(".jar")) {
       libraries.add(f.getAbsolutePath());
     }

@@ -1,0 +1,31 @@
+{
+  List<PinpointPluginTestInstance> cases=new ArrayList<PinpointPluginTestInstance>();
+  File file=new File(libraryPath);
+  if (!file.isDirectory()) {
+    throw new RuntimeException("value of @TestRoot is not a directory: " + libraryPath);
+  }
+  for (  File child : file.listFiles()) {
+    if (!child.isDirectory()) {
+      continue;
+    }
+    List<String> libraries=new ArrayList<String>();
+    if (librarySubDirs.length == 0) {
+      addJars(child,libraries);
+      libraries.add(child.getAbsolutePath());
+    }
+ else {
+      for (      String subDir : librarySubDirs) {
+        File libDir=new File(child,subDir);
+        addJars(libDir,libraries);
+        libraries.add(libDir.getAbsolutePath());
+      }
+    }
+    if (testOnSystemClassLoader) {
+      cases.add(new NormalPluginTestCase(context,child.getName(),libraries,true));
+    }
+    if (testOnChildClassLoader) {
+      cases.add(new NormalPluginTestCase(context,child.getName(),libraries,false));
+    }
+  }
+  return cases;
+}

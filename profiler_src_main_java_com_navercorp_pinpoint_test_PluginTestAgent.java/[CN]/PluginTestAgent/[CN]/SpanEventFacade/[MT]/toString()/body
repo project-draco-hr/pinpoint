@@ -1,0 +1,17 @@
+{
+  StringBuilder builder=new StringBuilder();
+  builder.append("(serviceType: ");
+  builder.append(span.getServiceType());
+  builder.append(", apiId: ");
+  builder.append(span.getApiId());
+  builder.append(", rpc: ");
+  builder.append(span.getRpc());
+  builder.append(", endPoint: ");
+  builder.append(span.getEndPoint());
+  builder.append(", destinationId: ");
+  builder.append(span.getDestinationId());
+  builder.append(", [");
+  appendAnnotations(builder,span.getAnnotations());
+  builder.append("])");
+  return builder.toString();
+}

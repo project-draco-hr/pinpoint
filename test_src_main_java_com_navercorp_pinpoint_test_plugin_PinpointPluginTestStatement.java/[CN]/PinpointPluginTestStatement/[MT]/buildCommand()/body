@@ -1,0 +1,25 @@
+{
+  List<String> list=new ArrayList<String>();
+  list.add(context.getJavaExecutable());
+  list.add("-cp");
+  list.add(getClassPathAsString());
+  list.add(getAgent());
+  list.add("-Dpinpoint.agentId=build.test.0");
+  list.add("-Dpinpoint.applicationName=test");
+  list.add("-D" + PinpointPluginTestConstants.PINPOINT_TEST_ID + "="+ testCase.getTestId());
+  for (  String arg : context.getJvmArguments()) {
+    list.add(arg);
+  }
+  if (context.isDebug()) {
+    list.addAll(getDebugOptions());
+  }
+  if (context.getConfigFile() != null) {
+    list.add("-Dpinpoint.config=" + context.getConfigFile());
+  }
+  for (  String arg : testCase.getVmArgs()) {
+    list.add(arg);
+  }
+  list.add(testCase.getMainClass());
+  list.addAll(testCase.getAppArgs());
+  return list.toArray(new String[list.size()]);
+}

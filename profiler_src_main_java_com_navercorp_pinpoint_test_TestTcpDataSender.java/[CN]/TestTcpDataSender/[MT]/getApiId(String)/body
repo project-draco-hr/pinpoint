@@ -1,3 +1,7 @@
 {
-  return descriptionMap.get(description);
+  Integer id=descriptionMap.get(description);
+  if (id == null) {
+    throw new NoSuchElementException(description);
+  }
+  return id;
 }
