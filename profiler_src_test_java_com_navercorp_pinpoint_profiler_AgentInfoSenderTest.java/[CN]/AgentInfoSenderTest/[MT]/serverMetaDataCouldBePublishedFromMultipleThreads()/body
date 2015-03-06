@@ -1,0 +1,51 @@
+{
+  final AtomicInteger requestCount=new AtomicInteger();
+  final AtomicInteger successCount=new AtomicInteger();
+  final long agentInfoSendRetryIntervalMs=1000L;
+  final int threadCount=50;
+  final CountDownLatch initLatch=new CountDownLatch(threadCount);
+  final CountDownLatch startLatch=new CountDownLatch(1);
+  final CountDownLatch endLatch=new CountDownLatch(threadCount);
+  final ExecutorService executorService=Executors.newFixedThreadPool(threadCount);
+  final Queue<Throwable> exceptions=new ConcurrentLinkedQueue<Throwable>();
+  ResponseServerMessageListener delayedServerListener=new ResponseServerMessageListener(requestCount,successCount);
+  PinpointServerAcceptor serverAcceptor=createServerAcceptor(delayedServerListener);
+  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
+  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
+  TcpDataSender sender=new TcpDataSender(socket);
+  AgentInfoSender agentInfoSender=new AgentInfoSender(sender,agentInfoSendRetryIntervalMs,getAgentInfo());
+  final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(Collections.<String>emptyList());
+  metaDataContext.addListener(agentInfoSender);
+  for (int i=0; i < threadCount; ++i) {
+    executorService.submit(new Callable<Void>(){
+      @Override public Void call() throws Exception {
+        initLatch.countDown();
+        try {
+          startLatch.await();
+          metaDataContext.publishServerMetaData();
+        }
+ catch (        final Throwable t) {
+          exceptions.add(t);
+        }
+ finally {
+          endLatch.countDown();
+        }
+        return null;
+      }
+    }
+);
+  }
+  initLatch.await();
+  startLatch.countDown();
+  endLatch.await();
+  executorService.shutdown();
+  try {
+    Thread.sleep(10000L);
+  }
+  finally {
+    closeAll(serverAcceptor,agentInfoSender,socket,socketFactory);
+  }
+  assertTrue("Failed with exceptions : " + exceptions,exceptions.isEmpty());
+  assertEquals(threadCount,requestCount.get());
+  assertEquals(threadCount,successCount.get());
+}

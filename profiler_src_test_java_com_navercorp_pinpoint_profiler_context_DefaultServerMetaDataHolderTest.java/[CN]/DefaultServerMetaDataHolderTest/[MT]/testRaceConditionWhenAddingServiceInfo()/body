@@ -4,7 +4,9 @@
   final CountDownLatch endLatch=new CountDownLatch(THREAD_COUNT);
   final Queue<Throwable> exceptions=new ConcurrentLinkedQueue<Throwable>();
   final String serviceName="/test";
+  final TestableServerMetaDataListener listener=new TestableServerMetaDataListener();
   final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(VM_ARGS);
+  metaDataContext.addListener(listener);
   metaDataContext.setServerName(SERVER_INFO);
   for (int i=0; i < THREAD_COUNT; ++i) {
     final List<String> serviceLibs=new ArrayList<String>();
@@ -14,6 +16,7 @@
         try {
           startLatch.await();
           metaDataContext.addServiceInfo(serviceName,serviceLibs);
+          metaDataContext.publishServerMetaData();
         }
  catch (        final Throwable t) {
           exceptions.add(t);
@@ -30,7 +33,7 @@
   startLatch.countDown();
   endLatch.await();
   assertTrue("Failed with exceptions : " + exceptions,exceptions.isEmpty());
-  ServerMetaData metaData=metaDataContext.getServerMetaData();
+  ServerMetaData metaData=listener.getServerMetaData();
   assertEquals(metaData.getServerInfo(),SERVER_INFO);
   assertEquals(metaData.getVmArgs(),VM_ARGS);
   assertEquals(metaData.getServiceInfos().size(),THREAD_COUNT);
