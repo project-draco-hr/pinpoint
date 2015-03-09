@@ -1,0 +1,8 @@
+{
+  if (buildMap == null) {
+    throw new NullPointerException("codeLookupTable must not be null");
+  }
+  this.codeLookupTable=IntHashMapUtils.copy(buildMap);
+  this.nameLookupTable=buildNameLookupTable(buildMap.values());
+  this.descLookupTable=buildDescLookupTable(buildMap.values());
+}

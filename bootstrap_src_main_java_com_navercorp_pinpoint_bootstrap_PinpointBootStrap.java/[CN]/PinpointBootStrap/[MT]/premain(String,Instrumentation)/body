@@ -38,7 +38,7 @@
     return;
   }
   URL[] pluginJars=classPathResolver.resolvePlugins();
-  loadServiceTypeProviders(pluginJars);
+  ServiceTypeRegistryService serviceTypeRegistryService=loadServiceTypeProviders(pluginJars);
   String configPath=getConfigPath(classPathResolver);
   if (configPath == null) {
     logPinpointAgentLoadFail();
@@ -53,7 +53,7 @@
     String bootClass=argMap.containsKey("bootClass") ? argMap.get("bootClass") : BOOT_CLASS;
     agentClassLoader.setBootClass(bootClass);
     logger.info("pinpoint agent [" + bootClass + "] starting...");
-    agentClassLoader.boot(agentArgs,instrumentation,profilerConfig,pluginJars);
+    agentClassLoader.boot(agentArgs,instrumentation,profilerConfig,pluginJars,serviceTypeRegistryService);
     logger.info("pinpoint agent started normally.");
   }
  catch (  Exception e) {

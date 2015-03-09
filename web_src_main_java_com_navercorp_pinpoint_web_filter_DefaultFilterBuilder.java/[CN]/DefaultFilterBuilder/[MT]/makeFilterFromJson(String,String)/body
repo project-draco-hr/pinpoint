@@ -15,9 +15,10 @@
         throw new IllegalArgumentException("invalid json " + jsonFilterText);
       }
       logger.debug("FilterDescriptor={}",descriptor);
-      chain.addFilter(new FromToResponseFilter(descriptor,hint));
+      FromToResponseFilter fromToResponseFilter=createFromToResponseFilter(descriptor,hint);
+      chain.addFilter(fromToResponseFilter);
       if (descriptor.isSetUrl()) {
-        FromToFilter fromToFilter=new FromToFilter(descriptor.getFromServiceType(),descriptor.getFromApplicationName(),descriptor.getToServiceType(),descriptor.getToApplicationName());
+        FromToFilter fromToFilter=createFromToFilter(descriptor);
         Filter urlPatternFilter=new URLPatternFilter(fromToFilter,descriptor.getUrlPattern());
         chain.addFilter(urlPatternFilter);
       }

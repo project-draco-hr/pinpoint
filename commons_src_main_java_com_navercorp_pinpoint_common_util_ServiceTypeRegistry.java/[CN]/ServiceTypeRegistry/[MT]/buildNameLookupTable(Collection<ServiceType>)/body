@@ -1,0 +1,10 @@
+{
+  final Map<String,ServiceType> copy=new HashMap<String,ServiceType>();
+  for (  ServiceType serviceType : serviceTypes) {
+    final ServiceType duplicated=copy.put(serviceType.getName(),serviceType);
+    if (duplicated != null) {
+      throw new IllegalStateException("duplicated ServiceType " + serviceType + " / "+ duplicated);
+    }
+  }
+  return copy;
+}

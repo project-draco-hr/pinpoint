@@ -1,0 +1,21 @@
+{
+  if (descriptor == null) {
+    throw new NullPointerException("descriptor must not be null");
+  }
+  List<ServiceType> fromServiceType=registry.findDesc(descriptor.getFromServiceType());
+  if (fromServiceType == null) {
+    throw new IllegalArgumentException("fromServiceCode not found. fromServiceType:" + descriptor.getFromServiceType());
+  }
+  String fromApplicationName=descriptor.getFromApplicationName();
+  String fromAgentName=descriptor.getFromAgentName();
+  List<ServiceType> toServiceType=registry.findDesc(descriptor.getToServiceType());
+  if (toServiceType == null) {
+    throw new IllegalArgumentException("toServiceType not found. fromServiceType:" + descriptor.getToServiceType());
+  }
+  String toApplicationName=descriptor.getToApplicationName();
+  String toAgentName=descriptor.getToAgentName();
+  Long fromResponseTime=descriptor.getResponseFrom();
+  Long toResponseTime=descriptor.getResponseTo();
+  Boolean includeFailed=descriptor.getIncludeException();
+  return new FromToResponseFilter(fromServiceType,fromApplicationName,fromAgentName,toServiceType,toApplicationName,toAgentName,fromResponseTime,toResponseTime,includeFailed,hint);
+}
