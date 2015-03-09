@@ -10,7 +10,7 @@
     logger.debug("add DefaultAnnotationKeyMatcher ServiceType:{}, AnnotationKeyMatcher:{}",displayArgumentMatcher.getServiceType(),annotationKeyMatcher);
     builder.addAnnotationMatcher(displayArgumentMatcher.getServiceType(),annotationKeyMatcher);
   }
-  List<Type> types=loadType();
+  List<Type> types=typeLoaderService.getTypes();
   for (  Type type : types) {
     if (type.getAnnotationKeyMatcher() == null) {
       continue;
@@ -18,5 +18,5 @@
     logger.debug("add AnnotationKeyMatcher ServiceType:{}, AnnotationKeyMatcher:{}",type.getServiceType(),type.getAnnotationKeyMatcher());
     builder.addAnnotationMatcher(type.getServiceType(),type.getAnnotationKeyMatcher());
   }
-  this.registry=builder.build();
+  return builder.build();
 }
