@@ -1,0 +1,8 @@
+{
+  final Map<String,List<ServiceType>> copy=new HashMap<String,List<ServiceType>>(table.size());
+  for (  Map.Entry<String,List<ServiceType>> entry : table.entrySet()) {
+    List<ServiceType> newValue=Collections.unmodifiableList(entry.getValue());
+    copy.put(entry.getKey(),newValue);
+  }
+  return copy;
+}

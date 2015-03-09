@@ -1,0 +1,10 @@
+{
+  if (serviceTypeRegistryService == null) {
+    throw new NullPointerException("serviceTypeRegistryService must not be null");
+  }
+  this.defaultType=defaultType;
+  for (  DefaultProfilerPluginContext context : plugins) {
+    detectors.addAll(context.getServerTypeDetectors());
+  }
+  this.serviceTypeRegistryService=serviceTypeRegistryService;
+}

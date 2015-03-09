@@ -1,0 +1,11 @@
+{
+  final List<ServiceType> fromServiceTypeList=registry.findDesc(descriptor.getFromServiceType());
+  if (fromServiceTypeList == null) {
+    throw new IllegalArgumentException("fromServiceCode not found. fromServiceType:" + descriptor.getFromServiceType());
+  }
+  final List<ServiceType> toServiceTypeList=registry.findDesc(descriptor.getToServiceType());
+  if (toServiceTypeList == null) {
+    throw new IllegalArgumentException("toServiceTypeList not found. toServiceType:" + descriptor.getToServiceType());
+  }
+  return new FromToFilter(fromServiceTypeList,descriptor.getFromApplicationName(),toServiceTypeList,descriptor.getToApplicationName());
+}

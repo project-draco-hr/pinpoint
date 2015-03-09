@@ -1,6 +1,7 @@
 {
+  DefaultServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService();
   String desc="MYSQL";
-  List<ServiceType> mysqlList=ServiceType.findDesc(desc);
+  List<ServiceType> mysqlList=serviceTypeRegistryService.findDesc(desc);
   boolean find=false;
   for (  ServiceType serviceType : mysqlList) {
     if (serviceType.getDesc().equals(desc)) {
