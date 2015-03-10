@@ -2,9 +2,9 @@
   ClassEditorBuilder builder=context.newClassEditorBuilder();
   builder.target("org.apache.catalina.connector.Connector");
   MethodEditorBuilder initializeEditor=builder.editMethod("initialize");
-  initializeEditor.setProperty(IGNORE_IF_NOT_EXIST);
+  initializeEditor.property(IGNORE_IF_NOT_EXIST);
   initializeEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.ConnectorInitializeInterceptor");
   MethodEditorBuilder initInternalEditor=builder.editMethod("initInternal");
-  initInternalEditor.setProperty(IGNORE_IF_NOT_EXIST);
+  initInternalEditor.property(IGNORE_IF_NOT_EXIST);
   initInternalEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.ConnectorInitializeInterceptor");
 }

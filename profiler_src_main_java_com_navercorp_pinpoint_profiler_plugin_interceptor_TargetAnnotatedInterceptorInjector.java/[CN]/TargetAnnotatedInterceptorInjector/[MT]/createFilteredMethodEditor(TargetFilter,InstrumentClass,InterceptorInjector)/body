@@ -9,5 +9,5 @@
   String[] constructorArguments=annotation.constructorArguments();
   AutoBindingObjectFactory<MethodFilter> filterFactory=new AutoBindingObjectFactory<MethodFilter>(traceContext,pluginContext,instrumentor,targetClass,constructorArguments);
   MethodFilter filter=filterFactory.createInstance(type);
-  return new FilteringMethodEditor(filter,injector);
+  return new FilteringMethodEditor(filter,Arrays.<MethodRecipe>asList(injector),null);
 }

@@ -1,0 +1,16 @@
+{
+  MethodEditor editor;
+  if (filter != null) {
+    editor=new FilteringMethodEditor(filter,recipes,exceptionHandler);
+  }
+ else   if (methodName != null) {
+    editor=new DedicatedMethodEditor(methodName,parameterTypeNames,recipes,exceptionHandler,properties.contains(MethodEditorProperty.IGNORE_IF_NOT_EXIST));
+  }
+ else {
+    editor=new ConstructorEditor(parameterTypeNames,recipes,exceptionHandler,properties.contains(MethodEditorProperty.IGNORE_IF_NOT_EXIST));
+  }
+  if (condition != null) {
+    editor=new ConditionalMethodEditor(condition,editor);
+  }
+  return editor;
+}
