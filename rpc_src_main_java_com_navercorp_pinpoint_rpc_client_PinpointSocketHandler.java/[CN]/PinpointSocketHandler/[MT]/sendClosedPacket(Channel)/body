@@ -1,21 +1,10 @@
 {
   if (!channel.isConnected()) {
-    logger.debug("channel already closed. skip sendClosedPacket() {}",channel);
+    logger.debug("{} sendClosedPacket() failed. Error:channel already closed.",objectUniqName);
     return;
   }
-  logger.debug("write ClientClosePacket");
+  logger.debug("{} sendClosedPacket() started.",objectUniqName);
   ClientClosePacket clientClosePacket=new ClientClosePacket();
-  ChannelFuture write=channel.write(clientClosePacket);
-  write.addListener(new ChannelFutureListener(){
-    @Override public void operationComplete(    ChannelFuture future) throws Exception {
-      if (!future.isSuccess()) {
-        logger.warn("ClientClosePacket write failed. channel:{}",future.getCause(),future.getCause());
-      }
- else {
-        logger.debug("ClientClosePacket write success. channel:{}",future.getChannel());
-      }
-    }
-  }
-);
+  ChannelFuture write=write0(clientClosePacket,sendClosePacketFailFutureListener);
   write.awaitUninterruptibly(3000,TimeUnit.MILLISECONDS);
 }

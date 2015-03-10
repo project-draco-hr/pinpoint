@@ -1,4 +1,8 @@
 {
-  logger.info("initReconnect() change state=INIT_RECONNECT");
-  state.setState(State.INIT_RECONNECT);
+  logger.info("{} initReconnect() started.",objectUniqName);
+  SocketStateChangeResult stateChangeResult=state.toBeingConnect();
+  if (!stateChangeResult.isChange()) {
+    throw new IllegalStateException("Failed to execute initReconnect() method. Error:" + stateChangeResult);
+  }
+  logger.info("{} initReconnect() completed.",objectUniqName);
 }

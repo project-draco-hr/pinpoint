@@ -1,0 +1,10 @@
+{
+  for (  ChannelStateChangeEventHandler eachListener : this.stateChangeEventListeners) {
+    try {
+      eachListener.eventPerformed(pinpointServer,nextState);
+    }
+ catch (    Exception e) {
+      eachListener.exceptionCaught(pinpointServer,nextState,e);
+    }
+  }
+}

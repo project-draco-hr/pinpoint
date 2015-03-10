@@ -1,13 +1,13 @@
 {
-  if (!isRun()) {
+  if (!state.isEnableCommunication()) {
     return;
   }
-  logger.debug("sendPing {}",channel);
+  logger.debug("{} sendPing() started.",objectUniqName);
   ChannelFuture future=write0(PingPacket.PING_PACKET);
   future.awaitUninterruptibly();
   if (!future.isSuccess()) {
     Throwable cause=future.getCause();
     throw new PinpointSocketException("send ping failed. Error:" + cause.getMessage(),cause);
   }
-  logger.debug("sendPing success {}",channel);
+  logger.debug("{} sendPing() completed.",objectUniqName);
 }

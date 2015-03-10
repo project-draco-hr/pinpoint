@@ -1,0 +1,9 @@
+{
+  if (address == null) {
+    throw new NullPointerException("address");
+  }
+  Channel channel=channelConnectFuture.getChannel();
+  SocketHandler socketHandler=(SocketHandler)channel.getPipeline().getLast();
+  socketHandler.setConnectSocketAddress(address);
+  return socketHandler;
+}

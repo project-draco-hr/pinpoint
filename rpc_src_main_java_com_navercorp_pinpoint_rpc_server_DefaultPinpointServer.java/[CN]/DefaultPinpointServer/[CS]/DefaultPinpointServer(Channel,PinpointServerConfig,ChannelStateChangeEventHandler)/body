@@ -13,8 +13,8 @@
   ListUtils.addAllExceptNullValue(this.stateChangeEventListeners,stateChangeEventListeners);
   RequestManager requestManager=new RequestManager(serverConfig.getRequestManagerTimer(),serverConfig.getDefaultRequestTimeout());
   this.requestManager=requestManager;
-  this.state=new SocketState();
   this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
   this.serverCloseWriteListener=new WriteFailFutureListener(logger,objectUniqName + " sendClosePacket() write fail.","serverClosePacket write success");
   this.responseWriteFailListener=new WriteFailFutureListener(logger,objectUniqName + " response() write fail.");
+  this.state=new DefaultPinpointServerState(this,this.stateChangeEventListeners);
 }
