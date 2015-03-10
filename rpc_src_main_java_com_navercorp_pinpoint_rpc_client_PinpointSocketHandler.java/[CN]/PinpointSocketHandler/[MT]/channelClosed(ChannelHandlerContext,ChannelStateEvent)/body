@@ -1,26 +1,33 @@
 {
+  logger.info("{} channelClosed() started.",objectUniqName);
   try {
-    final int currentState=state.getState();
-    if (State.CLOSED == currentState) {
-      logger.debug("channelClosed() normal. state:{} {}",state.getString(currentState),e.getChannel());
+    boolean factoryReleased=pinpointSocketFactory.isReleased();
+    boolean needReconnect=false;
+    SocketStateCode currentStateCode=state.getCurrentStateCode();
+    if (currentStateCode == SocketStateCode.BEING_CLOSE_BY_CLIENT) {
+      state.toClosed();
     }
- else     if (State.INIT_RECONNECT == currentState) {
-      logger.debug("channelClosed() reconnect fail. state:{} {}",state.getString(currentState),e.getChannel());
+ else     if (currentStateCode == SocketStateCode.BEING_CLOSE_BY_SERVER) {
+      needReconnect=state.toClosedByPeer().isChange();
     }
- else     if (state.isRun(currentState) || State.RECONNECT == currentState) {
-      if (state.isRun(currentState)) {
-        logger.debug("change state=reconnect");
-        state.setState(State.RECONNECT);
-      }
-      logger.info("channelClosed() UnexpectedChannelClosed. state:{} try reconnect channel:{}, connectSocketAddress:{}",state.getString(),e.getChannel(),connectSocketAddress);
-      this.pinpointSocketFactory.reconnect(this.pinpointSocket,this.connectSocketAddress);
+ else     if (currentStateCode.isRun() && factoryReleased) {
+      state.toUnexpectedClosed();
+    }
+ else     if (currentStateCode.isRun()) {
+      needReconnect=state.toUnexpectedClosedByPeer().isChange();
+    }
+ else     if (currentStateCode.isBeforeConnected()) {
+      state.toConnectFailed();
     }
  else {
-      logger.info("channelClosed() UnexpectedChannelClosed. state:{} {}",state.getString(currentState),e.getChannel());
+      state.toErrorUnknown();
     }
-    releaseResource();
+    if (needReconnect) {
+      pinpointSocketFactory.reconnect(this.pinpointSocket,this.connectSocketAddress);
+    }
   }
   finally {
+    closeResources();
     connectFuture.setResult(Result.FAIL);
   }
 }

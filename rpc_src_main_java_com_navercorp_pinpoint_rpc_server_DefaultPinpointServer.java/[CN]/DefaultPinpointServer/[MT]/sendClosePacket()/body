@@ -1,6 +1,6 @@
 {
   logger.info("{} sendClosePacket() started.",objectUniqName);
-  SocketStateChangeResult stateChangeResult=stateToBeingClose();
+  SocketStateChangeResult stateChangeResult=state.toBeingClose();
   if (stateChangeResult.isChange()) {
     final ChannelFuture writeFuture=this.channel.write(ServerClosePacket.DEFAULT_SERVER_CLOSE_PACKET);
     writeFuture.addListener(serverCloseWriteListener);

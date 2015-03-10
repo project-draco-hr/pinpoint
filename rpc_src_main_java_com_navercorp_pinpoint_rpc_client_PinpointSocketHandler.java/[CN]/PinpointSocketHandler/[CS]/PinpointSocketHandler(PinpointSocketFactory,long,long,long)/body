@@ -8,10 +8,10 @@
   this.pinpointSocketFactory=pinpointSocketFactory;
   this.requestManager=new RequestManager(timer,timeoutMillis);
   this.pingDelay=pingDelay;
-  this.handshakeRetryInterval=handshakeRetryInterval;
   this.timeoutMillis=timeoutMillis;
   this.messageListener=pinpointSocketFactory.getMessageListener(SimpleLoggingMessageListener.LISTENER);
   this.serverStreamChannelMessageListener=pinpointSocketFactory.getServerStreamChannelMessageListener(DisabledServerStreamChannelMessageListener.INSTANCE);
   this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
   this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
+  this.state=new PinpointSocketHandlerState(this.objectUniqName);
 }

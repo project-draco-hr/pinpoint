@@ -1,0 +1,27 @@
+{
+  boolean isCompleted=handshaker.handshakeComplete(message);
+  logger.info("{} handleHandshakePacket() started. message:{}",objectUniqName,message);
+  if (isCompleted) {
+    HandshakeResponseCode code=handshaker.getHandshakeResult();
+    if (code == HandshakeResponseCode.SUCCESS || code == HandshakeResponseCode.ALREADY_KNOWN) {
+      state.toRunSimplex();
+    }
+ else     if (code == HandshakeResponseCode.DUPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_DUPLEX_COMMUNICATION) {
+      state.toRunDuplex();
+    }
+ else     if (code == HandshakeResponseCode.SIMPLEX_COMMUNICATION || code == HandshakeResponseCode.ALREADY_SIMPLEX_COMMUNICATION) {
+      state.toRunSimplex();
+    }
+ else {
+      logger.warn("{} handleHandshakePacket() failed. Error:Invalid Handshake Packet(code:{}).",objectUniqName,code);
+      return;
+    }
+    logger.info("{} handleHandshakePacket() completed. code:{}",channel,code);
+  }
+ else   if (handshaker.isFinished()) {
+    logger.warn("{} handleHandshakePacket() failed. Error:Handshake already completed.");
+  }
+ else {
+    logger.warn("{} handleHandshakePacket() failed. Error:Handshake not yet started.");
+  }
+}

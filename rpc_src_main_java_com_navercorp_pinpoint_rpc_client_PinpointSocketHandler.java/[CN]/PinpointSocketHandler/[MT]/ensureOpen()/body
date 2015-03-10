@@ -1,14 +1,10 @@
 {
-  final int currentState=state.getState();
-  if (state.isRun(currentState)) {
+  SocketStateCode currentStateCode=state.getCurrentStateCode();
+  if (state.isEnableCommunication(currentStateCode)) {
     return;
   }
-  if (currentState == State.CLOSED) {
-    throw new PinpointSocketException("already closed");
-  }
- else   if (currentState == State.RECONNECT) {
+  if (state.isReconnect(currentStateCode)) {
     throw new PinpointSocketException("reconnecting...");
   }
-  logger.info("invalid socket state:{}",state.getString(currentState));
-  throw new PinpointSocketException("invalid socket state:" + currentState);
+  throw new PinpointSocketException("Invalid socket state:" + currentStateCode);
 }

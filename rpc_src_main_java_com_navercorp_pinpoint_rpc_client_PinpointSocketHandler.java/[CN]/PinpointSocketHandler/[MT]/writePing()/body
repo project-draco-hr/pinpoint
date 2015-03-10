@@ -1,7 +1,7 @@
 {
-  if (!isRun()) {
+  if (!state.isEnableCommunication()) {
     return;
   }
-  logger.debug("writePing {}",channel);
+  logger.debug("{} writePing() started. channel:{}",objectUniqName,channel);
   write0(PingPacket.PING_PACKET,pingWriteFailFutureListener);
 }

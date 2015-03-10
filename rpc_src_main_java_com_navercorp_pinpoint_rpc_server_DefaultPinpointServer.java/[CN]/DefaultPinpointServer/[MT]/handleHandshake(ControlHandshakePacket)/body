@@ -6,10 +6,10 @@
   boolean isFirst=setChannelProperties(handshakeData);
   if (isFirst) {
     if (HandshakeResponseCode.DUPLEX_COMMUNICATION == responseCode) {
-      stateToRunDuplex();
+      state.toRunDuplex();
     }
  else     if (HandshakeResponseCode.SIMPLEX_COMMUNICATION == responseCode) {
-      stateToRunSimplex();
+      state.toRunSimplex();
     }
   }
   logger.info("{} handleHandshake(). ResponseCode:{}",objectUniqName,responseCode);
