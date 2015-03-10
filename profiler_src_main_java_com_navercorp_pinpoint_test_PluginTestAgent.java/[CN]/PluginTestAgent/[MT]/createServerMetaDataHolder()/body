@@ -1,4 +1,7 @@
 {
   List<String> vmArgs=RuntimeMXBeanUtils.getVmArgs();
-  return new ResettableServerMetaDataHolder(vmArgs);
+  ServerMetaDataHolder serverMetaDataHolder=new ResettableServerMetaDataHolder(vmArgs);
+  this.serverMetaDataListener=new TestableServerMetaDataListener();
+  serverMetaDataHolder.addListener(this.serverMetaDataListener);
+  return serverMetaDataHolder;
 }
