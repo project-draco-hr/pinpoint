@@ -5,8 +5,29 @@
       return;
     }
  else {
-      throw new InstrumentException("No constructor with parameter type (" + Arrays.deepToString(targetParameterTypes) + ")");
+      Exception e=new NoSuchMethodException("No such constructor: " + "(" + Arrays.deepToString(targetParameterTypes) + ")");
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),"init",targetParameterTypes,e);
+        logger.info("Cannot find target constructor with parameter types (" + Arrays.deepToString(targetParameterTypes) + ") but MethodEditorExceptionHandler handled it.");
+      }
+ else {
+        throw new InstrumentException("Fail to edit constructor",e);
+      }
     }
   }
-  recipe.edit(classLoader,target,targetConstructor);
+  for (  MethodRecipe recipe : recipes) {
+    try {
+      recipe.edit(classLoader,target,targetConstructor);
+    }
+ catch (    Throwable t) {
+      logger.info("Exception thrown while editing " + targetConstructor.getDescriptor().getApiDescriptor(),t);
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),"init",targetParameterTypes,t);
+        logger.info("Exception thrown while editing" + targetConstructor.getDescriptor().getApiDescriptor() + " but MethodEditorExceptionHandler handled it.",t);
+      }
+ else {
+        throw new InstrumentException("Fail to edit constructor " + targetConstructor.getDescriptor().getApiDescriptor(),t);
+      }
+    }
+  }
 }
