@@ -1,0 +1,15 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.newClassEditorBuilder();
+  classEditorBuilder.target(targetClassName);
+  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
+  methodEditorBuilder.exceptionHandler(new MethodEditorExceptionHandler(){
+    @Override public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Exception {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+      }
+    }
+  }
+);
+  methodEditorBuilder.injectInterceptor(JEDIS_PIPELINE_METHODS_INTERCEPTOR);
+  return classEditorBuilder;
+}

@@ -2,46 +2,29 @@
   final ClassEditorBuilder classEditorBuilder=context.newClassEditorBuilder();
   classEditorBuilder.target(targetClassName);
   final ConstructorEditorBuilder constructorEditorBuilderArg1=classEditorBuilder.editConstructor(STRING);
-  constructorEditorBuilderArg1.condition(new ClassCondition(){
-    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
-      return target.getConstructor(new String[]{STRING}) != null;
-    }
-  }
-);
+  constructorEditorBuilderArg1.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilderArg1.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
   final ConstructorEditorBuilder constructorEditorBuilderArg2=classEditorBuilder.editConstructor(STRING,INT);
-  constructorEditorBuilderArg2.condition(new ClassCondition(){
-    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
-      return target.getConstructor(new String[]{STRING,INT}) != null;
-    }
-  }
-);
+  constructorEditorBuilderArg2.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilderArg2.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
   final ConstructorEditorBuilder constructorEditorBuilderArg3=classEditorBuilder.editConstructor(STRING,INT,INT);
-  constructorEditorBuilderArg3.condition(new ClassCondition(){
-    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
-      return target.getConstructor(new String[]{STRING,INT,INT}) != null;
-    }
-  }
-);
+  constructorEditorBuilderArg3.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilderArg3.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
   final ConstructorEditorBuilder constructorEditorBuilderArg4=classEditorBuilder.editConstructor(URI);
-  constructorEditorBuilderArg4.condition(new ClassCondition(){
-    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
-      return target.getConstructor(new String[]{URI}) != null;
-    }
-  }
-);
+  constructorEditorBuilderArg4.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilderArg4.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
   final ConstructorEditorBuilder constructorEditorBuilderArg5=classEditorBuilder.editConstructor(JEDIS_SHARD_INFO);
-  constructorEditorBuilderArg5.condition(new ClassCondition(){
-    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
-      return target.getConstructor(new String[]{JEDIS_SHARD_INFO}) != null;
+  constructorEditorBuilderArg5.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  constructorEditorBuilderArg5.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisMethodNames.get()));
+  methodEditorBuilder.exceptionHandler(new MethodEditorExceptionHandler(){
+    @Override public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Exception {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+      }
     }
   }
 );
-  constructorEditorBuilderArg5.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
-  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisMethodNames.get()));
   methodEditorBuilder.injectInterceptor(JEDIS_METHODS_INTERCEPTOR);
   return classEditorBuilder;
 }
