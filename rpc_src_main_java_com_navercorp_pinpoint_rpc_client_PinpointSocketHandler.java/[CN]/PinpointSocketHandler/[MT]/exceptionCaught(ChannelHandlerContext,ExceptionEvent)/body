@@ -1,9 +1,10 @@
 {
   Throwable cause=e.getCause();
-  if (state.getState() == State.INIT_RECONNECT) {
-    logger.info("exceptionCaught() reconnect failed. state:{} {} Caused:{}",state.getString(),e.getChannel(),cause.getMessage());
+  SocketStateCode currentStateCode=state.getCurrentStateCode();
+  if (currentStateCode == SocketStateCode.BEING_CONNECT) {
+    logger.info("{} exceptionCaught() occured. state:{}, caused:{}.",objectUniqName,currentStateCode,cause.getMessage());
   }
  else {
-    logger.warn("exceptionCaught() UnexpectedError happened. state:{} {} Caused:{}",state.getString(),e.getChannel(),cause.getMessage(),cause);
+    logger.warn("{} exceptionCaught() occured. state:{}. Caused:{}",objectUniqName,currentStateCode,cause.getMessage(),cause);
   }
 }

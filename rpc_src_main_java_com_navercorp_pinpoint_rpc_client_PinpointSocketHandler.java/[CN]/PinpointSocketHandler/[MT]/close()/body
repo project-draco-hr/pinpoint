@@ -1,18 +1,18 @@
 {
-  logger.debug("close() call");
-  int currentState=this.state.getState();
-  if (currentState == State.CLOSED) {
-    logger.debug("already close()");
-    return;
+  logger.debug("{} close() started.",objectUniqName);
+  SocketStateCode currentStateCode=state.getCurrentStateCode();
+  if (currentStateCode.isRun()) {
+    state.toBeingClose();
+    closeChannel();
   }
-  logger.debug("close() start");
-  if (!this.state.changeToClosed(currentState)) {
-    logger.info("close() invalid state");
-    return;
+ else   if (currentStateCode.isBeforeConnected()) {
+    state.toClosed();
+    closeResources();
   }
-  logger.debug("close() state change complete");
-  final Channel channel=this.channel;
-  closeStreamChannelManager(channel);
-  sendClosedPacket(channel);
-  closeChannel(channel);
+ else   if (currentStateCode.onClose() || currentStateCode.isClosed()) {
+    logger.warn("close() failed. Already closed.");
+  }
+ else {
+    logger.warn("Illegal State :{}.",currentStateCode);
+  }
 }

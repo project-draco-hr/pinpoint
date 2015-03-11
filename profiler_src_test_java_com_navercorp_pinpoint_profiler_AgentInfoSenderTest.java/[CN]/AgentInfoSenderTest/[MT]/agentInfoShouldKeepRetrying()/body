@@ -8,7 +8,7 @@
   PinpointSocketFactory socketFactory=createPinpointSocketFactory();
   PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
   TcpDataSender dataSender=new TcpDataSender(socket);
-  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo(),getServerMetaDataHolder());
+  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
   try {
     agentInfoSender.start();
     Thread.sleep(agentInfoSendRetryIntervalMs * minimumAgentInfoSendRetryCount);

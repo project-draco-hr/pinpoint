@@ -5,8 +5,28 @@
       return;
     }
  else {
-      throw new InstrumentException("No such method: " + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ")");
+      Exception e=new NoSuchMethodException("No such method: " + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ")");
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),targetMethodName,targetMethodParameterTypes,e);
+        logger.info("Cannot find target method" + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ") but MethodEditorExceptionHandler handled it.");
+      }
+ else {
+        throw new InstrumentException("Fail to edit method",e);
+      }
     }
   }
-  recipe.edit(classLoader,target,targetMethod);
+  for (  MethodRecipe recipe : recipes) {
+    try {
+      recipe.edit(classLoader,target,targetMethod);
+    }
+ catch (    Throwable t) {
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),targetMethodName,targetMethodParameterTypes,t);
+        logger.info("Exception thrown while editing" + targetMethod.getDescriptor().getApiDescriptor() + " but MethodEditorExceptionHandler handled it.",t);
+      }
+ else {
+        throw new InstrumentException("Fail to edit method " + targetMethod.getDescriptor().getApiDescriptor(),t);
+      }
+    }
+  }
 }

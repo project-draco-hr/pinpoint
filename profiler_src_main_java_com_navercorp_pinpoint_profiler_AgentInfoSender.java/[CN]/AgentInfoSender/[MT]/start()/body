@@ -3,6 +3,5 @@
   if (LOGGER.isInfoEnabled()) {
     LOGGER.info("AgentInfoSender started. Sending startup information to Pinpoint server via {}. agentInfo={}",dataSender.getClass().getSimpleName(),agentInfo);
   }
-  final AgentInfoSendRunnable agentInfoSendJob=new AgentInfoSendRunnable(agentInfo);
-  new AgentInfoSendRunnableWrapper(agentInfoSendJob).repeatWithFixedDelay(EXECUTOR_SERVICE,0,this.agentInfoSendIntervalMs,TimeUnit.MILLISECONDS);
+  send(agentInfo);
 }

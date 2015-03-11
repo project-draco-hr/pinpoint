@@ -1,9 +1,17 @@
 {
   if (result.isEmpty()) {
-    return null;
+    return Collections.emptyList();
   }
+  Set<Short> uniqueTypeCodes=new HashSet<Short>();
   String applicationName=Bytes.toString(result.getRow());
-  short serviceTypeCode=Bytes.toShort(result.value());
-  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
-  return new Application(applicationName,serviceType);
+  List<KeyValue> list=result.list();
+  for (  KeyValue value : list) {
+    short serviceTypeCode=Bytes.toShort(value.getValue());
+    uniqueTypeCodes.add(serviceTypeCode);
+  }
+  List<Application> applications=new ArrayList<Application>();
+  for (  short serviceTypeCode : uniqueTypeCodes) {
+    applications.add(new Application(applicationName,registry.findServiceType(serviceTypeCode)));
+  }
+  return applications;
 }

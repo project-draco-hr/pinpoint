@@ -4,5 +4,5 @@
     throw new PinpointException("name() of @TargetMethod cannot be null: " + interceptorName);
   }
   String[] parameterTypeNames=annotation.paramTypes();
-  return new DedicatedMethodEditor(methodName,parameterTypeNames,injector,false);
+  return new DedicatedMethodEditor(methodName,parameterTypeNames,Arrays.<MethodRecipe>asList(injector),null,false);
 }

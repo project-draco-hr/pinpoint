@@ -22,8 +22,8 @@
   this.profilerConfig=profilerConfig;
   List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(profilerConfig,pluginJars);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
-  ServiceType applicationServerType=serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
-  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,serviceTypeRegistryService);
+  ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
+  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,this.serviceTypeRegistryService);
   if (!typeResolver.resolve()) {
     throw new PinpointException("ApplicationServerType not found.");
   }
@@ -40,14 +40,12 @@
   this.spanDataSender=createUdpSpanDataSender(this.profilerConfig.getCollectorSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
   this.statDataSender=createUdpStatDataSender(this.profilerConfig.getCollectorStatServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext(agentInformation.getServerType());
-  this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation,this.serverMetaDataHolder);
+  this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
+  this.serverMetaDataHolder.addListener(this.agentInfoSender);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
   ClassFileRetransformer retransformer=new ClassFileRetransformer(instrumentation);
   instrumentation.addTransformer(retransformer,true);
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts,pluginJars);
   instrumentation.addTransformer(this.classFileTransformer);
   preLoadClass();
-  if (typeResolver.isManuallyStartupRequired()) {
-    start();
-  }
 }

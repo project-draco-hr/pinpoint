@@ -24,16 +24,16 @@ PinpointSocketHandlerContext context=getChannelContext(channel);
 context.handleStreamEvent((StreamPacket)message);
 return;
 case PacketType.CONTROL_SERVER_CLOSE:
-messageReceivedServerClosed(e.getChannel());
+handleClosedPacket(e.getChannel());
 return;
 case PacketType.CONTROL_HANDSHAKE_RESPONSE:
-messageReceivedHandshakeResponse((ControlHandshakeResponsePacket)message,e.getChannel());
+handleHandshakePacket((ControlHandshakeResponsePacket)message,e.getChannel());
 return;
 default :
-logger.warn("unexpectedMessage received:{} address:{}",message,e.getRemoteAddress());
+logger.warn("{} messageReceived() failed. unexpectedMessage received:{} address:{}",objectUniqName,message,e.getRemoteAddress());
 }
 }
  else {
-logger.warn("invalid messageReceived:{}",message);
+logger.warn("{} messageReceived() failed. invalid messageReceived:{}",objectUniqName,message);
 }
 }

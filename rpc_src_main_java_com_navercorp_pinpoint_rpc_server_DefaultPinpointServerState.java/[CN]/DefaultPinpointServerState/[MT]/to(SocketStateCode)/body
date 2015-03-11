@@ -1,0 +1,10 @@
+{
+  String objectUniqName=pinpointServer.getObjectUniqName();
+  logger.debug("{} stateTo() started. to:{}",objectUniqName,nextState);
+  SocketStateChangeResult stateChangeResult=state.changeState(nextState);
+  if (stateChangeResult.isChange()) {
+    executeChangeEventHandler(pinpointServer,nextState);
+  }
+  logger.info("{} stateTo() completed. {}",objectUniqName,stateChangeResult);
+  return stateChangeResult;
+}

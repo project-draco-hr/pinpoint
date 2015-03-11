@@ -1,22 +1,22 @@
 {
-  SocketStateCode currentStateCode=state.getCurrentState();
+  SocketStateCode currentStateCode=getCurrentStateCode();
   if (SocketStateCode.BEING_CLOSE_BY_SERVER == currentStateCode) {
-    stateToClosed();
+    state.toClosed();
   }
  else   if (SocketStateCode.BEING_CLOSE_BY_CLIENT == currentStateCode) {
-    stateToClosedByPeer();
+    state.toClosedByPeer();
   }
  else   if (SocketStateCode.isRun(currentStateCode) && serverStop) {
-    stateToUnexpectedClosed();
+    state.toUnexpectedClosed();
   }
  else   if (SocketStateCode.isRun(currentStateCode)) {
-    stateToUnexpectedClosedByPeer();
+    state.toUnexpectedClosedByPeer();
   }
  else   if (SocketStateCode.isClosed(currentStateCode)) {
     logger.warn("{} stop(). Socket has closed state({}).",objectUniqName,currentStateCode);
   }
  else {
-    stateToErrorUnknown();
+    state.toErrorUnknown();
     logger.warn("{} stop(). Socket has unexpected state.",objectUniqName,currentStateCode);
   }
   if (this.channel.isConnected()) {
