@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    if (!validate(target,args)) {
+      return;
+    }
+    final StringBuilder endPoint=new StringBuilder();
+    endPoint.append(args[0]);
+    if (args.length >= 2 && args[1] instanceof Integer) {
+      endPoint.append(":").append(args[1]);
+    }
+ else {
+      endPoint.append(":").append(6379);
+    }
+    endPointAccessor.set(target,endPoint.toString());
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

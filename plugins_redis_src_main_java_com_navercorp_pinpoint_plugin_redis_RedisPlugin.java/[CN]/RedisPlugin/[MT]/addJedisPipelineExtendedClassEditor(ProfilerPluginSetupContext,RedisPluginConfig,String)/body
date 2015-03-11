@@ -1,0 +1,7 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.newClassEditorBuilder();
+  classEditorBuilder.target(targetClassName);
+  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
+  methodEditorBuilder.injectInterceptor(JEDIS_PIPELINE_METHODS_INTERCEPTOR);
+  return classEditorBuilder;
+}

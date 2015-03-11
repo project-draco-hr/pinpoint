@@ -1,0 +1,47 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.newClassEditorBuilder();
+  classEditorBuilder.target(targetClassName);
+  final ConstructorEditorBuilder constructorEditorBuilderArg1=classEditorBuilder.editConstructor(STRING);
+  constructorEditorBuilderArg1.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{STRING}) != null;
+    }
+  }
+);
+  constructorEditorBuilderArg1.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final ConstructorEditorBuilder constructorEditorBuilderArg2=classEditorBuilder.editConstructor(STRING,INT);
+  constructorEditorBuilderArg2.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{STRING,INT}) != null;
+    }
+  }
+);
+  constructorEditorBuilderArg2.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final ConstructorEditorBuilder constructorEditorBuilderArg3=classEditorBuilder.editConstructor(STRING,INT,INT);
+  constructorEditorBuilderArg3.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{STRING,INT,INT}) != null;
+    }
+  }
+);
+  constructorEditorBuilderArg3.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final ConstructorEditorBuilder constructorEditorBuilderArg4=classEditorBuilder.editConstructor(URI);
+  constructorEditorBuilderArg4.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{URI}) != null;
+    }
+  }
+);
+  constructorEditorBuilderArg4.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final ConstructorEditorBuilder constructorEditorBuilderArg5=classEditorBuilder.editConstructor(JEDIS_SHARD_INFO);
+  constructorEditorBuilderArg5.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{JEDIS_SHARD_INFO}) != null;
+    }
+  }
+);
+  constructorEditorBuilderArg5.injectInterceptor(JEDIS_CONSTRUCTOR_INTERCEPTOR);
+  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisMethodNames.get()));
+  methodEditorBuilder.injectInterceptor(JEDIS_METHODS_INTERCEPTOR);
+  return classEditorBuilder;
+}

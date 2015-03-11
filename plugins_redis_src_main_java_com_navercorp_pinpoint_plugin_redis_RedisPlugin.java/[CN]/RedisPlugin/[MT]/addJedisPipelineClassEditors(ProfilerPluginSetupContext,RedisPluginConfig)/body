@@ -1,0 +1,21 @@
+{
+  addJedisPipelineExtendedClassEditor(context,config,JEDIS_PIPELINE_BASE);
+  addJedisPipelineExtendedClassEditor(context,config,JEDIS_MULTIKEY_PIPELINE_BASE);
+  final ClassEditorBuilder classEditorBuilder=addJedisPipelineExtendedClassEditor(context,config,JEDIS_PIPELINE);
+  classEditorBuilder.injectMetadata(METADATA_END_POINT);
+  final MethodEditorBuilder setClientMethodEditorBuilder=classEditorBuilder.editMethods(new MethodFilter(){
+    @Override public boolean filter(    MethodInfo method){
+      return !method.getName().equals("setClient");
+    }
+  }
+);
+  setClientMethodEditorBuilder.injectInterceptor(JEDIS_PIPELINE_SET_CLIENT_METHOD_INTERCEPTOR);
+  final ConstructorEditorBuilder constructorEditorBuilder=classEditorBuilder.editConstructor(JEDIS_CLIENT);
+  constructorEditorBuilder.condition(new ClassCondition(){
+    @Override public boolean check(    ClassLoader classLoader,    InstrumentClass target){
+      return target.getConstructor(new String[]{JEDIS_CLIENT}) != null;
+    }
+  }
+);
+  constructorEditorBuilder.injectInterceptor(JEDIS_PIPELINE_CONSTRUCTOR_INTERCEPTOR);
+}
