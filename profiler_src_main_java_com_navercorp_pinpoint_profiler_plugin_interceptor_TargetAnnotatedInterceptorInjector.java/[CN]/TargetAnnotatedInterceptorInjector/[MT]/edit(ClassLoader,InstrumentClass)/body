@@ -1,6 +1,6 @@
 {
   Class<? extends Interceptor> interceptorType=TypeUtils.loadClass(classLoader,interceptorName);
-  AnnotatedInterceptorInjector injector=new AnnotatedInterceptorInjector(traceContext,pluginContext,instrumentor,interceptorName,providedArguments);
+  AnnotatedInterceptorInjector injector=new AnnotatedInterceptorInjector(pluginContext,interceptorName,providedArguments);
   ClassRecipe editor=createMethodEditor(interceptorType,target,injector);
   editor.edit(classLoader,target);
 }

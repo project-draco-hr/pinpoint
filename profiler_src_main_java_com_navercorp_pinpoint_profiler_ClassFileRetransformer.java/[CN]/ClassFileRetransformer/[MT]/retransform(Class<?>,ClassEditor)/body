@@ -1,0 +1,15 @@
+{
+  if (!instrumentation.isModifiableClass(target)) {
+    throw new ProfilerException("Target class " + target + " is not modifiable");
+  }
+  ClassEditor prev=editorMap.putIfAbsent(target,modifier);
+  if (prev != null) {
+    throw new ProfilerException("Retransform already requested. target: " + target + ", editor: "+ prev);
+  }
+  try {
+    instrumentation.retransformClasses(target);
+  }
+ catch (  UnmodifiableClassException e) {
+    throw new ProfilerException(e);
+  }
+}
