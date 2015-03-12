@@ -1,0 +1,17 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    if (!validate(target,args)) {
+      return;
+    }
+    final String endPoint=endPointAccessor.get(args[0]);
+    if (endPoint != null) {
+      endPointAccessor.set(target,endPoint);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}
