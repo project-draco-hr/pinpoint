@@ -1,12 +1,12 @@
 {
-  InterceptorFactory factory=new AnnotatedInterceptorFactory(traceContext,pluginContext,instrumentor,interceptorType,providedArguments);
+  InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,interceptorType,providedArguments);
   Scope scope=interceptorType.getAnnotation(Scope.class);
   if (scope != null) {
     String scopeName=scope.value();
     if (scopeName == null) {
       throw new PinpointException("@Scope must provide scope name. Interceptor class: " + interceptorName);
     }
-    factory=new ScopedInterceptorFactory(factory,instrumentor,scopeName);
+    factory=new ScopedInterceptorFactory(factory,pluginContext.getByteCodeInstrumentor(),scopeName);
   }
   return factory;
 }

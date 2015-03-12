@@ -1,15 +1,15 @@
 {
   if (type == Trace.class) {
-    return Option.<Object>withValue(traceContext.currentTraceObject());
+    return Option.<Object>withValue(pluginContext.getTraceContext().currentTraceObject());
   }
  else   if (type == TraceContext.class) {
-    return Option.<Object>withValue(traceContext);
+    return Option.<Object>withValue(pluginContext.getTraceContext());
   }
  else   if (type == ProfilerPluginContext.class) {
     return Option.<Object>withValue(pluginContext);
   }
  else   if (type == ByteCodeInstrumentor.class) {
-    return Option.<Object>withValue(instrumentor);
+    return Option.<Object>withValue(pluginContext.getByteCodeInstrumentor());
   }
  else   if (type == InstrumentClass.class) {
     return Option.<Object>withValue(targetClass);

@@ -33,8 +33,9 @@
   }
   for (int i=0; i < len; i++) {
     ExpectedAnnotation expect=expected.annotations[i];
+    AnnotationKey expectedAnnotationKey=AnnotationKey.valueOf(expect.getKeyName());
     TAnnotation actual=actualAnnotations.get(i);
-    if (expect.getKey() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
+    if (expectedAnnotationKey.getCode() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
       throw new AssertionError("Expected " + i + "th annotation ["+ expect+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
     }
   }

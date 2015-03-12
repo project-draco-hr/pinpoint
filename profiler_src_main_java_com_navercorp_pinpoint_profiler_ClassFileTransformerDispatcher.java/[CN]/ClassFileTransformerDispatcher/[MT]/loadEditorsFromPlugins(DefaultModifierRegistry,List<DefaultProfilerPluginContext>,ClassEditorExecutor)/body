@@ -1,0 +1,14 @@
+{
+  for (  DefaultProfilerPluginContext pluginContext : pluginContexts) {
+    for (    ClassEditor editor : pluginContext.getClassEditors()) {
+      if (editor instanceof DedicatedClassEditor) {
+        DedicatedClassEditor dedicated=(DedicatedClassEditor)editor;
+        logger.info("Registering class editor {} for {} ",dedicated,dedicated.getTargetClassName());
+        modifierRepository.addModifier(new ClassEditorAdaptor(byteCodeInstrumentor,agent,dedicated,classEditorExecutor));
+      }
+ else {
+        logger.warn("Ignore class editor {}",editor);
+      }
+    }
+  }
+}

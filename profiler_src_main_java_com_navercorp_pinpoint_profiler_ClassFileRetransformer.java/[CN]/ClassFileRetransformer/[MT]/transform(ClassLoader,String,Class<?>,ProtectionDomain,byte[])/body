@@ -3,8 +3,25 @@
     return null;
   }
   final Modifier modifier=targets.remove(classBeingRedefined);
-  if (modifier == null) {
-    return null;
+  if (modifier != null) {
+    try {
+      return modifier.modify(loader,className.replace('/','.'),protectionDomain,classfileBuffer);
+    }
+ catch (    Throwable t) {
+      logger.warn("Failed to retransform " + className + " with "+ modifier);
+      return null;
+    }
   }
-  return modifier.modify(loader,className.replace('/','.'),protectionDomain,classfileBuffer);
+  final ClassEditor editor=editorMap.remove(classBeingRedefined);
+  if (editor != null) {
+    try {
+      return classEditorExecutor.execute(editor,loader,className,classfileBuffer);
+    }
+ catch (    Throwable t) {
+      logger.warn("Failed to retransform " + className + " with "+ editor);
+      return null;
+    }
+  }
+  logger.warn("Unexpected retransform request for " + className);
+  return null;
 }

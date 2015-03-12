@@ -1,0 +1,20 @@
+{
+  ClassLoader forPlugin=classLoaderFactory.get(classLoader);
+  ClassLoader old=Thread.currentThread().getContextClassLoader();
+  Thread.currentThread().setContextClassLoader(forPlugin);
+  try {
+    InstrumentClass target=instrumentor.getClass(classLoader,className,classFileBuffer);
+    return editor.edit(forPlugin,target);
+  }
+ catch (  PinpointException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    String msg="Fail to invoke plugin class editor " + editor;
+    logger.warn(msg,e);
+    throw new PinpointException(msg,e);
+  }
+ finally {
+    Thread.currentThread().setContextClassLoader(old);
+  }
+}
