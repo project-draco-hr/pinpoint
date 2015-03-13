@@ -1,4 +1,6 @@
 {
-  AnnotationKey annotationKey=AnnotationKey.findAnnotationKey(AnnotationKey.API.getCode());
+  TypeLoaderService typeLoaderService=new DefaultTypeLoaderService();
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
+  AnnotationKey annotationKey=annotationKeyRegistryService.findAnnotationKey(AnnotationKey.API.getCode());
   Assert.assertEquals(annotationKey,AnnotationKey.API);
 }

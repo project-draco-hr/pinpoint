@@ -1,0 +1,9 @@
+{
+  final IntHashMap<AnnotationKey> table=new IntHashMap<AnnotationKey>();
+  for (  AnnotationKey annotationKey : buildMap) {
+    if (annotationKey.isErrorApiMetadata()) {
+      table.put(annotationKey.getCode(),annotationKey);
+    }
+  }
+  return table;
+}

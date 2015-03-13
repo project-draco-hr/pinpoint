@@ -68,7 +68,7 @@
         recordList.add(record);
       }
  else {
-        AnnotationKey apiMetaDataError=AnnotationUtils.getApiMetaDataError(spanBo.getAnnotationBoList());
+        AnnotationKey apiMetaDataError=getApiMetaDataError(spanBo.getAnnotationBoList());
         Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false);
         record.setSimpleClassName("");
         record.setFullApiDescription("");
@@ -108,7 +108,7 @@
         recordList.add(record);
       }
  else {
-        AnnotationKey apiMetaDataError=AnnotationUtils.getApiMetaDataError(spanEventBo.getAnnotationBoList());
+        AnnotationKey apiMetaDataError=getApiMetaDataError(spanEventBo.getAnnotationBoList());
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();

@@ -1,3 +1,5 @@
 {
-  new TypeProviderLoader().load(Arrays.<TypeProvider>asList(new TestProvider(TEST_TYPES,DUPLICATED_CODE_WITH_DEFAULT_KEY)));
+  List<TypeProvider> providers=Arrays.<TypeProvider>asList(new TestProvider(TEST_TYPES,DUPLICATED_CODE_WITH_DEFAULT_KEY));
+  TypeLoaderService loaderService=new DefaultTypeLoaderService(providers);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(loaderService);
 }
