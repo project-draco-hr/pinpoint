@@ -20,16 +20,23 @@
   dumpConfig(profilerConfig);
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=profilerConfig;
-  List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(profilerConfig,pluginJars);
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder);
+  if (logger.isInfoEnabled()) {
+    logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
+  }
+  PluginClassLoaderFactory pluginClassLoaderFactory=new PluginClassLoaderFactory(pluginJars);
+  ClassEditorExecutor classEditorExecutor=new ClassEditorExecutor(byteCodeInstrumentor,pluginClassLoaderFactory);
+  ClassFileRetransformer retransformer=new ClassFileRetransformer(instrumentation,classEditorExecutor);
+  byteCodeInstrumentor.setRetransformer(retransformer);
+  List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(pluginJars);
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts,classEditorExecutor);
+  instrumentation.addTransformer(retransformer,true);
+  instrumentation.addTransformer(this.classFileTransformer);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,this.serviceTypeRegistryService);
   if (!typeResolver.resolve()) {
     throw new PinpointException("ApplicationServerType not found.");
-  }
-  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder);
-  if (logger.isInfoEnabled()) {
-    logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
@@ -43,9 +50,5 @@
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
   this.serverMetaDataHolder.addListener(this.agentInfoSender);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
-  ClassFileRetransformer retransformer=new ClassFileRetransformer(instrumentation);
-  instrumentation.addTransformer(retransformer,true);
-  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts,pluginJars);
-  instrumentation.addTransformer(this.classFileTransformer);
   preLoadClass();
 }

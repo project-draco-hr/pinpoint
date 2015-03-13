@@ -7,7 +7,7 @@
     throw new PinpointException("value and type of @TargetFilter are null: " + interceptorName);
   }
   String[] constructorArguments=annotation.constructorArguments();
-  AutoBindingObjectFactory<MethodFilter> filterFactory=new AutoBindingObjectFactory<MethodFilter>(traceContext,pluginContext,instrumentor,targetClass,constructorArguments);
+  AutoBindingObjectFactory<MethodFilter> filterFactory=new AutoBindingObjectFactory<MethodFilter>(pluginContext,targetClass,constructorArguments);
   MethodFilter filter=filterFactory.createInstance(type);
   return new FilteringMethodEditor(filter,Arrays.<MethodRecipe>asList(injector),null);
 }

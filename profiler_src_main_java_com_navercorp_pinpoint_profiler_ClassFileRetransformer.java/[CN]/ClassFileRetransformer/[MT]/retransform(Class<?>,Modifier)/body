@@ -1,6 +1,10 @@
 {
-  Modifier removed=targets.put(target,modifier);
-  if (removed != null) {
+  if (!instrumentation.isModifiableClass(target)) {
+    throw new ProfilerException("Target class " + target + " is not modifiable");
+  }
+  Modifier prev=targets.putIfAbsent(target,modifier);
+  if (prev != null) {
+    throw new ProfilerException("Retransform already requested. target: " + target + ", modifier: "+ prev);
   }
   try {
     instrumentation.retransformClasses(target);
