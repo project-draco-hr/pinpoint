@@ -1,5 +1,8 @@
 {
-  TypeProviderLoader.initializeServiceType(Arrays.<TypeProvider>asList(new TestProvider(TEST_TYPES,TEST_KEYS)));
-  verifyAnnotationKeys(AnnotationKey.DEFAULT_VALUES);
-  verifyAnnotationKeys(Arrays.asList(TEST_KEYS));
+  List<TypeProvider> typeProviders=Arrays.<TypeProvider>asList(new TestProvider(TEST_TYPES,TEST_KEYS));
+  TypeLoaderService typeLoaderService=new DefaultTypeLoaderService(typeProviders);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
+  StaticFieldLookUp<AnnotationKey> lookUp=new StaticFieldLookUp<AnnotationKey>(AnnotationKey.class,AnnotationKey.class);
+  verifyAnnotationKeys(lookUp.lookup(),annotationKeyRegistryService);
+  verifyAnnotationKeys(Arrays.asList(TEST_KEYS),annotationKeyRegistryService);
 }

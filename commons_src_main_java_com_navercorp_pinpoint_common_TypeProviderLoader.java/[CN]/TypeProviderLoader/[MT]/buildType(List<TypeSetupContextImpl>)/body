@@ -1,0 +1,9 @@
+{
+  for (  TypeSetupContextImpl typeSetupContext : setupContextList) {
+    for (    Type type : typeSetupContext.getTypes()) {
+      this.serviceTypeChecker.check(type.getServiceType(),typeSetupContext.getProvider());
+      types.add(type);
+    }
+  }
+  this.serviceTypeChecker.logResult();
+}

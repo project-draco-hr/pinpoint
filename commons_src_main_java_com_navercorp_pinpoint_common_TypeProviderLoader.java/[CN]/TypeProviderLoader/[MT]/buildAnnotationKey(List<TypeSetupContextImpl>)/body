@@ -1,0 +1,9 @@
+{
+  for (  TypeSetupContextImpl typeSetupContext : setupContextList) {
+    for (    AnnotationKey annotationKey : typeSetupContext.getAnnotationKeys()) {
+      this.annotationKeyChecker.check(annotationKey,typeSetupContext.getProvider());
+      annotationKeys.add(annotationKey);
+    }
+  }
+  this.annotationKeyChecker.logResult();
+}

@@ -1,0 +1,12 @@
+{
+  final HashMap<String,List<AnnotationKey>> nameLookupTable=new HashMap<String,List<AnnotationKey>>();
+  for (  AnnotationKey annotationKey : buildMap) {
+    List<AnnotationKey> annotationKeyList=nameLookupTable.get(annotationKey.getName());
+    if (annotationKeyList == null) {
+      annotationKeyList=new ArrayList<AnnotationKey>();
+      nameLookupTable.put(annotationKey.getName(),annotationKeyList);
+    }
+    annotationKeyList.add(annotationKey);
+  }
+  return nameLookupTable;
+}

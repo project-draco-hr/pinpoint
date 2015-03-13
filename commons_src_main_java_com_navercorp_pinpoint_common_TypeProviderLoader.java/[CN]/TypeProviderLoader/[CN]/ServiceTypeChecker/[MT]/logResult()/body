@@ -1,0 +1,15 @@
+{
+  logger.info("Finished loading ServiceType:");
+  List<Pair<ServiceType>> serviceTypes=new ArrayList<Pair<ServiceType>>(serviceTypeCodeMap.values());
+  Collections.sort(serviceTypes,new Comparator<Pair<ServiceType>>(){
+    @Override public int compare(    Pair<ServiceType> o1,    Pair<ServiceType> o2){
+      short code1=o1.value.getCode();
+      short code2=o2.value.getCode();
+      return code1 > code2 ? 1 : (code1 < code2 ? -1 : 0);
+    }
+  }
+);
+  for (  Pair<ServiceType> serviceType : serviceTypes) {
+    logger.info(serviceTypePairToString(serviceType));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  logger.info("Finished loading AnnotationKeys:");
+  List<Pair<AnnotationKey>> annotationKeys=new ArrayList<Pair<AnnotationKey>>(annotationKeyCodeMap.values());
+  Collections.sort(annotationKeys,new Comparator<Pair<AnnotationKey>>(){
+    @Override public int compare(    Pair<AnnotationKey> o1,    Pair<AnnotationKey> o2){
+      int code1=o1.value.getCode();
+      int code2=o2.value.getCode();
+      return code1 > code2 ? 1 : (code1 < code2 ? -1 : 0);
+    }
+  }
+);
+  for (  Pair<AnnotationKey> annotaionKey : annotationKeys) {
+    logger.info(annotationKeyPairToString(annotaionKey));
+  }
+}

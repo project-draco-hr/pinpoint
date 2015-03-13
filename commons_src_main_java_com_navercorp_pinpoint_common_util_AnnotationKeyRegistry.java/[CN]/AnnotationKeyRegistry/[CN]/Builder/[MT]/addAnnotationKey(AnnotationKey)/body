@@ -1,0 +1,10 @@
+{
+  if (annotationKey == null) {
+    throw new NullPointerException("annotationKey must not be null");
+  }
+  int code=annotationKey.getCode();
+  final AnnotationKey exist=this.buildMap.put(code,annotationKey);
+  if (exist != null) {
+    throw new IllegalStateException("already exist. annotationKey:" + annotationKey + ", exist:"+ exist);
+  }
+}

@@ -1,12 +1,17 @@
 {
-  logger.info("Loading ServiceTypeProviders");
-  if (defaultServiceTypeLoad) {
-    loadDefaults();
+  if (providers == null) {
+    throw new NullPointerException("providers must not be null");
   }
+  logger.info("Loading TypeProviders");
+  final List<TypeSetupContextImpl> setupContextList=new ArrayList<TypeSetupContextImpl>();
   for (  TypeProvider provider : providers) {
-    logger.fine("Loading ServiceTypeProvider: " + provider.getClass());
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("Loading TypeProvider: " + provider.getClass().getName() + " name:"+ provider.toString());
+    }
     TypeSetupContextImpl context=new TypeSetupContextImpl(provider.getClass());
     provider.setUp(context);
+    setupContextList.add(context);
   }
-  logResult();
+  buildType(setupContextList);
+  buildAnnotationKey(setupContextList);
 }
