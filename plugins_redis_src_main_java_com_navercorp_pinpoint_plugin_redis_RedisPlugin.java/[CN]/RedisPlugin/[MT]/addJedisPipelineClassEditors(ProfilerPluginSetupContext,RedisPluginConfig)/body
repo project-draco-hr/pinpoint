@@ -1,6 +1,6 @@
 {
-  addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_PIPELINE_BASE);
-  addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_MULTIKEY_PIPELINE_BASE);
+  context.addClassEditor(addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_PIPELINE_BASE).build());
+  context.addClassEditor(addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_MULTIKEY_PIPELINE_BASE).build());
   final ClassEditorBuilder classEditorBuilder=addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_PIPELINE);
   classEditorBuilder.injectMetadata(METADATA_END_POINT);
   final MethodEditorBuilder setClientMethodEditorBuilder=classEditorBuilder.editMethod("setClient",JEDIS_CLIENT);
@@ -9,4 +9,5 @@
   final ConstructorEditorBuilder constructorEditorBuilder=classEditorBuilder.editConstructor(JEDIS_CLIENT);
   constructorEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilder.injectInterceptor(JEDIS_PIPELINE_CONSTRUCTOR_INTERCEPTOR);
+  context.addClassEditor(classEditorBuilder.build());
 }
