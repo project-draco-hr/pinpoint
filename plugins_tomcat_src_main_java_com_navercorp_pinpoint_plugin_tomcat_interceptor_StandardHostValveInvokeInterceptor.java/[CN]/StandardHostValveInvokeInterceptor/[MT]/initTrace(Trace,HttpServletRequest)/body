@@ -1,0 +1,19 @@
+{
+  getTraceContext().cacheApi(TomcatConstants.syncMethodDescriptor);
+  trace.recordApi(TomcatConstants.syncMethodDescriptor);
+  request.setAttribute("PINPOINT_TRACE",trace);
+  trace.markBeforeTime();
+  if (trace.canSampled()) {
+    trace.recordServiceType(TomcatConstants.TOMCAT);
+    final String requestURL=request.getRequestURI();
+    trace.recordRpcName(requestURL);
+    final int port=request.getServerPort();
+    final String endPoint=request.getServerName() + ":" + port;
+    trace.recordEndPoint(endPoint);
+    final String remoteAddr=request.getRemoteAddr();
+    trace.recordRemoteAddress(remoteAddr);
+  }
+  if (!trace.isRoot()) {
+    recordParentInfo(trace,request);
+  }
+}

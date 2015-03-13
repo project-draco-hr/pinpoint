@@ -1,0 +1,16 @@
+{
+  logger.beforeInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
+  try {
+    final HttpServletRequest request=(HttpServletRequest)target;
+    if (request.getAttribute("PINPOINT_TRACE") != null) {
+      Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
+      if (trace.canSampled()) {
+        trace.markAfterTime();
+        trace.traceRootBlockEnd();
+      }
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

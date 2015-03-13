@@ -1,0 +1,6 @@
+{
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.target("org.apache.catalina.connector.Request");
+  MethodEditorBuilder methodEditorBuilder=builder.editMethod("recycle");
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");
+}

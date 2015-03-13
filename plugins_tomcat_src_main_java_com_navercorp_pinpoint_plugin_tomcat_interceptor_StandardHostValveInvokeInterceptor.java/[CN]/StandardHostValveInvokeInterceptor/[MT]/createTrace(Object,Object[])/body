@@ -1,5 +1,10 @@
 {
   final HttpServletRequest request=(HttpServletRequest)args[0];
+  if (request.getAttribute("PINPOINT_TRACE") != null) {
+    Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
+    getTraceContext().attachTraceObject(trace);
+    return trace;
+  }
   final String requestURI=request.getRequestURI();
   if (excludeUrlFilter.filter(requestURI)) {
     if (isTrace) {
@@ -20,6 +25,7 @@
   if (traceId != null) {
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.continueTraceObject(traceId);
+    initTrace(trace,request);
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.getRequestURI(),request.getRemoteAddr()});
@@ -35,6 +41,7 @@
  else {
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.newTraceObject();
+    initTrace(trace,request);
     if (trace.canSampled()) {
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());

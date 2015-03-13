@@ -1,0 +1,15 @@
+{
+  ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.target("org.apache.catalina.connector.CoyoteAdapter");
+  MethodEditorBuilder methodEditorBuilder=builder.editMethods(new MethodFilter(){
+    @Override public boolean filter(    MethodInfo method){
+      final String name=method.getName();
+      if (name.equals("event") || name.equals("asyncDispatch") || name.equals("service")|| name.equals("errorDispatch")|| name.equals("log")) {
+        return false;
+      }
+      return true;
+    }
+  }
+);
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.CoyoteAdapterInterceptor");
+}
