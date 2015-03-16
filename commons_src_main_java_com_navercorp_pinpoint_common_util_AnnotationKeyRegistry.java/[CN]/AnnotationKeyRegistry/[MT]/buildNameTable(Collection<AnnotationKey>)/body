@@ -1,0 +1,10 @@
+{
+  final HashMap<String,AnnotationKey> nameLookupTable=new HashMap<String,AnnotationKey>();
+  for (  AnnotationKey annotationKey : buildMap) {
+    final AnnotationKey exist=nameLookupTable.put(annotationKey.getName(),annotationKey);
+    if (exist != null) {
+      throwDuplicatedAnnotationKey(annotationKey,exist);
+    }
+  }
+  return nameLookupTable;
+}

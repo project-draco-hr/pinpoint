@@ -1,7 +1,7 @@
 {
   List<Record> recordList=new ArrayList<Record>(annotationBoList.size());
   for (  AnnotationBo ann : annotationBoList) {
-    AnnotationKey annotation=AnnotationKey.findAnnotationKey(ann.getKey());
+    AnnotationKey annotation=findAnnotationKey(ann.getKey());
     if (annotation.isViewInRecordSet()) {
       Record record=new Record(depth,getNextId(),parentId,false,annotation.getName(),ann.getValue().toString(),0L,0L,0,null,null,null,null,false,false);
       recordList.add(record);
