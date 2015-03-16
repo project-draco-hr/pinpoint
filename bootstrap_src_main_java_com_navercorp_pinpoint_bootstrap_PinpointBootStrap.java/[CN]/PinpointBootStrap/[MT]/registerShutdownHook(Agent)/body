@@ -1,8 +1,11 @@
 {
-  Runtime.getRuntime().addShutdownHook(new Thread(){
+  final Runnable stop=new Runnable(){
     @Override public void run(){
       pinpointAgent.stop();
     }
   }
-);
+;
+  PinpointThreadFactory pinpointThreadFactory=new PinpointThreadFactory("Pinpoint-shutdown-hook");
+  Thread thread=pinpointThreadFactory.newThread(stop);
+  Runtime.getRuntime().addShutdownHook(thread);
 }

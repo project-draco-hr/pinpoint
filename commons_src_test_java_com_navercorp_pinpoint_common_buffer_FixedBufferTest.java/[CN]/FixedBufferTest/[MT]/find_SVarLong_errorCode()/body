@@ -1,0 +1,22 @@
+{
+  Random random=new Random();
+  byte[] bytes=new byte[10];
+  while (true) {
+    random.nextBytes(bytes);
+    Buffer buffer=new FixedBuffer(bytes);
+    try {
+      long i=buffer.readVarLong();
+    }
+ catch (    IllegalArgumentException e) {
+      logger.info(e.getMessage(),e);
+      String binaryString=Bytes.toStringBinary(bytes);
+      logger.info(binaryString);
+      ;
+      for (      byte aByte : bytes) {
+        String code=String.valueOf((int)aByte);
+        logger.info(code);
+      }
+      return;
+    }
+  }
+}
