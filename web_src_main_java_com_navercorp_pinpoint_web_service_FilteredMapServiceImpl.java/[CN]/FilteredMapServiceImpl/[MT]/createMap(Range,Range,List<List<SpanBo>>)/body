@@ -7,7 +7,7 @@
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
       final Application parentApplication=createParentApplication(span,transactionSpanMap);
-      final Application spanApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getServiceType()));
+      final Application spanApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getApplicationServiceType()));
       recordSpanResponseTime(spanApplication,span,mapHistogramSummary,span.getCollectorAcceptTime());
       if (!spanApplication.getServiceType().isRecordStatistics() || spanApplication.getServiceType().isRpcClient()) {
         logger.warn("invalid span application:{}",spanApplication);

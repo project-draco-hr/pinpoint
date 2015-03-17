@@ -64,7 +64,10 @@
   if (struct.isSetExceptionInfo()) {
     optionals.set(20);
   }
-  oprot.writeBitSet(optionals,21);
+  if (struct.isSetApplicationServiceType()) {
+    optionals.set(21);
+  }
+  oprot.writeBitSet(optionals,22);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -137,5 +140,8 @@
   }
   if (struct.isSetExceptionInfo()) {
     struct.exceptionInfo.write(oprot);
+  }
+  if (struct.isSetApplicationServiceType()) {
+    oprot.writeI16(struct.applicationServiceType);
   }
 }
