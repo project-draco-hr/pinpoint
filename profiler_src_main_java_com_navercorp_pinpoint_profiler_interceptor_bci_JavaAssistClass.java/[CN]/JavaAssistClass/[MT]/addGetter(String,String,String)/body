@@ -1,7 +1,7 @@
 {
   try {
     CtField traceVariable=ctClass.getField(variableName);
-    CtMethod getterMethod=CtNewMethod.getter(getterName,traceVariable);
+    CtMethod getterMethod=CtNewMethod.make("public " + traceVariable.getType().getName() + " "+ getterName+ "() { return "+ variableName+ "; }",ctClass);
     ctClass.addMethod(getterMethod);
   }
  catch (  NotFoundException ex) {
