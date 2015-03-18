@@ -1,7 +1,10 @@
 {
   logger.beforeInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
   try {
-    final HttpServletRequest request=(HttpServletRequest)target;
+    final Request request=(Request)target;
+    if (asyncAccessor.isApplicable(target)) {
+      asyncAccessor.set(target,Boolean.FALSE);
+    }
     if (request.getAttribute("PINPOINT_TRACE") != null) {
       Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
       if (trace.canSampled()) {

@@ -1,6 +1,10 @@
 {
   ClassEditorBuilder builder=context.newClassEditorBuilder();
+  builder.injectMetadata(METADATA_ASYNC);
   builder.target("org.apache.catalina.connector.Request");
-  MethodEditorBuilder methodEditorBuilder=builder.editMethod("recycle");
-  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");
+  MethodEditorBuilder recycleMethodEditorBuilder=builder.editMethod("recycle");
+  recycleMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");
+  MethodEditorBuilder startAsyncMethodEditor=builder.editMethod("startAsync","javax.servlet.ServletRequest","javax.servlet.ServletResponse");
+  startAsyncMethodEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestStartAsyncInterceptor");
+  context.addClassEditor(builder.build());
 }

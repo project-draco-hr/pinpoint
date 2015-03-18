@@ -1,8 +1,17 @@
 {
-  final HttpServletRequest request=(HttpServletRequest)args[0];
+  final Request request=(Request)args[0];
   if (request.getAttribute("PINPOINT_TRACE") != null) {
     Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
     getTraceContext().attachTraceObject(trace);
+    logger.debug("Continue servlet process");
+    if (asyncAccessor.isApplicable(request) && asyncAccessor.get(request) != null) {
+      logger.debug("Check async");
+      Boolean async=asyncAccessor.get(request);
+      if (async) {
+        getTraceContext().cacheApi(TomcatConstants.servletAsynchronousMethodDescriptor);
+        trace.recordApi(TomcatConstants.servletAsynchronousMethodDescriptor);
+      }
+    }
     return trace;
   }
   final String requestURI=request.getRequestURI();
