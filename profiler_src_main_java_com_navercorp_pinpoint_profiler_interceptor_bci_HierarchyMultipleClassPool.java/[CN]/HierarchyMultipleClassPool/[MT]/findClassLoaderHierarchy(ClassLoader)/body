@@ -7,7 +7,8 @@
   ClassLoader parent;
   while (true) {
     parent=classLoader.getParent();
-    if (isRoot(parent)) {
+    if (ClassLoaderUtils.isSystemClassLoader(parent)) {
+      classLoaderHierarchyList.addFirst(SYSTEM);
       break;
     }
     classLoaderHierarchyList.addFirst(parent);

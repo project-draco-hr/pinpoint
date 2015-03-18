@@ -1,12 +1,13 @@
 {
-  ClassPool pool=new ClassPool();
+  NamedClassPool pool=new NamedClassPool("test");
   pool.childFirstLookup=true;
   HierarchyMultipleClassPool multipleClassPool=new HierarchyMultipleClassPool(pool);
   ClassLoader classLoader=new URLClassLoader(new URL[0],ClassLoader.getSystemClassLoader());
-  ClassPool classPool=multipleClassPool.getClassPool(classLoader);
+  multipleClassPool.getClassPool(classLoader);
   logger.debug("{}",multipleClassPool.size());
   for (  ClassPool classPool1 : multipleClassPool.values()) {
     logger.debug("classPool:{}",classPool1);
     logger.debug("classPool:{}",((NamedClassPool)classPool1).getName());
   }
+  Assert.assertEquals(2,multipleClassPool.size());
 }

@@ -2,12 +2,12 @@
   if (classLoader == null) {
     throw new NullPointerException("classLoader must not be null");
   }
-  final ClassPool hit=this.classMap.get(classLoader);
+  final NamedClassPool hit=this.classMap.get(classLoader);
   if (hit != null) {
     return hit;
   }
   prepareHierarchyClassPool(classLoader);
-  final ClassPool classPool=this.classMap.get(classLoader);
+  final NamedClassPool classPool=this.classMap.get(classLoader);
   if (classPool == null) {
     logger.warn("ClassPool FindError :{}" + classLoader);
     return null;

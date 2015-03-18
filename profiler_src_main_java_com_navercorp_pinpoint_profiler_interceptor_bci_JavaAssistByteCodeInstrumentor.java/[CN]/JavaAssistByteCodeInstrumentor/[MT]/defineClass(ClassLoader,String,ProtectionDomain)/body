@@ -3,7 +3,7 @@
     logger.info("defineClass class:{}, cl:{}",defineClass,classLoader);
   }
   try {
-    final NamedClassPool classPool=findClassPool(classLoader);
+    final NamedClassPool classPool=getClassPool(classLoader);
 synchronized (classLoader) {
       if (this.classLoadChecker.exist(classLoader,defineClass)) {
         return classLoader.loadClass(defineClass);

@@ -2,10 +2,10 @@
   if (classLoader == null) {
     throw new NullPointerException("classLoader must not be null");
   }
-  final ClassPool hit=this.classMap.get(classLoader);
+  final NamedClassPool hit=this.classMap.get(classLoader);
   if (hit != null) {
     return hit;
   }
-  ClassPool newClassPool=createClassPool(classLoader,parentClassPool);
+  NamedClassPool newClassPool=createClassPool(classLoader,parentClassPool);
   return put(classLoader,newClassPool);
 }

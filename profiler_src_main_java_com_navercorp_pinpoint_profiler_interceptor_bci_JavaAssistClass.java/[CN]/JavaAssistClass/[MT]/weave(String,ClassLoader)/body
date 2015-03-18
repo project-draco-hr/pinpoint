@@ -1,9 +1,8 @@
 {
-  ClassPool pool=new ClassPool();
-  pool.appendClassPath(new LoaderClassPath(loader));
+  final NamedClassPool classPool=instrumentor.getClassPool(loader);
   CtClass adviceClass;
   try {
-    adviceClass=pool.get(adviceClassName);
+    adviceClass=classPool.get(adviceClassName);
   }
  catch (  NotFoundException e) {
     throw new NotFoundInstrumentException(adviceClassName + " not found. Caused:" + e.getMessage(),e);

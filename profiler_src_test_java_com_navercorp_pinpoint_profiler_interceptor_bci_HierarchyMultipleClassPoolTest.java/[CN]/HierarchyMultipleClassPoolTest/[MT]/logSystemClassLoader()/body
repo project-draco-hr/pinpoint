@@ -1,0 +1,10 @@
+{
+  ClassLoader systemClassLoader=ClassLoader.getSystemClassLoader();
+  logger.debug("classLoader system:{}",systemClassLoader);
+  ClassLoader ext=systemClassLoader.getParent();
+  logger.debug("classLoader ext:{}",ext);
+  ClassLoader boot=ext.getParent();
+  logger.debug("classLoader boot:{}",boot);
+  logger.debug("boot:{}",String.class.getClassLoader());
+  logger.debug("system:{}",this.getClass().getClassLoader());
+}

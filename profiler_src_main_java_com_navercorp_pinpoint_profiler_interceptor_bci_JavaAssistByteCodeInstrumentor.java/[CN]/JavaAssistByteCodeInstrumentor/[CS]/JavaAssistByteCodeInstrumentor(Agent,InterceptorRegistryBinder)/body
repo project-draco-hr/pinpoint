@@ -3,7 +3,7 @@
     throw new NullPointerException("interceptorRegistryBinder must not be null");
   }
   this.rootClassPool=createClassPool("rootClassPool");
-  this.childClassPool=createChildClassPool(rootClassPool,"childClassPool");
+  this.childClassPool=new SimpleMultipleClassPool(rootClassPool);
   this.agent=agent;
   checkLibrary(this.getClass().getClassLoader(),this.rootClassPool,this.getClass().getName());
   this.interceptorRegistryBinder=interceptorRegistryBinder;
