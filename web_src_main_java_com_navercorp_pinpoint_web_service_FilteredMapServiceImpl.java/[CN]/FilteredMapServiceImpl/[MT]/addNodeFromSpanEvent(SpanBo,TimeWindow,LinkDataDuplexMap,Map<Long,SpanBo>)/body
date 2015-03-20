@@ -3,7 +3,7 @@
   if (CollectionUtils.isEmpty(spanEventBoList)) {
     return;
   }
-  final Application srcApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getServiceType()));
+  final Application srcApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getApplicationServiceType()));
   LinkDataMap sourceLinkDataMap=linkDataDuplexMap.getSourceLinkDataMap();
   for (  SpanEventBo spanEvent : spanEventBoList) {
     ServiceType destServiceType=registry.findServiceType(spanEvent.getServiceType());

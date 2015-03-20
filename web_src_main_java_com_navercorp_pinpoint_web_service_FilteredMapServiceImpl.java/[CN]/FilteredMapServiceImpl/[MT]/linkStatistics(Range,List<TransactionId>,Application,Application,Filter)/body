@@ -14,7 +14,7 @@
   List<SpanBo> filteredTransactionList=filterList(originalList,filter);
   LoadFactor statistics=new LoadFactor(range);
   for (  SpanBo span : filteredTransactionList) {
-    if (sourceApplication.equals(span.getApplicationId(),registry.findServiceType(span.getServiceType()))) {
+    if (sourceApplication.equals(span.getApplicationId(),registry.findServiceType(span.getApplicationServiceType()))) {
       List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
       if (spanEventBoList == null) {
         continue;

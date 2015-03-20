@@ -23,6 +23,10 @@
   this.apiId=span.getApiId();
   this.errCode=span.getErr();
   this.remoteAddr=span.getRemoteAddr();
+  if (span.isSetApplicationServiceType()) {
+    this.hasApplicationServiceType=true;
+    this.applicationServiceType=span.getApplicationServiceType();
+  }
   final TIntStringValue exceptionInfo=span.getExceptionInfo();
   if (exceptionInfo != null) {
     this.hasException=true;

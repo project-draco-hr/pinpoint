@@ -19,5 +19,11 @@
     this.exceptionMessage=buffer.readPrefixedString();
   }
   this.flag=buffer.readShort();
+  if (buffer.limit() > 0) {
+    this.hasApplicationServiceType=buffer.readBoolean();
+    if (this.hasApplicationServiceType) {
+      this.applicationServiceType=buffer.readShort();
+    }
+  }
   return buffer.getOffset();
 }

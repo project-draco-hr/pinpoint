@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(21);
+  BitSet incoming=iprot.readBitSet(22);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -103,5 +103,9 @@
     struct.exceptionInfo=new TIntStringValue();
     struct.exceptionInfo.read(iprot);
     struct.setExceptionInfoIsSet(true);
+  }
+  if (incoming.get(21)) {
+    struct.applicationServiceType=iprot.readI16();
+    struct.setApplicationServiceTypeIsSet(true);
   }
 }

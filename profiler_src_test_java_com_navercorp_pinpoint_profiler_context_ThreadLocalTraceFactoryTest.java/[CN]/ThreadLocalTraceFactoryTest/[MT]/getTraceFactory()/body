@@ -2,7 +2,8 @@
   LogStorageFactory logStorageFactory=new LogStorageFactory();
   TrueSampler trueSampler=new TrueSampler();
   ServerMetaDataHolder serverMetaDataHolder=new DefaultServerMetaDataHolder(Collections.<String>emptyList());
-  DefaultTraceContext traceContext=new DefaultTraceContext(100,ServiceType.STAND_ALONE,logStorageFactory,trueSampler,serverMetaDataHolder);
+  AgentInformation agentInformation=new AgentInformation("agentId","applicationName",System.currentTimeMillis(),10,"test","127.0.0.1",ServiceType.STAND_ALONE,Version.VERSION);
+  DefaultTraceContext traceContext=new DefaultTraceContext(100,agentInformation,logStorageFactory,trueSampler,serverMetaDataHolder);
   MetricRegistry metricRegistry=new MetricRegistry(ServiceType.STAND_ALONE);
   return new ThreadLocalTraceFactory(traceContext,metricRegistry,logStorageFactory,trueSampler);
 }

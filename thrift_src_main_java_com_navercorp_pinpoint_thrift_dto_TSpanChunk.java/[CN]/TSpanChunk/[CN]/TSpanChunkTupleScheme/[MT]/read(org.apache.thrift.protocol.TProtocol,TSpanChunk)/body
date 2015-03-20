@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(8);
+  BitSet incoming=iprot.readBitSet(9);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -41,5 +41,9 @@
       }
     }
     struct.setSpanEventListIsSet(true);
+  }
+  if (incoming.get(8)) {
+    struct.applicationServiceType=iprot.readI16();
+    struct.setApplicationServiceTypeIsSet(true);
   }
 }
