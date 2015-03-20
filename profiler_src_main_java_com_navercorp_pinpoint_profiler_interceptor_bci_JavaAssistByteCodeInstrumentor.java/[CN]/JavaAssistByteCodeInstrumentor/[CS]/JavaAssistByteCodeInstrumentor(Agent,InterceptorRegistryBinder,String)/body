@@ -1,0 +1,9 @@
+{
+  if (interceptorRegistryBinder == null) {
+    throw new NullPointerException("interceptorRegistryBinder must not be null");
+  }
+  this.agentClassPool=createAgentClassPool("agentClassPool");
+  this.childClassPool=new IsolateMultipleClassPool(eventListener,bootStrapJar);
+  this.agent=agent;
+  this.interceptorRegistryBinder=interceptorRegistryBinder;
+}

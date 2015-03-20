@@ -1,0 +1,15 @@
+{
+  final Object hit=this.checker.get(classLoader);
+  if (hit != null) {
+    return childClassPool;
+  }
+  final ClassPath classPath=new LoaderClassPath(classLoader);
+synchronized (childClassPool) {
+    Object exist=checker.putIfAbsent(classLoader,EXIST);
+    if (exist != null) {
+      return childClassPool;
+    }
+    this.childClassPool.appendClassPath(classPath);
+    return childClassPool;
+  }
+}

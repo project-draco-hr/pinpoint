@@ -1,0 +1,8 @@
+{
+  String classLoaderName=classLoader.toString();
+  NamedClassPool newClassPool=new NamedClassPool(standardClassPool,classLoaderName + "-" + getNextId());
+  final ClassPath classPath=new LoaderClassPath(classLoader);
+  newClassPool.appendClassPath(classPath);
+  newClassPool.appendSystemPath();
+  return newClassPool;
+}

@@ -1,6 +1,6 @@
 {
-  if (ClassLoaderUtils.isSystemClassLoader(classLoader)) {
-    return rootClassPool;
+  if (classLoader == agentClassLoader) {
+    return agentClassPool;
   }
   return childClassPool.getClassPool(classLoader);
 }

@@ -1,0 +1,11 @@
+{
+  if (ClassLoaderUtils.isStandardClassLoader(classLoader)) {
+    return standardClassPool;
+  }
+  final NamedClassPool hit=this.classMap.get(classLoader);
+  if (hit != null) {
+    return hit;
+  }
+  NamedClassPool newClassPool=createClassPool(classLoader);
+  return put(classLoader,newClassPool);
+}

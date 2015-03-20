@@ -9,8 +9,7 @@
   prepareHierarchyClassPool(classLoader);
   final NamedClassPool classPool=this.classMap.get(classLoader);
   if (classPool == null) {
-    logger.warn("ClassPool FindError :{}" + classLoader);
-    return null;
+    throw new IllegalStateException("unexpected condition. ClassPool not found. classLoader:" + classLoader);
   }
   return classPool;
 }

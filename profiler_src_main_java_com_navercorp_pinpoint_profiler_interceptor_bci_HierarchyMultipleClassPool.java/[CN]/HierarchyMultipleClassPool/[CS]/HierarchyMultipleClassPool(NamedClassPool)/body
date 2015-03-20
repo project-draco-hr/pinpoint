@@ -2,8 +2,6 @@
   if (parentClassPool == null) {
     throw new NullPointerException("parentClassPool must not be null");
   }
-  MapMaker mapMaker=new MapMaker();
-  mapMaker.weakKeys();
-  this.classMap=mapMaker.makeMap();
+  this.classMap=createWeakConcurrentMap();
   this.parentClassPool=parentClassPool;
 }

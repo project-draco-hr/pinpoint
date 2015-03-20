@@ -1,0 +1,13 @@
+{
+  NamedClassPool systemClassPool=new NamedClassPool("standardClassPool");
+  systemClassPool.appendSystemPath();
+  if (bootStrapJarPath != null) {
+    try {
+      systemClassPool.appendClassPath(bootStrapJarPath);
+    }
+ catch (    NotFoundException ex) {
+      throw new PinpointException("bootStrapJar not found. Caused by:" + ex.getMessage(),ex);
+    }
+  }
+  return systemClassPool;
+}
