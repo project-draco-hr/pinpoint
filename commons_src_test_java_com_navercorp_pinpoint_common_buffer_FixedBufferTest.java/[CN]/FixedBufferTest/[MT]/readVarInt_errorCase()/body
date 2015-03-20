@@ -1,0 +1,11 @@
+{
+  byte[] errorCode=new byte[]{-118,-41,-17,-117,-81,-115,-64,-64,-108,-88};
+  Buffer buffer=new FixedBuffer(errorCode);
+  try {
+    buffer.readVarInt();
+    Assert.fail("invalid varInt");
+  }
+ catch (  IllegalArgumentException ignore) {
+  }
+  Assert.assertEquals(0,buffer.getOffset());
+}

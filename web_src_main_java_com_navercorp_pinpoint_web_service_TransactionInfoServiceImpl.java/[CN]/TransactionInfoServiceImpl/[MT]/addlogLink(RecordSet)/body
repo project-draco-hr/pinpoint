@@ -1,0 +1,18 @@
+{
+  List<Record> records=recordSet.getRecordList();
+  List<TransactionInfo> transactionInfoes=new LinkedList<TransactionInfo>();
+  for (Iterator<Record> iterator=records.iterator(); iterator.hasNext(); ) {
+    Record record=(Record)iterator.next();
+    if (record.getTransactionId() == null) {
+      continue;
+    }
+    TransactionInfo transactionInfo=new TransactionInfo(record.getTransactionId(),record.getSpanId());
+    if (transactionInfoes.contains(transactionInfo)) {
+      continue;
+    }
+    ;
+    record.setLogPageUrl(logPageUrl);
+    record.setLogButtonName(logButtonName);
+    transactionInfoes.add(transactionInfo);
+  }
+}

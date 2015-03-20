@@ -4,8 +4,8 @@
     return;
   }
   final String spanApplicationName=span.getApplicationName();
-  final short spanServiceType=span.getServiceType();
+  final short applicationServiceTypeCode=getApplicationServiceType(span).getCode();
   final String parentApplicationName=span.getParentApplicationName();
   final short parentServiceType=span.getParentApplicationType();
-  hostApplicationMapDao.insert(acceptorHost,spanApplicationName,spanServiceType,parentApplicationName,parentServiceType);
+  hostApplicationMapDao.insert(acceptorHost,spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
 }

@@ -1,0 +1,10 @@
+{
+  Buffer buffer=new FixedBuffer(32);
+  buffer.putVar(v);
+  buffer.setOffset(0);
+  long readV=buffer.readVarLong();
+  Assert.assertEquals(readV,v);
+  if (logger.isTraceEnabled()) {
+    logger.trace("v:{} offset:{}",v,buffer.getOffset());
+  }
+}
