@@ -16,6 +16,7 @@
   ApplicationMap map=filteredMapService.selectApplicationMap(traceId);
   mv.addObject("nodes",map.getNodes());
   mv.addObject("links",map.getLinks());
+  mv.addObject("logLinkEnable",logLinkEnable);
   RecordSet recordSet=this.transactionInfoService.createRecordSet(spanAligns,focusTimestamp);
   mv.addObject("recordSet",recordSet);
   mv.addObject("applicationName",recordSet.getApplicationName());
