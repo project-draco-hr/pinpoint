@@ -1,0 +1,7 @@
+{
+  final String existingSystemProperty="existing.system.property";
+  SystemProperty property=createTestProperty(existingSystemProperty);
+  PropertyCondition systemPropertyCondition=new PropertyCondition(property);
+  boolean keyExists=systemPropertyCondition.check("some.other.property");
+  assertFalse(keyExists);
+}

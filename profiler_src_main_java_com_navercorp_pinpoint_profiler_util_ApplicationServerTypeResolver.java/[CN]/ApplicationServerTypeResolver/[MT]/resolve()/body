@@ -1,29 +1,12 @@
 {
-  String serverType=null;
-  for (  ServerTypeDetector detector : detectors) {
-    logger.debug("try to resolve using {}",detector.getClass());
-    if (serverType != null && !detector.canOverride(serverType)) {
-      continue;
-    }
-    if (detector.detect()) {
-      serverType=detector.getServerTypeName();
-      if (logger.isInfoEnabled()) {
-        logger.info("Resolved applicationServerType [{}] by {}",serverType,detector.getClass().getName());
-      }
-    }
-  }
-  if (serverType != null) {
-    this.serverType=serviceTypeRegistryService.findServiceTypeByName(serverType);
-    return true;
-  }
-  if (defaultType != null) {
-    this.serverType=defaultType;
+  ServiceType resolvedApplicationServerType;
+  if (this.defaultType == ServiceType.UNDEFINED) {
+    resolvedApplicationServerType=this.resolver.resolve();
+    logger.info("Resolved ApplicationServerType : {}",resolvedApplicationServerType.getName());
   }
  else {
-    this.serverType=ServiceType.STAND_ALONE;
+    resolvedApplicationServerType=this.defaultType;
+    logger.info("Configured ApplicationServerType : {}",resolvedApplicationServerType.getName());
   }
-  if (logger.isInfoEnabled()) {
-    logger.info("Configured applicationServerType:{}",defaultType);
-  }
-  return true;
+  return resolvedApplicationServerType;
 }

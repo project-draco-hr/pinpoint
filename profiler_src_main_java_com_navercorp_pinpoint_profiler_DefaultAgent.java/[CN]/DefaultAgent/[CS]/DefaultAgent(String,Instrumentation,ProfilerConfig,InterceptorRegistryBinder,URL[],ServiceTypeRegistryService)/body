@@ -34,12 +34,9 @@
   instrumentation.addTransformer(this.classFileTransformer);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
-  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,this.serviceTypeRegistryService);
-  if (!typeResolver.resolve()) {
-    throw new PinpointException("ApplicationServerType not found.");
-  }
+  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,profilerConfig.getApplicationTypeDetectOrder());
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
-  this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.getServerType());
+  this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.resolve());
   logger.info("agentInformation:{}",agentInformation);
   CommandDispatcher commandDispatcher=createCommandDispatcher();
   this.tcpDataSender=createTcpDataSender(commandDispatcher);
