@@ -3,6 +3,10 @@
   try {
     for (    int ver : jvmVersions) {
       String javaExe=getJavaExecutable(ver);
+      if (javaExe == null) {
+        System.out.println("Cannot find Java version " + ver + ". Skip test with Java "+ ver);
+        continue;
+      }
       PinpointPluginTestContext context=new PinpointPluginTestContext(agentJar,configFile,requiredLibraries,getTestClass().getJavaClass(),testClassLocation,jvmArguments,debug,ver,javaExe);
       List<PinpointPluginTestInstance> cases=createTestCases(context);
       for (      PinpointPluginTestInstance c : cases) {

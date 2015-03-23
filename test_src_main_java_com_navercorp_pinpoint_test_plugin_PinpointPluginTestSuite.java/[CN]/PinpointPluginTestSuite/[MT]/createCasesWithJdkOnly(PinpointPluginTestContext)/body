@@ -1,0 +1,10 @@
+{
+  List<PinpointPluginTestInstance> cases=new ArrayList<PinpointPluginTestInstance>();
+  if (testOnSystemClassLoader) {
+    cases.add(new NormalPluginTestCase(context,"",Collections.<String>emptyList(),true));
+  }
+  if (testOnChildClassLoader) {
+    cases.add(new NormalPluginTestCase(context,"",Collections.<String>emptyList(),false));
+  }
+  return cases;
+}

@@ -1,0 +1,10 @@
+{
+  final String existingSystemProperty1="set.one.key.one";
+  final String existingSystemProperty2="set.one.key.two";
+  SystemProperty property=createTestProperty(existingSystemProperty1,existingSystemProperty2);
+  PropertyCondition systemPropertyCondition=new PropertyCondition(property);
+  boolean firstKeyExists=systemPropertyCondition.check(existingSystemProperty1);
+  boolean secondKeyExists=systemPropertyCondition.check(existingSystemProperty2);
+  assertTrue(firstKeyExists);
+  assertTrue(secondKeyExists);
+}

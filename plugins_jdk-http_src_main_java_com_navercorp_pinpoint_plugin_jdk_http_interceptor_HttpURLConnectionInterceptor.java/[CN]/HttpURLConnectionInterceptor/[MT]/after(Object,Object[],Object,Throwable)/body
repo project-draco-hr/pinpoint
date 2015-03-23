@@ -1,0 +1,21 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  Object marker=trace.getTraceBlockAttachment();
+  if (marker != TRACE_BLOCK_BEGIN_MARKER) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
