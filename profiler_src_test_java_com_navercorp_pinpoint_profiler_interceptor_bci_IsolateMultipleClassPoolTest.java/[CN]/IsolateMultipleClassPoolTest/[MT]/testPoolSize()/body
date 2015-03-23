@@ -1,0 +1,19 @@
+{
+  IsolateMultipleClassPool pool=new IsolateMultipleClassPool();
+  NamedClassPool systemPool=pool.getClassPool(systemClassLoader);
+  Assert.assertEquals(0,pool.size());
+  pool.getClassPool(null);
+  Assert.assertEquals(0,pool.size());
+  Assert.assertSame(systemPool,pool.getClassPool(systemClassLoader));
+  NamedClassPool child1Pool=pool.getClassPool(child1);
+  Assert.assertEquals(1,pool.size());
+  NamedClassPool child1Pool_recheck=pool.getClassPool(child1);
+  Assert.assertEquals(1,pool.size());
+  Assert.assertSame(child1Pool,child1Pool_recheck);
+  Assert.assertNotSame(systemPool,child1Pool);
+  NamedClassPool classPool2=pool.getClassPool(child2);
+  Assert.assertEquals(2,pool.size());
+  pool.getClassPool(child2);
+  Assert.assertEquals(2,pool.size());
+  Assert.assertNotSame(systemPool,classPool2);
+}

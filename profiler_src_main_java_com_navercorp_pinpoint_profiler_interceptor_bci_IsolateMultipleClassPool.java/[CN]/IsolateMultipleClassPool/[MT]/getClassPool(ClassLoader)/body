@@ -2,6 +2,9 @@
   if (ClassLoaderUtils.isStandardClassLoader(classLoader)) {
     return standardClassPool;
   }
+  if (AGENT_CLASS_LOADER == classLoader) {
+    throw new IllegalArgumentException("unexpectected classLoader access. classLoader:" + classLoader);
+  }
   final NamedClassPool hit=this.classMap.get(classLoader);
   if (hit != null) {
     return hit;
