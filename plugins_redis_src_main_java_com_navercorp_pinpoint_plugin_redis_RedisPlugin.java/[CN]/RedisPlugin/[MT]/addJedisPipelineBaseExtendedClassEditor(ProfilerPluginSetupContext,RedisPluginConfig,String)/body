@@ -1,6 +1,5 @@
 {
-  final ClassEditorBuilder classEditorBuilder=context.newClassEditorBuilder();
-  classEditorBuilder.target(targetClassName);
+  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder(targetClassName);
   final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
   methodEditorBuilder.exceptionHandler(new MethodEditorExceptionHandler(){
     @Override public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Exception {

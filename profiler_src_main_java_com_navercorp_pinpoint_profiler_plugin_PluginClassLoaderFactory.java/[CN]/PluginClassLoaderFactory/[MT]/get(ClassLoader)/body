@@ -1,15 +1,8 @@
 {
-  final ClassLoader forPlugin=cache.get(loader);
-  if (forPlugin != null) {
-    return forPlugin;
-  }
-  final ClassLoader newInstance=createPluginClassLoader(pluginJars,loader);
-  final ClassLoader before=cache.putIfAbsent(loader,newInstance);
-  if (before == null) {
-    return newInstance;
+  if (loader == null) {
+    return getForBootstrap();
   }
  else {
-    close(newInstance);
-    return before;
+    return getForPlain(loader);
   }
 }

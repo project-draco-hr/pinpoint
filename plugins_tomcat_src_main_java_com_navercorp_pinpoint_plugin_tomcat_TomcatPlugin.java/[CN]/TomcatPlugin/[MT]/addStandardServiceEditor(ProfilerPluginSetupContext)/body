@@ -1,6 +1,5 @@
 {
-  ClassEditorBuilder builder=context.newClassEditorBuilder();
-  builder.target("org.apache.catalina.core.StandardService");
+  ClassEditorBuilder builder=context.getClassEditorBuilder("org.apache.catalina.core.StandardService");
   MethodEditorBuilder startEditor=builder.editMethod("start");
   startEditor.property(IGNORE_IF_NOT_EXIST);
   startEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardServiceStartInterceptor");
