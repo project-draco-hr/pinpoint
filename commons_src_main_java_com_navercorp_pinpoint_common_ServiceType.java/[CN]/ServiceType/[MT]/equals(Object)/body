@@ -1,0 +1,49 @@
+{
+  if (this == obj) {
+    return true;
+  }
+  if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  ServiceType other=(ServiceType)obj;
+  if (code != other.code) {
+    return false;
+  }
+  if (desc == null) {
+    if (other.desc != null) {
+      return false;
+    }
+  }
+ else   if (!desc.equals(other.desc)) {
+    return false;
+  }
+  if (histogramSchema == null) {
+    if (other.histogramSchema != null) {
+      return false;
+    }
+  }
+ else   if (!histogramSchema.equals(other.histogramSchema)) {
+    return false;
+  }
+  if (includeDestinationId != other.includeDestinationId) {
+    return false;
+  }
+  if (name == null) {
+    if (other.name != null) {
+      return false;
+    }
+  }
+ else   if (!name.equals(other.name)) {
+    return false;
+  }
+  if (recordStatistics != other.recordStatistics) {
+    return false;
+  }
+  if (terminal != other.terminal) {
+    return false;
+  }
+  return true;
+}

@@ -1,7 +1,7 @@
 {
-  Map<String,ServerTypeDetector> registeredDetectors=new HashMap<String,ServerTypeDetector>();
+  Map<String,ApplicationTypeDetector> registeredDetectors=new HashMap<String,ApplicationTypeDetector>();
   for (  DefaultProfilerPluginContext context : plugins) {
-    for (    ServerTypeDetector detector : context.getServerTypeDetectors()) {
+    for (    ApplicationTypeDetector detector : context.getApplicationTypeDetectors()) {
       registeredDetectors.put(detector.getClass().getName(),detector);
     }
   }

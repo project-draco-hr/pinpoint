@@ -1,6 +1,5 @@
 {
-  ClassEditorBuilder builder=context.newClassEditorBuilder();
-  builder.target("org.apache.catalina.core.StandardHostValve");
+  ClassEditorBuilder builder=context.getClassEditorBuilder("org.apache.catalina.core.StandardHostValve");
   builder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",config.getTomcatExcludeUrlFilter());
   context.addClassEditor(builder.build());
 }
