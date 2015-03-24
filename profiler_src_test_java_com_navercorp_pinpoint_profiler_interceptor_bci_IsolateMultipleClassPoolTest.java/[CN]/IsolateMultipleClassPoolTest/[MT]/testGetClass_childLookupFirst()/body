@@ -1,14 +1,14 @@
 {
-  IsolateMultipleClassPool pool=new IsolateMultipleClassPool(true,IsolateMultipleClassPool.EMPTY_EVENT_LISTENER,null);
+  IsolateMultipleClassPool pool=new IsolateMultipleClassPool(false,IsolateMultipleClassPool.EMPTY_EVENT_LISTENER,null);
   NamedClassPool systemPool=pool.getClassPool(systemClassLoader);
   CtClass systemLogger=systemPool.get(TEST_CLASS);
   NamedClassPool rootPool=pool.getClassPool(root);
   CtClass rootLogger=rootPool.get(TEST_CLASS);
-  Assert.assertNotSame(systemLogger,rootLogger);
+  Assert.assertSame(systemLogger,rootLogger);
   NamedClassPool childPool=pool.getClassPool(child1);
   CtClass childLogger=childPool.get(TEST_CLASS);
-  Assert.assertNotSame(systemLogger,childLogger);
+  Assert.assertSame(systemLogger,childLogger);
   NamedClassPool childPool2=pool.getClassPool(child2);
   CtClass child2Logger=childPool2.get(TEST_CLASS);
-  Assert.assertNotSame(systemLogger,child2Logger);
+  Assert.assertSame(systemLogger,child2Logger);
 }
