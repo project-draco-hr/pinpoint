@@ -1,0 +1,15 @@
+{
+  final Collection<ClassLoader> classLoaderHierarchyList=findClassLoaderHierarchy(findClassLoader);
+  logger.debug("ClassLoaderHierarchy:{}",classLoaderHierarchyList);
+  NamedClassPool parentClassPool=this.parentClassPool;
+  for (  ClassLoader classLoader : classLoaderHierarchyList) {
+    final NamedClassPool existClassPool=this.classMap.get(classLoader);
+    if (existClassPool != null) {
+      parentClassPool=existClassPool;
+    }
+ else {
+      NamedClassPool classPool=createClassPool(classLoader,parentClassPool);
+      parentClassPool=put(classLoader,classPool);
+    }
+  }
+}

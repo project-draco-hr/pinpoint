@@ -1,0 +1,55 @@
+{
+  if (agentOption == null) {
+    throw new NullPointerException("agentOption must not be null");
+  }
+  if (agentOption.getInstrumentation() == null) {
+    throw new NullPointerException("instrumentation must not be null");
+  }
+  if (agentOption.getProfilerConfig() == null) {
+    throw new NullPointerException("profilerConfig must not be null");
+  }
+  if (agentOption.getServiceTypeRegistryService() == null) {
+    throw new NullPointerException("serviceTypeRegistryService must not be null");
+  }
+  if (interceptorRegistryBinder == null) {
+    throw new NullPointerException("interceptorRegistryBinder must not be null");
+  }
+  this.binder=new Slf4jLoggerBinder();
+  bindPLoggerFactory(this.binder);
+  this.interceptorRegistryBinder=interceptorRegistryBinder;
+  interceptorRegistryBinder.bind();
+  this.serviceTypeRegistryService=agentOption.getServiceTypeRegistryService();
+  dumpSystemProperties();
+  dumpConfig(agentOption.getProfilerConfig());
+  changeStatus(AgentStatus.INITIALIZING);
+  this.profilerConfig=agentOption.getProfilerConfig();
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder,agentOption.getBootStrapJarPath());
+  if (logger.isInfoEnabled()) {
+    logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
+  }
+  PluginClassLoaderFactory pluginClassLoaderFactory=new PluginClassLoaderFactory(agentOption.getPluginJars());
+  ClassEditorExecutor classEditorExecutor=new ClassEditorExecutor(byteCodeInstrumentor,pluginClassLoaderFactory);
+  ClassFileRetransformer retransformer=new ClassFileRetransformer(agentOption.getInstrumentation(),classEditorExecutor);
+  byteCodeInstrumentor.setRetransformer(retransformer);
+  List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts,classEditorExecutor);
+  final Instrumentation instrumentation=agentOption.getInstrumentation();
+  instrumentation.addTransformer(retransformer,true);
+  instrumentation.addTransformer(this.classFileTransformer);
+  String applicationServerTypeString=profilerConfig.getApplicationServerType();
+  ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
+  final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,profilerConfig.getApplicationTypeDetectOrder());
+  final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
+  this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.resolve());
+  logger.info("agentInformation:{}",agentInformation);
+  CommandDispatcher commandDispatcher=createCommandDispatcher();
+  this.tcpDataSender=createTcpDataSender(commandDispatcher);
+  this.serverMetaDataHolder=createServerMetaDataHolder();
+  this.spanDataSender=createUdpSpanDataSender(this.profilerConfig.getCollectorSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
+  this.statDataSender=createUdpStatDataSender(this.profilerConfig.getCollectorStatServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
+  this.traceContext=createTraceContext();
+  this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
+  this.serverMetaDataHolder.addListener(this.agentInfoSender);
+  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
+  preLoadClass();
+}

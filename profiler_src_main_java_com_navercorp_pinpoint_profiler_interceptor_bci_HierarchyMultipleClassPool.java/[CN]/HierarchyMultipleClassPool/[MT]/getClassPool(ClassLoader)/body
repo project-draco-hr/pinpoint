@@ -1,0 +1,15 @@
+{
+  if (classLoader == null) {
+    throw new NullPointerException("classLoader must not be null");
+  }
+  final NamedClassPool hit=this.classMap.get(classLoader);
+  if (hit != null) {
+    return hit;
+  }
+  prepareHierarchyClassPool(classLoader);
+  final NamedClassPool classPool=this.classMap.get(classLoader);
+  if (classPool == null) {
+    throw new IllegalStateException("unexpected condition. ClassPool not found. classLoader:" + classLoader);
+  }
+  return classPool;
+}
