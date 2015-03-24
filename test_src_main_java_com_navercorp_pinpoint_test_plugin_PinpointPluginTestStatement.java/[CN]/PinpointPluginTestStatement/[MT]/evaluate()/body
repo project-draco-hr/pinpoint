@@ -2,6 +2,7 @@
   ProcessBuilder builder=new ProcessBuilder();
   builder.command(buildCommand());
   builder.redirectErrorStream(true);
+  builder.directory(testCase.getWorkingDirectory());
   System.out.println("Working directory: " + SystemProperty.INSTANCE.getProperty("user.dir"));
   System.out.println("Command: " + builder.command());
   Description parentDescription=runner.getDescription();
