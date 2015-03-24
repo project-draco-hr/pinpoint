@@ -1,17 +1,9 @@
 {
   final Request request=(Request)args[0];
-  if (request.getAttribute("PINPOINT_TRACE") != null) {
-    Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
+  if (isAsynchronousProcess(request)) {
+    final Trace trace=getTraceMetadata(request);
+    trace.recordApi(TomcatConstants.servletAsynchronousMethodDescriptor);
     getTraceContext().attachTraceObject(trace);
-    logger.debug("Continue servlet process");
-    if (asyncAccessor.isApplicable(request) && asyncAccessor.get(request) != null) {
-      logger.debug("Check async");
-      Boolean async=asyncAccessor.get(request);
-      if (async) {
-        getTraceContext().cacheApi(TomcatConstants.servletAsynchronousMethodDescriptor);
-        trace.recordApi(TomcatConstants.servletAsynchronousMethodDescriptor);
-      }
-    }
     return trace;
   }
   final String requestURI=request.getRequestURI();
@@ -34,8 +26,9 @@
   if (traceId != null) {
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.continueTraceObject(traceId);
-    initTrace(trace,request);
     if (trace.canSampled()) {
+      recordRootSpan(trace,request);
+      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.getRequestURI(),request.getRemoteAddr()});
       }
@@ -50,8 +43,9 @@
  else {
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.newTraceObject();
-    initTrace(trace,request);
     if (trace.canSampled()) {
+      recordRootSpan(trace,request);
+      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
       }

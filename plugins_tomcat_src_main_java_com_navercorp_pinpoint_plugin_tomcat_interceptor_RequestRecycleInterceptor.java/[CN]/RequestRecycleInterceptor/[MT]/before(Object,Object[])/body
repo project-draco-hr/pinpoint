@@ -1,16 +1,16 @@
 {
   logger.beforeInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
   try {
-    final Request request=(Request)target;
     if (asyncAccessor.isApplicable(target)) {
       asyncAccessor.set(target,Boolean.FALSE);
     }
-    if (request.getAttribute("PINPOINT_TRACE") != null) {
-      Trace trace=(Trace)request.getAttribute("PINPOINT_TRACE");
-      if (trace.canSampled()) {
+    if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
+      Trace trace=traceAccessor.get(target);
+      if (trace != null && trace.canSampled()) {
         trace.markAfterTime();
         trace.traceRootBlockEnd();
       }
+      traceAccessor.set(target,null);
     }
   }
  catch (  Throwable t) {

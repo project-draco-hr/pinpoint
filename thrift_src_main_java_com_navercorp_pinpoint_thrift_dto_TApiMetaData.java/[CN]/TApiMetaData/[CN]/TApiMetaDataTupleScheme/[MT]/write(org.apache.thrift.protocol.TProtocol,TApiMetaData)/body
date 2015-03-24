@@ -16,7 +16,10 @@
   if (struct.isSetLine()) {
     optionals.set(4);
   }
-  oprot.writeBitSet(optionals,5);
+  if (struct.isSetType()) {
+    optionals.set(5);
+  }
+  oprot.writeBitSet(optionals,6);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -31,5 +34,8 @@
   }
   if (struct.isSetLine()) {
     oprot.writeI32(struct.line);
+  }
+  if (struct.isSetType()) {
+    oprot.writeI32(struct.type);
   }
 }

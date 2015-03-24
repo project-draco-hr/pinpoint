@@ -3,5 +3,8 @@
   setTraceContext(traceContext);
   setMethodDescriptor(descriptor);
   this.excludeUrlFilter=excludeFilter;
+  this.traceAccessor=traceAccessor;
   this.asyncAccessor=asyncAccessor;
+  traceContext.cacheApi(servletAsynchronousMethodDescriptor);
+  traceContext.cacheApi(servletSynchronousMethodDescriptor);
 }
