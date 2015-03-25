@@ -1,0 +1,15 @@
+{
+  final ClassLoader forPlugin=forBootstrapClassLoader.get();
+  if (forPlugin != null) {
+    return forPlugin;
+  }
+  final ClassLoader newInstance=createPluginClassLoader(pluginJars,ClassLoader.getSystemClassLoader());
+  boolean success=forBootstrapClassLoader.compareAndSet(null,newInstance);
+  if (success) {
+    return newInstance;
+  }
+ else {
+    close(newInstance);
+    return forBootstrapClassLoader.get();
+  }
+}

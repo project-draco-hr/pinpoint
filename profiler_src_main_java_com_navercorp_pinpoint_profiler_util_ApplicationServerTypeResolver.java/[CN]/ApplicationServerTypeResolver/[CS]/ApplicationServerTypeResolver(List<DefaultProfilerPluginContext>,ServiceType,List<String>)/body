@@ -1,0 +1,16 @@
+{
+  if (isValidApplicationServerType(defaultType)) {
+    this.defaultType=defaultType;
+  }
+ else {
+    this.defaultType=ServiceType.UNDEFINED;
+  }
+  Map<String,ApplicationTypeDetector> registeredDetectors=getRegisteredServerTypeDetectors(plugins);
+  for (  String orderedDetector : orderedDetectors) {
+    if (registeredDetectors.containsKey(orderedDetector)) {
+      this.detectors.add(registeredDetectors.remove(orderedDetector));
+    }
+  }
+  this.detectors.addAll(registeredDetectors.values());
+  this.resolver=new ApplicationServerTypePluginResolver(this.detectors);
+}

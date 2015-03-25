@@ -91,7 +91,8 @@
   this.ioBufferingBufferSize=readInt("profiler.io.buffering.buffersize",20);
   this.profileJvmCollectInterval=readInt("profiler.jvm.collect.interval",1000);
   this.agentInfoSendRetryInterval=readLong("profiler.agentInfo.send.retry.interval",DEFAULT_AGENT_INFO_SEND_RETRY_INTERVAL);
-  this.applicationServerType=readString("profiler.applicationservertype",ServiceType.STAND_ALONE.getName());
+  this.applicationServerType=readString("profiler.applicationservertype",null);
+  this.applicationTypeDetectOrder=readTypeDetectOrder("profiler.type.detect.order");
   final String profileableClass=readString("profiler.include","");
   if (!profileableClass.isEmpty()) {
     this.profilableClassFilter=new ProfilableClassFilter(profileableClass);

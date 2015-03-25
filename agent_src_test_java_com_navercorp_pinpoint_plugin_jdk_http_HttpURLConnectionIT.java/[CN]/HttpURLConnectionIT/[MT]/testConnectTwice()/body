@@ -1,0 +1,12 @@
+{
+  URL url=new URL("http://www.naver.com");
+  HttpURLConnection connection=(HttpURLConnection)url.openConnection();
+  connection.connect();
+  connection.getInputStream();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printSpans(System.out);
+  Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
+  Method connect=targetClass.getMethod("connect");
+  verifier.verifySpanCount(1);
+  verifier.verifySpanEvent("JDK_HTTPURLCONNECTOR",connect,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
+}

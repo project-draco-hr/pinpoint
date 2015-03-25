@@ -1,0 +1,9 @@
+{
+  Map<String,ApplicationTypeDetector> registeredDetectors=new HashMap<String,ApplicationTypeDetector>();
+  for (  DefaultProfilerPluginContext context : plugins) {
+    for (    ApplicationTypeDetector detector : context.getApplicationTypeDetectors()) {
+      registeredDetectors.put(detector.getClass().getName(),detector);
+    }
+  }
+  return registeredDetectors;
+}

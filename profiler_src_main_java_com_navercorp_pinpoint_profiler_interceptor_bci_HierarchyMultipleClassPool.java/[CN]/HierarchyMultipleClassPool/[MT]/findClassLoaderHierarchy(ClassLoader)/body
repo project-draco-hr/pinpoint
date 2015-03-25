@@ -1,0 +1,18 @@
+{
+  if (classLoader == null) {
+    throw new NullPointerException("classLoader must not be null");
+  }
+  Deque<ClassLoader> classLoaderHierarchyList=new LinkedList<ClassLoader>();
+  classLoaderHierarchyList.addFirst(classLoader);
+  ClassLoader parent;
+  while (true) {
+    parent=classLoader.getParent();
+    if (ClassLoaderUtils.isStandardClassLoader(parent)) {
+      classLoaderHierarchyList.addFirst(SYSTEM);
+      break;
+    }
+    classLoaderHierarchyList.addFirst(parent);
+    classLoader=parent;
+  }
+  return classLoaderHierarchyList;
+}

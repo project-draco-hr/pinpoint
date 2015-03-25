@@ -8,6 +8,9 @@
     String envName="JAVA_" + version + "_HOME";
     javaHome=SystemProperty.INSTANCE.getEnv(envName);
   }
+  if (javaHome == null) {
+    return null;
+  }
   builder.append(javaHome);
   builder.append(File.separatorChar);
   builder.append("bin");

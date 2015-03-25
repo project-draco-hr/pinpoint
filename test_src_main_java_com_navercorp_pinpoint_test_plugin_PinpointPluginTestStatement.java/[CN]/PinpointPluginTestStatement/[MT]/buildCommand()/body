@@ -19,7 +19,11 @@
   for (  String arg : testCase.getVmArgs()) {
     list.add(arg);
   }
-  list.add(testCase.getMainClass());
+  String mainClass=testCase.getMainClass();
+  if (mainClass.endsWith(".jar")) {
+    list.add("-jar");
+  }
+  list.add(mainClass);
   list.addAll(testCase.getAppArgs());
   return list.toArray(new String[list.size()]);
 }

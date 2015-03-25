@@ -1,0 +1,8 @@
+{
+  final NamedClassPool exist=this.classPoolMap.putIfAbsent(classLoader,classPool);
+  if (exist != null) {
+    return exist;
+  }
+  fireOnCreateClassPool(classLoader,classPool);
+  return classPool;
+}

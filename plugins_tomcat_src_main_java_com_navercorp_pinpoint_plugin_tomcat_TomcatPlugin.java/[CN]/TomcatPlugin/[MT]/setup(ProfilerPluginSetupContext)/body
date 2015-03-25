@@ -1,0 +1,13 @@
+{
+  context.addApplicationTypeDetector(new TomcatDetector());
+  TomcatConfiguration config=new TomcatConfiguration(context.getConfig());
+  if (config.isTomcatHidePinpointHeader()) {
+    addRequestFacadeEditor(context);
+  }
+  addRequestEditor(context);
+  addCoyoteAdapterEditor(context);
+  addStandardHostValveEditor(context,config);
+  addStandardServiceEditor(context);
+  addTomcatConnectorEditor(context);
+  addWebappLoaderEditor(context);
+}

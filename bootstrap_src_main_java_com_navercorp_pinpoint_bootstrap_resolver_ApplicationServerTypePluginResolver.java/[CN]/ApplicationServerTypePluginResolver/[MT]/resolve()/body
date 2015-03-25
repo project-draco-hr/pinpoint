@@ -1,0 +1,14 @@
+{
+  for (  ApplicationTypeDetector currentDetector : this.applicationTypeDetectors) {
+    logger.log(Level.INFO,"Attempting to resolve using " + currentDetector.getClass());
+    if (currentDetector.detect(this.conditionProvider)) {
+      logger.log(Level.INFO,"Match found using " + currentDetector.getClass().getSimpleName());
+      return currentDetector.getServerType();
+    }
+ else {
+      logger.log(Level.INFO,"No match found using " + currentDetector.getClass());
+    }
+  }
+  logger.log(Level.INFO,"Server type not resolved. Defaulting to " + DEFAULT_SERVER_TYPE.getName());
+  return DEFAULT_SERVER_TYPE;
+}

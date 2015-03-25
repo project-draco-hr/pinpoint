@@ -1,8 +1,14 @@
 {
   StringBuilder classPath=new StringBuilder();
+  boolean first=true;
   for (  String lib : testCase.getClassPath()) {
+    if (first) {
+      first=false;
+    }
+ else {
+      classPath.append(File.pathSeparatorChar);
+    }
     classPath.append(lib);
-    classPath.append(File.pathSeparatorChar);
   }
   return classPath.toString();
 }
