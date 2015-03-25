@@ -5,7 +5,9 @@
   this.childClassPool=new IsolateMultipleClassPool(eventListener,new IsolateMultipleClassPool.ClassPoolHandler(){
     @Override public void handleClassPool(    NamedClassPool systemClassPool){
       try {
-        systemClassPool.appendClassPath(bootStrapJar);
+        if (bootStrapJar != null) {
+          systemClassPool.appendClassPath(bootStrapJar);
+        }
       }
  catch (      NotFoundException ex) {
         throw new PinpointException("bootStrapJar not found. Caused by:" + ex.getMessage(),ex);

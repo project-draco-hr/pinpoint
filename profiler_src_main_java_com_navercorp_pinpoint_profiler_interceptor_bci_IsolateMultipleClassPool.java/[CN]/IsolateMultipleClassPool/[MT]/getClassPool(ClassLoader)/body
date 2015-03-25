@@ -3,9 +3,9 @@
     return standardClassPool;
   }
   if (AGENT_CLASS_LOADER == classLoader) {
-    throw new IllegalArgumentException("unexpectected classLoader access. classLoader:" + classLoader);
+    throw new IllegalArgumentException("unexpected classLoader access. classLoader:" + classLoader);
   }
-  final NamedClassPool hit=this.classMap.get(classLoader);
+  final NamedClassPool hit=this.classPoolMap.get(classLoader);
   if (hit != null) {
     return hit;
   }
