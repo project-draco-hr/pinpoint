@@ -69,10 +69,9 @@
         recordList.add(record);
       }
  else {
-        AnnotationBo annotation=AnnotationUtils.findAnnotationBo(spanBo.getAnnotationBoList(),AnnotationKey.API_TAG);
-        if (annotation != null) {
-          ApiMetaDataBo apiMetaData=(ApiMetaDataBo)annotation.getValue();
-          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaData.getApiInfo(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        String apiTag=AnnotationUtils.findApiTagAnnotation(spanBo.getAnnotationBoList());
+        if (apiTag != null) {
+          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiTag,argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
           record.setSimpleClassName("");
           record.setFullApiDescription("");
           recordList.add(record);

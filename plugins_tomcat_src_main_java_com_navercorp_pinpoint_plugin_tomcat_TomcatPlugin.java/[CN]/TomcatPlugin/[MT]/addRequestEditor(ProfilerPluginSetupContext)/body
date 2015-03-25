@@ -5,6 +5,7 @@
   MethodEditorBuilder recycleMethodEditorBuilder=builder.editMethod("recycle");
   recycleMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");
   MethodEditorBuilder startAsyncMethodEditor=builder.editMethod("startAsync","javax.servlet.ServletRequest","javax.servlet.ServletResponse");
+  startAsyncMethodEditor.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
   startAsyncMethodEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestStartAsyncInterceptor");
   context.addClassEditor(builder.build());
 }
