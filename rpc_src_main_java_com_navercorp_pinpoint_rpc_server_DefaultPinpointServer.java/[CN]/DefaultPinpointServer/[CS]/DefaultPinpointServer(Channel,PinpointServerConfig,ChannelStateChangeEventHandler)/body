@@ -17,4 +17,5 @@
   this.serverCloseWriteListener=new WriteFailFutureListener(logger,objectUniqName + " sendClosePacket() write fail.","serverClosePacket write success");
   this.responseWriteFailListener=new WriteFailFutureListener(logger,objectUniqName + " response() write fail.");
   this.state=new DefaultPinpointServerState(this,this.stateChangeEventListeners);
+  this.stateChecker=new CyclicStateChecker(5);
 }
