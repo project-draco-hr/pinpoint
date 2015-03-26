@@ -2,9 +2,11 @@
   final Request request=(Request)args[0];
   if (isAsynchronousProcess(request)) {
     final Trace trace=getTraceMetadata(request);
-    trace.recordApi(TomcatConstants.servletAsynchronousMethodDescriptor);
-    getTraceContext().attachTraceObject(trace);
-    return trace;
+    if (trace != null) {
+      trace.recordApi(TomcatConstants.SERVLET_ASYNCHRONOUS_API_TAG);
+      getTraceContext().attachTraceObject(trace);
+      return trace;
+    }
   }
   final String requestURI=request.getRequestURI();
   if (excludeUrlFilter.filter(requestURI)) {

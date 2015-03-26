@@ -1,6 +1,7 @@
 {
+  logger.afterInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
   try {
-    if (throwable == null) {
+    if (throwable == null && asyncAccessor.isApplicable(target)) {
       asyncAccessor.set(target,Boolean.TRUE);
     }
   }

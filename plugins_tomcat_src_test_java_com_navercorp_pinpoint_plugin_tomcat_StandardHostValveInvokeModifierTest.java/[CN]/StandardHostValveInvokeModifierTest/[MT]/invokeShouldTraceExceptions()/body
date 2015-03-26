@@ -10,6 +10,8 @@
     final SpanBo rootSpan=rootSpans.get(0);
     assertEquals(rootSpan.getParentSpanId(),-1);
     assertEquals(rootSpan.getServiceType(),SERVICE_TYPE.getCode());
-    assertTrue(rootSpan.hasException());
+    final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
+    final SpanEventBo spanEvent=spanEvents.get(0);
+    assertTrue(spanEvent.hasException());
   }
 }

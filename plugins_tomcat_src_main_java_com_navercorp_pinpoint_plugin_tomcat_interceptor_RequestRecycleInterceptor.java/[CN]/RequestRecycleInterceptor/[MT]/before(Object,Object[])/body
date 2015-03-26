@@ -5,7 +5,7 @@
       asyncAccessor.set(target,Boolean.FALSE);
     }
     if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
-      Trace trace=traceAccessor.get(target);
+      final Trace trace=traceAccessor.get(target);
       if (trace != null && trace.canSampled()) {
         trace.markAfterTime();
         trace.traceRootBlockEnd();
