@@ -1,0 +1,11 @@
+{
+  CyclicStateChecker stateChecker=new CyclicStateChecker(3);
+  stateChecker.markAndCheckCondition();
+  Assert.assertFalse(stateChecker.checkCondition());
+  stateChecker.markAndCheckCondition();
+  Assert.assertFalse(stateChecker.checkCondition());
+  stateChecker.markAndCheckCondition();
+  Assert.assertTrue(stateChecker.checkCondition());
+  stateChecker.markAndCheckCondition();
+  Assert.assertTrue(stateChecker.checkCondition());
+}

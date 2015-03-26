@@ -1,3 +1,13 @@
 {
-  return ChannelBuffers.wrappedBuffer(PING_BYTE);
+  if (socketId == -1) {
+    return ChannelBuffers.wrappedBuffer(PING_BYTE);
+  }
+ else {
+    ChannelBuffer buffer=ChannelBuffers.buffer(8);
+    buffer.writeShort(PacketType.CONTROL_PING);
+    buffer.writeInt(socketId);
+    buffer.writeByte(stateVersion);
+    buffer.writeByte(stateCode);
+    return buffer;
+  }
 }

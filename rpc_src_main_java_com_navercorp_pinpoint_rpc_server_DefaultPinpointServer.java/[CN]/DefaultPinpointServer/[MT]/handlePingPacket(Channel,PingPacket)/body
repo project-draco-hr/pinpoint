@@ -1,0 +1,17 @@
+{
+  logger.debug("{} handlePingPacket() started. packet:{}",objectUniqName,packet);
+  SocketStateCode statusCode=state.getCurrentStateCode();
+  if (statusCode.getId() == packet.getStateCode()) {
+    stateChecker.unmark();
+    PongPacket pongPacket=PongPacket.PONG_PACKET;
+    ChannelFuture write=channel.write(pongPacket);
+    write.addListener(pongWriteFutureListener);
+  }
+ else {
+    logger.warn("Session state sync failed. channel:{}, packet:{}, server-state:{}",channel,packet,statusCode);
+    if (stateChecker.markAndCheckCondition()) {
+      state.toErrorSyncStateSession();
+      stop();
+    }
+  }
+}
