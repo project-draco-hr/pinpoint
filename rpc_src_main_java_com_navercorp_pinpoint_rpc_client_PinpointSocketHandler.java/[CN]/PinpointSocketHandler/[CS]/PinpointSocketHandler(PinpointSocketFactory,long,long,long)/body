@@ -13,5 +13,6 @@
   this.serverStreamChannelMessageListener=pinpointSocketFactory.getServerStreamChannelMessageListener(DisabledServerStreamChannelMessageListener.INSTANCE);
   this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
   this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
+  this.socketId=pinpointSocketFactory.issueNewSocketId();
   this.state=new PinpointSocketHandlerState(this.objectUniqName);
 }
