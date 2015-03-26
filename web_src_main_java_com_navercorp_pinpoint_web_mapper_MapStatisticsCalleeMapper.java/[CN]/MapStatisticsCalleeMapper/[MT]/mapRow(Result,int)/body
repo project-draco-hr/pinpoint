@@ -9,7 +9,7 @@
   final LinkDataMap linkDataMap=new LinkDataMap();
   for (  KeyValue kv : result.raw()) {
     final byte[] qualifier=kv.getQualifier();
-    final Application callerApplication=readCallerApplication(qualifier);
+    final Application callerApplication=readCallerApplication(qualifier,calleeApplication.getServiceType());
     if (filter.filter(callerApplication)) {
       continue;
     }
