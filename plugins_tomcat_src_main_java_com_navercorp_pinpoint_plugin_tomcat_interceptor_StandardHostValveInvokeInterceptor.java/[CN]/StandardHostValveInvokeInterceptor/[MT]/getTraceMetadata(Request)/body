@@ -1,0 +1,13 @@
+{
+  if (!traceAccessor.isApplicable(request) || traceAccessor.get(request) == null) {
+    return null;
+  }
+  try {
+    final Trace trace=traceAccessor.get(request);
+    return trace;
+  }
+ catch (  ClassCastException e) {
+    logger.warn("Invalid trace metadata({}).",METADATA_TRACE,e);
+    return null;
+  }
+}

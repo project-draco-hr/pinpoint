@@ -9,7 +9,7 @@
   Enumeration<?> enumeration=mock(Enumeration.class);
   when(request.getParameterNames()).thenReturn(enumeration);
   TraceContext traceContext=new MockTraceContext();
-  StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor(traceContext,descriptor,new SkipFilter<String>());
+  StandardHostValveInvokeInterceptor interceptor=new StandardHostValveInvokeInterceptor(traceContext,descriptor,new SkipFilter<String>(),MetadataAccessor.get(0),MetadataAccessor.get(1));
   interceptor.before("target",new Object[]{request,response});
   interceptor.after("target",new Object[]{request,response},new Object(),null);
   interceptor.before("target",new Object[]{request,response});

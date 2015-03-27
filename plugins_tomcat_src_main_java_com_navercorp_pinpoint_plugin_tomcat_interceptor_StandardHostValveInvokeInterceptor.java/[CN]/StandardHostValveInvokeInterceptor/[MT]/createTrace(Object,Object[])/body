@@ -1,5 +1,13 @@
 {
-  final HttpServletRequest request=(HttpServletRequest)args[0];
+  final Request request=(Request)args[0];
+  if (isAsynchronousProcess(request)) {
+    final Trace trace=getTraceMetadata(request);
+    if (trace != null) {
+      trace.recordApi(TomcatConstants.SERVLET_ASYNCHRONOUS_API_TAG);
+      getTraceContext().attachTraceObject(trace);
+      return trace;
+    }
+  }
   final String requestURI=request.getRequestURI();
   if (excludeUrlFilter.filter(requestURI)) {
     if (isTrace) {
@@ -21,6 +29,8 @@
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.continueTraceObject(traceId);
     if (trace.canSampled()) {
+      recordRootSpan(trace,request);
+      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.getRequestURI(),request.getRemoteAddr()});
       }
@@ -36,6 +46,8 @@
     final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.newTraceObject();
     if (trace.canSampled()) {
+      recordRootSpan(trace,request);
+      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
       }

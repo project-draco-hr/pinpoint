@@ -58,6 +58,7 @@
  else {
         parentSequence=parent.getId();
       }
+      logger.debug("apiId={}",spanBo.getApiId());
       logger.debug("spanBoSequence:{}, parentSequence:{}",spanBoSequence,parentSequence);
       String method=AnnotationUtils.findApiAnnotation(spanBo.getAnnotationBoList());
       if (method != null) {
@@ -68,11 +69,20 @@
         recordList.add(record);
       }
  else {
-        AnnotationKey apiMetaDataError=getApiMetaDataError(spanBo.getAnnotationBoList());
-        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
-        record.setSimpleClassName("");
-        record.setFullApiDescription("");
-        recordList.add(record);
+        String apiTag=AnnotationUtils.findApiTagAnnotation(spanBo.getAnnotationBoList());
+        if (apiTag != null) {
+          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiTag,argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          record.setSimpleClassName("");
+          record.setFullApiDescription("");
+          recordList.add(record);
+        }
+ else {
+          AnnotationKey apiMetaDataError=getApiMetaDataError(spanBo.getAnnotationBoList());
+          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,getGap(stack),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          record.setSimpleClassName("");
+          record.setFullApiDescription("");
+          recordList.add(record);
+        }
       }
       final Record exceptionRecord=getExceptionRecord(spanAlign,spanBoSequence);
       if (exceptionRecord != null) {
