@@ -1,0 +1,12 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder("org/apache/http/concurrent/BasicFuture");
+  MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethod("get");
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
+  MethodEditorBuilder getMethodEditorBuilder=classEditorBuilder.editMethod("get","long","java.util.concurrent.TimeUnit");
+  getMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureGetInterceptor");
+  MethodEditorBuilder completedMethodEditorBuilder=classEditorBuilder.editMethod("completed","java.lang.Object");
+  getMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureCompletedInterceptor");
+  MethodEditorBuilder failMethodEditorBuilder=classEditorBuilder.editMethod("failed","java.lang.Exception");
+  getMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.profiler.modifier.connector.httpclient4.interceptor.BasicFutureFailedInterceptor");
+  context.addClassEditor(classEditorBuilder.build());
+}
