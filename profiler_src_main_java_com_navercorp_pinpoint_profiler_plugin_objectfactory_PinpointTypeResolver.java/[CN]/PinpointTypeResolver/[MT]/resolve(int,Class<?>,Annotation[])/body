@@ -26,7 +26,7 @@
  else   if (type == MetadataAccessor.class) {
     Annotation annotation=TypeUtils.findAnnotation(annotations,Name.class);
     if (annotation == null) {
-      return null;
+      throw new PinpointException("MetadataAccessor parameter must be annotated with @Name");
     }
     MetadataAccessor accessor=pluginContext.getMetadataAccessor(((Name)annotation).value());
     return Option.<Object>withValue(accessor);
@@ -34,10 +34,10 @@
  else   if (type == FieldAccessor.class) {
     Annotation annotation=TypeUtils.findAnnotation(annotations,Name.class);
     if (annotation == null) {
-      return null;
+      throw new PinpointException("FieldAccessor parameter must be annotated with @Name");
     }
-    FieldAccessor snooper=pluginContext.getFieldSnooper(((Name)annotation).value());
-    return Option.<Object>withValue(snooper);
+    FieldAccessor accessor=pluginContext.getFieldAccessor(((Name)annotation).value());
+    return Option.<Object>withValue(accessor);
   }
   return Option.<Object>empty();
 }
