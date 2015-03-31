@@ -1,0 +1,7 @@
+{
+  String random=RandomStringUtils.randomAlphabetic(UdpDataSender.UDP_MAX_PACKET_LENGTH + 100);
+  TAgentInfo agentInfo=new TAgentInfo();
+  agentInfo.setAgentId(random);
+  boolean limit=sendMessage_getLimit(agentInfo,1000);
+  Assert.assertFalse(limit);
+}

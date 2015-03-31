@@ -1,0 +1,13 @@
+{
+  if (autoExpand) {
+    super.write(b);
+  }
+ else {
+    boolean isOverflow=isOverflow(count + 1);
+    if (isOverflow) {
+      throw new BufferOverflowException("Buffer size cannot exceed " + buf.length + ". (now:"+ count+ ", input-size:1");
+    }
+    buf[count]=(byte)b;
+    count+=1;
+  }
+}
