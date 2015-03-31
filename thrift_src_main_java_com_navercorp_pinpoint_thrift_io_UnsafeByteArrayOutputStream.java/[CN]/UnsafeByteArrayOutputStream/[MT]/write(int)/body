@@ -1,7 +1,12 @@
 {
   int newcount=count + 1;
-  if (newcount > buf.length) {
-    buf=Arrays.copyOf(buf,Math.max(buf.length << 1,newcount));
+  if (isOverflow(newcount)) {
+    if (autoExpand) {
+      buf=Arrays.copyOf(buf,Math.max(buf.length << 1,newcount));
+    }
+ else {
+      throw new BufferOverflowException("Buffer size cannot exceed " + buf.length + ". (now:"+ count+ ", input-size:1");
+    }
   }
   buf[count]=(byte)b;
   count=newcount;

@@ -1,0 +1,10 @@
+{
+  UnsafeByteArrayOutputStream ubaos=new UnsafeByteArrayOutputStream(32);
+  ubaos.write(TEST_STRING1.getBytes());
+  Assert.assertEquals(TEST_STRING1,ubaos.toString());
+  ubaos.reset();
+  ubaos.write(TEST_STRING2.getBytes());
+  Assert.assertEquals(TEST_STRING2,ubaos.toString());
+  byte[] data=ubaos.toByteArray();
+  Assert.assertEquals(TEST_STRING2 + "int",new String(data).trim());
+}
