@@ -1,13 +1,16 @@
 {
-  Object old=load.putIfAbsent(cl,className);
+  if (classLoader == null) {
+    throw new NullPointerException("classLoader must not be null");
+  }
+  Object old=load.putIfAbsent(classLoader,className);
   if (old == null) {
     if (isDebug) {
-      logger.debug("{} not exist from ",cl);
+      logger.debug("{} not exist from ",classLoader);
     }
     return false;
   }
   if (isDebug) {
-    logger.debug("{} already exist from ",cl);
+    logger.debug("{} already exist from ",classLoader);
   }
   return true;
 }

@@ -2,5 +2,7 @@
   NamedClassPool cp=new NamedClassPool("test");
   HierarchyMultipleClassPool multipleClassPool=new HierarchyMultipleClassPool(cp);
   ClassLoader systemClassLoader=ClassLoader.getSystemClassLoader();
-  ClassPool classPool=multipleClassPool.getClassPool(systemClassLoader);
+  NamedClassPool classPool=multipleClassPool.getClassPool(systemClassLoader);
+  CtClass string=classPool.get("java.lang.String");
+  logger.debug("{}",string);
 }
