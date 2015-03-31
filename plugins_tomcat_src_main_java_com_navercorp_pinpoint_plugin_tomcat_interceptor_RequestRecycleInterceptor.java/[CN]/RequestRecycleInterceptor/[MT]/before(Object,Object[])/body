@@ -1,0 +1,19 @@
+{
+  logger.beforeInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
+  try {
+    if (asyncAccessor.isApplicable(target)) {
+      asyncAccessor.set(target,Boolean.FALSE);
+    }
+    if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
+      final Trace trace=traceAccessor.get(target);
+      if (trace != null && trace.canSampled()) {
+        trace.markAfterTime();
+        trace.traceRootBlockEnd();
+      }
+      traceAccessor.set(target,null);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

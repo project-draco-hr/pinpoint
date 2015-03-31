@@ -1,0 +1,13 @@
+{
+  if (!asyncAccessor.isApplicable(request) || asyncAccessor.get(request) == null) {
+    return false;
+  }
+  try {
+    final Boolean async=asyncAccessor.get(request);
+    return async.booleanValue();
+  }
+ catch (  ClassCastException e) {
+    logger.warn("Invalid async metatdata({})",METADATA_ASYNC,e);
+    return false;
+  }
+}

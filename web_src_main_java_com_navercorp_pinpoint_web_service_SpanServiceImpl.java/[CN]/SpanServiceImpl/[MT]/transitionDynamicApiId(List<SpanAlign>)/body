@@ -17,11 +17,19 @@
         apiMetaData.setKey(AnnotationKey.API_METADATA.getCode());
         apiMetaData.setValue(apiMetaDataBo);
         annotationBoList.add(apiMetaData);
-        AnnotationBo apiAnnotation=new AnnotationBo();
-        apiAnnotation.setKey(AnnotationKey.API.getCode());
-        String apiInfo=getApiInfo(apiMetaDataBo);
-        apiAnnotation.setValue(apiInfo);
-        annotationBoList.add(apiAnnotation);
+        if (apiMetaDataBo.getType() == 0) {
+          AnnotationBo apiAnnotation=new AnnotationBo();
+          apiAnnotation.setKey(AnnotationKey.API.getCode());
+          String apiInfo=getApiInfo(apiMetaDataBo);
+          apiAnnotation.setValue(apiInfo);
+          annotationBoList.add(apiAnnotation);
+        }
+ else {
+          AnnotationBo apiAnnotation=new AnnotationBo();
+          apiAnnotation.setKey(AnnotationKey.API_TAG.getCode());
+          apiAnnotation.setValue(getApiTagInfo(apiMetaDataBo));
+          annotationBoList.add(apiAnnotation);
+        }
       }
  else {
         AnnotationBo apiAnnotation=new AnnotationBo();

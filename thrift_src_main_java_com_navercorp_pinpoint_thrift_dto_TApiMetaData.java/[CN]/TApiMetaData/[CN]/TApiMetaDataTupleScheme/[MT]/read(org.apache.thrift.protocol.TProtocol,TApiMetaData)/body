@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(5);
+  BitSet incoming=iprot.readBitSet(6);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -20,5 +20,9 @@
   if (incoming.get(4)) {
     struct.line=iprot.readI32();
     struct.setLineIsSet(true);
+  }
+  if (incoming.get(5)) {
+    struct.type=iprot.readI32();
+    struct.setTypeIsSet(true);
   }
 }

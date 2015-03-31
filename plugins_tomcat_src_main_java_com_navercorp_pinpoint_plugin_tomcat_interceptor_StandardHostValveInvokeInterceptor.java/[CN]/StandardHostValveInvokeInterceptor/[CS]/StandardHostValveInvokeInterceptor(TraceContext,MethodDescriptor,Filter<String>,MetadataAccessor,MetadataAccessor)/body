@@ -1,0 +1,10 @@
+{
+  super(StandardHostValveInvokeInterceptor.class);
+  setTraceContext(traceContext);
+  setMethodDescriptor(descriptor);
+  this.excludeUrlFilter=excludeFilter;
+  this.traceAccessor=traceAccessor;
+  this.asyncAccessor=asyncAccessor;
+  traceContext.cacheApi(SERVLET_ASYNCHRONOUS_API_TAG);
+  traceContext.cacheApi(SERVLET_SYNCHRONOUS_API_TAG);
+}

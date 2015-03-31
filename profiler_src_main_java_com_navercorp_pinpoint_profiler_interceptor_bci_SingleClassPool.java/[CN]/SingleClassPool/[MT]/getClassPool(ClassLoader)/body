@@ -1,14 +1,11 @@
 {
-  final Object hit=this.checker.get(classLoader);
-  if (hit != null) {
-    return classPool;
-  }
-  final ClassPath classPath=new LoaderClassPath(classLoader);
 synchronized (classPool) {
-    Object exist=checker.putIfAbsent(classLoader,EXIST);
-    if (exist != null) {
+    final Object hit=this.checker.get(classLoader);
+    if (hit != null) {
       return classPool;
     }
+    this.checker.put(classLoader,EXIST);
+    final ClassPath classPath=new LoaderClassPath(classLoader);
     this.classPool.appendClassPath(classPath);
     return classPool;
   }

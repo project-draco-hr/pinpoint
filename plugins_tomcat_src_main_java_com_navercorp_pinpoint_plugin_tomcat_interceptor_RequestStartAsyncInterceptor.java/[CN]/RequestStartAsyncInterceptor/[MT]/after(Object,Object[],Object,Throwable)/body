@@ -1,0 +1,11 @@
+{
+  logger.afterInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
+  try {
+    if (throwable == null && asyncAccessor.isApplicable(target)) {
+      asyncAccessor.set(target,Boolean.TRUE);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to after process. {}",t.getMessage(),t);
+  }
+}
