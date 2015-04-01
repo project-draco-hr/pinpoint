@@ -2,11 +2,30 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  Trace trace=traceContext.currentTraceObject();
-  if (trace == null) {
+  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+    logger.debug("Not found asynchronous invocation metadata");
     return;
   }
+  final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
+  boolean async=false;
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getStartTime());
+    if (trace == null) {
+      logger.warn("Failed to continue async trace. 'result is null'");
+      return;
+    }
+    async=true;
+    if (isDebug) {
+      logger.debug("Continue async trace {} [{}]",asyncTraceId,Thread.currentThread().getName());
+    }
+    return;
+  }
+  logger.debug("TraceBlockBegin [{}]",Thread.currentThread().getName());
   trace.traceBlockBegin();
   trace.markBeforeTime();
   trace.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
+  if (async) {
+    trace.recordAttribute(AnnotationKey.ASYNC,"");
+  }
 }

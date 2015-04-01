@@ -40,7 +40,13 @@
   if (struct.isSetExceptionInfo()) {
     optionals.set(12);
   }
-  oprot.writeBitSet(optionals,13);
+  if (struct.isSetAsyncId()) {
+    optionals.set(13);
+  }
+  if (struct.isSetNextAsyncId()) {
+    optionals.set(14);
+  }
+  oprot.writeBitSet(optionals,15);
   if (struct.isSetSpanId()) {
     oprot.writeI64(struct.spanId);
   }
@@ -84,5 +90,11 @@
   }
   if (struct.isSetExceptionInfo()) {
     struct.exceptionInfo.write(oprot);
+  }
+  if (struct.isSetAsyncId()) {
+    oprot.writeI32(struct.asyncId);
+  }
+  if (struct.isSetNextAsyncId()) {
+    oprot.writeI32(struct.nextAsyncId);
   }
 }

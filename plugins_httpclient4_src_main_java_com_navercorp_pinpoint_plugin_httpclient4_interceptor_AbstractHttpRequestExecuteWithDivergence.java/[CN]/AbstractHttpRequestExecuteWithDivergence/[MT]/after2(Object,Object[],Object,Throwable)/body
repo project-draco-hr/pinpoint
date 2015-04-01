@@ -18,12 +18,6 @@
       }
       recordHttpRequest(trace,httpRequest,throwable);
     }
-    if (statusCode) {
-      final Integer statusCodeValue=getStatusCode(result);
-      if (statusCodeValue != null) {
-        trace.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,statusCodeValue);
-      }
-    }
     trace.recordApi(descriptor);
     trace.recordException(throwable);
     trace.markAfterTime();
