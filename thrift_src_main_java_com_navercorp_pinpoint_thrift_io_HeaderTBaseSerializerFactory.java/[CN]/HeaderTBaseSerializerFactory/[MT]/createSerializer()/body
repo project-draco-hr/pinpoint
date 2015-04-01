@@ -1,10 +1,10 @@
 {
   ByteArrayOutputStream baos=null;
   if (safetyGuranteed) {
-    baos=new ByteArrayOutputStream(outputStreamSize);
+    baos=new PinpointByteArrayOutputStream(outputStreamSize,autoExpand);
   }
  else {
-    baos=new UnsafeByteArrayOutputStream(outputStreamSize);
+    baos=new UnsafeByteArrayOutputStream(outputStreamSize,autoExpand);
   }
   return new HeaderTBaseSerializer(baos,protocolFactory,locator);
 }
