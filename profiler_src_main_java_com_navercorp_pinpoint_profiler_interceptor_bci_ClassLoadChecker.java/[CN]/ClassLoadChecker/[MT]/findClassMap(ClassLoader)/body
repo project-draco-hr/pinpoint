@@ -1,0 +1,12 @@
+{
+  ConcurrentMap<String,Object> hit=this.classLoaderMap.get(classLoader);
+  if (hit != null) {
+    return hit;
+  }
+  ConcurrentMap<String,Object> newClassMap=new ConcurrentHashMap<String,Object>();
+  ConcurrentMap<String,Object> exist=this.classLoaderMap.putIfAbsent(classLoader,newClassMap);
+  if (exist != null) {
+    return exist;
+  }
+  return newClassMap;
+}
