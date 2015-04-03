@@ -1,13 +1,8 @@
 {
-  try {
-    if (isPossibleAfterProcess()) {
-      after2(target,args,result,throwable);
-    }
- else {
-      addStatusCode(result);
-    }
+  if (scope.tryAfter(ExecutionPoint.BOUNDARY)) {
+    after2(target,args,result,throwable);
   }
-  finally {
-    scope.pop();
+ else {
+    addStatusCode(result);
   }
 }

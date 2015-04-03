@@ -1,0 +1,11 @@
+{
+  if (scopeDefinition == null) {
+    throw new NullPointerException("scopeDefinition must not be null");
+  }
+  this.scope=new NamedThreadLocal<Scope>(scopeDefinition.getName()){
+    @Override protected Scope initialValue(){
+      return new DefaultScope(scopeDefinition.getName());
+    }
+  }
+;
+}
