@@ -1,0 +1,25 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    logger.debug("Not found trace");
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+    if (trace.isAsync() && trace.isRootStack()) {
+      trace.traceRootBlockEnd();
+      traceContext.detachTraceObject();
+      if (isDebug) {
+        logger.debug("End async trace {} [{}]",trace.getTraceId(),Thread.currentThread().getName());
+      }
+    }
+  }
+}
