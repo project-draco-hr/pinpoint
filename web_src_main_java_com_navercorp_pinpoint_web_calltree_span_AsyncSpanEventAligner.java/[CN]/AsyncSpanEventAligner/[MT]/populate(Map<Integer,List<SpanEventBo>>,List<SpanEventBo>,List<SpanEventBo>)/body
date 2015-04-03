@@ -1,0 +1,12 @@
+{
+  for (  SpanEventBo spanEvent : currentEventList) {
+    alignedEventList.add(spanEvent);
+    final int id=spanEvent.getNextAsyncId();
+    if (id != -1) {
+      final List<SpanEventBo> subList=allEventMap.remove(id);
+      if (subList != null) {
+        populate(allEventMap,subList,alignedEventList);
+      }
+    }
+  }
+}

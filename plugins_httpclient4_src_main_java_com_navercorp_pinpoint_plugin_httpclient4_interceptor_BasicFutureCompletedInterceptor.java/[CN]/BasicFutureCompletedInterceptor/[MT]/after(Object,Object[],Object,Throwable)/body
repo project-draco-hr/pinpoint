@@ -4,6 +4,7 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
+    logger.debug("Not found trace");
     return;
   }
   try {
@@ -13,7 +14,7 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (trace.isAsync() && trace.isRoot()) {
+    if (trace.isAsync() && trace.isRootStack()) {
       trace.traceRootBlockEnd();
       traceContext.detachTraceObject();
       if (isDebug) {

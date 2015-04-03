@@ -1,0 +1,18 @@
+{
+  if (spanEventBo.getAsyncId() != -1) {
+    if (spanEventBo.getSequence() == 0) {
+      asyncParent=parent + current;
+    }
+    if (spanEventBo.getDepth() != PARENT_DEPTH) {
+      async=asyncParent + spanEventBo.getDepth();
+    }
+    current=async;
+  }
+ else {
+    if (spanEventBo.getDepth() != PARENT_DEPTH) {
+      sync=parent + spanEventBo.getDepth();
+    }
+    current=sync;
+  }
+  return current;
+}

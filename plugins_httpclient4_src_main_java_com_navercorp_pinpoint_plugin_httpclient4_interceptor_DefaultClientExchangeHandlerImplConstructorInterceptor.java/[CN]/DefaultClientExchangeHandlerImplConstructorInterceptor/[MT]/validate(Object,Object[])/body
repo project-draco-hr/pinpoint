@@ -1,0 +1,15 @@
+{
+  if (args == null || args.length < 6 || args[4] == null) {
+    logger.debug("Invalid arguments. Null or not found args({}).",args);
+    return false;
+  }
+  if (!(args[4] instanceof BasicFuture)) {
+    logger.debug("Invalid arguments. Expect BasicFuture but args[0]({}).",args[4]);
+    return false;
+  }
+  if (!asyncTraceIdAccessor.isApplicable(args[4])) {
+    logger.debug("Invalid target object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+    return false;
+  }
+  return true;
+}
