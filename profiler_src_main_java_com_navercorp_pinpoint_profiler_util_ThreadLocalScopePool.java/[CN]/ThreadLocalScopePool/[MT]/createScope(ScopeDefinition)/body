@@ -1,13 +1,3 @@
 {
-  if (scopeDefinition.getType() == ScopeDefinition.Type.ATTACHMENT) {
-    AttachmentSimpleScopeFactory<Object> factory=new AttachmentSimpleScopeFactory<Object>(scopeDefinition.getName());
-    return new AttachmentThreadLocalScope<Object>(factory);
-  }
- else   if (scopeDefinition.getType() == ScopeDefinition.Type.SIMPLE) {
-    SimpleScopeFactory simpleScopeFactory=new SimpleScopeFactory(scopeDefinition.getName());
-    return new ThreadLocalScope(simpleScopeFactory);
-  }
- else {
-    throw new UnsupportedOperationException(scopeDefinition.getType() + " type unsupported.");
-  }
+  return new ThreadLocalScope(scopeDefinition);
 }

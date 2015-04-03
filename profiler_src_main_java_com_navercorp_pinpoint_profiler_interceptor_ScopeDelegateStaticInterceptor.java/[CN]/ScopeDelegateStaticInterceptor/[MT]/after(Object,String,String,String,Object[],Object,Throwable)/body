@@ -1,7 +1,5 @@
 {
-  final int pop=scope.pop();
-  if (pop != Scope.ZERO) {
-    return;
+  if (scope.tryAfter(ExecutionPoint.BOUNDARY)) {
+    this.delegate.after(target,className,methodName,parameterDescription,args,result,throwable);
   }
-  this.delegate.after(target,className,methodName,parameterDescription,args,result,throwable);
 }

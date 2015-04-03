@@ -1,0 +1,13 @@
+{
+  String attachment="context";
+  Scope scope=new DefaultScope("test");
+  scope.tryBefore(ExecutionPoint.BOUNDARY);
+  assertNull(scope.getAttachment());
+  scope.setAttachment(attachment);
+  assertSame(scope.getAttachment(),attachment);
+  scope.tryBefore(ExecutionPoint.BOUNDARY);
+  assertSame(scope.getAttachment(),attachment);
+  scope.tryAfter(ExecutionPoint.BOUNDARY);
+  assertSame(scope.getAttachment(),attachment);
+  scope.tryAfter(ExecutionPoint.BOUNDARY);
+}

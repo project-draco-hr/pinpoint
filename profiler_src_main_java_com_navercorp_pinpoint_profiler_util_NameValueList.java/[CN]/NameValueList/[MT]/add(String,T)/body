@@ -1,0 +1,11 @@
+{
+  for (  NameValue<T> e : list) {
+    if (name.equals(e.name)) {
+      T old=e.value;
+      e.value=value;
+      return old;
+    }
+  }
+  list.add(new NameValue<T>(name,value));
+  return null;
+}

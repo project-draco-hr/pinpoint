@@ -1,0 +1,13 @@
+{
+switch (point) {
+case BOUNDARY:
+    decreaseDepth();
+  return depth == 0;
+case INTERIOR:
+return depth > 0;
+case ALWAYS:
+decreaseDepth();
+return true;
+}
+throw new IllegalArgumentException("Unexpected: " + point);
+}

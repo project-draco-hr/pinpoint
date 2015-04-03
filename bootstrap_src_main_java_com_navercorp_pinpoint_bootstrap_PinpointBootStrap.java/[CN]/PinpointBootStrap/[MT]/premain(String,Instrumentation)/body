@@ -38,7 +38,9 @@
     return;
   }
   URL[] pluginJars=classPathResolver.resolvePlugins();
-  ServiceTypeRegistryService serviceTypeRegistryService=loadServiceTypeProviders(pluginJars);
+  TypeLoaderService typeLoaderService=new DefaultTypeLoaderService(pluginJars);
+  ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService(typeLoaderService);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
   String configPath=getConfigPath(classPathResolver);
   if (configPath == null) {
     logPinpointAgentLoadFail();
@@ -53,7 +55,7 @@
     String bootClass=argMap.containsKey("bootClass") ? argMap.get("bootClass") : BOOT_CLASS;
     agentClassLoader.setBootClass(bootClass);
     logger.info("pinpoint agent [" + bootClass + "] starting...");
-    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,bootStrapCoreJar,serviceTypeRegistryService);
+    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,bootStrapCoreJar,serviceTypeRegistryService,annotationKeyRegistryService);
     Agent pinpointAgent=agentClassLoader.boot(option);
     pinpointAgent.start();
     registerShutdownHook(pinpointAgent);
