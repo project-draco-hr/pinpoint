@@ -1,0 +1,13 @@
+{
+  String oldAttachment="context";
+  String newAttachment="newnew";
+  Scope scope=new DefaultScope("test");
+  scope.tryBefore(ExecutionPoint.BOUNDARY);
+  scope.setAttachment(oldAttachment);
+  assertSame(oldAttachment,scope.getAttachment());
+  assertSame(oldAttachment,scope.setAttachment(newAttachment));
+  assertSame(newAttachment,scope.getAttachment());
+  assertSame(newAttachment,scope.removeAttachment());
+  assertNull(scope.getAttachment());
+  scope.tryAfter(ExecutionPoint.BOUNDARY);
+}

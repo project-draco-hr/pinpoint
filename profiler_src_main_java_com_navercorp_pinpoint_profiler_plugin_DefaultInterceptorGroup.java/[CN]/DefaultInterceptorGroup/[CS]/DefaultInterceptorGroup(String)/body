@@ -1,0 +1,9 @@
+{
+  this.name=name;
+  this.threadLocal=new ThreadLocal<Scope>(){
+    @Override protected Scope initialValue(){
+      return new DefaultScope(name);
+    }
+  }
+;
+}

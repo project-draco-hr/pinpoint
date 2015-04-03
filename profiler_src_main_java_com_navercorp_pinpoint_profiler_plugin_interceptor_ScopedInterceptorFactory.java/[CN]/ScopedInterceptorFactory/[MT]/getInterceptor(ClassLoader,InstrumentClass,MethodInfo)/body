@@ -1,11 +1,10 @@
 {
   Interceptor interceptor=next.getInterceptor(classLoader,target,targetMethod);
-  Scope scope=instrumentor.getScope(scopeName);
   if (interceptor instanceof SimpleAroundInterceptor) {
-    return new ScopedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,scope);
+    return new ScopedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,group,executionPoint);
   }
  else   if (interceptor instanceof StaticAroundInterceptor) {
-    return new ScopedStaticInterceptor((StaticAroundInterceptor)interceptor,scope);
+    return new ScopedStaticAroundInterceptor((StaticAroundInterceptor)interceptor,group,executionPoint);
   }
   throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
 }

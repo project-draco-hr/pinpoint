@@ -8,5 +8,5 @@
   Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
   Method connect=targetClass.getMethod("connect");
   verifier.verifySpanCount(1);
-  verifier.verifySpanEvent("JDK_HTTPURLCONNECTOR",connect,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
+  verifier.verifySpan(SpanType.SPAN_EVENT,"JDK_HTTPURLCONNECTOR",connect,null,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
 }

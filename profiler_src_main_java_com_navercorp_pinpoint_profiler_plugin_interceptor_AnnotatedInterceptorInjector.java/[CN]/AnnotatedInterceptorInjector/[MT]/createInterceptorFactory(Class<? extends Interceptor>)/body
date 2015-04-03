@@ -1,12 +1,17 @@
 {
-  InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,interceptorType,providedArguments);
-  Scope scope=interceptorType.getAnnotation(Scope.class);
-  if (scope != null) {
-    String scopeName=scope.value();
-    if (scopeName == null) {
-      throw new PinpointException("@Scope must provide scope name. Interceptor class: " + interceptorName);
+  String groupName=this.groupName;
+  ExecutionPoint executionPoint=this.executionPoint;
+  if (groupName == null) {
+    Scope scope=interceptorType.getAnnotation(Scope.class);
+    if (scope != null) {
+      groupName=scope.value();
+      executionPoint=scope.executionPoint();
     }
-    factory=new ScopedInterceptorFactory(factory,pluginContext.getByteCodeInstrumentor(),scopeName);
+  }
+  InterceptorGroup group=groupName == null ? null : pluginContext.createInterceptorGroup(groupName);
+  InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,group,interceptorType,providedArguments);
+  if (group != null) {
+    factory=new ScopedInterceptorFactory(factory,group,executionPoint);
   }
   return factory;
 }

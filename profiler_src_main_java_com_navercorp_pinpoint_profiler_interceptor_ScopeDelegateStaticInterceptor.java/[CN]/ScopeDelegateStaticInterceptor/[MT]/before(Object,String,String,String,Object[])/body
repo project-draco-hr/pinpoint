@@ -1,7 +1,5 @@
 {
-  final int push=scope.push();
-  if (push != Scope.ZERO) {
-    return;
+  if (scope.tryBefore(ExecutionPoint.BOUNDARY)) {
+    this.delegate.before(target,className,methodName,parameterDescription,args);
   }
-  this.delegate.before(target,className,methodName,parameterDescription,args);
 }

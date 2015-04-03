@@ -1,0 +1,12 @@
+{
+  Scope scope=new DefaultScope("test");
+  assertFalse(scope.isIn());
+  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
+  assertFalse(scope.isIn());
+}

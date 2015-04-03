@@ -14,12 +14,5 @@
   }
   MethodInfo methodInfo=ic.getDeclaredMethod(method.getName(),parameterTypeNames);
   String desc=methodInfo.getDescriptor().getFullName();
-  int apiId;
-  try {
-    apiId=((TestTcpDataSender)getTcpDataSender()).getApiId(desc);
-  }
- catch (  NoSuchElementException e) {
-    throw new AssertionError("Cannot find apiId of [" + desc + "]");
-  }
-  return apiId;
+  return findApiId(desc);
 }

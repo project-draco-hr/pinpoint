@@ -1,7 +1,11 @@
 {
-  final int pop=scope.pop();
-  if (pop != 0) {
-    return;
+  Scope scope=group.getCurrentTransaction();
+  if (scope.tryAfter(point)) {
+    delegate.after(target,args,result,throwable);
   }
-  this.delegate.after(target,args,result,throwable);
+ else {
+    if (debugEnabled) {
+      logger.debug("tryAfter() returns false: scope: {}, executionPonint: {}. Skip interceptor {}",new Object[]{scope,point,delegate.getClass()});
+    }
+  }
 }

@@ -1,7 +1,11 @@
 {
-  final int push=scope.push();
-  if (push != 0) {
-    return;
+  Scope scope=group.getCurrentTransaction();
+  if (scope.tryBefore(point)) {
+    delegate.before(target,args);
   }
-  this.delegate.before(target,args);
+ else {
+    if (debugEnabled) {
+      logger.debug("tryBefore() returns false: scope: {}, executionPonint: {}. Skip interceptor {}",new Object[]{scope,point,delegate.getClass()});
+    }
+  }
 }

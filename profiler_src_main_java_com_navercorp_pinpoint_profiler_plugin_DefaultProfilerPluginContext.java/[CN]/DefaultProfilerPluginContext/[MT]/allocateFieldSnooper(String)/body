@@ -1,5 +1,5 @@
 {
-  FieldAccessor snooper=fieldSnooperMap.get(name);
+  FieldAccessor snooper=fieldSnoopers.get(name);
   if (snooper != null) {
     return snooper;
   }
@@ -9,7 +9,7 @@
  catch (  ArrayIndexOutOfBoundsException e) {
     throw new IllegalStateException("Cannot allocate FieldAccessor. Exceeded max:" + fieldSnooperIndex);
   }
-  fieldSnooperMap.put(name,snooper);
+  fieldSnoopers.add(name,snooper);
   fieldSnooperIndex++;
   return snooper;
 }
