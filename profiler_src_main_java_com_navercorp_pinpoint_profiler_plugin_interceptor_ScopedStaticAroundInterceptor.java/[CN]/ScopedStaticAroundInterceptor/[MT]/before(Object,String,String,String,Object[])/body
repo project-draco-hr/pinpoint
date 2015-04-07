@@ -1,7 +1,8 @@
 {
   Scope scope=group.getCurrentTransaction();
-  if (scope.tryBefore(point)) {
+  if (scope.tryEnter(point)) {
     this.delegate.before(target,className,methodName,parameterDescription,args);
+    scope.entered(point);
   }
  else {
     if (debugEnabled) {

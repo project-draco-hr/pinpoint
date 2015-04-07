@@ -1,20 +1,27 @@
 {
   Scope scope=new DefaultScope("test");
   assertFalse(scope.isIn());
-  assertFalse(scope.tryBefore(ExecutionPoint.INTERIOR));
+  assertFalse(scope.tryEnter(ExecutionPoint.INTERNAL));
   assertFalse(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.BOUNDARY));
+  assertTrue(scope.tryEnter(ExecutionPoint.BOUNDARY));
   assertTrue(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.INTERIOR));
+  scope.entered(ExecutionPoint.BOUNDARY);
   assertTrue(scope.isIn());
-  assertFalse(scope.tryBefore(ExecutionPoint.BOUNDARY));
+  assertTrue(scope.tryEnter(ExecutionPoint.INTERNAL));
   assertTrue(scope.isIn());
-  assertFalse(scope.tryAfter(ExecutionPoint.BOUNDARY));
+  scope.entered(ExecutionPoint.INTERNAL);
   assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.INTERIOR));
+  assertFalse(scope.tryEnter(ExecutionPoint.BOUNDARY));
   assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.BOUNDARY));
+  assertFalse(scope.tryLeave(ExecutionPoint.BOUNDARY));
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryLeave(ExecutionPoint.INTERNAL));
+  scope.leaved(ExecutionPoint.INTERNAL);
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryLeave(ExecutionPoint.BOUNDARY));
+  assertTrue(scope.isIn());
+  scope.leaved(ExecutionPoint.BOUNDARY);
   assertFalse(scope.isIn());
-  assertFalse(scope.tryAfter(ExecutionPoint.INTERIOR));
+  assertFalse(scope.tryLeave(ExecutionPoint.INTERNAL));
   assertFalse(scope.isIn());
 }

@@ -1,12 +1,20 @@
 {
   Scope scope=new DefaultScope("test");
   assertFalse(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
+  assertTrue(scope.tryEnter(ExecutionPoint.ALWAYS));
   assertTrue(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
+  scope.entered(ExecutionPoint.ALWAYS);
   assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
+  assertTrue(scope.tryEnter(ExecutionPoint.ALWAYS));
   assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
+  scope.entered(ExecutionPoint.ALWAYS);
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryLeave(ExecutionPoint.ALWAYS));
+  assertTrue(scope.isIn());
+  scope.leaved(ExecutionPoint.ALWAYS);
+  assertTrue(scope.isIn());
+  assertTrue(scope.tryLeave(ExecutionPoint.ALWAYS));
+  assertTrue(scope.isIn());
+  scope.leaved(ExecutionPoint.ALWAYS);
   assertFalse(scope.isIn());
 }

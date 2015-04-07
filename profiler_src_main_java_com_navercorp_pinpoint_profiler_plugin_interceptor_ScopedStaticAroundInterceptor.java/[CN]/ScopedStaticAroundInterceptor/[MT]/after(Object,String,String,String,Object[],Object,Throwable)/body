@@ -1,7 +1,8 @@
 {
   Scope scope=group.getCurrentTransaction();
-  if (scope.tryAfter(point)) {
+  if (scope.tryLeave(point)) {
     this.delegate.after(target,className,methodName,parameterDescription,args,result,throwable);
+    scope.leaved(point);
   }
  else {
     if (debugEnabled) {

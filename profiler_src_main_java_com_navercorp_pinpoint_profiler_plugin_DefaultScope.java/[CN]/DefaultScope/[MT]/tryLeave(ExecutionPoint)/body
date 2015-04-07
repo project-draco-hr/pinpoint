@@ -1,0 +1,18 @@
+{
+switch (point) {
+case ALWAYS:
+    return true;
+case BOUNDARY:
+  if (skippedBoundary == 0 && depth == 1) {
+    return true;
+  }
+ else {
+    skippedBoundary--;
+    return false;
+  }
+case INTERNAL:
+return depth > 1;
+default :
+throw new IllegalArgumentException("Unexpected: " + point);
+}
+}

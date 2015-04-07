@@ -1,6 +1,7 @@
 {
-  if (!scope.tryBefore(ExecutionPoint.BOUNDARY)) {
+  if (!scope.tryEnter(ExecutionPoint.BOUNDARY)) {
     return;
   }
   before2(target,args);
+  scope.entered(ExecutionPoint.BOUNDARY);
 }

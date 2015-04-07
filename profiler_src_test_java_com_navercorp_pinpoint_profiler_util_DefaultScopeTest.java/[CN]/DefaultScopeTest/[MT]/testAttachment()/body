@@ -1,13 +1,17 @@
 {
   String attachment="context";
   Scope scope=new DefaultScope("test");
-  scope.tryBefore(ExecutionPoint.BOUNDARY);
+  scope.tryEnter(ExecutionPoint.ALWAYS);
+  scope.entered(ExecutionPoint.ALWAYS);
   assertNull(scope.getAttachment());
   scope.setAttachment(attachment);
   assertSame(scope.getAttachment(),attachment);
-  scope.tryBefore(ExecutionPoint.BOUNDARY);
+  scope.tryEnter(ExecutionPoint.ALWAYS);
+  scope.entered(ExecutionPoint.ALWAYS);
   assertSame(scope.getAttachment(),attachment);
-  scope.tryAfter(ExecutionPoint.BOUNDARY);
+  scope.tryLeave(ExecutionPoint.ALWAYS);
+  scope.leaved(ExecutionPoint.ALWAYS);
   assertSame(scope.getAttachment(),attachment);
-  scope.tryAfter(ExecutionPoint.BOUNDARY);
+  scope.tryLeave(ExecutionPoint.ALWAYS);
+  scope.leaved(ExecutionPoint.ALWAYS);
 }
