@@ -1,6 +1,6 @@
 {
-  final ClassEditorBuilder classEditorBuilder=addJedisExtendedClassEditor(context,config,BINARY_JEDIS);
+  final ClassFileTransformerBuilder classEditorBuilder=addJedisExtendedClassEditor(context,config,BINARY_JEDIS);
   classEditorBuilder.injectMetadata(METADATA_END_POINT);
-  context.addClassEditor(classEditorBuilder.build());
-  context.addClassEditor(addJedisExtendedClassEditor(context,config,JEDIS).build());
+  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer(addJedisExtendedClassEditor(context,config,JEDIS).build());
 }

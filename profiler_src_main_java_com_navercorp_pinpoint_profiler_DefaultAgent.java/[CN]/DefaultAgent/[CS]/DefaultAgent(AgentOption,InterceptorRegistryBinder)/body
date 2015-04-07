@@ -23,18 +23,16 @@
   dumpConfig(agentOption.getProfilerConfig());
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=agentOption.getProfilerConfig();
-  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder,agentOption.getBootStrapJarPath());
+  ClassFileRetransformer retransformer=new ClassFileRetransformer(agentOption.getInstrumentation());
+  final Instrumentation instrumentation=agentOption.getInstrumentation();
+  instrumentation.addTransformer(retransformer,true);
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder,agentOption.getBootStrapJarPath(),retransformer);
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
-  PluginClassLoaderFactory pluginClassLoaderFactory=new PluginClassLoaderFactory(agentOption.getPluginJars());
-  ClassEditorExecutor classEditorExecutor=new ClassEditorExecutor(byteCodeInstrumentor,pluginClassLoaderFactory);
-  ClassFileRetransformer retransformer=new ClassFileRetransformer(agentOption.getInstrumentation(),classEditorExecutor);
-  byteCodeInstrumentor.setRetransformer(retransformer);
-  List<DefaultProfilerPluginContext> pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
-  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts,classEditorExecutor);
-  final Instrumentation instrumentation=agentOption.getInstrumentation();
-  instrumentation.addTransformer(retransformer,true);
+  pluginClassLoaderFactory=new DefaultPluginClassLoaderFactory(agentOption.getPluginJars());
+  pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts);
   instrumentation.addTransformer(this.classFileTransformer);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
