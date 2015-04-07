@@ -4,9 +4,9 @@
   connection.connect();
   connection.getInputStream();
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printSpans(System.out);
+  verifier.printBlocks(System.out);
   Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
   Method connect=targetClass.getMethod("connect");
-  verifier.verifySpanCount(1);
-  verifier.verifySpan(SpanType.SPAN_EVENT,"JDK_HTTPURLCONNECTOR",connect,null,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
+  verifier.verifyTraceBlockCount(1);
+  verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",connect,null,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
 }
