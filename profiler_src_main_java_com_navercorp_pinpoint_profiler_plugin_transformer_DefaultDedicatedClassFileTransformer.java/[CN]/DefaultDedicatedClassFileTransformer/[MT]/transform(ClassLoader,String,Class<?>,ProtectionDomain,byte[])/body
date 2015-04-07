@@ -1,0 +1,20 @@
+{
+  ClassLoader forPlugin=classLoaderFactory.get(classLoader);
+  ClassLoader old=Thread.currentThread().getContextClassLoader();
+  Thread.currentThread().setContextClassLoader(forPlugin);
+  try {
+    InstrumentClass target=instrumentor.getClass(classLoader,className,classfileBuffer);
+    recipe.edit(forPlugin,target);
+    return target.toBytecode();
+  }
+ catch (  PinpointException e) {
+    throw e;
+  }
+catch (  Throwable e) {
+    String msg="Fail to invoke plugin class recipe: " + toString();
+    throw new PinpointException(msg,e);
+  }
+ finally {
+    Thread.currentThread().setContextClassLoader(old);
+  }
+}

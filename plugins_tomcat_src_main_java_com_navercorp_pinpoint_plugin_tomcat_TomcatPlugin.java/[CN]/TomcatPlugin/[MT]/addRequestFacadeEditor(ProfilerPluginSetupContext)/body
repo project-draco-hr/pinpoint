@@ -1,5 +1,5 @@
 {
-  ClassEditorBuilder builder=context.getClassEditorBuilder("org.apache.catalina.connector.RequestFacade");
+  ClassFileTransformerBuilder builder=context.getClassEditorBuilder("org.apache.catalina.connector.RequestFacade");
   builder.weave("com.navercorp.pinpoint.plugin.tomcat.aspect.RequestFacadeAspect");
-  context.addClassEditor(builder.build());
+  context.addClassFileTransformer(builder.build());
 }

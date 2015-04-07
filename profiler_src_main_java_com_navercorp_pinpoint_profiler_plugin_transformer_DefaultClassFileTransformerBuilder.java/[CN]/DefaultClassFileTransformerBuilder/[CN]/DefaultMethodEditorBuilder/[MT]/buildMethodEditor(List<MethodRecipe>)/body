@@ -1,0 +1,13 @@
+{
+  MethodTransformer transformer;
+  if (filter != null) {
+    transformer=new FilteringMethodTransformer(filter,recipes,exceptionHandler);
+  }
+ else   if (methodName != null) {
+    transformer=new DedicatedMethodTransformer(methodName,parameterTypeNames,recipes,exceptionHandler,properties.contains(MethodTransformerProperty.IGNORE_IF_NOT_EXIST));
+  }
+ else {
+    transformer=new ConstructorTransformer(parameterTypeNames,recipes,exceptionHandler,properties.contains(MethodTransformerProperty.IGNORE_IF_NOT_EXIST));
+  }
+  return transformer;
+}
