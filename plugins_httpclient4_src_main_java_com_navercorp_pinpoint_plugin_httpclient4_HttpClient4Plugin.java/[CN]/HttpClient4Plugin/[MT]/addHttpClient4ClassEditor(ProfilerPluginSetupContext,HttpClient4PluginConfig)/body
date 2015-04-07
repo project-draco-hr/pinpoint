@@ -1,5 +1,5 @@
 {
-  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.client.AbstractHttpClient");
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.client.AbstractHttpClient");
   injectHttpRequestExecuteMethodInterceptor(classEditorBuilder,"org.apache.http.HttpHost","org.apache.http.HttpRequest");
   injectHttpRequestExecuteMethodInterceptor(classEditorBuilder,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.protocol.HttpContext");
   injectHttpRequestExecuteMethodInterceptor(classEditorBuilder,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.client.ResponseHandler");
@@ -8,5 +8,5 @@
   injectHttpUriRequestExecuteInterceptor(classEditorBuilder,"org.apache.http.client.methods.HttpUriRequest","org.apache.http.protocol.HttpContext");
   injectHttpUriRequestExecuteInterceptor(classEditorBuilder,"org.apache.http.client.methods.HttpUriRequest","org.apache.http.client.ResponseHandler");
   injectHttpUriRequestExecuteInterceptor(classEditorBuilder,"org.apache.http.client.methods.HttpUriRequest","org.apache.http.client.ResponseHandler","org.apache.http.protocol.HttpContext");
-  context.addClassEditor(classEditorBuilder.build());
+  context.addClassFileTransformer(classEditorBuilder.build());
 }
