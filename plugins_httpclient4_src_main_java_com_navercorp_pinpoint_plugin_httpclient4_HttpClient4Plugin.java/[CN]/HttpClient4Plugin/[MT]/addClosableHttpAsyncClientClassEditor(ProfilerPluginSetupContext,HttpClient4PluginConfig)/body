@@ -1,9 +1,9 @@
 {
-  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.nio.client.CloseableHttpAsyncClient");
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.nio.client.CloseableHttpAsyncClient");
   injectCloseableHttpAsyncClientExecuteMethodWithHttpRequestInterceptor(classEditorBuilder,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.protocol.HttpContext","org.apache.http.concurrent.FutureCallback");
   injectCloseableHttpAsyncClientExecuteMethodWithHttpRequestInterceptor(classEditorBuilder,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.concurrent.FutureCallback");
   injectCloseableHttpAsyncClientExecuteMethodWithHttpAsyncRequestProducerInterceptor(classEditorBuilder,"org.apache.http.nio.protocol.HttpAsyncRequestProducer","org.apache.http.nio.protocol.HttpAsyncResponseConsumer","org.apache.http.concurrent.FutureCallback");
   injectCloseableHttpAsyncClientExecuteMethodWithHttpUriRequestInterceptor(classEditorBuilder,"org.apache.http.client.methods.HttpUriRequest","org.apache.http.concurrent.FutureCallback");
   injectCloseableHttpAsyncClientExecuteMethodWithHttpUriRequestInterceptor(classEditorBuilder,"org.apache.http.client.methods.HttpUriRequest","org.apache.http.protocol.HttpContext","org.apache.http.concurrent.FutureCallback");
-  context.addClassEditor(classEditorBuilder.build());
+  context.addClassFileTransformer(classEditorBuilder.build());
 }
