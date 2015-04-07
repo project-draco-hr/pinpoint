@@ -1,0 +1,6 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.client.DefaultHttpRequestRetryHandler");
+  MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethod("retryRequest","java.io.IOException","int","org.apache.http.protocol.HttpContext");
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.RetryRequestInterceptor");
+  context.addClassEditor(classEditorBuilder.build());
+}

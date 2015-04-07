@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(13);
+  BitSet incoming=iprot.readBitSet(15);
   if (incoming.get(0)) {
     struct.spanId=iprot.readI64();
     struct.setSpanIdIsSet(true);
@@ -62,5 +62,13 @@
     struct.exceptionInfo=new TIntStringValue();
     struct.exceptionInfo.read(iprot);
     struct.setExceptionInfoIsSet(true);
+  }
+  if (incoming.get(13)) {
+    struct.asyncId=iprot.readI32();
+    struct.setAsyncIdIsSet(true);
+  }
+  if (incoming.get(14)) {
+    struct.nextAsyncId=iprot.readI32();
+    struct.setNextAsyncIdIsSet(true);
   }
 }

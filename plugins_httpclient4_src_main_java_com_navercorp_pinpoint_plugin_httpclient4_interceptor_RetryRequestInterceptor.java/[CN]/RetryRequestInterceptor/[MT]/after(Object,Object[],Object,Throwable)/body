@@ -1,0 +1,23 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (args.length >= 1 && (args[0] instanceof Exception)) {
+      trace.recordAttribute(AnnotationKey.HTTP_CALL_RETRY_COUNT,args[0].getClass().getName());
+    }
+    if (result != null) {
+      trace.recordAttribute(AnnotationKey.RETURN_DATA,result);
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,14 @@
+{
+  final int lastIndex=stack.size() - 1;
+  for (int i=lastIndex; i >= 0; i--) {
+    final SpanDepth depth=stack.get(i);
+    if (depth.getSpanAlign().isSpan()) {
+      continue;
+    }
+    int nextAsyncId=depth.getSpanAlign().getSpanEventBo().getNextAsyncId();
+    if (asyncId == nextAsyncId) {
+      return depth;
+    }
+  }
+  return null;
+}

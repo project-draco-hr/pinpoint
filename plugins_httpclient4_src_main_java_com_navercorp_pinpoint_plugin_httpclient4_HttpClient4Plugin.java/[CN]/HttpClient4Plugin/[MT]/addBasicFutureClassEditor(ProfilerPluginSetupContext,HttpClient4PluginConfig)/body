@@ -1,0 +1,20 @@
+{
+  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.concurrent.BasicFuture");
+  classEditorBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
+  MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethod("get");
+  methodEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+  MethodEditorBuilder getMethodEditorBuilder=classEditorBuilder.editMethod("get","long","java.util.concurrent.TimeUnit");
+  getMethodEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  getMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+  MethodEditorBuilder completedMethodEditorBuilder=classEditorBuilder.editMethod("completed","java.lang.Object");
+  completedMethodEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  completedMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+  MethodEditorBuilder failMethodEditorBuilder=classEditorBuilder.editMethod("failed","java.lang.Exception");
+  failMethodEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  failMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+  MethodEditorBuilder cancelMethodEditorBuilder=classEditorBuilder.editMethod("cancel","boolean");
+  cancelMethodEditorBuilder.property(MethodEditorProperty.IGNORE_IF_NOT_EXIST);
+  cancelMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+  context.addClassEditor(classEditorBuilder.build());
+}
