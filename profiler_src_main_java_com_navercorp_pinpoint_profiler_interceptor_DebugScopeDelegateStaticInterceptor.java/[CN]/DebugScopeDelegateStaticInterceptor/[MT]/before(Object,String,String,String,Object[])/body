@@ -1,9 +1,10 @@
 {
-  if (!scope.tryBefore(ExecutionPoint.BOUNDARY)) {
+  if (!scope.tryEnter(ExecutionPoint.BOUNDARY)) {
     if (isDebug) {
       logger.debug("tryBefore() returns false {}. skip trace. {}",new Object[]{scope,delegate.getClass()});
     }
     return;
   }
   this.delegate.before(target,className,methodName,parameterDescription,args);
+  scope.entered(ExecutionPoint.BOUNDARY);
 }

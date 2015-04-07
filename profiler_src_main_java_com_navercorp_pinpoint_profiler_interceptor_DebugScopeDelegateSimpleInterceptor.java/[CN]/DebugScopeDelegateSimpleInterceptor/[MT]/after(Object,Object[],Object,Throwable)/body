@@ -1,9 +1,10 @@
 {
-  if (!scope.tryAfter(ExecutionPoint.BOUNDARY)) {
+  if (!scope.tryLeave(ExecutionPoint.BOUNDARY)) {
     if (isDebug) {
       logger.debug("tryAfter() returns false {}. skip trace. {}",new Object[]{scope,delegate.getClass()});
     }
     return;
   }
   this.delegate.after(target,args,result,throwable);
+  scope.leaved(ExecutionPoint.BOUNDARY);
 }
