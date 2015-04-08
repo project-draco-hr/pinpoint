@@ -1,6 +1,6 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassEditorBuilder("org.apache.http.impl.nio.client.DefaultClientExchangeHandlerImpl");
-  ConstructorEditorBuilder constructorEditorBuilder=classEditorBuilder.editConstructor("org.apache.commons.logging.Log","org.apache.http.nio.protocol.HttpAsyncRequestProducer","org.apache.http.nio.protocol.HttpAsyncResponseConsumer","org.apache.http.client.protocol.HttpClientContext","org.apache.http.concurrent.BasicFuture","org.apache.http.nio.conn.NHttpClientConnectionManager","org.apache.http.impl.nio.client.InternalClientExec");
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.impl.nio.client.DefaultClientExchangeHandlerImpl");
+  ConstructorTransformerBuilder constructorEditorBuilder=classEditorBuilder.editConstructor("org.apache.commons.logging.Log","org.apache.http.nio.protocol.HttpAsyncRequestProducer","org.apache.http.nio.protocol.HttpAsyncResponseConsumer","org.apache.http.client.protocol.HttpClientContext","org.apache.http.concurrent.BasicFuture","org.apache.http.nio.conn.NHttpClientConnectionManager","org.apache.http.impl.nio.client.InternalClientExec");
   constructorEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.DefaultClientExchangeHandlerImplConstructorInterceptor");
   context.addClassFileTransformer(classEditorBuilder.build());
 }

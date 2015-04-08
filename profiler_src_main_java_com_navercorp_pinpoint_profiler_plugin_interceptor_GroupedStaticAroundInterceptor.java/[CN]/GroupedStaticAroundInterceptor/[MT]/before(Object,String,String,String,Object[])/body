@@ -1,5 +1,5 @@
 {
-  InterceptorGroupTransaction transaction=group.getCurrentStack();
+  InterceptorGroupTransaction transaction=group.getCurrentTransaction();
   if (transaction.tryEnter(point)) {
     this.delegate.before(target,className,methodName,parameterDescription,args);
   }
