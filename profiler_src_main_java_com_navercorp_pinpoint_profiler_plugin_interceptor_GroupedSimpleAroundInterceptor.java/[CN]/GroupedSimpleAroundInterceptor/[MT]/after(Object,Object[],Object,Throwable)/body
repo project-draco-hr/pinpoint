@@ -1,0 +1,12 @@
+{
+  InterceptorGroupTransaction transacton=group.getCurrentStack();
+  if (transacton.canLeave(point)) {
+    delegate.after(target,args,result,throwable);
+    transacton.leave(point);
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPonint: {}. Skip interceptor {}",new Object[]{transacton,point,delegate.getClass()});
+    }
+  }
+}

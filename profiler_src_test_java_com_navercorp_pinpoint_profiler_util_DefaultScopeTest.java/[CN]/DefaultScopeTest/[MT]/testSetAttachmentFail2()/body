@@ -1,8 +1,7 @@
 {
-  Scope scope=new DefaultScope("test");
-  scope.tryEnter(ExecutionPoint.ALWAYS);
-  scope.entered(ExecutionPoint.ALWAYS);
-  scope.tryLeave(ExecutionPoint.ALWAYS);
-  scope.leaved(ExecutionPoint.ALWAYS);
-  scope.setAttachment("attachment");
+  InterceptorGroupTransaction trnasaction=new DefaultInterceptorStack("test");
+  trnasaction.tryEnter(ExecutionPolicy.ALWAYS);
+  trnasaction.canLeave(ExecutionPolicy.ALWAYS);
+  trnasaction.leave(ExecutionPolicy.ALWAYS);
+  trnasaction.setAttachment("attachment");
 }

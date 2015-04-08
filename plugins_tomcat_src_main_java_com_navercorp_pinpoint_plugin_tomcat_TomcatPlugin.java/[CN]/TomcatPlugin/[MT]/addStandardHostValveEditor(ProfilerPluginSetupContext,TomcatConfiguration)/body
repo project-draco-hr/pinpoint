@@ -1,5 +1,5 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassEditorBuilder("org.apache.catalina.core.StandardHostValve");
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.apache.catalina.core.StandardHostValve");
   builder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",config.getTomcatExcludeUrlFilter());
   context.addClassFileTransformer(builder.build());
 }
