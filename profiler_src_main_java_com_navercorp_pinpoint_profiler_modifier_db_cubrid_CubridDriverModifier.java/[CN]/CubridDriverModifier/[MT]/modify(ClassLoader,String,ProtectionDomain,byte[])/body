@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    final Scope scope=byteCodeInstrumentor.getScope(CubridScope.SCOPE_NAME);
+    final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(CubridScope.SCOPE_NAME);
     DriverConnectInterceptor driverConnectInterceptor=new DriverConnectInterceptor(scope);
     mysqlConnection.addInterceptor("connect",new String[]{"java.lang.String","java.util.Properties"},driverConnectInterceptor);
     if (this.logger.isInfoEnabled()) {

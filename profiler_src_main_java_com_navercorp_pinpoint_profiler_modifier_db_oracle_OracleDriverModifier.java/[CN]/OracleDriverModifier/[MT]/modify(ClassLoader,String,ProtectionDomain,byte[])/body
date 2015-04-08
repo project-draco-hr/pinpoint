@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass oracleDriver=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    final Scope scope=byteCodeInstrumentor.getScope(OracleScope.SCOPE_NAME);
+    final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(OracleScope.SCOPE_NAME);
     Interceptor createConnection=new DriverConnectInterceptor(scope);
     String[] params=new String[]{"java.lang.String","java.util.Properties"};
     oracleDriver.addInterceptor("connect",params,createConnection);

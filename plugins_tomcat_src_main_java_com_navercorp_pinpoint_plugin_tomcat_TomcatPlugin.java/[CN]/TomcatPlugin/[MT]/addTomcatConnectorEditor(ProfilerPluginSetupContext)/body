@@ -1,9 +1,9 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassEditorBuilder("org.apache.catalina.connector.Connector");
-  MethodEditorBuilder initializeEditor=builder.editMethod("initialize");
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.apache.catalina.connector.Connector");
+  MethodTransformerBuilder initializeEditor=builder.editMethod("initialize");
   initializeEditor.property(IGNORE_IF_NOT_EXIST);
   initializeEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.ConnectorInitializeInterceptor");
-  MethodEditorBuilder initInternalEditor=builder.editMethod("initInternal");
+  MethodTransformerBuilder initInternalEditor=builder.editMethod("initInternal");
   initInternalEditor.property(IGNORE_IF_NOT_EXIST);
   initInternalEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.ConnectorInitializeInterceptor");
   context.addClassFileTransformer(builder.build());

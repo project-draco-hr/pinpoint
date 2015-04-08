@@ -1,17 +1,17 @@
 {
   String groupName=this.groupName;
-  ExecutionPoint executionPoint=this.executionPoint;
+  ExecutionPolicy executionPoint=this.executionPoint;
   if (groupName == null) {
-    Group scope=interceptorType.getAnnotation(Group.class);
-    if (scope != null) {
-      groupName=scope.value();
-      executionPoint=scope.executionPoint();
+    Group interceptorGroup=interceptorType.getAnnotation(Group.class);
+    if (interceptorGroup != null) {
+      groupName=interceptorGroup.value();
+      executionPoint=interceptorGroup.executionPoint();
     }
   }
   InterceptorGroup group=groupName == null ? null : pluginContext.createInterceptorGroup(groupName);
   InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,group,interceptorType,providedArguments);
   if (group != null) {
-    factory=new ScopedInterceptorFactory(factory,group,executionPoint);
+    factory=new GroupedInterceptorFactory(factory,group,executionPoint);
   }
   return factory;
 }

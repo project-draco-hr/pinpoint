@@ -1,8 +1,8 @@
 {
   this.name=name;
-  this.threadLocal=new ThreadLocal<Scope>(){
-    @Override protected Scope initialValue(){
-      return new DefaultScope(name);
+  this.threadLocal=new ThreadLocal<InterceptorGroupTransaction>(){
+    @Override protected InterceptorGroupTransaction initialValue(){
+      return new DefaultInterceptorStack(name);
     }
   }
 ;

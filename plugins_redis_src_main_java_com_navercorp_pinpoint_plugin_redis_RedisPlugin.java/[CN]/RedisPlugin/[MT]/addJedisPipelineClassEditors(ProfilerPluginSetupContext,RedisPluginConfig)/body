@@ -3,10 +3,10 @@
   context.addClassFileTransformer(addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_MULTIKEY_PIPELINE_BASE).build());
   final ClassFileTransformerBuilder classEditorBuilder=addJedisPipelineBaseExtendedClassEditor(context,config,JEDIS_PIPELINE);
   classEditorBuilder.injectMetadata(METADATA_END_POINT);
-  final MethodEditorBuilder setClientMethodEditorBuilder=classEditorBuilder.editMethod("setClient",JEDIS_CLIENT);
+  final MethodTransformerBuilder setClientMethodEditorBuilder=classEditorBuilder.editMethod("setClient",JEDIS_CLIENT);
   setClientMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
   setClientMethodEditorBuilder.injectInterceptor(JEDIS_PIPELINE_SET_CLIENT_METHOD_INTERCEPTOR);
-  final ConstructorEditorBuilder constructorEditorBuilder=classEditorBuilder.editConstructor(JEDIS_CLIENT);
+  final ConstructorTransformerBuilder constructorEditorBuilder=classEditorBuilder.editConstructor(JEDIS_CLIENT);
   constructorEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
   constructorEditorBuilder.injectInterceptor(JEDIS_PIPELINE_CONSTRUCTOR_INTERCEPTOR);
   context.addClassFileTransformer(classEditorBuilder.build());

@@ -1,0 +1,11 @@
+{
+  InterceptorGroupTransaction transaction=group.getCurrentStack();
+  if (transaction.tryEnter(point)) {
+    delegate.before(target,args);
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryBefore() returns false: interceptorGroupTransaction: {}, executionPonint: {}. Skip interceptor {}",new Object[]{transaction,point,delegate.getClass()});
+    }
+  }
+}

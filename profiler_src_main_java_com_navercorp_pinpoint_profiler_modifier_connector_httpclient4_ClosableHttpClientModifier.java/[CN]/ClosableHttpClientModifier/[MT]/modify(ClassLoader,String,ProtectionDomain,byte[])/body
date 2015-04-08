@@ -4,8 +4,8 @@
   }
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    ScopeDefinition scopeDefinition=new DefaultScopeDefinition(HttpClient4Scope.SCOPE);
-    Scope scope=byteCodeInstrumentor.getScope(scopeDefinition);
+    InterceptorGroupDefinition scopeDefinition=new DefaultInterceptorGroupDefinition(HttpClient4Scope.SCOPE);
+    InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(scopeDefinition);
     addHttpRequestApi(classLoader,protectedDomain,aClass,scope);
     addHttpUriRequestApi(classLoader,protectedDomain,aClass,scope);
     return aClass.toBytecode();

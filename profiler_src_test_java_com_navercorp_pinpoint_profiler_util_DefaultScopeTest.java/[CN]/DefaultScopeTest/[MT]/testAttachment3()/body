@@ -1,15 +1,14 @@
 {
   String oldAttachment="context";
   String newAttachment="newnew";
-  Scope scope=new DefaultScope("test");
-  scope.tryEnter(ExecutionPoint.ALWAYS);
-  scope.entered(ExecutionPoint.ALWAYS);
-  scope.setAttachment(oldAttachment);
-  assertSame(oldAttachment,scope.getAttachment());
-  assertSame(oldAttachment,scope.setAttachment(newAttachment));
-  assertSame(newAttachment,scope.getAttachment());
-  assertSame(newAttachment,scope.removeAttachment());
-  assertNull(scope.getAttachment());
-  scope.tryLeave(ExecutionPoint.ALWAYS);
-  scope.leaved(ExecutionPoint.ALWAYS);
+  InterceptorGroupTransaction trnasaction=new DefaultInterceptorStack("test");
+  trnasaction.tryEnter(ExecutionPolicy.ALWAYS);
+  trnasaction.setAttachment(oldAttachment);
+  assertSame(oldAttachment,trnasaction.getAttachment());
+  assertSame(oldAttachment,trnasaction.setAttachment(newAttachment));
+  assertSame(newAttachment,trnasaction.getAttachment());
+  assertSame(newAttachment,trnasaction.removeAttachment());
+  assertNull(trnasaction.getAttachment());
+  trnasaction.canLeave(ExecutionPolicy.ALWAYS);
+  trnasaction.leave(ExecutionPolicy.ALWAYS);
 }

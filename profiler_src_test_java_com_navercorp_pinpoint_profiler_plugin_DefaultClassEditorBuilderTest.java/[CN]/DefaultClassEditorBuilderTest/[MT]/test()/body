@@ -27,7 +27,7 @@
   DefaultClassFileTransformerBuilder builder=new DefaultClassFileTransformerBuilder(context,"TargetClass");
   builder.injectMetadata("a","java.util.HashMap");
   builder.injectFieldAccessor("someField");
-  MethodEditorBuilder ib=builder.editMethod(methodName,parameterTypeNames);
+  MethodTransformerBuilder ib=builder.editMethod(methodName,parameterTypeNames);
   ib.injectInterceptor("com.navercorp.pinpoint.profiler.plugin.TestInterceptor","provided");
   ClassFileTransformer transformer=builder.build();
   transformer.transform(classLoader,className,null,null,classFileBuffer);
