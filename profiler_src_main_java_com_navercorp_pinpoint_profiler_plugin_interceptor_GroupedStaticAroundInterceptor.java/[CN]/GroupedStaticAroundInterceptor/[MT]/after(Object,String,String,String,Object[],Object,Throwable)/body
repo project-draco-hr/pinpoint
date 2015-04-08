@@ -1,5 +1,5 @@
 {
-  InterceptorGroupTransaction transaction=group.getCurrentStack();
+  InterceptorGroupTransaction transaction=group.getCurrentTransaction();
   if (transaction.canLeave(point)) {
     this.delegate.after(target,className,methodName,parameterDescription,args,result,throwable);
     transaction.leave(point);
