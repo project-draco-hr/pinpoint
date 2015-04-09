@@ -1,0 +1,11 @@
+{
+  if (agentArgs != null) {
+    logger.info(ProductInfo.NAME + " agentArgs:" + agentArgs);
+  }
+  if (instrumentation == null) {
+    throw new NullPointerException("instrumentation must not be null");
+  }
+  this.agentArgs=agentArgs;
+  this.argMap=parseAgentArgs(agentArgs);
+  this.instrumentation=instrumentation;
+}
