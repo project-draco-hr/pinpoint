@@ -1,6 +1,14 @@
 {
   final HttpClient4PluginConfig config=new HttpClient4PluginConfig(context.getConfig());
-  addClosableHttpAsyncClientClassEditor(context,config);
-  addDefaultClientExchangeHandlerImplConstructorInterceptor(context,config);
-  addBasicFutureClassEditor(context,config);
+  if (config.isApacheHttpClient4Profile()) {
+    logger.debug("Add HttpClient4(4.0 ~ 4.2");
+    addHttpClient4Class(context,config);
+    addDefaultHttpRequestRetryHandlerClass(context,config);
+  }
+  logger.debug("Add CloseableHttpClient4(4.3 ~ ");
+  addCloseableHttpClientClass(context,config);
+  logger.debug("Add CloseableHttpAsyncClient4(4.0 ~ ");
+  addClosableHttpAsyncClientClass(context,config);
+  addDefaultClientExchangeHandlerImplClass(context,config);
+  addBasicFutureClass(context,config);
 }

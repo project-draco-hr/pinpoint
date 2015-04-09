@@ -1,0 +1,11 @@
+{
+  InterceptorGroupTransaction transaction=interceptorGroup.getCurrentTransaction();
+  final Object attachment=transaction.getAttachment();
+  if (attachment == null) {
+    return null;
+  }
+  if (attachment instanceof HttpCallContext) {
+    return ((HttpCallContext)attachment).getStatusCode();
+  }
+  return null;
+}

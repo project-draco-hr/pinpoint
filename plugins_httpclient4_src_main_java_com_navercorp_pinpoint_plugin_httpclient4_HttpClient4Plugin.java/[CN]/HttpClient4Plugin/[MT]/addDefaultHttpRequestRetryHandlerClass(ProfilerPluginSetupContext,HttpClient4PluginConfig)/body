@@ -1,0 +1,7 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.impl.client.DefaultHttpRequestRetryHandler");
+  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethod("retryRequest","java.io.IOException","int","org.apache.http.protocol.HttpContext");
+  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.DefaultHttpRequestRetryHandlerRetryRequestMethodInterceptor");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}
