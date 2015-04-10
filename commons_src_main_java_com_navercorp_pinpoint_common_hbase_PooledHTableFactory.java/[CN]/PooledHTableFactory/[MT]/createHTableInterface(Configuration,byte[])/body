@@ -1,3 +1,8 @@
 {
-  return hTablePool.getTable(tableName);
+  try {
+    return connection.getTable(tableName,executor);
+  }
+ catch (  IOException e) {
+    return null;
+  }
 }

@@ -1,3 +1,9 @@
 {
-  this.hTablePool=new HTablePool(config,poolSize);
+  this.executor=Executors.newFixedThreadPool(poolSize);
+  try {
+    this.connection=HConnectionManager.createConnection(config,executor);
+  }
+ catch (  IOException e) {
+    throw new HbaseSystemException(e);
+  }
 }
