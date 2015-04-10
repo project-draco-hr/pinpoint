@@ -1,9 +1,3 @@
 {
-  this.executor=Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
-  try {
-    this.connection=HConnectionManager.createConnection(config,executor);
-  }
- catch (  IOException e) {
-    throw new HbaseSystemException(e);
-  }
+  this(config,DEFAULT_POOL_SIZE,DEFAULT_WORKER_QUEUE_SIZE);
 }
