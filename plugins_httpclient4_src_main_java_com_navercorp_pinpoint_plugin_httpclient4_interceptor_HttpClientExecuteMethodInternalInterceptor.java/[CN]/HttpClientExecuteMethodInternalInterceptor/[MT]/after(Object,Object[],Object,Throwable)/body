@@ -1,0 +1,20 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,target.getClass().getName(),"","internal",args);
+  }
+  if (!needGetStatusCode()) {
+    return;
+  }
+  if (result instanceof HttpResponse) {
+    HttpResponse response=(HttpResponse)result;
+    if (response.getStatusLine() != null) {
+      HttpCallContext context=new HttpCallContext();
+      final StatusLine statusLine=response.getStatusLine();
+      if (statusLine != null) {
+        context.setStatusCode(statusLine.getStatusCode());
+        InterceptorGroupTransaction transaction=interceptorGroup.getCurrentTransaction();
+        transaction.setAttachment(context);
+      }
+    }
+  }
+}
