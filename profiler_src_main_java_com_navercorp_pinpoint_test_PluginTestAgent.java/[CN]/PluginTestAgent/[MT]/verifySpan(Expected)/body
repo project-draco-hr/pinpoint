@@ -1,12 +1,9 @@
 {
-  Object obj=getTBaseRecorder().poll();
-  if (obj == null) {
-    throw new AssertionError("No " + expected.type.getSimpleName() + ". expected: "+ expected);
-  }
+  Object obj=popSpan();
+  Facade span=wrap(obj);
   if (!expected.type.isInstance(obj)) {
     throw new AssertionError("Expected an instance of " + expected.type.getSimpleName() + " but was "+ obj.getClass().getName()+ ". expected: "+ expected+ ", was: "+ obj);
   }
-  Facade span=wrap(obj);
   if (expected.serviceType.getCode() != span.getServiceType()) {
     throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with serviceType["+ expected.serviceType.getCode()+ "] but was ["+ span.getServiceType()+ "]. expected: "+ expected+ ", was: "+ span);
   }
@@ -36,7 +33,7 @@
     AnnotationKey expectedAnnotationKey=annotationKeyRegistryService.findAnnotationKeyByName(expect.getKeyName());
     TAnnotation actual=actualAnnotations.get(i);
     if (expectedAnnotationKey.getCode() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
-      throw new AssertionError("Expected " + i + "th annotation ["+ expect+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
+      throw new AssertionError("Expected " + i + "th annotation ["+ expectedAnnotationKey.getCode()+ "="+ expect.getValue()+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
     }
   }
 }

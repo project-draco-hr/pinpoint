@@ -1,0 +1,22 @@
+{
+  Class<?> clazz=method.getDeclaringClass();
+  InstrumentClass ic;
+  try {
+    ic=getByteCodeInstrumentor().getClass(clazz.getClassLoader(),clazz.getName(),null);
+  }
+ catch (  InstrumentException e) {
+    throw new RuntimeException("Cannot get instruemntClass " + clazz.getName(),e);
+  }
+  MethodInfo methodInfo;
+  if (method instanceof Method) {
+    methodInfo=getMethodInfo(ic,(Method)method);
+  }
+ else   if (method instanceof Constructor) {
+    methodInfo=getMethodInfo(ic,(Constructor<?>)method);
+  }
+ else {
+    throw new IllegalArgumentException("method: " + method);
+  }
+  String desc=methodInfo.getDescriptor().getFullName();
+  return findApiId(desc);
+}

@@ -1,3 +1,11 @@
 {
-  getTBaseRecorder().poll();
+  while (true) {
+    Object obj=getRecorder().pop();
+    if (obj == null) {
+      return null;
+    }
+    if (!isIgnored(obj)) {
+      return obj;
+    }
+  }
 }
