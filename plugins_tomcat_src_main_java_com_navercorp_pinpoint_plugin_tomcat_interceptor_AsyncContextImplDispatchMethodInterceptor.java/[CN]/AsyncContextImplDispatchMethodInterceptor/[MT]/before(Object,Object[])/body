@@ -3,7 +3,9 @@
     logger.beforeInterceptor(target,args);
   }
   if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
-    logger.debug("Not found asynchronous invocation metadata");
+    if (isDebug) {
+      logger.debug("Not found asynchronous invocation metadata");
+    }
     return;
   }
   final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
@@ -17,10 +19,9 @@
     }
     async=true;
     if (isDebug) {
-      logger.debug("Continue async trace {} [{}]",asyncTraceId,Thread.currentThread().getName());
+      logger.debug("Continue async trace {}",asyncTraceId);
     }
   }
-  logger.debug("TraceBlockBegin [{}]",Thread.currentThread().getName());
   trace.traceBlockBegin();
   trace.markBeforeTime();
   trace.recordServiceType(TOMCAT_METHOD);
