@@ -1,0 +1,26 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  try {
+    if (!validate(target,args)) {
+      return;
+    }
+    final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+    trace.recordNextAsyncId(asyncTraceId.getAsyncId());
+    final BasicFuture resultFuture=resultFutureAccessor.get(target);
+    asyncTraceIdAccessor.set(resultFuture,asyncTraceId);
+    if (isDebug) {
+      logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

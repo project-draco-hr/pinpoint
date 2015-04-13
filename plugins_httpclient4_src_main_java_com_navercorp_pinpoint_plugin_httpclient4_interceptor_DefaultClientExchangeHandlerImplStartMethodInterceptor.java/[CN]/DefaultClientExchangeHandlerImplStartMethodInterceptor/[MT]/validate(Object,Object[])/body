@@ -1,0 +1,16 @@
+{
+  if (!resultFutureAccessor.isApplicable(target)) {
+    logger.debug("Invalid target object. Need field accessor({}).",FIELD_RESULT_FUTURE);
+    return false;
+  }
+  final BasicFuture resultFuture=resultFutureAccessor.get(target);
+  if (resultFuture == null) {
+    logger.debug("Invalid target object. resultFuture field is null.");
+    return false;
+  }
+  if (!asyncTraceIdAccessor.isApplicable(resultFuture)) {
+    logger.debug("Invalid resultFuture field object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+    return false;
+  }
+  return true;
+}
