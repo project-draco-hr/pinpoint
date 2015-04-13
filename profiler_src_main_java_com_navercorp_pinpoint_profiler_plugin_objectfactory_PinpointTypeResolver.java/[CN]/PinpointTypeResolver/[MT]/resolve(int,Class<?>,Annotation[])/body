@@ -16,11 +16,11 @@
   }
  else   if (type == MethodDescriptor.class) {
     MethodDescriptor descriptor=targetMethod.getDescriptor();
-    cacheApiIfAnnotationPresent(annotations,descriptor);
+    cacheApiIfAnnotationNotPresent(annotations,descriptor);
     return Option.<Object>withValue(descriptor);
   }
  else   if (type == MethodInfo.class) {
-    cacheApiIfAnnotationPresent(annotations,targetMethod.getDescriptor());
+    cacheApiIfAnnotationNotPresent(annotations,targetMethod.getDescriptor());
     return Option.<Object>withValue(targetMethod);
   }
  else   if (type == MetadataAccessor.class) {

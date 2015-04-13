@@ -1,5 +1,18 @@
 {
-  if (hTablePool != null) {
-    this.hTablePool.close();
+  if (connection != null) {
+    this.connection.close();
+  }
+  if (this.executor != null) {
+    this.executor.shutdown();
+    try {
+      final boolean shutdown=executor.awaitTermination(1000 * 5,TimeUnit.MILLISECONDS);
+      if (!shutdown) {
+        final List<Runnable> discardTask=this.executor.shutdownNow();
+        logger.warn("discard task size:{}",discardTask.size());
+      }
+    }
+ catch (    InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 }

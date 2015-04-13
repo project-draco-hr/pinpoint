@@ -1,5 +1,10 @@
 {
-  int actual=getTBaseRecorder().size();
+  int actual=0;
+  for (  Object obj : getRecorder()) {
+    if (!isIgnored(obj)) {
+      actual++;
+    }
+  }
   if (expected != actual) {
     throw new AssertionError("Expected count: " + expected + ", actual: "+ actual);
   }
