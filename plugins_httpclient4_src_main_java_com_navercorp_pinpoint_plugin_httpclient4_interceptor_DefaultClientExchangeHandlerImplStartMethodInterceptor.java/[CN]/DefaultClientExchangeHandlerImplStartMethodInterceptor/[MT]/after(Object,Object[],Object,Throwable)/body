@@ -6,9 +6,23 @@
   if (trace == null) {
     return;
   }
-  trace.recordServiceType(HTTP_CLIENT4_INTERNAL);
-  trace.recordApi(methodDescriptor);
-  trace.recordException(throwable);
-  trace.markAfterTime();
-  trace.traceBlockEnd();
+  try {
+    final HttpRequest httpRequest=getHttpRequest(target);
+    if (httpRequest != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
+      final NameIntValuePair<String> host=getHost(target);
+      if (host != null) {
+        int port=host.getValue();
+        String endpoint=getEndpoint(host.getName(),port);
+        trace.recordDestinationId(endpoint);
+      }
+      recordHttpRequest(trace,httpRequest,throwable);
+    }
+    trace.recordApi(methodDescriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
 }
