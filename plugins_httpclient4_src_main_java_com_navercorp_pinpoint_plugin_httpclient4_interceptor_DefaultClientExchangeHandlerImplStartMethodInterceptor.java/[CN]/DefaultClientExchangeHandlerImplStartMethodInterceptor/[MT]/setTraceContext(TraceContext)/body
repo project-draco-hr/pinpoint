@@ -1,0 +1,14 @@
+{
+  this.traceContext=traceContext;
+  final ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
+  this.cookie=profilerConfig.isApacheHttpClient4ProfileCookie();
+  this.cookieDumpType=profilerConfig.getApacheHttpClient4ProfileCookieDumpType();
+  if (cookie) {
+    this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,profilerConfig.getApacheHttpClient4ProfileCookieSamplingRate());
+  }
+  this.entity=profilerConfig.isApacheHttpClient4ProfileEntity();
+  this.entityDumpType=profilerConfig.getApacheHttpClient4ProfileEntityDumpType();
+  if (entity) {
+    this.entitySampler=SimpleSamplerFactory.createSampler(entity,profilerConfig.getApacheHttpClient4ProfileEntitySamplingRate());
+  }
+}

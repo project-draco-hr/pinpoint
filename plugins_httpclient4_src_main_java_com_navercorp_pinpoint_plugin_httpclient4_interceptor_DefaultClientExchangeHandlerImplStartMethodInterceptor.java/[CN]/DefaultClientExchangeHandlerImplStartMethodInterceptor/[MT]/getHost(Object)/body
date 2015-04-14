@@ -1,0 +1,8 @@
+{
+  if (!requestProducerAccessor.isApplicable(target)) {
+    return null;
+  }
+  final org.apache.http.nio.protocol.HttpAsyncRequestProducer producer=requestProducerAccessor.get(target);
+  final HttpHost httpHost=producer.getTarget();
+  return new NameIntValuePair<String>(httpHost.getHostName(),httpHost.getPort());
+}
