@@ -13,7 +13,7 @@
   spanEventBo.setStartElapsed(100);
   byte[] bytes=spanEventBo.writeValue();
   SpanEventBo newSpanEventBo=new SpanEventBo();
-  int i=newSpanEventBo.readValue(bytes,0);
+  int i=newSpanEventBo.readValue(bytes,0,bytes.length);
   Assert.assertEquals(bytes.length,i);
   Assert.assertEquals(spanEventBo.getAgentId(),newSpanEventBo.getAgentId());
   Assert.assertEquals(spanEventBo.getAgentStartTime(),newSpanEventBo.getAgentStartTime());

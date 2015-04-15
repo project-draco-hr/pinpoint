@@ -1,0 +1,28 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final HttpRequest httpRequest=getHttpRequest(target);
+    if (httpRequest != null) {
+      trace.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
+      final NameIntValuePair<String> host=getHost(target);
+      if (host != null) {
+        int port=host.getValue();
+        String endpoint=getEndpoint(host.getName(),port);
+        trace.recordDestinationId(endpoint);
+      }
+      recordHttpRequest(trace,httpRequest,throwable);
+    }
+    trace.recordApi(methodDescriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

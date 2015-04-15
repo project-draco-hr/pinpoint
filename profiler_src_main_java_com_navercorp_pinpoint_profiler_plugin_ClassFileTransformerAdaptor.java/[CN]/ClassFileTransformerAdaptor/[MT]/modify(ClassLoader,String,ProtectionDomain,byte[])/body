@@ -1,0 +1,8 @@
+{
+  try {
+    return transformer.transform(classLoader,className,null,protectionDomain,classfileBuffer);
+  }
+ catch (  IllegalClassFormatException e) {
+    throw new PinpointException("Fail to transform class: " + className,e);
+  }
+}

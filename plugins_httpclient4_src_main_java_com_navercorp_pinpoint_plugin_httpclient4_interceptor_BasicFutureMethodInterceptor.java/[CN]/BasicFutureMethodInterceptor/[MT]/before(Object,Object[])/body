@@ -1,0 +1,30 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+    logger.debug("Not found asynchronous invocation metadata");
+    return;
+  }
+  final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
+  boolean async=false;
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getSpanStartTime());
+    if (trace == null) {
+      logger.warn("Failed to continue async trace. 'result is null'");
+      return;
+    }
+    async=true;
+    if (isDebug) {
+      logger.debug("Continue async trace {} [{}]",asyncTraceId,Thread.currentThread().getName());
+    }
+  }
+  logger.debug("TraceBlockBegin [{}]",Thread.currentThread().getName());
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  trace.recordServiceType(HTTP_CLIENT4_INTERNAL);
+  if (async) {
+    trace.recordAttribute(AnnotationKey.ASYNC,"");
+  }
+}

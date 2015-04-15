@@ -1,13 +1,15 @@
 {
   String attachment="context";
-  Scope scope=new DefaultScope("test");
-  scope.tryBefore(ExecutionPoint.BOUNDARY);
-  assertNull(scope.getAttachment());
-  scope.setAttachment(attachment);
-  assertSame(scope.getAttachment(),attachment);
-  scope.tryBefore(ExecutionPoint.BOUNDARY);
-  assertSame(scope.getAttachment(),attachment);
-  scope.tryAfter(ExecutionPoint.BOUNDARY);
-  assertSame(scope.getAttachment(),attachment);
-  scope.tryAfter(ExecutionPoint.BOUNDARY);
+  InterceptorGroupTransaction transaction=new DefaultInterceptorStack("test");
+  transaction.tryEnter(ExecutionPolicy.ALWAYS);
+  assertNull(transaction.getAttachment());
+  transaction.setAttachment(attachment);
+  assertSame(transaction.getAttachment(),attachment);
+  transaction.tryEnter(ExecutionPolicy.ALWAYS);
+  assertSame(transaction.getAttachment(),attachment);
+  transaction.canLeave(ExecutionPolicy.ALWAYS);
+  transaction.leave(ExecutionPolicy.ALWAYS);
+  assertSame(transaction.getAttachment(),attachment);
+  transaction.canLeave(ExecutionPolicy.ALWAYS);
+  transaction.leave(ExecutionPolicy.ALWAYS);
 }

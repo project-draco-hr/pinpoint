@@ -1,7 +1,7 @@
 {
-  final ClassEditorBuilder classEditorBuilder=context.getClassEditorBuilder(targetClassName);
-  final MethodEditorBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
-  methodEditorBuilder.exceptionHandler(new MethodEditorExceptionHandler(){
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder(targetClassName);
+  final MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethods(new NameBasedMethodFilter(JedisPipelineMethodNames.get()));
+  methodEditorBuilder.exceptionHandler(new MethodTransformerExceptionHandler(){
     @Override public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Exception {
       if (logger.isWarnEnabled()) {
         logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);

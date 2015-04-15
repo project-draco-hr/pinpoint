@@ -1,0 +1,10 @@
+{
+  short serviceType=-1;
+  if (obj instanceof TSpan) {
+    serviceType=((TSpan)obj).getServiceType();
+  }
+ else   if (obj instanceof TSpanEvent) {
+    serviceType=((TSpanEvent)obj).getServiceType();
+  }
+  return ignoredServiceTypes.contains(serviceType);
+}

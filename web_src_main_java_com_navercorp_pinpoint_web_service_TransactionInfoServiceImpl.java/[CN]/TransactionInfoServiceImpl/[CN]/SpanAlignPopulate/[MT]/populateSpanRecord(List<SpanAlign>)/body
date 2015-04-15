@@ -112,7 +112,19 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,getGap(stack),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        int asyncParentId=-1;
+        long gap=0;
+        if (isFirstAsyncEvent(spanAlign)) {
+          final SpanDepth asyncParentDepth=findAsyncParent(stack,spanAlign.getSpanEventBo().getAsyncId());
+          if (asyncParentDepth != null) {
+            asyncParentId=asyncParentDepth.getId();
+            gap=spanAlign.getSpanEventBo().getStartElapsed() - asyncParentDepth.getSpanAlign().getSpanEventBo().getStartElapsed();
+          }
+        }
+ else {
+          gap=getGap(stack);
+        }
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,gap,spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);

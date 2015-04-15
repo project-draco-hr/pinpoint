@@ -1,0 +1,13 @@
+{
+  DefaultModifierRegistry modifierRepository=new DefaultModifierRegistry(agent,byteCodeInstrumentor,retransformer);
+  modifierRepository.addMethodModifier();
+  modifierRepository.addTomcatModifier();
+  modifierRepository.addJdbcModifier();
+  modifierRepository.addConnectorModifier();
+  modifierRepository.addOrmModifier();
+  modifierRepository.addSpringBeansModifier();
+  modifierRepository.addLog4jModifier();
+  modifierRepository.addLogbackModifier();
+  loadEditorsFromPlugins(modifierRepository,pluginContexts);
+  return modifierRepository;
+}

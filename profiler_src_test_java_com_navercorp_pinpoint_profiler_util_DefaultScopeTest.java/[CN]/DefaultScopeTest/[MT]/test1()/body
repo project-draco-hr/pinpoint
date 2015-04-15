@@ -1,12 +1,16 @@
 {
-  Scope scope=new DefaultScope("test");
-  assertFalse(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
-  assertTrue(scope.isIn());
-  assertTrue(scope.tryBefore(ExecutionPoint.ALWAYS));
-  assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
-  assertTrue(scope.isIn());
-  assertTrue(scope.tryAfter(ExecutionPoint.ALWAYS));
-  assertFalse(scope.isIn());
+  InterceptorGroupTransaction transaction=new DefaultInterceptorStack("test");
+  assertFalse(transaction.isActive());
+  assertTrue(transaction.tryEnter(ExecutionPolicy.ALWAYS));
+  assertTrue(transaction.isActive());
+  assertTrue(transaction.tryEnter(ExecutionPolicy.ALWAYS));
+  assertTrue(transaction.isActive());
+  assertTrue(transaction.canLeave(ExecutionPolicy.ALWAYS));
+  assertTrue(transaction.isActive());
+  transaction.leave(ExecutionPolicy.ALWAYS);
+  assertTrue(transaction.isActive());
+  assertTrue(transaction.canLeave(ExecutionPolicy.ALWAYS));
+  assertTrue(transaction.isActive());
+  transaction.leave(ExecutionPolicy.ALWAYS);
+  assertFalse(transaction.isActive());
 }

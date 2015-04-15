@@ -1,0 +1,15 @@
+{
+  if (scopeDefinition == null) {
+    throw new NullPointerException("scopeDefinition must not be null");
+  }
+  final InterceptorGroupTransaction scope=this.pool.get(scopeDefinition);
+  if (scope != null) {
+    return scope;
+  }
+  final InterceptorGroupTransaction newScope=createScope(scopeDefinition);
+  final InterceptorGroupTransaction exist=this.pool.putIfAbsent(scopeDefinition,newScope);
+  if (exist != null) {
+    return exist;
+  }
+  return newScope;
+}

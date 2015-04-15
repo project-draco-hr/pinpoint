@@ -1,0 +1,46 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,"",methodDescriptor.getMethodName(),"",args);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  final HttpRequest httpRequest=getHttpRequest(target);
+  final boolean sampling=trace.canSampled();
+  if (!sampling) {
+    if (isDebug) {
+      logger.debug("set Sampling flag=false");
+    }
+    if (httpRequest != null) {
+      httpRequest.setHeader(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+    }
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+  final TraceId nextId=trace.getTraceId().getNextTraceId();
+  trace.recordNextSpanId(nextId.getSpanId());
+  trace.recordServiceType(HTTP_CLIENT4);
+  if (httpRequest != null) {
+    httpRequest.setHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    httpRequest.setHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    httpRequest.setHeader(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    httpRequest.setHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    httpRequest.setHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    httpRequest.setHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+  }
+  try {
+    if (isAsynchronousInvocation(target,args)) {
+      final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+      trace.recordNextAsyncId(asyncTraceId.getAsyncId());
+      asyncTraceIdAccessor.set(resultFutureAccessor.get(target),asyncTraceId);
+      if (isDebug) {
+        logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+      }
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

@@ -1,6 +1,7 @@
 {
-  if (scope.tryAfter(ExecutionPoint.BOUNDARY)) {
+  if (scope.canLeave(ExecutionPolicy.BOUNDARY)) {
     after2(target,args,result,throwable);
+    scope.leave(ExecutionPolicy.BOUNDARY);
   }
  else {
     addStatusCode(result);

@@ -1,10 +1,10 @@
 {
-  ClassEditorBuilder builder=context.getClassEditorBuilder("org.apache.catalina.core.StandardService");
-  MethodEditorBuilder startEditor=builder.editMethod("start");
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.apache.catalina.core.StandardService");
+  MethodTransformerBuilder startEditor=builder.editMethod("start");
   startEditor.property(IGNORE_IF_NOT_EXIST);
   startEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardServiceStartInterceptor");
-  MethodEditorBuilder startInternalEditor=builder.editMethod("startInternal");
+  MethodTransformerBuilder startInternalEditor=builder.editMethod("startInternal");
   startInternalEditor.property(IGNORE_IF_NOT_EXIST);
   startInternalEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardServiceStartInterceptor");
-  context.addClassEditor(builder.build());
+  context.addClassFileTransformer(builder.build());
 }

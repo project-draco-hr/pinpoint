@@ -1,0 +1,11 @@
+{
+  if (scopeDefinition == null) {
+    throw new NullPointerException("scopeDefinition must not be null");
+  }
+  this.scope=new NamedThreadLocal<InterceptorGroupTransaction>(scopeDefinition.getName()){
+    @Override protected InterceptorGroupTransaction initialValue(){
+      return new DefaultInterceptorStack(scopeDefinition.getName());
+    }
+  }
+;
+}

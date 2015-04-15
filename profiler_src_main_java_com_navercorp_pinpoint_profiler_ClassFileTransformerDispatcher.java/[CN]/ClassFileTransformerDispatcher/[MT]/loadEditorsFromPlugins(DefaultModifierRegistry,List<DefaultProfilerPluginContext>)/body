@@ -1,0 +1,14 @@
+{
+  for (  DefaultProfilerPluginContext pluginContext : pluginContexts) {
+    for (    ClassFileTransformer transformer : pluginContext.getClassEditors()) {
+      if (transformer instanceof DedicatedClassFileTransformer) {
+        DedicatedClassFileTransformer dedicated=(DedicatedClassFileTransformer)transformer;
+        logger.info("Registering class file transformer {} for {} ",dedicated,dedicated.getTargetClassName());
+        modifierRepository.addModifier(new ClassFileTransformerAdaptor(byteCodeInstrumentor,dedicated));
+      }
+ else {
+        logger.warn("Ignore class file transformer {}",transformer);
+      }
+    }
+  }
+}

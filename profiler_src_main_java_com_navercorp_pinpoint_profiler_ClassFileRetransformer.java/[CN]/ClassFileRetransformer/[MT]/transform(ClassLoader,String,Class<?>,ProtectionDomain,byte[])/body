@@ -12,13 +12,13 @@
       return null;
     }
   }
-  final ClassEditor editor=editorMap.remove(classBeingRedefined);
-  if (editor != null) {
+  final ClassFileTransformer transformer=transformerMap.remove(classBeingRedefined);
+  if (transformer != null) {
     try {
-      return classEditorExecutor.execute(editor,loader,className,classfileBuffer);
+      return transformer.transform(loader,className,classBeingRedefined,protectionDomain,classfileBuffer);
     }
  catch (    Throwable t) {
-      logger.warn("Failed to retransform " + className + " with "+ editor);
+      logger.warn("Failed to retransform " + className + " with "+ transformer);
       return null;
     }
   }

@@ -1,6 +1,7 @@
 {
-  Scope scope=new DefaultScope("test");
-  scope.tryBefore(ExecutionPoint.BOUNDARY);
-  scope.tryAfter(ExecutionPoint.BOUNDARY);
-  scope.removeAttachment();
+  InterceptorGroupTransaction trnasaction=new DefaultInterceptorStack("test");
+  trnasaction.tryEnter(ExecutionPolicy.ALWAYS);
+  trnasaction.canLeave(ExecutionPolicy.ALWAYS);
+  trnasaction.leave(ExecutionPolicy.ALWAYS);
+  trnasaction.removeAttachment();
 }

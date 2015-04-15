@@ -1,0 +1,14 @@
+{
+  if (throwable != null || result == null) {
+    return false;
+  }
+  if (!asyncAccessor.isApplicable(target)) {
+    logger.debug("Invalid target object. Need metadata accessor({}).",METADATA_ASYNC);
+    return false;
+  }
+  if (!asyncTraceIdAccessor.isApplicable(result)) {
+    logger.debug("Invalid target object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+    return false;
+  }
+  return true;
+}

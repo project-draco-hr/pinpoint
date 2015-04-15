@@ -1,0 +1,15 @@
+{
+  Map<Integer,List<SpanEventBo>> map=aligner.init(asyncCallSpanEventList);
+  List<SpanEventBo> syncList=map.get(-1);
+  assertNotNull(syncList);
+  assertEquals(4,syncList.size());
+  assertEquals(1,syncList.get(0).getSequence());
+  assertEquals(2,syncList.get(1).getSequence());
+  assertEquals(3,syncList.get(2).getSequence());
+  assertEquals(4,syncList.get(3).getSequence());
+  List<SpanEventBo> asyncList=map.get(1);
+  assertNotNull(asyncList);
+  assertEquals(2,asyncList.size());
+  assertEquals(1,asyncList.get(0).getSequence());
+  assertEquals(2,asyncList.get(1).getSequence());
+}

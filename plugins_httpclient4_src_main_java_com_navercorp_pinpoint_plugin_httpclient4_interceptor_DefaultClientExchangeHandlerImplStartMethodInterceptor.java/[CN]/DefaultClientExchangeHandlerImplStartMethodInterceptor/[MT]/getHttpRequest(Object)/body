@@ -1,0 +1,12 @@
+{
+  try {
+    if (!requestProducerAccessor.isApplicable(target)) {
+      return null;
+    }
+    final HttpAsyncRequestProducer requestProducer=requestProducerAccessor.get(target);
+    return requestProducer.generateRequest();
+  }
+ catch (  Exception e) {
+    return null;
+  }
+}

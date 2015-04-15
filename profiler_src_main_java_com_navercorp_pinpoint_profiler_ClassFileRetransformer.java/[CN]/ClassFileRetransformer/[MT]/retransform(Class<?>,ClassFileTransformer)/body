@@ -1,0 +1,15 @@
+{
+  if (!instrumentation.isModifiableClass(target)) {
+    throw new ProfilerException("Target class " + target + " is not modifiable");
+  }
+  ClassFileTransformer prev=transformerMap.putIfAbsent(target,transformer);
+  if (prev != null) {
+    throw new ProfilerException("Retransform already requested. target: " + target + ", transformer: "+ prev);
+  }
+  try {
+    instrumentation.retransformClasses(target);
+  }
+ catch (  UnmodifiableClassException e) {
+    throw new ProfilerException(e);
+  }
+}

@@ -1,10 +1,11 @@
 {
-  Scope scope=new ThreadLocalScope(new DefaultScopeDefinition("test"));
-  Assert.assertTrue(scope.tryBefore(ExecutionPoint.BOUNDARY));
-  Assert.assertFalse(scope.tryBefore(ExecutionPoint.BOUNDARY));
-  Assert.assertFalse(scope.tryBefore(ExecutionPoint.BOUNDARY));
-  Assert.assertTrue(scope.isIn());
-  Assert.assertFalse(scope.tryAfter(ExecutionPoint.BOUNDARY));
-  Assert.assertFalse(scope.tryAfter(ExecutionPoint.BOUNDARY));
-  Assert.assertTrue(scope.tryAfter(ExecutionPoint.BOUNDARY));
+  InterceptorGroupTransaction scope=new ThreadLocalScope(new DefaultInterceptorGroupDefinition("test"));
+  Assert.assertTrue(scope.tryEnter(ExecutionPolicy.BOUNDARY));
+  Assert.assertFalse(scope.tryEnter(ExecutionPolicy.BOUNDARY));
+  Assert.assertFalse(scope.tryEnter(ExecutionPolicy.BOUNDARY));
+  Assert.assertTrue(scope.isActive());
+  Assert.assertFalse(scope.canLeave(ExecutionPolicy.BOUNDARY));
+  Assert.assertFalse(scope.canLeave(ExecutionPolicy.BOUNDARY));
+  Assert.assertTrue(scope.canLeave(ExecutionPolicy.BOUNDARY));
+  scope.leave(ExecutionPolicy.BOUNDARY);
 }

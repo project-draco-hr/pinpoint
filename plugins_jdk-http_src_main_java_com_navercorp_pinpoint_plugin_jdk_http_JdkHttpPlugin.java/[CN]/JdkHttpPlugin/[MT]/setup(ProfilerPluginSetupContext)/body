@@ -1,12 +1,12 @@
 {
-  ClassEditorBuilder builder=context.getClassEditorBuilder("sun.net.www.protocol.http.HttpURLConnection");
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("sun.net.www.protocol.http.HttpURLConnection");
   builder.injectFieldAccessor("connected");
   builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdk.http.interceptor.HttpURLConnectionInterceptor");
-  builder.conditional(hasField("connecting","boolean"),new ConditionalClassEditorSetup(){
-    @Override public void setup(    ConditionalClassEditorBuilder conditional){
+  builder.conditional(hasField("connecting","boolean"),new ConditionalClassFileTransformerSetup(){
+    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
       conditional.injectFieldAccessor("connecting");
     }
   }
 );
-  context.addClassEditor(builder.build());
+  context.addClassFileTransformer(builder.build());
 }

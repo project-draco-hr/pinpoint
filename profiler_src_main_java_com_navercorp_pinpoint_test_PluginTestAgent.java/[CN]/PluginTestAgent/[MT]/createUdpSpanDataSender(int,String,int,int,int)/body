@@ -1,3 +1,5 @@
 {
-  return new ListenableDataSender<TBase<?,?>>();
+  ListenableDataSender<TBase<?,?>> sender=new ListenableDataSender<TBase<?,?>>();
+  sender.setListener(new OrderedSpanRecorder());
+  return sender;
 }

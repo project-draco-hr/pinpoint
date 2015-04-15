@@ -2,10 +2,6 @@
   if (createTraceObject) {
     getTraceContext().newTraceObject();
   }
-  DataSender spanDataSender=getSpanDataSender();
-  if (spanDataSender instanceof ListenableDataSender) {
-    ListenableDataSender listenableDataSender=(ListenableDataSender)spanDataSender;
-    listenableDataSender.setListener(new TBaseRecorderAdaptor());
-  }
-  ((TestTcpDataSender)getTcpDataSender()).clear();
+  getRecorder().clear();
+  getTestTcpDataSender().clear();
 }

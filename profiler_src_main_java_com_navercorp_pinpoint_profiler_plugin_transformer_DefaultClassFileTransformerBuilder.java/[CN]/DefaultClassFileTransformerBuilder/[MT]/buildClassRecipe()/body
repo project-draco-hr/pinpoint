@@ -1,0 +1,11 @@
+{
+  List<ClassRecipe> recipes=new ArrayList<ClassRecipe>(this.recipes);
+  for (  RecipeBuilder<ClassRecipe> builder : recipeBuilders) {
+    recipes.add(builder.buildRecipe());
+  }
+  if (recipes.isEmpty()) {
+    throw new IllegalStateException("No class transformation registered");
+  }
+  ClassRecipe recipe=recipes.size() == 1 ? recipes.get(0) : new ClassCookBook(recipes);
+  return recipe;
+}

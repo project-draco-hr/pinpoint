@@ -5,11 +5,11 @@
   try {
     InstrumentClass preparedStatementClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     Interceptor executeInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("execute",null,executeInterceptor,JtdsScope.SCOPE_NAME);
+    preparedStatementClass.addGroupInterceptor("execute",null,executeInterceptor,JtdsScope.SCOPE_NAME);
     Interceptor executeQueryInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("executeQuery",null,executeQueryInterceptor,JtdsScope.SCOPE_NAME);
+    preparedStatementClass.addGroupInterceptor("executeQuery",null,executeQueryInterceptor,JtdsScope.SCOPE_NAME);
     Interceptor executeUpdateInterceptor=new PreparedStatementExecuteQueryInterceptor();
-    preparedStatementClass.addScopeInterceptor("executeUpdate",null,executeUpdateInterceptor,JtdsScope.SCOPE_NAME);
+    preparedStatementClass.addGroupInterceptor("executeUpdate",null,executeUpdateInterceptor,JtdsScope.SCOPE_NAME);
     preparedStatementClass.addTraceValue(DatabaseInfoTraceValue.class);
     preparedStatementClass.addTraceValue(ParsingResultTraceValue.class);
     preparedStatementClass.addTraceValue(BindValueTraceValue.class,"new java.util.HashMap();");
