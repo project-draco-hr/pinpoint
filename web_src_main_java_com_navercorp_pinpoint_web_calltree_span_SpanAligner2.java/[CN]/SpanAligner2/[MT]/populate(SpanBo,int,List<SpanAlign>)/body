@@ -34,6 +34,11 @@
       if (spanEventBo.getDepth() != PARENT_DEPTH) {
         currentSyncDepth=spanDepth + spanEventBo.getDepth();
       }
+ else {
+        if (spanDepth == 0) {
+          currentSyncDepth=1;
+        }
+      }
       currentDepth=currentSyncDepth;
     }
     if (logger.isDebugEnabled()) {

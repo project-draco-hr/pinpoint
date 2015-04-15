@@ -1,0 +1,10 @@
+{
+  SpanBo span=new SpanBo();
+  span.setParentSpanId(-1);
+  span.addSpanEvent(makeSpanEventBo(SYNC,(short)0,-1));
+  span.addSpanEvent(makeSpanEventBo(SYNC,(short)1,-1));
+  span.addSpanEvent(makeSpanEventBo(SYNC,(short)2,-1));
+  span.addSpanEvent(makeSpanEventBo(SYNC,(short)3,-1));
+  SpanAligner2 aligner=new SpanAligner2(Arrays.asList(span),1);
+  return aligner.sort();
+}
