@@ -1,6 +1,4 @@
 {
-  limit=LimitUtils.checkRange(limit);
-  long to=TimeUtils.getDelayLastTime();
-  long from=to - period;
-  return getFilteredServerMapData(applicationName,serviceTypeCode,from,to,to,filterText,filterHint,limit);
+  String serviceTypeName=this.registry.findServiceType(serviceTypeCode).getName();
+  return getLastFilteredServerMapData(applicationName,serviceTypeName,period,filterText,filterHint,limit);
 }
