@@ -1,0 +1,18 @@
+{
+  if (classBeingRedefined == null) {
+    return null;
+  }
+  logger.info("retransform className:{} cl:{} ",loader,className);
+  final ClassFileTransformer transformer=transformerMap.remove(classBeingRedefined);
+  if (transformer != null) {
+    try {
+      return transformer.transform(loader,className,classBeingRedefined,protectionDomain,classfileBuffer);
+    }
+ catch (    Throwable t) {
+      logger.warn("Failed to retransform {} with {}",className,transformer);
+      return null;
+    }
+  }
+  logger.warn("Unexpected retransform request for className:{} cl:{}",className,loader);
+  return null;
+}

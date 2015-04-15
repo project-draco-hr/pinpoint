@@ -1,20 +1,23 @@
 {
   DefaultAgent agent=MockAgent.of("pinpoint-spring-bean-test.config");
-  ClassFileRetransformer retransformer=mock(ClassFileRetransformer.class);
+  RetransformEventTrigger trigger=mock(RetransformEventTrigger.class);
+  MockByteCodeInstrumentor mockByteCodeInstrumentor=new MockByteCodeInstrumentor(agent.getByteCodeInstrumentor(),trigger);
   Modifier beanModifier=mock(Modifier.class);
-  AbstractAutowireCapableBeanFactoryModifier modifier=AbstractAutowireCapableBeanFactoryModifier.of(agent.getByteCodeInstrumentor(),agent.getProfilerConfig(),retransformer,beanModifier);
+  AbstractAutowireCapableBeanFactoryModifier modifier=AbstractAutowireCapableBeanFactoryModifier.of(mockByteCodeInstrumentor,agent.getProfilerConfig(),beanModifier);
+  RetransformEventTrigger retransformEventTrigger=mockByteCodeInstrumentor.getRetransformEventTrigger();
   ClassLoader loader=getClass().getClassLoader();
   ClassTransformHelper.transformClass(loader,"org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory",modifier);
   ApplicationContext context=new ClassPathXmlApplicationContext("spring-beans-test.xml");
-  verify(retransformer).retransform(Maru.class,beanModifier);
-  verify(retransformer).retransform(Morae.class,beanModifier);
-  verify(retransformer).retransform(Outer.class,beanModifier);
-  verify(retransformer).retransform(Inner.class,beanModifier);
-  verify(retransformer).retransform(ProxyTarget.class,beanModifier);
-  verifyNoMoreInteractions(retransformer);
+  ModifierTransformAdaptor modifierTransformAdaptor=new ModifierTransformAdaptor(beanModifier);
+  verify(retransformEventTrigger).retransform(Maru.class,modifierTransformAdaptor);
+  verify(retransformEventTrigger).retransform(Morae.class,modifierTransformAdaptor);
+  verify(retransformEventTrigger).retransform(Outer.class,modifierTransformAdaptor);
+  verify(retransformEventTrigger).retransform(Inner.class,modifierTransformAdaptor);
+  verify(retransformEventTrigger).retransform(ProxyTarget.class,modifierTransformAdaptor);
+  verifyNoMoreInteractions(trigger);
   context.getBean("mozzi");
   context.getBean("mozzi");
-  verify(retransformer).retransform(Mozzi.class,beanModifier);
-  verifyNoMoreInteractions(retransformer);
+  verify(retransformEventTrigger).retransform(Mozzi.class,modifierTransformAdaptor);
+  verifyNoMoreInteractions(retransformEventTrigger);
   assertFalse(ProxyTarget.class.equals(context.getBean("proxyTarget").getClass()));
 }
