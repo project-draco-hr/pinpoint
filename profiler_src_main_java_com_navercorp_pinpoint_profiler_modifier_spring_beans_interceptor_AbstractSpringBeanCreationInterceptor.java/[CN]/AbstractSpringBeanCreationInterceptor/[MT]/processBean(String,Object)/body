@@ -7,7 +7,8 @@
     return;
   }
   try {
-    retransformer.retransform(clazz,modifier);
+    ModifierTransformAdaptor transformAdaptor=new ModifierTransformAdaptor(modifier);
+    retransformEventTrigger.retransform(clazz,transformAdaptor);
     if (logger.isInfoEnabled()) {
       logger.info("Retransform {}",clazz.getName());
     }

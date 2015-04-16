@@ -23,17 +23,17 @@
   dumpConfig(agentOption.getProfilerConfig());
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=agentOption.getProfilerConfig();
-  ClassFileRetransformer retransformer=new ClassFileRetransformer(agentOption.getInstrumentation());
   final Instrumentation instrumentation=agentOption.getInstrumentation();
-  instrumentation.addTransformer(retransformer,true);
-  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder,agentOption.getBootStrapJarPath(),retransformer);
+  RetransformService retransformService=new RetransformService(instrumentation);
+  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,interceptorRegistryBinder,agentOption.getBootStrapJarPath(),retransformService);
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
   pluginClassLoaderFactory=new DefaultPluginClassLoaderFactory(agentOption.getPluginJars());
   pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
-  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,retransformer,pluginContexts);
-  instrumentation.addTransformer(this.classFileTransformer);
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,pluginContexts);
+  retransformService.setRetransformEventListener(classFileTransformer);
+  instrumentation.addTransformer(this.classFileTransformer,true);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,profilerConfig.getApplicationTypeDetectOrder());

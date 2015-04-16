@@ -1,4 +1,7 @@
 {
+  if (classBeingRedefined != null) {
+    return this.retransform(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer);
+  }
   if (skipFilter.doFilter(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
