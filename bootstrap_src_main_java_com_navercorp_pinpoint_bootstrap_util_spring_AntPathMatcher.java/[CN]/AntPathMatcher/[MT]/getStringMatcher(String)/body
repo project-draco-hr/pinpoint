@@ -1,0 +1,18 @@
+{
+  AntPathStringMatcher matcher=null;
+  Boolean cachePatterns=this.cachePatterns;
+  if (cachePatterns == null || cachePatterns.booleanValue()) {
+    matcher=this.stringMatcherCache.get(pattern);
+  }
+  if (matcher == null) {
+    matcher=new AntPathStringMatcher(pattern);
+    if (cachePatterns == null && this.stringMatcherCache.size() >= CACHE_TURNOFF_THRESHOLD) {
+      deactivatePatternCache();
+      return matcher;
+    }
+    if (cachePatterns == null || cachePatterns.booleanValue()) {
+      this.stringMatcherCache.put(pattern,matcher);
+    }
+  }
+  return matcher;
+}
