@@ -1,0 +1,14 @@
+{
+  if (agent == null) {
+    throw new NullPointerException("agent must not be null");
+  }
+  if (byteCodeInstrumentor == null) {
+    throw new NullPointerException("byteCodeInstrumentor must not be null");
+  }
+  this.agent=agent;
+  this.byteCodeInstrumentor=byteCodeInstrumentor;
+  this.retransformer=new DefaultClassFileRetransformer();
+  this.profilerConfig=agent.getProfilerConfig();
+  this.modifierRegistry=createModifierRegistry(pluginContexts);
+  this.skipFilter=new DefaultClassFileFilter(agentClassLoader);
+}
