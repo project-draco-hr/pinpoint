@@ -1,0 +1,27 @@
+{
+  int length=types.length;
+  Object[] arguments=new Object[length];
+  for (  ArgumentProvider resolver : parameterResolvers) {
+    if (resolver instanceof JudgingParameterResolver) {
+      ((JudgingParameterResolver)resolver).prepare();
+    }
+  }
+  outer:   for (int i=0; i < length; i++) {
+    for (    ArgumentProvider resolver : parameterResolvers) {
+      Option resolved=resolver.get(i,types[i],annotations[i]);
+      if (resolved.hasValue()) {
+        arguments[i]=resolved.getValue();
+        continue outer;
+      }
+    }
+    return null;
+  }
+  for (  ArgumentProvider resolver : parameterResolvers) {
+    if (resolver instanceof JudgingParameterResolver) {
+      if (!((JudgingParameterResolver)resolver).isAcceptable()) {
+        return null;
+      }
+    }
+  }
+  return arguments;
+}

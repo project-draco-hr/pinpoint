@@ -1,0 +1,11 @@
+{
+  Class<? extends Interceptor> interceptorType=TypeUtils.loadClass(targetClassLoader,interceptorClassName);
+  InterceptorFactory factory=createInterceptorFactory(interceptorType);
+  Interceptor interceptor=factory.getInterceptor(targetClassLoader,targetClass,targetMethod);
+  if (targetMethod.isConstructor()) {
+    return targetClass.addConstructorInterceptor(targetMethod.getParameterTypes(),interceptor);
+  }
+ else {
+    return targetClass.addInterceptor(targetMethod.getName(),targetMethod.getParameterTypes(),interceptor);
+  }
+}

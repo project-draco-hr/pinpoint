@@ -1,0 +1,8 @@
+{
+  String cubrid="jdbc:cubrid:10.99.196.126:34001:nrdwapw:::?charset=utf-8:";
+  DatabaseInfo dbInfo=parser.parse(cubrid);
+  Assert.assertEquals(CubridConstants.CUBRID,dbInfo.getType());
+  Assert.assertEquals("10.99.196.126:34001",dbInfo.getHost().get(0));
+  Assert.assertEquals("nrdwapw",dbInfo.getDatabaseId());
+  Assert.assertEquals("jdbc:cubrid:10.99.196.126:34001:nrdwapw:::",dbInfo.getUrl());
+}

@@ -1,9 +1,0 @@
-{
-  List<ParameterResolver> suppliers=new ArrayList<ParameterResolver>();
-  PinpointTypeResolver pinpointResolver=new PinpointTypeResolver(pluginContext,interceptorGroup,target,targetMethod);
-  suppliers.add(pinpointResolver);
-  if (providedValues != null) {
-    suppliers.add(new ProvidedValuesResolver(providedValues));
-  }
-  return new ConstructorResolver<T>(interceptorClass,suppliers);
-}

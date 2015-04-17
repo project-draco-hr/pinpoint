@@ -1,0 +1,10 @@
+{
+  CubridConfig config=new CubridConfig(context.getConfig());
+  if (!config.isProfileCubrid()) {
+    return;
+  }
+  addCUBRIDConnectionTransformer(context,config);
+  addCUBRIDDriverTransformer(context);
+  addCUBRIDPreparedStatementTransformer(context,config);
+  addCUBRIDStatementTransformer(context);
+}

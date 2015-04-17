@@ -5,8 +5,22 @@
     if (md.getLine() != -1) {
       api+=":" + md.getLine();
     }
-    idMap.put(md.getApiId(),api);
-    descriptionMap.put(api,md.getApiId());
+    apiIdMap.put(md.getApiId(),api);
+    apiDescriptionMap.put(api,md.getApiId());
+  }
+ else   if (data instanceof TSqlMetaData) {
+    TSqlMetaData md=(TSqlMetaData)data;
+    int id=md.getSqlId();
+    String sql=md.getSql();
+    sqlMap.put(sql,id);
+    sqlIdMap.put(id,sql);
+  }
+ else   if (data instanceof TStringMetaData) {
+    TStringMetaData md=(TStringMetaData)data;
+    int id=md.getStringId();
+    String string=md.getStringValue();
+    stringMap.put(string,id);
+    stringIdMap.put(id,string);
   }
   datas.add(data);
 }

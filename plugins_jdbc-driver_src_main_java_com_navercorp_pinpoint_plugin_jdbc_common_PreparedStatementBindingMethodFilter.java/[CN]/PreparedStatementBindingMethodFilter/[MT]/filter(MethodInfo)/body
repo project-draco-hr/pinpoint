@@ -1,0 +1,12 @@
+{
+  List<String[]> paramTypes=targets.get(method.getName());
+  if (paramTypes == null) {
+    return true;
+  }
+  for (  String[] types : paramTypes) {
+    if (Arrays.deepEquals(types,method.getParameterTypes())) {
+      return false;
+    }
+  }
+  return true;
+}

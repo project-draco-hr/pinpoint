@@ -1,0 +1,7 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDStatement");
+  builder.injectMetadata(DATABASE_INFO);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementExecuteQueryInterceptor").group(GROUP_CUBRID);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementExecuteUpdateInterceptor").group(GROUP_CUBRID);
+  context.addClassFileTransformer(builder.build());
+}

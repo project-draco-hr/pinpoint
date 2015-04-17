@@ -1,0 +1,22 @@
+{
+  if (this.index >= values.length) {
+    return Option.empty();
+  }
+  Object value=values[this.index];
+  if (type.isPrimitive()) {
+    if (value == null) {
+      return Option.empty();
+    }
+    if (TypeUtils.getWrapperOf(type) == value.getClass()) {
+      prepareNextCandidate();
+      return Option.withValue(value);
+    }
+  }
+ else {
+    if (type.isInstance(value)) {
+      prepareNextCandidate();
+      return Option.withValue(value);
+    }
+  }
+  return Option.empty();
+}

@@ -1,0 +1,17 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDConnection");
+  builder.injectMetadata(DATABASE_INFO);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.ConnectionCloseInterceptor").group(GROUP_CUBRID);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementCreateInterceptor").group(GROUP_CUBRID);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.PreparedStatementCreateInterceptor").group(GROUP_CUBRID);
+  if (config.isProfileSetAutoCommit()) {
+    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionSetAutoCommitInterceptor").group(GROUP_CUBRID);
+  }
+  if (config.isProfileCommit()) {
+    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionCommitInterceptor").group(GROUP_CUBRID);
+  }
+  if (config.isProfileRollback()) {
+    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionRollbackInterceptor").group(GROUP_CUBRID);
+  }
+  context.addClassFileTransformer(builder.build());
+}
