@@ -1,18 +1,37 @@
 {
-  if (spanEventBo.getAsyncId() != -1) {
-    if (spanEventBo.getSequence() == 0) {
-      asyncParent=parent + current;
+  if (isAsyncEvent(spanEventBo)) {
+    if (isFirstEvent(spanEventBo) || async.first) {
+      async.parent=align.parent + align.current;
+      async.first=false;
     }
-    if (spanEventBo.getDepth() != PARENT_DEPTH) {
-      async=asyncParent + spanEventBo.getDepth();
+    if (isSameParent(spanEventBo)) {
+      if (async.parent == 0) {
+        async.current=1;
+      }
     }
-    current=async;
+ else {
+      int depth=spanEventBo.getDepth();
+      if (depth > async.current + 1) {
+        depth=async.current + 1;
+      }
+      async.current=async.parent + depth;
+    }
+    align.current=async.current;
   }
  else {
-    if (spanEventBo.getDepth() != PARENT_DEPTH) {
-      sync=parent + spanEventBo.getDepth();
+    if (isSameParent(spanEventBo)) {
+      if (align.current == 0) {
+        sync.current=1;
+      }
     }
-    current=sync;
+ else {
+      int depth=spanEventBo.getDepth();
+      if (depth > sync.current + 1) {
+        depth=sync.current + 1;
+      }
+      sync.current=sync.parent + depth;
+    }
+    align.current=sync.current;
   }
-  return current;
+  return align.current;
 }

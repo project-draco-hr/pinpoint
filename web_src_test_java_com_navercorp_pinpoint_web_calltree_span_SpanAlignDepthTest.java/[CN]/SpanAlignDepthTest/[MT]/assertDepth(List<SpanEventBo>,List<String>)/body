@@ -1,0 +1,19 @@
+{
+  int index=0;
+  SpanAlignDepth depth=new SpanAlignDepth(0);
+  for (  SpanEventBo event : list) {
+    int currentDepth=depth.getDepth(event);
+    StringBuilder sb=new StringBuilder();
+    for (int i=0; i < currentDepth; i++) {
+      sb.append("#");
+    }
+    final String expected=result.get(index++);
+    if (expected.equals(sb.toString())) {
+      System.out.println("Matched(" + index + "): "+ sb.toString());
+    }
+ else {
+      System.out.println("Not Matched(" + index + "): "+ sb.toString()+ ", expected="+ expected);
+    }
+  }
+  System.out.println("");
+}
