@@ -32,8 +32,20 @@
     ExpectedAnnotation expect=expected.annotations[i];
     AnnotationKey expectedAnnotationKey=annotationKeyRegistryService.findAnnotationKeyByName(expect.getKeyName());
     TAnnotation actual=actualAnnotations.get(i);
-    if (expectedAnnotationKey.getCode() != actual.getKey() || !Objects.equal(expect.getValue(),actual.getValue().getFieldValue())) {
+    if (expectedAnnotationKey.getCode() != actual.getKey()) {
       throw new AssertionError("Expected " + i + "th annotation ["+ expectedAnnotationKey.getCode()+ "="+ expect.getValue()+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
+    }
+    if (expectedAnnotationKey == AnnotationKey.SQL_ID && expect instanceof ExpectedSql) {
+      verifySql((ExpectedSql)expect,actual);
+    }
+ else {
+      Object expectedValue=expect.getValue();
+      if (AnnotationKey.isCachedArgsKey(expectedAnnotationKey.getCode())) {
+        expectedValue=getTestTcpDataSender().getStringId(expectedValue.toString());
+      }
+      if (!Objects.equal(expectedValue,actual.getValue().getFieldValue())) {
+        throw new AssertionError("Expected " + i + "th annotation ["+ expectedAnnotationKey.getCode()+ "="+ expect.getValue()+ "] but was ["+ toString(actual)+ "], expected: "+ expected+ ", was: "+ span);
+      }
     }
   }
 }

@@ -1,0 +1,11 @@
+{
+  trace.recordApi(getMethodDescriptor());
+  if (args.length > 0) {
+    Object arg=args[0];
+    if (arg instanceof String) {
+      trace.recordSqlInfo((String)arg);
+    }
+  }
+  trace.recordException(throwable);
+  trace.markAfterTime();
+}

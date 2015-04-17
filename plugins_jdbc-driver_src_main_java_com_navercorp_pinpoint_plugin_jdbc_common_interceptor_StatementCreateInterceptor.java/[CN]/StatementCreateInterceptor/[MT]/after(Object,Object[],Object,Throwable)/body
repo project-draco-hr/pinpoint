@@ -10,7 +10,7 @@
     return;
   }
   if (target instanceof Connection) {
-    final DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
-    DatabaseInfoTraceValueUtils.__setTraceDatabaseInfo(result,databaseInfo);
+    final DatabaseInfo databaseInfo=databaseInfoAccessor.get(target,UnKnownDatabaseInfo.INSTANCE);
+    databaseInfoAccessor.set(result,databaseInfo);
   }
 }

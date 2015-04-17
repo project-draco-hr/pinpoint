@@ -1,12 +1,12 @@
 {
   if (recordConnection) {
-    final DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(result,UnKnownDatabaseInfo.INSTANCE);
-    trace.recordServiceType(databaseInfo.getExecuteQueryType());
+    final DatabaseInfo databaseInfo=databaseInfoAccessor.get(result,UnKnownDatabaseInfo.INSTANCE);
+    trace.recordServiceType(databaseInfo.getType());
     trace.recordEndPoint(databaseInfo.getMultipleHost());
     trace.recordDestinationId(databaseInfo.getDatabaseId());
   }
   final String driverUrl=(String)args[0];
-  trace.recordApiCachedString(getMethodDescriptor(),driverUrl,0);
+  trace.recordApiCachedString(methodDescriptor,driverUrl,0);
   trace.recordException(throwable);
   trace.markAfterTime();
 }

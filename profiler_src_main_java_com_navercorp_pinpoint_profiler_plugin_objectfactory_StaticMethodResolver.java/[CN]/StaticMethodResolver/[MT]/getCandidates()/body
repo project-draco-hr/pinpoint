@@ -1,0 +1,14 @@
+{
+  List<Method> result=new ArrayList<Method>();
+  for (  Method method : type.getMethods()) {
+    if (!Modifier.isStatic(method.getModifiers())) {
+      continue;
+    }
+    if (!method.getName().equals(methodName)) {
+      continue;
+    }
+    result.add(method);
+  }
+  Collections.sort(result,COMPARATOR);
+  return result;
+}

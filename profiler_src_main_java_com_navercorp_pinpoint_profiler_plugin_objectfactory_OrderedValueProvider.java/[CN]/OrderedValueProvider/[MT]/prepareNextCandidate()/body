@@ -1,0 +1,11 @@
+{
+  index++;
+  if (index >= values.length) {
+    return;
+  }
+  Object val=values[index];
+  if (val instanceof ObjectRecipe) {
+    val=objectFactory.createInstance((ObjectRecipe)val);
+    values[index]=val;
+  }
+}

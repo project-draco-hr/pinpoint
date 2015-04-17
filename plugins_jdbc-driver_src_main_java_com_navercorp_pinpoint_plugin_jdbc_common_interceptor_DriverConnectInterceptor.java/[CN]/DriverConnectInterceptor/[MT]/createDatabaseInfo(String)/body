@@ -2,7 +2,7 @@
   if (url == null) {
     return UnKnownDatabaseInfo.INSTANCE;
   }
-  final DatabaseInfo databaseInfo=getTraceContext().parseJdbcUrl(url);
+  final DatabaseInfo databaseInfo=jdbcUrlParser.parse(url);
   if (isDebug) {
     logger.debug("parse DatabaseInfo:{}",databaseInfo);
   }

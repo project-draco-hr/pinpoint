@@ -1,0 +1,14 @@
+{
+  List<Method> candidates=getCandidates();
+  for (  Method method : candidates) {
+    Class<?>[] types=method.getParameterTypes();
+    Annotation[][] annotations=method.getParameterAnnotations();
+    Object[] arguments=argumentsResolver.resolve(types,annotations);
+    if (arguments != null) {
+      this.resolvedMethod=method;
+      this.resolvedArguments=arguments;
+      return true;
+    }
+  }
+  return false;
+}

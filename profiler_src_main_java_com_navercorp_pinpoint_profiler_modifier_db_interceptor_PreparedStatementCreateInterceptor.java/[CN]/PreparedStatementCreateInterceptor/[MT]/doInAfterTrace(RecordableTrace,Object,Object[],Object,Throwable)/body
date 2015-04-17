@@ -1,0 +1,9 @@
+{
+  if (result instanceof ParsingResultTraceValue) {
+    ParsingResult parsingResult=((ParsingResultTraceValue)result)._$PINPOINT$_getTraceParsingResult();
+    trace.recordSqlParsingResult(parsingResult);
+  }
+  trace.recordException(throwable);
+  trace.recordApi(getMethodDescriptor());
+  trace.markAfterTime();
+}

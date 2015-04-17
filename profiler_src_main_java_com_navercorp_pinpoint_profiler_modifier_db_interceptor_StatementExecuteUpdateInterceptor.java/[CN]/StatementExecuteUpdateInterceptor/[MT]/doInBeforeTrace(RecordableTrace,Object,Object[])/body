@@ -1,0 +1,14 @@
+{
+  trace.markBeforeTime();
+  DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
+  trace.recordServiceType(databaseInfo.getExecuteQueryType());
+  trace.recordEndPoint(databaseInfo.getMultipleHost());
+  trace.recordDestinationId(databaseInfo.getDatabaseId());
+  trace.recordApi(getMethodDescriptor());
+  if (args != null && args.length > 0) {
+    Object arg=args[0];
+    if (arg instanceof String) {
+      trace.recordSqlInfo((String)arg);
+    }
+  }
+}

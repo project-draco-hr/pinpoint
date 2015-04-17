@@ -1,9 +1,9 @@
 {
-  if (result instanceof ParsingResultTraceValue) {
-    ParsingResult parsingResult=((ParsingResultTraceValue)result)._$PINPOINT$_getTraceParsingResult();
+  if (parsingResultAccessor.isApplicable(result)) {
+    ParsingResult parsingResult=parsingResultAccessor.get(result);
     trace.recordSqlParsingResult(parsingResult);
   }
   trace.recordException(throwable);
-  trace.recordApi(getMethodDescriptor());
+  trace.recordApi(methodDescriptor);
   trace.markAfterTime();
 }
