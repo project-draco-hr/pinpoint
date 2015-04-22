@@ -7,7 +7,7 @@
   callTree.add(makeSpanEventBo(SYNC,(short)0,1));
   callTree.add(makeSpanEventBo(ASYNC,(short)0,1));
   callTree.add(makeSpanEventBo(SYNC,(short)1,-1));
-  assertDepth(callTree,expectResult);
+  assertDepth("async-case-1",callTree,expectResult);
   expectResult.clear();
   expectResult.add("#");
   expectResult.add("##");
@@ -18,7 +18,7 @@
   callTree.add(makeSpanEventBo(ASYNC,(short)0,1));
   callTree.add(makeSpanEventBo(ASYNC,(short)1,2));
   callTree.add(makeSpanEventBo(ASYNC,(short)0,1));
-  assertDepth(callTree,expectResult);
+  assertDepth("async-case-2",callTree,expectResult);
   expectResult.clear();
   expectResult.add("#");
   expectResult.add("##");
@@ -29,5 +29,5 @@
   callTree.add(makeSpanEventBo(ASYNC,(short)0,1));
   callTree.add(makeSpanEventBo(ASYNC,(short)0,1));
   callTree.add(makeSpanEventBo(SYNC,(short)1,-1));
-  assertDepth(callTree,expectResult);
+  assertDepth("async-case-3",callTree,expectResult);
 }
