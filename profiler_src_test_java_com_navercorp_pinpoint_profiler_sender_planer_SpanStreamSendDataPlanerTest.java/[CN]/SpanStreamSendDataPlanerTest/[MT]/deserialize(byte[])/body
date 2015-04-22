@@ -1,0 +1,23 @@
+{
+  ByteBuffer bb=ByteBuffer.wrap(data);
+  bb.get();
+  bb.get();
+  int chunkSize=bb.get();
+  List<TSpanEvent> eventList=new ArrayList<TSpanEvent>();
+  for (int i=0; i < chunkSize; i++) {
+    short componentSize=bb.getShort();
+    byte[] component=new byte[componentSize];
+    bb.get(component);
+    HeaderTBaseDeserializer deserialize=new HeaderTBaseDeserializerFactory().createDeserializer();
+    List<TBase<?,?>> value=deserialize.deserializeList(component);
+    for (int j=0; j < value.size(); j++) {
+      TBase tbase=value.get(j);
+      if (tbase instanceof TSpanEvent) {
+        eventList.add((TSpanEvent)tbase);
+      }
+ else {
+      }
+    }
+  }
+  return eventList;
+}

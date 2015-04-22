@@ -1,0 +1,12 @@
+{
+  if (span == null) {
+    return;
+  }
+  HeaderTBaseSerializer serializer=serializerPool.getObject();
+  CompositeSpanStreamData compositeSpanStreamData=spanStreamSendDataSerializer.serializeSpanStream(serializer,span);
+  if (compositeSpanStreamData == null) {
+    serializerPool.returnObject(serializer);
+    return;
+  }
+  doAddAndFlush(compositeSpanStreamData,serializer);
+}

@@ -1,0 +1,11 @@
+{
+  StandbySpanStreamDataStorage storage=new StandbySpanStreamDataStorage(3,1000);
+  boolean isAdded=storage.addStandbySpanStreamData(createSpanStreamSendData("a".getBytes()));
+  Assert.assertTrue(isAdded);
+  isAdded=storage.addStandbySpanStreamData(createSpanStreamSendData("b".getBytes()));
+  Assert.assertTrue(isAdded);
+  isAdded=storage.addStandbySpanStreamData(createSpanStreamSendData("c".getBytes()));
+  Assert.assertTrue(isAdded);
+  isAdded=storage.addStandbySpanStreamData(createSpanStreamSendData("d".getBytes()));
+  Assert.assertFalse(isAdded);
+}

@@ -1,0 +1,7 @@
+{
+synchronized (lock) {
+    boolean isAdded=standbySpanStreamDataStorage.addStandbySpanStreamData(standbySpanStreamData);
+    lock.notifyAll();
+    return isAdded;
+  }
+}

@@ -1,0 +1,49 @@
+{
+  logger.info("process");
+  List<SpanStreamSendData> spanStreamSendDataList=new ArrayList<SpanStreamSendData>();
+  SpanStreamSendData currentSpanStreamSendData=spanStreamSendData;
+  FlushMode mode=plan(spanStreamSendData);
+  if (mode == FlushMode.FLUSH_FIRST) {
+    spanStreamSendDataList.add(currentSpanStreamSendData);
+    currentSpanStreamSendData.setFlushMode(SpanStreamSendDataMode.WAIT_BUFFER_AND_FLUSH);
+    currentSpanStreamSendData=spanStreamSendDataFactory.create();
+  }
+  int buffersLength=compositeSpanStreamData.getComponentsBufferCapacity();
+  if (currentSpanStreamSendData.isAvaiableBufferCapacity(buffersLength)) {
+    currentSpanStreamSendData.addBuffer(compositeSpanStreamData.getByteBuffer(),serializer);
+    spanStreamSendDataList.add(currentSpanStreamSendData);
+  }
+ else {
+    int markStartComponentIndex=0;
+    int markEndComponentIndex=-1;
+    int flushBufferSize=0;
+    for (int i=0; i < compositeSpanStreamData.getComponentsCount(); i++) {
+      int appendBufferSize=0;
+      if (!compositeSpanStreamData.isLastComponentIndex(i)) {
+        appendBufferSize=getSpanChunkLength();
+      }
+      flushBufferSize+=compositeSpanStreamData.getComponentBufferLength(i);
+      if (needFlush(currentSpanStreamSendData,flushBufferSize,appendBufferSize)) {
+        ByteBuffer addBuffer=createByteBuffer(compositeSpanStreamData,markStartComponentIndex,markEndComponentIndex);
+        if (addBuffer != null) {
+          ByteBuffer[] byteBufferArray=new ByteBuffer[2];
+          byteBufferArray[0]=addBuffer;
+          byteBufferArray[1]=getSpanChunkBuffer();
+          currentSpanStreamSendData.addBuffer(byteBufferArray);
+        }
+        currentSpanStreamSendData.setFlushMode();
+        spanStreamSendDataList.add(currentSpanStreamSendData);
+        currentSpanStreamSendData=spanStreamSendDataFactory.create();
+        markStartComponentIndex=i;
+        flushBufferSize=compositeSpanStreamData.getComponentBufferLength(i);
+      }
+      markEndComponentIndex=i;
+      if (compositeSpanStreamData.isLastComponentIndex(i)) {
+        ByteBuffer addBuffer=createByteBuffer(compositeSpanStreamData,markStartComponentIndex,markEndComponentIndex);
+        currentSpanStreamSendData.addBuffer(addBuffer,serializer);
+        spanStreamSendDataList.add(currentSpanStreamSendData);
+      }
+    }
+  }
+  return spanStreamSendDataList.iterator();
+}

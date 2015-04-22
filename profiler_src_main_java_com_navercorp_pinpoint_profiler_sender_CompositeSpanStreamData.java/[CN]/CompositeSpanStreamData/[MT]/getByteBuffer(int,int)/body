@@ -1,0 +1,9 @@
+{
+  getRangeCheck(fromComponentBufferIndex,toComponentBufferIndex,getComponentsCount());
+  ComponentBufferIndex fromIndex=componentsBufferIndexList.get(fromComponentBufferIndex);
+  ComponentBufferIndex toIndex=componentsBufferIndexList.get(toComponentBufferIndex);
+  int startBufferPosition=fromIndex.getStartIndex();
+  int endBufferPosition=toIndex.getEndIndex();
+  logger.debug("getByteBuffer buffer-length:{}, {}~{}.",buffer.length,startBufferPosition,endBufferPosition);
+  return ByteBuffer.wrap(buffer,fromIndex.getStartIndex(),toIndex.getEndIndex() - fromIndex.getStartIndex());
+}

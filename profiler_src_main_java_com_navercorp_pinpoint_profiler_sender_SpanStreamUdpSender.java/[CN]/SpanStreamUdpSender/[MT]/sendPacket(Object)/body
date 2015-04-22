@@ -1,0 +1,20 @@
+{
+  logger.info("sendPacket messsage:{}",message);
+  if (message instanceof TBase) {
+    final TBase dto=(TBase)message;
+    if (dto instanceof Span) {
+      handleSpan((Span)message);
+    }
+ else     if (dto instanceof SpanChunk) {
+      handleSpanChunk((SpanChunk)message);
+    }
+ else {
+      logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+      return;
+    }
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+    return;
+  }
+}

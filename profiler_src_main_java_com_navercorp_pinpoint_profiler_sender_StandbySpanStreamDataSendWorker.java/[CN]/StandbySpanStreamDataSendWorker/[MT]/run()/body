@@ -1,0 +1,10 @@
+{
+  while (isStarted) {
+    boolean onEvent=await();
+    if (!isStarted) {
+      break;
+    }
+    List<SpanStreamSendData> forceFlushSpanStreamDataList=getForceFlushSpanStreamDataList();
+    forceFlush(forceFlushSpanStreamDataList);
+  }
+}

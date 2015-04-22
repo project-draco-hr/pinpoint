@@ -1,0 +1,13 @@
+{
+  long blockTime=1000;
+  long sleepTime=500;
+  StandbySpanStreamDataStorage storage=new StandbySpanStreamDataStorage(10,blockTime);
+  SpanStreamSendData oldValue=createSpanStreamSendData();
+  SpanStreamSendData newValue=createSpanStreamSendData("a".getBytes());
+  Thread.sleep(sleepTime);
+  oldValue.addBuffer("test".getBytes());
+  Thread.sleep(1);
+  storage.addStandbySpanStreamData(oldValue);
+  storage.addStandbySpanStreamData(newValue);
+  Assert.assertTrue(storage.getLeftWaitTime(1000) < blockTime - sleepTime);
+}

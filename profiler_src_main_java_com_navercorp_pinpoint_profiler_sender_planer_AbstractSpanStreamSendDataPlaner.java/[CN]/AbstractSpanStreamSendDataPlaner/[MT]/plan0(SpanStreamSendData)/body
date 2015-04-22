@@ -1,0 +1,10 @@
+{
+  int normalModeChunkSize=calculateWithUsingCurrentSendData(spanStreamSendData);
+  int flushFirstModeChunkSize=calculateWithoutUsingCurrentSendData(spanStreamSendData);
+  if (normalModeChunkSize > flushFirstModeChunkSize) {
+    return FlushMode.FLUSH_FIRST;
+  }
+ else {
+    return FlushMode.NORMAL;
+  }
+}
