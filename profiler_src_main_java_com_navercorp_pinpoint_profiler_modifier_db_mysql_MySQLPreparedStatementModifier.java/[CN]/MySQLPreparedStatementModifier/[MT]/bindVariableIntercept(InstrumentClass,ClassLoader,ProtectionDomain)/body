@@ -1,7 +1,7 @@
 {
   ExcludeBindVariableFilter exclude=new ExcludeBindVariableFilter(new String[]{"setRowId","setNClob","setSQLXML"});
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
-  final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(MYSQLScope.SCOPE_NAME);
+  final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(MYSQLScope.SCOPE_NAME);
   Interceptor interceptor=new GroupDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),scope);
   int interceptorId=-1;
   for (  Method method : bindMethod) {

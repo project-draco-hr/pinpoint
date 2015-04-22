@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass jtdsDriver=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(JtdsScope.SCOPE_NAME);
+    final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(JtdsScope.SCOPE_NAME);
     Interceptor createConnection=new DriverConnectInterceptor(scope);
     String[] params=new String[]{"java.lang.String","java.util.Properties"};
     jtdsDriver.addInterceptor("connect",params,createConnection);

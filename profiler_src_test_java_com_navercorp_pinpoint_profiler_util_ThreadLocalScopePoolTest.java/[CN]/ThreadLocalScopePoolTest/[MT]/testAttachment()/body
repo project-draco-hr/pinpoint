@@ -1,6 +1,6 @@
 {
   ScopePool pool=new ThreadLocalScopePool();
-  InterceptorGroupTransaction scope=pool.getScope(new DefaultInterceptorGroupDefinition("test"));
+  InterceptorGroupInvocation scope=pool.getScope(new DefaultInterceptorGroupDefinition("test"));
   scope.tryEnter(ExecutionPolicy.BOUNDARY);
   scope.tryEnter(ExecutionPolicy.BOUNDARY);
   Assert.assertNull(scope.getAttachment());
