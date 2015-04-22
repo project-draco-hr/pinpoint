@@ -8,7 +8,7 @@
       executionPoint=interceptorGroup.executionPoint();
     }
   }
-  InterceptorGroup group=groupName == null ? null : pluginContext.createInterceptorGroup(groupName);
+  InterceptorGroup group=groupName == null ? null : pluginContext.getInterceptorGroup(groupName);
   InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,group,interceptorType,providedArguments);
   if (group != null) {
     factory=new GroupedInterceptorFactory(factory,group,executionPoint);

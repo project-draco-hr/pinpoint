@@ -8,7 +8,7 @@
   if (definition == null) {
     throw new NullPointerException("definition must not be null");
   }
-  final InterceptorGroupTransaction transaction=this.instrumentor.getInterceptorGroupTransaction(definition);
+  final InterceptorGroupInvocation transaction=this.instrumentor.getInterceptorGroupTransaction(definition);
   interceptor=wrapGroupInterceptor(interceptor,transaction);
   return addInterceptor(methodName,args,interceptor);
 }

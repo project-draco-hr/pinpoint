@@ -1,6 +1,6 @@
 {
   List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod();
-  final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(JtdsScope.SCOPE_NAME);
+  final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(JtdsScope.SCOPE_NAME);
   Interceptor interceptor=new GroupDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),scope);
   int interceptorId=-1;
   for (  Method method : bindMethod) {

@@ -1,3 +1,15 @@
 {
-  return fieldSnoopers.get(name);
+  FieldAccessor snooper=fieldSnoopers.get(name);
+  if (snooper != null) {
+    return snooper;
+  }
+  try {
+    snooper=FieldAccessor.get(fieldSnooperIndex);
+  }
+ catch (  ArrayIndexOutOfBoundsException e) {
+    throw new IllegalStateException("Cannot allocate FieldAccessor. Exceeded max:" + fieldSnooperIndex);
+  }
+  fieldSnoopers.add(name,snooper);
+  fieldSnooperIndex++;
+  return snooper;
 }
