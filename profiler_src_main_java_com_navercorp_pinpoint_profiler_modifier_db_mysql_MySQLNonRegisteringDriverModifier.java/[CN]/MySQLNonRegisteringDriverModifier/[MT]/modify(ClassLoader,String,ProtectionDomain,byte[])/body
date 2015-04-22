@@ -4,7 +4,7 @@
   }
   try {
     InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    final InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(MYSQLScope.SCOPE_NAME);
+    final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(MYSQLScope.SCOPE_NAME);
     Interceptor createConnection=new DriverConnectInterceptor(false,scope);
     String[] params=new String[]{"java.lang.String","java.util.Properties"};
     mysqlConnection.addInterceptor("connect",params,createConnection);

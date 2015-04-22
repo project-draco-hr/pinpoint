@@ -12,7 +12,7 @@
   try {
     InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     InterceptorGroupDefinition scopeDefinition=new DefaultInterceptorGroupDefinition(HttpClient4Scope.SCOPE);
-    InterceptorGroupTransaction scope=byteCodeInstrumentor.getInterceptorGroupTransaction(scopeDefinition);
+    InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(scopeDefinition);
     addHttpRequestApi(classLoader,protectedDomain,aClass,scope);
     addHttpUriRequestApi(classLoader,protectedDomain,aClass,scope);
     return aClass.toBytecode();

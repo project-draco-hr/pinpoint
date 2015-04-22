@@ -17,7 +17,7 @@
     request.setRequestProperty(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
     return;
   }
-  group.getCurrentTransaction().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
+  group.getCurrentInvocation().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
   trace.traceBlockBegin();
   trace.markBeforeTime();
   TraceId nextId=trace.getTraceId().getNextTraceId();
