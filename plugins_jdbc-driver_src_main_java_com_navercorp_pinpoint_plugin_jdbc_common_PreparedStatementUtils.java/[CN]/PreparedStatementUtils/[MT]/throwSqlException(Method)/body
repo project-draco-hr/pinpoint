@@ -1,0 +1,10 @@
+{
+  Class<?>[] exceptionTypes=method.getExceptionTypes();
+  if (exceptionTypes.length == 1) {
+    Class<?> exceptionType=exceptionTypes[0];
+    if (exceptionType.equals(SQLException.class)) {
+      return true;
+    }
+  }
+  return false;
+}

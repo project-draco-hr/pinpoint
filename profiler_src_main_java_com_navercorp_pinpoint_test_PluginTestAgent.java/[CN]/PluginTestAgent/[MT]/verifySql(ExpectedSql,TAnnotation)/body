@@ -1,0 +1,14 @@
+{
+  int id=getTestTcpDataSender().getSqlId(expected.getQuery());
+  TIntStringStringValue value=actual.getValue().getIntStringStringValue();
+  if (value.getIntValue() != id) {
+    String actualQuery=getTestTcpDataSender().getSql(value.getIntValue());
+    throw new AssertionError("Expected sql [" + id + ": "+ expected.getQuery()+ "] but was ["+ value.getIntValue()+ ": "+ actualQuery+ "], expected: "+ expected+ ", was: "+ actual);
+  }
+  if (!Objects.equal(value.getStringValue1(),expected.getOutput())) {
+    throw new AssertionError("Expected sql with output [" + expected.getOutput() + "] but was ["+ value.getStringValue1()+ "], expected: "+ expected+ ", was: "+ actual);
+  }
+  if (!Objects.equal(value.getStringValue2(),expected.getBindValuesAsString())) {
+    throw new AssertionError("Expected sql with bindValues [" + expected.getBindValuesAsString() + "] but was ["+ value.getStringValue2()+ "], expected: "+ expected+ ", was: "+ actual);
+  }
+}

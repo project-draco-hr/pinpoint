@@ -1,0 +1,14 @@
+{
+  StaticMethodResolver resolver=new StaticMethodResolver(type,recipe.getFactoryMethodName(),argumentsResolver);
+  if (!resolver.resolve()) {
+    throw new PinpointException("Cannot find suitable factory method " + type.getName() + "."+ recipe.getFactoryMethodName());
+  }
+  Method method=resolver.getResolvedMethod();
+  Object[] resolvedArguments=resolver.getResolvedArguments();
+  try {
+    return method.invoke(null,resolvedArguments);
+  }
+ catch (  Exception e) {
+    throw new PinpointException("Fail to invoke factory method: " + type.getName() + "."+ recipe.getFactoryMethodName()+ ", arguments: "+ Arrays.toString(resolvedArguments),e);
+  }
+}

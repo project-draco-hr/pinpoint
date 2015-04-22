@@ -1,0 +1,8 @@
+{
+  List<ArgumentProvider> suppliers=new ArrayList<ArgumentProvider>();
+  suppliers.add(pinpointResolver);
+  if (providedValues != null) {
+    suppliers.add(new OrderedValueProvider(this,providedValues));
+  }
+  return new ArgumentsResolver(suppliers);
+}

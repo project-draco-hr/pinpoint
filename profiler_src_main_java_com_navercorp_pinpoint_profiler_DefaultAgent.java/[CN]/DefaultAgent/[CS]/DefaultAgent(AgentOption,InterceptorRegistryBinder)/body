@@ -32,7 +32,7 @@
   pluginClassLoaderFactory=new DefaultPluginClassLoaderFactory(agentOption.getPluginJars());
   pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,pluginContexts);
-  retransformService.bindRetransformEvent(classFileTransformer);
+  retransformService.setRetransformEventListener(classFileTransformer);
   instrumentation.addTransformer(this.classFileTransformer,true);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
@@ -49,5 +49,4 @@
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
   this.serverMetaDataHolder.addListener(this.agentInfoSender);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
-  preLoadClass();
 }

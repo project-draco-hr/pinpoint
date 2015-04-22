@@ -1,6 +1,6 @@
 {
-  for (  String excludeUrl : this.excludeUrlList) {
-    if (excludeUrl.equals(requestURI)) {
+  for (  PathMatcher excludePathMatcher : this.excludeMatcherList) {
+    if (excludePathMatcher.isMatched(requestURI)) {
       return FILTERED;
     }
   }
