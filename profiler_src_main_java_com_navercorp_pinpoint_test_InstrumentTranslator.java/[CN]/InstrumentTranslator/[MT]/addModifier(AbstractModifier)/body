@@ -5,5 +5,15 @@
     final String javaName=JavaAssistUtils.jvmNameToJavaName(classNameMatcher.getClassName());
     return modifierMap.put(javaName,modifier);
   }
+ else {
+    final MultiClassNameMatcher classNameMatcher=(MultiClassNameMatcher)matcher;
+    List<String> classNameList=classNameMatcher.getClassNames();
+    for (    String className : classNameList) {
+      AbstractModifier old=modifierMap.put(className,modifier);
+      if (old != null) {
+        throw new IllegalStateException("Modifier already exist new:" + modifier.getClass() + " old:"+ old.getMatcher());
+      }
+    }
+  }
   throw new IllegalArgumentException("unsupported Matcher " + matcher);
 }
