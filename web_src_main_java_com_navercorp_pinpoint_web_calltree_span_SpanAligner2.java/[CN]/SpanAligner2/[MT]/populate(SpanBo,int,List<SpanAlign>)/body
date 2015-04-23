@@ -18,11 +18,20 @@
     if (spanAlignDepth.isParentMissing(spanEventBo)) {
       continue;
     }
-    if (spanAlignDepth.hasMissing(spanEventBo)) {
+    if (spanAlignDepth.findMissing(spanEventBo)) {
       final int currentDepth=spanAlignDepth.getDepth(spanEventBo);
       final SpanEventBo missingEvent=new SpanEventBo();
       missingEvent.setStartElapsed(0);
       missingEvent.setEndElapsed(0);
+      List<AnnotationBo> annotations=new ArrayList<AnnotationBo>();
+      ApiMetaDataBo apiMetaData=new ApiMetaDataBo();
+      apiMetaData.setApiInfo("...");
+      apiMetaData.setType(3);
+      AnnotationBo annotation=new AnnotationBo();
+      annotation.setKey(AnnotationKey.API_METADATA.getCode());
+      annotation.setValue(apiMetaData);
+      annotations.add(annotation);
+      missingEvent.setAnnotationBoList(annotations);
       final SpanAlign spanEventAlign=new SpanAlign(currentDepth,span,missingEvent);
       container.add(spanEventAlign);
       continue;
