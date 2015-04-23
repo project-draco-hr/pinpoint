@@ -1,0 +1,15 @@
+{
+  if (providers == null) {
+    throw new NullPointerException("providers must not be null");
+  }
+  logger.info("Loading TraceMetadataProviders");
+  for (  TraceMetadataProvider provider : providers) {
+    if (logger.isLoggable(Level.INFO)) {
+      logger.info("Loading TraceMetadataProvider: " + provider.getClass().getName() + " name:"+ provider.toString());
+    }
+    TraceMetadataSetupContextImpl context=new TraceMetadataSetupContextImpl(provider.getClass());
+    provider.setup(context);
+  }
+  this.serviceTypeChecker.logResult();
+  this.annotationKeyChecker.logResult();
+}
