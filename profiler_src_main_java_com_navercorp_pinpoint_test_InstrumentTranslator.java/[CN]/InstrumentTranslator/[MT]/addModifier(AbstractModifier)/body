@@ -1,3 +1,9 @@
 {
-  return modifierMap.put(modifier.getTargetClass().replace('/','.'),modifier);
+  final Matcher matcher=modifier.getMatcher();
+  if (matcher instanceof ClassNameMatcher) {
+    ClassNameMatcher classNameMatcher=(ClassNameMatcher)matcher;
+    final String javaName=JavaAssistUtils.jvmNameToJavaName(classNameMatcher.getClassName());
+    return modifierMap.put(javaName,modifier);
+  }
+  throw new IllegalArgumentException("unsupported Matcher " + matcher);
 }
