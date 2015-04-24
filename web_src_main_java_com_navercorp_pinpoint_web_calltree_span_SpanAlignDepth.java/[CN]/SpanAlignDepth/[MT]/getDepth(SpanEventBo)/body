@@ -1,5 +1,6 @@
 {
-  if (isAsyncEvent(spanEventBo)) {
+  if (spanEventBo.isAsync()) {
+    async.sequence=spanEventBo.getSequence();
     if (isFirstEvent(spanEventBo) || async.first) {
       async.parent=align.parent + align.current;
       async.first=false;
@@ -11,6 +12,7 @@
     align.current=async.current;
   }
  else {
+    sync.sequence=spanEventBo.getSequence();
     if (!isSameParent(spanEventBo)) {
       int depth=spanEventBo.getDepth();
       sync.current=sync.parent + depth;

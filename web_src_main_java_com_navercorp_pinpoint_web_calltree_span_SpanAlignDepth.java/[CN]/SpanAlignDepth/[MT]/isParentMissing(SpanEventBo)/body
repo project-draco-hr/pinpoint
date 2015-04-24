@@ -1,6 +1,21 @@
 {
-  if (isAsyncEvent(spanEventBo)) {
-    return async.missing;
+  final int sequence=spanEventBo.getSequence();
+  if (spanEventBo.isAsync()) {
+    if (async.first) {
+      if (sequence != 0) {
+        return true;
+      }
+    }
+ else {
+      if (sequence != 0 && sequence > async.sequence + 1) {
+        return true;
+      }
+    }
   }
-  return sync.missing;
+ else {
+    if (sequence > sync.sequence + 1) {
+      return true;
+    }
+  }
+  return false;
 }
