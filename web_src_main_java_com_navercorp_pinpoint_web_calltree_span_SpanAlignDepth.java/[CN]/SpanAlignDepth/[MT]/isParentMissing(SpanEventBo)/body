@@ -16,6 +16,11 @@
     if (sequence > sync.sequence + 1) {
       return true;
     }
+    if (prev != null && prev.getNextAsyncId() != -1) {
+      if (prev.getNextAsyncId() != spanEventBo.getAsyncId()) {
+        return true;
+      }
+    }
   }
   return false;
 }
