@@ -1,0 +1,9 @@
+{
+  if (SQLMAP_CLIENT_CLASS_NAME.equals(className)) {
+    return new SqlMapClientMethodFilter();
+  }
+  if (SQLMAP_SESSION_CLASS_NAME.equals(className)) {
+    return new SqlMapSessionMethodFilter();
+  }
+  throw new IllegalArgumentException("unsupported className:" + className);
+}

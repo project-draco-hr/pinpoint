@@ -1,0 +1,19 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modifying. {}",javassistClassName);
+  }
+  try {
+    InstrumentClass ibatisClientImpl=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    final MethodFilter ibatisApiMethodFilter=getIbatisApiMethodFilter(javassistClassName);
+    List<MethodInfo> declaredMethods=ibatisClientImpl.getDeclaredMethods(ibatisApiMethodFilter);
+    for (    MethodInfo method : declaredMethods) {
+      Interceptor ibatisApiInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
+      ibatisClientImpl.addGroupInterceptor(method.getName(),method.getParameterTypes(),ibatisApiInterceptor,SCOPE);
+    }
+    return ibatisClientImpl.toBytecode();
+  }
+ catch (  Throwable e) {
+    this.logger.warn("{} modifier error. Cause:{}",javassistClassName,e.getMessage(),e);
+    return null;
+  }
+}
