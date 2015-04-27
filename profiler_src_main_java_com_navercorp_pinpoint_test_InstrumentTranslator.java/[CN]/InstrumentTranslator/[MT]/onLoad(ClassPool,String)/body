@@ -1,18 +1,15 @@
 {
-  logger.debug("loading className:{}",classname);
+  logger.debug("loading className:{}",javaClassName);
+  final String jvmClassName=JavaAssistUtils.javaNameToJvmName(javaClassName);
   try {
-    final String jvmName=JavaAssistUtils.javaNameToJvmName(classname);
-    byte[] transform=classFileTransformer.transform(this.loader,jvmName,null,null,null);
+    byte[] transform=classFileTransformer.transform(this.loader,jvmClassName,null,null,null);
     if (transform != null) {
-      pool.makeClass(new ByteArrayInputStream(transform));
+      makeClass(pool,transform,jvmClassName);
       return;
     }
   }
- catch (  IOException ex) {
-    throw new NotFoundException(classname + " not found. Caused:" + ex.getMessage(),ex);
+ catch (  IllegalClassFormatException ex) {
+    throw new RuntimeException(jvmClassName + " not found. Caused:" + ex.getMessage(),ex);
   }
-catch (  IllegalClassFormatException ex) {
-    throw new RuntimeException(classname + " not found. Caused:" + ex.getMessage(),ex);
-  }
-  findModifierMap(pool,classname);
+  onLoadTestModifier(pool,jvmClassName);
 }
