@@ -4,7 +4,7 @@
   final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getProfilerConfig()){
     @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
       try {
-        logger.info("modify cl:{}",classLoader);
+        logger.info("modify className:{} cl:{}",className,classLoader);
         InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
         Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.interceptor.TestBeforeInterceptor");
         addInterceptor(interceptor);

@@ -2,18 +2,17 @@
   final Matcher matcher=modifier.getMatcher();
   if (matcher instanceof ClassNameMatcher) {
     ClassNameMatcher classNameMatcher=(ClassNameMatcher)matcher;
-    final String javaName=JavaAssistUtils.jvmNameToJavaName(classNameMatcher.getClassName());
-    return modifierMap.put(javaName,modifier);
+    String className=classNameMatcher.getClassName();
+    addModifier0(modifier,className);
   }
- else {
+ else   if (matcher instanceof MultiClassNameMatcher) {
     final MultiClassNameMatcher classNameMatcher=(MultiClassNameMatcher)matcher;
     List<String> classNameList=classNameMatcher.getClassNames();
     for (    String className : classNameList) {
-      AbstractModifier old=modifierMap.put(className,modifier);
-      if (old != null) {
-        throw new IllegalStateException("Modifier already exist new:" + modifier.getClass() + " old:"+ old.getMatcher());
-      }
+      addModifier0(modifier,className);
     }
   }
-  throw new IllegalArgumentException("unsupported Matcher " + matcher);
+ else {
+    throw new IllegalArgumentException("unsupported Matcher " + matcher);
+  }
 }

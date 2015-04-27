@@ -1,0 +1,7 @@
+{
+  final String checkJvmClassName=JavaAssistUtils.javaNameToJvmName(className);
+  AbstractModifier old=modifierMap.put(checkJvmClassName,modifier);
+  if (old != null) {
+    throw new IllegalStateException("Modifier already exist new:" + modifier.getClass() + " old:"+ old.getMatcher());
+  }
+}
