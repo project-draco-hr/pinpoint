@@ -1,0 +1,8 @@
+{
+  SpanStreamSendData standbySpanStreamSendData=priorityQueue.peek();
+  if (standbySpanStreamSendData == null) {
+    return defaultLeftWaitTime;
+  }
+  long firstAccessTime=standbySpanStreamSendData.getFirstAccessTime();
+  return firstAccessTime + maxWaitTimeMillis - System.currentTimeMillis();
+}

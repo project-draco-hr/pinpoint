@@ -1,0 +1,13 @@
+{
+  if (forceFlushSpanStreamDataList == null) {
+    return;
+  }
+  for (  SpanStreamSendData spanStreamSendData : forceFlushSpanStreamDataList) {
+    try {
+      flushHandler.handleFlush(spanStreamSendData);
+    }
+ catch (    Exception e) {
+      flushHandler.exceptionCaught(spanStreamSendData,e);
+    }
+  }
+}

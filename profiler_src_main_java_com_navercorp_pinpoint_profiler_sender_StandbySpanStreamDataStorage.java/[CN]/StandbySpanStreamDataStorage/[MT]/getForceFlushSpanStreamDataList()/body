@@ -1,0 +1,18 @@
+{
+  List<SpanStreamSendData> forceFlushSpanStreamDataList=new ArrayList<SpanStreamSendData>(capacity);
+  long currentTimeMillis=System.currentTimeMillis();
+  while (true) {
+    SpanStreamSendData standbySpanStreamSendData=priorityQueue.peek();
+    if (standbySpanStreamSendData == null) {
+      break;
+    }
+    if (standbySpanStreamSendData.getFirstAccessTime() + maxWaitTimeMillis < currentTimeMillis) {
+      priorityQueue.remove();
+      forceFlushSpanStreamDataList.add(standbySpanStreamSendData);
+    }
+ else {
+      break;
+    }
+  }
+  return forceFlushSpanStreamDataList;
+}

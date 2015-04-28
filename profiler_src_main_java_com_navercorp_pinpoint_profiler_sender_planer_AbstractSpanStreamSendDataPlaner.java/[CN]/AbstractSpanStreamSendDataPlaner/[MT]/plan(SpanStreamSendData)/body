@@ -1,0 +1,26 @@
+{
+  int buffersLength=compositeSpanStreamData.getComponentsBufferCapacity();
+  if (buffersLength < spanStreamSendData.getAvaiableBufferCapacity()) {
+    return FlushMode.NORMAL;
+  }
+ else   if (buffersLength < spanStreamSendData.getMaxBufferCapacity()) {
+    return FlushMode.FLUSH_FIRST;
+  }
+ else {
+    ByteBuffer spanChunkBuffer=getSpanChunkBuffer();
+    for (int i=0; i < compositeSpanStreamData.getComponentsCount(); i++) {
+      int currentComponentBufferLength=compositeSpanStreamData.getComponentBufferLength(i);
+      if (compositeSpanStreamData.isLastComponentIndex(i)) {
+        if (currentComponentBufferLength > spanStreamSendData.getMaxBufferCapacity()) {
+          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentComponentBufferLength);
+        }
+      }
+ else {
+        if (currentComponentBufferLength + spanChunkBuffer.remaining() > spanStreamSendData.getMaxBufferCapacity()) {
+          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentComponentBufferLength + ", maxCapacity:"+ spanStreamSendData.getMaxBufferCapacity());
+        }
+      }
+    }
+    return plan0(spanStreamSendData);
+  }
+}

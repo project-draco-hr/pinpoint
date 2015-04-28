@@ -1,0 +1,20 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer may not be null.");
+  }
+  if (componentsBufferIndexList == null || componentsBufferIndexList.size() == 0) {
+    throw new NullPointerException("buffer may not be null or zero.");
+  }
+  ComponentBufferIndex firstIndex=ListUtils.getFirst(componentsBufferIndexList);
+  ComponentBufferIndex lastIndex=ListUtils.getLast(componentsBufferIndexList);
+  int componentBufferCapacity=lastIndex.getEndIndex() - firstIndex.getStartIndex();
+  if (componentBufferCapacity > buffer.length) {
+    throw new IllegalArgumentException("componentBufferCapacity(" + componentBufferCapacity + ") > buffer.length("+ buffer.length+ ").");
+  }
+  if (lastIndex.getEndIndex() > buffer.length) {
+    throw new IllegalArgumentException("componentBuffersEndPosition(" + lastIndex.getEndIndex() + ") > buffer.length("+ buffer.length+ ").");
+  }
+  this.buffer=buffer;
+  this.componentsBufferIndexList=new ArrayList<ComponentBufferIndex>(componentsBufferIndexList);
+  this.componentBufferCapacity=componentBufferCapacity;
+}

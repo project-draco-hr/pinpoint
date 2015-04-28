@@ -1,0 +1,26 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (threadName == null) {
+    throw new NullPointerException("threadName must not be null");
+  }
+  if (queueSize <= 0) {
+    throw new IllegalArgumentException("queueSize");
+  }
+  if (timeout <= 0) {
+    throw new IllegalArgumentException("timeout");
+  }
+  if (sendBufferSize <= 0) {
+    throw new IllegalArgumentException("sendBufferSize");
+  }
+  logger.info("UdpDataSender initialized. host={}, port={}",host,port);
+  this.udpChannel=createChannel(host,port,timeout,sendBufferSize);
+  HeaderTBaseSerializerPoolFactory headerTBaseSerializerPoolFactory=new HeaderTBaseSerializerPoolFactory(false,sendBufferSize,true);
+  this.serializerPool=new ObjectPool<HeaderTBaseSerializer>(headerTBaseSerializerPoolFactory,16);
+  this.spanStreamSendDataSerializer=new SpanStreamSendDataSerializer();
+  this.spanStreamSendDataFactory=new SpanStreamSendDataFactory(sendBufferSize,16,serializerPool);
+  this.standbySpanStreamDataSendWorker=new StandbySpanStreamDataSendWorker(new FlushHandler(),new StandbySpanStreamDataStorage());
+  this.standbySpanStreamDataSendWorker.start();
+  this.executor=createAsyncQueueingExecutor(queueSize,threadName);
+}

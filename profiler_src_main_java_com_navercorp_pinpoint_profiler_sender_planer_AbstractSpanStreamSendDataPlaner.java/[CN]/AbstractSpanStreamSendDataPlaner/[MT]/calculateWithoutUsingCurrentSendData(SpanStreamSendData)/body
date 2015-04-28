@@ -1,0 +1,23 @@
+{
+  int chunkCount=2;
+  int avaiableBufferSize=spanStreamSendData.getMaxBufferCapacity();
+  for (int i=0; i < compositeSpanStreamData.getComponentsCount(); i++) {
+    int currentComponentBufferLength=compositeSpanStreamData.getComponentBufferLength(i);
+    if (compositeSpanStreamData.isLastComponentIndex(i)) {
+      if (currentComponentBufferLength > avaiableBufferSize) {
+        chunkCount++;
+      }
+    }
+ else {
+      if (currentComponentBufferLength + getSpanChunkLength() < avaiableBufferSize) {
+        avaiableBufferSize-=currentComponentBufferLength;
+      }
+ else {
+        chunkCount++;
+        avaiableBufferSize=spanStreamSendData.getMaxBufferCapacity();
+        avaiableBufferSize-=currentComponentBufferLength;
+      }
+    }
+  }
+  return chunkCount;
+}

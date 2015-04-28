@@ -1,0 +1,21 @@
+{
+  long blockTime=1000;
+  long sleepTime=300;
+  StandbySpanStreamDataStorage storage=new StandbySpanStreamDataStorage(10,blockTime);
+  SpanStreamSendData spanStreamSendData=createSpanStreamSendData("a".getBytes());
+  storage.addStandbySpanStreamData(spanStreamSendData);
+  Thread.sleep(sleepTime);
+  spanStreamSendData=createSpanStreamSendData("a".getBytes());
+  storage.addStandbySpanStreamData(spanStreamSendData);
+  Thread.sleep(sleepTime);
+  spanStreamSendData=createSpanStreamSendData("a".getBytes());
+  storage.addStandbySpanStreamData(spanStreamSendData);
+  Thread.sleep(sleepTime);
+  spanStreamSendData=createSpanStreamSendData("a".getBytes());
+  storage.addStandbySpanStreamData(spanStreamSendData);
+  Thread.sleep(sleepTime);
+  spanStreamSendData=createSpanStreamSendData("a".getBytes());
+  storage.addStandbySpanStreamData(spanStreamSendData);
+  Thread.sleep(sleepTime);
+  Assert.assertEquals(2,storage.getForceFlushSpanStreamDataList().size());
+}

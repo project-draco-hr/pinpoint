@@ -1,0 +1,12 @@
+{
+  Span span=new Span();
+  List<SpanEvent> spanEventList=new ArrayList<SpanEvent>(size);
+  for (int i=0; i < size; i++) {
+    SpanEvent spanEvent=new SpanEvent(span);
+    spanEvent.markStartTime();
+    Thread.sleep(1);
+    spanEvent.markAfterTime();
+    spanEventList.add(spanEvent);
+  }
+  return spanEventList;
+}

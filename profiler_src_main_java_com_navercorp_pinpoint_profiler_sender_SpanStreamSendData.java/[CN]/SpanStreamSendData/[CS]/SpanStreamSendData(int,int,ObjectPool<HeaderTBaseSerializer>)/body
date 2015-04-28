@@ -1,0 +1,17 @@
+{
+  this.maxBufferSize=maxPacketSize;
+  this.maxGatheringComponentCount=maxGatheringComponentCount - 2;
+  this.maxAvaiableBufferCapacity=maxPacketSize - SpanStreamConstants.START_PROTOCOL_BUFFER_SIZE - SpanStreamConstants.END_PROTOCOL_BUFFER_SIZE;
+  this.avaiableBufferCapacity=maxAvaiableBufferCapacity;
+  if (this.maxAvaiableBufferCapacity <= 0) {
+    throw new IllegalArgumentException("Illegal maxPacketSize(" + maxPacketSize + ")");
+  }
+  if (this.maxGatheringComponentCount <= 0) {
+    throw new IllegalArgumentException("Illegal maxGatheringComponentCount(" + maxGatheringComponentCount + ")");
+  }
+  this.components=new ByteBuffer[maxGatheringComponentCount];
+  this.encoder=new SpanStreamSendDataSerializer();
+  this.usedSerializerList=new ArrayList<HeaderTBaseSerializer>();
+  this.serializerPool=serializerPool;
+  this.mode=SpanStreamSendDataMode.WAIT_BUFFER;
+}

@@ -1,0 +1,15 @@
+{
+  SpanStreamSendDataMode flushMode=standbySpanStreamData.getFlushMode();
+  if (flushMode == SpanStreamSendDataMode.FLUSH) {
+    return false;
+  }
+  if (standbySpanStreamData.getAvaiableBufferCapacity() > 0 && standbySpanStreamData.getAvaiableBufferCapacity() > 0) {
+    if (priorityQueue.size() >= capacity) {
+      return false;
+    }
+    return priorityQueue.offer(standbySpanStreamData);
+  }
+ else {
+    return false;
+  }
+}
