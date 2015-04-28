@@ -1,0 +1,9 @@
+{
+  SearchDepth test=new SearchDepth(1);
+  Assert.assertEquals(test.getDepth(),0);
+  SearchDepth oneDepth=test.nextDepth();
+  Assert.assertEquals(oneDepth.getDepth(),1);
+  Assert.assertFalse(oneDepth.isDepthOverflow());
+  Assert.assertEquals(oneDepth.nextDepth().getDepth(),2);
+  Assert.assertTrue(oneDepth.nextDepth().isDepthOverflow());
+}
