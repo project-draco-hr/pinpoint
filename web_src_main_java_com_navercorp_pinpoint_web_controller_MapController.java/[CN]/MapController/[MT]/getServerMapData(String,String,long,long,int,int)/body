@@ -2,9 +2,9 @@
   final Range range=new Range(from,to);
   this.dateLimit.limit(from,to);
   logger.debug("range:{}",TimeUnit.MILLISECONDS.toMinutes(range.getRange()));
-  SearchRange searchRange=new SearchRange(callerRange,calleeRange);
+  SearchOption searchOption=new SearchOption(callerRange,calleeRange);
   ServiceType serviceType=registry.findServiceTypeByName(serviceTypeName);
   Application application=new Application(applicationName,serviceType);
-  ApplicationMap map=mapService.selectApplicationMap(application,range,searchRange);
+  ApplicationMap map=mapService.selectApplicationMap(application,range,searchOption);
   return new MapWrap(map);
 }
