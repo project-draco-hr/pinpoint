@@ -1,0 +1,13 @@
+{
+  final SearchLevel callerLevel=new SearchLevel(callerSearchLevel);
+  LinkDataDuplexMap caller=selectCaller(sourceApplication,range,callerLevel);
+  logger.debug("Result of finding caller {}",caller);
+  final SearchLevel calleeLevel=new SearchLevel(calleeSearchLevel);
+  LinkDataDuplexMap callee=selectCallee(sourceApplication,range,calleeLevel);
+  logger.debug("Result of finding callee {}",callee);
+  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  linkDataDuplexMap.addLinkDataDuplexMap(caller);
+  linkDataDuplexMap.addLinkDataDuplexMap(callee);
+  fillEmulationLink(linkDataDuplexMap);
+  return linkDataDuplexMap;
+}
