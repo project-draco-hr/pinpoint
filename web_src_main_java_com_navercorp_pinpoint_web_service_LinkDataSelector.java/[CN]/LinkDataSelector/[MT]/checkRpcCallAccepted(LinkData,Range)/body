@@ -1,7 +1,7 @@
 {
   final Application toApplication=linkData.getToApplication();
   if (!toApplication.getServiceType().isRpcClient()) {
-    return Arrays.asList(linkData);
+    return Collections.singletonList(linkData);
   }
   logger.debug("checkRpcCallAccepted(). Find applicationName:{} {}",toApplication,range);
   final Set<AcceptApplication> acceptApplicationList=findAcceptApplication(linkData.getFromApplication(),toApplication.getName(),range);
@@ -11,7 +11,7 @@
       logger.debug("Application info replaced. {} => {}",linkData,acceptApplicationList);
       AcceptApplication first=acceptApplicationList.iterator().next();
       final LinkData acceptedLinkData=new LinkData(linkData.getFromApplication(),first.getApplication(),linkData.getLinkCallDataMap());
-      return Arrays.asList(acceptedLinkData);
+      return Collections.singletonList(acceptedLinkData);
     }
  else {
       return createVirtualLinkData(linkData,toApplication,acceptApplicationList);
@@ -20,6 +20,6 @@
  else {
     final Application unknown=new Application(toApplication.getName(),ServiceType.UNKNOWN);
     final LinkData unknownLinkData=new LinkData(linkData.getFromApplication(),unknown,linkData.getLinkCallDataMap());
-    return Arrays.asList(unknownLinkData);
+    return Collections.singletonList(unknownLinkData);
   }
 }
