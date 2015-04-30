@@ -10,7 +10,7 @@
       }
       return;
     }
-    TBase result=dispatchHandler.dispatchRequestMessage(tBase,bytes,Header.HEADER_SIZE,bytes.length);
+    TBase result=dispatchHandler.dispatchRequestMessage(tBase);
     if (result != null) {
       byte[] resultBytes=SerializationUtils.serialize(result,serializerFactory);
       pinpointServer.response(requestPacket,resultBytes);

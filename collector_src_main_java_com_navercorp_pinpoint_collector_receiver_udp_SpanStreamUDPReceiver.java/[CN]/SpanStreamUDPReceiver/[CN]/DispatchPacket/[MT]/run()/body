@@ -1,0 +1,44 @@
+{
+  Timer.Context time=receiver.getTimer().time();
+  final HeaderTBaseDeserializer deserializer=(HeaderTBaseDeserializer)deserializerFactory.createDeserializer();
+  ByteBuffer requestBuffer=ByteBuffer.wrap(packet.getData());
+  if (requestBuffer.remaining() < SpanStreamConstants.START_PROTOCOL_BUFFER_SIZE) {
+    return;
+  }
+  byte signature=requestBuffer.get();
+  if (signature != SpanStreamConstants.Protocol.SPAN_STREAM_SIGNATURE) {
+    logger.warn("Wrong signature: 0x" + Integer.toHexString(signature & 0xFF) + " (expected: 0x"+ Integer.toHexString(SpanStreamConstants.Protocol.SPAN_STREAM_SIGNATURE & 0xFF)+ ')');
+    return;
+  }
+  byte version=requestBuffer.get();
+  int chunkSize=0xffff & requestBuffer.getShort();
+  try {
+    for (int i=0; i < chunkSize; i++) {
+      byte[] componentData=getComponentData(requestBuffer,deserializer);
+      if (componentData == null) {
+        logger.warn("Buffer Wrong signature: 0x{} (expected: 0x{})",Integer.toHexString(signature & 0xFF),Integer.toHexString(SpanStreamConstants.Protocol.SPAN_STREAM_SIGNATURE & 0xFF));
+        break;
+      }
+      List<TBase<?,?>> tbaseList=deserializer.deserializeList(componentData);
+      if (tbaseList == null || tbaseList.size() == 0) {
+        continue;
+      }
+      List<TSpanEvent> spanEventList=getSpanEventList(tbaseList);
+      TBase<?,?> tBase=tbaseList.get(tbaseList.size() - 1);
+      if (tBase instanceof TSpan) {
+        ((TSpan)tBase).setSpanEventList(spanEventList);
+      }
+ else       if (tBase instanceof TSpanChunk) {
+        ((TSpanChunk)tBase).setSpanEventList(spanEventList);
+      }
+      receiver.getDispatchHandler().dispatchRequestMessage(tBase);
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("Failed to handle receive packet.",e);
+  }
+ finally {
+    receiver.getDatagramPacketPool().returnObject(packet);
+    time.stop();
+  }
+}
