@@ -1,0 +1,13 @@
+{
+  if (node.isRoot()) {
+    return null;
+  }
+  CallTreeNode parent=node.getParent();
+  while (!parent.hasSibling()) {
+    if (parent.isRoot()) {
+      return null;
+    }
+    parent=parent.getParent();
+  }
+  return parent;
+}

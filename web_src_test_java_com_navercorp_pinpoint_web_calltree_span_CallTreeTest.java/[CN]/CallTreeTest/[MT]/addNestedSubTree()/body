@@ -1,0 +1,16 @@
+{
+  CallTree callTree=new CallTree(null);
+  expectResult.clear();
+  expectResult.add("#");
+  expectResult.add("##");
+  expectResult.add("###");
+  expectResult.add("####");
+  expectResult.add("#####");
+  callTree.add(1,null);
+  CallTree subTree=new CallTree(null);
+  subTree.add(1,null);
+  CallTree subTree2=new CallTree(null);
+  subTree.add(subTree2);
+  callTree.add(subTree);
+  assertDepth("addNestedSubTree",callTree,expectResult);
+}
