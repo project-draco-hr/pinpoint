@@ -1,24 +1,5 @@
 {
-  if (spanEventBo.isAsync()) {
-    if (isFirstEvent(spanEventBo) || async.first) {
-      async.parent=align.parent + align.current;
-      async.first=false;
-    }
-    if (isSameParent(spanEventBo)) {
-      if (async.parent == 0) {
-        async.current=1;
-      }
-    }
- else {
-      int depth=spanEventBo.getDepth();
-      if (depth > async.current + 1) {
-        depth=async.current + 1;
-      }
-      async.current=async.parent + depth;
-    }
-    align.current=async.current;
-  }
- else {
+  if (!spanEventBo.isAsync()) {
     if (isSameParent(spanEventBo)) {
       if (align.current == 0) {
         sync.current=1;

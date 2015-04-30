@@ -1,25 +1,8 @@
 {
   final int sequence=spanEventBo.getSequence();
-  if (spanEventBo.isAsync()) {
-    if (async.first) {
-      if (sequence != 0) {
-        return true;
-      }
-    }
- else {
-      if (sequence != 0 && sequence > async.sequence + 1) {
-        return true;
-      }
-    }
-  }
- else {
+  if (!spanEventBo.isAsync()) {
     if (sequence > sync.sequence + 1) {
       return true;
-    }
-    if (prev != null && prev.getNextAsyncId() != -1) {
-      if (prev.getNextAsyncId() != spanEventBo.getAsyncId()) {
-        return true;
-      }
     }
   }
   return false;

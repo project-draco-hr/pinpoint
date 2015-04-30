@@ -1,0 +1,28 @@
+{
+  final Map<Integer,List<SpanEventBo>> asyncSpanEventMap=new HashMap<Integer,List<SpanEventBo>>();
+  for (  SpanEventBo spanEvent : spanEventBoList) {
+    if (!spanEvent.isAsync()) {
+      continue;
+    }
+    final int id=spanEvent.getAsyncId();
+    List<SpanEventBo> list=asyncSpanEventMap.get(id);
+    if (list == null) {
+      list=new ArrayList<SpanEventBo>();
+      list.add(spanEvent);
+      asyncSpanEventMap.put(id,list);
+    }
+ else {
+      list.add(spanEvent);
+    }
+  }
+  for (  List<SpanEventBo> list : asyncSpanEventMap.values()) {
+    Collections.sort(list,new Comparator<SpanEventBo>(){
+      public int compare(      SpanEventBo source,      SpanEventBo target){
+        return source.getSequence() - target.getSequence();
+      }
+    }
+);
+  }
+  spanEventBoList.removeAll(asyncSpanEventMap.values());
+  return asyncSpanEventMap;
+}
