@@ -1,0 +1,11 @@
+{
+  if (depth.isDepthOverflow()) {
+    logger.debug("callee depth overflow application:{} depth:{}",targetApplication,depth.getDepth());
+    return false;
+  }
+  if (linkVisitChecker.visitCallee(targetApplication)) {
+    logger.debug("already visited callee:{}",targetApplication);
+    return false;
+  }
+  return true;
+}

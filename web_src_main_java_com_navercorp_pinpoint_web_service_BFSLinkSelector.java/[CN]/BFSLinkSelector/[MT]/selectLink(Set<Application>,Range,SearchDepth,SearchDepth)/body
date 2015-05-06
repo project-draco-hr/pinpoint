@@ -1,0 +1,35 @@
+{
+  final LinkDataDuplexMap searchResult=new LinkDataDuplexMap();
+  for (  Application targetApplication : targetApplicationSet) {
+    final boolean searchCallerNode=checkNextCaller(targetApplication,callerDepth);
+    if (searchCallerNode) {
+      final LinkDataMap caller=mapStatisticsCallerDao.selectCaller(targetApplication,range);
+      if (logger.isDebugEnabled()) {
+        logger.debug("Found Caller. count={}, caller={}, depth={}",caller.size(),targetApplication,callerDepth.getDepth());
+      }
+      final LinkDataMap replaceRpcCaller=replaceRpcCaller(caller,range);
+      for (      LinkData link : replaceRpcCaller.getLinkDataList()) {
+        searchResult.addSourceLinkData(link);
+        final Application toApplication=link.getToApplication();
+        if (toApplication.getServiceType().isTerminal() || toApplication.getServiceType().isUnknown()) {
+          continue;
+        }
+        addNextNode(toApplication);
+      }
+    }
+    final boolean searchCalleeNode=checkNextCallee(targetApplication,calleeDepth);
+    if (searchCalleeNode) {
+      final LinkDataMap callee=mapStatisticsCalleeDao.selectCallee(targetApplication,range);
+      if (logger.isInfoEnabled()) {
+        logger.debug("Found Callee. count={}, callee={}, depth={}",callee.size(),targetApplication,calleeDepth.getDepth());
+      }
+      for (      LinkData stat : callee.getLinkDataList()) {
+        searchResult.addTargetLinkData(stat);
+        final Application fromApplication=stat.getFromApplication();
+        addNextNode(fromApplication);
+      }
+    }
+  }
+  logger.debug("{} depth search end",callerDepth.getDepth());
+  return searchResult;
+}
