@@ -1,0 +1,16 @@
+{
+  if (searchOption == null) {
+    throw new NullPointerException("searchOption must not be null");
+  }
+  final SearchDepth callerLevel=new SearchDepth(searchOption.getCallerSearchDepth());
+  LinkDataDuplexMap caller=selectCaller(sourceApplication,range,callerLevel);
+  logger.debug("Result of finding caller {}",caller);
+  final SearchDepth calleeLevel=new SearchDepth(searchOption.getCalleeSearchDepth());
+  LinkDataDuplexMap callee=selectCallee(sourceApplication,range,calleeLevel);
+  logger.debug("Result of finding callee {}",callee);
+  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  linkDataDuplexMap.addLinkDataDuplexMap(caller);
+  linkDataDuplexMap.addLinkDataDuplexMap(callee);
+  fillEmulationLink(linkDataDuplexMap);
+  return linkDataDuplexMap;
+}

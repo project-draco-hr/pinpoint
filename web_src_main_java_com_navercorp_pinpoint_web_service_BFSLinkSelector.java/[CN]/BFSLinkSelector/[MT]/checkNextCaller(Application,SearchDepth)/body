@@ -1,0 +1,11 @@
+{
+  if (depth.isDepthOverflow()) {
+    logger.debug("caller depth overflow application:{} depth:{}",targetApplication,depth.getDepth());
+    return false;
+  }
+  if (linkVisitChecker.visitCaller(targetApplication)) {
+    logger.debug("already visited caller:{}",targetApplication);
+    return false;
+  }
+  return true;
+}

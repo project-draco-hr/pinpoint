@@ -1,0 +1,13 @@
+{
+  List<LinkData> searchList=new ArrayList<LinkData>();
+  for (  LinkData emulationLinkData : this.emulationLinkMarker) {
+    LinkKey search=getLinkKey(emulationLinkData);
+    for (    LinkData linkData : linkDataDuplexMap.getSourceLinkDataList()) {
+      LinkKey linkKey=getLinkKey(linkData);
+      if (linkKey.equals(search)) {
+        searchList.add(linkData);
+      }
+    }
+  }
+  return searchList;
+}

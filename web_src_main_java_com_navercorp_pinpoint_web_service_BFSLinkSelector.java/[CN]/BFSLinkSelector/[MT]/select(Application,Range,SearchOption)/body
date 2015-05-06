@@ -1,0 +1,21 @@
+{
+  if (searchOption == null) {
+    throw new NullPointerException("searchOption must not be null");
+  }
+  SearchDepth callerDepth=new SearchDepth(searchOption.getCallerSearchDepth());
+  SearchDepth calleeDepth=new SearchDepth(searchOption.getCalleeSearchDepth());
+  addNextNode(sourceApplication);
+  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  while (true) {
+    final Set<Application> currentNode=copyNextNode();
+    if (currentNode.isEmpty()) {
+      break;
+    }
+    LinkDataDuplexMap levelData=selectLink(currentNode,range,callerDepth,calleeDepth);
+    linkDataDuplexMap.addLinkDataDuplexMap(levelData);
+    callerDepth=callerDepth.nextDepth();
+    calleeDepth=calleeDepth.nextDepth();
+  }
+  fillEmulationLink(linkDataDuplexMap);
+  return linkDataDuplexMap;
+}
