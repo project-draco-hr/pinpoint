@@ -1,8 +1,9 @@
 {
   final Range range=new Range(from,to);
   this.dateLimit.limit(from,to);
-  logger.debug("range:{}",TimeUnit.MILLISECONDS.toMinutes(range.getRange()));
   SearchOption searchOption=new SearchOption(callerRange,calleeRange);
+  assertSearchOption(searchOption);
+  logger.info("getSearverMap() applicationName:{} range:{} searchOption:{}",applicationName,TimeUnit.MILLISECONDS.toMinutes(range.getRange()),searchOption);
   ServiceType serviceType=registry.findServiceTypeByName(serviceTypeName);
   Application application=new Application(applicationName,serviceType);
   ApplicationMap map=mapService.selectApplicationMap(application,range,searchOption);
