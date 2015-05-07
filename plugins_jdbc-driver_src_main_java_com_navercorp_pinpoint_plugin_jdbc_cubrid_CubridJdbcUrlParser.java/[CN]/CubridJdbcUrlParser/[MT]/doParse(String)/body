@@ -1,11 +1,11 @@
 {
   if (url == null) {
-    return JDBCUrlParser.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,null);
+    return UnKnownDatabaseInfo.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,null);
   }
   final Matcher matcher=PATTERN.matcher(url);
   if (!matcher.find()) {
     logger.warn("Cubrid connectionString parse fail. url:{}",url);
-    return JDBCUrlParser.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,url);
+    return UnKnownDatabaseInfo.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,url);
   }
   String host=matcher.group(2);
   String portString=matcher.group(3);
