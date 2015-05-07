@@ -1,0 +1,31 @@
+{
+  List<Application> unvisitedList=getUnvisitedEmulationNode();
+  if (unvisitedList.isEmpty()) {
+    logger.debug("unvisited callee node not found");
+    return;
+  }
+  logger.info("unvisited callee node {}",unvisitedList);
+  final LinkDataMap calleeLinkData=new LinkDataMap();
+  for (  Application application : unvisitedList) {
+    LinkDataMap callee=mapStatisticsCalleeDao.selectCallee(application,range);
+    logger.debug("calleeNode:{}",callee);
+    calleeLinkData.addLinkDataMap(callee);
+  }
+  LinkDataMap unvisitedNodeFilter=new LinkDataMap();
+  for (  LinkData linkData : calleeLinkData.getLinkDataList()) {
+    Application fromApplication=linkData.getFromApplication();
+    if (!fromApplication.getServiceType().isWas()) {
+      continue;
+    }
+    Application emulatedApplication=linkData.getToApplication();
+    boolean unvisitedNode=isUnVisitedNode(unvisitedList,emulatedApplication,fromApplication);
+    if (unvisitedNode) {
+      logger.debug("EmulationCalleeNode:{}",linkData);
+      unvisitedNodeFilter.addLinkData(linkData);
+    }
+  }
+  logger.debug("UnVisitedNode:{}",unvisitedNodeFilter);
+  for (  LinkData linkData : unvisitedNodeFilter.getLinkDataList()) {
+    searchResult.addTargetLinkData(linkData);
+  }
+}

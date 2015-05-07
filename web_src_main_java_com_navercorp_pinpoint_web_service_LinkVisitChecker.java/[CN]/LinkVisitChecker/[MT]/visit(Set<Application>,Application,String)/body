@@ -1,14 +1,14 @@
 {
-  if (caller == null) {
-    throw new NullPointerException("caller must not be null");
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
   }
-  final boolean alreadyVisited=!visitedSet.add(caller);
+  final boolean alreadyVisited=!visitedSet.add(application);
   if (logger.isDebugEnabled()) {
     if (alreadyVisited) {
-      logger.debug("Finding {}. {}={}",type,type,caller);
+      logger.debug("Finding {}. {}={}",type,type,application);
     }
  else {
-      logger.debug("LinkData exists. Skip finding {}. {} ",type,caller);
+      logger.debug("LinkData exists. Skip finding {}. {} ",type,application);
     }
   }
   return alreadyVisited;
