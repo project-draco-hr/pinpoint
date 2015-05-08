@@ -1,0 +1,11 @@
+{
+  final int asyncId=node.getValue().getSpanEventBo().getAsyncId();
+  CallTreeNode parent=node.getParent();
+  while (!parent.isRoot()) {
+    if (!parent.getValue().isSpan() && asyncId == parent.getValue().getSpanEventBo().getNextAsyncId()) {
+      return parent;
+    }
+    parent=parent.getParent();
+  }
+  return null;
+}

@@ -1,0 +1,9 @@
+{
+  final SpanBo spanBo=node.getValue().getSpanBo();
+  if (node.getValue().isSpan()) {
+    return spanBo.getStartTime();
+  }
+ else {
+    return spanBo.getStartTime() + node.getValue().getSpanEventBo().getStartElapsed();
+  }
+}

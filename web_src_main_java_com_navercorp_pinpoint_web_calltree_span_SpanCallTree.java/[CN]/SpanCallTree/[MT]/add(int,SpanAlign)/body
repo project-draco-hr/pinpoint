@@ -1,0 +1,37 @@
+{
+  if (depth < MIN_DEPTH || depth == ROOT_DEPTH) {
+    throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+  }
+  if (hasMissing(spanAlign)) {
+    throw new MissingSpanEventException("missing event. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+  }
+  if (depth == LEVEL_DEPTH || depth == cursor.getDepth()) {
+    if (cursor.isRoot()) {
+      throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+    }
+    CallTreeNode sibling=findLastSibling(cursor);
+    sibling.setSibling(spanAlign);
+    cursor=sibling.getSibling();
+    return;
+  }
+  if (depth > cursor.getDepth()) {
+    if (depth > cursor.getDepth() + 1) {
+      throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+    }
+    if (!cursor.hasChild()) {
+      cursor.setChild(spanAlign);
+      cursor=cursor.getChild();
+      return;
+    }
+    CallTreeNode sibling=findLastSibling(cursor.getChild());
+    sibling.setSibling(spanAlign);
+    cursor=sibling.getSibling();
+    return;
+  }
+  if (cursor.getDepth() - depth <= ROOT_DEPTH) {
+    throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+  }
+  final CallTreeNode node=findUpperLevelLastSibling(depth,cursor);
+  node.setSibling(spanAlign);
+  cursor=node.getSibling();
+}

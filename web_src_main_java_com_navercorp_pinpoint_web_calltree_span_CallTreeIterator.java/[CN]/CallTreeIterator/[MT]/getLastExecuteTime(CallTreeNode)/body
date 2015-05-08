@@ -1,0 +1,15 @@
+{
+  if (node.isRoot()) {
+    return node.getValue().getSpanBo().getStartTime();
+  }
+  final CallTreeNode prev=getPrev();
+  if (prev.getDepth() < node.getDepth()) {
+    return getStartTime(prev);
+  }
+ else   if (prev.getDepth() > node.getDepth()) {
+    return getLastTime(getPrevSibling(node));
+  }
+ else {
+    return getLastTime(prev);
+  }
+}

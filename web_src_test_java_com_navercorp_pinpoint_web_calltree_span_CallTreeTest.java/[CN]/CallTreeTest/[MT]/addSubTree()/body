@@ -1,13 +1,12 @@
 {
-  CallTree callTree=new CallTree(null);
   expectResult.clear();
   expectResult.add("#");
   expectResult.add("##");
   expectResult.add("###");
   expectResult.add("##");
-  callTree.add(1,null);
-  CallTree subTree=new CallTree(null);
+  callTree.add(1,makeSpanAlign(SYNC,(short)0));
+  SpanCallTree subTree=new SpanCallTree(makeSpanAlign());
   callTree.add(subTree);
-  callTree.add(-1,null);
+  callTree.add(-1,makeSpanAlign(SYNC,(short)1));
   assertDepth("addSubTree",callTree,expectResult);
 }

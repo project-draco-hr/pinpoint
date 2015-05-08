@@ -1,0 +1,17 @@
+{
+  final long lastExecuteTime=getLastExecuteTime(node);
+  SpanAlign spanAlign=getCurrent().getValue();
+  if (spanAlign.isSpan()) {
+    return spanAlign.getSpanBo().getStartTime() - lastExecuteTime;
+  }
+ else {
+    if (spanAlign.getSpanEventBo().isAsync() && spanAlign.getSpanEventBo().getSequence() == 0) {
+      CallTreeNode parent=getAsyncParent(getCurrent());
+      if (parent == null) {
+        return 0;
+      }
+      return spanAlign.getSpanEventBo().getStartElapsed() - parent.getValue().getSpanEventBo().getStartElapsed();
+    }
+    return (spanAlign.getSpanBo().getStartTime() + spanAlign.getSpanEventBo().getStartElapsed()) - lastExecuteTime;
+  }
+}

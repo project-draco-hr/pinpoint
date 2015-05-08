@@ -1,0 +1,110 @@
+{
+  if (callTreeIterator == null) {
+    throw new NullPointerException("callTreeIterator must not be null");
+  }
+  final List<Record> recordList=new ArrayList<Record>(callTreeIterator.size() * 2);
+  while (callTreeIterator.hasNext()) {
+    final CallTreeNode node=callTreeIterator.next();
+    node.setId(getNextId());
+    final SpanAlign spanAlign=node.getValue();
+    if (spanAlign.isSpan()) {
+      SpanBo spanBo=spanAlign.getSpanBo();
+      String argument=getRpcArgument(spanBo);
+      final long begin=spanBo.getStartTime();
+      final long elapsed=spanBo.getElapsed();
+      final int spanBoSequence=node.getId();
+      int parentSequence;
+      final CallTreeNode prev=node.getParent();
+      if (prev == null) {
+        parentSequence=0;
+      }
+ else {
+        parentSequence=prev.getId();
+      }
+      logger.debug("apiId={}",spanBo.getApiId());
+      logger.debug("spanBoSequence:{}, parentSequence:{}",spanBoSequence,parentSequence);
+      String method=AnnotationUtils.findApiAnnotation(spanBo.getAnnotationBoList());
+      if (method != null) {
+        ApiDescription apiDescription=apiDescriptionParser.parse(method);
+        Record record=new Record(node.getDepth(),spanBoSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,node.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        record.setSimpleClassName(apiDescription.getSimpleClassName());
+        record.setFullApiDescription(method);
+        recordList.add(record);
+      }
+ else {
+        String apiTag=AnnotationUtils.findApiTagAnnotation(spanBo.getAnnotationBoList());
+        if (apiTag != null) {
+          Record record=new Record(node.getDepth(),spanBoSequence,parentSequence,true,apiTag,argument,begin,elapsed,node.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          record.setSimpleClassName("");
+          record.setFullApiDescription("");
+          recordList.add(record);
+        }
+ else {
+          AnnotationKey apiMetaDataError=getApiMetaDataError(spanBo.getAnnotationBoList());
+          Record record=new Record(node.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,node.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          record.setSimpleClassName("");
+          record.setFullApiDescription("");
+          recordList.add(record);
+        }
+      }
+      final Record exceptionRecord=getExceptionRecord(node.getDepth(),spanAlign,spanBoSequence);
+      if (exceptionRecord != null) {
+        recordList.add(exceptionRecord);
+      }
+      List<Record> annotationRecord=createAnnotationRecord(node.getDepth() + 1,spanBoSequence,spanBo.getAnnotationBoList());
+      recordList.addAll(annotationRecord);
+      if (spanBo.getRemoteAddr() != null) {
+        Record remoteAddress=createParameterRecord(node.getDepth() + 1,spanBoSequence,"REMOTE_ADDRESS",spanBo.getRemoteAddr());
+        recordList.add(remoteAddress);
+      }
+    }
+ else {
+      SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
+      SpanBo spanBo=spanAlign.getSpanBo();
+      String argument=getDisplayArgument(spanEventBo);
+      final int spanBoEventSequence=node.getId();
+      final CallTreeNode parent=node.getParent();
+      if (parent == null) {
+        throw new IllegalStateException("prev is null. nodes=" + callTreeIterator);
+      }
+      final int parentSequence=parent.getId();
+      logger.debug("spanBoEventSequence:{}, parentSequence:{}",spanBoEventSequence,parentSequence);
+      final AnnotationBo annotation=AnnotationUtils.findAnnotationBo(spanEventBo.getAnnotationBoList(),AnnotationKey.API_METADATA);
+      if (annotation != null) {
+        ApiMetaDataBo apiMetaData=(ApiMetaDataBo)annotation.getValue();
+        final String apiInfo=getApiInfo(apiMetaData);
+        String title=apiInfo;
+        String className="";
+        if (apiMetaData.getType() == 0) {
+          ApiDescription apiDescription=apiDescriptionParser.parse(apiInfo);
+          title=apiDescription.getSimpleMethodDescription();
+          className=apiDescription.getSimpleClassName();
+        }
+        String destinationId=spanEventBo.getDestinationId();
+        long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
+        long elapsed=spanEventBo.getEndElapsed();
+        Record record=new Record(node.getDepth(),spanBoEventSequence,parentSequence,true,title,argument,begin,elapsed,node.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        record.setSimpleClassName(className);
+        record.setFullApiDescription(apiInfo);
+        recordList.add(record);
+      }
+ else {
+        AnnotationKey apiMetaDataError=getApiMetaDataError(spanEventBo.getAnnotationBoList());
+        String destinationId=spanEventBo.getDestinationId();
+        long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
+        long elapsed=spanEventBo.getEndElapsed();
+        Record record=new Record(node.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,node.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        record.setSimpleClassName("");
+        record.setFullApiDescription("");
+        recordList.add(record);
+      }
+      final Record exceptionRecord=getExceptionRecord(node.getDepth(),spanAlign,spanBoEventSequence);
+      if (exceptionRecord != null) {
+        recordList.add(exceptionRecord);
+      }
+      List<Record> annotationRecord=createAnnotationRecord(node.getDepth() + 1,spanBoEventSequence,spanEventBo.getAnnotationBoList());
+      recordList.addAll(annotationRecord);
+    }
+  }
+  return recordList;
+}

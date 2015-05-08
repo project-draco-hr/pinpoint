@@ -1,5 +1,4 @@
 {
-  CallTree callTree=new CallTree(null);
   expectResult.clear();
   expectResult.add("#");
   expectResult.add("##");
@@ -9,12 +8,12 @@
   expectResult.add("#####");
   expectResult.add("#####");
   expectResult.add("#####");
-  callTree.add(1,null);
-  callTree.add(2,null);
-  callTree.add(3,null);
-  callTree.add(4,null);
-  callTree.add(-1,null);
-  callTree.add(-1,null);
-  callTree.add(-1,null);
+  callTree.add(1,makeSpanAlign(SYNC,(short)0));
+  callTree.add(2,makeSpanAlign(SYNC,(short)1));
+  callTree.add(3,makeSpanAlign(SYNC,(short)2));
+  callTree.add(4,makeSpanAlign(SYNC,(short)3));
+  callTree.add(-1,makeSpanAlign(SYNC,(short)4));
+  callTree.add(-1,makeSpanAlign(SYNC,(short)5));
+  callTree.add(-1,makeSpanAlign(SYNC,(short)6));
   assertDepth("addLevel",callTree,expectResult);
 }
