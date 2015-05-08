@@ -1,0 +1,13 @@
+{
+  int index=0;
+  CallTreeIterator iterator=tree.iterator();
+  CallTreeNode node=null;
+  while ((node=iterator.next()) != null) {
+    StringBuilder sb=new StringBuilder();
+    for (int i=0; i <= node.getDepth(); i++) {
+      sb.append("#");
+    }
+    final String expected=result.get(index++);
+    printDepth(name,index,sb.toString(),expected);
+  }
+}

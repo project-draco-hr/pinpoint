@@ -1,0 +1,15 @@
+{
+  expectResult.clear();
+  expectResult.add("#");
+  expectResult.add("##");
+  expectResult.add("###");
+  expectResult.add("####");
+  expectResult.add("#####");
+  callTree.add(1,makeSpanAlign(SYNC,(short)0));
+  SpanCallTree subTree=new SpanCallTree(makeSpanAlign(ASYNC,(short)0));
+  subTree.add(1,makeSpanAlign(ASYNC,(short)1));
+  SpanCallTree subTree2=new SpanCallTree(makeSpanAlign(ASYNC,(short)0));
+  subTree.add(subTree2);
+  callTree.add(subTree);
+  assertDepth("addNestedSubTree",callTree,expectResult);
+}

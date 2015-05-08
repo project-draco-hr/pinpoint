@@ -1,0 +1,51 @@
+{
+  logger.debug("Populate start. span={}",span);
+  final SpanAlign spanAlign=new SpanAlign(span);
+  CallTree tree=new SpanCallTree(spanAlign);
+  if (asyncSpanEventMap == null) {
+    asyncSpanEventMap=extractAsyncSpanEvent(spanEventBoList);
+  }
+ else {
+    tree=new SpanAsyncCallTree(spanAlign);
+  }
+  if (spanEventBoList == null) {
+    return tree;
+  }
+  spanAlign.setHasChild(true);
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("Align seq={}, depth={}, async={}, event={}",spanEventBo.getSequence(),spanEventBo.getDepth(),spanEventBo.isAsync(),spanEventBo);
+    }
+    final SpanAlign spanEventAlign=new SpanAlign(span,spanEventBo);
+    try {
+      tree.add(spanEventBo.getDepth(),spanEventAlign);
+    }
+ catch (    MissingSpanEventException e) {
+      logger.warn("Find missing span event. Add missing span align.",e);
+      MissedSpanAlignFactory factory=new MissedSpanAlignFactory();
+      final CallTree subTree=new SpanCallTree(factory.get(span,spanEventBo));
+      tree.add(subTree);
+      return tree;
+    }
+    final long nextSpanId=spanEventBo.getNextSpanId();
+    final List<SpanBo> nextSpanBoList=spanIdMap.remove(nextSpanId);
+    if (nextSpanId != ROOT && nextSpanBoList != null) {
+      final SpanBo nextSpanBo=getNextSpan(span,spanEventBo,nextSpanBoList);
+      if (nextSpanBo != null) {
+        final CallTree subTree=populate(nextSpanBo,nextSpanBo.getSpanEventBoList(),null);
+        tree.add(subTree);
+      }
+ else {
+        logger.debug("nextSpanId not found. {}",nextSpanId);
+      }
+    }
+    final int nextAsyncId=spanEventBo.getNextAsyncId();
+    final List<SpanEventBo> nextAsyncSpanEventList=asyncSpanEventMap.remove(nextAsyncId);
+    if (nextAsyncId != -1 && nextAsyncSpanEventList != null && nextAsyncSpanEventList.size() > 0) {
+      final CallTree subTree=populate(span,nextAsyncSpanEventList,asyncSpanEventMap);
+      tree.add(subTree);
+    }
+  }
+  logger.debug("populate end. span={}",span);
+  return tree;
+}

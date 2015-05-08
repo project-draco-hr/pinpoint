@@ -2,15 +2,16 @@
   if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  List<SpanBo> spans=traceDao.selectSpanAndAnnotation(transactionId);
+  final List<SpanBo> spans=traceDao.selectSpanAndAnnotation(transactionId);
   if (spans == null || spans.isEmpty()) {
-    return new SpanResult(SpanAligner2.FAIL_MATCH,Collections.<SpanAlign>emptyList());
+    return new SpanResult(SpanAligner2.FAIL_MATCH,new CallTreeIterator(null));
   }
-  SpanResult result=order(spans,selectedSpanHint);
-  List<SpanAlign> order=result.getSpanAlignList();
-  transitionDynamicApiId(order);
-  transitionSqlId(order);
-  transitionCachedString(order);
-  transitionException(order);
+  final SpanResult result=order(spans,selectedSpanHint);
+  final CallTreeIterator callTreeIterator=result.getCallTree();
+  final List<SpanAlign> values=callTreeIterator.values();
+  transitionDynamicApiId(values);
+  transitionSqlId(values);
+  transitionCachedString(values);
+  transitionException(values);
   return result;
 }

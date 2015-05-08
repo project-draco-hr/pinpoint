@@ -1,0 +1,9 @@
+{
+  if (spanAlign.isSpan()) {
+    return false;
+  }
+  if (cursor.getValue().isSpan()) {
+    return spanAlign.getSpanEventBo().getSequence() != 0;
+  }
+  return cursor.getValue().getSpanEventBo().getSequence() + 1 != spanAlign.getSpanEventBo().getSequence();
+}

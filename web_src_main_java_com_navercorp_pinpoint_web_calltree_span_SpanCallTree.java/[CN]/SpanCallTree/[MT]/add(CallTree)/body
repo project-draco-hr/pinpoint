@@ -1,0 +1,14 @@
+{
+  final CallTreeNode node=tree.getRoot();
+  if (node == null) {
+    return;
+  }
+  if (!cursor.hasChild()) {
+    node.setParent(cursor);
+    cursor.setChild(node);
+    return;
+  }
+  CallTreeNode sibling=findLastSibling(cursor.getChild());
+  node.setParent(sibling.getParent());
+  sibling.setSibling(node);
+}

@@ -2,8 +2,8 @@
   logger.debug("traceId:{}",traceIdParam);
   final TransactionId traceId=new TransactionId(traceIdParam);
   final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
-  List<SpanAlign> spanAligns=spanResult.getSpanAlignList();
-  if (spanAligns.isEmpty()) {
+  final CallTreeIterator callTreeIterator=spanResult.getCallTree();
+  if (callTreeIterator.isEmpty()) {
     final ModelAndView error=new ModelAndView();
     error.addObject("errorCode",9);
     error.addObject("message","Trace not found. traceId:" + traceId);
@@ -11,13 +11,13 @@
     return error;
   }
   final ModelAndView mv=new ModelAndView();
-  mv.addObject("spanList",spanAligns);
+  mv.addObject("spanList",callTreeIterator.values());
   mv.addObject("traceId",traceId);
   ApplicationMap map=filteredMapService.selectApplicationMap(traceId);
   mv.addObject("nodes",map.getNodes());
   mv.addObject("links",map.getLinks());
   mv.addObject("logLinkEnable",logLinkEnable);
-  RecordSet recordSet=this.transactionInfoService.createRecordSet(spanAligns,focusTimestamp);
+  RecordSet recordSet=this.transactionInfoService.createRecordSet(callTreeIterator,focusTimestamp);
   mv.addObject("recordSet",recordSet);
   mv.addObject("applicationName",recordSet.getApplicationName());
   mv.addObject("callstack",recordSet.getRecordList());
