@@ -1,0 +1,15 @@
+{
+  int spanEventSize=10;
+  SpanStreamSendDataSerializer serializer=new SpanStreamSendDataSerializer();
+  HeaderTBaseSerializerFactory headerTBaseSerializerFactory=new HeaderTBaseSerializerFactory();
+  List<SpanEvent> originalSpanEventList=createSpanEventList(spanEventSize);
+  SpanChunk spanChunk=spanChunkFactory.create(originalSpanEventList);
+  CompositeSpanStreamData spanData=serializer.serializeSpanChunkStream(headerTBaseSerializerFactory.createSerializer(),spanChunk);
+  SpanStreamSendDataFactory factory=new SpanStreamSendDataFactory(100,50,objectPool);
+  List<TSpanEvent> spanEventList=getSpanEventList(spanData,factory);
+  spanData=serializer.serializeSpanChunkStream(headerTBaseSerializerFactory.createSerializer(),spanChunk);
+  factory=new SpanStreamSendDataFactory(objectPool);
+  List<TSpanEvent> spanEventList2=getSpanEventList(spanData,factory);
+  Assert.assertEquals(spanEventSize,spanEventList.size());
+  Assert.assertEquals(spanEventSize,spanEventList2.size());
+}

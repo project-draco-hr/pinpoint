@@ -1,0 +1,15 @@
+{
+  try {
+    standbySpanStreamDataSendWorker.stop();
+  }
+ catch (  Exception e) {
+    logger.debug("Failed to stop standbySpanStreamDataSendWorker.",e);
+  }
+  try {
+    udpChannel.close();
+  }
+ catch (  IOException e) {
+    logger.debug("Failed to close udp channel.",e);
+  }
+  executor.stop();
+}

@@ -1,0 +1,18 @@
+{
+  logger.info("{} destorying started.",this.getClass().getSimpleName());
+  this.isStarted=false;
+  long startTimeMillis=System.currentTimeMillis();
+  long maxWaitTimeMillis=3000;
+  while (this.workerThread.isAlive()) {
+    this.workerThread.interrupt();
+    try {
+      this.workerThread.join(100L);
+      if (System.currentTimeMillis() - startTimeMillis > maxWaitTimeMillis) {
+        break;
+      }
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+  logger.info("{} destorying completed.",this.getClass().getSimpleName());
+}

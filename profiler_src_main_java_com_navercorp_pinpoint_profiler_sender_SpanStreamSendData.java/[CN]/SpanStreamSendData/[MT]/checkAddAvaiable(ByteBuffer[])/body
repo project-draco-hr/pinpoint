@@ -1,0 +1,16 @@
+{
+  if (bufferArray == null || bufferArray.length == 0) {
+    return false;
+  }
+  if (bufferArray.length + 1 > getAvaiableGatheringComponentsCount()) {
+    return false;
+  }
+  int usedBufferLength=0;
+  for (  ByteBuffer buffer : bufferArray) {
+    usedBufferLength+=buffer.remaining();
+  }
+  if (usedBufferLength == 0) {
+    return false;
+  }
+  return isAvaiableBufferCapacity(usedBufferLength);
+}

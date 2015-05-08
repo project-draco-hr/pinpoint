@@ -1,0 +1,10 @@
+{
+  DefaultTraceId traceId=new DefaultTraceId("test",0,1);
+  Span span=new Span();
+  for (  SpanEvent spanEvent : spanEventList) {
+    span.addToSpanEventList(spanEvent);
+  }
+  span.setAgentId("agentId");
+  span.recordTraceId(traceId);
+  return span;
+}

@@ -1,0 +1,17 @@
+{
+synchronized (lock) {
+    long timeBlocked=standbySpanStreamDataStorage.getLeftWaitTime(blockTime);
+    long startTimeMillis=System.currentTimeMillis();
+    if (timeBlocked > 0) {
+      try {
+        lock.wait(timeBlocked);
+      }
+ catch (      InterruptedException ignore) {
+      }
+      if (isOverWaitTime(timeBlocked,startTimeMillis)) {
+        return false;
+      }
+    }
+    return true;
+  }
+}

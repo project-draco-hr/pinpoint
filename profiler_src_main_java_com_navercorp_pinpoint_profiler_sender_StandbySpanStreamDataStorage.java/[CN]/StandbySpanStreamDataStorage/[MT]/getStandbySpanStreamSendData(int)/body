@@ -1,0 +1,11 @@
+{
+  Iterator<SpanStreamSendData> standbySpanStreamSendDataIterator=priorityQueue.iterator();
+  while (standbySpanStreamSendDataIterator.hasNext()) {
+    SpanStreamSendData standbySpanStreamSendData=standbySpanStreamSendDataIterator.next();
+    if (standbySpanStreamSendData.getAvaiableBufferCapacity() > avaiableCapacity) {
+      standbySpanStreamSendDataIterator.remove();
+      return standbySpanStreamSendData;
+    }
+  }
+  return null;
+}

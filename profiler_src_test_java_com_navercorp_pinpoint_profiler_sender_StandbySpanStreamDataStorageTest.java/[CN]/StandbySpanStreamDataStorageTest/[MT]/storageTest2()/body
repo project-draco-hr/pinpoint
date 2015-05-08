@@ -1,0 +1,9 @@
+{
+  StandbySpanStreamDataStorage storage=new StandbySpanStreamDataStorage();
+  SpanStreamSendData oldValue=createSpanStreamSendData();
+  SpanStreamSendData newValue=createSpanStreamSendData("a".getBytes());
+  oldValue.addBuffer("test".getBytes());
+  storage.addStandbySpanStreamData(oldValue);
+  storage.addStandbySpanStreamData(newValue);
+  Assert.assertEquals(newValue,storage.getStandbySpanStreamSendData());
+}

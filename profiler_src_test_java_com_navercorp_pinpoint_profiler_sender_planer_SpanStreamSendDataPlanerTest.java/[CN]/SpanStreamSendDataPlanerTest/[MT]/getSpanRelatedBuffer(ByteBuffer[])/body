@@ -1,0 +1,14 @@
+{
+  int totalBufferSize=0;
+  for (  ByteBuffer buffer : buffers) {
+    totalBufferSize+=buffer.remaining();
+  }
+  byte[] relatedBuffer=new byte[totalBufferSize];
+  int offset=0;
+  for (  ByteBuffer buffer : buffers) {
+    int bufferlength=buffer.remaining();
+    buffer.get(relatedBuffer,offset,bufferlength);
+    offset+=bufferlength;
+  }
+  return relatedBuffer;
+}

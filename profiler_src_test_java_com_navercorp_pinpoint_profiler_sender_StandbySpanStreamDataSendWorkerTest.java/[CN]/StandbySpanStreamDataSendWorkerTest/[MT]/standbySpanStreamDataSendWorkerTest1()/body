@@ -1,0 +1,17 @@
+{
+  CountDownLatch testCountDownLatch=new CountDownLatch(2);
+  long blockTime=1000;
+  StandbySpanStreamDataSendWorker sendWorker=new StandbySpanStreamDataSendWorker(new TestFlushHandler(testCountDownLatch),new StandbySpanStreamDataStorage(10,blockTime));
+  sendWorker.start();
+  try {
+    SpanStreamSendData spanStreamSendData=createSpanStreamSendData("a".getBytes());
+    sendWorker.addStandbySpanStreamData(spanStreamSendData);
+    spanStreamSendData=createSpanStreamSendData("b".getBytes());
+    sendWorker.addStandbySpanStreamData(spanStreamSendData);
+    boolean onEvent=testCountDownLatch.await(blockTime * 2,TimeUnit.MILLISECONDS);
+    Assert.assertTrue(onEvent);
+  }
+  finally {
+    sendWorker.stop();
+  }
+}

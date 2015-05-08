@@ -1,0 +1,11 @@
+{
+  Set<Application> unvisitedList=new HashSet<Application>();
+  for (  LinkData linkData : this.emulationLinkMarker) {
+    Application toApplication=linkData.getToApplication();
+    boolean isVisited=this.linkVisitChecker.isVisitedCaller(toApplication);
+    if (!isVisited) {
+      unvisitedList.add(toApplication);
+    }
+  }
+  return new ArrayList<Application>(unvisitedList);
+}

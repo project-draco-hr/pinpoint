@@ -1,0 +1,19 @@
+{
+  if (spanChunkBuffer == null) {
+    final TSpanChunk spanChunk=toSpanChunk(span);
+    HeaderTBaseSerializer serializer=new HeaderTBaseSerializerFactory(false,SpanStreamSendDataFactory.DEFAULT_UDP_MAX_BUFFER_SIZE,false).createSerializer();
+    byte[] spanChunkBuffer;
+    try {
+      spanChunkBuffer=serializer.serialize(spanChunk);
+      this.spanChunkBuffer=spanChunkBuffer;
+      this.spanChunkSize=serializer.getInterBufferSize();
+    }
+ catch (    TException e) {
+      logger.warn("Spanchunk serializer failed. {}.",spanChunk);
+    }
+  }
+  if (spanChunkBuffer == null) {
+    return new byte[0];
+  }
+  return spanChunkBuffer;
+}

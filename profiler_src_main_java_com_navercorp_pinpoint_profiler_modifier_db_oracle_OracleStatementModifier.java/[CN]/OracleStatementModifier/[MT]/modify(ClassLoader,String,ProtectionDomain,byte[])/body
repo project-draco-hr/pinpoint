@@ -1,6 +1,8 @@
 {
-  if (byteCodeInstrumentor.findClass(classLoader,OracleClassConstants.ORACLE_STATEMENT_WRAPPER)) {
-    return null;
+  if (OracleClassConstants.ORACLE_STATEMENT.equals(javassistClassName)) {
+    if (byteCodeInstrumentor.findClass(classLoader,OracleClassConstants.ORACLE_STATEMENT_WRAPPER)) {
+      return null;
+    }
   }
-  return this.delegate.modify(classLoader,javassistClassName,protectedDomain,classFileBuffer);
+  return this.modifyStatement(classLoader,javassistClassName,protectedDomain,classFileBuffer);
 }

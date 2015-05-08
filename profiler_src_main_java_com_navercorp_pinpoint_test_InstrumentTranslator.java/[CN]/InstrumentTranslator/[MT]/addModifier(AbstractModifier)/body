@@ -1,3 +1,18 @@
 {
-  return modifierMap.put(modifier.getTargetClass().replace('/','.'),modifier);
+  final Matcher matcher=modifier.getMatcher();
+  if (matcher instanceof ClassNameMatcher) {
+    ClassNameMatcher classNameMatcher=(ClassNameMatcher)matcher;
+    String className=classNameMatcher.getClassName();
+    addModifier0(modifier,className);
+  }
+ else   if (matcher instanceof MultiClassNameMatcher) {
+    final MultiClassNameMatcher classNameMatcher=(MultiClassNameMatcher)matcher;
+    List<String> classNameList=classNameMatcher.getClassNames();
+    for (    String className : classNameList) {
+      addModifier0(modifier,className);
+    }
+  }
+ else {
+    throw new IllegalArgumentException("unsupported Matcher " + matcher);
+  }
 }

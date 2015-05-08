@@ -1,0 +1,24 @@
+{
+  if (searchOption == null) {
+    throw new NullPointerException("searchOption must not be null");
+  }
+  SearchDepth callerDepth=new SearchDepth(searchOption.getCallerSearchDepth());
+  SearchDepth calleeDepth=new SearchDepth(searchOption.getCalleeSearchDepth());
+  logger.debug("ApplicationMap select {}",sourceApplication);
+  addNextNode(sourceApplication);
+  LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
+  while (!this.nextQueue.isEmpty()) {
+    final List<Application> currentNode=this.nextQueue.copyAndClear();
+    logger.debug("size:{} depth caller:{} callee:{} node:{}",currentNode.size(),callerDepth.getDepth(),calleeDepth.getDepth(),currentNode);
+    LinkDataDuplexMap levelData=selectLink(currentNode,range,callerDepth,calleeDepth);
+    linkDataDuplexMap.addLinkDataDuplexMap(levelData);
+    callerDepth=callerDepth.nextDepth();
+    calleeDepth=calleeDepth.nextDepth();
+  }
+  if (!emulationLinkMarker.isEmpty()) {
+    logger.debug("Link emulation size:{}",emulationLinkMarker.size());
+    checkUnsearchEmulationCalleeNode(linkDataDuplexMap,range);
+    fillEmulationLink(linkDataDuplexMap);
+  }
+  return linkDataDuplexMap;
+}

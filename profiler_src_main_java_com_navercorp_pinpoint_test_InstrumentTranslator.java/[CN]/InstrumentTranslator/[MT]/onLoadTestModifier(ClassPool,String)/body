@@ -1,0 +1,19 @@
+{
+  logger.info("Modify find classname:{}, loader:{}",jvmClassName,loader);
+  AbstractModifier modifier=modifierMap.get(jvmClassName);
+  if (modifier == null) {
+    return;
+  }
+  logger.info("Modify jvmClassName:{},  modifier{}, loader:{}",jvmClassName,modifier,loader);
+  final Thread thread=Thread.currentThread();
+  final ClassLoader beforeClassLoader=thread.getContextClassLoader();
+  thread.setContextClassLoader(loader);
+  try {
+    String javaClassName=JavaAssistUtils.jvmNameToJavaName(jvmClassName);
+    byte[] modify=modifier.modify(this.loader,javaClassName,null,null);
+    makeClass(pool,modify,jvmClassName);
+  }
+  finally {
+    thread.setContextClassLoader(beforeClassLoader);
+  }
+}

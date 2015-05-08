@@ -1,0 +1,31 @@
+{
+  CompositeSpanStreamData.Builder compositeSpanStreamDataBuilder=new CompositeSpanStreamData.Builder();
+  List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
+  if (spanEventList != null) {
+    for (    TSpanEvent spanEvent : spanEventList) {
+      int bufferStartIndex=serializer.getInterBufferSize();
+      try {
+        byte[] buffer=serializer.continueSerialize(spanEvent);
+        int bufferEndIndex=serializer.getInterBufferSize();
+        compositeSpanStreamDataBuilder.addComponentsIndex(bufferStartIndex,bufferEndIndex);
+      }
+ catch (      TException e) {
+        logger.warn("Serialize fail. value:{}.",spanEvent,e);
+        serializer.reset(bufferStartIndex);
+      }
+    }
+  }
+  TSpanChunk copiedSpanChunk=copySpanChunkWithoutSpanEvent(spanChunk);
+  try {
+    int bufferStartIndex=serializer.getInterBufferSize();
+    byte[] buffer=serializer.continueSerialize(copiedSpanChunk);
+    int bufferEndIndex=serializer.getInterBufferSize();
+    compositeSpanStreamDataBuilder.addComponentsIndex(bufferStartIndex,bufferEndIndex);
+    compositeSpanStreamDataBuilder.setBuffer(buffer);
+    return compositeSpanStreamDataBuilder.build();
+  }
+ catch (  TException e) {
+    logger.warn("Serialize fail. value:{}.",copiedSpanChunk,e);
+  }
+  return null;
+}

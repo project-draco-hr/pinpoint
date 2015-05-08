@@ -1,0 +1,19 @@
+{
+  try {
+    DatagramChannel datagramChannel=DatagramChannel.open();
+    datagramChannel.socket().setSoTimeout(timeout);
+    datagramChannel.socket().setSendBufferSize(sendBufferSize);
+    if (logger.isWarnEnabled()) {
+      final int checkSendBufferSize=datagramChannel.socket().getSendBufferSize();
+      if (sendBufferSize != checkSendBufferSize) {
+        logger.warn("DatagramChannel.setSendBufferSize() error. {}!={}",sendBufferSize,checkSendBufferSize);
+      }
+    }
+    InetSocketAddress serverAddress=new InetSocketAddress(host,port);
+    datagramChannel.connect(serverAddress);
+    return datagramChannel;
+  }
+ catch (  IOException e) {
+    throw new IllegalStateException("DatagramChannel create fail. Cause" + e.getMessage(),e);
+  }
+}

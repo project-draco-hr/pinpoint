@@ -1,0 +1,10 @@
+{
+  int writeIndex=0;
+  ByteBuffer[] sendData=new ByteBuffer[2 + componentsIndex];
+  sendData[writeIndex++]=encoder.createStartBuffer((byte)chunkCount);
+  for (int i=0; i < componentsIndex; i++) {
+    sendData[writeIndex++]=components[i];
+  }
+  sendData[writeIndex++]=encoder.createEndBuffer();
+  return sendData;
+}

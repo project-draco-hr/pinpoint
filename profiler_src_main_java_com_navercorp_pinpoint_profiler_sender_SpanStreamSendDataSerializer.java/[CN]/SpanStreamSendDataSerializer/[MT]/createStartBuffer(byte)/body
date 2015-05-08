@@ -1,0 +1,8 @@
+{
+  ByteBuffer startBuffer=ByteBuffer.allocate(SpanStreamConstants.START_PROTOCOL_BUFFER_SIZE);
+  startBuffer.put(SpanStreamConstants.Protocol.SPAN_STREAM_SIGNATURE);
+  startBuffer.put(SpanStreamConstants.Protocol.SPAN_STREAM_VERSION);
+  startBuffer.put(chunkCount);
+  startBuffer.flip();
+  return startBuffer;
+}

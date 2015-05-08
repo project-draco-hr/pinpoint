@@ -1,0 +1,10 @@
+{
+  ByteBuffer[] byteBuffers=spanStreamSendData.getSendBuffers();
+  int remainingLength=ByteBufferUtils.getRemaining(byteBuffers);
+  if (remainingLength != 0) {
+    long sentBufferSize=udpChannel.write(byteBuffers);
+    if (remainingLength != sentBufferSize) {
+      logger.warn("sent buffer {}/{}.",sentBufferSize,remainingLength);
+    }
+  }
+}
