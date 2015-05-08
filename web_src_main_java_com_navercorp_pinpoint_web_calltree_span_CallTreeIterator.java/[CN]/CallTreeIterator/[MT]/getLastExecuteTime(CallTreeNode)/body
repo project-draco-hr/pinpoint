@@ -2,7 +2,10 @@
   if (node.isRoot()) {
     return node.getValue().getSpanBo().getStartTime();
   }
-  final CallTreeNode prev=getPrev();
+  CallTreeNode prev=getPrev();
+  if (!node.getValue().isSpan() && prev.getValue().isAsync() && !node.getValue().isAsync()) {
+    prev=node.getParent();
+  }
   if (prev.getDepth() < node.getDepth()) {
     return getStartTime(prev);
   }
