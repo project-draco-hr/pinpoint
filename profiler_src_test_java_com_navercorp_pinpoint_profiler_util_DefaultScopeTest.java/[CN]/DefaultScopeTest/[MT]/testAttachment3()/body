@@ -1,14 +1,14 @@
 {
   String oldAttachment="context";
   String newAttachment="newnew";
-  InterceptorGroupInvocation trnasaction=new DefaultInterceptorStack("test");
-  trnasaction.tryEnter(ExecutionPolicy.ALWAYS);
-  trnasaction.setAttachment(oldAttachment);
-  assertSame(oldAttachment,trnasaction.getAttachment());
-  assertSame(oldAttachment,trnasaction.setAttachment(newAttachment));
-  assertSame(newAttachment,trnasaction.getAttachment());
-  assertSame(newAttachment,trnasaction.removeAttachment());
-  assertNull(trnasaction.getAttachment());
-  trnasaction.canLeave(ExecutionPolicy.ALWAYS);
-  trnasaction.leave(ExecutionPolicy.ALWAYS);
+  InterceptorGroupInvocation transaction=new DefaultInterceptorStack("test");
+  transaction.tryEnter(ExecutionPolicy.ALWAYS);
+  transaction.setAttachment(oldAttachment);
+  assertSame(oldAttachment,transaction.getAttachment());
+  assertSame(oldAttachment,transaction.setAttachment(newAttachment));
+  assertSame(newAttachment,transaction.getAttachment());
+  assertSame(newAttachment,transaction.removeAttachment());
+  assertNull(transaction.getAttachment());
+  transaction.canLeave(ExecutionPolicy.ALWAYS);
+  transaction.leave(ExecutionPolicy.ALWAYS);
 }

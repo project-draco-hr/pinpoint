@@ -1,6 +1,6 @@
 {
-  byte[] conetents=zookeeper.getData(CLUSTER_NODE_PATH,null,null);
-  String[] registeredIplist=new String(conetents).split("\r\n");
+  byte[] contents=zookeeper.getData(CLUSTER_NODE_PATH,null,null);
+  String[] registeredIplist=new String(contents).split("\r\n");
   List<String> ipList=NetUtils.getLocalV4IpList();
   Assert.assertEquals(registeredIplist.length,ipList.size());
   for (  String ip : registeredIplist) {
