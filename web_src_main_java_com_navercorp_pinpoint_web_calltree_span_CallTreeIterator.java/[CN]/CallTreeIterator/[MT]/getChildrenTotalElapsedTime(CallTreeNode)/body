@@ -1,0 +1,12 @@
+{
+  long totalElapsed=0;
+  CallTreeNode child=node.getChild();
+  while (child != null) {
+    SpanAlign align=child.getValue();
+    if (!align.isSpan() && !align.isAsyncFirst()) {
+      totalElapsed+=align.getElapsed();
+    }
+    child=child.getSibling();
+  }
+  return totalElapsed;
+}

@@ -24,12 +24,14 @@
   callTree.add(-1,makeSpanAlign(root.getSpanBo(),SYNC,(short)7,8,1));
   callTree.add(1,makeSpanAlign(root.getSpanBo(),SYNC,(short)8,9,1));
   CallTreeIterator iterator=callTree.iterator();
+  System.out.println("executionTime");
   while (iterator.hasNext()) {
     CallTreeNode node=iterator.next();
     SpanAlign align=node.getValue();
     for (int i=0; i <= align.getDepth(); i++) {
       System.out.print("#");
     }
-    System.out.println(" : executionTime=" + align.getExecutionTime());
+    System.out.println(" : executionTime=" + align.getExecutionMilliseconds());
+    assertEquals(1,align.getExecutionMilliseconds());
   }
 }

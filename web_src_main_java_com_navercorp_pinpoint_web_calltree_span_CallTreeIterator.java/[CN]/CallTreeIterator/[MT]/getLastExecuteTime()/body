@@ -1,0 +1,25 @@
+{
+  final CallTreeNode current=getCurrent();
+  final SpanAlign currentAlign=current.getValue();
+  if (current.isRoot()) {
+    return currentAlign.getStartTime();
+  }
+  CallTreeNode prev=getPrev();
+  final SpanAlign prevAlign=prev.getValue();
+  if (!currentAlign.isAsync() && !prevAlign.isSpan() && prevAlign.isAsync()) {
+    prev=current.getParent();
+  }
+  if (prev.getDepth() == current.getDepth()) {
+    final SpanAlign align=prev.getValue();
+    return align.getLastTime();
+  }
+  if (prev.getDepth() > current.getDepth()) {
+    CallTreeNode sibling=getPrevSibling(current);
+    final SpanAlign align=sibling.getValue();
+    return align.getStartTime();
+  }
+ else {
+    final SpanAlign align=prev.getValue();
+    return align.getStartTime();
+  }
+}

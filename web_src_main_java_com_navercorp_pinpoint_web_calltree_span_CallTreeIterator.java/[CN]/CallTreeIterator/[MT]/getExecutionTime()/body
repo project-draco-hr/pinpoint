@@ -1,0 +1,8 @@
+{
+  final CallTreeNode current=getCurrent();
+  final SpanAlign align=current.getValue();
+  if (!current.hasChild()) {
+    return align.getElapsed();
+  }
+  return align.getElapsed() - getChildrenTotalElapsedTime(current);
+}

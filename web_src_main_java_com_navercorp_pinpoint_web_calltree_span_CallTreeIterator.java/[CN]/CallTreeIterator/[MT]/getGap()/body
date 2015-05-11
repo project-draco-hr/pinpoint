@@ -1,0 +1,17 @@
+{
+  final CallTreeNode current=getCurrent();
+  final long lastExecuteTime=getLastExecuteTime();
+  final SpanAlign currentAlign=current.getValue();
+  if (currentAlign.isSpan()) {
+    return currentAlign.getStartTime() - lastExecuteTime;
+  }
+  if (currentAlign.isAsyncFirst()) {
+    final CallTreeNode parent=getAsyncParent(current);
+    if (parent == null) {
+      return 0;
+    }
+    final SpanAlign parentAlign=parent.getValue();
+    return currentAlign.getStartTime() - parentAlign.getStartTime();
+  }
+  return currentAlign.getStartTime() - lastExecuteTime;
+}
