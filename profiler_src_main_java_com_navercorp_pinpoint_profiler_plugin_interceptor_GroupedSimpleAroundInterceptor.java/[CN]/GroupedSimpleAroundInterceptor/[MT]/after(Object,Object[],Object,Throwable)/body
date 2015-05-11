@@ -1,12 +1,12 @@
 {
-  InterceptorGroupInvocation transacton=group.getCurrentInvocation();
-  if (transacton.canLeave(point)) {
+  InterceptorGroupInvocation transaction=group.getCurrentInvocation();
+  if (transaction.canLeave(point)) {
     delegate.after(target,args,result,throwable);
-    transacton.leave(point);
+    transaction.leave(point);
   }
  else {
     if (debugEnabled) {
-      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPonint: {}. Skip interceptor {}",new Object[]{transacton,point,delegate.getClass()});
+      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,point,delegate.getClass()});
     }
   }
 }

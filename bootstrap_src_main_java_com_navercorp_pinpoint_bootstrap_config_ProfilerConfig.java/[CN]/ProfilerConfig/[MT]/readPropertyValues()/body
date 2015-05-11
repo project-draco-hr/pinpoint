@@ -93,9 +93,9 @@
   this.agentInfoSendRetryInterval=readLong("profiler.agentInfo.send.retry.interval",DEFAULT_AGENT_INFO_SEND_RETRY_INTERVAL);
   this.applicationServerType=readString("profiler.applicationservertype",null);
   this.applicationTypeDetectOrder=readTypeDetectOrder("profiler.type.detect.order");
-  final String profileableClass=readString("profiler.include","");
-  if (!profileableClass.isEmpty()) {
-    this.profilableClassFilter=new ProfilableClassFilter(profileableClass);
+  final String profilableClass=readString("profiler.include","");
+  if (!profilableClass.isEmpty()) {
+    this.profilableClassFilter=new ProfilableClassFilter(profilableClass);
   }
   logger.info("configuration loaded successfully.");
 }

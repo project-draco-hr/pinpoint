@@ -1,19 +1,19 @@
 {
-  SpanStreamSendData mostAvaiableBufferCapacityStreamSendData=null;
+  SpanStreamSendData mostAvailableBufferCapacityStreamSendData=null;
   Iterator<SpanStreamSendData> standbySpanStreamSendDataIterator=priorityQueue.iterator();
   while (standbySpanStreamSendDataIterator.hasNext()) {
     SpanStreamSendData standbySpanStreamSendData=standbySpanStreamSendDataIterator.next();
-    if (mostAvaiableBufferCapacityStreamSendData == null) {
-      mostAvaiableBufferCapacityStreamSendData=standbySpanStreamSendData;
+    if (mostAvailableBufferCapacityStreamSendData == null) {
+      mostAvailableBufferCapacityStreamSendData=standbySpanStreamSendData;
     }
  else {
-      if (mostAvaiableBufferCapacityStreamSendData.getAvaiableBufferCapacity() < standbySpanStreamSendData.getAvaiableBufferCapacity()) {
-        mostAvaiableBufferCapacityStreamSendData=standbySpanStreamSendData;
+      if (mostAvailableBufferCapacityStreamSendData.getAvailableBufferCapacity() < standbySpanStreamSendData.getAvailableBufferCapacity()) {
+        mostAvailableBufferCapacityStreamSendData=standbySpanStreamSendData;
       }
     }
   }
-  if (mostAvaiableBufferCapacityStreamSendData != null) {
-    priorityQueue.remove(mostAvaiableBufferCapacityStreamSendData);
+  if (mostAvailableBufferCapacityStreamSendData != null) {
+    priorityQueue.remove(mostAvailableBufferCapacityStreamSendData);
   }
-  return mostAvaiableBufferCapacityStreamSendData;
+  return mostAvailableBufferCapacityStreamSendData;
 }

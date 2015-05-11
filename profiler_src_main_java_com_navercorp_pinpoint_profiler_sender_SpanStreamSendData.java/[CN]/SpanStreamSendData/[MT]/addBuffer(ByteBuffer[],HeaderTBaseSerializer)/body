@@ -2,7 +2,7 @@
   if (firstAccessTime == -1) {
     firstAccessTime=System.currentTimeMillis();
   }
-  if (!checkAddAvaiable(buffers)) {
+  if (!checkAddAvailable(buffers)) {
     return false;
   }
   if (headerTbaseSerializer != null) {
@@ -21,6 +21,6 @@
   }
   encoder.putShort(chunkFlagBuffer,(short)(usedBufferLength));
   chunkFlagBuffer.flip();
-  this.avaiableBufferCapacity=this.avaiableBufferCapacity - usedBufferLength - SpanStreamConstants.DEFAULT_CHUNK_FLAG_BUFFER_SIZE;
+  this.availableBufferCapacity=this.availableBufferCapacity - usedBufferLength - SpanStreamConstants.DEFAULT_CHUNK_FLAG_BUFFER_SIZE;
   return true;
 }
