@@ -1,13 +1,13 @@
 {
   if (SECURITY_MANAGER != null) {
-    return AccessController.doPrivileged(new PrivilegedAction<PluginClassLoader>(){
-      public PluginClassLoader run(){
-        return new PluginClassLoader(urls,parent);
+    return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>(){
+      public ClassLoader run(){
+        return createPluginClassLoader0(urls,parent);
       }
     }
 );
   }
  else {
-    return new PluginClassLoader(urls,parent);
+    return createPluginClassLoader0(urls,parent);
   }
 }
