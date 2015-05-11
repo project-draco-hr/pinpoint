@@ -12,4 +12,9 @@
  catch (  IOException e) {
     logger.warn("Failed to flush span stream data.",e);
   }
+ finally {
+    if (spanStreamSendData != null) {
+      spanStreamSendData.done();
+    }
+  }
 }
