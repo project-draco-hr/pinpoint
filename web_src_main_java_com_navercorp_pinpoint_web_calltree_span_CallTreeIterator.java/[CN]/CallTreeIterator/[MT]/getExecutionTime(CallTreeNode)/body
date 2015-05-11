@@ -1,0 +1,14 @@
+{
+  final SpanAlign align=node.getValue();
+  long elapsedTime;
+  if (align.isSpan()) {
+    elapsedTime=align.getSpanBo().getElapsed();
+  }
+ else {
+    elapsedTime=align.getSpanEventBo().getEndElapsed();
+  }
+  if (!node.hasChild()) {
+    return elapsedTime;
+  }
+  return elapsedTime - getChildrenElapsedTime(node);
+}

@@ -26,7 +26,7 @@
       String method=AnnotationUtils.findApiAnnotation(spanBo.getAnnotationBoList());
       if (method != null) {
         ApiDescription apiDescription=apiDescriptionParser.parse(method);
-        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiDescription.getSimpleMethodDescription(),argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId(),spanAlign.getExecutionTime());
         record.setSimpleClassName(apiDescription.getSimpleClassName());
         record.setFullApiDescription(method);
         recordList.add(record);
@@ -34,14 +34,14 @@
  else {
         String apiTag=AnnotationUtils.findApiTagAnnotation(spanBo.getAnnotationBoList());
         if (apiTag != null) {
-          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiTag,argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiTag,argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId(),spanAlign.getExecutionTime());
           record.setSimpleClassName("");
           record.setFullApiDescription("");
           recordList.add(record);
         }
  else {
           AnnotationKey apiMetaDataError=getApiMetaDataError(spanBo.getAnnotationBoList());
-          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+          Record record=new Record(spanAlign.getDepth(),spanBoSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,spanAlign.getGap(),spanBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanBo.getServiceType()),null,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId(),spanAlign.getExecutionTime());
           record.setSimpleClassName("");
           record.setFullApiDescription("");
           recordList.add(record);
@@ -83,7 +83,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,title,argument,begin,elapsed,spanAlign.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,title,argument,begin,elapsed,spanAlign.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId(),spanAlign.getExecutionTime());
         record.setSimpleClassName(className);
         record.setFullApiDescription(apiInfo);
         recordList.add(record);
@@ -93,7 +93,7 @@
         String destinationId=spanEventBo.getDestinationId();
         long begin=spanAlign.getSpanBo().getStartTime() + spanEventBo.getStartElapsed();
         long elapsed=spanEventBo.getEndElapsed();
-        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,spanAlign.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId());
+        Record record=new Record(spanAlign.getDepth(),spanBoEventSequence,parentSequence,true,apiMetaDataError.getName(),argument,begin,elapsed,spanAlign.getGap(),spanEventBo.getAgentId(),spanBo.getApplicationId(),registry.findServiceType(spanEventBo.getServiceType()),destinationId,spanAlign.isHasChild(),false,spanBo.getTransactionId(),spanBo.getSpanId(),spanAlign.getExecutionTime());
         record.setSimpleClassName("");
         record.setFullApiDescription("");
         recordList.add(record);
