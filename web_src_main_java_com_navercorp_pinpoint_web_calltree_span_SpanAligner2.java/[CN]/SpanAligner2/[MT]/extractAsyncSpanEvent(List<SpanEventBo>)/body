@@ -1,5 +1,8 @@
 {
   final Map<Integer,List<SpanEventBo>> asyncSpanEventMap=new HashMap<Integer,List<SpanEventBo>>();
+  if (spanEventBoList == null) {
+    return asyncSpanEventMap;
+  }
   for (  SpanEventBo spanEvent : spanEventBoList) {
     if (!spanEvent.isAsync()) {
       continue;
