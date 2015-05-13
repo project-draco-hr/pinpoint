@@ -1,0 +1,25 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    doInAfterTrace(trace,target,args,result,throwable);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("after error. Caused:{}",th.getMessage(),th);
+    }
+  }
+ finally {
+    trace.traceBlockEnd();
+    if (async) {
+      traceFirstBlockEnd(trace);
+      trace.traceRootBlockEnd();
+      traceContext.detachTraceObject();
+    }
+  }
+}
