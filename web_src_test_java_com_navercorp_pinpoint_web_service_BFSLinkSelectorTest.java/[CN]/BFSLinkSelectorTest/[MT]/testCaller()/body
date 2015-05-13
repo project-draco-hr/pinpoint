@@ -1,0 +1,15 @@
+{
+  Application sourceApp=new Application("APP_A",ServiceType.STAND_ALONE);
+  Application targetApp=new Application("APP_B",ServiceType.STAND_ALONE);
+  LinkDataMap linkDataMap=new LinkDataMap();
+  linkDataMap.addLinkData(sourceApp,"agentA",targetApp,"agentB",1000,HistogramSchema.FAST_SCHEMA.getNormalSlot().getSlotTime(),1);
+  when(callerDao.selectCaller((Application)anyObject(),(Range)anyObject())).thenReturn(linkDataMap);
+  when(calleeDao.selectCallee((Application)anyObject(),(Range)anyObject())).thenReturn(new LinkDataMap());
+  when(hostApplicationMapDao.findAcceptApplicationName((Application)anyObject(),(Range)anyObject())).thenReturn(new HashSet<AcceptApplication>());
+  BFSLinkSelector bfsLinkSelector=new BFSLinkSelector(this.callerDao,this.calleeDao,hostApplicationMapDao);
+  Range range=new Range(0,100);
+  SearchOption option=new SearchOption(1,1);
+  LinkDataDuplexMap select=bfsLinkSelector.select(sourceApp,range,option);
+  Assert.assertEquals(select.size(),1);
+  Assert.assertEquals(select.getSourceLinkDataList().size(),1);
+}
