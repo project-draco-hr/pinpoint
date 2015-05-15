@@ -2,8 +2,8 @@
   if (depth < MIN_DEPTH || depth == ROOT_DEPTH) {
     throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
   }
-  if (hasMissing(spanAlign)) {
-    throw new MissingSpanEventException("missing event. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+  if (hasCorrupted(spanAlign)) {
+    throw new CorruptedSpanCallTreeNodeException("corrupted event. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
   }
   if (depth == LEVEL_DEPTH || depth == cursor.getDepth()) {
     if (cursor.isRoot()) {
