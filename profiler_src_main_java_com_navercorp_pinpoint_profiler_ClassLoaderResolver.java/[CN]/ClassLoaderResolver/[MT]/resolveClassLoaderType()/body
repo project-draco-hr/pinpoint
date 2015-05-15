@@ -1,0 +1,17 @@
+{
+  String pluginClassLoaderName;
+  boolean java6=isJava6();
+  boolean unsafe=hasUnsafe();
+  if (java6) {
+    if (unsafe) {
+      pluginClassLoaderName="com.navercorp.pinpoint.profiler.plugin.Java6UnsafePluginClassLoader";
+    }
+ else {
+      pluginClassLoaderName="com.navercorp.pinpoint.profiler.plugin.Java6PluginClassLoader";
+    }
+  }
+ else {
+    pluginClassLoaderName="com.navercorp.pinpoint.profiler.plugin.Java7PluginClassLoader";
+  }
+  return pluginClassLoaderName;
+}

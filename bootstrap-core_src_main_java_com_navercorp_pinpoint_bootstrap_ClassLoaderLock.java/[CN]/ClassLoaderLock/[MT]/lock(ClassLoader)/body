@@ -1,0 +1,16 @@
+{
+  LockInfo info=map.get(loader);
+  if (info == null) {
+    return;
+  }
+  while (!info.lock.tryLock()) {
+    try {
+      if (Thread.holdsLock(loader)) {
+        loader.wait(0,1);
+      }
+    }
+ catch (    InterruptedException e) {
+      throw new RuntimeException("Interrupted",e);
+    }
+  }
+}
