@@ -1,0 +1,10 @@
+{
+  final SpanAlign align=node.getValue();
+  align.setId(getNextId());
+  final int parentId=getParentId(node);
+  Api api=getApi(align);
+  final Record record=new Record(align.getDepth(),align.getId(),parentId,true,api.title,argument,align.getStartTime(),align.getElapsed(),align.getGap(),align.getAgentId(),align.getApplicationId(),registry.findServiceType(align.getServiceType()),null,align.isHasChild(),false,align.getTransactionId(),align.getSpanId(),align.getExecutionMilliseconds(),api.type);
+  record.setSimpleClassName(api.className);
+  record.setFullApiDescription(api.description);
+  return record;
+}

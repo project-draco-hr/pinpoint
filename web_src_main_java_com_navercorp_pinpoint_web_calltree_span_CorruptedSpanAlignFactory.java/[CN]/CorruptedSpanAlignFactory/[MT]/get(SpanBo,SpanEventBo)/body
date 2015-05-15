@@ -1,0 +1,28 @@
+{
+  final SpanEventBo missedEvent=new SpanEventBo();
+  missedEvent.setStartElapsed(spanEvent.getStartElapsed());
+  missedEvent.setEndElapsed(spanEvent.getEndElapsed());
+  missedEvent.setAgentId(span.getAgentId());
+  missedEvent.setAgentStartTime(span.getAgentStartTime());
+  missedEvent.setServiceType(ServiceType.COLLECTOR.getCode());
+  List<AnnotationBo> annotations=new ArrayList<AnnotationBo>();
+  ApiMetaDataBo apiMetaData=new ApiMetaDataBo();
+  apiMetaData.setLineNumber(-1);
+  apiMetaData.setApiInfo("...");
+  apiMetaData.setType(MethodType.CORRUPTED);
+  final AnnotationBo apiMetaDataAnnotation=new AnnotationBo();
+  apiMetaDataAnnotation.setKey(AnnotationKey.API_METADATA.getCode());
+  apiMetaDataAnnotation.setValue(apiMetaData);
+  annotations.add(apiMetaDataAnnotation);
+  final AnnotationBo argumentAnnotation=new AnnotationBo();
+  argumentAnnotation.setKey(AnnotationKey.getArgs(0).getCode());
+  if (System.currentTimeMillis() - span.getStartTime() < timeoutMillisec) {
+    argumentAnnotation.setValue("Corrupted(waiting for packet) ");
+  }
+ else {
+    argumentAnnotation.setValue("Corrupted");
+  }
+  annotations.add(argumentAnnotation);
+  missedEvent.setAnnotationBoList(annotations);
+  return new SpanAlign(span,missedEvent);
+}

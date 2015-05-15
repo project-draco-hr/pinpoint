@@ -1,0 +1,10 @@
+{
+  final CallTreeNode parent=node.getParent();
+  if (parent == null) {
+    if (!node.getValue().isSpan()) {
+      throw new IllegalStateException("parent is null. node=" + node);
+    }
+    return 0;
+  }
+  return parent.getValue().getId();
+}
