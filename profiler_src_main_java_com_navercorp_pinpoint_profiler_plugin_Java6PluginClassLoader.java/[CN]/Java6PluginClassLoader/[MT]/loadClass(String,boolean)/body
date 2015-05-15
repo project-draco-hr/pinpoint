@@ -1,49 +1,23 @@
 {
-  ClassLoader parent=getParent();
-  while (!lock.tryLock()) {
-    try {
-      try {
-        this.wait();
-      }
- catch (      IllegalMonitorStateException e) {
-        try {
-          parent.wait();
-        }
- catch (        IllegalMonitorStateException e2) {
-        }
-      }
-    }
- catch (    InterruptedException e) {
-      throw new RuntimeException("Interrupted",e);
-    }
-  }
-  Class<?> c=null;
+  ClassLoaderLock.lock(this);
   try {
-synchronized (this) {
-      c=findLoadedClass(name);
-      if (c == null) {
-        try {
-          c=parent.loadClass(name);
-        }
- catch (        ClassNotFoundException e) {
-        }
-        if (c == null) {
-          c=findClass(name);
-        }
+    Class<?> c=findLoadedClass(name);
+    if (c == null) {
+      try {
+        c=getParent().loadClass(name);
       }
-      if (resolve) {
-        resolveClass(c);
+ catch (      ClassNotFoundException e) {
+      }
+      if (c == null) {
+        c=findClass(name);
       }
     }
+    if (resolve) {
+      resolveClass(c);
+    }
+    return c;
   }
   finally {
-    lock.unlock();
+    ClassLoaderLock.unlock(this);
   }
-synchronized (this) {
-    this.notify();
-  }
-synchronized (parent) {
-    parent.notify();
-  }
-  return c;
 }

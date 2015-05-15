@@ -1,0 +1,24 @@
+{
+  String pluginClassLoaderName=null;
+  String specified=System.getProperty("com.navercorp.pinpoint.plugin.classloader");
+  if (specified == null) {
+    pluginClassLoaderName=resolveClassLoaderType();
+  }
+ else {
+    pluginClassLoaderName=specified;
+  }
+  logger.info("Use plugin class loader: " + pluginClassLoaderName);
+  boolean redefineClassLoader="com.navercorp.pinpoint.profiler.plugin.Java6PluginClassLoader".equals(pluginClassLoaderName);
+  try {
+    if (redefineClassLoader) {
+      retransformClassLoader(inst);
+    }
+    return Class.forName(pluginClassLoaderName).asSubclass(ClassLoader.class);
+  }
+ catch (  ClassNotFoundException e) {
+    throw new NoClassDefFoundError("Cannot find plugin class loader: " + pluginClassLoaderName);
+  }
+catch (  Exception e) {
+    throw new PinpointException("Failed to prepare " + pluginClassLoaderName,e);
+  }
+}
