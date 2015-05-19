@@ -1,5 +1,5 @@
 {
   byte[] testAgents=BytesUtils.add("testAgent",11L);
-  byte[] buf=Bytes.add(Bytes.toBytes("testAgent"),Bytes.toBytes(11L));
+  byte[] buf=ByteBuffer.allocate(17).put("testAgent".getBytes()).putLong(11L).array();
   Assert.assertArrayEquals(testAgents,buf);
 }
