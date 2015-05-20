@@ -1,0 +1,11 @@
+{
+  Storage storage=pool.get(traceId);
+  if (storage == null) {
+    final Storage newStorage=storageFactory.createStorage();
+    storage=pool.putIfAbsent(traceId,newStorage);
+    if (storage == null) {
+      storage=newStorage;
+    }
+  }
+  return storage;
+}

@@ -1,0 +1,10 @@
+{
+  final Trace trace=currentRawTraceObject();
+  if (trace != null) {
+    final TraceId traceId=trace.getTraceId();
+    traceId.decrementTraceCount();
+    storagePool.returnStorage(traceId);
+  }
+  detachTraceObject();
+  return trace;
+}
