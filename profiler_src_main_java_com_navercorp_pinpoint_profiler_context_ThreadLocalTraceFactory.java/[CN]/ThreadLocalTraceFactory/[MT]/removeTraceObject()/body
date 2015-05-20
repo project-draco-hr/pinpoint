@@ -5,6 +5,6 @@
     traceId.decrementTraceCount();
     storagePool.returnStorage(traceId);
   }
-  detachTraceObject();
+  this.threadLocal.remove();
   return trace;
 }

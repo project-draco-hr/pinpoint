@@ -6,8 +6,8 @@
   if (trace == null) {
     return;
   }
-  traceContext.detachTraceObject();
   if (!trace.canSampled()) {
+    traceContext.removeTraceObject();
     return;
   }
   try {
@@ -19,6 +19,7 @@
     }
   }
  finally {
+    traceContext.removeTraceObject();
     deleteTrace(trace,target,args,result,throwable);
   }
 }

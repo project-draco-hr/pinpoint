@@ -4,7 +4,7 @@
     final Trace trace=getTraceMetadata(request);
     if (trace != null) {
       trace.recordApi(SERVLET_ASYNCHRONOUS_API_TAG);
-      getTraceContext().attachTraceObject(trace);
+      getTraceContext().continueTraceObject(trace);
       trace.traceBlockBegin();
       return trace;
     }
