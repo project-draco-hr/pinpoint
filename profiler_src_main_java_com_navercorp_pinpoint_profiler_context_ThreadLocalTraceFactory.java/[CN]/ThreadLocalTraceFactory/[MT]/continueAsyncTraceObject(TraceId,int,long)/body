@@ -4,7 +4,7 @@
   trace.getCallStack().getSpan().setStartTime(startTime);
   traceId.incrementTraceCount();
   final Storage storage=storagePool.getStorage(traceId);
-  trace.setStorage(storage);
+  trace.setStorage(new AsyncStorage(storage));
   trace.setSampling(true);
   final AsyncTrace asyncTrace=new AsyncTrace(trace);
   asyncTrace.setAsyncId(asyncId);

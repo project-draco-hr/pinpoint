@@ -1,7 +1,7 @@
 {
   List<SpanEvent> flushData=null;
 synchronized (this) {
-    addSpanEvent(spanEvent);
+    storage.add(spanEvent);
     if (storage.size() >= bufferSize) {
       flushData=storage;
       storage=new ArrayList<SpanEvent>(bufferSize);

@@ -1,0 +1,14 @@
+{
+  List<SpanEvent> spanEventList;
+synchronized (this) {
+    spanEventList=storage;
+    this.storage=null;
+  }
+  if (spanEventList != null && !spanEventList.isEmpty()) {
+    final SpanChunk spanChunk=spanChunkFactory.create(spanEventList);
+    dataSender.send(spanChunk);
+    if (isDebug) {
+      logger.debug("flush span chunk {}",spanChunk);
+    }
+  }
+}
