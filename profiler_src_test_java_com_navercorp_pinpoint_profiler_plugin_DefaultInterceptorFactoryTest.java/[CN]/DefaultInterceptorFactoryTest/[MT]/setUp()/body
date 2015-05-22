@@ -1,5 +1,6 @@
 {
   reset(instrumentor,traceContext,aClass,aMethod);
   when(pluginContext.getTraceContext()).thenReturn(traceContext);
+  when(pluginContext.getClassInjector()).thenReturn(new TestProfilerPluginClassLoader());
   when(aMethod.getDescriptor()).thenReturn(descriptor);
 }
