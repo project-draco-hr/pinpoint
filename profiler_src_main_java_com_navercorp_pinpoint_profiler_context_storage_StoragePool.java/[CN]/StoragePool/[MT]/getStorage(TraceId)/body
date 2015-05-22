@@ -1,0 +1,19 @@
+{
+  Storage storage=pool.get(traceId);
+  if (storage == null) {
+    final Storage newStorage=storageFactory.createStorage();
+    newStorage.setCloseHandler(new StorageCloseHandler(){
+      @Override public void handle(){
+        if (traceId.getTraceCount() == 0) {
+          pool.remove(traceId);
+        }
+      }
+    }
+);
+    storage=pool.putIfAbsent(traceId,newStorage);
+    if (storage == null) {
+      storage=newStorage;
+    }
+  }
+  return storage;
+}

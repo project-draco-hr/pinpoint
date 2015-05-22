@@ -8,7 +8,7 @@
       final Trace trace=traceAccessor.get(target);
       if (trace != null && trace.canSampled()) {
         trace.markAfterTime();
-        trace.traceRootBlockEnd();
+        trace.close();
       }
       traceAccessor.set(target,null);
     }

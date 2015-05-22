@@ -7,7 +7,6 @@
     return;
   }
   try {
-    traceContext.detachTraceObject();
     HttpServletRequest request=(HttpServletRequest)args[0];
     String parameters=getRequestParameter(request);
     if (parameters != null && parameters.length() > 0) {
@@ -18,6 +17,7 @@
     trace.markAfterTime();
   }
   finally {
+    traceContext.removeTraceObject();
     trace.traceBlockEnd();
   }
 }

@@ -1,0 +1,15 @@
+{
+  try {
+    pop(ROOT_STACKID);
+    callStack.popRoot();
+  }
+ catch (  Exception e) {
+    logger.warn("Failed to close",e);
+  }
+  this.currentStackFrame=null;
+  if (this.storage != null) {
+    this.traceId.decrementTraceCount();
+    this.storage.close();
+    this.storage=null;
+  }
+}

@@ -4,6 +4,7 @@
   }
   this.traceContext=traceContext;
   this.traceId=new DefaultTraceId(traceContext.getAgentId(),traceContext.getAgentStartTime(),transactionId);
+  this.traceId.incrementTraceCount();
   final Span span=createSpan(traceId);
   this.callStack=new CallStack(span);
   this.latestStackIndex=this.callStack.push();
