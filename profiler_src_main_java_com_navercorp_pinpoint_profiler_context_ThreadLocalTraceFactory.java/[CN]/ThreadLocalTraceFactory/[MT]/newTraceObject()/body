@@ -4,7 +4,6 @@
   if (sampling) {
     final DefaultTrace trace=new DefaultTrace(traceContext,nextTransactionId());
     final TraceId traceId=trace.getTraceId();
-    traceId.incrementTraceCount();
     final Storage storage=storagePool.getStorage(traceId);
     trace.setStorage(storage);
     trace.setSampling(sampling);

@@ -7,6 +7,7 @@
   }
   this.traceContext=traceContext;
   this.traceId=continueTraceId;
+  this.traceId.incrementTraceCount();
   final Span span=createSpan(continueTraceId);
   this.callStack=new CallStack(span);
   latestStackIndex=this.callStack.push();
