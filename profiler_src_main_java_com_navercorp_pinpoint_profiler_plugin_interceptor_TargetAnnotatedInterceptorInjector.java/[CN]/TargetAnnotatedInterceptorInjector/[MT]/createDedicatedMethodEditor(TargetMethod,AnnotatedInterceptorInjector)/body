@@ -1,7 +1,7 @@
 {
   String methodName=annotation.name();
   if (methodName == null) {
-    throw new PinpointException("name() of @TargetMethod cannot be null: " + interceptorName);
+    throw new PinpointException("name() of @TargetMethod cannot be null: " + interceptorClassName);
   }
   String[] parameterTypeNames=annotation.paramTypes();
   return new DedicatedMethodTransformer(methodName,parameterTypeNames,Arrays.<MethodRecipe>asList(injector),null,false);

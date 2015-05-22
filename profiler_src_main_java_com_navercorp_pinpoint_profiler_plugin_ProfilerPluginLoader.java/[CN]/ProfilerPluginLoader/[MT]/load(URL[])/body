@@ -1,0 +1,15 @@
+{
+  List<DefaultProfilerPluginContext> pluginContexts=new ArrayList<DefaultProfilerPluginContext>(pluginJars.length);
+  for (  URL jar : pluginJars) {
+    List<ProfilerPlugin> plugins=PluginLoader.load(ProfilerPlugin.class,new URL[]{jar});
+    for (    ProfilerPlugin plugin : plugins) {
+      logger.info("Loading plugin: {}",plugin.getClass().getName());
+      ProfilerPluginClassLoader classInjector=JarProfilerPluginClassLoader.of(jar);
+      DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(agent,classInjector);
+      plugin.setup(context);
+      context.markInitialized();
+      pluginContexts.add(context);
+    }
+  }
+  return pluginContexts;
+}

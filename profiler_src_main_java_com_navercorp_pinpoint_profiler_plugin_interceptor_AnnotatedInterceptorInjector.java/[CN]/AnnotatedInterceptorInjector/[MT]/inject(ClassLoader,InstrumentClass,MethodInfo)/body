@@ -1,5 +1,5 @@
 {
-  Class<? extends Interceptor> interceptorType=TypeUtils.loadClass(targetClassLoader,interceptorClassName);
+  Class<? extends Interceptor> interceptorType=pluginContext.getClassInjector().loadClass(targetClassLoader,interceptorClassName);
   InterceptorFactory factory=createInterceptorFactory(interceptorType);
   Interceptor interceptor=factory.getInterceptor(targetClassLoader,targetClass,targetMethod);
   if (targetMethod.isConstructor()) {
