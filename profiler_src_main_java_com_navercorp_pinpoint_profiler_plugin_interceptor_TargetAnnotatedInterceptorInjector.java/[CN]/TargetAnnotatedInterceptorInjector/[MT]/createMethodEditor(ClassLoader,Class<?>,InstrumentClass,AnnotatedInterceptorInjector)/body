@@ -25,7 +25,7 @@
     editors.add(createFilteredMethodEditor(targetFilter,targetClass,injector,classLoader));
   }
   if (editors.isEmpty()) {
-    throw new PinpointException("No target is specified. At least one of @Targets, @TargetMethod, @TargetConstructor, @TargetFilter must present. interceptor: " + interceptorName);
+    throw new PinpointException("No target is specified. At least one of @Targets, @TargetMethod, @TargetConstructor, @TargetFilter must present. interceptor: " + interceptorClassName);
   }
   return editors.size() == 1 ? editors.get(0) : new ClassCookBook(editors);
 }

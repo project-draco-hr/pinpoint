@@ -1,7 +1,7 @@
 {
   String type=annotation.type();
   if (type == null) {
-    throw new PinpointException("type of @TargetFilter is null: " + interceptorName);
+    throw new PinpointException("type of @TargetFilter is null: " + interceptorClassName);
   }
   AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,targetClass,classLoader);
   MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectRecipe.byConstructor(type,(Object[])annotation.constructorArguments()));

@@ -29,9 +29,7 @@
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
-  Class<? extends ClassLoader> classLoaderType=new ClassLoaderResolver().resolve(instrumentation);
-  pluginClassLoaderFactory=new DefaultPluginClassLoaderFactory(classLoaderType,agentOption.getPluginJars());
-  pluginContexts=loadProfilerPlugins(agentOption.getPluginJars());
+  pluginContexts=loadPlugins(agentOption);
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,pluginContexts);
   retransformService.setRetransformEventListener(classFileTransformer);
   instrumentation.addTransformer(this.classFileTransformer,true);
