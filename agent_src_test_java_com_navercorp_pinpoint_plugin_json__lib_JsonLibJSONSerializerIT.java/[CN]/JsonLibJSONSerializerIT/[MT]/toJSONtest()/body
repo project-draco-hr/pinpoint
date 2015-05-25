@@ -1,0 +1,11 @@
+{
+  String test="{'string':'JSON'}";
+  JSONSerializer jsn=new JSONSerializer();
+  jsn.toJSON(test);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Method targetMethod=JSONSerializer.class.getMethod("toJSON",Object.class);
+  verifier.verifyApi("JsonLib",targetMethod);
+  verifier.verifyTraceBlockCount(0);
+}

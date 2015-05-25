@@ -1,0 +1,11 @@
+{
+  JSONObject test=new JSONObject();
+  test.put("string","JSON");
+  JSONObject.toBean(test);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Method targetMethod=JSONObject.class.getMethod("toBean",JSONObject.class);
+  verifier.verifyApi("JsonLib",targetMethod);
+  verifier.verifyTraceBlockCount(0);
+}
