@@ -1,0 +1,11 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+}
