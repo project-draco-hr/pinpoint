@@ -1,0 +1,19 @@
+{
+  if (!v1_6) {
+    return;
+  }
+  final Gson gson=new Gson();
+  gson.fromJson(new JsonReader(new StringReader(json)),String.class);
+  Method fromJson5=Gson.class.getDeclaredMethod("fromJson",JsonReader.class,Type.class);
+  gson.toJson(java,String.class,new JsonWriter(new StringWriter()));
+  gson.toJson(jsonElement,new JsonWriter(new StringWriter()));
+  Method toJson5=Gson.class.getDeclaredMethod("toJson",Object.class,Type.class,JsonWriter.class);
+  Method toJson8=Gson.class.getDeclaredMethod("toJson",JsonElement.class,JsonWriter.class);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  verifier.verifyApi(serviceType,fromJson5);
+  verifier.verifyApi(serviceType,toJson5);
+  verifier.verifyApi(serviceType,toJson8);
+  verifier.verifyTraceBlockCount(0);
+}

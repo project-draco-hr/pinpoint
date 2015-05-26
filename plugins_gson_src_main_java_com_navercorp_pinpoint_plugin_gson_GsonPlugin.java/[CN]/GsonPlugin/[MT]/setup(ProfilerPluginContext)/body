@@ -1,0 +1,14 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder(GSON_CLASS);
+  final MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethods(new GsonMethodFilter(GsonMethodNames.get()));
+  methodEditorBuilder.exceptionHandler(new MethodTransformerExceptionHandler(){
+    @Override public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Throwable {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+      }
+    }
+  }
+);
+  methodEditorBuilder.injectInterceptor(GSON_METHODS_INTERCEPTOR).group(GSON_GROUP);
+  context.addClassFileTransformer(classEditorBuilder.build());
+}
