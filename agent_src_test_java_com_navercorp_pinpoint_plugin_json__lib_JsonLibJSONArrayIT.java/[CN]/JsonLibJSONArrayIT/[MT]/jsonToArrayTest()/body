@@ -1,0 +1,13 @@
+{
+  Method fromObject=JSONArray.class.getMethod("fromObject",Object.class);
+  Method toArray=JSONArray.class.getMethod("toArray",JSONArray.class);
+  String test="[{'string':'JSON'}]";
+  JSONArray jsn=JSONArray.fromObject(test);
+  toArray.invoke(null,jsn);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  verifier.verifyApi("JSON-LIB",fromObject);
+  verifier.verifyApi("JSON-LIB",toArray);
+  verifier.verifyTraceBlockCount(0);
+}

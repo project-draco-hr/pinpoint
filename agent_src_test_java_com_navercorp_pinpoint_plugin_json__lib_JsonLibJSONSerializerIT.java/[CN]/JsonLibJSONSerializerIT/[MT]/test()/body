@@ -1,0 +1,18 @@
+{
+  Method toJSON=JSONSerializer.class.getMethod("toJSON",Object.class);
+  Method toJava=JSONSerializer.class.getMethod("toJava",JSON.class);
+  String test="{'string':'JSON'}";
+  JSON json=JSONSerializer.toJSON(test);
+  if (Modifier.isStatic(toJava.getModifiers())) {
+    toJava.invoke(null,json);
+  }
+ else {
+    toJava.invoke(new JSONSerializer(),json);
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  verifier.verifyApi("JSON-LIB",toJSON);
+  verifier.verifyApi("JSON-LIB",toJava);
+  verifier.verifyTraceBlockCount(0);
+}
