@@ -1,0 +1,10 @@
+{
+  if (entity.getContent() == null) {
+    return "";
+  }
+  final int length=entity.getContent().length > MAX_READ_SIZE ? MAX_READ_SIZE : entity.getContent().length;
+  if (length <= 0) {
+    return "";
+  }
+  return new String(entity.getContent(),0,length,charSet);
+}

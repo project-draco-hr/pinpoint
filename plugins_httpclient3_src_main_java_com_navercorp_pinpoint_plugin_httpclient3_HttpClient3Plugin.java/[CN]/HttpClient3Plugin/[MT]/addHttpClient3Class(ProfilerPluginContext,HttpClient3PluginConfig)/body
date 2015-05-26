@@ -1,0 +1,7 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.HttpClient");
+  injectHttpClientExecuteMethod(classEditorBuilder,"org.apache.commons.httpclient.HttpMethod");
+  injectHttpClientExecuteMethod(classEditorBuilder,"org.apache.commons.httpclient.HostConfiguration","org.apache.commons.httpclient.HttpMethod");
+  injectHttpClientExecuteMethod(classEditorBuilder,"org.apache.commons.httpclient.HostConfiguration","org.apache.commons.httpclient.HttpMethod","org.apache.commons.httpclient.HttpState");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}
