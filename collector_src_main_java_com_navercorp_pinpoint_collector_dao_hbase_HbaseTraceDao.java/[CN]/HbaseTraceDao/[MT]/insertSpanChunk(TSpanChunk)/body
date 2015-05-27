@@ -7,7 +7,7 @@
     SpanEventBo spanEventBo=new SpanEventBo(spanChunk,spanEvent);
     byte[] value=spanEventBo.writeValue();
     byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence(),spanEventBo.getAsyncId());
-    put.add(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+    put.addColumn(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
   }
   hbaseTemplate.put(TRACES,put);
 }

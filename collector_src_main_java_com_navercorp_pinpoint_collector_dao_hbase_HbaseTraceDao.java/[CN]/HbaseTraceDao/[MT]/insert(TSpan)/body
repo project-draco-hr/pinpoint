@@ -8,11 +8,11 @@
   byte[] spanValue=spanBo.writeValue();
   byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
   long acceptedTime=acceptedTimeService.getAcceptedTime();
-  put.add(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
+  put.addColumn(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
   List<TAnnotation> annotations=span.getAnnotations();
   if (CollectionUtils.isNotEmpty(annotations)) {
     byte[] bytes=writeAnnotation(annotations);
-    put.add(TRACES_CF_ANNOTATION,spanId,bytes);
+    put.addColumn(TRACES_CF_ANNOTATION,spanId,bytes);
   }
   addNestedSpanEvent(put,span);
   hbaseTemplate.put(TRACES,put);

@@ -3,8 +3,8 @@
     return Collections.emptyList();
   }
   final List<AcceptApplication> acceptApplicationList=new ArrayList<AcceptApplication>(result.size());
-  for (  KeyValue kv : result.raw()) {
-    AcceptApplication acceptedApplication=createAcceptedApplication(kv.getQualifier());
+  for (  Cell cell : result.rawCells()) {
+    AcceptApplication acceptedApplication=createAcceptedApplication(CellUtil.cloneQualifier(cell));
     acceptApplicationList.add(acceptedApplication);
   }
   return acceptApplicationList;

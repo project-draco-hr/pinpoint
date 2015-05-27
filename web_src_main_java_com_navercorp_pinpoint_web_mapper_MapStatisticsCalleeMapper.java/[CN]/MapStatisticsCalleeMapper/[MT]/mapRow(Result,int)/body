@@ -7,13 +7,13 @@
   final Application calleeApplication=readCalleeApplication(row);
   final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
   final LinkDataMap linkDataMap=new LinkDataMap();
-  for (  KeyValue kv : result.raw()) {
-    final byte[] qualifier=kv.getQualifier();
+  for (  Cell cell : result.rawCells()) {
+    final byte[] qualifier=CellUtil.cloneQualifier(cell);
     final Application callerApplication=readCallerApplication(qualifier,calleeApplication.getServiceType());
     if (filter.filter(callerApplication)) {
       continue;
     }
-    long requestCount=Bytes.toLong(kv.getBuffer(),kv.getValueOffset());
+    long requestCount=Bytes.toLong(cell.getValueArray(),cell.getValueOffset());
     short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
     String callerHost=ApplicationMapStatisticsUtils.getHost(qualifier);
     boolean isError=histogramSlot == (short)-1;
