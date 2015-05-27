@@ -1,0 +1,7 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.HttpConnection");
+  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethod("open");
+  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpConnectionOpenMethodInterceptor");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}

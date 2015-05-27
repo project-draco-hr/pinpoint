@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(HTTP_CLIENT3_INTERNAL);
+    trace.recordApi(methodDescriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
