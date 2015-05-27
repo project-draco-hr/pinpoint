@@ -1,0 +1,26 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(JsonLibConstants.SERVICE_TYPE);
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (descriptor.getMethodName().equals("fromObject")) {
+      if (args.length >= 1 && args[0] instanceof String) {
+        trace.recordAttribute(JsonLibConstants.JSON_LIB_ANNOTATION_KEY_JSON_LENGTH,((String)args[0]).length());
+      }
+    }
+ else     if (descriptor.getMethodName().equals("toString")) {
+      trace.recordAttribute(JsonLibConstants.JSON_LIB_ANNOTATION_KEY_JSON_LENGTH,((String)result).length());
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
