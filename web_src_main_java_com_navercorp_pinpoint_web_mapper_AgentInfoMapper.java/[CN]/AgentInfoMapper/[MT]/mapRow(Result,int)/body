@@ -2,10 +2,10 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
-  KeyValue[] raw=result.raw();
-  List<AgentInfoBo> agentInfoBoList=new ArrayList<AgentInfoBo>(raw.length);
-  for (  KeyValue keyValue : raw) {
-    AgentInfoBo agentInfoBo=mappingAgentInfo(keyValue);
+  Cell[] rawCells=result.rawCells();
+  List<AgentInfoBo> agentInfoBoList=new ArrayList<AgentInfoBo>(rawCells.length);
+  for (  Cell cell : rawCells) {
+    AgentInfoBo agentInfoBo=mappingAgentInfo(cell);
     agentInfoBoList.add(agentInfoBo);
   }
   return agentInfoBoList;
