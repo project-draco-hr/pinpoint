@@ -1,5 +1,5 @@
 {
-  Buffer reader=new FixedBuffer(qualifier);
+  Buffer reader=new OffsetFixedBuffer(cell.getQualifierArray(),cell.getQualifierOffset());
   String host=reader.readPrefixedString();
   String bindApplicationName=reader.readPrefixedString();
   short bindServiceTypeCode=reader.readShort();
