@@ -7,15 +7,14 @@
   final Application caller=readCallerApplication(row);
   final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
   final LinkDataMap linkDataMap=new LinkDataMap();
-  for (  KeyValue kv : result.raw()) {
-    final byte[] family=kv.getFamily();
-    if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER)) {
-      final byte[] qualifier=kv.getQualifier();
+  for (  Cell cell : result.rawCells()) {
+    if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER)) {
+      final byte[] qualifier=CellUtil.cloneQualifier(cell);
       final Application callee=readCalleeApplication(qualifier);
       if (filter.filter(callee)) {
         continue;
       }
-      long requestCount=getValueToLong(kv);
+      long requestCount=getValueToLong(cell);
       short histogramSlot=ApplicationMapStatisticsUtils.getHistogramSlotFromColumnName(qualifier);
       boolean isError=histogramSlot == (short)-1;
       String calleeHost=ApplicationMapStatisticsUtils.getHost(qualifier);
@@ -28,8 +27,8 @@
       }
       linkDataMap.addLinkData(caller,caller.getName(),callee,calleeHost,timestamp,slotTime,requestCount);
     }
- else     if (Bytes.equals(family,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER)) {
-      final Buffer buffer=new OffsetFixedBuffer(kv.getBuffer(),kv.getQualifierOffset());
+ else     if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER)) {
+      final Buffer buffer=new OffsetFixedBuffer(cell.getQualifierArray(),cell.getQualifierOffset());
       final Application callee=readCalleeApplication(buffer);
       if (filter.filter(callee)) {
         continue;
@@ -38,7 +37,7 @@
       short histogramSlot=buffer.readShort();
       boolean isError=histogramSlot == (short)-1;
       String callerAgentId=buffer.readPrefixedString();
-      long requestCount=getValueToLong(kv);
+      long requestCount=getValueToLong(cell);
       if (logger.isDebugEnabled()) {
         logger.debug("    Fetched Caller.(New) {} {} -> {} (slot:{}/{}) calleeHost:{}",caller,callerAgentId,callee,histogramSlot,requestCount,calleeHost);
       }
@@ -49,7 +48,7 @@
       linkDataMap.addLinkData(caller,callerAgentId,callee,calleeHost,timestamp,slotTime,requestCount);
     }
  else {
-      throw new IllegalArgumentException("unknown ColumnFamily :" + Arrays.toString(family));
+      throw new IllegalArgumentException("unknown ColumnFamily :" + Arrays.toString(CellUtil.cloneFamily(cell)));
     }
   }
   return linkDataMap;

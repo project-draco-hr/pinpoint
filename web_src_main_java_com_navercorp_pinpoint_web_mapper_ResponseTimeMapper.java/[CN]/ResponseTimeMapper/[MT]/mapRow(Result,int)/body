@@ -4,12 +4,13 @@
   }
   final byte[] rowKey=result.getRow();
   ResponseTime responseTime=createResponseTime(rowKey);
-  for (  KeyValue keyValue : result.raw()) {
-    if (!Bytes.equals(keyValue.getFamily(),HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER)) {
-      continue;
+  for (  Cell cell : result.rawCells()) {
+    if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER)) {
+      recordColumn(responseTime,cell);
     }
-    byte[] qualifier=keyValue.getQualifier();
-    recordColumn(responseTime,qualifier,keyValue.getBuffer(),keyValue.getValueOffset());
+    if (logger.isDebugEnabled()) {
+      logger.debug("unknown column family:{}",Arrays.toString(CellUtil.cloneFamily(cell)));
+    }
   }
   return responseTime;
 }

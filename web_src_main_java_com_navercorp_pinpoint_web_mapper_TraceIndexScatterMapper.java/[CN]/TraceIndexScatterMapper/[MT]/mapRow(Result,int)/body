@@ -2,10 +2,10 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
-  KeyValue[] raw=result.raw();
-  List<Dot> list=new ArrayList<Dot>(raw.length);
-  for (  KeyValue kv : raw) {
-    final Dot dot=createDot(kv);
+  Cell[] rawCells=result.rawCells();
+  List<Dot> list=new ArrayList<Dot>(rawCells.length);
+  for (  Cell cell : rawCells) {
+    final Dot dot=createDot(cell);
     list.add(dot);
   }
   return list;

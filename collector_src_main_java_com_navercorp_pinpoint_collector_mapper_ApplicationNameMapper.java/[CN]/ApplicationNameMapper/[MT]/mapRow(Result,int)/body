@@ -2,14 +2,14 @@
   if (result.isEmpty()) {
     return null;
   }
-  KeyValue[] raw=result.raw();
-  if (raw.length == 0) {
+  Cell[] rawCells=result.rawCells();
+  if (rawCells.length == 0) {
     return null;
   }
-  String[] ret=new String[raw.length];
+  String[] ret=new String[rawCells.length];
   int index=0;
-  for (  KeyValue kv : raw) {
-    ret[index++]=BytesUtils.toString(kv.getQualifier());
+  for (  Cell cell : rawCells) {
+    ret[index++]=BytesUtils.toString(CellUtil.cloneQualifier(cell));
   }
   return ret[0];
 }

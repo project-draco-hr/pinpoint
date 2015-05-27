@@ -2,10 +2,10 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
-  final KeyValue[] raw=result.raw();
-  final List<String> agentIdList=new ArrayList<String>(raw.length);
-  for (  KeyValue kv : raw) {
-    final String agentId=Bytes.toString(kv.getQualifier());
+  final Cell[] rawCells=result.rawCells();
+  final List<String> agentIdList=new ArrayList<String>(rawCells.length);
+  for (  Cell cell : rawCells) {
+    final String agentId=Bytes.toString(CellUtil.cloneQualifier(cell));
     agentIdList.add(agentId);
   }
   return agentIdList;
