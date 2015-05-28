@@ -21,7 +21,7 @@
   trace.markBeforeTime();
   final TraceId nextId=trace.getTraceId().getNextTraceId();
   trace.recordNextSpanId(nextId.getSpanId());
-  trace.recordServiceType(HTTP_CLIENT4);
+  trace.recordServiceType(ServiceType.HTTP_CLIENT);
   if (httpRequest != null) {
     httpRequest.setHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
     httpRequest.setHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
