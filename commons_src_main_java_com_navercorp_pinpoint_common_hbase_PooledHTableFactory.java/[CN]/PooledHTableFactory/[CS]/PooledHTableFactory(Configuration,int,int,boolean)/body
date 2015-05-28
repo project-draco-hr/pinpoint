@@ -1,0 +1,9 @@
+{
+  this.executor=createExecutorService(poolSize,workerQueueSize,prestartThreadPool);
+  try {
+    this.connection=(HConnection)ConnectionFactory.createConnection(config,executor);
+  }
+ catch (  IOException e) {
+    throw new HbaseSystemException(e);
+  }
+}
