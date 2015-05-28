@@ -1,6 +1,5 @@
 {
   Configuration configuration=getConfiguration();
   Assert.notNull(configuration,"configuration is required");
-  this.pooledHTableFactory=new PooledHTableFactory(configuration,poolSize);
-  this.setTableFactory(pooledHTableFactory);
+  Assert.notNull(getTableFactory(),"tableFactory is required");
 }
