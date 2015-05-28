@@ -1,0 +1,10 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.HttpMethodBase");
+  MethodTransformerBuilder writeRequestMethodEditorBuilder=classEditorBuilder.editMethod("writeRequest","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
+  writeRequestMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  writeRequestMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
+  MethodTransformerBuilder readResponseMethodEditorBuilder=classEditorBuilder.editMethod("readResponse","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
+  readResponseMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  readResponseMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}
