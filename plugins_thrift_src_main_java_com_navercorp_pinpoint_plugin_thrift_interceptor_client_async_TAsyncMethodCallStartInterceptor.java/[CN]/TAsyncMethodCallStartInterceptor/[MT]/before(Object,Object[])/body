@@ -1,0 +1,20 @@
+{
+  if (!validate0(target)) {
+    return;
+  }
+  final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getSpanStartTime());
+    if (trace == null) {
+      logger.warn("Failed to continue async trace. 'result is null'");
+      return;
+    }
+    trace.traceBlockBegin();
+    trace.markBeforeTime();
+    trace.recordServiceType(ServiceType.ASYNC);
+    trace.recordApi(this.thriftAsyncClientMethodDescriptor);
+    super.asyncMarkerAccessor.set(target,Boolean.TRUE);
+  }
+  super.before(target,args);
+}

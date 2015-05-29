@@ -1,0 +1,12 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (args.length != 1) {
+    return;
+  }
+  if (args[0] instanceof AsyncFrameBuffer) {
+    AsyncFrameBuffer frameBuffer=(AsyncFrameBuffer)args[0];
+    attachMarkersToInputProtocol(frameBuffer.getInputProtocol(),Boolean.TRUE);
+  }
+}

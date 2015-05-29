@@ -1,0 +1,8 @@
+{
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.TBaseProcessor");
+  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
+  final MethodTransformerBuilder processMethodTransformerBuilder=classTransformerBuilder.editMethod("process","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol");
+  processMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  processMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.TBaseProcessorProcessInterceptor");
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

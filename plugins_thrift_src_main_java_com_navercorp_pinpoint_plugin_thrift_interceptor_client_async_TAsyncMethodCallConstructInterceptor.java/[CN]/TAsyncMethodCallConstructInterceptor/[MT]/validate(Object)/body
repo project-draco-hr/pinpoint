@@ -1,0 +1,15 @@
+{
+  if (!this.transportFieldAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({})",FIELD_TRANSPORT_ASYNC_METHOD_CALL);
+    }
+    return false;
+  }
+  if (!this.nonblockingSocketAddressAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
+    }
+    return false;
+  }
+  return true;
+}

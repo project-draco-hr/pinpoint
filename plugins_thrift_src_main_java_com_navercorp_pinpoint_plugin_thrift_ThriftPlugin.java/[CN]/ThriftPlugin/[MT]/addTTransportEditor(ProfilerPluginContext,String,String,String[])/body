@@ -1,0 +1,10 @@
+{
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder(tTransportClassName);
+  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
+  for (  String[] parameterTypeGroup : parameterTypeGroups) {
+    final ConstructorTransformerBuilder constructorTransformerBuilder=classTransformerBuilder.editConstructor(parameterTypeGroup);
+    constructorTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    constructorTransformerBuilder.injectInterceptor(tTransportInterceptorClassName);
+  }
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

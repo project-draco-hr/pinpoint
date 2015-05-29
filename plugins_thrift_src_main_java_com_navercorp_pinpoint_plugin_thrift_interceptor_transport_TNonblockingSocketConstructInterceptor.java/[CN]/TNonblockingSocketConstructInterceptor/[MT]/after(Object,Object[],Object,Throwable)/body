@@ -1,0 +1,11 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  if (validate(target,args)) {
+    Socket socket=((TNonblockingSocket)target).getSocketChannel().socket();
+    this.socketAccessor.set(target,socket);
+    Object socketAddress=args[2];
+    this.nonblockingSocketAddressAccessor.set(target,socketAddress);
+  }
+}

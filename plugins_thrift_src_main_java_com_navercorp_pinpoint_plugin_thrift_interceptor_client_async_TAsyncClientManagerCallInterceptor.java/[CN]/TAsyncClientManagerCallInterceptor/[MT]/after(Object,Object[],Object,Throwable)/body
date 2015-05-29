@@ -1,0 +1,20 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=this.traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(this.descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+ catch (  Throwable t) {
+    logger.warn("after error. Caused:{}",t.getMessage(),t);
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

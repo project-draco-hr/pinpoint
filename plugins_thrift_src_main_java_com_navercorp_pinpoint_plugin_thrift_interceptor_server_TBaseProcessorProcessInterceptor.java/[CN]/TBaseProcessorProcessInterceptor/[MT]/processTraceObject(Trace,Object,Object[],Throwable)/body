@@ -1,0 +1,34 @@
+{
+  try {
+    trace.recordException(throwable);
+    trace.recordApi(this.descriptor);
+    trace.markAfterTime();
+  }
+ catch (  Throwable t) {
+    logger.warn("Error processing trace object. Cause:{}",t.getMessage(),t);
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+  String methodUri=getMethodUri(target);
+  trace.recordRpcName(methodUri);
+  String localIpPort=UNKNOWN_ADDRESS;
+  String remoteAddress=UNKNOWN_ADDRESS;
+  if (args.length == 2 && args[0] instanceof TProtocol) {
+    TProtocol inputProtocol=(TProtocol)args[0];
+    if (this.socketAccessor.isApplicable(inputProtocol.getTransport())) {
+      Socket socket=this.socketAccessor.get(inputProtocol.getTransport());
+      if (socket != null) {
+        localIpPort=ThriftUtils.getHostPort(socket.getLocalSocketAddress());
+        remoteAddress=ThriftUtils.getHost(socket.getRemoteSocketAddress());
+      }
+    }
+  }
+  if (localIpPort != UNKNOWN_ADDRESS) {
+    trace.recordEndPoint(localIpPort);
+  }
+  if (remoteAddress != UNKNOWN_ADDRESS) {
+    trace.recordRemoteAddress(remoteAddress);
+  }
+  trace.markAfterTime();
+}

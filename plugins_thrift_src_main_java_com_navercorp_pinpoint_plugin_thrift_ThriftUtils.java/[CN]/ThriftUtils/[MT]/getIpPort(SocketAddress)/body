@@ -1,0 +1,10 @@
+{
+  if (socketAddress == null) {
+    return ThriftConstants.UNKNOWN_ADDRESS;
+  }
+  if (socketAddress instanceof InetSocketAddress) {
+    InetSocketAddress addr=(InetSocketAddress)socketAddress;
+    return addr.getAddress().getHostAddress() + ":" + addr.getPort();
+  }
+  return getSocketAddress(socketAddress);
+}

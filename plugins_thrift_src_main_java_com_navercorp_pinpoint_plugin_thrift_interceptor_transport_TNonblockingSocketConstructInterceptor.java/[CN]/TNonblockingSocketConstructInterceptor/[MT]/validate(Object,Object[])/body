@@ -1,0 +1,21 @@
+{
+  if (!(target instanceof TNonblockingSocket)) {
+    return false;
+  }
+  if (args.length != 3) {
+    return false;
+  }
+  if (!this.socketAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor ({})",METADATA_SOCKET);
+    }
+    return false;
+  }
+  if (!this.nonblockingSocketAddressAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor ({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
+    }
+    return false;
+  }
+  return true;
+}
