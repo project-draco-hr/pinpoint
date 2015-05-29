@@ -1,0 +1,10 @@
+{
+  verifier.verifyTraceBlockCount(4);
+  Method sendBase=TServiceClient.class.getDeclaredMethod("sendBase",String.class,TBase.class);
+  ExpectedAnnotation thriftUrl=ExpectedAnnotation.annotation("thrift.url",SERVER_IP + ":" + SERVER_PORT+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo");
+  ExpectedAnnotation thriftArgs=ExpectedAnnotation.annotation("thrift.args","echo_args(message:" + expectedMessage + ")");
+  verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT",sendBase,null,null,null,SERVER_IP + ":" + SERVER_PORT,thriftUrl,thriftArgs);
+  Method receiveBase=TServiceClient.class.getDeclaredMethod("receiveBase",TBase.class,String.class);
+  ExpectedAnnotation thriftResult=ExpectedAnnotation.annotation("thrift.result","echo_result(success:" + expectedMessage + ")");
+  verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT_INTERNAL",receiveBase,null,null,null,null,thriftResult);
+}

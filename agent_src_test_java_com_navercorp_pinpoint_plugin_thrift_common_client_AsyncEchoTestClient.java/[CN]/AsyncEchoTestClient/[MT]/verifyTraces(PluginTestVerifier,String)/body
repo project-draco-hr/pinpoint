@@ -1,0 +1,24 @@
+{
+  verifier.verifyTraceBlockCount(12);
+  Method call=TAsyncClientManager.class.getDeclaredMethod("call",TAsyncMethodCall.class);
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",call);
+  verifier.verifyTraceBlock(BlockType.EVENT,"ASYNC","Thrift Asynchronous Client Invocation",null,null,null,null);
+  Method start=TAsyncMethodCall.class.getDeclaredMethod("start",Selector.class);
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",start);
+  Method doConnecting=TAsyncMethodCall.class.getDeclaredMethod("doConnecting",SelectionKey.class);
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doConnecting);
+  Method doWritingRequestSize=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestSize");
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doWritingRequestSize);
+  Method doWritingRequestBody=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestBody",SelectionKey.class);
+  ExpectedAnnotation thriftUrl=ExpectedAnnotation.annotation("thrift.url",SERVER_IP + ":" + SERVER_PORT+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo_call");
+  verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT",doWritingRequestBody,null,null,null,SERVER_IP + ":" + SERVER_PORT,thriftUrl);
+  Method doReadingResponseSize=TAsyncMethodCall.class.getDeclaredMethod("doReadingResponseSize");
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doReadingResponseSize);
+  Method doReadingResponseBody=TAsyncMethodCall.class.getDeclaredMethod("doReadingResponseBody",SelectionKey.class);
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doReadingResponseBody);
+  Method cleanUpAndFireCallback=TAsyncMethodCall.class.getDeclaredMethod("cleanUpAndFireCallback",SelectionKey.class);
+  verifier.verifyApi("THRIFT_CLIENT_INTERNAL",cleanUpAndFireCallback);
+  Method receiveBase=TServiceClient.class.getDeclaredMethod("receiveBase",TBase.class,String.class);
+  ExpectedAnnotation thriftResult=ExpectedAnnotation.annotation("thrift.result","echo_result(success:" + expectedMessage + ")");
+  verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT_INTERNAL",receiveBase,null,null,null,null,thriftResult);
+}

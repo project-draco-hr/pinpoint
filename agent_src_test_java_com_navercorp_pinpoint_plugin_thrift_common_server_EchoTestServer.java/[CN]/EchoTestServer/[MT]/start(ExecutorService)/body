@@ -1,0 +1,12 @@
+{
+  if (this.server.isServing()) {
+    return;
+  }
+  executor.execute(new Runnable(){
+    @Override public void run(){
+      server.serve();
+    }
+  }
+);
+  Thread.sleep(500L);
+}
