@@ -1,0 +1,46 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!validate(target,args)) {
+    return;
+  }
+  final Trace trace=this.traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    ThriftHeader parentTraceInfo=new ThriftHeader();
+    final boolean shouldSample=trace.canSampled();
+    if (!shouldSample) {
+      if (isDebug) {
+        logger.debug("set Sampling flag=false");
+      }
+      parentTraceInfo.setShouldSample(shouldSample);
+    }
+ else {
+      trace.traceBlockBegin();
+      trace.markBeforeTime();
+      Object asyncMethodCallObj=args[0];
+      final AsyncTraceId asyncTraceId=injectAsyncTraceId(asyncMethodCallObj,trace);
+      trace.recordServiceType(THRIFT_CLIENT_INTERNAL);
+      String remoteAddress=getRemoteAddress(asyncMethodCallObj);
+      final TraceId nextId=asyncTraceId.getNextTraceId();
+      final long nextSpanId=nextId.getSpanId();
+      parentTraceInfo.setSpanId(nextSpanId);
+      parentTraceInfo.setTraceId(nextId.getTransactionId());
+      parentTraceInfo.setParentSpanId(nextId.getParentSpanId());
+      parentTraceInfo.setFlags(nextId.getFlags());
+      parentTraceInfo.setParentApplicationName(this.traceContext.getApplicationName());
+      parentTraceInfo.setParentApplicationType(this.traceContext.getServerTypeCode());
+      parentTraceInfo.setAcceptorHost(remoteAddress);
+      this.asyncCallRemoteAddressAccessor.set(asyncMethodCallObj,remoteAddress);
+      this.asyncNextSpanIdAccessor.set(asyncMethodCallObj,nextSpanId);
+    }
+    InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+    currentTransaction.setAttachment(parentTraceInfo);
+  }
+ catch (  Throwable t) {
+    logger.warn("before error. Caused:{}",t.getMessage(),t);
+  }
+}

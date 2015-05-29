@@ -1,0 +1,21 @@
+{
+  final Trace trace=this.traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  this.traceContext.removeTraceObject();
+  if (trace.canSampled()) {
+    try {
+      processTraceObject(trace,target,args,throwable);
+    }
+ catch (    Throwable t) {
+      logger.warn("Error processing trace object. Cause:{}",t.getMessage(),t);
+    }
+ finally {
+      trace.close();
+    }
+  }
+}

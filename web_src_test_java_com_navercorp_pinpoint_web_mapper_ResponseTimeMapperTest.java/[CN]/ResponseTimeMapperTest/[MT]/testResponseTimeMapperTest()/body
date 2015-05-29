@@ -1,12 +1,15 @@
 {
-  ResponseTimeMapper responseTimeMapper=new ResponseTimeMapper();
-  ResponseTime responseTime=new ResponseTime("applicationName",ServiceType.STAND_ALONE,System.currentTimeMillis());
   Buffer buffer=new AutomaticBuffer();
   HistogramSlot histogramSlot=ServiceType.STAND_ALONE.getHistogramSchema().findHistogramSlot(1000);
   short histogramSlotTime=histogramSlot.getSlotTime();
   buffer.put(histogramSlotTime);
   buffer.put(Bytes.toBytes("agent"));
-  responseTimeMapper.recordColumn(responseTime,buffer.getBuffer(),Bytes.toBytes(1L),0);
+  byte[] bufferArray=buffer.getBuffer();
+  byte[] valueArray=Bytes.toBytes(1L);
+  Cell mockCell=CellUtil.createCell(HConstants.EMPTY_BYTE_ARRAY,HConstants.EMPTY_BYTE_ARRAY,bufferArray,HConstants.LATEST_TIMESTAMP,KeyValue.Type.Maximum.getCode(),valueArray);
+  ResponseTimeMapper responseTimeMapper=new ResponseTimeMapper();
+  ResponseTime responseTime=new ResponseTime("applicationName",ServiceType.STAND_ALONE,System.currentTimeMillis());
+  responseTimeMapper.recordColumn(responseTime,mockCell);
   Histogram agentHistogram=responseTime.findHistogram("agent");
   long fastCount=agentHistogram.getFastCount();
   Assert.assertEquals(fastCount,1);

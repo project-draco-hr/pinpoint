@@ -2,9 +2,6 @@
   if (profilerConfig.isApacheHttpClient4Profile()) {
   }
   if (profilerConfig.isApacheHttpClient3Profile()) {
-    HttpClientModifier httpClientModifier=new HttpClientModifier(byteCodeInstrumentor,agent);
-    addModifier(httpClientModifier);
-    addModifier(new DefaultHttpMethodRetryHandlerModifier(byteCodeInstrumentor,agent));
   }
   addModifier(new AsyncHttpClientModifier(byteCodeInstrumentor,agent));
 }

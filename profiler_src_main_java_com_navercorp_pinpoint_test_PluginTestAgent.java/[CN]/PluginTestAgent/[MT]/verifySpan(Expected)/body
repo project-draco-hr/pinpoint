@@ -1,5 +1,8 @@
 {
   Object obj=popSpan();
+  if (obj == null) {
+    throw new AssertionError("Expected a " + expected.type.getSimpleName() + " but there is no trace");
+  }
   Facade span=wrap(obj);
   if (!expected.type.isInstance(obj)) {
     throw new AssertionError("Expected an instance of " + expected.type.getSimpleName() + " but was "+ obj.getClass().getName()+ ". expected: "+ expected+ ", was: "+ obj);

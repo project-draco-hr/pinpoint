@@ -1,0 +1,15 @@
+{
+  if (nonblockingTransportObj == null) {
+    if (isDebug) {
+      logger.debug("Target field object is null.",FIELD_TRANSPORT_ASYNC_METHOD_CALL);
+    }
+    return false;
+  }
+  if (!this.nonblockingSocketAddressAccessor.isApplicable(nonblockingTransportObj)) {
+    if (isDebug) {
+      logger.debug("Invalid transport object. Need metadata accessor({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
+    }
+    return false;
+  }
+  return true;
+}

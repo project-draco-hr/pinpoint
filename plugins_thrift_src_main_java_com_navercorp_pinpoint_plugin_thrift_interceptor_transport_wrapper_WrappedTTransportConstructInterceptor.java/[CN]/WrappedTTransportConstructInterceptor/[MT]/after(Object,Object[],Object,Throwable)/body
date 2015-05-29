@@ -1,0 +1,9 @@
+{
+  TTransport wrappedTransport=getWrappedTransport(args);
+  if (wrappedTransport != null && this.socketAccessor.isApplicable(wrappedTransport)) {
+    Socket rootSocket=this.socketAccessor.get(wrappedTransport);
+    if (rootSocket != null) {
+      this.socketAccessor.set(target,rootSocket);
+    }
+  }
+}
