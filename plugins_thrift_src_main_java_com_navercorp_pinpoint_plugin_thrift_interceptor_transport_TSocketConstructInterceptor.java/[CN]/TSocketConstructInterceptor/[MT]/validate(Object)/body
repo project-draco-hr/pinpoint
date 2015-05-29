@@ -1,0 +1,12 @@
+{
+  if (!(target instanceof TSocket)) {
+    return false;
+  }
+  if (!this.socketAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor ({})",METADATA_SOCKET);
+    }
+    return false;
+  }
+  return true;
+}

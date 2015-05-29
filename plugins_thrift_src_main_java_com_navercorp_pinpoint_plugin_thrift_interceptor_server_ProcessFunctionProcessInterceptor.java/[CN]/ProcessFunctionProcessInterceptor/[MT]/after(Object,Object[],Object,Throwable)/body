@@ -1,0 +1,9 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Object iprot=args[1];
+  if (iprot instanceof TProtocol && this.serverTraceMarker.isApplicable(iprot)) {
+    this.serverTraceMarker.set(iprot,Boolean.FALSE);
+  }
+}

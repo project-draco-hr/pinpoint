@@ -1,0 +1,11 @@
+{
+  final Trace trace=createTrace(parentTraceInfo,methodName);
+  if (trace == null) {
+    return;
+  }
+  if (!trace.canSampled()) {
+    return;
+  }
+  trace.markBeforeTime();
+  trace.recordServiceType(THRIFT_SERVER_INTERNAL);
+}

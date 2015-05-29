@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Trace trace=this.traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    if (this.traceServiceArgs) {
+      if (args.length == 2 && (args[1] instanceof TBase)) {
+        trace.recordAttribute(THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
+      }
+    }
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,21 @@
+{
+  final CountDownLatch latch=new CountDownLatch(1);
+  final AsyncEchoResultHolder resultHolder=new AsyncEchoResultHolder();
+  final AsyncMethodCallback<EchoService.AsyncClient.echo_call> callback=new EchoMethodCallback(latch,resultHolder);
+  this.asyncClient.echo(message,callback);
+  boolean isInterrupted=false;
+  while (true) {
+    try {
+      latch.await();
+      return resultHolder.getResult();
+    }
+ catch (    InterruptedException e) {
+      isInterrupted=true;
+    }
+ finally {
+      if (isInterrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+}

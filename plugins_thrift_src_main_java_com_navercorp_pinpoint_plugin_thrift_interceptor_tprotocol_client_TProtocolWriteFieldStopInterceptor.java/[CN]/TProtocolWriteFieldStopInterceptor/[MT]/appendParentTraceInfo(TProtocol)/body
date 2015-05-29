@@ -1,0 +1,19 @@
+{
+  InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+  ThriftHeader parentTraceInfo=(ThriftHeader)currentTransaction.getAttachment();
+  if (parentTraceInfo == null) {
+    return;
+  }
+  boolean shouldSample=parentTraceInfo.shouldSample(true);
+  if (!shouldSample) {
+    parentTraceInfo.writeTraceHeader(ThriftHeaderKey.SAMPLED,oprot);
+    return;
+  }
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.TRACE_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.SPAN_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_SPAN_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.FLAGS,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_APPLICATION_NAME,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_APPLICATION_TYPE,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.ACCEPTOR_HOST,oprot);
+}

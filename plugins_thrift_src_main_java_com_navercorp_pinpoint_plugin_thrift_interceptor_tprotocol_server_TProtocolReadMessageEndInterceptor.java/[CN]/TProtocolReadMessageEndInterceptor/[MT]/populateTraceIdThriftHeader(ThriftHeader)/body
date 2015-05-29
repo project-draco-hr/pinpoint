@@ -1,0 +1,10 @@
+{
+  if (parentTraceInfo == null) {
+    return null;
+  }
+  String transactionId=parentTraceInfo.getTraceId();
+  long parentSpanId=parentTraceInfo.getParentSpanId(SpanId.NULL);
+  long spanId=parentTraceInfo.getSpanId(SpanId.NULL);
+  short flags=parentTraceInfo.getFlags((short)0);
+  return this.traceContext.createTraceId(transactionId,parentSpanId,spanId,flags);
+}

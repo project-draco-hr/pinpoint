@@ -1,0 +1,16 @@
+{
+  if (!shouldTrace(target)) {
+    return;
+  }
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  String methodName=UNKNOWN_METHOD_NAME;
+  if (result instanceof TMessage) {
+    TMessage message=(TMessage)result;
+    methodName=message.name;
+  }
+  ThriftClientCallContext clientCallContext=new ThriftClientCallContext(methodName);
+  InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+  currentTransaction.setAttachment(clientCallContext);
+}

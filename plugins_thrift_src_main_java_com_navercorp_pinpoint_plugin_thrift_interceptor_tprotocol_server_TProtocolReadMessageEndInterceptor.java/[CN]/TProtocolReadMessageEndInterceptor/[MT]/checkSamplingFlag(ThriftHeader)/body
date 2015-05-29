@@ -1,0 +1,13 @@
+{
+  if (parentTraceInfo == null) {
+    return true;
+  }
+  final Boolean samplingFlag=parentTraceInfo.shouldSample();
+  if (isDebug) {
+    logger.debug("SamplingFlag:{}",samplingFlag);
+  }
+  if (samplingFlag == null) {
+    return true;
+  }
+  return samplingFlag;
+}

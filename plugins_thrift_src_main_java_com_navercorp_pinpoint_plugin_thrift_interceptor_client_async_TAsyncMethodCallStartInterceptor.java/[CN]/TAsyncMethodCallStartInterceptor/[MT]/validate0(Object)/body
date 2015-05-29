@@ -1,0 +1,15 @@
+{
+  if (!this.asyncTraceIdAccessor.isApplicable(target) || !(this.asyncTraceIdAccessor.get(target) instanceof AsyncTraceId)) {
+    if (isDebug) {
+      logger.debug("Asynchronous invocation metadata not found");
+    }
+    return false;
+  }
+  if (!this.asyncMarkerAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_MARKER);
+    }
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,8 @@
+{
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.ProcessFunction");
+  classTransformerBuilder.injectMetadata(METADATA_SERVER_MARKER);
+  final MethodTransformerBuilder processMethodTransformerBuilder=classTransformerBuilder.editMethod("process","int","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol","java.lang.Object");
+  processMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  processMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.ProcessFunctionProcessInterceptor");
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

@@ -1,0 +1,38 @@
+{
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.async.TAsyncMethodCall");
+  classTransformerBuilder.injectMetadata(METADATA_NONBLOCKING_SOCKET_ADDRESS);
+  classTransformerBuilder.injectMetadata(METADATA_ASYNC_MARKER);
+  classTransformerBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
+  classTransformerBuilder.injectMetadata(METADATA_ASYNC_NEXT_SPAN_ID);
+  classTransformerBuilder.injectMetadata(METADATA_ASYNC_CALL_REMOTE_ADDRESS);
+  classTransformerBuilder.injectMetadata(METADATA_ASYNC_CALL_END_FLAG);
+  classTransformerBuilder.injectFieldAccessor(FIELD_TRANSPORT_ASYNC_METHOD_CALL);
+  final ConstructorTransformerBuilder constructorTransformerBuilder=classTransformerBuilder.editConstructor("org.apache.thrift.async.TAsyncClient","org.apache.thrift.protocol.TProtocolFactory","org.apache.thrift.transport.TNonblockingTransport","org.apache.thrift.async.AsyncMethodCallback","boolean");
+  constructorTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  constructorTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallConstructInterceptor");
+  final MethodTransformerBuilder startMethodTransformerBuilder=classTransformerBuilder.editMethod("start","java.nio.channels.Selector");
+  startMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  startMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallStartInterceptor");
+  final MethodTransformerBuilder doConnectingMethodTransformerBuilder=classTransformerBuilder.editMethod("doConnecting","java.nio.channels.SelectionKey");
+  doConnectingMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  doConnectingMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallInternalMethodInterceptor");
+  final MethodTransformerBuilder doWritingRequestSizeMethodTransformerBuilder=classTransformerBuilder.editMethod("doWritingRequestSize");
+  doWritingRequestSizeMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  doWritingRequestSizeMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallInternalMethodInterceptor");
+  final MethodTransformerBuilder doWritingRequestBodyMethodTransformerBuilder=classTransformerBuilder.editMethod("doWritingRequestBody","java.nio.channels.SelectionKey");
+  doWritingRequestBodyMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  doWritingRequestBodyMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallDoWritingRequestBodyInterceptor");
+  final MethodTransformerBuilder doReadingResponseSizeMethodTransformerBuilder=classTransformerBuilder.editMethod("doReadingResponseSize");
+  doReadingResponseSizeMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  doReadingResponseSizeMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallInternalMethodInterceptor");
+  final MethodTransformerBuilder doReadingResponseBodyMethodTransformerBuilder=classTransformerBuilder.editMethod("doReadingResponseBody","java.nio.channels.SelectionKey");
+  doReadingResponseBodyMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  doReadingResponseBodyMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallDoReadingResponseBodyInterceptor");
+  final MethodTransformerBuilder cleanUpAndFireCallbackMethodTransformerBuilder=classTransformerBuilder.editMethod("cleanUpAndFireCallback","java.nio.channels.SelectionKey");
+  cleanUpAndFireCallbackMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  cleanUpAndFireCallbackMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallCleanUpAndFireCallbackInterceptor");
+  final MethodTransformerBuilder onErrorMethodTransformerBuilder=classTransformerBuilder.editMethod("onError","java.lang.Exception");
+  onErrorMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  onErrorMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallOnErrorInterceptor");
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

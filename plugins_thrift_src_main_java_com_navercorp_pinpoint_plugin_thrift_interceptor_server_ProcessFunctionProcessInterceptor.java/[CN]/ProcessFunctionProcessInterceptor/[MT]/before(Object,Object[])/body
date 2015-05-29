@@ -1,0 +1,20 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (args.length != 4) {
+    return;
+  }
+  String methodName=UNKNOWN_METHOD_NAME;
+  if (target instanceof ProcessFunction) {
+    ProcessFunction<?,?> processFunction=(ProcessFunction<?,?>)target;
+    methodName=processFunction.getMethodName();
+  }
+  ThriftClientCallContext clientCallContext=new ThriftClientCallContext(methodName);
+  InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+  currentTransaction.setAttachment(clientCallContext);
+  Object iprot=args[1];
+  if (iprot instanceof TProtocol && this.serverTraceMarker.isApplicable(iprot)) {
+    this.serverTraceMarker.set(iprot,Boolean.TRUE);
+  }
+}

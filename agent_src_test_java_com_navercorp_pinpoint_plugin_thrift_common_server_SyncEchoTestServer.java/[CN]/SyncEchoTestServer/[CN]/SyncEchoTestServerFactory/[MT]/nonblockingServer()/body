@@ -1,0 +1,12 @@
+{
+  TNonblockingServer server=new TNonblockingServer(new TNonblockingServer.Args(new TNonblockingServerSocket(SERVER_PORT)).processor(getProcessor()).inputProtocolFactory(PROTOCOL_FACTORY).outputProtocolFactory(PROTOCOL_FACTORY));
+  return new SyncEchoTestServer<TNonblockingServer>(server){
+    @Override public SyncEchoTestClient getSynchronousClient() throws TTransportException {
+      return new SyncEchoTestClient.ClientForNonblockingServer();
+    }
+    @Override public AsyncEchoTestClient getAsynchronousClient() throws IOException {
+      return new AsyncEchoTestClient.Client();
+    }
+  }
+;
+}

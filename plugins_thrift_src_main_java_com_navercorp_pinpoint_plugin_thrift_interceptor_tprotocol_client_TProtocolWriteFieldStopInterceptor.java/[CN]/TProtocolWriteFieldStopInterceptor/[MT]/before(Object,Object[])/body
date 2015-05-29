@@ -1,0 +1,14 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (target instanceof TProtocol) {
+    TProtocol oprot=(TProtocol)target;
+    try {
+      appendParentTraceInfo(oprot);
+    }
+ catch (    Throwable t) {
+      logger.warn("problem writing trace info",t);
+    }
+  }
+}

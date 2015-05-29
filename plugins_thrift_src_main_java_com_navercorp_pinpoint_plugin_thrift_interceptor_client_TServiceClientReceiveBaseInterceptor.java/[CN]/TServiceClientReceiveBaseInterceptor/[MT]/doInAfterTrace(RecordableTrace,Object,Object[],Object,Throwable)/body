@@ -1,0 +1,13 @@
+{
+  trace.recordApi(getMethodDescriptor());
+  if (throwable == null && this.traceServiceResult) {
+    if (args.length == 2 && (args[0] instanceof TBase)) {
+      String resultString=getResult((TBase<?,?>)args[0]);
+      trace.recordAttribute(THRIFT_RESULT,resultString);
+    }
+  }
+ else {
+    trace.recordException(throwable);
+  }
+  trace.markAfterTime();
+}

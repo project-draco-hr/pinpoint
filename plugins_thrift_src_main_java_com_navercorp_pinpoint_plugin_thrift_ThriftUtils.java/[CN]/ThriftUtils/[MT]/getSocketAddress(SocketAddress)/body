@@ -1,0 +1,16 @@
+{
+  String address=socketAddress.toString();
+  int addressLength=address.length();
+  if (addressLength > 0) {
+    if (address.startsWith("/")) {
+      return address.substring(1);
+    }
+ else {
+      int delimeterIndex=address.indexOf("/");
+      if (delimeterIndex != -1 && delimeterIndex < addressLength) {
+        return address.substring(address.indexOf("/") + 1);
+      }
+    }
+  }
+  return address;
+}

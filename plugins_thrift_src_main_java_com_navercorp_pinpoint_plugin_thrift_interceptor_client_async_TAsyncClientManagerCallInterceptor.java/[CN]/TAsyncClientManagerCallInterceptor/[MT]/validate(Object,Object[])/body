@@ -1,0 +1,31 @@
+{
+  if (args.length != 1) {
+    return false;
+  }
+  Object asyncMethodCallObj=args[0];
+  if (asyncMethodCallObj == null) {
+    if (isDebug) {
+      logger.debug("Metadata injection target object is null.");
+    }
+    return false;
+  }
+  if (!this.asyncTraceIdAccessor.isApplicable(asyncMethodCallObj)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_TRACE_ID);
+    }
+    return false;
+  }
+  if (!this.asyncNextSpanIdAccessor.isApplicable(asyncMethodCallObj)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_NEXT_SPAN_ID);
+    }
+    return false;
+  }
+  if (!this.asyncCallRemoteAddressAccessor.isApplicable(asyncMethodCallObj)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_CALL_REMOTE_ADDRESS);
+    }
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,18 @@
+{
+  byte headerType=headerKey.getType();
+  if (headerType == TType.STRING) {
+    this.thriftHeaders.put(headerKey,byteBufferToString((ByteBuffer)value));
+  }
+ else   if (headerType == TType.I64) {
+    this.thriftHeaders.put(headerKey,(Long)value);
+  }
+ else   if (headerType == TType.I16) {
+    this.thriftHeaders.put(headerKey,(Short)value);
+  }
+ else   if (headerType == TType.BOOL) {
+    this.thriftHeaders.put(headerKey,(Boolean)value);
+  }
+ else {
+    throw new TProtocolException("Invalid pinpoint header type - " + headerType);
+  }
+}
