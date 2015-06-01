@@ -10,7 +10,7 @@
   Method doWritingRequestSize=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestSize");
   verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doWritingRequestSize);
   Method doWritingRequestBody=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestBody",SelectionKey.class);
-  ExpectedAnnotation thriftUrl=ExpectedAnnotation.annotation("thrift.url",SERVER_IP + ":" + SERVER_PORT+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo_call");
+  ExpectedAnnotation thriftUrl=ExpectedAnnotation.annotation("thrift.url",SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort()+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo_call");
   verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT",doWritingRequestBody,null,null,null,SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),thriftUrl);
   Method doReadingResponseSize=TAsyncMethodCall.class.getDeclaredMethod("doReadingResponseSize");
   verifier.verifyApi("THRIFT_CLIENT_INTERNAL",doReadingResponseSize);
