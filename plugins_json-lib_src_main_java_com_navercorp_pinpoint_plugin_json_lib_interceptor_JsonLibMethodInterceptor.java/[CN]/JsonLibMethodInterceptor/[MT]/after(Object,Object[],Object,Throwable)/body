@@ -1,0 +1,18 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(JsonLibConstants.SERVICE_TYPE);
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

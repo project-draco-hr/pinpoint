@@ -1,7 +1,8 @@
 {
   ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.sf.json.JSONObject");
-  builder.editMethod("fromObject","java.lang.Object").injectInterceptor("com.navercorp.pinpoint.bootstrap.interceptor.BasicMethodInterceptor",JsonLibConstants.SERVICE_TYPE).group(GROUP);
-  builder.editMethod("toBean","net.sf.json.JSONObject").injectInterceptor("com.navercorp.pinpoint.bootstrap.interceptor.BasicMethodInterceptor",JsonLibConstants.SERVICE_TYPE).group(GROUP);
+  builder.editMethod("fromObject","java.lang.Object").injectInterceptor("com.navercorp.pinpoint.plugin.json.lib.interceptor.JsonLibMethodInterceptor").group(GROUP);
+  builder.editMethod("toBean","net.sf.json.JSONObject").injectInterceptor("com.navercorp.pinpoint.plugin.json.lib.interceptor.JsonLibMethodInterceptor").group(GROUP);
+  builder.editMethod("toString").injectInterceptor("com.navercorp.pinpoint.plugin.json.lib.interceptor.JsonLibMethodInterceptor").group(GROUP);
   ClassFileTransformer transformer=builder.build();
   context.addClassFileTransformer(transformer);
 }
