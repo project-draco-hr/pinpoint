@@ -20,9 +20,9 @@
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
   verifier.printCache(System.out);
   verifier.printBlocks(System.out);
-  verifier.verifyApi("JSON-LIB",fromObject);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,serviceType,fromObject,null,null,null,null,fromObjectAnnotation);
   verifier.verifyApi("JSON-LIB",toArray);
-  verifier.verifyApi("JSON-LIB",toString);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,serviceType,toString,null,null,null,null,toStringAnnotation);
   if (toCollection != null) {
     verifier.verifyApi("JSON-LIB",toCollection);
   }
