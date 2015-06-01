@@ -1,5 +1,5 @@
 {
   Method process=TBaseAsyncProcessor.class.getDeclaredMethod("process",AsyncFrameBuffer.class);
   verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_SERVER_INTERNAL",process,null,null,null,null);
-  verifier.verifyTraceBlock(BlockType.ROOT,"THRIFT_SERVER","Thrift Server Invocation","com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo",null,SERVER_IP,null);
+  verifier.verifyTraceBlock(BlockType.ROOT,"THRIFT_SERVER","Thrift Server Invocation","com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo",SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),SERVER_ADDRESS.getHostName(),null);
 }
