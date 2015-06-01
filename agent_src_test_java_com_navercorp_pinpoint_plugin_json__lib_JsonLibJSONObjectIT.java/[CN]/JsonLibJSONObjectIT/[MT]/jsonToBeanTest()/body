@@ -9,8 +9,8 @@
   Method fromObject=JSONObject.class.getMethod("fromObject",Object.class);
   Method toBean=JSONObject.class.getMethod("toBean",JSONObject.class);
   Method toString=JSONObject.class.getMethod("toString");
-  verifier.verifyApi("JSON-LIB",fromObject);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,serviceType,fromObject,null,null,null,null,fromObjectAnnotation);
   verifier.verifyApi("JSON-LIB",toBean);
-  verifier.verifyApi("JSON-LIB",toString);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,serviceType,toString,null,null,null,null,toStringAnnotation);
   verifier.verifyTraceBlockCount(0);
 }
