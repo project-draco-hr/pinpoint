@@ -6,6 +6,10 @@
   final RecordFactory factory=new RecordFactory(registry,annotationKeyRegistryService);
   while (callTreeIterator.hasNext()) {
     final CallTreeNode node=callTreeIterator.next();
+    if (node == null) {
+      logger.warn("Corrupt CallTree found : {}",callTreeIterator.toString());
+      throw new IllegalStateException("CallTree corrupted");
+    }
     final SpanAlign align=node.getValue();
     final String argument=getArgument(align);
     final Record record=factory.get(node,argument);

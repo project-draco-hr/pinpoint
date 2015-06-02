@@ -2,7 +2,11 @@
   if (!libDir.isDirectory()) {
     return;
   }
-  for (  File f : libDir.listFiles()) {
+  File[] children=libDir.listFiles();
+  if (children == null) {
+    return;
+  }
+  for (  File f : children) {
     if (f.getName().endsWith(".jar")) {
       libraries.add(f.getAbsolutePath());
     }
