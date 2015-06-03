@@ -1,0 +1,11 @@
+{
+  if (throwable == null) {
+    return UNKNOWN;
+  }
+  StringBuilder stackTrace=new StringBuilder(128);
+  stackTrace.append(throwable.toString()).append("\r\n");
+  for (  StackTraceElement traceElement : throwable.getStackTrace()) {
+    stackTrace.append("\tat " + traceElement.toString()).append("\r\n");
+  }
+  return stackTrace.toString();
+}
