@@ -3,5 +3,12 @@
     return false;
   }
   String classNameAsResource=getClassNameAsResource(requiredClass);
-  return (ClassLoader.getSystemResource(classNameAsResource) != null);
+  if (ClassLoader.getSystemResource(classNameAsResource) != null) {
+    logger.debug("Resource found - [{}]",classNameAsResource);
+    return true;
+  }
+ else {
+    logger.debug("Resource not found - [{}]",classNameAsResource);
+    return false;
+  }
 }
