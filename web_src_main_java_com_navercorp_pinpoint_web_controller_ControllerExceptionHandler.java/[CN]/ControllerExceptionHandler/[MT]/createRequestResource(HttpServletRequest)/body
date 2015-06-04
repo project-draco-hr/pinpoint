@@ -1,0 +1,11 @@
+{
+  if (request == null) {
+    return Collections.emptyMap();
+  }
+  Map<String,Object> requestMap=new HashMap<String,Object>();
+  requestMap.put("method",request.getMethod());
+  requestMap.put("url",getRequestUrl(request));
+  requestMap.put("heads",getRequestHeaders(request));
+  requestMap.put("parameters",getRequestParameters(request));
+  return requestMap;
+}

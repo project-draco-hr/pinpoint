@@ -1,0 +1,17 @@
+{
+  Enumeration headerValues=request.getHeaders(key);
+  if (headerValues == null) {
+    Collections.emptyList();
+  }
+  List<String> headerValueList=new ArrayList<String>();
+  while (headerValues.hasMoreElements()) {
+    Object headerValue=headerValues.nextElement();
+    if (headerValue == null) {
+      headerValueList.add("null");
+    }
+ else {
+      headerValueList.add(headerValue.toString());
+    }
+  }
+  return headerValueList;
+}

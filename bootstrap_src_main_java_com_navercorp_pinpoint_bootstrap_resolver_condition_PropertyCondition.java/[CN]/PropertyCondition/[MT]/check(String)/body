@@ -2,5 +2,12 @@
   if (requiredKey == null || requiredKey.isEmpty()) {
     return false;
   }
-  return (this.property.getProperty(requiredKey) != null);
+  if (this.property.getProperty(requiredKey) != null) {
+    logger.debug("Property '{}' found in [{}]",requiredKey,this.property.getClass().getSimpleName());
+    return true;
+  }
+ else {
+    logger.debug("Property '{}' not found in [{}]",requiredKey,this.property.getClass().getSimpleName());
+    return false;
+  }
 }
