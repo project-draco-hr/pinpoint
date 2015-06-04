@@ -7,11 +7,13 @@
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
   verifier.printCache(System.out);
   verifier.printBlocks(System.out);
-  Constructor<?> omConstructor=ObjectMapper.class.getConstructor();
+  Constructor<?> omConstructor=ObjectMapper.class.getConstructor(JsonFactory.class,DefaultSerializerProvider.class,DefaultDeserializationContext.class);
+  Constructor<?> omConstructor1=ObjectMapper.class.getConstructor();
   Method readval1=ObjectMapper.class.getMethod("readValue",String.class,Class.class);
   Method readval2=ObjectMapper.class.getMethod("readValue",byte[].class,Class.class);
-  ExpectedAnnotation length=annotation("LengthValue",20);
+  ExpectedAnnotation length=annotation("jackson.json.length",20);
   verifier.verifyApi("JACKSON",omConstructor);
+  verifier.verifyApi("JACKSON",omConstructor1);
   verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval1,null,null,null,null,length);
   verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval2,null,null,null,null,length);
   verifier.verifyTraceBlockCount(0);
