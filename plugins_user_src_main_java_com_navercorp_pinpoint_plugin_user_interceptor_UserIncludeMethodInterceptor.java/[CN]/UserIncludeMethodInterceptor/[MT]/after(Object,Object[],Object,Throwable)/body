@@ -1,0 +1,23 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordServiceType(ServiceType.STAND_ALONE);
+    trace.recordException(throwable);
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+    if (span) {
+      trace.markAfterTime();
+      trace.close();
+      traceContext.removeTraceObject();
+    }
+  }
+}
