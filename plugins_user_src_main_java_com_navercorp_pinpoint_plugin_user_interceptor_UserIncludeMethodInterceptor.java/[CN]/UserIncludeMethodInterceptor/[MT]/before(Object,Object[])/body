@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    trace=traceContext.newTraceObject();
+    span=true;
+    if (!trace.canSampled()) {
+      if (isDebug) {
+        logger.debug("New trace and can't sampled {}",trace);
+      }
+      return;
+    }
+    if (isDebug) {
+      logger.debug("New trace and sampled {}",trace);
+    }
+    recordRootSpan(trace);
+  }
+  trace.traceBlockBegin();
+  trace.markBeforeTime();
+}
