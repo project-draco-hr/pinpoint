@@ -1,0 +1,36 @@
+{
+  __POJO pojo=new __POJO();
+  pojo.setName("Jackson");
+  Method writeValueAsString=null;
+  try {
+    writeValueAsString=ObjectMapper.class.getMethod("writeValueAsString",Object.class);
+  }
+ catch (  NoSuchMethodException e) {
+  }
+  Method writeValueAsBytes=null;
+  try {
+    writeValueAsBytes=ObjectMapper.class.getMethod("writeValueAsBytes",Object.class);
+  }
+ catch (  NoSuchMethodException e) {
+  }
+  Method writeValue=ObjectMapper.class.getMethod("writeValue",Writer.class,Object.class);
+  mapper.writeValue(new OutputStreamWriter(new ByteArrayOutputStream()),pojo);
+  if (writeValueAsString != null) {
+    writeValueAsString.invoke(mapper,pojo);
+  }
+  if (writeValueAsBytes != null) {
+    writeValueAsBytes.invoke(mapper,pojo);
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  ExpectedAnnotation length=annotation("jackson.json.length",18);
+  verifier.verifyApi("JACKSON",writeValue);
+  if (writeValueAsString != null) {
+    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeValueAsString,null,null,null,null,length);
+  }
+  if (writeValueAsBytes != null) {
+    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeValueAsBytes,null,null,null,null,length);
+  }
+  verifier.verifyTraceBlockCount(0);
+}
