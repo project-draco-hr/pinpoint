@@ -1,0 +1,14 @@
+{
+  final UserPluginConfig config=new UserPluginConfig(context.getConfig());
+  for (  String fullQualifiedMethodName : config.getIncludeList()) {
+    try {
+      addUserIncludeClass(context,fullQualifiedMethodName);
+      if (logger.isDebugEnabled()) {
+        logger.debug("Add user include class interceptor {}",fullQualifiedMethodName);
+      }
+    }
+ catch (    Exception e) {
+      logger.warn("Failed to add user include class(" + fullQualifiedMethodName + ").",e);
+    }
+  }
+}
