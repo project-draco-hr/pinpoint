@@ -10,7 +10,7 @@
   if (attachment instanceof ThriftClientCallContext) {
     ThriftClientCallContext clientCallContext=(ThriftClientCallContext)attachment;
     String methodName=clientCallContext.getMethodName();
-    ThriftHeader parentTraceInfo=clientCallContext.getTraceHeader();
+    ThriftRequestProperty parentTraceInfo=clientCallContext.getTraceHeader();
     try {
       this.logger.debug("parentTraceInfo : {}",parentTraceInfo);
       recordTrace(parentTraceInfo,methodName);

@@ -1,19 +1,19 @@
 {
   InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
-  ThriftHeader parentTraceInfo=(ThriftHeader)currentTransaction.getAttachment();
+  ThriftRequestProperty parentTraceInfo=(ThriftRequestProperty)currentTransaction.getAttachment();
   if (parentTraceInfo == null) {
     return;
   }
   boolean shouldSample=parentTraceInfo.shouldSample(true);
   if (!shouldSample) {
-    parentTraceInfo.writeTraceHeader(ThriftHeaderKey.SAMPLED,oprot);
+    parentTraceInfo.writeTraceHeader(ThriftHeader.THRFIT_SAMPLED,oprot);
     return;
   }
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.TRACE_ID,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.SPAN_ID,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_SPAN_ID,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.FLAGS,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_APPLICATION_NAME,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.PARENT_APPLICATION_TYPE,oprot);
-  parentTraceInfo.writeTraceHeader(ThriftHeaderKey.ACCEPTOR_HOST,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_TRACE_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_SPAN_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_PARENT_SPAN_ID,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_FLAGS,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_PARENT_APPLICATION_NAME,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_PARENT_APPLICATION_TYPE,oprot);
+  parentTraceInfo.writeTraceHeader(ThriftHeader.THRIFT_HOST,oprot);
 }
