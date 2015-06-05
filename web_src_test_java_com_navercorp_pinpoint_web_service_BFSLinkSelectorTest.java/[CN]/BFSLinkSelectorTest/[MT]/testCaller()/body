@@ -1,14 +1,15 @@
 {
+  int callCount_A_B=10;
   LinkDataMap linkDataMap=new LinkDataMap();
-  linkDataMap.addLinkData(APP_A,"agentA",APP_B,"agentB",1000,HistogramSchema.NORMAL_SCHEMA.getNormalSlot().getSlotTime(),1);
-  when(callerDao.selectCaller(eq(APP_A),(Range)anyObject())).thenReturn(linkDataMap);
-  when(calleeDao.selectCallee((Application)anyObject(),(Range)anyObject())).thenReturn(new LinkDataMap());
-  when(hostApplicationMapDao.findAcceptApplicationName((Application)anyObject(),(Range)anyObject())).thenReturn(new HashSet<AcceptApplication>());
-  BFSLinkSelector bfsLinkSelector=new BFSLinkSelector(this.callerDao,this.calleeDao,hostApplicationMapDao);
-  Range range=new Range(0,100);
-  SearchOption option=new SearchOption(1,1);
-  LinkDataDuplexMap select=bfsLinkSelector.select(APP_A,range,option);
-  Assert.assertEquals(select.size(),1);
-  Assert.assertEquals(select.getSourceLinkDataList().size(),1);
-  Assert.assertEquals(select.getTargetLinkDataList().size(),0);
+  linkDataMap.addLinkData(APP_A,"agentA",APP_B,"agentB",1000,HistogramSchema.NORMAL_SCHEMA.getNormalSlot().getSlotTime(),callCount_A_B);
+  when(callerDao.selectCaller(eq(APP_A),any(Range.class))).thenReturn(linkDataMap);
+  when(calleeDao.selectCallee(any(Application.class),any(Range.class))).thenReturn(newEmptyLinkDataMap());
+  when(hostApplicationMapDao.findAcceptApplicationName(any(Application.class),any(Range.class))).thenReturn(new HashSet<AcceptApplication>());
+  LinkSelector linkSelector=createLinkSelector();
+  LinkDataDuplexMap linkData=linkSelector.select(APP_A,range,oneDepth);
+  Assert.assertEquals(linkData.size(),1);
+  Assert.assertEquals(linkData.getTotalCount(),callCount_A_B);
+  Assert.assertEquals(linkData.getSourceLinkDataList().size(),1);
+  Assert.assertEquals(linkData.getSourceLinkDataMap().getTotalCount(),callCount_A_B);
+  Assert.assertEquals(linkData.getTargetLinkDataList().size(),0);
 }
