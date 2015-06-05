@@ -7,11 +7,26 @@
   Constructor<?> omConstructor1=ObjectMapper.class.getConstructor();
   Constructor<?> omConstructor2=ObjectMapper.class.getConstructor(JsonFactory.class);
   Constructor<?> omConstructor3=ObjectMapper.class.getConstructor(JsonFactory.class,SerializerProvider.class,DeserializerProvider.class);
-  Constructor<?> omConstructor4=ObjectMapper.class.getConstructor(JsonFactory.class,SerializerProvider.class,DeserializerProvider.class,SerializationConfig.class,DeserializationConfig.class);
-  verifier.verifyApi("JACKSON",omConstructor4);
+  Class<?> serializationConfig=null;
+  Class<?> deserializationConfig=null;
+  try {
+    serializationConfig=Class.forName("org.codehaus.jackson.map.SerializationConfig");
+    deserializationConfig=Class.forName("org.codehaus.jackson.map.DeserializationConfig");
+  }
+ catch (  ClassNotFoundException e) {
+  }
+  Constructor<?> omConstructor4=null;
+  if (serializationConfig != null && deserializationConfig != null) {
+    omConstructor4=ObjectMapper.class.getConstructor(JsonFactory.class,SerializerProvider.class,DeserializerProvider.class,serializationConfig,deserializationConfig);
+  }
+  if (omConstructor4 != null) {
+    verifier.verifyApi("JACKSON",omConstructor4);
+  }
   verifier.verifyApi("JACKSON",omConstructor3);
   verifier.verifyApi("JACKSON",omConstructor1);
-  verifier.verifyApi("JACKSON",omConstructor4);
+  if (omConstructor4 != null) {
+    verifier.verifyApi("JACKSON",omConstructor4);
+  }
   verifier.verifyApi("JACKSON",omConstructor3);
   verifier.verifyApi("JACKSON",omConstructor2);
   verifier.verifyTraceBlockCount(0);
