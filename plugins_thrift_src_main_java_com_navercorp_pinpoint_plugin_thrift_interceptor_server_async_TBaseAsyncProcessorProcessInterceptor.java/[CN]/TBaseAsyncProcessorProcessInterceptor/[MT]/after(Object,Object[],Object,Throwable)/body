@@ -1,0 +1,25 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  if (args[0] instanceof AsyncFrameBuffer) {
+    AsyncFrameBuffer frameBuffer=(AsyncFrameBuffer)args[0];
+    attachMarkersToInputProtocol(frameBuffer.getInputProtocol(),Boolean.FALSE);
+  }
+  final Trace trace=this.traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  this.traceContext.removeTraceObject();
+  if (trace.canSampled()) {
+    try {
+      processTraceObject(trace,target,args,throwable);
+    }
+ catch (    Throwable t) {
+      logger.warn("Error processing trace object. Cause:{}",t.getMessage(),t);
+    }
+ finally {
+      trace.close();
+    }
+  }
+}

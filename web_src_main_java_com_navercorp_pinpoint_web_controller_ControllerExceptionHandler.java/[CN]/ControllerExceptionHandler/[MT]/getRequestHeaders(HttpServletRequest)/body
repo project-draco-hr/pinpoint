@@ -1,0 +1,15 @@
+{
+  Enumeration keys=request.getHeaderNames();
+  if (keys == null) {
+    Collections.emptyMap();
+  }
+  Map<String,List<String>> result=new HashMap<String,List<String>>();
+  while (keys.hasMoreElements()) {
+    Object key=keys.nextElement();
+    if (key == null) {
+      continue;
+    }
+    result.put(key.toString(),getRequestHeaderValueList(request,key.toString()));
+  }
+  return result;
+}

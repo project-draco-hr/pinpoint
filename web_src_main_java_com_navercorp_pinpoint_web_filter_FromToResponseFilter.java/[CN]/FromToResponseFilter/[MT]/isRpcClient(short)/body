@@ -1,3 +1,7 @@
 {
-  return ServiceTypeCategory.RPC.contains(serviceType);
+  if (ServiceTypeCategory.RPC.contains(serviceTypeCode)) {
+    ServiceType serviceType=this.registry.findServiceType(serviceTypeCode);
+    return serviceType.isRecordStatistics();
+  }
+  return false;
 }

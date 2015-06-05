@@ -1,13 +1,28 @@
 {
   Method fromObject=JSONArray.class.getMethod("fromObject",Object.class);
   Method toArray=JSONArray.class.getMethod("toArray",JSONArray.class);
-  String test="[{'string':'JSON'}]";
-  JSONArray jsn=JSONArray.fromObject(test);
-  toArray.invoke(null,jsn);
+  Method toList=JSONArray.class.getMethod("toList",JSONArray.class);
+  Method toCollection=null;
+  try {
+    toCollection=JSONArray.class.getMethod("toCollection",JSONArray.class);
+  }
+ catch (  NoSuchMethodException e) {
+  }
+  String json="[{'string':'JSON'}]";
+  JSONArray jsonArray=JSONArray.fromObject(json);
+  toArray.invoke(null,jsonArray);
+  JSONArray.toList(jsonArray);
+  if (toCollection != null) {
+    JSONArray.toCollection(jsonArray);
+  }
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
   verifier.printCache(System.out);
   verifier.printBlocks(System.out);
-  verifier.verifyApi("JSON-LIB",fromObject);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,fromObject,null,null,null,null,annotation(ANNOTATION_KEY,json.length()));
   verifier.verifyApi("JSON-LIB",toArray);
+  verifier.verifyApi("JSON-LIB",toList);
+  if (toCollection != null) {
+    verifier.verifyApi("JSON-LIB",toCollection);
+  }
   verifier.verifyTraceBlockCount(0);
 }

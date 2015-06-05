@@ -1,6 +1,12 @@
 {
+  logger.info("PooledHTableFactory.destroy()");
   if (connection != null) {
-    this.connection.close();
+    try {
+      this.connection.close();
+    }
+ catch (    IOException ex) {
+      logger.warn("Connection.close() error:" + ex.getMessage(),ex);
+    }
   }
   if (this.executor != null) {
     this.executor.shutdown();

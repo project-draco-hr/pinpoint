@@ -1,0 +1,21 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordServiceType(GsonPlugin.GSON_SERVICE_TYPE);
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (result != null && result instanceof String) {
+      trace.recordAttribute(GsonPlugin.GSON_ANNOTATION_KEY_JSON_LENGTH,((String)result).length());
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,12 @@
+{
+  try {
+    String result=response.getResult();
+    this.resultHolder.setResult(result);
+  }
+ catch (  TException e) {
+    this.resultHolder.setResult(e.toString());
+  }
+ finally {
+    this.completeLatch.countDown();
+  }
+}

@@ -1,0 +1,15 @@
+{
+  if (!this.asyncMarkerAccessor.isApplicable(target)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_MARKER);
+    }
+    return false;
+  }
+  if (!(this.asyncMarkerAccessor.get(target) instanceof Boolean)) {
+    if (isDebug) {
+      logger.debug("Invalid value for metadata {}",METADATA_ASYNC_MARKER);
+    }
+    return false;
+  }
+  return true;
+}

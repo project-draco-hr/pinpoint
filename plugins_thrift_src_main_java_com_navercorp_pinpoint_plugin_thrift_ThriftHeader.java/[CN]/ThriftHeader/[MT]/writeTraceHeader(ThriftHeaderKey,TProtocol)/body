@@ -1,0 +1,29 @@
+{
+  Object headerValue=this.thriftHeaders.get(headerKey);
+  if (headerValue == null) {
+    return;
+  }
+  byte headerType=headerKey.getType();
+  TField traceField=new TField(headerKey.name(),headerKey.getType(),headerKey.getId());
+  oprot.writeFieldBegin(traceField);
+  try {
+    if (headerType == TType.STRING) {
+      oprot.writeBinary(stringToByteBuffer((String)headerValue));
+    }
+ else     if (headerType == TType.I64) {
+      oprot.writeI64((Long)headerValue);
+    }
+ else     if (headerType == TType.I16) {
+      oprot.writeI16((Short)headerValue);
+    }
+ else     if (headerType == TType.BOOL) {
+      oprot.writeBool((Boolean)headerValue);
+    }
+ else {
+      throw new TProtocolException("Invalid pinpoint header type - " + headerType);
+    }
+  }
+  finally {
+    oprot.writeFieldEnd();
+  }
+}

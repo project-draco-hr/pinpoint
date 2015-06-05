@@ -1,13 +1,13 @@
 {
-  String test="{'string':'JSON'}";
-  JSONObject jsn=JSONObject.fromObject(test);
-  JSONObject.toBean(jsn);
+  String json="{'string':'JSON'}";
+  JSONObject jsonObject=JSONObject.fromObject(json);
+  JSONObject.toBean(jsonObject);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
   verifier.printCache(System.out);
   verifier.printBlocks(System.out);
   Method fromObject=JSONObject.class.getMethod("fromObject",Object.class);
   Method toBean=JSONObject.class.getMethod("toBean",JSONObject.class);
-  verifier.verifyApi("JSON-LIB",fromObject);
+  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,fromObject,null,null,null,null,annotation(ANNOTATION_KEY,json.length()));
   verifier.verifyApi("JSON-LIB",toBean);
   verifier.verifyTraceBlockCount(0);
 }

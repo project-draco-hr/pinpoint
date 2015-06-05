@@ -1,10 +1,14 @@
 {
-  List<PinpointPluginTestInstance> cases=new ArrayList<PinpointPluginTestInstance>();
   File file=new File(libraryPath);
   if (!file.isDirectory()) {
     throw new RuntimeException("value of @TestRoot is not a directory: " + libraryPath);
   }
-  for (  File child : file.listFiles()) {
+  File[] children=file.listFiles();
+  if (children == null) {
+    return Collections.emptyList();
+  }
+  List<PinpointPluginTestInstance> cases=new ArrayList<PinpointPluginTestInstance>();
+  for (  File child : children) {
     if (!child.isDirectory()) {
       continue;
     }

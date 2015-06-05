@@ -2,7 +2,12 @@
   if (this.applicationMainClassName == NOT_FOUND) {
     return false;
   }
+  if (this.applicationMainClassName.equals(condition)) {
+    logger.debug("Main class match - [{}]",this.applicationMainClassName,condition);
+    return true;
+  }
  else {
-    return this.applicationMainClassName.equals(condition);
+    logger.debug("Main class does not match - found : [{}], expected : [{}]",this.applicationMainClassName,condition);
+    return false;
   }
 }

@@ -1,0 +1,12 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Socket rootSocket=getRootSocket(target);
+  if (rootSocket != null) {
+    if (this.inTransFieldAccessor.isApplicable(target)) {
+      Object inTrans=this.inTransFieldAccessor.get(target);
+      injectSocket(inTrans,rootSocket);
+    }
+  }
+}

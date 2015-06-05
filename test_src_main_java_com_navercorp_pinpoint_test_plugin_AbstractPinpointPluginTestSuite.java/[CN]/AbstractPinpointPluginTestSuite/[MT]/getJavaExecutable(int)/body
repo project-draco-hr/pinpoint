@@ -1,0 +1,23 @@
+{
+  StringBuilder builder=new StringBuilder();
+  String javaHome;
+  if (version == NO_JVM_VERSION) {
+    javaHome=SystemProperty.INSTANCE.getProperty("java.home");
+  }
+ else {
+    String envName="JAVA_" + version + "_HOME";
+    javaHome=SystemProperty.INSTANCE.getEnv(envName);
+  }
+  if (javaHome == null) {
+    return null;
+  }
+  builder.append(javaHome);
+  builder.append(File.separatorChar);
+  builder.append("bin");
+  builder.append(File.separatorChar);
+  builder.append("java");
+  if (SystemProperty.INSTANCE.getProperty("os.name").contains("indows")) {
+    builder.append(".exe");
+  }
+  return builder.toString();
+}

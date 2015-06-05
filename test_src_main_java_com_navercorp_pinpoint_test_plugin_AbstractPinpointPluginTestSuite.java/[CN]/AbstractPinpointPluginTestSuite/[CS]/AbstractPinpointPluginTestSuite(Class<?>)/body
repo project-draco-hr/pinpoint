@@ -7,7 +7,7 @@
   JvmArgument jvmArgument=testClass.getAnnotation(JvmArgument.class);
   this.jvmArguments=jvmArgument == null ? new String[0] : jvmArgument.value();
   JvmVersion jvmVersion=testClass.getAnnotation(JvmVersion.class);
-  this.jvmVersions=jvmVersion == null ? DEFAULT_JVM_VERSIONS : jvmVersion.value();
+  this.jvmVersions=jvmVersion == null ? new int[]{NO_JVM_VERSION} : jvmVersion.value();
   this.requiredLibraries=resolveRequiredLibraries();
   this.testClassLocation=resolveTestClassLocation(testClass);
   this.debug=isDebugMode();

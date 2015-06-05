@@ -1,0 +1,17 @@
+{
+  super.after(target,args,result,throwable);
+  if (throwable != null) {
+    return;
+  }
+  Boolean endAsyncBlock=this.asyncCallEndFlagAccessor.get(target);
+  if (endAsyncBlock != null && endAsyncBlock) {
+    final Trace trace=super.traceContext.currentTraceObject();
+    if (trace == null) {
+      return;
+    }
+    trace.markAfterTime();
+    trace.traceBlockEnd();
+    trace.close();
+    super.traceContext.removeTraceObject();
+  }
+}

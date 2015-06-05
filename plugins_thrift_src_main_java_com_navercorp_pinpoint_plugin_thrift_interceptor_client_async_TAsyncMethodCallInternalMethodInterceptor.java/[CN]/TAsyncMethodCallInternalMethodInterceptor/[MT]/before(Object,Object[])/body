@@ -1,0 +1,21 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!validate(target)) {
+    return;
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.traceBlockBegin();
+    doInBeforeTrace(trace,target,args);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("before. Caused:{}",th.getMessage(),th);
+    }
+  }
+}

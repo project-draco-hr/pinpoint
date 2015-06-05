@@ -1,0 +1,9 @@
+{
+  logger.info("create HConnectionThreadPoolExecutor poolSize:{}, workerQueueMaxSize:{}",poolSize,workQueueMaxSize);
+  ThreadPoolExecutor threadPoolExecutor=ExecutorFactory.newFixedThreadPool(poolSize,workQueueMaxSize,"Pinpoint-HConnectionExecutor",true);
+  if (prestartThreadPool) {
+    logger.info("prestartAllCoreThreads");
+    threadPoolExecutor.prestartAllCoreThreads();
+  }
+  return threadPoolExecutor;
+}

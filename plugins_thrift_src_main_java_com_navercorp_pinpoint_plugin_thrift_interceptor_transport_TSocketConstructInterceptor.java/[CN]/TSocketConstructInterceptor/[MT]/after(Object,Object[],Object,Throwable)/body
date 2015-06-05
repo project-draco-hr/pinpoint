@@ -1,0 +1,9 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  if (validate(target)) {
+    Socket socket=((TSocket)target).getSocket();
+    this.socketAccessor.set(target,socket);
+  }
+}

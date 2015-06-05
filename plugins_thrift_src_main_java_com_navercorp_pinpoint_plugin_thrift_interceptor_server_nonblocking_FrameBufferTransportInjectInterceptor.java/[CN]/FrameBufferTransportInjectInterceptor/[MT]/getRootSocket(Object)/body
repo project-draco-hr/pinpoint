@@ -1,0 +1,10 @@
+{
+  if (this.transFieldAccessor.isApplicable(target)) {
+    Object trans=this.transFieldAccessor.get(target);
+    if (trans != null && this.socketAccessor.isApplicable(trans)) {
+      Socket rootSocket=this.socketAccessor.get(trans);
+      return rootSocket;
+    }
+  }
+  return null;
+}
