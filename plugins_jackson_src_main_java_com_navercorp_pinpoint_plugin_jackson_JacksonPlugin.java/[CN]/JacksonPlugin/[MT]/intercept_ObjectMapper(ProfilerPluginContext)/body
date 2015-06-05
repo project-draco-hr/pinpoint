@@ -1,0 +1,10 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("com.fasterxml.jackson.databind.ObjectMapper");
+  builder.editConstructor().injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
+  builder.editConstructor("com.fasterxml.jackson.core.JsonFactory").injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
+  builder.editConstructor("com.fasterxml.jackson.core.JsonFactory","com.fasterxml.jackson.databind.ser.DefaultSerializerProvider","com.fasterxml.jackson.databind.deser.DefaultDeserializationContext").injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValue","writeValueAsString","writeValueAsBytes")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperWriteValueInterceptor");
+  builder.editMethods(MethodFilters.name("readValue")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperReadValueInterceptor");
+  ClassFileTransformer transformer=builder.build();
+  context.addClassFileTransformer(transformer);
+}
