@@ -1,0 +1,24 @@
+{
+  String json_str="{\"name\" : \"Jackson\"}";
+  byte[] json_b=json_str.getBytes("UTF-8");
+  Method readValueString=ObjectMapper.class.getMethod("readValue",String.class,Class.class);
+  Method readValueBytes=null;
+  try {
+    readValueBytes=ObjectMapper.class.getMethod("readValue",byte[].class,Class.class);
+  }
+ catch (  NoSuchMethodException e) {
+  }
+  __POJO pojo=mapper.readValue(json_str,__POJO.class);
+  if (readValueBytes != null) {
+    readValueBytes.invoke(mapper,json_b,__POJO.class);
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  ExpectedAnnotation length=annotation("jackson.json.length",20);
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readValueString,null,null,null,null,length);
+  if (readValueBytes != null) {
+    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readValueBytes,null,null,null,null,length);
+  }
+  verifier.verifyTraceBlockCount(0);
+}

@@ -1,0 +1,23 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (descriptor.getMethodName().equals("writeValueAsString")) {
+      trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((String)result).length());
+    }
+ else     if (descriptor.getMethodName().equals("writeValueAsBytes")) {
+      trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((byte[])result).length);
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

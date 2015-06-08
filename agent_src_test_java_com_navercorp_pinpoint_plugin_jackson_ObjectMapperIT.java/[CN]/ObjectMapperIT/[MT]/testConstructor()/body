@@ -1,0 +1,15 @@
+{
+  ObjectMapper mapper1=new ObjectMapper();
+  ObjectMapper mapper2=new ObjectMapper(new JsonFactory());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Constructor<?> omConstructor=ObjectMapper.class.getConstructor(JsonFactory.class,DefaultSerializerProvider.class,DefaultDeserializationContext.class);
+  Constructor<?> omConstructor1=ObjectMapper.class.getConstructor();
+  Constructor<?> omConstructor2=ObjectMapper.class.getConstructor(JsonFactory.class);
+  verifier.verifyApi("JACKSON",omConstructor);
+  verifier.verifyApi("JACKSON",omConstructor1);
+  verifier.verifyApi("JACKSON",omConstructor);
+  verifier.verifyApi("JACKSON",omConstructor2);
+  verifier.verifyTraceBlockCount(0);
+}

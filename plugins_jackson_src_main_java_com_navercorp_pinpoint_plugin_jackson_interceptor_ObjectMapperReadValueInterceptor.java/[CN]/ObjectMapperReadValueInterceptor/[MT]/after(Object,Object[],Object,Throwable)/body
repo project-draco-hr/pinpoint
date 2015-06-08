@@ -1,0 +1,26 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    if (args[0] instanceof String) {
+      trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((String)args[0]).length());
+    }
+ else     if (args[0] instanceof byte[]) {
+      trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((byte[])args[0]).length);
+    }
+ else     if (args[0] instanceof File) {
+      trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((File)args[0]).length());
+    }
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
