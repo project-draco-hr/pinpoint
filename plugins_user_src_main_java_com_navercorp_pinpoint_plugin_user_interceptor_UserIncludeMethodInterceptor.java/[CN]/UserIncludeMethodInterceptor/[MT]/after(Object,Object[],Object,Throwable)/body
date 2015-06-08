@@ -14,7 +14,7 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (span) {
+    if (trace.isRootStack()) {
       trace.markAfterTime();
       trace.close();
       traceContext.removeTraceObject();
