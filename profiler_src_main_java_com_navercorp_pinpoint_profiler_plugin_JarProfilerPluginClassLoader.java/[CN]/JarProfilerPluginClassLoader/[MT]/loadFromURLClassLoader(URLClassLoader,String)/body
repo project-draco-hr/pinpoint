@@ -1,14 +1,17 @@
 {
-  URL[] urls=classLoader.getURLs();
-  boolean hasPluginJar=false;
-  for (  URL url : urls) {
-    if (url.equals(pluginJarURL)) {
-      hasPluginJar=true;
-      break;
+  final URL[] urls=classLoader.getURLs();
+  if (urls != null) {
+    boolean hasPluginJar=false;
+    for (    URL url : urls) {
+      final String externalForm=url.toExternalForm();
+      if (pluginJarURLExternalForm.equals(externalForm)) {
+        hasPluginJar=true;
+        break;
+      }
     }
-  }
-  if (!hasPluginJar) {
-    ADD_URL.invoke(classLoader,pluginJarURL);
+    if (!hasPluginJar) {
+      ADD_URL.invoke(classLoader,pluginJarURL);
+    }
   }
   return classLoader.loadClass(className);
 }
