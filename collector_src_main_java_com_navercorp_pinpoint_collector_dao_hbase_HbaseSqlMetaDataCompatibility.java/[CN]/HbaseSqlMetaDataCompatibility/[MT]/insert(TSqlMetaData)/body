@@ -1,0 +1,9 @@
+{
+  if (SQL_METADATA_VER2_EXISTED) {
+    hbaseSqlMetaDataDao.insert(sqlMetaData);
+    return;
+  }
+  if (SQL_METADATA_EXISTED) {
+    hbaseSqlMetaDataPastVersionDao.insert(sqlMetaData);
+  }
+}
