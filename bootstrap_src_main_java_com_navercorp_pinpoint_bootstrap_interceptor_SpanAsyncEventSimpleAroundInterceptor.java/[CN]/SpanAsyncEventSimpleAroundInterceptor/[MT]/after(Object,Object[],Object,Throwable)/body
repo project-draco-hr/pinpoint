@@ -1,6 +1,12 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,args,result,throwable);
+    logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
+    System.out.println("DEBUG AFTER " + methodDescriptor.getClassName() + "."+ methodDescriptor.getMethodName());
+  }
+  System.out.println("AFTER " + methodDescriptor.getClassName() + "."+ methodDescriptor.getMethodName());
+  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+    logger.debug("Not found asynchronous invocation metadata");
+    return;
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
@@ -16,7 +22,10 @@
   }
  finally {
     trace.traceBlockEnd();
-    if (async) {
+    if (trace.isAsync() && trace.isRootStack()) {
+      if (isDebug) {
+        logger.debug("Close async trace. {}");
+      }
       traceFirstBlockEnd(trace);
       trace.close();
       traceContext.removeTraceObject();
