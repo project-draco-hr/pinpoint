@@ -1,0 +1,5 @@
+{
+  PacketHandler<DatagramPacket> dispatchPacket=packetHandlerFactory.createPacketHandler();
+  PooledPacketWrap pooledPacketWrap=new PooledPacketWrap(dispatchPacket,pooledPacket);
+  return new TimingWrap(this.timer,pooledPacketWrap);
+}
