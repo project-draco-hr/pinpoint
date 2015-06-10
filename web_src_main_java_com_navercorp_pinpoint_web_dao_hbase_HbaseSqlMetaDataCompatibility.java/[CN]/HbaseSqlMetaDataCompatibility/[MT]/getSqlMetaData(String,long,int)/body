@@ -1,0 +1,13 @@
+{
+  List<SqlMetaDataBo> sqlMetaDataList=new ArrayList<SqlMetaDataBo>();
+  if (SQL_METADATA_VER2_EXISTED) {
+    sqlMetaDataList=hbaseSqlMetaDataDao.getSqlMetaData(agentId,time,hashCode);
+    if (sqlMetaDataList.size() >= 1) {
+      return sqlMetaDataList;
+    }
+  }
+  if (SQL_METADATA_EXISTED) {
+    sqlMetaDataList=hbaseSqlMetaDataPastVersionDao.getSqlMetaData(agentId,time,hashCode);
+  }
+  return sqlMetaDataList;
+}

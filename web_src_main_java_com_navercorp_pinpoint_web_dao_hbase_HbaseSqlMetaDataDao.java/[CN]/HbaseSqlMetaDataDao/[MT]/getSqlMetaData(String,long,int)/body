@@ -5,6 +5,6 @@
   SqlMetaDataBo sqlMetaData=new SqlMetaDataBo(agentId,time,hashCode);
   byte[] sqlId=getDistributedKey(sqlMetaData.toRowKey());
   Get get=new Get(sqlId);
-  get.addFamily(HBaseTables.SQL_METADATA_CF_SQL);
-  return hbaseOperations2.get(HBaseTables.SQL_METADATA,get,sqlMetaDataMapper);
+  get.addFamily(HBaseTables.SQL_METADATA_VER2_CF_SQL);
+  return hbaseOperations2.get(HBaseTables.SQL_METADATA_VER2,get,sqlMetaDataMapper);
 }
