@@ -1,0 +1,10 @@
+{
+  ObjectName objectMBeanName;
+  try {
+    objectMBeanName=createMBeanObjectName(name);
+    return mBeanServer.isRegistered(objectMBeanName);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}

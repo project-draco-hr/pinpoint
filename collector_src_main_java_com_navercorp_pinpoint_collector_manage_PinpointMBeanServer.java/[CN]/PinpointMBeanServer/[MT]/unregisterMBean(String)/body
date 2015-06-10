@@ -1,0 +1,14 @@
+{
+  logger.info("unregisterMBean {}",name);
+  if (isRegistered(name)) {
+    return;
+  }
+  try {
+    ObjectName mBeanObjectName=createMBeanObjectName(name);
+    mBeanServer.unregisterMBean(mBeanObjectName);
+    pinpointMBeanHolder.remove(name);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}

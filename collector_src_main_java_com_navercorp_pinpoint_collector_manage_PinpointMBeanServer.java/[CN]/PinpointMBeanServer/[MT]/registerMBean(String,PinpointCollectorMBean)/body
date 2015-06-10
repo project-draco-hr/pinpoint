@@ -1,0 +1,14 @@
+{
+  logger.info("registerMBean {}",name);
+  if (isRegistered(pinpointMBean)) {
+    return;
+  }
+  try {
+    ObjectName mBeanObjectName=createMBeanObjectName(name);
+    mBeanServer.registerMBean(pinpointMBean,mBeanObjectName);
+    pinpointMBeanHolder.put(name,pinpointMBean);
+  }
+ catch (  Exception e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+}
