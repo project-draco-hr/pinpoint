@@ -1,5 +1,11 @@
 {
   acceptedTimeService.accept();
+  if (!handlerManager.isEnable()) {
+    logger.debug("Handler is disabled. Skipping request message {}.",tBase);
+    TResult result=new TResult(false);
+    result.setMessage("Handler is disabled. Skipping request message.");
+    return result;
+  }
   RequestResponseHandler requestResponseHandler=getRequestResponseHandler(tBase);
   if (requestResponseHandler != null) {
     if (logger.isTraceEnabled()) {
