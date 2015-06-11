@@ -2,7 +2,6 @@
   if (isDebug) {
     logger.beforeInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args);
   }
-  System.out.println("Before " + methodDescriptor.getClassName() + "."+ methodDescriptor.getMethodName());
   if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
     logger.debug("Not found asynchronous invocation metadata");
     return;
