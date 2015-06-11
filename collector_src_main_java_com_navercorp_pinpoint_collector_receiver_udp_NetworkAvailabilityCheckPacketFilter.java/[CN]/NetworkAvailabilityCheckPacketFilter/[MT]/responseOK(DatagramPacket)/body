@@ -2,7 +2,7 @@
   try {
     byte[] okBytes=NetworkAvailabilityCheckPacket.DATA_OK;
     DatagramPacket pongPacket=new DatagramPacket(okBytes,okBytes.length,packet.getSocketAddress());
-    receiver.getSocket().send(pongPacket);
+    socket.send(pongPacket);
   }
  catch (  IOException e) {
     if (logger.isWarnEnabled()) {
