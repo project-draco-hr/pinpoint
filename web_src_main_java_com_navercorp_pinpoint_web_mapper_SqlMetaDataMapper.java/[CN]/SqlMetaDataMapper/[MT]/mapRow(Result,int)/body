@@ -9,6 +9,9 @@
     SqlMetaDataBo sqlMetaDataBo=new SqlMetaDataBo();
     sqlMetaDataBo.readRowKey(rowKey);
     String sql=Bytes.toString(cell.getQualifierArray(),cell.getQualifierOffset(),cell.getQualifierLength());
+    if (SQL_METADATA_CF_SQL_QUALI_SQLSTATEMENT.equals(sql)) {
+      sql=Bytes.toString(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
+    }
     sqlMetaDataBo.setSql(sql);
     sqlMetaDataList.add(sqlMetaDataBo);
   }
