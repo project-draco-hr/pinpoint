@@ -1,0 +1,8 @@
+{
+  int bufferLength=10;
+  DatagramPacketFactory factory=new DatagramPacketFactory(bufferLength);
+  DatagramPacket packet=factory.create();
+  packet.setLength(1);
+  factory.beforeReturn(packet);
+  Assert.assertEquals(bufferLength,packet.getLength());
+}
