@@ -6,19 +6,8 @@
       return;
     }
     for (    TBase<?,?> tBase : list) {
-      if (tBase instanceof L4Packet) {
-        if (logger.isDebugEnabled()) {
-          L4Packet l4Packet=(L4Packet)tBase;
-          logger.debug("udp l4 packet {}",l4Packet.getHeader());
-        }
-        continue;
-      }
-      if (tBase instanceof NetworkAvailabilityCheckPacket) {
-        if (logger.isDebugEnabled()) {
-          logger.debug("received udp network availability check packet.");
-        }
-        responseOK(packet);
-        continue;
+      if (filter.filter(tBase,packet) == TBaseFilter.BREAK) {
+        return;
       }
       dispatchHandler.dispatchSendMessage(tBase);
     }
