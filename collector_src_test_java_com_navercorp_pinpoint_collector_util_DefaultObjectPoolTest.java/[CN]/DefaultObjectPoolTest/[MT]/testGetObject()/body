@@ -1,0 +1,7 @@
+{
+  DefaultObjectPool<DatagramPacket> pool=new DefaultObjectPool<DatagramPacket>(new DatagramPacketFactory(),1);
+  PooledObject<DatagramPacket> pooledObject=pool.getObject();
+  Assert.assertEquals(0,pool.size());
+  pooledObject.returnObject();
+  Assert.assertEquals(1,pool.size());
+}
