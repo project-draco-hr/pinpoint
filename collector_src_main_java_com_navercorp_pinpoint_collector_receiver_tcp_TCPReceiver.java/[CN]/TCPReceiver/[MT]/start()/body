@@ -1,4 +1,7 @@
 {
+  for (  ChannelStateChangeEventHandler channelStateChangeEventHandler : this.channelStateChangeEventHandlers) {
+    serverAcceptor.addStateChangeEventHandler(channelStateChangeEventHandler);
+  }
   setL4TcpChannel(serverAcceptor);
   this.serverAcceptor.setMessageListener(new ServerMessageListener(){
     @Override public void handleSend(    SendPacket sendPacket,    PinpointServer pinpointServer){

@@ -2,6 +2,8 @@
   logger.info("pinpoint-collector.properties read.");
   this.tcpListenIp=readString(properties,"collector.tcpListenIp",DEFAULT_LISTEN_IP);
   this.tcpListenPort=readInt(properties,"collector.tcpListenPort",9994);
+  this.tcpWorkerThread=readInt(properties,"collector.tcpWorkerThread",128);
+  this.tcpWorkerQueueSize=readInt(properties,"collector.tcpWorkerQueueSize",1024 * 5);
   this.udpStatListenIp=readString(properties,"collector.udpStatListenIp",DEFAULT_LISTEN_IP);
   this.udpStatListenPort=readInt(properties,"collector.udpStatListenPort",9995);
   this.udpStatWorkerThread=readInt(properties,"collector.udpStatWorkerThread",128);
@@ -12,6 +14,13 @@
   this.udpSpanWorkerThread=readInt(properties,"collector.udpSpanWorkerThread",256);
   this.udpSpanWorkerQueueSize=readInt(properties,"collector.udpSpanWorkerQueueSize",1024 * 5);
   this.udpSpanSocketReceiveBufferSize=readInt(properties,"collector.udpSpanSocketReceiveBufferSize",1024 * 4096);
+  String[] l4Ips=StringUtils.split(readString(properties,"collector.l4.ip",null),",");
+  if (l4Ips == null) {
+    this.l4IpList=Collections.emptyList();
+  }
+ else {
+    this.l4IpList=Arrays.asList(l4Ips);
+  }
   this.clusterEnable=readBoolean(properties,"cluster.enable");
   this.clusterAddress=readString(properties,"cluster.zookeeper.address","");
   this.clusterSessionTimeout=readInt(properties,"cluster.zookeeper.sessiontimeout",-1);
