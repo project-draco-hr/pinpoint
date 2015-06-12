@@ -1,0 +1,13 @@
+{
+  byte[] dst=new byte[5];
+  byte[] src=new byte[10];
+  for (int i=0; i < 10; i++) {
+    src[i]=(byte)(i + 1);
+  }
+  try {
+    BytesUtils.writeBytes(dst,0,src);
+    fail("invalid memory access");
+  }
+ catch (  Exception e) {
+  }
+}
