@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(15);
+  BitSet incoming=iprot.readBitSet(16);
   if (incoming.get(0)) {
     struct.spanId=iprot.readI64();
     struct.setSpanIdIsSet(true);
@@ -70,5 +70,9 @@
   if (incoming.get(14)) {
     struct.nextAsyncId=iprot.readI32();
     struct.setNextAsyncIdIsSet(true);
+  }
+  if (incoming.get(15)) {
+    struct.asyncSequence=iprot.readI16();
+    struct.setAsyncSequenceIsSet(true);
   }
 }

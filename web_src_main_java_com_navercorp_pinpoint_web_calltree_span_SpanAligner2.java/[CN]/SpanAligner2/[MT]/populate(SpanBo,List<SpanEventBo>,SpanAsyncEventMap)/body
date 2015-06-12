@@ -40,9 +40,8 @@
       }
     }
     final int nextAsyncId=spanEventBo.getNextAsyncId();
-    final List<SpanEventBo> nextAsyncSpanEventList=asyncSpanEventMap.remove(nextAsyncId);
-    if (nextAsyncId != -1 && nextAsyncSpanEventList != null && nextAsyncSpanEventList.size() > 0) {
-      final CallTree subTree=populate(span,nextAsyncSpanEventList,asyncSpanEventMap);
+    for (    List<SpanEventBo> list : asyncSpanEventMap.get(nextAsyncId)) {
+      final CallTree subTree=populate(span,list,asyncSpanEventMap);
       tree.add(subTree);
     }
   }
