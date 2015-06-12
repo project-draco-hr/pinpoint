@@ -1,0 +1,13 @@
+{
+  StringBuilder buffer=new StringBuilder();
+  StringUtils.appendDrop(buffer,null,4);
+  Assert.assertEquals(buffer.toString(),"");
+  StringUtils.appendDrop(buffer,null,0);
+  Assert.assertEquals(buffer.toString(),"");
+  StringUtils.appendDrop(buffer,null,-4);
+  Assert.assertEquals(buffer.toString(),"");
+  StringUtils.appendDrop(buffer,shortString,4);
+  Assert.assertEquals(buffer.toString(),"This...(22)");
+  StringUtils.appendDrop(buffer,longString,16);
+  Assert.assertEquals(buffer.toString(),"This...(22)This is a very l...(100)");
+}
