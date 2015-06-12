@@ -1,0 +1,13 @@
+{
+  if (!isActive) {
+    throwAuthException("not activing rest api for admin.");
+  }
+  if (StringUtils.isEmpty(password)) {
+    throwAuthException("not activing rest api for admin.");
+  }
+  String password=request.getParameter("password");
+  if (!this.password.equals(password)) {
+    throwAuthException("not matched admin password.");
+  }
+  return true;
+}

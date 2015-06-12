@@ -1,0 +1,12 @@
+{
+  logger.info("PinpointCollectorManager initialization started.");
+  for (  CollectorManager collectorManager : jmxCollectorManagerList.getSupportList()) {
+    try {
+      pinpointMBeanServer.registerMBean(collectorManager);
+    }
+ catch (    Exception e) {
+      logger.warn("Failed to register {} MBean.",collectorManager,e);
+    }
+  }
+  logger.info("PinpointCollectorManager initialization completed.");
+}
