@@ -1,0 +1,10 @@
+{
+  DefaultObjectPool<DatagramPacket> pool=new DefaultObjectPool<DatagramPacket>(new DatagramPacketFactory(),1);
+  PooledObject<DatagramPacket> pooledObject=pool.getObject();
+  DatagramPacket packet=pooledObject.getObject();
+  packet.setLength(10);
+  pooledObject.returnObject();
+  DatagramPacket check=pooledObject.getObject();
+  Assert.assertSame(check,packet);
+  Assert.assertEquals(packet.getLength(),DatagramPacketFactory.UDP_MAX_PACKET_LENGTH);
+}

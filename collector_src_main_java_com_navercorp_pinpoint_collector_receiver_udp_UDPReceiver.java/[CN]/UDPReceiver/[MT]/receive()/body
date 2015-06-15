@@ -1,0 +1,33 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("start ioThread localAddress:{}, IoThread:{}",socket.getLocalAddress(),Thread.currentThread().getName());
+  }
+  final SocketAddress localSocketAddress=socket.getLocalSocketAddress();
+  final boolean debugEnabled=logger.isDebugEnabled();
+  while (state.get()) {
+    PooledObject<DatagramPacket> pooledPacket=read0();
+    if (pooledPacket == null) {
+      continue;
+    }
+    final DatagramPacket packet=pooledPacket.getObject();
+    if (packet.getLength() == 0) {
+      if (debugEnabled) {
+        logger.debug("length is 0 ip:{}, port:{}",packet.getAddress(),packet.getPort());
+      }
+      return;
+    }
+    if (debugEnabled) {
+      logger.debug("pool getActiveCount:{}",worker.getActiveCount());
+    }
+    try {
+      Runnable dispatchTask=wrapDispatchTask(pooledPacket);
+      worker.execute(dispatchTask);
+    }
+ catch (    RejectedExecutionException ree) {
+      handleRejectedExecutionException(ree);
+    }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("stop ioThread localAddress:{}, IoThread:{}",localSocketAddress,Thread.currentThread().getName());
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (executor == null) {
+    return;
+  }
+  executor.shutdown();
+  try {
+    executor.awaitTermination(10,TimeUnit.SECONDS);
+  }
+ catch (  InterruptedException e) {
+    Thread.currentThread().interrupt();
+  }
+}
