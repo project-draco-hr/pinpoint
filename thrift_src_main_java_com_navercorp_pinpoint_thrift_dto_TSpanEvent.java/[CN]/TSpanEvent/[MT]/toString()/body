@@ -109,6 +109,12 @@
     sb.append(this.nextAsyncId);
     first=false;
   }
+  if (isSetAsyncSequence()) {
+    if (!first)     sb.append(", ");
+    sb.append("asyncSequence:");
+    sb.append(this.asyncSequence);
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

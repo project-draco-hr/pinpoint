@@ -46,7 +46,10 @@
   if (struct.isSetNextAsyncId()) {
     optionals.set(14);
   }
-  oprot.writeBitSet(optionals,15);
+  if (struct.isSetAsyncSequence()) {
+    optionals.set(15);
+  }
+  oprot.writeBitSet(optionals,16);
   if (struct.isSetSpanId()) {
     oprot.writeI64(struct.spanId);
   }
@@ -96,5 +99,8 @@
   }
   if (struct.isSetNextAsyncId()) {
     oprot.writeI32(struct.nextAsyncId);
+  }
+  if (struct.isSetAsyncSequence()) {
+    oprot.writeI16(struct.asyncSequence);
   }
 }
