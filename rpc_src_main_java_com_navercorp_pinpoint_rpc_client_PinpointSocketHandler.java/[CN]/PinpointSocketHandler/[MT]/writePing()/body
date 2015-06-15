@@ -3,6 +3,6 @@
     return;
   }
   logger.debug("{} writePing() started. channel:{}",objectUniqName,channel);
-  PingPacket pingPacket=new PingPacket(socketId,(byte)0,state.getCurrentStateCode().getId());
+  PingPacket pingPacket=new PingPacket(pingIdGenerator.incrementAndGet(),(byte)0,state.getCurrentStateCode().getId());
   write0(pingPacket,pingWriteFailFutureListener);
 }

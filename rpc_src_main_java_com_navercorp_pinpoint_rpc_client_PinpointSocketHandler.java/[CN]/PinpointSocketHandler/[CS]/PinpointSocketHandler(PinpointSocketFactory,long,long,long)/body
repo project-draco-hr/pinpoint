@@ -14,5 +14,6 @@
   this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
   this.handshaker=new PinpointClientSocketHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
   this.socketId=pinpointSocketFactory.issueNewSocketId();
+  this.pingIdGenerator=new AtomicInteger(0);
   this.state=new PinpointSocketHandlerState(this.objectUniqName);
 }
