@@ -1,16 +1,17 @@
 {
   final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
   TBase<?,?> tBase=null;
+  SocketAddress socketAddress=packet.getSocketAddress();
   try {
     tBase=deserializer.deserialize(packet.getData());
-    if (filter.filter(tBase,packet) == TBaseFilter.BREAK) {
+    if (filter.filter(tBase,socketAddress) == TBaseFilter.BREAK) {
       return;
     }
     dispatchHandler.dispatchSendMessage(tBase);
   }
  catch (  TException e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",packet.getSocketAddress(),e.getMessage(),e);
+      logger.warn("packet serialize error. SendSocketAddress:{} Cause:{}",socketAddress,e.getMessage(),e);
     }
     if (logger.isDebugEnabled()) {
       logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));
@@ -18,7 +19,7 @@
   }
 catch (  Exception e) {
     if (logger.isWarnEnabled()) {
-      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tBase:{}",packet.getSocketAddress(),e.getMessage(),tBase,e);
+      logger.warn("Unexpected error. SendSocketAddress:{} Cause:{} tBase:{}",socketAddress,e.getMessage(),tBase,e);
     }
     if (logger.isDebugEnabled()) {
       logger.debug("packet dump hex:{}",PacketUtils.dumpDatagramPacket(packet));

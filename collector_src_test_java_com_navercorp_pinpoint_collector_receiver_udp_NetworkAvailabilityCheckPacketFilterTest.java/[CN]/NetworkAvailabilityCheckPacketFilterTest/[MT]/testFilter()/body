@@ -1,0 +1,11 @@
+{
+  SocketAddress localSocketAddress=datagramSocket.getLocalSocketAddress();
+  logger.debug("localSocket:{}",localSocketAddress);
+  NetworkAvailabilityCheckPacket packet=new NetworkAvailabilityCheckPacket();
+  boolean skipResult=filter.filter(packet,new InetSocketAddress("localhost",datagramSocket.getLocalPort()));
+  Assert.assertEquals(skipResult,TBaseFilter.BREAK);
+  DatagramPacket receivePacket=new DatagramPacket(new byte[100],100);
+  datagramSocket.receive(receivePacket);
+  Assert.assertEquals(receivePacket.getLength(),NetworkAvailabilityCheckPacket.DATA_OK.length);
+  Assert.assertArrayEquals(Arrays.copyOf(receivePacket.getData(),NetworkAvailabilityCheckPacket.DATA_OK.length),NetworkAvailabilityCheckPacket.DATA_OK);
+}

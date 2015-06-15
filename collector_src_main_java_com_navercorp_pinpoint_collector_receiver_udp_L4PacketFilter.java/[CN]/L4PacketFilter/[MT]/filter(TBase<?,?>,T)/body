@@ -1,0 +1,10 @@
+{
+  if (tBase instanceof L4Packet) {
+    if (logger.isDebugEnabled()) {
+      L4Packet l4Packet=(L4Packet)tBase;
+      logger.debug("udp l4 packet {} {}",l4Packet.getHeader(),remoteAddress);
+    }
+    return BREAK;
+  }
+  return CONTINUE;
+}

@@ -1,0 +1,7 @@
+{
+  SocketAddress localSocketAddress=datagramSocket.getLocalSocketAddress();
+  logger.debug("localSocket:{}",localSocketAddress);
+  TSpan skip=new TSpan();
+  boolean skipResult=filter.filter(skip,null);
+  Assert.assertEquals(skipResult,TBaseFilter.CONTINUE);
+}

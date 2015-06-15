@@ -1,0 +1,8 @@
+{
+  Logger logger=mock(Logger.class);
+  when(logger.isInfoEnabled()).thenReturn(true);
+  int loggerLevel=LoggerUtils.getLoggerLevel(logger);
+  Assert.assertEquals(loggerLevel,LoggerUtils.INFO_LEVEL);
+  Assert.assertNotEquals(loggerLevel,LoggerUtils.DEBUG_LEVEL);
+  Assert.assertNotEquals(loggerLevel,LoggerUtils.WARN_LEVEL);
+}

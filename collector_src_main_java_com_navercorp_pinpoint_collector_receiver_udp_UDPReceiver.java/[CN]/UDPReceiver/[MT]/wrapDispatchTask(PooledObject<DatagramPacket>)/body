@@ -1,5 +1,15 @@
 {
-  PacketHandler<DatagramPacket> dispatchPacket=packetHandlerFactory.createPacketHandler();
-  PooledPacketWrap pooledPacketWrap=new PooledPacketWrap(dispatchPacket,pooledPacket);
-  return new TimingWrap(this.timer,pooledPacketWrap);
+  final Runnable lazyExecution=new Runnable(){
+    @Override public void run(){
+      PacketHandler<DatagramPacket> dispatchPacket=packetHandlerFactory.createPacketHandler();
+      PooledPacketWrap pooledPacketWrap=new PooledPacketWrap(dispatchPacket,pooledPacket);
+      Runnable execution=pooledPacketWrap;
+      if (enableCollectorMetric) {
+        execution=new TimingWrap(timer,execution);
+      }
+      execution.run();
+    }
+  }
+;
+  return lazyExecution;
 }
