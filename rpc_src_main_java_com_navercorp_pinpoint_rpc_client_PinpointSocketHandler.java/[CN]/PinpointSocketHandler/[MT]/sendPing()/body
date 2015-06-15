@@ -3,7 +3,8 @@
     return;
   }
   logger.debug("{} sendPing() started.",objectUniqName);
-  ChannelFuture future=write0(PingPacket.PING_PACKET);
+  PingPacket pingPacket=new PingPacket(pingIdGenerator.incrementAndGet(),(byte)0,state.getCurrentStateCode().getId());
+  ChannelFuture future=write0(pingPacket);
   future.awaitUninterruptibly();
   if (!future.isSuccess()) {
     Throwable cause=future.getCause();

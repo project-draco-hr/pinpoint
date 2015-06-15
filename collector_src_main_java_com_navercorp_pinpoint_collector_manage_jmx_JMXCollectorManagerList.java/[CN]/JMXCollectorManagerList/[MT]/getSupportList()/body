@@ -1,0 +1,11 @@
+{
+  if (!isActive) {
+    logger.warn("not activing jmx api for admin.");
+    return Collections.emptyList();
+  }
+  List<CollectorManager> supportManagerList=new ArrayList<CollectorManager>();
+  if (handlerManager != null) {
+    supportManagerList.add(handlerManager);
+  }
+  return supportManagerList;
+}

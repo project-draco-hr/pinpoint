@@ -10,6 +10,6 @@
   Put put=new Put(rowKey);
   String sql=sqlMetaData.getSql();
   byte[] sqlBytes=Bytes.toBytes(sql);
-  put.addColumn(HBaseTables.SQL_METADATA_CF_SQL,sqlBytes,null);
+  put.addColumn(HBaseTables.SQL_METADATA_CF_SQL,HBaseTables.SQL_METADATA_CF_SQL_QUALI_SQLSTATEMENT,sqlBytes);
   hbaseTemplate.put(HBaseTables.SQL_METADATA,put);
 }

@@ -1,0 +1,11 @@
+{
+  short defaultShort=0;
+  for (short s=Short.MIN_VALUE; s != Short.MAX_VALUE; s++) {
+    Assert.assertEquals(NumberUtils.parseShort(null,s),s);
+    Assert.assertEquals(NumberUtils.parseShort(String.valueOf(s),defaultShort),s);
+    Assert.assertEquals(NumberUtils.parseShort(notNumber,s),s);
+  }
+  Assert.assertEquals(NumberUtils.parseShort(null,Short.MAX_VALUE),Short.MAX_VALUE);
+  Assert.assertEquals(NumberUtils.parseShort(String.valueOf(Short.MAX_VALUE),defaultShort),Short.MAX_VALUE);
+  Assert.assertEquals(NumberUtils.parseShort(notNumber,Short.MAX_VALUE),Short.MAX_VALUE);
+}

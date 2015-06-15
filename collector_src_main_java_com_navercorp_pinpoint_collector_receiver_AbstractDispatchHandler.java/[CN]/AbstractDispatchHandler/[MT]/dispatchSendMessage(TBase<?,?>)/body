@@ -1,5 +1,9 @@
 {
   acceptedTimeService.accept();
+  if (!handlerManager.isEnable()) {
+    logger.debug("Handler is disabled. Skipping send message {}.",tBase);
+    return;
+  }
   SimpleHandler simpleHandler=getSimpleHandler(tBase);
   if (simpleHandler != null) {
     if (logger.isTraceEnabled()) {

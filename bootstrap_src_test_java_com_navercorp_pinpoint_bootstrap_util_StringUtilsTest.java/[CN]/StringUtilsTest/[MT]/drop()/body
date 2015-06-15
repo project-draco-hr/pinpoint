@@ -1,0 +1,30 @@
+{
+  Assert.assertEquals(StringUtils.drop(null),"null");
+  Assert.assertEquals(StringUtils.drop(null,4),"null");
+  Assert.assertEquals(StringUtils.drop(null,0),"null");
+  Assert.assertEquals(StringUtils.drop(null,-4),"null");
+  Assert.assertEquals(StringUtils.drop(longString),"This is a very long string for testing drop function. Length of ...(100)");
+  Assert.assertEquals(StringUtils.drop(longString,4),"This...(100)");
+  Assert.assertEquals(StringUtils.drop(longString,0),"...(100)");
+  try {
+    StringUtils.drop(longString,-4);
+    Assert.fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+catch (  Exception e) {
+    Assert.fail();
+  }
+  Assert.assertEquals(StringUtils.drop(shortString),shortString);
+  Assert.assertEquals(StringUtils.drop(shortString,4),"This...(22)");
+  Assert.assertEquals(StringUtils.drop(shortString,0),"...(22)");
+  try {
+    StringUtils.drop(shortString,-4);
+    Assert.fail();
+  }
+ catch (  IllegalArgumentException e) {
+  }
+catch (  Exception e) {
+    Assert.fail();
+  }
+}

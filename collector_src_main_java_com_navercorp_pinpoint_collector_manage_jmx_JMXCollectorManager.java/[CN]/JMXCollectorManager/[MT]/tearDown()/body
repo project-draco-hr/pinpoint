@@ -1,0 +1,12 @@
+{
+  logger.info("PinpointCollectorManager finalization started.");
+  for (  CollectorManager collectorManager : jmxCollectorManagerList.getSupportList()) {
+    try {
+      pinpointMBeanServer.unregisterMBean(collectorManager);
+    }
+ catch (    Exception e) {
+      logger.warn("Failed to unregister {} MBean.",collectorManager,e);
+    }
+  }
+  logger.info("PinpointCollectorManager finalization completed.");
+}
