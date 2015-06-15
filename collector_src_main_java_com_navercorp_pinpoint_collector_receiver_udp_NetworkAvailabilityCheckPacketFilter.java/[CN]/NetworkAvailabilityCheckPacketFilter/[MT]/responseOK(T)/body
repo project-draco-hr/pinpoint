@@ -1,0 +1,12 @@
+{
+  try {
+    byte[] okBytes=NetworkAvailabilityCheckPacket.DATA_OK;
+    DatagramPacket pongPacket=new DatagramPacket(okBytes,okBytes.length,remoteHostAddress);
+    socket.send(pongPacket);
+  }
+ catch (  IOException e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("pong error. SendSocketAddress:{} Cause:{}",remoteHostAddress,e.getMessage(),e);
+    }
+  }
+}

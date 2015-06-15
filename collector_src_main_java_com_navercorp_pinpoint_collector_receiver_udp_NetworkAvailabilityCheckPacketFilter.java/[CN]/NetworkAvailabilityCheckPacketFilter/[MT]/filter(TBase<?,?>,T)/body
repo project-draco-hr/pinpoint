@@ -1,0 +1,10 @@
+{
+  if (tBase instanceof NetworkAvailabilityCheckPacket) {
+    if (logger.isInfoEnabled()) {
+      logger.info("received udp network availability check packet. remoteAddress:{}",remoteHostAddress);
+    }
+    responseOK(remoteHostAddress);
+    return BREAK;
+  }
+  return CONTINUE;
+}

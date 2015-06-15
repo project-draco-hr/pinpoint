@@ -6,7 +6,7 @@
       return;
     }
     for (    TBase<?,?> tBase : list) {
-      if (filter.filter(tBase,packet) == TBaseFilter.BREAK) {
+      if (filter.filter(tBase,packet.getSocketAddress()) == TBaseFilter.BREAK) {
         return;
       }
       dispatchHandler.dispatchSendMessage(tBase);

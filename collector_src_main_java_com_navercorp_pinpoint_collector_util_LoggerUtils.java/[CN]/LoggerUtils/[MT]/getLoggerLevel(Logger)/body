@@ -1,0 +1,21 @@
+{
+  if (logger == null) {
+    throw new NullPointerException("logger must not be null");
+  }
+  if (logger.isTraceEnabled()) {
+    return TRACE_LEVEL;
+  }
+  if (logger.isDebugEnabled()) {
+    return DEBUG_LEVEL;
+  }
+  if (logger.isInfoEnabled()) {
+    return INFO_LEVEL;
+  }
+  if (logger.isWarnEnabled()) {
+    return WARN_LEVEL;
+  }
+  if (logger.isErrorEnabled()) {
+    return ERROR_LEVEL;
+  }
+  return DISABLE_LEVEL;
+}

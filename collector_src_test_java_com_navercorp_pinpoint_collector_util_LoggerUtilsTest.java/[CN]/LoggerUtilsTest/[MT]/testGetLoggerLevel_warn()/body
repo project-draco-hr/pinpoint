@@ -1,0 +1,13 @@
+{
+  Logger logger=mock(Logger.class);
+  when(logger.isWarnEnabled()).thenReturn(true);
+  int loggerLevel=LoggerUtils.getLoggerLevel(logger);
+  Assert.assertEquals(loggerLevel,LoggerUtils.WARN_LEVEL);
+  Assert.assertNotEquals(loggerLevel,LoggerUtils.INFO_LEVEL);
+  Assert.assertNotEquals(loggerLevel,LoggerUtils.ERROR_LEVEL);
+  if (loggerLevel >= LoggerUtils.WARN_LEVEL) {
+  }
+ else {
+    Assert.fail();
+  }
+}
