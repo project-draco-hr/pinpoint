@@ -1,11 +1,11 @@
 {
-  if (socketId == -1) {
+  if (pingId == -1) {
     return ChannelBuffers.wrappedBuffer(PING_BYTE);
   }
  else {
     ChannelBuffer buffer=ChannelBuffers.buffer(8);
     buffer.writeShort(PacketType.CONTROL_PING);
-    buffer.writeInt(socketId);
+    buffer.writeInt(pingId);
     buffer.writeByte(stateVersion);
     buffer.writeByte(stateCode);
     return buffer;
