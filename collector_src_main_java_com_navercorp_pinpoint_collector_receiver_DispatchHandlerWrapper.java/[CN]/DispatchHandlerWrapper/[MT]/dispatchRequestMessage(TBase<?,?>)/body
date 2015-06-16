@@ -1,0 +1,9 @@
+{
+  if (checkAvaiable()) {
+    return this.delegate.dispatchRequestMessage(tBase);
+  }
+  logger.debug("Handler is disabled. Skipping request message {}.",tBase);
+  TResult result=new TResult(false);
+  result.setMessage("Handler is disabled. Skipping request message.");
+  return result;
+}
