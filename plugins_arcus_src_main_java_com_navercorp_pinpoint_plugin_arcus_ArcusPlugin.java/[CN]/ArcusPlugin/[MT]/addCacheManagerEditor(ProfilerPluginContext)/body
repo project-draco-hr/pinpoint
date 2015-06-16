@@ -1,0 +1,6 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.CacheManager");
+  builder.injectMetadata(METADATA_SERVICE_CODE);
+  builder.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.CacheManagerConstructInterceptor");
+  context.addClassFileTransformer(builder.build());
+}

@@ -1,0 +1,21 @@
+{
+  final ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.ArcusClient");
+  builder.conditional(hasMethod("addOp","net.spy.memcached.ops.Operation","java.lang.String","net.spy.memcached.ops.Operation"),new ConditionalClassFileTransformerSetup(){
+    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
+      boolean traceKey=config.isArcusKeyTrace();
+      conditional.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
+      MethodTransformerBuilder mb=conditional.editMethods(new ArcusMethodFilter());
+      mb.exceptionHandler(new MethodTransformerExceptionHandler(){
+        public void handle(        String targetClassName,        String targetMethodName,        String[] targetMethodParameterTypes,        Throwable exception) throws Throwable {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+          }
+        }
+      }
+);
+      mb.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+    }
+  }
+);
+  context.addClassFileTransformer(builder.build());
+}

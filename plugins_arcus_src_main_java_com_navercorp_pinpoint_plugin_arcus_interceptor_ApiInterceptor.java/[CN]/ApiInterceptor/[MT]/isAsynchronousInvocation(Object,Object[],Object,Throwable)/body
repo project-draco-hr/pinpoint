@@ -1,0 +1,10 @@
+{
+  if (throwable != null || result == null) {
+    return false;
+  }
+  if (!asyncTraceIdAccessor.isApplicable(result)) {
+    logger.debug("Invalid result object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+    return false;
+  }
+  return true;
+}
