@@ -1,0 +1,53 @@
+{
+  if (traceKey) {
+    final Object recordObject=args[keyIndex];
+    trace.recordApi(getMethodDescriptor(),recordObject,keyIndex);
+  }
+ else {
+    trace.recordApi(getMethodDescriptor());
+  }
+  trace.recordException(throwable);
+  if (result instanceof Future && operationAccessor.isApplicable(result)) {
+    Operation op=operationAccessor.get(result);
+    if (op != null) {
+      MemcachedNode handlingNode=op.getHandlingNode();
+      SocketAddress socketAddress=handlingNode.getSocketAddress();
+      if (socketAddress instanceof InetSocketAddress) {
+        InetSocketAddress address=(InetSocketAddress)socketAddress;
+        trace.recordEndPoint(address.getHostName() + ":" + address.getPort());
+      }
+    }
+ else {
+      logger.info("operation not found");
+    }
+  }
+  if (serviceCodeAccessor.isApplicable(target)) {
+    String serviceCode=serviceCodeAccessor.get(target);
+    if (serviceCode != null) {
+      trace.recordDestinationId(serviceCode);
+      trace.recordServiceType(ARCUS);
+    }
+ else {
+      trace.recordDestinationId("MEMCACHED");
+      trace.recordServiceType(ServiceType.MEMCACHED);
+    }
+  }
+ else {
+    trace.recordDestinationId("MEMCACHED");
+    trace.recordServiceType(ServiceType.MEMCACHED);
+  }
+  try {
+    if (isAsynchronousInvocation(target,args,result,throwable)) {
+      final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+      trace.recordNextAsyncId(asyncTraceId.getAsyncId());
+      asyncTraceIdAccessor.set(result,asyncTraceId);
+      if (isDebug) {
+        logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+      }
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+  trace.markAfterTime();
+}

@@ -1,0 +1,15 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.plugin.FrontCacheMemcachedClient");
+  boolean traceKey=config.isMemcachedKeyTrace();
+  MethodTransformerBuilder mb=builder.editMethods(new FrontCacheMemcachedMethodFilter());
+  mb.exceptionHandler(new MethodTransformerExceptionHandler(){
+    public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Throwable {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+      }
+    }
+  }
+);
+  mb.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+  context.addClassFileTransformer(builder.build());
+}

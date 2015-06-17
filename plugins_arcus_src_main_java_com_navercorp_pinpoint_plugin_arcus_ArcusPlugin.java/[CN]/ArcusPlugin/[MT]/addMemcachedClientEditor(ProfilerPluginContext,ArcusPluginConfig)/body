@@ -1,0 +1,22 @@
+{
+  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.MemcachedClient");
+  builder.conditional(hasDeclaredMethod("addOp","java.lang.String","net.spy.memcached.ops.Operation"),new ConditionalClassFileTransformerSetup(){
+    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
+      conditional.injectMetadata(METADATA_SERVICE_CODE);
+      conditional.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.AddOpInterceptor");
+    }
+  }
+);
+  boolean traceKey=config.isMemcachedKeyTrace();
+  MethodTransformerBuilder mb2=builder.editMethods(new MemcachedMethodFilter());
+  mb2.exceptionHandler(new MethodTransformerExceptionHandler(){
+    public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Throwable {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+      }
+    }
+  }
+);
+  mb2.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+  context.addClassFileTransformer(builder.build());
+}
