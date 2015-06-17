@@ -1,0 +1,11 @@
+{
+  String testStr;
+  testStr="\r";
+  Assert.assertEquals(" ",QueryStringUtil.removeCarriageReturn(testStr));
+  testStr="\n";
+  Assert.assertEquals(" ",QueryStringUtil.removeCarriageReturn(testStr));
+  testStr="\r\r\n\n\r\r\n";
+  Assert.assertEquals("       ",QueryStringUtil.removeCarriageReturn(testStr));
+  testStr="this is awesome CRs\r\rand awesome LFs\n\nwhat if we combine it?\r\n\r\n\r\nwow\r\nso standard\n\rmuch naver\n";
+  Assert.assertEquals("this is awesome CRs  and awesome LFs  what if we combine it?      wow  so standard  much naver ",QueryStringUtil.removeCarriageReturn(testStr));
+}

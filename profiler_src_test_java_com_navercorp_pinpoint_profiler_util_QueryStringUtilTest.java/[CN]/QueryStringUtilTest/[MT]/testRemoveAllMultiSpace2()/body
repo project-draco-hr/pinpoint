@@ -1,0 +1,11 @@
+{
+  String testStr;
+  testStr=" ";
+  Assert.assertEquals(" ",QueryStringUtil.removeAllMultiSpace(testStr));
+  testStr="        ";
+  Assert.assertEquals(" ",QueryStringUtil.removeAllMultiSpace(testStr));
+  testStr="        you may want to strip this message XD             ";
+  Assert.assertEquals(" you may want to strip this message XD ",QueryStringUtil.removeAllMultiSpace(testStr));
+  testStr="    bad        example  of     design     by making      hu        ge    s p  a   c     e           ";
+  Assert.assertEquals(" bad example of design by making hu ge s p a c e ",QueryStringUtil.removeAllMultiSpace(QueryStringUtil.removeCarriageReturn(testStr)));
+}
