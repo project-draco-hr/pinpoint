@@ -1,0 +1,19 @@
+{
+switch (verificationTarget) {
+case SERVER:
+    this.verifier.ignoreServiceType("THRIFT_CLIENT");
+  this.verifier.ignoreServiceType("THRIFT_CLIENT_INTERNAL");
+if (isAsyncCall) {
+  this.verifier.ignoreServiceType("ASYNC");
+}
+this.echoServer.verifyTraces(this.verifier);
+break;
+case CLIENT:
+this.verifier.ignoreServiceType("THRIFT_SERVER");
+this.verifier.ignoreServiceType("THRIFT_SERVER_INTERNAL");
+echoClient.verifyTraces(this.verifier,message);
+break;
+default :
+throw new IllegalArgumentException("Invalid verificationTarget [" + verificationTarget + "]");
+}
+}

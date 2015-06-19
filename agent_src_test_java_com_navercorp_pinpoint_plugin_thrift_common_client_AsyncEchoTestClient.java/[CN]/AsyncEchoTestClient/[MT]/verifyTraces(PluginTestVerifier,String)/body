@@ -1,5 +1,5 @@
 {
-  verifier.verifyTraceBlockCount(12);
+  verifier.verifyTraceBlockCount(10);
   Method call=TAsyncClientManager.class.getDeclaredMethod("call",TAsyncMethodCall.class);
   verifier.verifyApi("THRIFT_CLIENT_INTERNAL",call);
   verifier.verifyTraceBlock(BlockType.EVENT,"ASYNC","Thrift Asynchronous Client Invocation",null,null,null,null);
@@ -21,4 +21,5 @@
   Method receiveBase=TServiceClient.class.getDeclaredMethod("receiveBase",TBase.class,String.class);
   ExpectedAnnotation thriftResult=ExpectedAnnotation.annotation("thrift.result","echo_result(success:" + expectedMessage + ")");
   verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_CLIENT_INTERNAL",receiveBase,null,null,null,null,thriftResult);
+  verifier.verifyTraceBlockCount(0);
 }
