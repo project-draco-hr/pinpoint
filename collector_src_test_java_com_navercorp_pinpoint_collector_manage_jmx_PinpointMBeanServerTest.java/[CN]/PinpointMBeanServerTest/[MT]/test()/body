@@ -1,0 +1,12 @@
+{
+  PinpointMBeanServer mBeanServer=new PinpointMBeanServer();
+  ATest aTest=new ATest();
+  mBeanServer.registerMBean(aTest);
+  MBeanServer server=ManagementFactory.getPlatformMBeanServer();
+  String mBeanObjectName="com.navercorp.pinpoint.collector.mbean:type=PinpointMBeanServerTest$ATest";
+  ObjectName objectName=new ObjectName(mBeanObjectName);
+  String packageName=this.getClass().getPackage().getName();
+  ObjectInstance instance=server.getObjectInstance(objectName);
+  Assert.assertEquals(packageName + ".PinpointMBeanServerTest$ATest",instance.getClassName());
+  mBeanServer.unregisterMBean(aTest);
+}

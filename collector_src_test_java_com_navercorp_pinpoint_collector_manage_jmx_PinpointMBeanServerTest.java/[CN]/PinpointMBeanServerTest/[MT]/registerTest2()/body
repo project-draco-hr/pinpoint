@@ -1,0 +1,9 @@
+{
+  PinpointMBeanServer mBeanServer=new PinpointMBeanServer();
+  Assert.assertNull(mBeanServer.getPinpointMBean("PinpointMBeanServerTest$ATest"));
+  ATest aTest=new ATest();
+  mBeanServer.registerMBean(aTest);
+  Assert.assertEquals(aTest,mBeanServer.getPinpointMBean("PinpointMBeanServerTest$ATest"));
+  mBeanServer.unregisterMBean("PinpointMBeanServerTest$ATest");
+  Assert.assertNull(mBeanServer.getPinpointMBean("PinpointMBeanServerTest$ATest"));
+}
