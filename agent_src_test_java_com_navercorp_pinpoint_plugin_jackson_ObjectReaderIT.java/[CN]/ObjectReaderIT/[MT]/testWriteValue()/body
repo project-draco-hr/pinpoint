@@ -1,0 +1,15 @@
+{
+  __POJO pojo=new __POJO();
+  pojo.setName("Jackson");
+  ObjectWriter writer=mapper.writer();
+  String jsonStr=writer.writeValueAsString(pojo);
+  byte[] jsonByte=writer.writeValueAsBytes(pojo);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Method writeval1=ObjectWriter.class.getMethod("writeValueAsString",Object.class);
+  Method writeval2=ObjectWriter.class.getMethod("writeValueAsBytes",Object.class);
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval1,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval2,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
+  verifier.verifyTraceBlockCount(0);
+}

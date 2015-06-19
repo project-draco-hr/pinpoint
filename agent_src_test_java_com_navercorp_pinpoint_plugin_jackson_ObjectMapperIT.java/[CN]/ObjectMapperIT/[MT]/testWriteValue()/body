@@ -3,13 +3,19 @@
   pojo.setName("Jackson");
   String jsonStr=mapper.writeValueAsString(pojo);
   byte[] jsonByte=mapper.writeValueAsBytes(pojo);
+  ObjectWriter writer=mapper.writer();
+  writer.writeValueAsString(pojo);
+  writer.writeValueAsBytes(pojo);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
   verifier.printCache(System.out);
   verifier.printBlocks(System.out);
-  Method writeval1=ObjectMapper.class.getMethod("writeValueAsString",Object.class);
-  Method writeval2=ObjectMapper.class.getMethod("writeValueAsBytes",Object.class);
-  ExpectedAnnotation length=annotation("jackson.json.length",18);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval1,null,null,null,null,length);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval2,null,null,null,null,length);
+  Method mapperWriteValueAsString=ObjectMapper.class.getMethod("writeValueAsString",Object.class);
+  Method mapperWriteValueAsBytes=ObjectMapper.class.getMethod("writeValueAsBytes",Object.class);
+  Method writerWriteValueAsString=ObjectWriter.class.getMethod("writeValueAsString",Object.class);
+  Method writerWriteValueAsBytes=ObjectWriter.class.getMethod("writeValueAsBytes",Object.class);
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsString,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsBytes,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writerWriteValueAsString,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writerWriteValueAsBytes,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
   verifier.verifyTraceBlockCount(0);
 }

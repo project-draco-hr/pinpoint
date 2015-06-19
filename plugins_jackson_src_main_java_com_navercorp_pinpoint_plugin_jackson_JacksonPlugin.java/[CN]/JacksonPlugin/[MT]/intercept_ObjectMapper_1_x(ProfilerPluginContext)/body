@@ -9,8 +9,10 @@
   ConstructorTransformerBuilder cb1=builder.editConstructor("org.codehaus.jackson.JsonFactory","org.codehaus.jackson.map.SerializerProvider","org.codehaus.jackson.map.DeserializerProvider","org.codehaus.jackson.map.SerializationConfig","org.codehaus.jackson.map.DeserializationConfig");
   cb1.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
   cb1.injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
-  builder.editMethods(MethodFilters.name("writeValue","writeValueAsString","writeValueAsBytes")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperWriteValueInterceptor").group(GROUP);
-  builder.editMethods(MethodFilters.name("readValue")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperReadValueInterceptor").group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValue")).injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValueAsString")).injectInterceptor(WRITE_VALUE_AS_STRING_INTERCEPTOR).group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValueAsBytes")).injectInterceptor(WRITE_VALUE_AS_BYTES_INTERCEPTOR).group(GROUP);
+  builder.editMethods(MethodFilters.name("readValue")).injectInterceptor(READ_VALUE_INTERCEPTOR).group(GROUP);
   ClassFileTransformer transformer=builder.build();
   context.addClassFileTransformer(transformer);
 }

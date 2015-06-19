@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    trace.recordApi(descriptor);
+    trace.recordException(throwable);
+    trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((String)result).length());
+    trace.markAfterTime();
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
