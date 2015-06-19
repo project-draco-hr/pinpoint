@@ -108,7 +108,7 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 break;
 case 12:
 if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-struct.threadState=TThreadState.findByValue(iprot.readI32());
+struct.threadState=com.navercorp.pinpoint.thrift.dto.command.TThreadState.findByValue(iprot.readI32());
 struct.setThreadStateIsSet(true);
 }
  else {
@@ -120,10 +120,10 @@ if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list0=iprot.readListBegin();
 struct.stackTrace=new ArrayList<String>(_list0.size);
-for (int _i1=0; _i1 < _list0.size; ++_i1) {
-String _elem2;
-_elem2=iprot.readString();
-struct.stackTrace.add(_elem2);
+String _elem1;
+for (int _i2=0; _i2 < _list0.size; ++_i2) {
+_elem1=iprot.readString();
+struct.stackTrace.add(_elem1);
 }
 iprot.readListEnd();
 }
@@ -138,11 +138,11 @@ if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list3=iprot.readListBegin();
 struct.lockedMonitors=new ArrayList<TMonitorInfo>(_list3.size);
-for (int _i4=0; _i4 < _list3.size; ++_i4) {
-TMonitorInfo _elem5;
-_elem5=new TMonitorInfo();
-_elem5.read(iprot);
-struct.lockedMonitors.add(_elem5);
+TMonitorInfo _elem4;
+for (int _i5=0; _i5 < _list3.size; ++_i5) {
+_elem4=new TMonitorInfo();
+_elem4.read(iprot);
+struct.lockedMonitors.add(_elem4);
 }
 iprot.readListEnd();
 }
@@ -157,10 +157,10 @@ if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
 {
 org.apache.thrift.protocol.TList _list6=iprot.readListBegin();
 struct.lockedSynchronizers=new ArrayList<String>(_list6.size);
-for (int _i7=0; _i7 < _list6.size; ++_i7) {
-String _elem8;
-_elem8=iprot.readString();
-struct.lockedSynchronizers.add(_elem8);
+String _elem7;
+for (int _i8=0; _i8 < _list6.size; ++_i8) {
+_elem7=iprot.readString();
+struct.lockedSynchronizers.add(_elem7);
 }
 iprot.readListEnd();
 }

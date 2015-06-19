@@ -1,3 +1,13 @@
 {
-  return 0;
+  List<Object> list=new ArrayList<Object>();
+  boolean present_serverInfo=true && (isSetServerInfo());
+  list.add(present_serverInfo);
+  if (present_serverInfo)   list.add(serverInfo);
+  boolean present_vmArgs=true && (isSetVmArgs());
+  list.add(present_vmArgs);
+  if (present_vmArgs)   list.add(vmArgs);
+  boolean present_serviceInfos=true && (isSetServiceInfos());
+  list.add(present_serviceInfos);
+  if (present_serviceInfos)   list.add(serviceInfos);
+  return list.hashCode();
 }
