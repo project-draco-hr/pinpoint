@@ -3,8 +3,10 @@
   builder.editConstructor().injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
   builder.editConstructor("com.fasterxml.jackson.core.JsonFactory").injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
   builder.editConstructor("com.fasterxml.jackson.core.JsonFactory","com.fasterxml.jackson.databind.ser.DefaultSerializerProvider","com.fasterxml.jackson.databind.deser.DefaultDeserializationContext").injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
-  builder.editMethods(MethodFilters.name("writeValue","writeValueAsString","writeValueAsBytes")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperWriteValueInterceptor");
-  builder.editMethods(MethodFilters.name("readValue")).injectInterceptor("com.navercorp.pinpoint.plugin.jackson.interceptor.ObjectMapperReadValueInterceptor");
+  builder.editMethods(MethodFilters.name("writeValue")).injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValueAsString")).injectInterceptor(WRITE_VALUE_AS_STRING_INTERCEPTOR).group(GROUP);
+  builder.editMethods(MethodFilters.name("writeValueAsBytes")).injectInterceptor(WRITE_VALUE_AS_BYTES_INTERCEPTOR).group(GROUP);
+  builder.editMethods(MethodFilters.name("readValue")).injectInterceptor(READ_VALUE_INTERCEPTOR).group(GROUP);
   ClassFileTransformer transformer=builder.build();
   context.addClassFileTransformer(transformer);
 }

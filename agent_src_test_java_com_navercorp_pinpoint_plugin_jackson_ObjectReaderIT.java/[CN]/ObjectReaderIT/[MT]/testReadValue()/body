@@ -1,0 +1,15 @@
+{
+  String json_str="{\"name\" : \"Jackson\"}";
+  byte[] json_b=json_str.getBytes("UTF-8");
+  ObjectReader reader=mapper.reader(__POJO.class);
+  __POJO pojo=reader.readValue(json_str);
+  pojo=reader.readValue(json_b);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Method readval1=ObjectReader.class.getMethod("readValue",String.class);
+  Method readval2=ObjectReader.class.getMethod("readValue",byte[].class);
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval1,null,null,null,null,annotation("jackson.json.length",json_str.length()));
+  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval2,null,null,null,null,annotation("jackson.json.length",json_b.length));
+  verifier.verifyTraceBlockCount(0);
+}
