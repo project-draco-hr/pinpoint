@@ -46,17 +46,17 @@
     struct.setSuspendedIsSet(true);
   }
   if (incoming.get(11)) {
-    struct.threadState=TThreadState.findByValue(iprot.readI32());
+    struct.threadState=com.navercorp.pinpoint.thrift.dto.command.TThreadState.findByValue(iprot.readI32());
     struct.setThreadStateIsSet(true);
   }
   if (incoming.get(12)) {
 {
       org.apache.thrift.protocol.TList _list15=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.stackTrace=new ArrayList<String>(_list15.size);
-      for (int _i16=0; _i16 < _list15.size; ++_i16) {
-        String _elem17;
-        _elem17=iprot.readString();
-        struct.stackTrace.add(_elem17);
+      String _elem16;
+      for (int _i17=0; _i17 < _list15.size; ++_i17) {
+        _elem16=iprot.readString();
+        struct.stackTrace.add(_elem16);
       }
     }
     struct.setStackTraceIsSet(true);
@@ -65,11 +65,11 @@
 {
       org.apache.thrift.protocol.TList _list18=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
       struct.lockedMonitors=new ArrayList<TMonitorInfo>(_list18.size);
-      for (int _i19=0; _i19 < _list18.size; ++_i19) {
-        TMonitorInfo _elem20;
-        _elem20=new TMonitorInfo();
-        _elem20.read(iprot);
-        struct.lockedMonitors.add(_elem20);
+      TMonitorInfo _elem19;
+      for (int _i20=0; _i20 < _list18.size; ++_i20) {
+        _elem19=new TMonitorInfo();
+        _elem19.read(iprot);
+        struct.lockedMonitors.add(_elem19);
       }
     }
     struct.setLockedMonitorsIsSet(true);
@@ -78,10 +78,10 @@
 {
       org.apache.thrift.protocol.TList _list21=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING,iprot.readI32());
       struct.lockedSynchronizers=new ArrayList<String>(_list21.size);
-      for (int _i22=0; _i22 < _list21.size; ++_i22) {
-        String _elem23;
-        _elem23=iprot.readString();
-        struct.lockedSynchronizers.add(_elem23);
+      String _elem22;
+      for (int _i23=0; _i23 < _list21.size; ++_i23) {
+        _elem22=iprot.readString();
+        struct.lockedSynchronizers.add(_elem22);
       }
     }
     struct.setLockedSynchronizersIsSet(true);
