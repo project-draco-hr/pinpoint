@@ -1,0 +1,14 @@
+{
+  if (application == null) {
+    throw new NullPointerException("application must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (searchOption == null) {
+    throw new NullPointerException("searchOption must not be null");
+  }
+  logger.info("getServerMap() application:{} range:{} searchOption:{}",application,range,searchOption);
+  ApplicationMap map=mapService.selectApplicationMap(application,range,searchOption);
+  return new MapWrap(map);
+}

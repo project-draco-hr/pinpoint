@@ -3,7 +3,7 @@
   if (CollectionUtils.isEmpty(spanEventBoList)) {
     return;
   }
-  final Application srcApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getApplicationServiceType()));
+  final Application srcApplication=applicationFactory.createApplication(span.getApplicationId(),span.getApplicationServiceType());
   LinkDataMap sourceLinkDataMap=linkDataDuplexMap.getSourceLinkDataMap();
   for (  SpanEventBo spanEvent : spanEventBoList) {
     ServiceType destServiceType=registry.findServiceType(spanEvent.getServiceType());
@@ -19,7 +19,7 @@
     if (dest == null) {
       dest="Unknown";
     }
-    final Application destApplication=new Application(dest,destServiceType);
+    final Application destApplication=this.applicationFactory.createApplication(dest,destServiceType);
     final short slotTime=getHistogramSlotTime(spanEvent,destServiceType);
     final long spanEventTimeStamp=window.refineTimestamp(span.getStartTime() + spanEvent.getStartElapsed());
     if (logger.isTraceEnabled()) {
