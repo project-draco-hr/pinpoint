@@ -9,6 +9,9 @@
     StringMetaDataBo sqlMetaDataBo=new StringMetaDataBo();
     sqlMetaDataBo.readRowKey(rowKey);
     String stringValue=Bytes.toString(cell.getQualifierArray(),cell.getQualifierOffset(),cell.getQualifierLength());
+    if (STRING_METADATA_CF_STR_QUALI_STRING.equals(stringValue)) {
+      stringValue=Bytes.toString(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
+    }
     sqlMetaDataBo.setStringValue(stringValue);
     stringMetaDataList.add(sqlMetaDataBo);
   }

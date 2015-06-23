@@ -8,7 +8,14 @@
     ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo();
     apiMetaDataBo.readRowKey(rowKey);
     byte[] qualifier=CellUtil.cloneQualifier(cell);
-    Buffer buffer=new FixedBuffer(qualifier);
+    byte[] value=null;
+    if (API_METADATA_CF_API_QUALI_SIGNATURE.equals(Bytes.toString(qualifier))) {
+      value=CellUtil.cloneValue(cell);
+    }
+ else {
+      value=qualifier;
+    }
+    Buffer buffer=new FixedBuffer(value);
     String apiInfo=buffer.readPrefixedString();
     int lineNumber=buffer.readInt();
     int type=0;
