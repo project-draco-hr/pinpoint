@@ -21,6 +21,6 @@
     buffer.put(0);
   }
   final byte[] apiMetaDataBytes=buffer.getBuffer();
-  put.addColumn(HBaseTables.API_METADATA_CF_API,apiMetaDataBytes,null);
+  put.addColumn(HBaseTables.API_METADATA_CF_API,HBaseTables.API_METADATA_CF_API_QUALI_SIGNATURE,apiMetaDataBytes);
   hbaseTemplate.put(HBaseTables.API_METADATA,put);
 }
