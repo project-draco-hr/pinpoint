@@ -3,11 +3,11 @@
   if (span.isRoot() || parentSpan == null) {
     String applicationName=span.getApplicationId();
     ServiceType serviceType=ServiceType.USER;
-    return new Application(applicationName,serviceType);
+    return this.applicationFactory.createApplication(applicationName,serviceType);
   }
  else {
     String parentApplicationName=parentSpan.getApplicationId();
-    ServiceType serviceType=registry.findServiceType(parentSpan.getApplicationServiceType());
-    return new Application(parentApplicationName,serviceType);
+    short parentServiceType=parentSpan.getApplicationServiceType();
+    return this.applicationFactory.createApplication(parentApplicationName,parentServiceType);
   }
 }

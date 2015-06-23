@@ -9,9 +9,10 @@
     short serviceTypeCode=Bytes.toShort(CellUtil.cloneValue(cell));
     uniqueTypeCodes.add(serviceTypeCode);
   }
-  List<Application> applications=new ArrayList<Application>();
+  List<Application> applicationList=new ArrayList<Application>();
   for (  short serviceTypeCode : uniqueTypeCodes) {
-    applications.add(new Application(applicationName,registry.findServiceType(serviceTypeCode)));
+    final Application application=applicationFactory.createApplication(applicationName,serviceTypeCode);
+    applicationList.add(application);
   }
-  return applications;
+  return applicationList;
 }

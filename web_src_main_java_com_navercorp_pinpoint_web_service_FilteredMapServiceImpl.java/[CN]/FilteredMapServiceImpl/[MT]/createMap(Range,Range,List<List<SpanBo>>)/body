@@ -1,13 +1,13 @@
 {
   final TimeWindow window=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
   final LinkDataDuplexMap linkDataDuplexMap=new LinkDataDuplexMap();
-  final DotExtractor dotExtractor=new DotExtractor(scanRange,registry);
+  final DotExtractor dotExtractor=new DotExtractor(scanRange,applicationFactory);
   final ResponseHistogramBuilder mapHistogramSummary=new ResponseHistogramBuilder(range);
   for (  List<SpanBo> transaction : filterList) {
     final Map<Long,SpanBo> transactionSpanMap=checkDuplicatedSpanId(transaction);
     for (    SpanBo span : transaction) {
       final Application parentApplication=createParentApplication(span,transactionSpanMap);
-      final Application spanApplication=new Application(span.getApplicationId(),registry.findServiceType(span.getApplicationServiceType()));
+      final Application spanApplication=this.applicationFactory.createApplication(span.getApplicationId(),span.getApplicationServiceType());
       recordSpanResponseTime(spanApplication,span,mapHistogramSummary,span.getCollectorAcceptTime());
       if (!spanApplication.getServiceType().isRecordStatistics() || spanApplication.getServiceType().isRpcClient()) {
         logger.warn("invalid span application:{}",spanApplication);

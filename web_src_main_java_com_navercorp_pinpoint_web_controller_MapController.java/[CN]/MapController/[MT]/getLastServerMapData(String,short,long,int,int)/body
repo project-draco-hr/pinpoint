@@ -1,5 +1,10 @@
 {
   long to=TimeUtils.getDelayLastTime();
   long from=to - period;
-  return getServerMapData(applicationName,serviceTypeCode,from,to,callerRange,calleeRange);
+  final Range range=new Range(from,to);
+  this.dateLimit.limit(range);
+  SearchOption searchOption=new SearchOption(callerRange,calleeRange);
+  assertSearchOption(searchOption);
+  Application application=applicationFactory.createApplication(applicationName,serviceTypeCode);
+  return selectApplicationMap(application,range,searchOption);
 }

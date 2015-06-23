@@ -1,4 +1,8 @@
 {
-  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
-  return getServerMapData(applicationName,serviceType.getName(),from,to,callerRange,calleeRange);
+  final Range range=new Range(from,to);
+  this.dateLimit.limit(range);
+  SearchOption searchOption=new SearchOption(callerRange,calleeRange);
+  assertSearchOption(searchOption);
+  Application application=applicationFactory.createApplication(applicationName,serviceTypeCode);
+  return selectApplicationMap(application,range,searchOption);
 }

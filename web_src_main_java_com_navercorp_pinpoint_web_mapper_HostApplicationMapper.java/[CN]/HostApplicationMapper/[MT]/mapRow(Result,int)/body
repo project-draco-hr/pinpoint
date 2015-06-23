@@ -8,6 +8,5 @@
   }
   String applicationName=Bytes.toString(value,0,HBaseTables.APPLICATION_NAME_MAX_LEN - 1).trim();
   short serviceTypeCode=Bytes.toShort(value,HBaseTables.APPLICATION_NAME_MAX_LEN);
-  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
-  return new Application(applicationName,serviceType);
+  return this.applicationFactory.createApplication(applicationName,serviceTypeCode);
 }

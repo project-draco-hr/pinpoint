@@ -1,0 +1,21 @@
+{
+  NodeHistogram nodeHistogram=mapService.linkStatistics(sourceApplication,destinationApplication,range);
+  final ModelAndView mav=new ModelAndView("linkStatistics");
+  mav.addObject("range",range);
+  mav.addObject("sourceApplication",sourceApplication);
+  mav.addObject("targetApplication",destinationApplication);
+  Histogram applicationHistogram=nodeHistogram.getApplicationHistogram();
+  mav.addObject("linkStatistics",applicationHistogram);
+  List<ResponseTimeViewModel> applicationTimeSeriesHistogram=nodeHistogram.getApplicationTimeHistogram();
+  String applicationTimeSeriesHistogramJson=null;
+  try {
+    applicationTimeSeriesHistogramJson=MAPPER.writeValueAsString(applicationTimeSeriesHistogram);
+  }
+ catch (  IOException e) {
+    throw new RuntimeException(e.getMessage(),e);
+  }
+  mav.addObject("timeSeriesHistogram",applicationTimeSeriesHistogramJson);
+  mav.addObject("resultFrom",range.getFrom());
+  mav.addObject("resultTo",range.getTo());
+  return mav;
+}
