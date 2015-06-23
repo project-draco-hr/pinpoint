@@ -1,0 +1,30 @@
+{
+  URL url=new URL("http://no.such.url");
+  HttpURLConnection connection=(HttpURLConnection)url.openConnection();
+  try {
+    connection.connect();
+  }
+ catch (  UnknownHostException e) {
+  }
+  try {
+    connection.connect();
+  }
+ catch (  UnknownHostException e) {
+  }
+  Field field=null;
+  try {
+    field=connection.getClass().getDeclaredField("connecting");
+  }
+ catch (  NoSuchFieldException e) {
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache(System.out);
+  verifier.printBlocks(System.out);
+  Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
+  Method getInputStream=targetClass.getMethod("connect");
+  verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",getInputStream,null,null,null,"no.such.url",annotation("http.url","http://no.such.url"));
+  if (field == null) {
+    verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",getInputStream,null,null,null,"no.such.url",annotation("http.url","http://no.such.url"));
+  }
+  verifier.verifyTraceBlockCount(0);
+}
