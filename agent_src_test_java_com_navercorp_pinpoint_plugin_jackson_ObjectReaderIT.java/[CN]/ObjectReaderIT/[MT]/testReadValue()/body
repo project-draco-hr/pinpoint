@@ -5,11 +5,10 @@
   __POJO pojo=reader.readValue(json_str);
   pojo=reader.readValue(json_b);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Method readval1=ObjectReader.class.getMethod("readValue",String.class);
   Method readval2=ObjectReader.class.getMethod("readValue",byte[].class);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval1,null,null,null,null,annotation("jackson.json.length",json_str.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readval2,null,null,null,null,annotation("jackson.json.length",json_b.length));
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event("JACKSON",readval1,Expectations.annotation("jackson.json.length",json_str.length())));
+  verifier.verifyTrace(event("JACKSON",readval2,Expectations.annotation("jackson.json.length",json_b.length)));
+  verifier.verifyTraceCount(0);
 }

@@ -1,7 +1,7 @@
 {
-  verifier.verifyTraceBlockCount(2);
+  verifier.verifyTraceCount(2);
   Method process=TBaseProcessor.class.getDeclaredMethod("process",TProtocol.class,TProtocol.class);
-  verifier.verifyTraceBlock(BlockType.EVENT,"THRIFT_SERVER_INTERNAL",process,null,null,null,null);
-  verifier.verifyTraceBlock(BlockType.ROOT,"THRIFT_SERVER","Thrift Server Invocation","com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo",SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),SERVER_ADDRESS.getHostName(),null);
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event("THRIFT_SERVER_INTERNAL",process));
+  verifier.verifyTrace(root("THRIFT_SERVER","Thrift Server Invocation","com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo",SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),SERVER_ADDRESS.getHostName()));
+  verifier.verifyTraceCount(0);
 }

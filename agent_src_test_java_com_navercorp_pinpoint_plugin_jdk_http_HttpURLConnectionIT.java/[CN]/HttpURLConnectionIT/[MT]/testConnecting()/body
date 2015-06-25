@@ -18,13 +18,12 @@
  catch (  NoSuchFieldException e) {
   }
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
   Method getInputStream=targetClass.getMethod("connect");
-  verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",getInputStream,null,null,null,"no.such.url",annotation("http.url","http://no.such.url"));
+  verifier.verifyTrace(event("JDK_HTTPURLCONNECTOR",getInputStream,null,null,"no.such.url",annotation("http.url","http://no.such.url")));
   if (field == null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",getInputStream,null,null,null,"no.such.url",annotation("http.url","http://no.such.url"));
+    verifier.verifyTrace(event("JDK_HTTPURLCONNECTOR",getInputStream,null,null,"no.such.url",annotation("http.url","http://no.such.url")));
   }
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTraceCount(0);
 }

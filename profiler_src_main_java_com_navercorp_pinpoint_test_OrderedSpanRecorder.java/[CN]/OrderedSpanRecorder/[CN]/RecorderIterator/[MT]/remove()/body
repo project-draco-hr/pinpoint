@@ -1,3 +1,10 @@
 {
-  throw new UnsupportedOperationException();
+synchronized (OrderedSpanRecorder.this) {
+    if (current == -1) {
+      throw new IllegalStateException();
+    }
+    list.remove(current);
+    current=-1;
+    index--;
+  }
 }
