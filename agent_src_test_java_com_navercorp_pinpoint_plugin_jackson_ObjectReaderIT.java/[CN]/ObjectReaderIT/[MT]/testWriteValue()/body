@@ -5,11 +5,10 @@
   String jsonStr=writer.writeValueAsString(pojo);
   byte[] jsonByte=writer.writeValueAsBytes(pojo);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Method writeval1=ObjectWriter.class.getMethod("writeValueAsString",Object.class);
   Method writeval2=ObjectWriter.class.getMethod("writeValueAsBytes",Object.class);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval1,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writeval2,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event("JACKSON",writeval1,annotation("jackson.json.length",jsonStr.length())));
+  verifier.verifyTrace(event("JACKSON",writeval2,annotation("jackson.json.length",jsonByte.length)));
+  verifier.verifyTraceCount(0);
 }

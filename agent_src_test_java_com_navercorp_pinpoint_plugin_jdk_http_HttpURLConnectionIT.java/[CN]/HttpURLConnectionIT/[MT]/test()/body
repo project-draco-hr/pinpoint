@@ -3,10 +3,9 @@
   HttpURLConnection connection=(HttpURLConnection)url.openConnection();
   connection.getHeaderFields();
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Class<?> targetClass=Class.forName("sun.net.www.protocol.http.HttpURLConnection");
   Method getInputStream=targetClass.getMethod("getInputStream");
-  verifier.verifyTraceBlockCount(1);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JDK_HTTPURLCONNECTOR",getInputStream,null,null,null,"www.naver.com",annotation("http.url","http://www.naver.com"));
+  verifier.verifyTraceCount(1);
+  verifier.verifyTrace(event("JDK_HTTPURLCONNECTOR",getInputStream,null,null,"www.naver.com",annotation("http.url","http://www.naver.com")));
 }

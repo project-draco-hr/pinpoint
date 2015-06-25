@@ -8,14 +8,13 @@
   String jsonString=mapperWriteValueAsString == null ? null : (String)mapperWriteValueAsString.invoke(mapper,pojo);
   byte[] jsonBytes=mapperWriteValueAsBytes == null ? null : (byte[])mapperWriteValueAsBytes.invoke(mapper,pojo);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyApi("JACKSON",mapperWriteValue);
+  verifier.printCache();
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperWriteValue));
   if (mapperWriteValueAsString != null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsString,null,null,null,null,annotation("jackson.json.length",jsonString.length()));
+    verifier.verifyTrace(event(SERVICE_TYPE,mapperWriteValueAsString,annotation(ANNOTATION_KEY,jsonString.length())));
   }
   if (mapperWriteValueAsBytes != null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsBytes,null,null,null,null,annotation("jackson.json.length",jsonBytes.length));
+    verifier.verifyTrace(event(SERVICE_TYPE,mapperWriteValueAsBytes,annotation(ANNOTATION_KEY,jsonBytes.length)));
   }
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTraceCount(0);
 }

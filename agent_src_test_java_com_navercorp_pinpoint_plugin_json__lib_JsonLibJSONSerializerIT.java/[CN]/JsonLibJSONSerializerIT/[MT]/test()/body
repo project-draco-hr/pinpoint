@@ -10,9 +10,8 @@
     toJava.invoke(new JSONSerializer(),json);
   }
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,toJSON,null,null,null,null,annotation(ANNOTATION_KEY,test.length()));
-  verifier.verifyApi("JSON-LIB",toJava);
-  verifier.verifyTraceBlockCount(0);
+  verifier.printCache();
+  verifier.verifyTrace(event(SERVICE_TYPE,toJSON,annotation(ANNOTATION_KEY,test.length())));
+  verifier.verifyTrace(event("JSON-LIB",toJava));
+  verifier.verifyTraceCount(0);
 }

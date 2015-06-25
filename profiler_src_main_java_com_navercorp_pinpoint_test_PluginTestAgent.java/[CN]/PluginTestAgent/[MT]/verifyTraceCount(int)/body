@@ -1,0 +1,11 @@
+{
+  int actual=0;
+  for (  Object obj : getRecorder()) {
+    if (!isIgnored(obj)) {
+      actual++;
+    }
+  }
+  if (expected != actual) {
+    throw new AssertionError("ResolvedExpectedTrace count: " + expected + ", actual: "+ actual);
+  }
+}

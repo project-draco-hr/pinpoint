@@ -9,11 +9,8 @@
   Method toJson1=Gson.class.getDeclaredMethod("toJson",Object.class);
   Method toJson2=Gson.class.getDeclaredMethod("toJson",Object.class,Type.class);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifyTraceBlockAnnotation(verifier,serviceType,fromJson1,expectedAnnotation);
-  verifyTraceBlockAnnotation(verifier,serviceType,fromJson2,expectedAnnotation);
-  verifyTraceBlockAnnotation(verifier,serviceType,toJson1,expectedAnnotation);
-  verifyTraceBlockAnnotation(verifier,serviceType,toJson2,expectedAnnotation);
-  verifier.verifyTraceBlockCount(0);
+  verifier.printCache();
+  verifier.verifyTrace(event(serviceType,fromJson1,expectedAnnotation),event(serviceType,fromJson2,expectedAnnotation));
+  verifier.verifyTrace(event(serviceType,toJson1,expectedAnnotation),event(serviceType,toJson2,expectedAnnotation));
+  verifier.verifyTraceCount(0);
 }

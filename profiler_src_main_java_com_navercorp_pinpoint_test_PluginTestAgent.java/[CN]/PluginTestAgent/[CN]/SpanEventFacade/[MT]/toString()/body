@@ -1,17 +1,21 @@
 {
   StringBuilder builder=new StringBuilder();
   builder.append("(serviceType: ");
-  builder.append(span.getServiceType());
+  builder.append(getServiceType());
   builder.append(", apiId: ");
-  builder.append(span.getApiId());
+  builder.append(getApiId());
   builder.append(", rpc: ");
-  builder.append(span.getRpc());
+  builder.append(getRpc());
   builder.append(", endPoint: ");
-  builder.append(span.getEndPoint());
+  builder.append(getEndPoint());
   builder.append(", destinationId: ");
-  builder.append(span.getDestinationId());
+  builder.append(getDestinationId());
   builder.append(", [");
-  appendAnnotations(builder,span.getAnnotations());
-  builder.append("])");
+  appendAnnotations(builder,getAnnotations());
+  builder.append("], asyncId: ");
+  builder.append(getAsyncId());
+  builder.append("nextAsyncId: ");
+  builder.append(getNextAsyncId());
+  builder.append(')');
   return builder.toString();
 }

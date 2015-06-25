@@ -1,0 +1,26 @@
+{
+  if (expectations == null || expectations.length == 0) {
+    throw new IllegalArgumentException("No expectations");
+  }
+  ExpectedTrace expected=expectations[0];
+  ResolvedExpectedTrace resolved=resolveExpectedTrace(expected,asyncId);
+  int i=0;
+  Iterator<?> iterator=getRecorder().iterator();
+  while (iterator.hasNext()) {
+    ActualTrace actual=wrap(iterator.next());
+    try {
+      verifySpan(resolved,actual);
+    }
+ catch (    AssertionError e) {
+      continue;
+    }
+    iterator.remove();
+    verifyAsyncTraces(expected,actual);
+    if (++i == expectations.length) {
+      return;
+    }
+    expected=expectations[i];
+    resolved=resolveExpectedTrace(expected,asyncId);
+  }
+  throw new AssertionError("Failed to match " + i + "th expectation: "+ resolved);
+}

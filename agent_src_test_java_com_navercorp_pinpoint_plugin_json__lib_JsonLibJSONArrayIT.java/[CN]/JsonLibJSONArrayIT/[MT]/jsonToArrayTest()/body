@@ -16,13 +16,12 @@
     JSONArray.toCollection(jsonArray);
   }
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,fromObject,null,null,null,null,annotation(ANNOTATION_KEY,json.length()));
-  verifier.verifyApi("JSON-LIB",toArray);
-  verifier.verifyApi("JSON-LIB",toList);
+  verifier.printCache();
+  verifier.verifyTrace(event(SERVICE_TYPE,fromObject,annotation(ANNOTATION_KEY,json.length())));
+  verifier.verifyTrace(event(SERVICE_TYPE,toArray));
+  verifier.verifyTrace(event(SERVICE_TYPE,toList));
   if (toCollection != null) {
-    verifier.verifyApi("JSON-LIB",toCollection);
+    verifier.verifyTrace(event(SERVICE_TYPE,toCollection));
   }
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTraceCount(0);
 }

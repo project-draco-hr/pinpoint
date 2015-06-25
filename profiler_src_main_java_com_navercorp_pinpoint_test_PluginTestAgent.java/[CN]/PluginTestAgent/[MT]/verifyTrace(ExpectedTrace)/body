@@ -1,0 +1,15 @@
+{
+  if (expectations == null || expectations.length == 0) {
+    throw new IllegalArgumentException("No expectations");
+  }
+  for (  ExpectedTrace expected : expectations) {
+    ResolvedExpectedTrace resolved=resolveExpectedTrace(expected,null);
+    Object actual=popSpan();
+    if (actual == null) {
+      throw new AssertionError("Expected a " + resolved.type.getSimpleName() + " but there is no trace");
+    }
+    ActualTrace wrapped=wrap(actual);
+    verifySpan(resolved,wrapped);
+    verifyAsyncTraces(expected,wrapped);
+  }
+}

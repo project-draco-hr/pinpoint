@@ -20,15 +20,8 @@
   Method toJson6=Gson.class.getDeclaredMethod("toJson",JsonElement.class);
   Method toJson7=Gson.class.getDeclaredMethod("toJson",JsonElement.class,Appendable.class);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyApi(serviceType,fromJson3);
-  verifier.verifyApi(serviceType,fromJson4);
-  verifier.verifyApi(serviceType,fromJson6);
-  verifier.verifyApi(serviceType,fromJson7);
-  verifier.verifyApi(serviceType,toJson3);
-  verifier.verifyApi(serviceType,toJson4);
-  verifyTraceBlockAnnotation(verifier,serviceType,toJson6,expectedAnnotation);
-  verifier.verifyApi(serviceType,toJson7);
-  verifier.verifyTraceBlockCount(0);
+  verifier.printCache();
+  verifier.verifyTrace(event(serviceType,fromJson3),event(serviceType,fromJson4),event(serviceType,fromJson6),event(serviceType,fromJson7));
+  verifier.verifyTrace(event(serviceType,toJson3),event(serviceType,toJson4),event(serviceType,toJson6,expectedAnnotation),event(serviceType,toJson7));
+  verifier.verifyTraceCount(0);
 }

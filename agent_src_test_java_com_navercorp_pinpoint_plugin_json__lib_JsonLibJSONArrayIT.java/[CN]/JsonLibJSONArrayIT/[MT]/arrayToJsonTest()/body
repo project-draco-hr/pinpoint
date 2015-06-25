@@ -4,9 +4,8 @@
   JSONArray jsonArray=JSONArray.fromObject(new Object[]{"pinpoint","json-lib"});
   String json=jsonArray.toString();
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyApi(SERVICE_TYPE,fromObject);
-  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,toString,null,null,null,null,annotation(ANNOTATION_KEY,json.length()));
-  verifier.verifyTraceBlockCount(0);
+  verifier.printCache();
+  verifier.verifyTrace(event(SERVICE_TYPE,fromObject));
+  verifier.verifyTrace(event(SERVICE_TYPE,toString,Expectations.annotation(ANNOTATION_KEY,json.length())));
+  verifier.verifyTraceCount(0);
 }
