@@ -1,5 +1,7 @@
 {
   if (profilerConfig.isLog4jLoggingTransactionInfo()) {
     addModifier(new LoggingEventOfLog4jModifier(byteCodeInstrumentor,agent));
+    addModifier(new Nelo2AsyncAppenderModifier(byteCodeInstrumentor,agent));
+    addModifier(new NeloAppenderModifier(byteCodeInstrumentor,agent));
   }
 }
