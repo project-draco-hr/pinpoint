@@ -1,12 +1,10 @@
 {
-  try {
-    pop(ROOT_STACKID);
-    callStack.popRoot();
+  if (!callStack.empty()) {
+    PinpointException exception=new PinpointException("Corrupted CallStack found");
+    logger.warn("Corrupted CallStack found. stack is not empty.",exception);
   }
- catch (  Exception e) {
-    logger.warn("Failed to close",e);
-  }
-  this.currentStackFrame=null;
+  final Span span=callStack.getSpan();
+  logSpan(span);
   if (this.storage != null) {
     this.traceId.decrementTraceCount();
     this.storage.close();

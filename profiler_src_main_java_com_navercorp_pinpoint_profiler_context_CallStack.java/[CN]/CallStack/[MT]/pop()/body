@@ -1,9 +1,8 @@
 {
-  pop("pop");
-  if (index == -1) {
-    return null;
+  final SpanEvent spanEvent=peek();
+  if (spanEvent != null) {
+    stack[index]=null;
+    --index;
   }
- else {
-    return getCurrentStackFrame();
-  }
+  return spanEvent;
 }
