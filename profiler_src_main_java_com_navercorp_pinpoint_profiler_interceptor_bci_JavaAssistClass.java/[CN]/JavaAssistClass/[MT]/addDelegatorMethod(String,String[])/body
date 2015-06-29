@@ -1,27 +1,10 @@
 {
-  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(args);
-  for (  CtMethod method : ctClass.getDeclaredMethods()) {
-    if (!method.getName().equals(methodName)) {
-      continue;
-    }
-    final String descriptor=method.getMethodInfo2().getDescriptor();
-    if (descriptor.startsWith(jvmSignature)) {
-      throw new InstrumentException(getName() + "already have method(" + methodName+ ").");
-    }
+  if (getMethod(ctClass,methodName,args) != null) {
+    throw new InstrumentException(getName() + "already have method(" + methodName+ ").");
   }
   try {
     final CtClass superClass=ctClass.getSuperclass();
-    CtMethod superMethod=null;
-    for (    CtMethod method : superClass.getDeclaredMethods()) {
-      if (!method.getName().equals(methodName)) {
-        continue;
-      }
-      final String descriptor=method.getMethodInfo2().getDescriptor();
-      if (descriptor.startsWith(jvmSignature)) {
-        superMethod=method;
-        break;
-      }
-    }
+    CtMethod superMethod=getMethod(superClass,methodName,args);
     if (superMethod == null) {
       throw new NotFoundInstrumentException(methodName + Arrays.toString(args) + " is not found in "+ superClass.getName());
     }
