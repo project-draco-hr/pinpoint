@@ -14,7 +14,7 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (trace.isRootStack()) {
+    if (trace.getTraceType() == TraceType.USER && trace.isRootStack()) {
       trace.markAfterTime();
       trace.close();
       traceContext.removeTraceObject();
