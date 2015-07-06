@@ -1,0 +1,33 @@
+{
+  final Operation op=operationAccessor.get(target);
+  if (op != null) {
+    MemcachedNode handlingNode=op.getHandlingNode();
+    if (handlingNode != null) {
+      SocketAddress socketAddress=handlingNode.getSocketAddress();
+      if (socketAddress instanceof InetSocketAddress) {
+        InetSocketAddress address=(InetSocketAddress)socketAddress;
+        recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
+      }
+    }
+ else {
+      logger.info("no handling node");
+    }
+  }
+ else {
+    logger.info("operation not found");
+  }
+  String serviceCode=serviceCodeAccessor.get(op);
+  if (serviceCode != null) {
+    recorder.recordDestinationId(serviceCode);
+    recorder.recordServiceType(ARCUS_FUTURE_GET);
+  }
+ else {
+    recorder.recordDestinationId("MEMCACHED");
+    recorder.recordServiceType(ServiceType.MEMCACHED_FUTURE_GET);
+  }
+  if (op != null) {
+    recorder.recordException(op.getException());
+  }
+  recorder.recordApi(methodDescriptor);
+  recorder.markAfterTime();
+}

@@ -17,11 +17,11 @@
     }
     return;
   }
-  trace.traceBlockBegin();
-  trace.markBeforeTime();
+  final SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
   TraceId nextId=trace.getTraceId().getNextTraceId();
-  trace.recordNextSpanId(nextId.getSpanId());
-  trace.recordServiceType(ServiceType.HTTP_CLIENT);
+  recorder.recordNextSpanId(nextId.getSpanId());
+  recorder.recordServiceType(ServiceType.HTTP_CLIENT);
   if (httpMethod != null) {
     httpMethod.setRequestHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
     httpMethod.setRequestHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));

@@ -20,8 +20,8 @@
     traceFirstBlockBegin(trace);
   }
   try {
-    trace.traceBlockBegin();
-    doInBeforeTrace(trace,asyncTraceId,target,args);
+    final SpanEventRecorder recorder=trace.traceBlockBegin();
+    doInBeforeTrace(recorder,asyncTraceId,target,args);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {

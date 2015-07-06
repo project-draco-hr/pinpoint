@@ -6,7 +6,8 @@
   final String value=cookie.getValue();
   if (value != null && !value.isEmpty()) {
     if (cookieSampler.isSampling()) {
-      trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,MAX_READ_SIZE));
+      final SpanEventRecorder recorder=trace.getSpanEventRecorder();
+      recorder.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,MAX_READ_SIZE));
     }
   }
 }

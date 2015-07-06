@@ -7,15 +7,16 @@
     return;
   }
   try {
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
+    final SpanEventRecorder recorder=trace.getSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
     if (args.length >= 2 && (args[1] instanceof IOException)) {
-      trace.recordAttribute(AnnotationKey.HTTP_CALL_RETRY_COUNT,args[1].getClass().getName());
+      recorder.recordAttribute(AnnotationKey.HTTP_CALL_RETRY_COUNT,args[1].getClass().getName());
     }
     if (result != null) {
-      trace.recordAttribute(AnnotationKey.RETURN_DATA,result);
+      recorder.recordAttribute(AnnotationKey.RETURN_DATA,result);
     }
-    trace.markAfterTime();
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

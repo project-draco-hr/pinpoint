@@ -19,7 +19,8 @@
  else {
             entityValue=entity.getClass() + " (ContentType:" + entity.getContentType()+ ")";
           }
-          trace.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,entityValue);
+          final SpanEventRecorder recorder=trace.getSpanEventRecorder();
+          recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,entityValue);
         }
  catch (        Exception e) {
           logger.debug("HttpEntityEnclosingRequest entity record fail. Caused:{}",e.getMessage(),e);
