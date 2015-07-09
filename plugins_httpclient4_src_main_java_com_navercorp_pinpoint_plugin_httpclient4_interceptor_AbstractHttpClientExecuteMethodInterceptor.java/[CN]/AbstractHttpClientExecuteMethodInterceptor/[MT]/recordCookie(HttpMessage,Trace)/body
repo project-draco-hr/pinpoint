@@ -4,7 +4,7 @@
     final String value=header.getValue();
     if (value != null && !value.isEmpty()) {
       if (cookieSampler.isSampling()) {
-        final CallStackFrame recorder=trace.currentCallStackFrame();
+        final CallStackFrame recorder=trace.peekCallStackFrame();
         recorder.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,1024));
       }
       return;

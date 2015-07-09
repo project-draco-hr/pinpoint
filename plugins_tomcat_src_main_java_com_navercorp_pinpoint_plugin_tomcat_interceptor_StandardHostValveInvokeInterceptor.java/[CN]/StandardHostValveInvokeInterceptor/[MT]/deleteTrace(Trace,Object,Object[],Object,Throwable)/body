@@ -1,8 +1,8 @@
 {
-  trace.traceBlockEnd();
+  trace.popCallStackFrame();
   final Request request=(Request)args[0];
   if (!isAsynchronousProcess(request)) {
-    RootCallStackFrame recorder=trace.rootCallStackFrame();
+    TraceHeader recorder=trace.getTraceHeader();
     recorder.markAfterTime();
     trace.close();
     getTraceContext().removeTraceObject();

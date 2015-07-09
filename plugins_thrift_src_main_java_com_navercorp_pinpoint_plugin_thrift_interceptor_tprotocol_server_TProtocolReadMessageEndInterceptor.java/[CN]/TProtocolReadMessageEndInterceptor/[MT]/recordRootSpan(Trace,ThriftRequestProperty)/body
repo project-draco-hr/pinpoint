@@ -1,10 +1,10 @@
 {
-  RootCallStackFrame recorder=trace.rootCallStackFrame();
+  TraceHeader recorder=trace.getTraceHeader();
   recorder.markBeforeTime();
   recorder.recordServiceType(THRIFT_SERVER);
   recorder.recordApi(this.thriftServerEntryMethodDescriptor);
   if (!trace.isRoot()) {
     recordParentInfo(recorder,parentTraceInfo);
   }
-  trace.traceBlockBegin();
+  trace.pushCallStackFrame();
 }

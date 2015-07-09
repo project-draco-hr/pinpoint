@@ -3,7 +3,7 @@
   DefaultTraceContext defaultTraceContext=getDefaultTraceContext();
   DefaultTrace trace=new DefaultTrace(defaultTraceContext,traceID,true);
   trace.setStorage(new SpanStorage(LoggingDataSender.DEFAULT_LOGGING_DATA_SENDER));
-  trace.traceBlockBegin();
+  trace.pushCallStackFrame();
   getDataFromDB(trace);
-  trace.traceBlockEnd();
+  trace.popCallStackFrame();
 }

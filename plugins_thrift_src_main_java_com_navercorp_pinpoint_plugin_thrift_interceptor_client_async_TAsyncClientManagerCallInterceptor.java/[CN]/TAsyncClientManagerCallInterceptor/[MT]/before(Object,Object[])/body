@@ -19,7 +19,7 @@
       parentTraceInfo.setShouldSample(shouldSample);
     }
  else {
-      CallStackFrame recorder=trace.traceBlockBegin();
+      CallStackFrame recorder=trace.pushCallStackFrame();
       recorder.markBeforeTime();
       Object asyncMethodCallObj=args[0];
       final AsyncTraceId asyncTraceId=injectAsyncTraceId(asyncMethodCallObj,trace);

@@ -1,6 +1,6 @@
 {
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    CallStackFrame recorder=trace.peekCallStackFrame();
     recorder.recordException(throwable);
     recorder.recordApi(this.descriptor);
     recorder.markAfterTime();
@@ -9,9 +9,9 @@
     logger.warn("Error processing trace object. Cause:{}",t.getMessage(),t);
   }
  finally {
-    trace.traceBlockEnd();
+    trace.popCallStackFrame();
   }
-  RootCallStackFrame recorder=trace.rootCallStackFrame();
+  TraceHeader recorder=trace.getTraceHeader();
   String methodUri=getMethodUri(target);
   recorder.recordRpcName(methodUri);
   String localIpPort=UNKNOWN_ADDRESS;

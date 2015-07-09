@@ -7,7 +7,7 @@
     if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
       final Trace trace=traceAccessor.get(target);
       if (trace != null && trace.canSampled()) {
-        RootCallStackFrame recorder=trace.rootCallStackFrame();
+        TraceHeader recorder=trace.getTraceHeader();
         recorder.markAfterTime();
         trace.close();
       }

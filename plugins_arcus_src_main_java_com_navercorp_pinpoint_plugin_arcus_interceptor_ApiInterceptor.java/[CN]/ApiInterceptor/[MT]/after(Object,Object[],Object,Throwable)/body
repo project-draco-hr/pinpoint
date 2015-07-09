@@ -7,7 +7,7 @@
     return;
   }
   try {
-    final CallStackFrame frame=trace.currentCallStackFrame();
+    final CallStackFrame frame=trace.peekCallStackFrame();
     if (traceKey) {
       final Object recordObject=args[keyIndex];
       frame.recordApi(methodDescriptor,recordObject,keyIndex);
@@ -67,6 +67,6 @@
     }
   }
  finally {
-    trace.traceBlockEnd();
+    trace.popCallStackFrame();
   }
 }

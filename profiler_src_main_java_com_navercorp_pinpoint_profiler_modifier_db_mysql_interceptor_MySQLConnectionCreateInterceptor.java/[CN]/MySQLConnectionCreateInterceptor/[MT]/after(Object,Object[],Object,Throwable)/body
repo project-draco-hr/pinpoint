@@ -21,7 +21,7 @@
   if (trace == null) {
     return;
   }
-  CallStackFrame recorder=trace.currentCallStackFrame();
+  CallStackFrame recorder=trace.peekCallStackFrame();
   if (databaseInfo != null) {
     recorder.recordServiceType(databaseInfo.getExecuteQueryType());
     recorder.recordEndPoint(databaseInfo.getMultipleHost());

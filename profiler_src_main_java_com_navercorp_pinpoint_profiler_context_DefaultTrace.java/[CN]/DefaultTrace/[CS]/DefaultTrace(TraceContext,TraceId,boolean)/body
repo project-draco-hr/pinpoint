@@ -8,5 +8,8 @@
   this.traceContext=traceContext;
   this.traceId=continueTraceId;
   this.sampling=sampling;
-  init();
+  this.traceId.incrementTraceCount();
+  this.traceHeader=new DefaultTraceHeader(traceContext);
+  this.traceHeader.recordTraceId(traceId);
+  this.callStackFrame=new WrappedCallStackFrame(traceContext);
 }

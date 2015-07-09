@@ -7,7 +7,7 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    CallStackFrame recorder=trace.peekCallStackFrame();
     recorder.recordApi(this.descriptor);
     recorder.recordException(throwable);
     recorder.markAfterTime();
@@ -16,6 +16,6 @@
     logger.warn("after error. Caused:{}",t.getMessage(),t);
   }
  finally {
-    trace.traceBlockEnd();
+    trace.popCallStackFrame();
   }
 }

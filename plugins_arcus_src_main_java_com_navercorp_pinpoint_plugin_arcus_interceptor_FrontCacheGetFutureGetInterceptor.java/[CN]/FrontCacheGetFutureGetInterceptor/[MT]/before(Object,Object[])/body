@@ -6,7 +6,7 @@
   if (trace == null) {
     return;
   }
-  trace.traceBlockBegin();
-  final CallStackFrame frame=trace.currentCallStackFrame();
+  trace.pushCallStackFrame();
+  final CallStackFrame frame=trace.peekCallStackFrame();
   frame.markBeforeTime();
 }

@@ -7,12 +7,12 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    CallStackFrame recorder=trace.peekCallStackFrame();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
     recorder.markAfterTime();
   }
   finally {
-    trace.traceBlockEnd();
+    trace.popCallStackFrame();
   }
 }

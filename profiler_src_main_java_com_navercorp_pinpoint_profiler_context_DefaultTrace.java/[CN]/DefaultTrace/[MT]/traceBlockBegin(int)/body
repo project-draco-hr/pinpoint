@@ -1,9 +1,0 @@
-{
-  final SpanEvent spanEvent=createSpanEvent(stackId);
-  final int currentStackIndex=callStack.push(spanEvent);
-  if (latestStackIndex != currentStackIndex) {
-    latestStackIndex=currentStackIndex;
-    spanEvent.setDepth(latestStackIndex);
-  }
-  return recorderHolder.get(traceContext,spanEvent);
-}

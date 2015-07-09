@@ -17,7 +17,7 @@
     }
     return;
   }
-  CallStackFrame recorder=trace.traceBlockBegin();
+  CallStackFrame recorder=trace.pushCallStackFrame();
   recorder.markBeforeTime();
   final TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
