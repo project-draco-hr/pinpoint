@@ -1,0 +1,12 @@
+{
+  if (recorder.canSampled()) {
+    final HttpServletRequest request=(HttpServletRequest)args[0];
+    final String parameters=getRequestParameter(request,64,512);
+    if (parameters != null && parameters.length() > 0) {
+      recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+    }
+    recorder.recordApi(getMethodDescriptor());
+  }
+  recorder.recordException(throwable);
+  recorder.markAfterTime();
+}

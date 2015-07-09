@@ -7,7 +7,7 @@
     return;
   }
   try {
-    final SpanEventRecorder recorder=trace.getSpanEventRecorder();
+    final CallStackFrame recorder=trace.currentCallStackFrame();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
     recorder.markAfterTime();

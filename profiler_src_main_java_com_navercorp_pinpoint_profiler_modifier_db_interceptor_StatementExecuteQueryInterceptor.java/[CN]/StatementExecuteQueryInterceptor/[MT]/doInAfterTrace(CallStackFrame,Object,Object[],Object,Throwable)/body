@@ -1,0 +1,11 @@
+{
+  recorder.recordApi(getMethodDescriptor());
+  if (args.length > 0) {
+    Object arg=args[0];
+    if (arg instanceof String) {
+      recorder.recordSqlInfo((String)arg);
+    }
+  }
+  recorder.recordException(throwable);
+  recorder.markAfterTime();
+}

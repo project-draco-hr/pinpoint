@@ -1,10 +1,9 @@
 {
-  final Span span=createSpan();
-  CallStack callStack=new CallStack(span);
-  int initialIndex=callStack.getStackFrameIndex();
-  Assert.assertEquals("initial index",initialIndex,-1);
-  callStack.push();
-  SpanEventStackFrame spanEventStackFrame=createSpanEventStackFrame(span);
-  callStack.setStackFrame(spanEventStackFrame);
-  callStack.popRoot();
+  CallStack callStack=new CallStack();
+  int initialIndex=callStack.getIndex();
+  assertEquals("initial index",initialIndex,0);
+  SpanEvent spanEvent=createSpanEventStackFrame(span);
+  int index=callStack.push(spanEvent);
+  assertEquals("initial index",index,1);
+  callStack.pop();
 }

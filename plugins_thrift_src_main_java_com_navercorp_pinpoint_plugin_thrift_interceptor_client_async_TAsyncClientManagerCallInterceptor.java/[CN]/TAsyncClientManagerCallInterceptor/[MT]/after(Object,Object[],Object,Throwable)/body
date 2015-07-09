@@ -7,9 +7,10 @@
     return;
   }
   try {
-    trace.recordApi(this.descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    CallStackFrame recorder=trace.currentCallStackFrame();
+    recorder.recordApi(this.descriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
  catch (  Throwable t) {
     logger.warn("after error. Caused:{}",t.getMessage(),t);

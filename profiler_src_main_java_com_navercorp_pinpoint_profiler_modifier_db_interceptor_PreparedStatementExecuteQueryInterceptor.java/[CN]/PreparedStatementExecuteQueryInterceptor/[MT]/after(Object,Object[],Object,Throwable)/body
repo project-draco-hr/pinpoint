@@ -7,8 +7,9 @@
     return;
   }
   try {
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    CallStackFrame recorder=trace.currentCallStackFrame();
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

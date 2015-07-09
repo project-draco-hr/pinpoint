@@ -6,13 +6,13 @@
   if (trace == null) {
     return;
   }
-  trace.traceBlockBegin();
-  trace.markBeforeTime();
+  CallStackFrame recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
   try {
     DatabaseInfo databaseInfo=databaseInfoAccessor.get(target,UnKnownDatabaseInfo.INSTANCE);
-    trace.recordServiceType(databaseInfo.getExecuteQueryType());
-    trace.recordEndPoint(databaseInfo.getMultipleHost());
-    trace.recordDestinationId(databaseInfo.getDatabaseId());
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
     ParsingResult parsingResult=null;
     if (parsingResultAccessor.isApplicable(target)) {
       parsingResult=parsingResultAccessor.get(target);
@@ -23,12 +23,12 @@
     }
     if (bindValue != null) {
       String bindString=toBindVariable(bindValue);
-      trace.recordSqlParsingResult(parsingResult,bindString);
+      recorder.recordSqlParsingResult(parsingResult,bindString);
     }
  else {
-      trace.recordSqlParsingResult(parsingResult);
+      recorder.recordSqlParsingResult(parsingResult);
     }
-    trace.recordApi(descriptor);
+    recorder.recordApi(descriptor);
     clean(target);
   }
  catch (  Exception e) {

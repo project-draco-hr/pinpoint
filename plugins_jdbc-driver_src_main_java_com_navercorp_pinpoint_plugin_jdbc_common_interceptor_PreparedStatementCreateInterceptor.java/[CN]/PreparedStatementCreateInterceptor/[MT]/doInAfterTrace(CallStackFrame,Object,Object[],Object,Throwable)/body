@@ -1,0 +1,9 @@
+{
+  if (parsingResultAccessor.isApplicable(result)) {
+    ParsingResult parsingResult=parsingResultAccessor.get(result);
+    recorder.recordSqlParsingResult(parsingResult);
+  }
+  recorder.recordException(throwable);
+  recorder.recordApi(methodDescriptor);
+  recorder.markAfterTime();
+}

@@ -6,7 +6,7 @@
   if (trace == null) {
     return;
   }
-  trace.traceBlockBegin();
-  trace.markBeforeTime();
-  trace.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
+  CallStackFrame recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
+  recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
 }

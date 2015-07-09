@@ -2,11 +2,10 @@
   checkBeforeTraceObject();
   final boolean sampling=sampler.isSampling();
   if (sampling) {
-    final DefaultTrace trace=new DefaultTrace(traceContext,nextTransactionId());
+    final DefaultTrace trace=new DefaultTrace(traceContext,nextTransactionId(),sampling);
     final TraceId traceId=trace.getTraceId();
     final Storage storage=storagePool.getStorage(traceId);
     trace.setStorage(storage);
-    trace.setSampling(sampling);
     threadLocal.set(trace);
     return trace;
   }

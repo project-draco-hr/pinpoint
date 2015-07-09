@@ -7,14 +7,15 @@
     return;
   }
   try {
+    CallStackFrame recorder=trace.currentCallStackFrame();
     if (this.traceServiceArgs) {
       if (args.length == 2 && (args[1] instanceof TBase)) {
-        trace.recordAttribute(THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
+        recorder.recordAttribute(THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
       }
     }
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

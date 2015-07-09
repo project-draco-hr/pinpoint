@@ -7,8 +7,9 @@
     return;
   }
   try {
-    final SpanEventRecorder recorder=trace.traceBlockBegin();
-    recorder.markBeforeTime();
+    trace.traceBlockBegin();
+    CallStackFrame frame=trace.currentCallStackFrame();
+    frame.markBeforeTime();
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {

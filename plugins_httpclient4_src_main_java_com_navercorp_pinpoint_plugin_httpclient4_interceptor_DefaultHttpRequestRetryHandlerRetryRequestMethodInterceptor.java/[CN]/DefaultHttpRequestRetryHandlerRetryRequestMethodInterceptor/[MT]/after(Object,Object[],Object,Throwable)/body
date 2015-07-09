@@ -7,15 +7,16 @@
     return;
   }
   try {
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
+    CallStackFrame recorder=trace.currentCallStackFrame();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
     if (args.length >= 1 && (args[0] instanceof Exception)) {
-      trace.recordAttribute(AnnotationKey.HTTP_CALL_RETRY_COUNT,args[0].getClass().getName());
+      recorder.recordAttribute(AnnotationKey.HTTP_CALL_RETRY_COUNT,args[0].getClass().getName());
     }
     if (result != null) {
-      trace.recordAttribute(AnnotationKey.RETURN_DATA,result);
+      recorder.recordAttribute(AnnotationKey.RETURN_DATA,result);
     }
-    trace.markAfterTime();
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

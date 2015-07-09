@@ -1,14 +1,8 @@
 {
-  CallStack callStack=new CallStack(new Span());
-  callStack.push();
-  callStack.push();
+  CallStack callStack=new CallStack();
+  callStack.push(spanEvent);
+  callStack.push(spanEvent);
   callStack.pop();
-  StackFrame lastPop=callStack.pop();
-  Assert.assertNull(lastPop);
-  try {
-    callStack.pop();
-    Assert.fail("invalid pop");
-  }
- catch (  Exception e) {
-  }
+  callStack.pop();
+  assertNull(callStack.pop());
 }

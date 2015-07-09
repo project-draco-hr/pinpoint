@@ -3,7 +3,6 @@
     PinpointException exception=new PinpointException("Corrupted CallStack found");
     logger.warn("Corrupted CallStack found. stack is not empty.",exception);
   }
-  final Span span=callStack.getSpan();
   logSpan(span);
   if (this.storage != null) {
     this.traceId.decrementTraceCount();
