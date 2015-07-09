@@ -16,7 +16,6 @@
   ApplicationMap map=filteredMapService.selectApplicationMap(traceId);
   mv.addObject("nodes",map.getNodes());
   mv.addObject("links",map.getLinks());
-  mv.addObject("logLinkEnable",logLinkEnable);
   RecordSet recordSet=this.transactionInfoService.createRecordSet(callTreeIterator,focusTimestamp);
   mv.addObject("recordSet",recordSet);
   mv.addObject("applicationName",recordSet.getApplicationName());
@@ -25,6 +24,12 @@
   mv.addObject("callstackStart",recordSet.getStartTime());
   mv.addObject("callstackEnd",recordSet.getEndTime());
   mv.addObject("completeState",spanResult.getCompleteTypeString());
+  mv.addObject("logLinkEnable",logLinkEnable);
+  if (logLinkEnable) {
+    mv.addObject("loggingTransactionInfo",recordSet.isLoggingTransactionInfo());
+    mv.addObject("logButtonName",logButtonName);
+    mv.addObject("logPageUrl",logPageUrl);
+  }
   if (viewVersion == 2) {
     mv.setViewName("transactionInfoJsonHash");
   }
