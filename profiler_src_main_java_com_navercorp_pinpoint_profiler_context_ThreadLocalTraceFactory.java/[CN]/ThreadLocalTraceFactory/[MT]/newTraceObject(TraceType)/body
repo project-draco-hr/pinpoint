@@ -1,0 +1,18 @@
+{
+  checkBeforeTraceObject();
+  final boolean sampling=sampler.isSampling();
+  if (sampling) {
+    final DefaultTrace trace=new DefaultTrace(traceContext,nextTransactionId(),sampling);
+    final TraceId traceId=trace.getTraceId();
+    final Storage storage=storagePool.getStorage(traceId);
+    trace.setStorage(storage);
+    trace.setTraceType(traceType);
+    threadLocal.set(trace);
+    return trace;
+  }
+ else {
+    final Trace metricTrace=createMetricTrace();
+    threadLocal.set(metricTrace);
+    return metricTrace;
+  }
+}
