@@ -5,11 +5,10 @@
   JSONObject jsonObject=JSONObject.fromObject(map);
   String json=jsonObject.toString();
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Method fromObject=JSONObject.class.getMethod("fromObject",Object.class);
   Method toString=JSONObject.class.getMethod("toString");
-  verifier.verifyApi(SERVICE_TYPE,fromObject);
-  verifier.verifyTraceBlock(PluginTestVerifier.BlockType.EVENT,SERVICE_TYPE,toString,null,null,null,null,annotation(ANNOTATION_KEY,json.length()));
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event(SERVICE_TYPE,fromObject));
+  verifier.verifyTrace(event(SERVICE_TYPE,toString,annotation(ANNOTATION_KEY,json.length())));
+  verifier.verifyTraceCount(0);
 }

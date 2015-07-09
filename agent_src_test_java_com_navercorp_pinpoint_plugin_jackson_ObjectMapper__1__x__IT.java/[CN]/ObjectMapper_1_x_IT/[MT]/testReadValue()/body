@@ -22,18 +22,16 @@
     foo=readerReadValueBytes == null ? null : readerReadValueBytes.invoke(reader,jsonBytes);
   }
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  ExpectedAnnotation length=annotation("jackson.json.length",20);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperReadValueString,null,null,null,null,annotation("jackson.json.length",jsonString.length()));
+  verifier.printCache();
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperReadValueString,Expectations.annotation(ANNOTATION_KEY,jsonString.length())));
   if (mapperReadValueBytes != null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperReadValueBytes,null,null,null,null,annotation("jackson.json.length",jsonBytes.length));
+    verifier.verifyTrace(event(SERVICE_TYPE,mapperReadValueBytes,Expectations.annotation(ANNOTATION_KEY,jsonBytes.length)));
   }
   if (readerReadValueString != null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readerReadValueString,null,null,null,null,annotation("jackson.json.length",jsonString.length()));
+    verifier.verifyTrace(event(SERVICE_TYPE,readerReadValueString,Expectations.annotation(ANNOTATION_KEY,jsonString.length())));
   }
   if (readerReadValueBytes != null) {
-    verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readerReadValueBytes,null,null,null,null,annotation("jackson.json.length",jsonBytes.length));
+    verifier.verifyTrace(event(SERVICE_TYPE,readerReadValueBytes,Expectations.annotation(ANNOTATION_KEY,jsonBytes.length)));
   }
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTraceCount(0);
 }

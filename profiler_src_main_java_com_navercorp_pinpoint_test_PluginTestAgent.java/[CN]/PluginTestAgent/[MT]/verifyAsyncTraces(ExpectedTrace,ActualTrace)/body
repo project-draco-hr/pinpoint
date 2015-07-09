@@ -1,0 +1,10 @@
+{
+  ExpectedTrace[] asyncTraces=expected.getAsyncTraces();
+  if (asyncTraces != null && asyncTraces.length > 0) {
+    Integer asyncId=wrapped.getNextAsyncId();
+    if (asyncId == null) {
+      throw new AssertionError("Expected async traces triggered but nextAsyncId is not present: " + wrapped);
+    }
+    verifyDiscreteTraceBlock(asyncTraces,asyncId);
+  }
+}

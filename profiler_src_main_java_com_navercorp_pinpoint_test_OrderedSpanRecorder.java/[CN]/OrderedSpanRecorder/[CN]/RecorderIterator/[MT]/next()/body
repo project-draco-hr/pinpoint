@@ -1,3 +1,7 @@
 {
-  return list.get(pos++).value;
+synchronized (OrderedSpanRecorder.this) {
+    current=index;
+    index++;
+    return list.get(current).value;
+  }
 }

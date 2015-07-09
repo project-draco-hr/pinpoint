@@ -1,0 +1,10 @@
+{
+  if (th == null) {
+    return;
+  }
+  this.currentStackFrame.setExceptionInfo(EXCEPTION_MARK,"");
+  final Span span=getCallStack().getSpan();
+  if (!span.isSetErrCode()) {
+    span.setErrCode(1);
+  }
+}

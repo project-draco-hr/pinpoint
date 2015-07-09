@@ -10,10 +10,8 @@
   Method toJson5=Gson.class.getDeclaredMethod("toJson",Object.class,Type.class,JsonWriter.class);
   Method toJson8=Gson.class.getDeclaredMethod("toJson",JsonElement.class,JsonWriter.class);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
-  verifier.verifyApi(serviceType,fromJson5);
-  verifier.verifyApi(serviceType,toJson5);
-  verifier.verifyApi(serviceType,toJson8);
-  verifier.verifyTraceBlockCount(0);
+  verifier.printCache();
+  verifier.verifyTrace(event(serviceType,fromJson5));
+  verifier.verifyTrace(event(serviceType,toJson5),event(serviceType,toJson8));
+  verifier.verifyTraceCount(0);
 }

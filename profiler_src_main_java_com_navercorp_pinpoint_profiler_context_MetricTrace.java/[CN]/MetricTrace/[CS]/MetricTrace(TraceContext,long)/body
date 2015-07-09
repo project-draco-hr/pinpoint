@@ -1,0 +1,13 @@
+{
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
+  this.traceContext=traceContext;
+  this.transactionId=transactionId;
+  final Span span=createSpan();
+  this.callStack=new CallStack(span);
+  this.latestStackIndex=this.callStack.push();
+  final StackFrame stackFrame=createSpanStackFrame(ROOT_STACKID,callStack.getSpan());
+  this.callStack.setStackFrame(stackFrame);
+  this.currentStackFrame=stackFrame;
+}

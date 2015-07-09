@@ -7,15 +7,14 @@
   writer.writeValueAsString(pojo);
   writer.writeValueAsBytes(pojo);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Method mapperWriteValueAsString=ObjectMapper.class.getMethod("writeValueAsString",Object.class);
   Method mapperWriteValueAsBytes=ObjectMapper.class.getMethod("writeValueAsBytes",Object.class);
   Method writerWriteValueAsString=ObjectWriter.class.getMethod("writeValueAsString",Object.class);
   Method writerWriteValueAsBytes=ObjectWriter.class.getMethod("writeValueAsBytes",Object.class);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsString,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperWriteValueAsBytes,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writerWriteValueAsString,null,null,null,null,annotation("jackson.json.length",jsonStr.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",writerWriteValueAsBytes,null,null,null,null,annotation("jackson.json.length",jsonByte.length));
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperWriteValueAsString,annotation(ANNOTATION_KEY,jsonStr.length())));
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperWriteValueAsBytes,annotation(ANNOTATION_KEY,jsonByte.length)));
+  verifier.verifyTrace(event(SERVICE_TYPE,writerWriteValueAsString,annotation(ANNOTATION_KEY,jsonStr.length())));
+  verifier.verifyTrace(event(SERVICE_TYPE,writerWriteValueAsBytes,annotation(ANNOTATION_KEY,jsonByte.length)));
+  verifier.verifyTraceCount(0);
 }

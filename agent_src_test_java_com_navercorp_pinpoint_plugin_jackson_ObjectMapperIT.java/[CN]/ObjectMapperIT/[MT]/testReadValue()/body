@@ -7,15 +7,14 @@
   reader.readValue(json_str);
   reader.readValue(json_b);
   PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
-  verifier.printCache(System.out);
-  verifier.printBlocks(System.out);
+  verifier.printCache();
   Method mapperReadValueString=ObjectMapper.class.getMethod("readValue",String.class,Class.class);
   Method mapperReadValueBytes=ObjectMapper.class.getMethod("readValue",byte[].class,Class.class);
   Method readerReadValueString=ObjectReader.class.getMethod("readValue",String.class);
   Method readerReadValueBytes=ObjectReader.class.getMethod("readValue",byte[].class);
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperReadValueString,null,null,null,null,annotation("jackson.json.length",json_str.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",mapperReadValueBytes,null,null,null,null,annotation("jackson.json.length",json_b.length));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readerReadValueString,null,null,null,null,annotation("jackson.json.length",json_str.length()));
-  verifier.verifyTraceBlock(BlockType.EVENT,"JACKSON",readerReadValueBytes,null,null,null,null,annotation("jackson.json.length",json_b.length));
-  verifier.verifyTraceBlockCount(0);
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperReadValueString,annotation(ANNOTATION_KEY,json_str.length())));
+  verifier.verifyTrace(event(SERVICE_TYPE,mapperReadValueBytes,annotation(ANNOTATION_KEY,json_b.length)));
+  verifier.verifyTrace(event(SERVICE_TYPE,readerReadValueString,annotation(ANNOTATION_KEY,json_str.length())));
+  verifier.verifyTrace(event(SERVICE_TYPE,readerReadValueBytes,annotation(ANNOTATION_KEY,json_b.length)));
+  verifier.verifyTraceCount(0);
 }

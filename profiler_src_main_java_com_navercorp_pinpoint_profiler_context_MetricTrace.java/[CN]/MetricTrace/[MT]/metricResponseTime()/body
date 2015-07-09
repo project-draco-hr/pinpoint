@@ -1,0 +1,10 @@
+{
+  final int errCode=this.getCallStack().getSpan().getErrCode();
+  if (errCode != 0) {
+    traceContext.recordContextMetricIsError();
+  }
+ else {
+    final int elapsedTime=this.currentStackFrame.getElapsedTime();
+    traceContext.recordContextMetric(elapsedTime);
+  }
+}

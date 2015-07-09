@@ -15,7 +15,7 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (trace.isRootStack()) {
+    if (trace.getTraceType() == TraceType.USER && trace.isRootStack()) {
       RootCallStackFrame recorder=trace.rootCallStackFrame();
       recorder.markAfterTime();
       trace.close();
