@@ -15,7 +15,7 @@
   recordSet.setStartTime(startTime);
   long endTime=getEndTime(spanAlignList);
   recordSet.setEndTime(endTime);
-  recordSet.setLoggingTransactionInfo(focusTimeSpanBo.isLoggingTransactionInfo());
+  recordSet.setLoggingTransactionInfo(findIsLoggingTransactionInfo(spanAlignList));
   final SpanAlignPopulate spanAlignPopulate=new SpanAlignPopulate();
   List<Record> recordList=spanAlignPopulate.populateSpanRecord(callTreeIterator);
   logger.debug("RecordList:{}",recordList);
