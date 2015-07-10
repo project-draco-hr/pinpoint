@@ -1,10 +1,16 @@
 {
-  if (data instanceof TSpan) {
-    insertSpan((TSpan)data);
+  if (data instanceof Span) {
+    insertSpan((Span)data);
     return true;
   }
- else   if (data instanceof TSpanEvent) {
-    insertSpanEvent((TSpanEvent)data);
+ else   if (data instanceof SpanEvent) {
+    SpanEvent event=(SpanEvent)data;
+    if (event.isSetAsyncId()) {
+      handleAsyncSpanEvent(event);
+    }
+ else {
+      handleSpanEvent(event);
+    }
     return true;
   }
   return false;

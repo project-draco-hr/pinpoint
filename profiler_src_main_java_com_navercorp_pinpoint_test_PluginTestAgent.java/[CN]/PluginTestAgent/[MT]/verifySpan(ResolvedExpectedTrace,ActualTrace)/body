@@ -24,7 +24,7 @@
     throw new AssertionError("Expected a " + expected.type.getSimpleName() + " with asyncId["+ expected.asyncId+ "] but was ["+ actual.getAsyncId()+ "]. expected: "+ expected+ ", was: "+ actual);
   }
   List<TAnnotation> actualAnnotations=actual.getAnnotations();
-  int len=expected.annotations.length;
+  int len=expected.annotations == null ? 0 : expected.annotations.length;
   int actualLen=actualAnnotations == null ? 0 : actualAnnotations.size();
   if (actualLen != len) {
     throw new AssertionError("Expected [" + len + "] annotations but was ["+ actualLen+ "], expected: "+ expected+ ", was: "+ actual);

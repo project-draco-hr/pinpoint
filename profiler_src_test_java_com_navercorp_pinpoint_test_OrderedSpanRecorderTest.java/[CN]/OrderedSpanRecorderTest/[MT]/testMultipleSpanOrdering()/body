@@ -1,0 +1,29 @@
+{
+  final long startTime1=System.currentTimeMillis();
+  final long spanId1=1L;
+  final long startTime2=startTime1 + 10L;
+  final long spanId2=2L;
+  Span span1=createSpan(startTime1,spanId1);
+  SpanEvent event1_0=createSpanEvent(span1,1,(short)0);
+  SpanEvent event1_1=createSpanEvent(span1,2,(short)1);
+  SpanEvent asyncEvent1_0=createAsyncSpanEvent(span1,1,(short)0,1);
+  SpanEvent asyncEvent1_1=createAsyncSpanEvent(span1,2,(short)1,1);
+  Span span2=createSpan(startTime2,spanId2);
+  SpanEvent event2_0=createSpanEvent(span2,0,(short)0);
+  SpanEvent event2_1=createSpanEvent(span2,1,(short)1);
+  SpanEvent asyncEvent2_0=createAsyncSpanEvent(span2,0,(short)0,1);
+  @SuppressWarnings("unchecked") final List<? extends TBase<?,?>> expectedOrder=Arrays.asList(span1,event1_0,event1_1,span2,event2_0,event2_1,asyncEvent1_0,asyncEvent1_1,asyncEvent2_0);
+  @SuppressWarnings("unchecked") final List<? extends TBase<?,?>> listToBeHandled=Arrays.asList(span1,event1_0,event1_1,span2,event2_0,event2_1,asyncEvent1_0,asyncEvent1_1,asyncEvent2_0);
+  Collections.shuffle(listToBeHandled);
+  for (  TBase<?,?> base : listToBeHandled) {
+    this.recorder.handleSend(base);
+  }
+  ByteArrayOutputStream baos=new ByteArrayOutputStream();
+  this.recorder.print(new PrintStream(baos));
+  this.logger.info(baos.toString());
+  for (  TBase<?,?> expectedBase : expectedOrder) {
+    TBase<?,?> actualBase=this.recorder.pop();
+    assertSame(expectedBase,actualBase);
+  }
+  assertNull(this.recorder.pop());
+}
