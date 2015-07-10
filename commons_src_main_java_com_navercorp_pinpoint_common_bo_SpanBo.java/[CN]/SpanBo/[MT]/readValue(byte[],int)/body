@@ -25,6 +25,8 @@
       this.applicationServiceType=buffer.readShort();
     }
   }
-  this.loggingTransactionInfo=buffer.readBoolean();
+  if (buffer.limit() > 0) {
+    this.loggingTransactionInfo=buffer.readBoolean();
+  }
   return buffer.getOffset();
 }
