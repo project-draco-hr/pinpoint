@@ -6,7 +6,7 @@
   this.traceId=new DefaultTraceId(traceContext.getAgentId(),traceContext.getAgentStartTime(),transactionId);
   this.sampling=sampling;
   this.traceId.incrementTraceCount();
-  this.traceHeader=new DefaultTraceHeader(traceContext);
+  this.traceHeader=new DefaultTraceHeader(traceContext,traceId,sampling);
   this.traceHeader.recordTraceId(traceId);
   this.callStackFrame=new WrappedCallStackFrame(traceContext);
 }

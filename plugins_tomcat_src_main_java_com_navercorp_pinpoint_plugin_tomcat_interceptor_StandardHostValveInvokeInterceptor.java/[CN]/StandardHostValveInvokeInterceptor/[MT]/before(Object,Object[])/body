@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    final Trace trace=createTrace(target,args);
+    if (trace == null) {
+      return;
+    }
+    if (!trace.canSampled()) {
+      return;
+    }
+    CallStackFrame frame=trace.pushCallStackFrame();
+    frame.markBeforeTime();
+    frame.recordServiceType(TOMCAT_METHOD);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("before. Caused:{}",th.getMessage(),th);
+    }
+  }
+}
