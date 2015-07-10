@@ -1,7 +1,6 @@
 {
-  Class<? extends Interceptor> interceptorType=pluginContext.getClassInjector().loadClass(targetClassLoader,interceptorClassName);
-  InterceptorFactory factory=createInterceptorFactory(interceptorType);
-  Interceptor interceptor=factory.getInterceptor(targetClassLoader,targetClass,targetMethod);
+  InterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext);
+  Interceptor interceptor=factory.getInterceptor(targetClassLoader,interceptorClassName,providedArguments,null,null,targetClass,targetMethod);
   if (targetMethod.isConstructor()) {
     return targetClass.addConstructorInterceptor(targetMethod.getParameterTypes(),interceptor);
   }

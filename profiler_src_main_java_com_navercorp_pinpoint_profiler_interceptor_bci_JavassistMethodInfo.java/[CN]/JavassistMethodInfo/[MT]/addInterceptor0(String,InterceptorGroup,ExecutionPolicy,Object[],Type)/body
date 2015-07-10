@@ -1,0 +1,17 @@
+{
+  Interceptor interceptor=createInterceptor(interceptorClassName,group,policy,constructorArgs);
+  int interceptorId;
+  boolean isStatic=false;
+  if (interceptor instanceof StaticAroundInterceptor) {
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addStaticInterceptor((StaticAroundInterceptor)interceptor);
+    isStatic=true;
+  }
+ else   if (interceptor instanceof SimpleAroundInterceptor) {
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor((SimpleAroundInterceptor)interceptor);
+  }
+ else {
+    throw new InstrumentException("unsupported TargetMethod ServiceTypeInfo:" + interceptor);
+  }
+  addInterceptor0(interceptorId,type,isStatic);
+  return interceptorId;
+}

@@ -1,8 +1,8 @@
 {
   String arg0="arg0";
   Object[] args=new Object[]{ObjectRecipe.byConstructor("java.lang.String",arg0)};
-  AnnotatedInterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext,null,TestInterceptors.TestInterceptor0.class,args);
-  Interceptor interceptor=factory.getInterceptor(getClass().getClassLoader(),aClass,aMethod);
+  AnnotatedInterceptorFactory factory=new AnnotatedInterceptorFactory(pluginContext);
+  Interceptor interceptor=factory.getInterceptor(getClass().getClassLoader(),TestInterceptors.TestInterceptor0.class.getName(),args,null,null,aClass,aMethod);
   assertEquals(TestInterceptor0.class,interceptor.getClass());
   assertEquals(arg0,getField(interceptor,"field0"));
 }
