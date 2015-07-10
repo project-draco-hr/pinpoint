@@ -7,7 +7,7 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.peekCallStackFrame();
+    CallStackFrame recorder=trace.currentCallStackFrame();
     if (validate(target,result,throwable)) {
       asyncAccessor.set(target,Boolean.TRUE);
       final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();

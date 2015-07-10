@@ -7,10 +7,10 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.peekCallStackFrame();
-    recorder.recordApi(descriptor);
-    recorder.recordException(throwable);
-    recorder.markAfterTime();
+    final CallStackFrame frame=trace.currentCallStackFrame();
+    frame.recordApi(descriptor);
+    frame.recordException(throwable);
+    frame.markAfterTime();
   }
   finally {
     trace.popCallStackFrame();

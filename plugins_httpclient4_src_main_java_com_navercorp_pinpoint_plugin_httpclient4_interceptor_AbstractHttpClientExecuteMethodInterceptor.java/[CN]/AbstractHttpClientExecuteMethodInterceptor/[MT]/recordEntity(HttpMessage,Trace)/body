@@ -6,7 +6,7 @@
       if (entity != null && entity.isRepeatable() && entity.getContentLength() > 0) {
         if (entitySampler.isSampling()) {
           final String entityString=entityUtilsToString(entity,"UTF8",1024);
-          final CallStackFrame recorder=trace.peekCallStackFrame();
+          final CallStackFrame recorder=trace.currentCallStackFrame();
           recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(entityString,1024));
         }
       }

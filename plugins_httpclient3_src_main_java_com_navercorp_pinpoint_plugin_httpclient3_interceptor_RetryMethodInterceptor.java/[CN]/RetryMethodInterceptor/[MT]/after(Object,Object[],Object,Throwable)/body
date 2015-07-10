@@ -7,7 +7,7 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.peekCallStackFrame();
+    final CallStackFrame recorder=trace.currentCallStackFrame();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
     if (args.length >= 2 && (args[1] instanceof IOException)) {
