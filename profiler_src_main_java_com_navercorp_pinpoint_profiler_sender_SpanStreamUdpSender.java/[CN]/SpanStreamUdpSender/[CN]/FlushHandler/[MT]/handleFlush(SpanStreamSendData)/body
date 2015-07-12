@@ -1,4 +1,7 @@
 {
+  if (spanStreamSendData == null) {
+    return;
+  }
   try {
     ByteBuffer[] byteBuffers=spanStreamSendData.getSendBuffers();
     int remainingLength=ByteBufferUtils.getRemaining(byteBuffers);
@@ -15,8 +18,6 @@
     logger.warn("Failed to flush span stream data.",e);
   }
  finally {
-    if (spanStreamSendData != null) {
-      spanStreamSendData.done();
-    }
+    spanStreamSendData.done();
   }
 }
