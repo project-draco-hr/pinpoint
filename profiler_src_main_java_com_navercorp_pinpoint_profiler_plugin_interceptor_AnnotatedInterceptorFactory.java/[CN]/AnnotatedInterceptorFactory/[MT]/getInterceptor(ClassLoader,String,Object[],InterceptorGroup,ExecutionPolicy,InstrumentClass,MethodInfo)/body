@@ -13,7 +13,7 @@
   InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(pluginContext.getTraceContext(),group,target,targetMethod);
   Interceptor interceptor=(Interceptor)factory.createInstance(recipe,interceptorArgumentProvider);
   if (group != null) {
-    interceptor=wrapByGroup(interceptor,group,policy);
+    interceptor=wrapByGroup(interceptor,group,policy == null ? ExecutionPolicy.BOUNDARY : policy);
   }
   return interceptor;
 }
