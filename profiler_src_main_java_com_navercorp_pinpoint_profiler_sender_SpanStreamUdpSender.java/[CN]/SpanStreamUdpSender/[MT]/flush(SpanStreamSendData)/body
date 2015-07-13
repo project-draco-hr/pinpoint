@@ -1,4 +1,7 @@
 {
+  if (spanStreamSendData == null) {
+    return;
+  }
   ByteBuffer[] byteBuffers=spanStreamSendData.getSendBuffers();
   int remainingLength=ByteBufferUtils.getRemaining(byteBuffers);
   try {
@@ -13,8 +16,6 @@
     }
   }
   finally {
-    if (spanStreamSendData != null) {
-      spanStreamSendData.done();
-    }
+    spanStreamSendData.done();
   }
 }
