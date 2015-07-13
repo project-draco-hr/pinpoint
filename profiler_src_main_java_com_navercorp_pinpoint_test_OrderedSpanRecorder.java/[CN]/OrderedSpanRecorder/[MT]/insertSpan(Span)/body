@@ -1,12 +1,5 @@
 {
   long startTime=span.getStartTime();
   long spanId=span.getSpanId();
-  spanStartTimeTable.put(spanId,startTime);
   insertItem(new Item(span,startTime,spanId,-1));
-  List<SpanEvent> events=waitingEventTable.remove(span.getSpanId());
-  if (events != null) {
-    for (    SpanEvent event : events) {
-      insertItem(new Item(event,startTime + event.getStartElapsed(),spanId,event.getSequence()));
-    }
-  }
 }

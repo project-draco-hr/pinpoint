@@ -4,13 +4,7 @@
     return true;
   }
  else   if (data instanceof SpanEvent) {
-    SpanEvent event=(SpanEvent)data;
-    if (event.isSetAsyncId()) {
-      handleAsyncSpanEvent(event);
-    }
- else {
-      handleSpanEvent(event);
-    }
+    handleSpanEvent((SpanEvent)data);
     return true;
   }
   return false;

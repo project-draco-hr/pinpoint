@@ -1,15 +1,22 @@
 {
-  if (o.asyncId != ASYNC_ID_NOT_SET) {
-    if (this.asyncId != ASYNC_ID_NOT_SET) {
+  if (this.asyncId == ASYNC_ID_NOT_SET) {
+    if (o.asyncId == ASYNC_ID_NOT_SET) {
+    }
+ else {
+      return -1;
+    }
+  }
+ else {
+    if (o.asyncId == ASYNC_ID_NOT_SET) {
+      return 1;
+    }
+ else {
       if (this.asyncId < o.asyncId) {
         return -1;
       }
  else       if (this.asyncId > o.asyncId) {
         return 1;
       }
-    }
- else {
-      return -1;
     }
   }
   if (this.time < o.time) {
