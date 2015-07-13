@@ -7,19 +7,20 @@
     return;
   }
   try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     if (validate(target,result,throwable)) {
       asyncAccessor.set(target,Boolean.TRUE);
       final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
-      trace.recordNextAsyncId(asyncTraceId.getAsyncId());
+      recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
       asyncTraceIdAccessor.set(result,asyncTraceId);
       if (isDebug) {
         logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
       }
     }
-    trace.recordServiceType(TOMCAT_METHOD);
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    recorder.recordServiceType(TOMCAT_METHOD);
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
  catch (  Throwable t) {
     logger.warn("Failed to after process. {}",t.getMessage(),t);

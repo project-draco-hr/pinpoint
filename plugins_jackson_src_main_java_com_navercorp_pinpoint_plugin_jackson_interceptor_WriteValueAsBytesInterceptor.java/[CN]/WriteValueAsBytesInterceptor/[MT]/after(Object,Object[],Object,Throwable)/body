@@ -7,10 +7,11 @@
     return;
   }
   try {
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((byte[])result).length);
-    trace.markAfterTime();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((byte[])result).length);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

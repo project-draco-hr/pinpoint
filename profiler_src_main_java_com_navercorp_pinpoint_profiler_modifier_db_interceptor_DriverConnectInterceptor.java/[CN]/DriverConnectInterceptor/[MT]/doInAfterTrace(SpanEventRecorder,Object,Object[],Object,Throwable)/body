@@ -1,0 +1,12 @@
+{
+  if (recordConnection) {
+    final DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(result,UnKnownDatabaseInfo.INSTANCE);
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+  }
+  final String driverUrl=(String)args[0];
+  recorder.recordApiCachedString(getMethodDescriptor(),driverUrl,0);
+  recorder.recordException(throwable);
+  recorder.markAfterTime();
+}

@@ -5,7 +5,8 @@
     return;
   }
   if (trace.isAsync() && trace.isRootStack()) {
-    trace.markAfterTime();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.markAfterTime();
     trace.close();
     super.traceContext.removeTraceObject();
   }

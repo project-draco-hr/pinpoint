@@ -10,16 +10,17 @@
     return;
   }
   try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final com.ning.http.client.Request httpRequest=(com.ning.http.client.Request)args[0];
     if (httpRequest != null) {
-      trace.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getUrl());
+      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getUrl());
       String endpoint=getEndpoint(httpRequest.getURI().getHost(),httpRequest.getURI().getPort());
-      trace.recordDestinationId(endpoint);
-      recordHttpRequest(trace,httpRequest,throwable);
+      recorder.recordDestinationId(endpoint);
+      recordHttpRequest(recorder,httpRequest,throwable);
     }
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

@@ -1,0 +1,12 @@
+{
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
+  this.traceContext=traceContext;
+  this.traceId=new DefaultTraceId(traceContext.getAgentId(),traceContext.getAgentStartTime(),transactionId);
+  this.sampling=sampling;
+  this.traceId.incrementTraceCount();
+  this.traceHeader=new DefaultSpanRecorder(traceContext,traceId,sampling);
+  this.traceHeader.recordTraceId(traceId);
+  this.callStackFrame=new WrappedSpanEventRecorder(traceContext);
+}

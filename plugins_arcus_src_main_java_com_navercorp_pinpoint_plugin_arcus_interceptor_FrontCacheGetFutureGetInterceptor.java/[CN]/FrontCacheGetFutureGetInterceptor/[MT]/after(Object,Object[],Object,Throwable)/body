@@ -7,13 +7,14 @@
     return;
   }
   try {
-    trace.recordApi(methodDescriptor);
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(methodDescriptor);
     String cacheName=cacheNameAccessor.get(target);
     if (cacheName != null) {
-      trace.recordDestinationId(cacheName);
+      recorder.recordDestinationId(cacheName);
     }
-    trace.recordServiceType(ARCUS_EHCACHE_FUTURE_GET);
-    trace.markAfterTime();
+    recorder.recordServiceType(ARCUS_EHCACHE_FUTURE_GET);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

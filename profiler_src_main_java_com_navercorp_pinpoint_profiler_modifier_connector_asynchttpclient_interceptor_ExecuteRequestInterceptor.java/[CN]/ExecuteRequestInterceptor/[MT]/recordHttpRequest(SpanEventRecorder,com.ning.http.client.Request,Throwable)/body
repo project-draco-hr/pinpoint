@@ -1,0 +1,27 @@
+{
+  final boolean isException=InterceptorUtils.isThrowable(throwable);
+  if (dumpCookie) {
+    if (DumpType.ALWAYS == cookieDumpType) {
+      recordCookie(httpRequest,recorder);
+    }
+ else     if (DumpType.EXCEPTION == cookieDumpType && isException) {
+      recordCookie(httpRequest,recorder);
+    }
+  }
+  if (dumpEntity) {
+    if (DumpType.ALWAYS == entityDumpType) {
+      recordEntity(httpRequest,recorder);
+    }
+ else     if (DumpType.EXCEPTION == entityDumpType && isException) {
+      recordEntity(httpRequest,recorder);
+    }
+  }
+  if (dumpParam) {
+    if (DumpType.ALWAYS == paramDumpType) {
+      recordParam(httpRequest,recorder);
+    }
+ else     if (DumpType.EXCEPTION == paramDumpType && isException) {
+      recordParam(httpRequest,recorder);
+    }
+  }
+}

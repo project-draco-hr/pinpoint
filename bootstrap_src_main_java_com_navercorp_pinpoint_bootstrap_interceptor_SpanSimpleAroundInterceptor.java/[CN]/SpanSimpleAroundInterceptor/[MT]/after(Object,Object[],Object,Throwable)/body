@@ -11,7 +11,8 @@
     return;
   }
   try {
-    doInAfterTrace(trace,target,args,result,throwable);
+    final SpanRecorder recorder=trace.getSpanRecorder();
+    doInAfterTrace(recorder,target,args,result,throwable);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {

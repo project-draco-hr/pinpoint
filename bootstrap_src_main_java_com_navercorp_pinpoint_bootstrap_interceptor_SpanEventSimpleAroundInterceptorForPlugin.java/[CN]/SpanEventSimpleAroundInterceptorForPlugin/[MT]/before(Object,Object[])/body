@@ -8,8 +8,8 @@
     return;
   }
   try {
-    trace.traceBlockBegin();
-    doInBeforeTrace(trace,target,args);
+    final SpanEventRecorder recorder=trace.traceBlockBegin();
+    doInBeforeTrace(recorder,target,args);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {

@@ -7,8 +7,9 @@
     return;
   }
   try {
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

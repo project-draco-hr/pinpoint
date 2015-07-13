@@ -7,20 +7,21 @@
     return;
   }
   try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final HttpRequest httpRequest=getHttpRequest(target);
     if (httpRequest != null) {
-      trace.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
+      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
       final NameIntValuePair<String> host=getHost(target);
       if (host != null) {
         int port=host.getValue();
         String endpoint=getEndpoint(host.getName(),port);
-        trace.recordDestinationId(endpoint);
+        recorder.recordDestinationId(endpoint);
       }
-      recordHttpRequest(trace,httpRequest,throwable);
+      recordHttpRequest(recorder,httpRequest,throwable);
     }
-    trace.recordApi(methodDescriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    recorder.recordApi(methodDescriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

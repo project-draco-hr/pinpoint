@@ -10,9 +10,10 @@
       logger.warn("Failed to continue async trace. 'result is null'");
       return;
     }
-    trace.markBeforeTime();
-    trace.recordServiceType(ServiceType.ASYNC);
-    trace.recordApi(this.thriftAsyncClientMethodDescriptor);
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.markBeforeTime();
+    recorder.recordServiceType(ServiceType.ASYNC);
+    recorder.recordApi(this.thriftAsyncClientMethodDescriptor);
     super.asyncMarkerAccessor.set(target,Boolean.TRUE);
   }
   super.before(target,args);
