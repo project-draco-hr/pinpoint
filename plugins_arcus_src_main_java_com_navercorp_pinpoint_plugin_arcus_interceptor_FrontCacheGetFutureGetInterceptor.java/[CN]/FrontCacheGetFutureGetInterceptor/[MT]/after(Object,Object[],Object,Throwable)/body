@@ -7,7 +7,7 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.currentCallStackFrame();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(methodDescriptor);
     String cacheName=cacheNameAccessor.get(target);
     if (cacheName != null) {
@@ -17,6 +17,6 @@
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

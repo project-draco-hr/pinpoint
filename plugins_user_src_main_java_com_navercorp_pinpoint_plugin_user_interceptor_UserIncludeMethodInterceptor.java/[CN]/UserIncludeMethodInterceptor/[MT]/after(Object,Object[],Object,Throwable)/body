@@ -7,16 +7,16 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
     recorder.recordServiceType(ServiceType.USER_INCLUDE);
     recorder.recordException(throwable);
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
     if (trace.getTraceType() == TraceType.USER && trace.isRootStack()) {
-      TraceHeader recorder=trace.getTraceHeader();
+      SpanRecorder recorder=trace.getSpanRecorder();
       recorder.markAfterTime();
       trace.close();
       traceContext.removeTraceObject();

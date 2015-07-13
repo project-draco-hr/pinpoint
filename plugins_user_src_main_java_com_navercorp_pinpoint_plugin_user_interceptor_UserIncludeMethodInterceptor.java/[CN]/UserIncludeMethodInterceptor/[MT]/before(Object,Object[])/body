@@ -14,10 +14,9 @@
     if (isDebug) {
       logger.debug("New trace and sampled {}",trace);
     }
-    TraceHeader recorder=trace.getTraceHeader();
+    SpanRecorder recorder=trace.getSpanRecorder();
     recordRootSpan(recorder);
   }
-  trace.pushCallStackFrame();
-  CallStackFrame recorder=trace.currentCallStackFrame();
+  SpanEventRecorder recorder=trace.traceBlockBegin();
   recorder.markBeforeTime();
 }

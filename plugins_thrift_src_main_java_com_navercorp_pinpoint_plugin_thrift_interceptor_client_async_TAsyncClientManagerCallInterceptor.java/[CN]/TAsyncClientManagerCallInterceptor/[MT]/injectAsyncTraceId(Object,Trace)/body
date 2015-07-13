@@ -1,6 +1,6 @@
 {
   final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
-  CallStackFrame recorder=trace.currentCallStackFrame();
+  SpanEventRecorder recorder=trace.currentSpanEventRecorder();
   recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
   this.asyncTraceIdAccessor.set(asyncMethodCallObj,asyncTraceId);
   if (isDebug) {

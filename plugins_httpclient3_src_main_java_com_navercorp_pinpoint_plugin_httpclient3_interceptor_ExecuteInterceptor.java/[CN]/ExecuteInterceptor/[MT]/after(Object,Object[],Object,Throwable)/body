@@ -7,7 +7,7 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.currentCallStackFrame();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     HttpMethod httpMethod=getHttpMethod(args);
     if (httpMethod != null) {
       try {
@@ -29,6 +29,6 @@
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

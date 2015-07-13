@@ -3,7 +3,7 @@
   if (isAsynchronousProcess(request)) {
     final Trace trace=getTraceMetadata(request);
     if (trace != null) {
-      TraceHeader recorder=trace.getTraceHeader();
+      SpanRecorder recorder=trace.getSpanRecorder();
       recorder.recordApi(SERVLET_ASYNCHRONOUS_API_TAG);
       traceContext.continueTraceObject(trace);
       return trace;
@@ -28,7 +28,7 @@
   if (traceId != null) {
     final Trace trace=traceContext.continueTraceObject(traceId);
     if (trace.canSampled()) {
-      TraceHeader recorder=trace.getTraceHeader();
+      SpanRecorder recorder=trace.getSpanRecorder();
       recordRootSpan(recorder,request);
       setTraceMetadata(request,trace);
       if (isDebug) {
@@ -45,7 +45,7 @@
  else {
     final Trace trace=traceContext.newTraceObject();
     if (trace.canSampled()) {
-      TraceHeader recorder=trace.getTraceHeader();
+      SpanRecorder recorder=trace.getSpanRecorder();
       recordRootSpan(recorder,request);
       setTraceMetadata(request,trace);
       if (isDebug) {

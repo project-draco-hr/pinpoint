@@ -7,7 +7,7 @@
     if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
       final Trace trace=traceAccessor.get(target);
       if (trace != null && trace.canSampled()) {
-        TraceHeader recorder=trace.getTraceHeader();
+        SpanRecorder recorder=trace.getSpanRecorder();
         recorder.markAfterTime();
         trace.close();
       }

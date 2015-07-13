@@ -18,7 +18,7 @@
       parentTraceInfo.setShouldSample(shouldSample);
     }
  else {
-      CallStackFrame recorder=trace.pushCallStackFrame();
+      SpanEventRecorder recorder=trace.traceBlockBegin();
       recorder.markBeforeTime();
       recorder.recordServiceType(THRIFT_CLIENT);
       String remoteAddress=UNKNOWN_ADDRESS;

@@ -6,6 +6,6 @@
   if (trace == null) {
     return;
   }
-  CallStackFrame frame=trace.pushCallStackFrame();
-  frame.markBeforeTime();
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
 }

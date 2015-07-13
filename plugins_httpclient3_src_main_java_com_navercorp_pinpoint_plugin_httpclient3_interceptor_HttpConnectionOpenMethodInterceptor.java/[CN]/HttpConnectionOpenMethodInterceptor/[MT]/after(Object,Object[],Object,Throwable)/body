@@ -7,13 +7,13 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.currentCallStackFrame();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
     recorder.recordApi(methodDescriptor);
     recorder.recordException(throwable);
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

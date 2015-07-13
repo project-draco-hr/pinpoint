@@ -2,7 +2,7 @@
   if (shouldCreateNewTraceObject(method)) {
     TraceContext traceContext=this.testContext.getMockAgent().getTraceContext();
     Trace trace=traceContext.newTraceObject();
-    TraceHeader frame=trace.getTraceHeader();
+    SpanRecorder frame=trace.getSpanRecorder();
     frame.markBeforeTime();
     frame.recordServiceType(ServiceType.TEST);
   }

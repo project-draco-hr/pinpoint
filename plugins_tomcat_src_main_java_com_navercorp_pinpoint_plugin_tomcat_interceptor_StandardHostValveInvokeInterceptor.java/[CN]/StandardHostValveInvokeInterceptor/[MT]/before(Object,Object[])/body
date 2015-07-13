@@ -10,9 +10,9 @@
     if (!trace.canSampled()) {
       return;
     }
-    CallStackFrame frame=trace.pushCallStackFrame();
-    frame.markBeforeTime();
-    frame.recordServiceType(TOMCAT_METHOD);
+    SpanEventRecorder recorder=trace.traceBlockBegin();
+    recorder.markBeforeTime();
+    recorder.recordServiceType(TOMCAT_METHOD);
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {

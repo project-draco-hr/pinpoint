@@ -6,7 +6,7 @@
   if (trace == null) {
     return;
   }
-  final CallStackFrame frame=trace.pushCallStackFrame();
-  frame.markBeforeTime();
-  frame.recordServiceType(serviceType);
+  final SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
+  recorder.recordServiceType(serviceType);
 }

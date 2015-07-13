@@ -7,7 +7,7 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     if (validate(target,result,throwable)) {
       asyncAccessor.set(target,Boolean.TRUE);
       final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
@@ -26,6 +26,6 @@
     logger.warn("Failed to after process. {}",t.getMessage(),t);
   }
  finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

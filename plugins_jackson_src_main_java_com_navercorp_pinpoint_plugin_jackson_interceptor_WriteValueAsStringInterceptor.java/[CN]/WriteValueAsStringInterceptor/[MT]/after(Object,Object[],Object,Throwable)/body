@@ -7,13 +7,13 @@
     return;
   }
   try {
-    CallStackFrame frame=trace.pushCallStackFrame();
-    frame.recordApi(descriptor);
-    frame.recordException(throwable);
-    frame.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((String)result).length());
-    frame.markAfterTime();
+    SpanEventRecorder recorder=trace.traceBlockBegin();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((String)result).length());
+    recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

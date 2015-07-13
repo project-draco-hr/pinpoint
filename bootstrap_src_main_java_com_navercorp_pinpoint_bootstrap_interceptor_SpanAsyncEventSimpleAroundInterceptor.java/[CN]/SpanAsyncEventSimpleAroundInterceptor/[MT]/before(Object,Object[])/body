@@ -20,7 +20,7 @@
     traceFirstBlockBegin(trace);
   }
   try {
-    final CallStackFrame recorder=trace.pushCallStackFrame();
+    final SpanEventRecorder recorder=trace.traceBlockBegin();
     doInBeforeTrace(recorder,asyncTraceId,target,args);
   }
  catch (  Throwable th) {

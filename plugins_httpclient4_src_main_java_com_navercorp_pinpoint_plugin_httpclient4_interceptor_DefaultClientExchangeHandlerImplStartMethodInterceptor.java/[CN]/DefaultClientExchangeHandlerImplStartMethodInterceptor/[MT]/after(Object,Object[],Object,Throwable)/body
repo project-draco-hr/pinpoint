@@ -7,7 +7,7 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final HttpRequest httpRequest=getHttpRequest(target);
     if (httpRequest != null) {
       recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
@@ -24,6 +24,6 @@
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

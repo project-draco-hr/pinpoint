@@ -19,7 +19,7 @@
  else {
             entityValue=entity.getClass() + " (ContentType:" + entity.getContentType()+ ")";
           }
-          final CallStackFrame recorder=trace.currentCallStackFrame();
+          final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
           recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,entityValue);
         }
  catch (        Exception e) {

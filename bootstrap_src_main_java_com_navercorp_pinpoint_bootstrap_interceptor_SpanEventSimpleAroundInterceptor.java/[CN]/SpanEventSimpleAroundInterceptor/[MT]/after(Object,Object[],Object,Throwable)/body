@@ -8,7 +8,7 @@
     return;
   }
   try {
-    final CallStackFrame recorder=trace.currentCallStackFrame();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     doInAfterTrace(recorder,target,args,result,throwable);
   }
  catch (  Throwable th) {
@@ -17,6 +17,6 @@
     }
   }
  finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

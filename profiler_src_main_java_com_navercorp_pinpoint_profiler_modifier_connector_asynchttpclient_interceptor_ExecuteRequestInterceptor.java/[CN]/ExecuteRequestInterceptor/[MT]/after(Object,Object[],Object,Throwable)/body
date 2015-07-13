@@ -10,7 +10,7 @@
     return;
   }
   try {
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final com.ning.http.client.Request httpRequest=(com.ning.http.client.Request)args[0];
     if (httpRequest != null) {
       recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getUrl());
@@ -23,6 +23,6 @@
     recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

@@ -6,7 +6,7 @@
   if (trace == null) {
     return;
   }
-  CallStackFrame recorder=trace.pushCallStackFrame();
+  SpanEventRecorder recorder=trace.traceBlockBegin();
   recorder.markBeforeTime();
   try {
     DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);

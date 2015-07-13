@@ -10,8 +10,8 @@
     return;
   }
   try {
-    trace.pushCallStackFrame();
-    CallStackFrame recorder=trace.currentCallStackFrame();
+    trace.traceBlockBegin();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     doInBeforeTrace(recorder,target,args);
   }
  catch (  Throwable th) {

@@ -7,15 +7,15 @@
     return;
   }
   try {
-    final CallStackFrame frame=trace.currentCallStackFrame();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     if (traceKey) {
       final Object recordObject=args[keyIndex];
-      frame.recordApi(methodDescriptor,recordObject,keyIndex);
+      recorder.recordApi(methodDescriptor,recordObject,keyIndex);
     }
  else {
-      frame.recordApi(methodDescriptor);
+      recorder.recordApi(methodDescriptor);
     }
-    frame.recordException(throwable);
+    recorder.recordException(throwable);
     if (result instanceof Future && operationAccessor.isApplicable(result)) {
       Operation op=operationAccessor.get(result);
       if (op != null) {
@@ -23,7 +23,7 @@
         SocketAddress socketAddress=handlingNode.getSocketAddress();
         if (socketAddress instanceof InetSocketAddress) {
           InetSocketAddress address=(InetSocketAddress)socketAddress;
-          frame.recordEndPoint(address.getHostName() + ":" + address.getPort());
+          recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
         }
       }
  else {
@@ -33,23 +33,23 @@
     if (serviceCodeAccessor.isApplicable(target)) {
       String serviceCode=serviceCodeAccessor.get(target);
       if (serviceCode != null) {
-        frame.recordDestinationId(serviceCode);
-        frame.recordServiceType(ARCUS);
+        recorder.recordDestinationId(serviceCode);
+        recorder.recordServiceType(ARCUS);
       }
  else {
-        frame.recordDestinationId("MEMCACHED");
-        frame.recordServiceType(ServiceType.MEMCACHED);
+        recorder.recordDestinationId("MEMCACHED");
+        recorder.recordServiceType(ServiceType.MEMCACHED);
       }
     }
  else {
-      frame.recordDestinationId("MEMCACHED");
-      frame.recordServiceType(ServiceType.MEMCACHED);
+      recorder.recordDestinationId("MEMCACHED");
+      recorder.recordServiceType(ServiceType.MEMCACHED);
     }
     try {
       if (isAsynchronousInvocation(target,args,result,throwable)) {
         this.traceContext.getAsyncId();
         final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
-        frame.recordNextAsyncId(asyncTraceId.getAsyncId());
+        recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
         asyncTraceIdAccessor.set(result,asyncTraceId);
         if (isDebug) {
           logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
@@ -59,7 +59,7 @@
  catch (    Throwable t) {
       logger.warn("Failed to before process. {}",t.getMessage(),t);
     }
-    frame.markAfterTime();
+    recorder.markAfterTime();
   }
  catch (  Throwable th) {
     if (logger.isWarnEnabled()) {
@@ -67,6 +67,6 @@
     }
   }
  finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }

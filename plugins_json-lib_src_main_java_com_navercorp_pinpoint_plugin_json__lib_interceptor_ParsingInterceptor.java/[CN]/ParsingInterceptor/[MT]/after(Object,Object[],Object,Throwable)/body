@@ -7,16 +7,16 @@
     return;
   }
   try {
-    CallStackFrame frame=trace.currentCallStackFrame();
-    frame.recordServiceType(JsonLibConstants.SERVICE_TYPE);
-    frame.recordApi(descriptor);
-    frame.recordException(throwable);
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordServiceType(JsonLibConstants.SERVICE_TYPE);
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
     if (args.length > 0 && args[0] instanceof String) {
-      frame.recordAttribute(JsonLibConstants.JSON_LIB_ANNOTATION_KEY_JSON_LENGTH,((String)args[0]).length());
+      recorder.recordAttribute(JsonLibConstants.JSON_LIB_ANNOTATION_KEY_JSON_LENGTH,((String)args[0]).length());
     }
-    frame.markAfterTime();
+    recorder.markAfterTime();
   }
   finally {
-    trace.popCallStackFrame();
+    trace.traceBlockEnd();
   }
 }
