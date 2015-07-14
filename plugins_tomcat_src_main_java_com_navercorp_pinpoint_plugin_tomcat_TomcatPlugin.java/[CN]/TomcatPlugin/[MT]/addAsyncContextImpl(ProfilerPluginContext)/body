@@ -1,13 +1,7 @@
 {
   ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder("org.apache.catalina.core.AsyncContextImpl");
   classBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
-  MethodTransformerBuilder startEditor=classBuilder.editMethods(new MethodFilter(){
-    @Override public boolean filter(    MethodInfo method){
-      final String name=method.getName();
-      return !(name.equals("dispatch"));
-    }
-  }
-);
+  MethodTransformerBuilder startEditor=classBuilder.editMethods(MethodFilters.name("dispatch"));
   startEditor.property(IGNORE_IF_NOT_EXIST);
   startEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.AsyncContextImplDispatchMethodInterceptor");
   context.addClassFileTransformer(classBuilder.build());
