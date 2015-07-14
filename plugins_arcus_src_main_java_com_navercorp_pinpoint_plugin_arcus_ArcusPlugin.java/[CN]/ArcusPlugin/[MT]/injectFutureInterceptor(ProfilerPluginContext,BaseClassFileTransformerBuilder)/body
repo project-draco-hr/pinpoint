@@ -4,13 +4,7 @@
   final MethodTransformerBuilder setOperationMethodBuilder=builder.editMethod("setOperation","net.spy.memcached.ops.Operation");
   setOperationMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
   setOperationMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FutureSetOperationInterceptor");
-  final MethodTransformerBuilder methodBuilder=builder.editMethods(new MethodFilter(){
-    @Override public boolean filter(    MethodInfo method){
-      final String name=method.getName();
-      return !(name.equals("cancel") || name.equals("get") || name.equals("set")|| name.equals("signalComplete"));
-    }
-  }
-);
+  final MethodTransformerBuilder methodBuilder=builder.editMethods(MethodFilters.name("cancel","get","set","signalComplete"));
   methodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
   methodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FutureGetInterceptor");
 }
