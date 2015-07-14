@@ -1,0 +1,5 @@
+{
+  Span span=event.getSpan();
+  int asyncId=event.isSetAsyncId() ? event.getAsyncId() : ASYNC_ID_NOT_SET;
+  insertItem(new Item(event,span.getStartTime() + event.getStartElapsed(),span.getSpanId(),event.getSequence(),asyncId));
+}

@@ -1,6 +1,7 @@
 {
   if (createTraceObject) {
-    getTraceContext().newTraceObject();
+    Trace trace=getTraceContext().newTraceObject();
+    trace.getSpanRecorder().markBeforeTime();
   }
   getRecorder().clear();
   getTestTcpDataSender().clear();
