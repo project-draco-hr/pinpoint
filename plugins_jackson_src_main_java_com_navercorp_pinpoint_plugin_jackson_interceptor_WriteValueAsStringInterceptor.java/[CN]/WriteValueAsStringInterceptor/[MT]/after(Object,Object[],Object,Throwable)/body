@@ -7,7 +7,7 @@
     return;
   }
   try {
-    SpanEventRecorder recorder=trace.traceBlockBegin();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
     if (result != null) {
