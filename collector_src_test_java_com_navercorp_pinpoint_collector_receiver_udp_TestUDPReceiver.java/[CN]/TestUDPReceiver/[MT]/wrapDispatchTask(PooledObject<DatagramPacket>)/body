@@ -1,0 +1,12 @@
+{
+  final Runnable lazyExecution=new Runnable(){
+    @Override public void run(){
+      PacketHandler<DatagramPacket> dispatchPacket=packetHandlerFactory.createPacketHandler();
+      PooledPacketWrap pooledPacketWrap=new PooledPacketWrap(dispatchPacket,pooledPacket);
+      Runnable execution=pooledPacketWrap;
+      execution.run();
+    }
+  }
+;
+  return lazyExecution;
+}

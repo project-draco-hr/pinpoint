@@ -1,0 +1,12 @@
+{
+  if (socket == null) {
+    throw new NullPointerException("socket must not be null");
+  }
+  try {
+    logger.info("DatagramSocket.bind() {}/{}",bindAddress,port);
+    socket.bind(new InetSocketAddress(bindAddress,port));
+  }
+ catch (  SocketException ex) {
+    throw new IllegalStateException("Socket bind Fail. port:" + port + " Caused:"+ ex.getMessage(),ex);
+  }
+}

@@ -1,0 +1,38 @@
+{
+  boolean success=false;
+  PooledObject<DatagramPacket> pooledObject=datagramPacketPool.getObject();
+  if (pooledObject == null) {
+    logger.error("datagramPacketPool is empty");
+    return null;
+  }
+  DatagramPacket packet=pooledObject.getObject();
+  try {
+    try {
+      socket.receive(packet);
+      success=true;
+    }
+ catch (    SocketTimeoutException e) {
+      return null;
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("DatagramPacket SocketAddress:{} read size:{}",packet.getSocketAddress(),packet.getLength());
+      if (logger.isTraceEnabled()) {
+        logger.trace("dump packet:{}",PacketUtils.dumpDatagramPacket(packet));
+      }
+    }
+  }
+ catch (  IOException e) {
+    if (!state.get()) {
+    }
+ else {
+      logger.error("IoError, Caused:",e.getMessage(),e);
+    }
+    return null;
+  }
+ finally {
+    if (!success) {
+      pooledObject.returnObject();
+    }
+  }
+  return pooledObject;
+}
