@@ -1,0 +1,17 @@
+{
+  try {
+    DatagramSocket socket=new DatagramSocket(null);
+    socket.setReceiveBufferSize(receiveBufferSize);
+    if (logger.isWarnEnabled()) {
+      final int checkReceiveBufferSize=socket.getReceiveBufferSize();
+      if (receiveBufferSize != checkReceiveBufferSize) {
+        logger.warn("DatagramSocket.setReceiveBufferSize() error. {}!={}",receiveBufferSize,checkReceiveBufferSize);
+      }
+    }
+    socket.setSoTimeout(1000 * 5);
+    return socket;
+  }
+ catch (  SocketException ex) {
+    throw new RuntimeException("Socket create Fail. Caused:" + ex.getMessage(),ex);
+  }
+}

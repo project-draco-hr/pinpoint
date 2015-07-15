@@ -1,0 +1,9 @@
+{
+  logger.info("{} shutdown.",this.receiverName);
+  state.set(false);
+  if (socket != null) {
+    socket.close();
+  }
+  shutdownExecutor(io,"IoExecutor");
+  shutdownExecutor(worker,"WorkerExecutor");
+}

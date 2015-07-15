@@ -1,0 +1,12 @@
+{
+  AgentInformation agentInformation=new AgentInformation("agentId","applicationName",0,0,"machineName","127.0.0.1",ServiceType.STAND_ALONE,Version.VERSION);
+  SpanChunkFactory spanChunkFactory=new SpanChunkFactory(agentInformation);
+  List<SpanEvent> spanEventList=createSpanEventList(spanEventSize);
+  Span span=new Span();
+  List<TSpanEvent> tSpanEventList=new ArrayList<TSpanEvent>();
+  for (  SpanEvent spanEvent : spanEventList) {
+    tSpanEventList.add(spanEvent);
+  }
+  span.setSpanEventList(tSpanEventList);
+  return span;
+}
