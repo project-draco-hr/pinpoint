@@ -9,7 +9,7 @@
   this.traceId=continueTraceId;
   this.sampling=sampling;
   this.traceId.incrementTraceCount();
-  this.traceHeader=new DefaultSpanRecorder(traceContext,traceId,sampling);
-  this.traceHeader.recordTraceId(traceId);
-  this.callStackFrame=new WrappedSpanEventRecorder(traceContext);
+  this.spanReocrder=new DefaultSpanRecorder(traceContext,traceId,sampling);
+  this.spanReocrder.recordTraceId(traceId);
+  this.spanEventRecorder=new WrappedSpanEventRecorder(traceContext);
 }
