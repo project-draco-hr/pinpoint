@@ -1,0 +1,9 @@
+{
+  DatabaseInfo databaseInfo=DatabaseInfoTraceValueUtils.__getTraceDatabaseInfo(target,UnKnownDatabaseInfo.INSTANCE);
+  recorder.recordServiceType(databaseInfo.getType());
+  recorder.recordEndPoint(databaseInfo.getMultipleHost());
+  recorder.recordDestinationId(databaseInfo.getDatabaseId());
+  recorder.recordApi(getMethodDescriptor(),args);
+  recorder.recordException(throwable);
+  recorder.markAfterTime();
+}

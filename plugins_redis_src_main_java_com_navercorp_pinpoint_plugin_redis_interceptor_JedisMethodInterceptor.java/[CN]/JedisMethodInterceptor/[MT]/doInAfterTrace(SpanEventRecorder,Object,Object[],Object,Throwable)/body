@@ -1,0 +1,12 @@
+{
+  String endPoint=null;
+  if (endPointAccessor.isApplicable(target)) {
+    endPoint=endPointAccessor.get(target);
+  }
+  recorder.recordApi(getMethodDescriptor());
+  recorder.recordEndPoint(endPoint != null ? endPoint : "Unknown");
+  recorder.recordDestinationId(REDIS.getName());
+  recorder.recordServiceType(REDIS);
+  recorder.recordException(throwable);
+  recorder.markAfterTime();
+}

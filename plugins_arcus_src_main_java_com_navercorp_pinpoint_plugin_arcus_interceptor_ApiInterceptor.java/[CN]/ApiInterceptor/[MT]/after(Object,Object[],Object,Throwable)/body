@@ -1,0 +1,72 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    if (traceKey) {
+      final Object recordObject=args[keyIndex];
+      recorder.recordApi(methodDescriptor,recordObject,keyIndex);
+    }
+ else {
+      recorder.recordApi(methodDescriptor);
+    }
+    recorder.recordException(throwable);
+    if (result instanceof Future && operationAccessor.isApplicable(result)) {
+      Operation op=operationAccessor.get(result);
+      if (op != null) {
+        MemcachedNode handlingNode=op.getHandlingNode();
+        SocketAddress socketAddress=handlingNode.getSocketAddress();
+        if (socketAddress instanceof InetSocketAddress) {
+          InetSocketAddress address=(InetSocketAddress)socketAddress;
+          recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
+        }
+      }
+ else {
+        logger.info("operation not found");
+      }
+    }
+    if (serviceCodeAccessor.isApplicable(target)) {
+      String serviceCode=serviceCodeAccessor.get(target);
+      if (serviceCode != null) {
+        recorder.recordDestinationId(serviceCode);
+        recorder.recordServiceType(ARCUS);
+      }
+ else {
+        recorder.recordDestinationId("MEMCACHED");
+        recorder.recordServiceType(ServiceType.MEMCACHED);
+      }
+    }
+ else {
+      recorder.recordDestinationId("MEMCACHED");
+      recorder.recordServiceType(ServiceType.MEMCACHED);
+    }
+    try {
+      if (isAsynchronousInvocation(target,args,result,throwable)) {
+        this.traceContext.getAsyncId();
+        final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+        recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
+        asyncTraceIdAccessor.set(result,asyncTraceId);
+        if (isDebug) {
+          logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+        }
+      }
+    }
+ catch (    Throwable t) {
+      logger.warn("Failed to before process. {}",t.getMessage(),t);
+    }
+    recorder.markAfterTime();
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("after error. Caused:{}",th.getMessage(),th);
+    }
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

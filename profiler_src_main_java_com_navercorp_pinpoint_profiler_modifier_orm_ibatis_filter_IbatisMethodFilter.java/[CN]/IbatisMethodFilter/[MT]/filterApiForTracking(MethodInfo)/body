@@ -1,6 +1,6 @@
 {
   if (!shouldTrackMethod(ctMethod.getName())) {
-    return DO_NOT_TRACK;
+    return REJECT;
   }
   final int parameterIndexToMatch=0;
   String[] parameterTypes=ctMethod.getParameterTypes();
@@ -8,6 +8,6 @@
     return parameterTypeMatches(parameterTypes,parameterIndexToMatch,String.class);
   }
  else {
-    return TRACK;
+    return ACCEPT;
   }
 }

@@ -1,0 +1,17 @@
+{
+  int bindPort=defaultPort;
+  DatagramSocket dagagramSocket=null;
+  while (0xFFFF >= bindPort && dagagramSocket == null) {
+    try {
+      dagagramSocket=new DatagramSocket(bindPort);
+    }
+ catch (    IOException ex) {
+      bindPort++;
+    }
+  }
+  if (dagagramSocket != null) {
+    dagagramSocket.close();
+    return bindPort;
+  }
+  throw new IOException("can't find available port.");
+}

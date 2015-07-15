@@ -1,0 +1,10 @@
+{
+  final int modifiers=ctMethod.getModifiers();
+  if (isSynthetic(modifiers) || !Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)|| Modifier.isAbstract(modifiers)|| Modifier.isNative(modifiers)) {
+    return REJECT;
+  }
+  if (methodNames.contains(ctMethod.getName())) {
+    return ACCEPT;
+  }
+  return REJECT;
+}

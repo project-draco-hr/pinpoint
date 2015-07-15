@@ -1,0 +1,10 @@
+{
+  super.doInBeforeTrace(recorder,target,args);
+  Long nextSpanId=this.asyncNextSpanIdAccessor.get(target);
+  recorder.recordNextSpanId(nextSpanId);
+  String remoteAddress=this.asyncCallRemoteAddressAccessor.get(target);
+  recorder.recordDestinationId(remoteAddress);
+  String methodUri=ThriftUtils.getAsyncMethodCallName((TAsyncMethodCall<?>)target);
+  String thriftUrl=remoteAddress + "/" + methodUri;
+  recorder.recordAttribute(THRIFT_URL,thriftUrl);
+}

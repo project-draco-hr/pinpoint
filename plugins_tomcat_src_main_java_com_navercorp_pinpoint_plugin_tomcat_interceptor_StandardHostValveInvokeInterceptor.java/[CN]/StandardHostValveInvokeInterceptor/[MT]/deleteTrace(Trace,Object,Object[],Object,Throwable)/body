@@ -2,9 +2,9 @@
   trace.traceBlockEnd();
   final Request request=(Request)args[0];
   if (!isAsynchronousProcess(request)) {
-    trace.markAfterTime();
+    SpanRecorder recorder=trace.getSpanRecorder();
+    recorder.markAfterTime();
     trace.close();
-    getTraceContext().removeTraceObject();
     setTraceMetadata(request,null);
   }
 }

@@ -1,0 +1,18 @@
+{
+  if (startElapsed < 0) {
+    throw new IllegalArgumentException("startElapsed cannot be less than 0");
+  }
+  if (sequence < 0) {
+    throw new IllegalArgumentException("sequence cannot be less than 0");
+  }
+  if (asyncId < 0) {
+    throw new IllegalArgumentException("asyncId cannot be less than 0");
+  }
+  SpanEvent event=new SpanEvent(associatedSpan);
+  event.setStartElapsed(startElapsed);
+  event.setSequence(sequence);
+  if (asyncId != UNSET_ASYNC_ID) {
+    event.setAsyncId(asyncId);
+  }
+  return event;
+}

@@ -7,9 +7,10 @@
     return;
   }
   try {
-    trace.recordApi(descriptor);
-    trace.recordException(throwable);
-    trace.markAfterTime();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    recorder.markAfterTime();
   }
   finally {
     trace.traceBlockEnd();

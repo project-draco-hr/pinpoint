@@ -1,5 +1,6 @@
 {
-  trace.markBeforeTime();
-  trace.recordServiceType(ServiceType.ASYNC);
-  trace.recordApi(asyncMethodDescriptor);
+  final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+  recorder.markBeforeTime();
+  recorder.recordServiceType(ServiceType.ASYNC);
+  recorder.recordApi(asyncMethodDescriptor);
 }

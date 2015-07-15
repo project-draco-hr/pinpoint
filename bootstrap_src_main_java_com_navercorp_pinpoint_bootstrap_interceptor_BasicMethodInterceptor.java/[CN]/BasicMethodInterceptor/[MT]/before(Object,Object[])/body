@@ -6,7 +6,7 @@
   if (trace == null) {
     return;
   }
-  trace.traceBlockBegin();
-  trace.markBeforeTime();
-  trace.recordServiceType(serviceType);
+  final SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
+  recorder.recordServiceType(serviceType);
 }

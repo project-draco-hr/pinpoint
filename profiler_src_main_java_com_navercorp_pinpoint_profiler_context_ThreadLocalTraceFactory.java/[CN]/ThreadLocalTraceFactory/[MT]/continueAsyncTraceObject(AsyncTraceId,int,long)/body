@@ -1,12 +1,11 @@
 {
   checkBeforeTraceObject();
   final TraceId parentTraceId=traceId.getParentTraceId();
-  final DefaultTrace trace=new DefaultTrace(traceContext,parentTraceId);
-  trace.getCallStack().getSpan().setStartTime(startTime);
+  final boolean sampling=true;
+  final DefaultTrace trace=new DefaultTrace(traceContext,parentTraceId,sampling);
   final Storage storage=storagePool.getStorage(parentTraceId);
   trace.setStorage(new AsyncStorage(storage));
-  trace.setSampling(true);
-  final AsyncTrace asyncTrace=new AsyncTrace(trace,asyncId,traceId.nextAsyncSequence());
+  final AsyncTrace asyncTrace=new AsyncTrace(trace,asyncId,traceId.nextAsyncSequence(),startTime);
   threadLocal.set(asyncTrace);
   return asyncTrace;
 }

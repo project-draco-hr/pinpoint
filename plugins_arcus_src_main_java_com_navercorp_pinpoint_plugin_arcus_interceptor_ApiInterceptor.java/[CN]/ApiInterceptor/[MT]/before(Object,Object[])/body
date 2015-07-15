@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.traceBlockBegin();
+    recorder.markBeforeTime();
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("before. Caused:{}",th.getMessage(),th);
+    }
+  }
+}

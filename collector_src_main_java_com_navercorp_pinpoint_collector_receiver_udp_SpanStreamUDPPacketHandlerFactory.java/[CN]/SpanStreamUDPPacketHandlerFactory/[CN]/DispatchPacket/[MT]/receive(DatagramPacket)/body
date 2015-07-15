@@ -11,6 +11,7 @@
   }
   byte version=requestBuffer.get();
   int chunkSize=0xff & requestBuffer.get();
+  SocketAddress socketAddress=packet.getSocketAddress();
   try {
     for (int i=0; i < chunkSize; i++) {
       byte[] componentData=getComponentData(requestBuffer,deserializer);
@@ -21,6 +22,11 @@
       List<TBase<?,?>> tbaseList=deserializer.deserializeList(componentData);
       if (tbaseList == null || tbaseList.size() == 0) {
         continue;
+      }
+      if (tbaseList.size() == 1) {
+        if (filter.filter(tbaseList.get(0),socketAddress) == TBaseFilter.BREAK) {
+          continue;
+        }
       }
       List<TSpanEvent> spanEventList=getSpanEventList(tbaseList);
       TBase<?,?> tBase=tbaseList.get(tbaseList.size() - 1);

@@ -4,7 +4,8 @@
     final String value=header.getValue();
     if (value != null && !value.isEmpty()) {
       if (cookieSampler.isSampling()) {
-        trace.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,1024));
+        final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+        recorder.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(value,1024));
       }
       return;
     }

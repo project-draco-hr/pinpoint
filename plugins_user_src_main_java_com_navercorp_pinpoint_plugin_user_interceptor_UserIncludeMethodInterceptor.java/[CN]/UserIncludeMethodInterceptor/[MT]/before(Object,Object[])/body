@@ -4,7 +4,7 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
-    trace=traceContext.newTraceObject(TraceType.USER);
+    trace=traceContext.newTraceObject();
     if (!trace.canSampled()) {
       if (isDebug) {
         logger.debug("New trace and can't sampled {}",trace);
@@ -14,8 +14,9 @@
     if (isDebug) {
       logger.debug("New trace and sampled {}",trace);
     }
-    recordRootSpan(trace);
+    SpanRecorder recorder=trace.getSpanRecorder();
+    recordRootSpan(recorder);
   }
-  trace.traceBlockBegin();
-  trace.markBeforeTime();
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.markBeforeTime();
 }

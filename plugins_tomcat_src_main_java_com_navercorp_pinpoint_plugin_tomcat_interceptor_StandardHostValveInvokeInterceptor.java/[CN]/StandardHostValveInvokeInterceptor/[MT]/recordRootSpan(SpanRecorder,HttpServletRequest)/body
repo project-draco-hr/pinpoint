@@ -1,0 +1,15 @@
+{
+  recorder.markBeforeTime();
+  recorder.recordServiceType(TomcatConstants.TOMCAT);
+  final String requestURL=request.getRequestURI();
+  recorder.recordRpcName(requestURL);
+  final int port=request.getServerPort();
+  final String endPoint=request.getServerName() + ":" + port;
+  recorder.recordEndPoint(endPoint);
+  final String remoteAddr=request.getRemoteAddr();
+  recorder.recordRemoteAddress(remoteAddr);
+  if (!recorder.isRoot()) {
+    recordParentInfo(recorder,request);
+  }
+  recorder.recordApi(SERVLET_SYNCHRONOUS_API_TAG);
+}

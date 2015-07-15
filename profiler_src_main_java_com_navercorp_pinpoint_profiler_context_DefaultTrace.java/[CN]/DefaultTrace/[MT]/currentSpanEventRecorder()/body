@@ -1,0 +1,8 @@
+{
+  final SpanEvent spanEvent=callStack.peek();
+  if (spanEvent == null) {
+    throw new PinpointException("not found SpanEvent stack");
+  }
+  spanEventRecorder.setWrapped(spanEvent);
+  return spanEventRecorder;
+}

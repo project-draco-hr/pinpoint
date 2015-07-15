@@ -3,9 +3,9 @@
   if (isAsynchronousProcess(request)) {
     final Trace trace=getTraceMetadata(request);
     if (trace != null) {
-      trace.recordApi(SERVLET_ASYNCHRONOUS_API_TAG);
-      getTraceContext().continueTraceObject(trace);
-      trace.traceBlockBegin();
+      SpanRecorder recorder=trace.getSpanRecorder();
+      recorder.recordApi(SERVLET_ASYNCHRONOUS_API_TAG);
+      traceContext.continueTraceObject(trace);
       return trace;
     }
   }
@@ -18,7 +18,6 @@
   }
   final boolean sampling=samplingEnable(request);
   if (!sampling) {
-    final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.disableSampling();
     if (isDebug) {
       logger.debug("remotecall sampling flag found. skip trace requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
@@ -27,10 +26,10 @@
   }
   final TraceId traceId=populateTraceIdFromRequest(request);
   if (traceId != null) {
-    final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.continueTraceObject(traceId);
     if (trace.canSampled()) {
-      recordRootSpan(trace,request);
+      SpanRecorder recorder=trace.getSpanRecorder();
+      recordRootSpan(recorder,request);
       setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",new Object[]{traceId,request.getRequestURI(),request.getRemoteAddr()});
@@ -44,10 +43,10 @@
     return trace;
   }
  else {
-    final TraceContext traceContext=getTraceContext();
     final Trace trace=traceContext.newTraceObject();
     if (trace.canSampled()) {
-      recordRootSpan(trace,request);
+      SpanRecorder recorder=trace.getSpanRecorder();
+      recordRootSpan(recorder,request);
       setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());

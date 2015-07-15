@@ -1,0 +1,18 @@
+{
+  SpanStreamUdpSender sender=null;
+  try {
+    sender=new SpanStreamUdpSender("127.0.0.1",port,"threadName",10);
+    sender.send(createSpanChunk(10));
+    sender.send(createSpanChunk(3));
+    Thread.sleep(6000);
+    List<TBase> tBaseList=messageHolder.getMessageHolder();
+    int spanChunkCount=getObjectCount(tBaseList,TSpanChunk.class);
+    Assert.assertEquals(2,spanChunkCount);
+    tBaseList.clear();
+  }
+  finally {
+    if (sender != null) {
+      sender.stop();
+    }
+  }
+}

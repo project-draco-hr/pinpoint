@@ -21,9 +21,10 @@
   if (trace == null) {
     return;
   }
+  SpanEventRecorder recorder=trace.currentSpanEventRecorder();
   if (databaseInfo != null) {
-    trace.recordServiceType(databaseInfo.getExecuteQueryType());
-    trace.recordEndPoint(databaseInfo.getMultipleHost());
-    trace.recordDestinationId(databaseInfo.getDatabaseId());
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
   }
 }

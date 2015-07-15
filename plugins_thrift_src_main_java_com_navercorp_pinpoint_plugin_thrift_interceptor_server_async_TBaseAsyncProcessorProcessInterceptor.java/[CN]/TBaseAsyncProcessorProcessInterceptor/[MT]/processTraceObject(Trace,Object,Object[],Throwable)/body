@@ -1,8 +1,9 @@
 {
   try {
-    trace.recordException(throwable);
-    trace.recordApi(this.descriptor);
-    trace.markAfterTime();
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordException(throwable);
+    recorder.recordApi(this.descriptor);
+    recorder.markAfterTime();
   }
  catch (  Throwable t) {
     logger.warn("Error processing trace object. Cause:{}",t.getMessage(),t);
@@ -10,8 +11,9 @@
  finally {
     trace.traceBlockEnd();
   }
+  SpanRecorder recorder=trace.getSpanRecorder();
   String methodUri=getMethodUri(target);
-  trace.recordRpcName(methodUri);
+  recorder.recordRpcName(methodUri);
   String localIpPort=UNKNOWN_ADDRESS;
   String remoteAddress=UNKNOWN_ADDRESS;
   if (args.length == 1 && args[0] instanceof AsyncFrameBuffer) {
@@ -25,10 +27,10 @@
     }
   }
   if (localIpPort != UNKNOWN_ADDRESS) {
-    trace.recordEndPoint(localIpPort);
+    recorder.recordEndPoint(localIpPort);
   }
   if (remoteAddress != UNKNOWN_ADDRESS) {
-    trace.recordRemoteAddress(remoteAddress);
+    recorder.recordRemoteAddress(remoteAddress);
   }
-  trace.markAfterTime();
+  recorder.markAfterTime();
 }

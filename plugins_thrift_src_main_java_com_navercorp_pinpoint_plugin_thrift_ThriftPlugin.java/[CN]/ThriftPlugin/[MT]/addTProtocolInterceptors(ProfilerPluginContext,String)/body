@@ -11,13 +11,7 @@
     final MethodTransformerBuilder readFieldBeginMethodTransformerBuilder=classTransformerBuilder.editMethod("readFieldBegin");
     readFieldBeginMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
     readFieldBeginMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadFieldBeginInterceptor");
-    final Set<String> targetMethodNames=new HashSet<String>(Arrays.asList("readBool","readBinary","readI16","readI64"));
-    final MethodTransformerBuilder readTTypeMethodTransformerBuilder=classTransformerBuilder.editMethods(new MethodFilter(){
-      @Override public boolean filter(      MethodInfo method){
-        return !targetMethodNames.contains(method.getName());
-      }
-    }
-);
+    final MethodTransformerBuilder readTTypeMethodTransformerBuilder=classTransformerBuilder.editMethods(MethodFilters.name("readBool","readBinary","readI16","readI64"));
     readTTypeMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
     readTTypeMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadTTypeInterceptor");
     final MethodTransformerBuilder readMessageEndMethodTransformerBuilder=classTransformerBuilder.editMethod("readMessageEnd");
