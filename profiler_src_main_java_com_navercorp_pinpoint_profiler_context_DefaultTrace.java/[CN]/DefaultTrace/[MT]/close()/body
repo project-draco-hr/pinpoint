@@ -8,7 +8,9 @@
     PinpointException exception=new PinpointException("Corrupted CallStack found");
     logger.warn("Corrupted CallStack found. stack is not empty.",exception);
   }
-  logSpan(spanReocrder.getSpan());
+ else {
+    logSpan(spanReocrder.getSpan());
+  }
   if (this.storage != null) {
     this.traceId.decrementTraceCount();
     this.storage.close();
