@@ -1,5 +1,5 @@
 {
-  final SpanEvent spanEvent=new SpanEvent(traceHeader.getSpan());
+  final SpanEvent spanEvent=new SpanEvent(spanReocrder.getSpan());
   spanEvent.setStackId(stackId);
   spanEvent.setSequence(nextSequence());
   final int currentStackIndex=callStack.push(spanEvent);
@@ -7,6 +7,6 @@
     latestStackIndex=currentStackIndex;
     spanEvent.setDepth(latestStackIndex);
   }
-  callStackFrame.setWrapped(spanEvent);
-  return callStackFrame;
+  spanEventRecorder.setWrapped(spanEvent);
+  return spanEventRecorder;
 }
