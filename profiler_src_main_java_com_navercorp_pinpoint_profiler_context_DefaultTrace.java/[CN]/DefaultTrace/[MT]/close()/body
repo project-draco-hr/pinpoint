@@ -10,7 +10,9 @@
   }
  else {
     Span span=spanRecorder.getSpan();
-    span.markAfterTime();
+    if (span.isTimeRecording()) {
+      span.markAfterTime();
+    }
     logSpan(span);
   }
   if (this.storage != null) {

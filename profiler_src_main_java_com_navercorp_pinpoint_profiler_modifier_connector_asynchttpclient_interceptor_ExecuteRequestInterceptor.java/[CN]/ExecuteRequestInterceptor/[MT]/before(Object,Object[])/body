@@ -23,7 +23,6 @@
   }
   trace.traceBlockBegin();
   SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-  recorder.markBeforeTime();
   TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
   recorder.recordServiceType(ServiceType.HTTP_CLIENT);
