@@ -3,6 +3,8 @@
   jgen.writeStringField("key",link.getLinkName());
   jgen.writeStringField("from",link.getFrom().getNodeName());
   jgen.writeStringField("to",link.getTo().getNodeName());
+  writeAgentId("fromAgent",link.getFrom(),jgen);
+  writeAgentId("toAgent",link.getTo(),jgen);
   writeSimpleNode("sourceInfo",link.getFrom(),jgen);
   writeSimpleNode("targetInfo",link.getTo(),jgen);
   Application filterApplication=link.getFilterApplication();

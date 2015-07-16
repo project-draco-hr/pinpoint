@@ -1,0 +1,13 @@
+{
+  if (node.getServiceType().isWas()) {
+    jgen.writeFieldName(fieldName);
+    jgen.writeStartArray();
+    ServerInstanceList serverInstanceList=node.getServerInstanceList();
+    if (serverInstanceList != null) {
+      for (      String agentId : serverInstanceList.getAgentIdList()) {
+        jgen.writeObject(agentId);
+      }
+    }
+    jgen.writeEndArray();
+  }
+}
