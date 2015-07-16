@@ -9,7 +9,11 @@
     logger.warn("Corrupted CallStack found. stack is not empty.",exception);
   }
  else {
-    logSpan(spanReocrder.getSpan());
+    Span span=spanRecorder.getSpan();
+    if (span.isTimeRecording()) {
+      span.markAfterTime();
+    }
+    logSpan(span);
   }
   if (this.storage != null) {
     this.traceId.decrementTraceCount();

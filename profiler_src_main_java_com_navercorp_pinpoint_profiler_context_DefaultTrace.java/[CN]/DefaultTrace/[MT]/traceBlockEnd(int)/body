@@ -13,5 +13,8 @@
       logger.warn("Corrupted CallStack found. StackId not matched. expected:{} current:{}",stackId,spanEvent.getStackId(),exception);
     }
   }
+  if (spanEvent.isTimeRecording()) {
+    spanEvent.markAfterTime();
+  }
   logSpan(spanEvent);
 }

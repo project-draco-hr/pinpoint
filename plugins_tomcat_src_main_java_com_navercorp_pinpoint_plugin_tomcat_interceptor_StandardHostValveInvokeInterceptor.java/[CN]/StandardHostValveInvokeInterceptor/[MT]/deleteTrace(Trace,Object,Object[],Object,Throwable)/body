@@ -2,8 +2,6 @@
   trace.traceBlockEnd();
   final Request request=(Request)args[0];
   if (!isAsynchronousProcess(request)) {
-    SpanRecorder recorder=trace.getSpanRecorder();
-    recorder.markAfterTime();
     trace.close();
     setTraceMetadata(request,null);
   }

@@ -9,13 +9,7 @@
         testMethodNotifier.addFailure(new IllegalStateException(traceObjectAlreadyDetachedMessage));
       }
  else {
-        try {
-          SpanRecorder frame=trace.getSpanRecorder();
-          frame.markAfterTime();
-        }
-  finally {
-          trace.close();
-        }
+        trace.close();
       }
     }
   finally {
