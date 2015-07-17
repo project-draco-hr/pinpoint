@@ -9,7 +9,15 @@
   this.traceId=continueTraceId;
   this.sampling=sampling;
   this.traceId.incrementTraceCount();
-  this.spanRecorder=new DefaultSpanRecorder(traceContext,traceId,sampling);
+  Span span=createSpan();
+  this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
   this.spanRecorder.recordTraceId(traceId);
   this.spanEventRecorder=new WrappedSpanEventRecorder(traceContext);
+  if (traceContext.getProfilerConfig() != null) {
+    final int maxCallStackDepth=traceContext.getProfilerConfig().getCallStackMaxDepth();
+    this.callStack=new CallStack(span,maxCallStackDepth);
+  }
+ else {
+    this.callStack=new CallStack(span);
+  }
 }

@@ -1,4 +1,8 @@
 {
+  if (isOverflow() && overflowIndex > 0) {
+    overflowIndex--;
+    return new SpanEvent(span);
+  }
   final SpanEvent spanEvent=peek();
   if (spanEvent != null) {
     stack[index - 1]=null;

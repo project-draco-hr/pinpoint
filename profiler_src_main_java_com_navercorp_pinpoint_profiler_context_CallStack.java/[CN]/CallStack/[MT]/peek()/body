@@ -2,5 +2,8 @@
   if (index == DEFAULT_INDEX) {
     return null;
   }
+  if (isOverflow() && overflowIndex > 0) {
+    return new SpanEvent(span);
+  }
   return stack[index - 1];
 }
