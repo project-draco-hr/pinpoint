@@ -10,7 +10,8 @@
       appendLength(sb,length);
       break;
     }
-    StringUtils.appendDrop(sb,bindValueArray[i],limit);
+    final String bindValue=StringUtils.defaultString(bindValueArray[i],"");
+    StringUtils.appendDrop(sb,bindValue,limit);
     if (i < end) {
       sb.append(", ");
     }
