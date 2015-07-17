@@ -1,5 +1,14 @@
 {
+  if (isOverflow()) {
+    overflowIndex++;
+    return index + overflowIndex;
+  }
   checkExtend(index + 1);
+  spanEvent.setSequence(sequence++);
   stack[index++]=spanEvent;
+  if (latestStackIndex != index) {
+    latestStackIndex=index;
+    spanEvent.setDepth(latestStackIndex);
+  }
   return index;
 }

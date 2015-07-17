@@ -1,0 +1,23 @@
+{
+  final int maxDepth=3;
+  CallStack callStack=new CallStack(span,maxDepth);
+  assertEquals(maxDepth,callStack.getMaxDepth());
+  for (int i=0; i < maxDepth; i++) {
+    assertEquals(i + 1,callStack.push(spanEvent));
+  }
+  int overflowIndex=callStack.push(spanEvent);
+  assertEquals(maxDepth + 1,overflowIndex);
+  assertEquals(maxDepth + 1,callStack.getIndex());
+  assertTrue(callStack.isOverflow());
+  assertNotNull(callStack.peek());
+  System.out.println(callStack);
+  assertNotNull(callStack.pop());
+  assertEquals(maxDepth,callStack.getIndex());
+  for (int i=maxDepth; i > 0; i--) {
+    assertNotNull(callStack.peek());
+    assertNotNull(callStack.pop());
+    assertEquals(i - 1,callStack.getIndex());
+  }
+  assertNull(callStack.pop());
+  assertNull(callStack.peek());
+}

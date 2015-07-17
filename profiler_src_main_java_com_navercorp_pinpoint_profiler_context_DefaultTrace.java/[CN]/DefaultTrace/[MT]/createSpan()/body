@@ -1,11 +1,9 @@
 {
-  super(traceContext);
-  span=new Span();
+  Span span=new Span();
   span.setAgentId(traceContext.getAgentId());
   span.setApplicationName(traceContext.getApplicationName());
   span.setAgentStartTime(traceContext.getAgentStartTime());
   span.setApplicationServiceType(traceContext.getServerTypeCode());
   span.markBeforeTime();
-  this.traceId=traceId;
-  this.sampling=sampling;
+  return span;
 }

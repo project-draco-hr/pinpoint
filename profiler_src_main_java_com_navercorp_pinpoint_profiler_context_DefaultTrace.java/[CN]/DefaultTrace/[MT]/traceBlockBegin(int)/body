@@ -2,12 +2,7 @@
   final SpanEvent spanEvent=new SpanEvent(spanRecorder.getSpan());
   spanEvent.markStartTime();
   spanEvent.setStackId(stackId);
-  spanEvent.setSequence(nextSequence());
-  final int currentStackIndex=callStack.push(spanEvent);
-  if (latestStackIndex != currentStackIndex) {
-    latestStackIndex=currentStackIndex;
-    spanEvent.setDepth(latestStackIndex);
-  }
+  callStack.push(spanEvent);
   spanEventRecorder.setWrapped(spanEvent);
   return spanEventRecorder;
 }
