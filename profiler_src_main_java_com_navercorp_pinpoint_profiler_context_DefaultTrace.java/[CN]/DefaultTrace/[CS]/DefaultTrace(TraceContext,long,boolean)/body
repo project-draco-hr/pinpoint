@@ -5,7 +5,6 @@
   this.traceContext=traceContext;
   this.traceId=new DefaultTraceId(traceContext.getAgentId(),traceContext.getAgentStartTime(),transactionId);
   this.sampling=sampling;
-  this.traceId.incrementTraceCount();
   Span span=createSpan();
   this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
   this.spanRecorder.recordTraceId(traceId);

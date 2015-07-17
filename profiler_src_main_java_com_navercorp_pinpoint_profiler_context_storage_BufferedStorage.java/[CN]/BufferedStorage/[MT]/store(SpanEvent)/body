@@ -1,11 +1,9 @@
 {
   List<SpanEvent> flushData=null;
-synchronized (this) {
-    storage.add(spanEvent);
-    if (storage.size() >= bufferSize) {
-      flushData=storage;
-      storage=new ArrayList<SpanEvent>(bufferSize);
-    }
+  storage.add(spanEvent);
+  if (storage.size() >= bufferSize) {
+    flushData=storage;
+    storage=new ArrayList<SpanEvent>(bufferSize);
   }
   if (flushData != null) {
     final SpanChunk spanChunk=spanChunkFactory.create(flushData);

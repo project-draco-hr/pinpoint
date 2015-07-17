@@ -1,9 +1,7 @@
 {
   List<SpanEvent> spanEventList;
-synchronized (this) {
-    spanEventList=storage;
-    this.storage=new ArrayList<SpanEvent>(bufferSize);
-  }
+  spanEventList=storage;
+  this.storage=new ArrayList<SpanEvent>(bufferSize);
   if (spanEventList != null && !spanEventList.isEmpty()) {
     final SpanChunk spanChunk=spanChunkFactory.create(spanEventList);
     dataSender.send(spanChunk);
