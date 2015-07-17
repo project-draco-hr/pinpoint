@@ -3,9 +3,11 @@
     return UNKNOWN;
   }
   StringBuilder stackTrace=new StringBuilder(128);
-  stackTrace.append(throwable.toString()).append("\r\n");
+  stackTrace.append(throwable.toString());
+  stackTrace.append("\r\n");
   for (  StackTraceElement traceElement : throwable.getStackTrace()) {
-    stackTrace.append("\tat " + traceElement.toString()).append("\r\n");
+    stackTrace.append("\tat " + traceElement.toString());
+    stackTrace.append("\r\n");
   }
   return stackTrace.toString();
 }
