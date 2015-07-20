@@ -1,0 +1,11 @@
+{
+  final Collection<List<ServerInstance>> serverInstanceValueList=this.serverInstanceList.values();
+  final List<String> agentList=new ArrayList<String>();
+  for (  List<ServerInstance> serverInstanceList : serverInstanceValueList) {
+    for (    ServerInstance serverInstance : serverInstanceList) {
+      AgentInfoBo agentInfo=serverInstance.getAgentInfo();
+      agentList.add(agentInfo.getAgentId());
+    }
+  }
+  return agentList;
+}
