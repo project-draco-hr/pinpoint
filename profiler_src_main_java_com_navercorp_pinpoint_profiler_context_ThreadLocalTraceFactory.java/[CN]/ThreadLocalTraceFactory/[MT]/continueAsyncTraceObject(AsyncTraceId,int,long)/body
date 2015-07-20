@@ -3,7 +3,7 @@
   final TraceId parentTraceId=traceId.getParentTraceId();
   final boolean sampling=true;
   final DefaultTrace trace=new DefaultTrace(traceContext,parentTraceId,sampling);
-  final Storage storage=storagePool.getStorage(parentTraceId);
+  final Storage storage=storageFactory.createStorage();
   trace.setStorage(new AsyncStorage(storage));
   final AsyncTrace asyncTrace=new AsyncTrace(trace,asyncId,traceId.nextAsyncSequence(),startTime);
   threadLocal.set(asyncTrace);

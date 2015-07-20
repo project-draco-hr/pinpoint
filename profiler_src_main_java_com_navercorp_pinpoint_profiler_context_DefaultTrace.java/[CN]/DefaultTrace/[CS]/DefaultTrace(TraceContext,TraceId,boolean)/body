@@ -8,7 +8,6 @@
   this.traceContext=traceContext;
   this.traceId=continueTraceId;
   this.sampling=sampling;
-  this.traceId.incrementTraceCount();
   Span span=createSpan();
   this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
   this.spanRecorder.recordTraceId(traceId);

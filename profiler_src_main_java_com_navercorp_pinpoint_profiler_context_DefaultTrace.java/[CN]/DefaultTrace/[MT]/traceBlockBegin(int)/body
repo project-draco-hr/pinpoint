@@ -2,7 +2,15 @@
   final SpanEvent spanEvent=new SpanEvent(spanRecorder.getSpan());
   spanEvent.markStartTime();
   spanEvent.setStackId(stackId);
-  callStack.push(spanEvent);
+  if (this.closed) {
+    if (isWarn) {
+      PinpointException exception=new PinpointException("already closed trace.");
+      logger.warn("[DefaultTrace] Corrupted call stack found.",exception);
+    }
+  }
+ else {
+    callStack.push(spanEvent);
+  }
   spanEventRecorder.setWrapped(spanEvent);
   return spanEventRecorder;
 }

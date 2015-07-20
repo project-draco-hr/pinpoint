@@ -1,7 +1,11 @@
 {
-  final SpanEvent spanEvent=callStack.peek();
+  SpanEvent spanEvent=callStack.peek();
   if (spanEvent == null) {
-    throw new PinpointException("not found SpanEvent stack");
+    if (isWarn) {
+      PinpointException exception=new PinpointException("call stack is empty");
+      logger.warn("[DefaultTrace] Corrupted call stack found.",exception);
+    }
+    spanEvent=new SpanEvent(spanRecorder.getSpan());
   }
   spanEventRecorder.setWrapped(spanEvent);
   return spanEventRecorder;
