@@ -1,0 +1,22 @@
+{
+  Object actual=popSpan();
+  Span span=null;
+  if (actual instanceof Span) {
+    span=(Span)actual;
+  }
+ else   if (actual instanceof SpanEvent) {
+    span=((SpanEvent)actual).getSpan();
+  }
+ else {
+    throw new IllegalArgumentException("Unexpected type: " + actual.getClass());
+  }
+  if (span.getLoggingTransactionInfo() != loggingInfo.getCode()) {
+    LoggingInfo loggingTransactionInfo=LoggingInfo.searchByCode(span.getLoggingTransactionInfo());
+    if (loggingTransactionInfo != null) {
+      throw new AssertionError("Expected a Span isLoggingTransactionInfo value with [" + loggingInfo.getName() + "] but was ["+ loggingTransactionInfo.getName()+ "]. expected: "+ loggingInfo.getName()+ ", was: "+ loggingTransactionInfo.getName());
+    }
+ else {
+      throw new AssertionError("Expected a Span isLoggingTransactionInfo value with [" + loggingInfo.getName() + "] but loggingTransactionInfo value invalid.");
+    }
+  }
+}
