@@ -1,0 +1,20 @@
+{
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
+  if (metricRegistry == null) {
+    throw new NullPointerException("metricRegistry must not be null");
+  }
+  if (storageFactory == null) {
+    throw new NullPointerException("storageFactory must not be null");
+  }
+  if (sampler == null) {
+    throw new NullPointerException("sampler must not be null");
+  }
+  this.metricRegistry=metricRegistry;
+  this.storageFactory=storageFactory;
+  this.sampler=sampler;
+  this.defaultTraceFactory=new DefaultTraceFactory(traceContext,storageFactory);
+  this.activeTraceEventListener=activeTraceEventListener;
+  this.traceFactory=defaultTraceFactory;
+}
