@@ -3,7 +3,6 @@
   final boolean sampling=sampler.isSampling();
   if (sampling) {
     final DefaultTrace trace=new DefaultTrace(traceContext,nextTransactionId(),sampling);
-    final TraceId traceId=trace.getTraceId();
     final Storage storage=storageFactory.createStorage();
     trace.setStorage(storage);
     trace.setTraceType(traceType);
@@ -11,8 +10,8 @@
     return trace;
   }
  else {
-    final Trace metricTrace=createMetricTrace();
-    threadLocal.set(metricTrace);
-    return metricTrace;
+    final Trace disableTrace=newDisableTrace();
+    threadLocal.set(disableTrace);
+    return disableTrace;
   }
 }
