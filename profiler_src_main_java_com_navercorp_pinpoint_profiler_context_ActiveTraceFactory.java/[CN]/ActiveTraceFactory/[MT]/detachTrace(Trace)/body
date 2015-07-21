@@ -1,7 +1,7 @@
 {
-  if (!trace.canSampled()) {
+  if (trace == null) {
     return;
   }
-  long spanId=trace.getTraceId().getSpanId();
+  long spanId=trace.getId();
   this.activeTraceRepository.removeActiveTrace(spanId);
 }

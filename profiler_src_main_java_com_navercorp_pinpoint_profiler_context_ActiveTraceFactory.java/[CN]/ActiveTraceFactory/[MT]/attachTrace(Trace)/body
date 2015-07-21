@@ -1,10 +1,8 @@
 {
-  if (!trace.canSampled()) {
+  if (trace == null) {
     return;
   }
-  if (activeTraceTracking) {
-    final long spanId=trace.getTraceId().getSpanId();
-    final ActiveTraceInfo activeTraceInfo=new ActiveTraceInfo(spanId,System.currentTimeMillis());
-    this.activeTraceRepository.addActiveTrace(spanId,activeTraceInfo);
-  }
+  final long traceObjectId=trace.getId();
+  final ActiveTraceInfo activeTraceInfo=new ActiveTraceInfo(traceObjectId,System.currentTimeMillis());
+  this.activeTraceRepository.addActiveTrace(traceObjectId,activeTraceInfo);
 }
