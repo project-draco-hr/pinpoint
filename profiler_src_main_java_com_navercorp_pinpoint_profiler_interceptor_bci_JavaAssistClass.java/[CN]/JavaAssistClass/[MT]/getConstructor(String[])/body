@@ -1,11 +1,4 @@
 {
-  final String constructorSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
-  for (  CtConstructor ctConstructor : ctClass.getDeclaredConstructors()) {
-    final String descriptor=ctConstructor.getMethodInfo2().getDescriptor();
-    final boolean findConstructor=descriptor.startsWith(constructorSignature);
-    if (findConstructor) {
-      return new JavassistMethodInfo(ctConstructor);
-    }
-  }
-  return null;
+  CtConstructor constructor=getCtConstructor0(parameterTypes);
+  return constructor == null ? null : new JavassistMethodInfo(pluginContext,interceptorRegistryBinder,this,constructor);
 }

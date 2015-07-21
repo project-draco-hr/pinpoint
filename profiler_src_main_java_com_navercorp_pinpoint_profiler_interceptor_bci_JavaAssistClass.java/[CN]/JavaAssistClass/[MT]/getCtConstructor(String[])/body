@@ -1,10 +1,7 @@
 {
-  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(args);
-  for (  CtConstructor constructor : ctClass.getDeclaredConstructors()) {
-    final String descriptor=constructor.getMethodInfo2().getDescriptor();
-    if (descriptor.startsWith(jvmSignature) && constructor.isConstructor()) {
-      return constructor;
-    }
+  CtConstructor constructor=getCtConstructor0(parameterTypes);
+  if (constructor == null) {
+    throw new NotFoundInstrumentException("Constructor" + Arrays.toString(parameterTypes) + " is not found in "+ this.getName());
   }
-  throw new NotFoundInstrumentException("Constructor" + Arrays.toString(args) + " is not found in "+ this.getName());
+  return constructor;
 }

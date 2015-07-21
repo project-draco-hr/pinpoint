@@ -1,5 +1,5 @@
 {
-  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(args);
+  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
   for (  CtMethod method : ctClass.getDeclaredMethods()) {
     if (!method.getName().equals(methodName)) {
       continue;
@@ -9,5 +9,5 @@
       return method;
     }
   }
-  throw new NotFoundInstrumentException(methodName + Arrays.toString(args) + " is not found in "+ this.getName());
+  return null;
 }

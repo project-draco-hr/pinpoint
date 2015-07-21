@@ -1,10 +1,10 @@
 {
-  if (getMethod(ctClass,methodName,args) != null) {
+  if (getCtMethod0(ctClass,methodName,args) != null) {
     throw new InstrumentException(getName() + "already have method(" + methodName+ ").");
   }
   try {
     final CtClass superClass=ctClass.getSuperclass();
-    CtMethod superMethod=getMethod(superClass,methodName,args);
+    CtMethod superMethod=getCtMethod0(superClass,methodName,args);
     if (superMethod == null) {
       throw new NotFoundInstrumentException(methodName + Arrays.toString(args) + " is not found in "+ superClass.getName());
     }

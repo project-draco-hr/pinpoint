@@ -5,7 +5,7 @@
   final CtMethod[] declaredMethod=ctClass.getDeclaredMethods();
   final List<MethodInfo> candidateList=new ArrayList<MethodInfo>(declaredMethod.length);
   for (  CtMethod ctMethod : declaredMethod) {
-    final MethodInfo method=new JavassistMethodInfo(ctMethod);
+    final MethodInfo method=new JavassistMethodInfo(pluginContext,interceptorRegistryBinder,this,ctMethod);
     if (methodFilter.accept(method)) {
       candidateList.add(method);
     }
