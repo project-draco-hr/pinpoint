@@ -1,5 +1,5 @@
 {
-  final Trace old=this.threadLocal.get();
+  final Trace old=this.threadLocalBinder.get();
   if (old != null) {
     final PinpointException exception=new PinpointException("already Trace Object exist.");
     if (logger.isWarnEnabled()) {
