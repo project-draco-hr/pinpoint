@@ -2,7 +2,7 @@
   Interceptor interceptor=InterceptorRegistry.findInterceptor(interceptorId);
   boolean isStatic=interceptor instanceof StaticAroundInterceptor;
   try {
-    addInterceptor0(interceptorId,Type.around,isStatic);
+    addInterceptor0(interceptor,null,null,interceptorId,Type.around,isStatic);
   }
  catch (  Exception e) {
     throw new InstrumentException("Failed to add interceptor " + interceptor.getClass().getName() + " to "+ behavior,e);

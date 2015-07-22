@@ -1,0 +1,18 @@
+{
+  Class<?> invokerClass=createInterceptorInvoker(interceptor,group,policy,interceptorId);
+  boolean legacy=interceptor instanceof SimpleAroundInterceptor;
+switch (type) {
+case around:
+    addBeforeInterceptor(invokerClass,legacy,isStatic);
+  addAfterInterceptor(invokerClass,legacy,isStatic);
+break;
+case before:
+addBeforeInterceptor(invokerClass,legacy,isStatic);
+break;
+case after:
+addAfterInterceptor(invokerClass,legacy,isStatic);
+break;
+default :
+throw new UnsupportedOperationException("unsupported type");
+}
+}

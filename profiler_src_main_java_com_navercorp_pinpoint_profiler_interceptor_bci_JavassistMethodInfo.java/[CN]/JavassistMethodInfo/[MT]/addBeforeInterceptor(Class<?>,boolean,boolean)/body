@@ -1,0 +1,45 @@
+{
+  final String target=getTargetIdentifier(behavior);
+  final String[] parameterType=JavaAssistUtils.parseParameterSignature(behavior.getSignature());
+  String parameterDescription=null;
+  if (isStatic) {
+    parameterDescription=JavaAssistUtils.getParameterDescription(parameterType);
+  }
+  final String parameterIdentifier=getParameterIdentifier(parameterType);
+  CodeBuilder code=new CodeBuilder();
+  code.begin();
+  if (isStatic) {
+    code.format("  %1$s.before(%2$s, \"%3$s\", \"%4$s\", \"%5$s\", %6$s);",invokerClass.getName(),target,behavior.getDeclaringClass().getName(),behavior.getName(),parameterDescription,parameterIdentifier);
+  }
+ else {
+    if (legacy) {
+      code.format("  %1$s.before(%2$s, %3$s);",invokerClass.getName(),target,parameterIdentifier);
+    }
+ else {
+      code.format("  %1$s.before(%2$s",invokerClass.getName(),target);
+      Method before=getBefore(invokerClass);
+      int i=0;
+      int argNum=parameterType.length;
+      int invokerArgNum=before.getParameterTypes().length - 1;
+      int matchNum=Math.min(argNum,invokerArgNum);
+      for (; i < matchNum; i++) {
+        code.append(", $" + (i + 1));
+      }
+      for (; i < invokerArgNum; i++) {
+        code.append(", null");
+      }
+      code.append(");");
+    }
+  }
+  code.end();
+  String buildBefore=code.toString();
+  if (isDebug) {
+    logger.debug("addStaticBeforeInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildBefore);
+  }
+  if (behavior instanceof CtConstructor) {
+    ((CtConstructor)behavior).insertBeforeBody(buildBefore);
+  }
+ else {
+    behavior.insertBefore(buildBefore);
+  }
+}

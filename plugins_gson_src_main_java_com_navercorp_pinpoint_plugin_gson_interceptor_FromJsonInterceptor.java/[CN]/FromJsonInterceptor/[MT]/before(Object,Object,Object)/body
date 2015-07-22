@@ -1,0 +1,10 @@
+{
+  if (logger.isDebugEnabled()) {
+    logger.beforeInterceptor(target,new Object[]{arg0,arg1});
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  trace.traceBlockBegin();
+}

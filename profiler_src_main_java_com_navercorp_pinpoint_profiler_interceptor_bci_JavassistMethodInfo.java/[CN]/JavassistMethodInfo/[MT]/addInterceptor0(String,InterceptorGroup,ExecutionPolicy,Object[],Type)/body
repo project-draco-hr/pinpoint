@@ -1,5 +1,5 @@
 {
-  Interceptor interceptor=createInterceptor(interceptorClassName,group,policy,constructorArgs);
+  Interceptor interceptor=createInterceptor(interceptorClassName,null,null,constructorArgs);
   int interceptorId;
   boolean isStatic=false;
   if (interceptor instanceof StaticAroundInterceptor) {
@@ -10,8 +10,8 @@
     interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor((SimpleAroundInterceptor)interceptor);
   }
  else {
-    throw new InstrumentException("unsupported TargetMethod ServiceTypeInfo:" + interceptor);
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(interceptor);
   }
-  addInterceptor0(interceptorId,type,isStatic);
+  addInterceptor0(interceptor,group,policy,interceptorId,type,isStatic);
   return interceptorId;
 }

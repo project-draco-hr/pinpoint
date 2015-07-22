@@ -1,11 +1,7 @@
 {
-  final SimpleAroundInterceptor simpleInterceptor=this.simpleIndex.get(key);
+  final Interceptor simpleInterceptor=this.simpleIndex.get(key);
   if (simpleInterceptor != null) {
     return simpleInterceptor;
-  }
-  final StaticAroundInterceptor staticAroundInterceptor=this.staticIndex.get(key);
-  if (staticAroundInterceptor != null) {
-    return staticAroundInterceptor;
   }
   Logger logger=Logger.getLogger(InterceptorRegistry.class.getName());
   if (logger.isLoggable(Level.WARNING)) {
