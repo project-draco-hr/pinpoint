@@ -3,6 +3,7 @@
   cacheBuilder.concurrencyLevel(64);
   cacheBuilder.initialCapacity(maxActiveTraceSize);
   cacheBuilder.maximumSize(maxActiveTraceSize);
-  final Cache<Long,ActiveTraceInfo> localCache=cacheBuilder.build();
+  cacheBuilder.weakValues();
+  final Cache<Long,Trace> localCache=cacheBuilder.build();
   return localCache.asMap();
 }
