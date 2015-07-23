@@ -13,6 +13,10 @@
   invoker.addField(policyField);
   invoker.addMethod(CtNewMethod.make("public static void setGroup(" + InterceptorGroup.class.getName() + " g) { group = g; }",invoker));
   invoker.addMethod(CtNewMethod.make("public static void setPolicy(" + ExecutionPolicy.class.getName() + " p) { policy = p; }",invoker));
+  String global=InterceptorInvoker.class.getName();
+  invoker.addMethod(CtNewMethod.make("private static void handleException(java.lang.Throwable t) { if (" + global + ".throwException) { throw new RuntimeException(t); } else { "+ global+ ".logger.log(java.util.logging.Level.WARNING, \"Excetpion occured from interceptor\", t); } }",invoker));
+  invoker.addMethod(CtNewMethod.make("private static void logSkipBefore() { " + global + ".logger.log(java.util.logging.Level.FINE, \"tryEnter() returns false: interceptorGroupTransaction: "+ group.getName()+ ", policy: "+ policy+ ". Skip interceptor "+ interceptor.getClass().getName()+ "\"); }",invoker));
+  invoker.addMethod(CtNewMethod.make("private static void logSkipAfter() { " + global + ".logger.log(java.util.logging.Level.FINE, \"canLeave() returns false: interceptorGroupTransaction: "+ group.getName()+ ", policy: "+ policy+ ". Skip interceptor "+ interceptor.getClass().getName()+ "\"); }",invoker));
   StringBuilder beforeBuilder=new StringBuilder("public static void before(");
   Method before=getBefore(interceptor.getClass());
   int index=0;
@@ -36,11 +40,8 @@
     beforeBuilder.append("arg");
     beforeBuilder.append(i);
   }
-  String global=InterceptorInvoker.class.getName();
-  beforeBuilder.append("); } else { " + global + ".logger.log(java.util.logging.Level.FINE, \"tryEnter() returns false: interceptorGroupTransaction: "+ group.getName()+ ", policy: "+ policy+ ". Skip interceptor "+ interceptor.getClass().getName()+ "\"); }}");
-  beforeBuilder.append("catch (Throwable t) {");
-  beforeBuilder.append("    if (" + global + ".throwException) { throw new RuntimeException(t); }");
-  beforeBuilder.append("    else { " + global + ".logger.log(java.util.logging.Level.WARNING, \"Excetpion occured from interceptor\", t); }");
+  beforeBuilder.append("); } else { logSkipBefore(); }}");
+  beforeBuilder.append("catch (Throwable t) { handleException(t); }");
   beforeBuilder.append("}}");
   String beforeBody=beforeBuilder.toString();
   logger.debug(beforeBody);
@@ -68,10 +69,8 @@
     afterBuilder.append("arg");
     afterBuilder.append(i);
   }
-  afterBuilder.append("); transaction.leave(policy);} else { " + global + ".logger.log(java.util.logging.Level.FINE, \"canLeave() returns false: interceptorGroupTransaction: "+ group.getName()+ ", policy: "+ policy+ ". Skip interceptor "+ interceptor.getClass().getName()+ "\"); }}");
-  afterBuilder.append("catch (Throwable t) {");
-  afterBuilder.append("    if (" + global + ".throwException) { throw new RuntimeException(t); }");
-  afterBuilder.append("    else { " + global + ".logger.log(java.util.logging.Level.WARNING, \"Excetpion occured from interceptor\", t); }");
+  afterBuilder.append("); transaction.leave(policy);} else { logSkipAfter(); }}");
+  afterBuilder.append("catch (Throwable t) { handleException(t); }");
   afterBuilder.append("}}");
   String afterBody=afterBuilder.toString();
   logger.debug(afterBody);
