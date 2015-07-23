@@ -1,0 +1,13 @@
+{
+  final Trace trace=get(key);
+  if (trace == null) {
+    return null;
+  }
+  final Thread bindThread=trace.getBindThread();
+  if (bindThread == null) {
+    return null;
+  }
+  StackTraceElement[] stackTrace=bindThread.getStackTrace();
+  logger.info("stackTrace:{}",Arrays.toString(stackTrace));
+  return null;
+}

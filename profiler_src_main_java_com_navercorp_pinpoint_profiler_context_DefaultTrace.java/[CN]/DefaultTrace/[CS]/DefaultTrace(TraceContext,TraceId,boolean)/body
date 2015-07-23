@@ -8,7 +8,7 @@
   this.traceContext=traceContext;
   this.traceId=continueTraceId;
   this.sampling=sampling;
-  Span span=createSpan();
+  final Span span=createSpan();
   this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
   this.spanRecorder.recordTraceId(traceId);
   this.spanEventRecorder=new WrappedSpanEventRecorder(traceContext);
@@ -19,4 +19,5 @@
  else {
     this.callStack=new CallStack(span);
   }
+  setCurrentThread();
 }
