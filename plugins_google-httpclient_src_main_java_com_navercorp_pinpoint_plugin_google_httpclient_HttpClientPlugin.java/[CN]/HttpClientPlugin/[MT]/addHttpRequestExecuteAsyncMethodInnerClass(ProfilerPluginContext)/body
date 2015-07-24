@@ -1,0 +1,22 @@
+{
+  final ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder("com.google.api.client.http.HttpRequest$1");
+  classBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
+  ConstructorTransformerBuilder constructorBuilder=classBuilder.editConstructor("com.google.api.client.http.HttpRequest");
+  constructorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassConstructorInterceptor");
+  classBuilder.conditional(ClassConditions.hasMethod("call","com.google.api.client.http.HttpResponse"),new ConditionalClassFileTransformerSetup(){
+    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
+      MethodTransformerBuilder methodBuilder=conditional.editMethods(new HttpRequestExceuteAsyncMethodInnerClassMethodFilter());
+      methodBuilder.exceptionHandler(new MethodTransformerExceptionHandler(){
+        public void handle(        String targetClassName,        String targetMethodName,        String[] targetMethodParameterTypes,        Throwable exception) throws Throwable {
+          if (logger.isWarnEnabled()) {
+            logger.warn("[HttpClientPlugin] Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+          }
+        }
+      }
+);
+      methodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassCallMethodInterceptor");
+    }
+  }
+);
+  context.addClassFileTransformer(classBuilder.build());
+}
