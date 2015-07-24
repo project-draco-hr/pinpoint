@@ -6,6 +6,6 @@
   final Storage storage=storageFactory.createStorage();
   trace.setStorage(new AsyncStorage(storage));
   final AsyncTrace asyncTrace=new AsyncTrace(trace,asyncId,traceId.nextAsyncSequence(),startTime);
-  threadLocal.set(asyncTrace);
+  bind(asyncTrace);
   return asyncTrace;
 }

@@ -1,0 +1,10 @@
+{
+  if (traceFactory == null) {
+    throw new NullPointerException("traceFactory must not be null");
+  }
+  if (serviceType == null) {
+    throw new NullPointerException("serviceType must not be null");
+  }
+  this.delegate=traceFactory;
+  this.metricRegistry=new MetricRegistry(serviceType);
+}

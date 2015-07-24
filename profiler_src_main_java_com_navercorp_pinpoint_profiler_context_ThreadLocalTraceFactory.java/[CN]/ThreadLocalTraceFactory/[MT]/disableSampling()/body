@@ -1,6 +1,6 @@
 {
   checkBeforeTraceObject();
-  final Trace metricTrace=createMetricTrace();
-  threadLocal.set(metricTrace);
+  final Trace metricTrace=newDisableTrace();
+  bind(metricTrace);
   return metricTrace;
 }
