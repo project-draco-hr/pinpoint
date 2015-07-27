@@ -12,7 +12,7 @@
   LinkDataDuplexMap linkDataDuplexMap=linkSelector.select(sourceApplication,range,searchOption);
   watch.stop();
   watch.start("ApplicationMap MapBuilding(Response) Time");
-  ApplicationMapBuilder builder=new ApplicationMapBuilder(range,matcherGroup);
+  ApplicationMapBuilder builder=new ApplicationMapBuilder(range);
   ApplicationMap map=builder.build(linkDataDuplexMap,agentInfoService,this.mapResponseDao);
   watch.stop();
   if (logger.isInfoEnabled()) {
