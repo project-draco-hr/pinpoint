@@ -1,6 +1,6 @@
 {
   final HttpChannel<?> channel=(HttpChannel<?>)args[0];
-  final HttpServletRequest request=(HttpServletRequest)channel.getRequest();
+  final Request request=channel.getRequest();
   final String requestURI=request.getRequestURI();
   if (excludeUrlFilter.filter(requestURI)) {
     if (isTrace) {
