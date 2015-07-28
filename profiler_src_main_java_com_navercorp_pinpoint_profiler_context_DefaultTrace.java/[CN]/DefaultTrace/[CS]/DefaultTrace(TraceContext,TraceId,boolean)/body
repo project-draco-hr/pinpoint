@@ -12,12 +12,6 @@
   this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
   this.spanRecorder.recordTraceId(traceId);
   this.spanEventRecorder=new WrappedSpanEventRecorder(traceContext);
-  if (traceContext.getProfilerConfig() != null) {
-    final int maxCallStackDepth=traceContext.getProfilerConfig().getCallStackMaxDepth();
-    this.callStack=new CallStack(span,maxCallStackDepth);
-  }
- else {
-    this.callStack=new CallStack(span);
-  }
+  this.callStack=createCallStack(traceContext.getProfilerConfig(),span);
   setCurrentThread();
 }
