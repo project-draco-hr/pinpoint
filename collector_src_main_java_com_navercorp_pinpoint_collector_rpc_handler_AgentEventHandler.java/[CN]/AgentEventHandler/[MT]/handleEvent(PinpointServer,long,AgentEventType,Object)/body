@@ -1,0 +1,10 @@
+{
+  try {
+    byte[] eventBody=this.agentEventMessageSerializer.serialize(eventType,eventMessage);
+    handleEvent(pinpointServer,eventTimestamp,eventType,eventBody);
+  }
+ catch (  Exception e) {
+    logger.warn("error serializing event message",e);
+    handleEvent(pinpointServer,eventTimestamp,eventType,EMPTY_BODY);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  ManagedAgentLifeCycle managedAgentLifeCycle=ManagedAgentLifeCycle.getManagedAgentLifeCycleByStateCode(stateCode);
+  if (managedAgentLifeCycle == STATE_NOT_MANAGED) {
+    return;
+  }
+ else {
+    logger.info("{} eventPerformed(). pinpointServer:{}, code:{}",this.getClass().getSimpleName(),pinpointServer,stateCode);
+    long eventTimestamp=System.currentTimeMillis();
+    AgentLifeCycleState agentLifeCycleState=managedAgentLifeCycle.getMappedState();
+    this.agentLifeCycleHandler.handleLifeCycleEvent(pinpointServer,eventTimestamp,agentLifeCycleState,managedAgentLifeCycle.getEventCounter());
+    AgentEventType agentEventType=managedAgentLifeCycle.getMappedEvent();
+    this.agentEventHandler.handleEvent(pinpointServer,eventTimestamp,agentEventType);
+  }
+}

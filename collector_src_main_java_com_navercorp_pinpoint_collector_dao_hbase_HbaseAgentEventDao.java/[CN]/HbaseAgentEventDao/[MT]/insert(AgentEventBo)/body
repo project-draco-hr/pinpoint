@@ -1,0 +1,14 @@
+{
+  if (agentEventBo == null) {
+    throw new NullPointerException("agentEventBo must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("insert event. {}",agentEventBo.toString());
+  }
+  final String agentId=agentEventBo.getAgentId();
+  final long eventTimestamp=agentEventBo.getEventTimestamp();
+  byte[] rowKey=createRowKey(agentId,eventTimestamp);
+  final AgentEventType eventType=agentEventBo.getEventType();
+  byte[] qualifier=Bytes.toBytes(eventType.getCode());
+  this.hbaseTemplate.put(HBaseTables.AGENT_EVENT,rowKey,HBaseTables.AGENT_EVENT_CF_EVENTS,qualifier,agentEventBo,this.valueMapper);
+}

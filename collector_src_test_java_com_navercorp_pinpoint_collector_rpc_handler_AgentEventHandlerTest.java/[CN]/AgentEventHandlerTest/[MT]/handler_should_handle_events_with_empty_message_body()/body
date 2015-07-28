@@ -1,0 +1,12 @@
+{
+  final AgentEventType expectedEventType=AgentEventType.AGENT_CONNECTED;
+  ArgumentCaptor<AgentEventBo> argCaptor=ArgumentCaptor.forClass(AgentEventBo.class);
+  this.agentEventHandler.handleEvent(this.pinpointServer,TEST_EVENT_TIMESTAMP,expectedEventType);
+  verify(this.agentEventDao,times(1)).insert(argCaptor.capture());
+  AgentEventBo actualAgentEventBo=argCaptor.getValue();
+  assertEquals(TEST_AGENT_ID,actualAgentEventBo.getAgentId());
+  assertEquals(TEST_START_TIMESTAMP,actualAgentEventBo.getStartTimestamp());
+  assertEquals(TEST_EVENT_TIMESTAMP,actualAgentEventBo.getEventTimestamp());
+  assertEquals(expectedEventType,actualAgentEventBo.getEventType());
+  assertArrayEquals(new byte[0],actualAgentEventBo.getEventBody());
+}

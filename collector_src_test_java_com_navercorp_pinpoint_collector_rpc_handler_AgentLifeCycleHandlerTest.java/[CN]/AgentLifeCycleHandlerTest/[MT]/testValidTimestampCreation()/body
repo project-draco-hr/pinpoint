@@ -1,0 +1,22 @@
+{
+  int givenSocketId=1;
+  int givenEventCounter=1;
+  long expectedTimestamp=new BigInteger("100000001",16).longValue();
+  long timestamp=this.agentLifeCycleHandler.createEventIdentifier(givenSocketId,givenEventCounter);
+  assertEquals(expectedTimestamp,timestamp);
+  givenSocketId=0;
+  givenEventCounter=0;
+  expectedTimestamp=new BigInteger("0000000000000000",16).longValue();
+  timestamp=this.agentLifeCycleHandler.createEventIdentifier(givenSocketId,givenEventCounter);
+  assertEquals(expectedTimestamp,timestamp);
+  givenSocketId=Integer.MAX_VALUE;
+  givenEventCounter=0;
+  expectedTimestamp=new BigInteger("7fffffff00000000",16).longValue();
+  timestamp=this.agentLifeCycleHandler.createEventIdentifier(givenSocketId,givenEventCounter);
+  assertEquals(expectedTimestamp,timestamp);
+  givenSocketId=Integer.MAX_VALUE;
+  givenEventCounter=Integer.MAX_VALUE;
+  expectedTimestamp=new BigInteger("7fffffff7fffffff",16).longValue();
+  timestamp=this.agentLifeCycleHandler.createEventIdentifier(givenSocketId,givenEventCounter);
+  assertEquals(expectedTimestamp,timestamp);
+}
