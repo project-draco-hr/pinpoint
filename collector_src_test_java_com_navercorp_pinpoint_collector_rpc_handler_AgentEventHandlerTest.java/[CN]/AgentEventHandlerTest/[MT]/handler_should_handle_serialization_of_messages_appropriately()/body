@@ -1,0 +1,15 @@
+{
+  final AgentEventType expectedEventType=AgentEventType.OTHER;
+  final String expectedMessageBody="test event message";
+  final byte[] expectedMessageBodyBytes=BytesUtils.toBytes(expectedMessageBody);
+  ArgumentCaptor<AgentEventBo> argCaptor=ArgumentCaptor.forClass(AgentEventBo.class);
+  when(this.agentEventMessageSerializer.serialize(expectedEventType,expectedMessageBody)).thenReturn(expectedMessageBodyBytes);
+  this.agentEventHandler.handleEvent(this.pinpointServer,TEST_EVENT_TIMESTAMP,expectedEventType,expectedMessageBody);
+  verify(this.agentEventDao,times(1)).insert(argCaptor.capture());
+  AgentEventBo actualAgentEventBo=argCaptor.getValue();
+  assertEquals(TEST_AGENT_ID,actualAgentEventBo.getAgentId());
+  assertEquals(TEST_START_TIMESTAMP,actualAgentEventBo.getStartTimestamp());
+  assertEquals(TEST_EVENT_TIMESTAMP,actualAgentEventBo.getEventTimestamp());
+  assertEquals(expectedEventType,actualAgentEventBo.getEventType());
+  assertEquals(expectedMessageBodyBytes,actualAgentEventBo.getEventBody());
+}

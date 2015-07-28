@@ -3,6 +3,7 @@
   SocketStateCode statusCode=state.getCurrentStateCode();
   if (statusCode.getId() == packet.getStateCode()) {
     stateChecker.unmark();
+    messageListener.handlePing(packet,this);
     PongPacket pongPacket=PongPacket.PONG_PACKET;
     ChannelFuture write=channel.write(pongPacket);
     write.addListener(pongWriteFutureListener);

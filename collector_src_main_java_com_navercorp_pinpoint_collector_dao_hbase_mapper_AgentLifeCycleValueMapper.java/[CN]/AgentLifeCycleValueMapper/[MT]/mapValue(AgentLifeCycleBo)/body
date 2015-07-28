@@ -1,0 +1,10 @@
+{
+  final Buffer buffer=new AutomaticBuffer();
+  buffer.put(value.getVersion());
+  buffer.putPrefixedString(value.getAgentId());
+  buffer.put(value.getStartTimestamp());
+  buffer.put(value.getEventTimestamp());
+  buffer.put(value.getEventIdentifier());
+  buffer.put(value.getAgentLifeCycleState().getCode());
+  return buffer.getBuffer();
+}

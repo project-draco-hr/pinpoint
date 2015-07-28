@@ -1,0 +1,15 @@
+{
+  final AgentLifeCycleState expectedLifeCycleState=managedAgentLifeCycle.getMappedState();
+  final int expectedEventCounter=managedAgentLifeCycle.getEventCounter();
+  final long expectedEventIdentifier=this.agentLifeCycleHandler.createEventIdentifier(TEST_SOCKET_ID,expectedEventCounter);
+  ArgumentCaptor<AgentLifeCycleBo> argCaptor=ArgumentCaptor.forClass(AgentLifeCycleBo.class);
+  this.agentLifeCycleHandler.handleLifeCycleEvent(this.pinpointServer,TEST_EVENT_TIMESTAMP,expectedLifeCycleState,expectedEventCounter);
+  verify(this.agentLifeCycleDao,times(1)).insert(argCaptor.capture());
+  AgentLifeCycleBo actualAgentLifeCycleBo=argCaptor.getValue();
+  assertEquals(AgentLifeCycleBo.CURRENT_VERSION,actualAgentLifeCycleBo.getVersion());
+  assertEquals(TEST_AGENT_ID,actualAgentLifeCycleBo.getAgentId());
+  assertEquals(TEST_START_TIMESTAMP,actualAgentLifeCycleBo.getStartTimestamp());
+  assertEquals(TEST_EVENT_TIMESTAMP,actualAgentLifeCycleBo.getEventTimestamp());
+  assertEquals(expectedLifeCycleState,actualAgentLifeCycleBo.getAgentLifeCycleState());
+  assertEquals(expectedEventIdentifier,actualAgentLifeCycleBo.getEventIdentifier());
+}

@@ -1,0 +1,21 @@
+{
+  if (agentEventType == null) {
+    throw new NullPointerException("agentEventType must not be null");
+  }
+  Class<?> eventMessageType=agentEventType.getMessageType();
+  if (eventMessageType == Void.class) {
+    return null;
+  }
+  if (TBase.class.isAssignableFrom(eventMessageType)) {
+    try {
+      return SerializationUtils.deserialize(eventBody,this.tBaseDeserializerFactory);
+    }
+ catch (    TException e) {
+      throw new UnsupportedEncodingException(e.getMessage());
+    }
+  }
+ else   if (String.class.isAssignableFrom(eventMessageType)) {
+    return BytesUtils.toString(eventBody);
+  }
+  throw new UnsupportedEncodingException("Unsupported event message type [" + eventMessageType.getName() + "]");
+}

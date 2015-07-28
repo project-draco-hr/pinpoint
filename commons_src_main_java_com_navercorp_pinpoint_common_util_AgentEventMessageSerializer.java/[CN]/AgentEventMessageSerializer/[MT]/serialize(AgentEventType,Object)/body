@@ -1,0 +1,29 @@
+{
+  if (agentEventType == null) {
+    throw new NullPointerException("agentEventType must not be null");
+  }
+  Class<?> eventMessageType=agentEventType.getMessageType();
+  if (eventMessageType == Void.class) {
+    return EMPTY_BYTES;
+  }
+ else {
+    if (eventMessage == null) {
+      throw new NullPointerException("eventMessage of type [" + eventMessageType.getName() + "] expected, but was null");
+    }
+  }
+  if (!eventMessageType.isAssignableFrom(eventMessage.getClass())) {
+    throw new IllegalArgumentException("Unexpected eventMessage of type [" + eventMessage.getClass().getName() + "] received. Expected : ["+ eventMessageType.getClass().getName()+ "]");
+  }
+  if (eventMessage instanceof TBase) {
+    try {
+      return SerializationUtils.serialize((TBase<?,?>)eventMessage,this.tBaseSerializerFactory);
+    }
+ catch (    TException e) {
+      throw new UnsupportedEncodingException(e.getMessage());
+    }
+  }
+ else   if (eventMessage instanceof String) {
+    return BytesUtils.toBytes((String)eventMessage);
+  }
+  throw new UnsupportedEncodingException("Unsupported event message type [" + eventMessage.getClass().getName() + "]");
+}

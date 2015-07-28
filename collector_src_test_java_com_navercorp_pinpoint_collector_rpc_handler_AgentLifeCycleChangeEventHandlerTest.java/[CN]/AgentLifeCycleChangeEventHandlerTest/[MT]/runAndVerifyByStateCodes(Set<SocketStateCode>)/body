@@ -1,0 +1,9 @@
+{
+  int testCount=0;
+  for (  SocketStateCode socketState : socketStates) {
+    this.lifeCycleChangeEventHandler.eventPerformed(this.server,socketState);
+    testCount++;
+    verify(this.lifeCycleHandler,times(testCount)).handleLifeCycleEvent(any(PinpointServer.class),anyLong(),any(AgentLifeCycleState.class),anyInt());
+    verify(this.eventHandler,times(testCount)).handleEvent(any(PinpointServer.class),anyLong(),any(AgentEventType.class));
+  }
+}

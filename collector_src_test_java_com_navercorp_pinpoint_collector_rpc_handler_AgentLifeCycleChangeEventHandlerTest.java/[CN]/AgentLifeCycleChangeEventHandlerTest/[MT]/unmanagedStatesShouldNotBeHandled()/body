@@ -1,0 +1,13 @@
+{
+  final Set<SocketStateCode> unmanagedStates=new HashSet<SocketStateCode>();
+  for (  SocketStateCode socketStateCode : SocketStateCode.values()) {
+    if (ManagedAgentLifeCycle.getManagedAgentLifeCycleByStateCode(socketStateCode) == AgentLifeCycleChangeEventHandler.STATE_NOT_MANAGED) {
+      unmanagedStates.add(socketStateCode);
+    }
+  }
+  for (  SocketStateCode unmanagedState : unmanagedStates) {
+    this.lifeCycleChangeEventHandler.eventPerformed(this.server,unmanagedState);
+    verify(this.lifeCycleHandler,never()).handleLifeCycleEvent(any(PinpointServer.class),anyLong(),any(AgentLifeCycleState.class),anyInt());
+    verify(this.eventHandler,never()).handleEvent(any(PinpointServer.class),anyLong(),any(AgentEventType.class));
+  }
+}

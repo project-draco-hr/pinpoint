@@ -1,0 +1,31 @@
+{
+  TThreadDump dump=new TThreadDump();
+  dump.setThreadName(info.getThreadName());
+  dump.setThreadId(info.getThreadId());
+  dump.setBlockedTime(info.getBlockedTime());
+  dump.setBlockedCount(info.getBlockedCount());
+  dump.setWaitedTime(info.getWaitedTime());
+  dump.setWaitedCount(info.getWaitedCount());
+  dump.setLockName(info.getLockName());
+  dump.setLockOwnerId(info.getLockOwnerId());
+  dump.setLockOwnerName(info.getLockOwnerName());
+  dump.setInNative(info.isInNative());
+  dump.setSuspended(info.isSuspended());
+  dump.setThreadState(getThreadState(info));
+  StackTraceElement[] stackTraceElements=info.getStackTrace();
+  for (  StackTraceElement each : stackTraceElements) {
+    dump.addToStackTrace(each.toString());
+  }
+  MonitorInfo[] monitorInfos=info.getLockedMonitors();
+  for (  MonitorInfo each : monitorInfos) {
+    TMonitorInfo tMonitorInfo=new TMonitorInfo();
+    tMonitorInfo.setStackDepth(each.getLockedStackDepth());
+    tMonitorInfo.setStackFrame(each.getLockedStackFrame().toString());
+    dump.addToLockedMonitors(tMonitorInfo);
+  }
+  LockInfo[] lockInfos=info.getLockedSynchronizers();
+  for (  LockInfo lockInfo : lockInfos) {
+    dump.addToLockedSynchronizers(lockInfo.toString());
+  }
+  return dump;
+}
