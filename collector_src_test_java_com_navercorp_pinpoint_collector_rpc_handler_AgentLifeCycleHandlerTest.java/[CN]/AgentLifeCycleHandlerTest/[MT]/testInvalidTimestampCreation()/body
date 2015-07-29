@@ -1,0 +1,18 @@
+{
+  final int negativeSocketId=new BigInteger("ffffffff",16).intValue();
+  final int eventCounter=0;
+  try {
+    this.agentLifeCycleHandler.createEventIdentifier(negativeSocketId,eventCounter);
+    fail();
+  }
+ catch (  IllegalArgumentException expected) {
+  }
+  final int socketId=0;
+  final int negativeEventCounter=new BigInteger("ffffffff",16).intValue();
+  try {
+    this.agentLifeCycleHandler.createEventIdentifier(socketId,negativeEventCounter);
+    fail();
+  }
+ catch (  IllegalArgumentException expected) {
+  }
+}

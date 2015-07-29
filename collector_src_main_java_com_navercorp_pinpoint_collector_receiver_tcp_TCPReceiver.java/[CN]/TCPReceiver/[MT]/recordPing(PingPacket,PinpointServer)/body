@@ -1,0 +1,13 @@
+{
+  final int eventCounter=pingPacket.getPingId();
+  long pingTimestamp=System.currentTimeMillis();
+  try {
+    if (!(eventCounter < 0)) {
+      agentLifeCycleHandler.handleLifeCycleEvent(pinpointServer,pingTimestamp,AgentLifeCycleState.RUNNING,eventCounter);
+    }
+    agentEventHandler.handleEvent(pinpointServer,pingTimestamp,AgentEventType.AGENT_PING);
+  }
+ catch (  Exception e) {
+    logger.warn("Error handling ping event",e);
+  }
+}

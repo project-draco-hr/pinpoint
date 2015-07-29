@@ -14,6 +14,8 @@
   this.udpSpanWorkerThread=readInt(properties,"collector.udpSpanWorkerThread",256);
   this.udpSpanWorkerQueueSize=readInt(properties,"collector.udpSpanWorkerQueueSize",1024 * 5);
   this.udpSpanSocketReceiveBufferSize=readInt(properties,"collector.udpSpanSocketReceiveBufferSize",1024 * 4096);
+  this.agentEventWorkerThreadSize=readInt(properties,"collector.agentEventWorker.threadSize",32);
+  this.agentEventWorkerQueueSize=readInt(properties,"collector.agentEventWorker.queueSize",1024 * 5);
   String[] l4Ips=StringUtils.split(readString(properties,"collector.l4.ip",null),",");
   if (l4Ips == null) {
     this.l4IpList=Collections.emptyList();

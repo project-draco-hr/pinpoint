@@ -1,0 +1,15 @@
+{
+  if (this == obj)   return true;
+  if (obj == null)   return false;
+  if (getClass() != obj.getClass())   return false;
+  AgentEventBo other=(AgentEventBo)obj;
+  if (agentId == null) {
+    if (other.agentId != null)     return false;
+  }
+ else   if (!agentId.equals(other.agentId))   return false;
+  if (eventTimestamp != other.eventTimestamp)   return false;
+  if (eventType != other.eventType)   return false;
+  if (startTimestamp != other.startTimestamp)   return false;
+  if (version != other.version)   return false;
+  return true;
+}

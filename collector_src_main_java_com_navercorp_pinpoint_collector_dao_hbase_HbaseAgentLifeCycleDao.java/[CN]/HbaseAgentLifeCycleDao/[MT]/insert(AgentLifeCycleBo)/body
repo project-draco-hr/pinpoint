@@ -1,0 +1,13 @@
+{
+  if (agentLifeCycleBo == null) {
+    throw new NullPointerException("agentLifeCycleBo must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("insert agent life cycle. {}",agentLifeCycleBo.toString());
+  }
+  final String agentId=agentLifeCycleBo.getAgentId();
+  final long startTimestamp=agentLifeCycleBo.getStartTimestamp();
+  final long eventIdentifier=agentLifeCycleBo.getEventIdentifier();
+  byte[] rowKey=createRowKey(agentId,startTimestamp,eventIdentifier);
+  this.hbaseTemplate.put(HBaseTables.AGENT_LIFECYCLE,rowKey,HBaseTables.AGENT_LIFECYCLE_CF_STATUS,HBaseTables.AGENT_LIFECYCLE_CF_STATUS_QUALI_STATES,agentLifeCycleBo,this.valueMapper);
+}

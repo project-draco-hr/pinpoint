@@ -13,6 +13,9 @@
     @Override public HandshakeResponseCode handleHandshake(    Map arg0){
       return HandshakeResponseType.Success.DUPLEX_COMMUNICATION;
     }
+    @Override public void handlePing(    PingPacket pingPacket,    PinpointServer pinpointServer){
+      logger.info("ping received {} {} ",pingPacket,pinpointServer);
+    }
   }
 );
   serverAcceptor.bind(HOST,PORT);
