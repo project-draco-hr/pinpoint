@@ -7,8 +7,11 @@
       return;
     }
     InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
-    AsyncTraceId asyncTraceId=(AsyncTraceId)transaction.getAttachment();
-    asyncTraceIdAccessor.set(target,asyncTraceId);
+    if (transaction != null && transaction.getAttachment() != null) {
+      AsyncTraceId asyncTraceId=(AsyncTraceId)transaction.getAttachment();
+      asyncTraceIdAccessor.set(target,asyncTraceId);
+      transaction.removeAttachment();
+    }
   }
  catch (  Throwable t) {
     logger.warn("Failed to before process. {}",t.getMessage(),t);

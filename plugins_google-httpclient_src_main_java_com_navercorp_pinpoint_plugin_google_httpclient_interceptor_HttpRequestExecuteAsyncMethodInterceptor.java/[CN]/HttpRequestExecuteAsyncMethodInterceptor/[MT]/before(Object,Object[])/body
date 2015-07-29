@@ -11,9 +11,11 @@
     final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
     recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
     InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
-    transaction.setAttachment(asyncTraceId);
-    if (isDebug) {
-      logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+    if (transaction != null) {
+      transaction.setAttachment(asyncTraceId);
+      if (isDebug) {
+        logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+      }
     }
   }
  catch (  Throwable t) {

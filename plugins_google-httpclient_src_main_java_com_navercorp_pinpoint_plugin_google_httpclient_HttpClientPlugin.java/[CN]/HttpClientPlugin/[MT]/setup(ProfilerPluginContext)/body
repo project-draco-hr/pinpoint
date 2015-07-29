@@ -1,4 +1,17 @@
 {
-  addHttpRequestClass(context);
-  addHttpRequestExecuteAsyncMethodInnerClass(context);
+  final HttpClientPluginConfig config=new HttpClientPluginConfig(context.getConfig());
+  logger.debug("[GoogleHttpClient] Initialized config={}",config);
+  if (!config.isEnable()) {
+    return;
+  }
+  logger.debug("[GoogleHttpClient] Add HttpRequest class.");
+  addHttpRequestClass(context,config);
+  if (config.isAsync()) {
+    final int max=config.getMaxAnonymousInnerClassNameNumber();
+    for (int i=1; i <= max; i++) {
+      final String targetClassName="com.google.api.client.http.HttpRequest$" + i;
+      logger.debug("[GoogleHttpClient] Add {} class.",targetClassName);
+      addHttpRequestExecuteAsyncMethodInnerClass(context,targetClassName);
+    }
+  }
 }

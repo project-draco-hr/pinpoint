@@ -12,7 +12,9 @@
     recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
     recorder.recordException(throwable);
     InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
-    transaction.removeAttachment();
+    if (transaction != null) {
+      transaction.removeAttachment();
+    }
   }
   finally {
     trace.traceBlockEnd();

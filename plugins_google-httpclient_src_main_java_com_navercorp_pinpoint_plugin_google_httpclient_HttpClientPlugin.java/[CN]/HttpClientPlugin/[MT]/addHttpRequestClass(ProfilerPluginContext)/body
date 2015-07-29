@@ -1,8 +1,0 @@
-{
-  final ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder("com.google.api.client.http.HttpRequest");
-  MethodTransformerBuilder executeMethodBuilder=classBuilder.editMethod("execute");
-  executeMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteMethodInterceptor");
-  MethodTransformerBuilder executeAsyncMethodBuilder=classBuilder.editMethod("executeAsync","java.util.concurrent.Executor");
-  executeAsyncMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInterceptor");
-  context.addClassFileTransformer(classBuilder.build());
-}
