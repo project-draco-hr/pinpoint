@@ -1,0 +1,25 @@
+{
+  if (version < 0 || version > 255) {
+    throw new IllegalArgumentException("version out of range (0~255)");
+  }
+  if (agentId == null) {
+    throw new IllegalArgumentException("agentId cannot be null");
+  }
+  if (agentId.isEmpty()) {
+    throw new IllegalArgumentException("agentId cannot be empty");
+  }
+  if (startTimestamp < 0) {
+    throw new IllegalArgumentException("startTimestamp cannot be less than 0");
+  }
+  if (eventTimestamp < 0) {
+    throw new IllegalArgumentException("eventTimestamp cannot be less than 0");
+  }
+  if (eventType == null) {
+    throw new IllegalArgumentException("agentEventType cannot be null");
+  }
+  this.version=(byte)(version & 0xFF);
+  this.agentId=agentId;
+  this.startTimestamp=startTimestamp;
+  this.eventTimestamp=eventTimestamp;
+  this.eventType=eventType;
+}

@@ -26,6 +26,9 @@
         return HandshakeResponseType.Success.SIMPLEX_COMMUNICATION;
       }
     }
+    @Override public void handlePing(    PingPacket pingPacket,    PinpointServer pinpointServer){
+      recordPing(pingPacket,pinpointServer);
+    }
   }
 );
   this.serverAcceptor.bind(bindAddress,port);

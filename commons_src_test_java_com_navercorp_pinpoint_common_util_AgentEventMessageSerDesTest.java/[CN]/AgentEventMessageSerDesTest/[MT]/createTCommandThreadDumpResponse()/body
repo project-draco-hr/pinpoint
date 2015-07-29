@@ -1,0 +1,9 @@
+{
+  final TCommandThreadDumpResponse threadDumpResponse=new TCommandThreadDumpResponse();
+  ThreadInfo[] threadInfos=ThreadMXBeanUtils.dumpAllThread();
+  for (  ThreadInfo threadInfo : threadInfos) {
+    final TThreadDump threadDump=createTThreadDump(threadInfo);
+    threadDumpResponse.addToThreadDumps(threadDump);
+  }
+  return threadDumpResponse;
+}

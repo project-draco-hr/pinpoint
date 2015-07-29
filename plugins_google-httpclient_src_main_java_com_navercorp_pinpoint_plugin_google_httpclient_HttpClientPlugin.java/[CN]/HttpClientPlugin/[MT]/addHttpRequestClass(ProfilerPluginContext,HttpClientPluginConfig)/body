@@ -1,0 +1,12 @@
+{
+  final ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder("com.google.api.client.http.HttpRequest");
+  MethodTransformerBuilder executeMethodBuilder=classBuilder.editMethod("execute");
+  executeMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  executeMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteMethodInterceptor");
+  if (config.isAsync()) {
+    MethodTransformerBuilder executeAsyncMethodBuilder=classBuilder.editMethod("executeAsync","java.util.concurrent.Executor");
+    executeAsyncMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    executeAsyncMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInterceptor");
+  }
+  context.addClassFileTransformer(classBuilder.build());
+}

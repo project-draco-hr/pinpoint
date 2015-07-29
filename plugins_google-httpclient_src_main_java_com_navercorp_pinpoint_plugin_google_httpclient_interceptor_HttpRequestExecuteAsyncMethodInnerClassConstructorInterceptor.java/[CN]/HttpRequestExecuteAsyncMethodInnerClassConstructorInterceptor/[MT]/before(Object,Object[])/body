@@ -1,0 +1,19 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    if (!validate(target,args)) {
+      return;
+    }
+    InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
+    if (transaction != null && transaction.getAttachment() != null) {
+      AsyncTraceId asyncTraceId=(AsyncTraceId)transaction.getAttachment();
+      asyncTraceIdAccessor.set(target,asyncTraceId);
+      transaction.removeAttachment();
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to before process. {}",t.getMessage(),t);
+  }
+}

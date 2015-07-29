@@ -1,0 +1,9 @@
+{
+  for (  AgentEventType agentEventType : AgentEventType.values()) {
+    if (agentEventType.getMessageType() == messageTypeToTest) {
+      byte[] serializedMessage=this.serializer.serialize(agentEventType,expectedEventMessage);
+      Object deserializedMessage=this.deserializer.deserialize(agentEventType,serializedMessage);
+      assertEquals(expectedEventMessage,deserializedMessage);
+    }
+  }
+}
