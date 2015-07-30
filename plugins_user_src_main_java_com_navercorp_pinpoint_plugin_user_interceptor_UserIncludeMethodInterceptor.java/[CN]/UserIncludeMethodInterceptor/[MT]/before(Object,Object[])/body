@@ -4,7 +4,7 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
-    trace=traceContext.newTraceObject();
+    trace=traceContext.newTraceObject(TraceType.USER);
     if (!trace.canSampled()) {
       if (isDebug) {
         logger.debug("New trace and can't sampled {}",trace);
