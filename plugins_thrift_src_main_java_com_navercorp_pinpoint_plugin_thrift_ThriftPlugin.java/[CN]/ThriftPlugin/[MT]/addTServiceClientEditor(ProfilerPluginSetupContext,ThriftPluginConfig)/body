@@ -1,0 +1,13 @@
+{
+  boolean traceServiceArgs=config.traceThriftServiceArgs();
+  boolean traceServiceResult=config.traceThriftServiceResult();
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.TServiceClient");
+  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
+  final MethodTransformerBuilder sendBaseMethodTransformerBuilder=classTransformerBuilder.editMethod("sendBase","java.lang.String","org.apache.thrift.TBase");
+  sendBaseMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  sendBaseMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientSendBaseInterceptor",traceServiceArgs);
+  final MethodTransformerBuilder receiveBaseMethodTransformerBuilder=classTransformerBuilder.editMethod("receiveBase","org.apache.thrift.TBase","java.lang.String");
+  receiveBaseMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  receiveBaseMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientReceiveBaseInterceptor",traceServiceResult);
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

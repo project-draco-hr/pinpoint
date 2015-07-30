@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass ustatementClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentableClass ustatementClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     return ustatementClass.toBytecode();
   }
  catch (  InstrumentException e) {

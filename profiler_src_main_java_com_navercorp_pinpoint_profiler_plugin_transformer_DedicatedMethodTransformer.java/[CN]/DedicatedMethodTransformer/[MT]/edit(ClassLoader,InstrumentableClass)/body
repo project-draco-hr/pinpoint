@@ -1,0 +1,33 @@
+{
+  InstrumentableMethod targetMethod=target.getDeclaredMethod(targetMethodName,targetMethodParameterTypes);
+  if (targetMethod == null) {
+    if (ignoreIfNotExist) {
+      return;
+    }
+ else {
+      Exception e=new NoSuchMethodException("No such method: " + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ")");
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),targetMethodName,targetMethodParameterTypes,e);
+        logger.info("Cannot find target method" + targetMethodName + "("+ Arrays.deepToString(targetMethodParameterTypes)+ ") but MethodTransformerExceptionHandler handled it.");
+        return;
+      }
+ else {
+        throw new InstrumentException("Fail to edit method",e);
+      }
+    }
+  }
+  for (  MethodRecipe recipe : recipes) {
+    try {
+      recipe.edit(classLoader,target,targetMethod);
+    }
+ catch (    Throwable t) {
+      if (exceptionHandler != null) {
+        exceptionHandler.handle(target.getName(),targetMethodName,targetMethodParameterTypes,t);
+        logger.info("Exception thrown while editing" + targetMethod.getDescriptor().getApiDescriptor() + " but MethodTransformerExceptionHandler handled it.",t);
+      }
+ else {
+        throw new InstrumentException("Fail to edit method " + targetMethod.getDescriptor().getApiDescriptor(),t);
+      }
+    }
+  }
+}

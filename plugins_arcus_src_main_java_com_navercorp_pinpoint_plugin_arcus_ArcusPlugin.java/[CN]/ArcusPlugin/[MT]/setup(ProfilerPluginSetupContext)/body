@@ -1,0 +1,23 @@
+{
+  ArcusPluginConfig config=new ArcusPluginConfig(context.getConfig());
+  boolean arcus=config.isArcus();
+  boolean memcached=config.isMemcached();
+  if (arcus) {
+    addArcusClientEditor(context,config);
+    addCollectionFutureEditor(context);
+    addFrontCacheGetFutureEditor(context);
+    addFrontCacheMemcachedClientEditor(context,config);
+    addCacheManagerEditor(context);
+    addBTreeStoreGetFutureEditor(context);
+    addCollectionGetBulkFutureEditor(context);
+    addSMGetFutureFutureEditor(context);
+  }
+  if (arcus || memcached) {
+    addMemcachedClientEditor(context,config);
+    addBaseOperationImplEditor(context);
+    addGetFutureEditor(context);
+    addOperationFutureEditor(context);
+    addImmediateFutureEditor(context);
+    addBulkGetFutureEditor(context);
+  }
+}

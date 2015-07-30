@@ -1,0 +1,10 @@
+{
+  try {
+    JarFile jarFile=new JarFile(new File(pluginJar.toURI()));
+    return new JarProfilerPluginClassInjector(instrumentation,pluginJar,jarFile);
+  }
+ catch (  Exception e) {
+    logger.warn("Failed to get JarFile {}",pluginJar,e);
+    return null;
+  }
+}

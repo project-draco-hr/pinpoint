@@ -1,0 +1,11 @@
+{
+  try {
+    return addInterceptor0(interceptorClassName,group,policy,constructorArgs,InterceptPoint.AROUND);
+  }
+ catch (  InstrumentException e) {
+    throw e;
+  }
+catch (  Exception e) {
+    throw new InstrumentException("Failed to add interceptor " + interceptorClassName + " to "+ behavior,e);
+  }
+}

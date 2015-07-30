@@ -1,0 +1,25 @@
+{
+  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder(tProtocolClassName);
+  if (config.traceThriftClient()) {
+    final MethodTransformerBuilder writeFieldStopMethodTransformerBuilder=classTransformerBuilder.editMethod("writeFieldStop");
+    writeFieldStopMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    writeFieldStopMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.client.TProtocolWriteFieldStopInterceptor");
+  }
+  if (config.traceThriftProcessor()) {
+    classTransformerBuilder.injectMetadata(METADATA_SERVER_MARKER);
+    final MethodTransformerBuilder readFieldBeginMethodTransformerBuilder=classTransformerBuilder.editMethod("readFieldBegin");
+    readFieldBeginMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    readFieldBeginMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadFieldBeginInterceptor");
+    final MethodTransformerBuilder readTTypeMethodTransformerBuilder=classTransformerBuilder.editMethods(MethodFilters.name("readBool","readBinary","readI16","readI64"));
+    readTTypeMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    readTTypeMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadTTypeInterceptor");
+    final MethodTransformerBuilder readMessageEndMethodTransformerBuilder=classTransformerBuilder.editMethod("readMessageEnd");
+    readMessageEndMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    readMessageEndMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadMessageEndInterceptor");
+    classTransformerBuilder.injectMetadata(METADATA_ASYNC_MARKER);
+    final MethodTransformerBuilder readMessageBeginMethodTransformerBuilder=classTransformerBuilder.editMethod("readMessageBegin");
+    readMessageBeginMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+    readMessageBeginMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadMessageBeginInterceptor");
+  }
+  context.addClassFileTransformer(classTransformerBuilder.build());
+}

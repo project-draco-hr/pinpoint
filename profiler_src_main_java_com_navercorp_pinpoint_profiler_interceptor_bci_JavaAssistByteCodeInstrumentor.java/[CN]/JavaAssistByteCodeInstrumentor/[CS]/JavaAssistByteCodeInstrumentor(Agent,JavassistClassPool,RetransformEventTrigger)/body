@@ -1,0 +1,12 @@
+{
+  if (classPool == null) {
+    throw new NullPointerException("classPool must not be null");
+  }
+  if (retransformEventTrigger == null) {
+    throw new NullPointerException("retransformEventTrigger must not be null");
+  }
+  this.agent=agent;
+  this.classPool=classPool;
+  this.retransformEventTrigger=retransformEventTrigger;
+  this.globalContext=new DefaultProfilerPluginContext((DefaultAgent)agent,new LegacyProfilerPluginClassLoader(getClass().getClassLoader()));
+}

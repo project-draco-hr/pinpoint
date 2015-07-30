@@ -1,5 +1,5 @@
 {
-  if (type == InstrumentClass.class) {
+  if (type == InstrumentableClass.class) {
     return Option.withValue(targetClass);
   }
  else   if (type == MethodDescriptor.class) {
@@ -7,8 +7,7 @@
     cacheApiIfAnnotationNotPresent(annotations,descriptor);
     return Option.withValue(descriptor);
   }
- else   if (type == MethodInfo.class) {
-    cacheApiIfAnnotationNotPresent(annotations,targetMethod.getDescriptor());
+ else   if (type == InstrumentableMethod.class) {
     return Option.withValue(targetMethod);
   }
  else   if (type == InterceptorGroup.class) {

@@ -1,0 +1,24 @@
+{
+  BindVariableFilter exclude=new IncludeBindVariableFilter(new String[]{"setRowId","setNClob","setSQLXML"});
+  List<Method> bindMethod=PreparedStatementUtils.findBindVariableSetMethod(exclude);
+  final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(MYSQLScope.SCOPE_NAME);
+  Interceptor interceptor=new GroupDelegateStaticInterceptor(new PreparedStatementBindVariableInterceptor(),scope);
+  int interceptorId=-1;
+  for (  Method method : bindMethod) {
+    String methodName=method.getName();
+    String[] parameterType=JavaAssistUtils.getParameterType(method.getParameterTypes());
+    try {
+      if (interceptorId == -1) {
+        interceptorId=preparedStatement.addInterceptor(methodName,parameterType,interceptor,InterceptPoint.AFTER);
+      }
+ else {
+        preparedStatement.reuseInterceptor(methodName,parameterType,interceptorId,InterceptPoint.AFTER);
+      }
+    }
+ catch (    NotFoundInstrumentException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("bindVariable api not found. method:{} param:{} Cause:{}",methodName,Arrays.toString(parameterType),e.getMessage());
+      }
+    }
+  }
+}

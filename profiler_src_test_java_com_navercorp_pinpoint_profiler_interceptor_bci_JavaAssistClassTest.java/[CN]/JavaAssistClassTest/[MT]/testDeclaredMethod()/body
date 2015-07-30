@@ -1,8 +1,8 @@
 {
-  ByteCodeInstrumentor byteCodeInstrumentor=JavaAssistByteCodeInstrumentor.createTestInstrumentor();
+  JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
   String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
-  InstrumentClass testObject=byteCodeInstrumentor.getClass(null,testObjectName,null);
+  InstrumentableClass testObject=pool.getClass(null,testObjectName,null);
   Assert.assertEquals(testObject.getName(),testObjectName);
-  MethodInfo declaredMethod=testObject.getDeclaredMethod("callA",null);
+  InstrumentableMethod declaredMethod=testObject.getDeclaredMethod("callA",null);
   Assert.assertNotNull(declaredMethod);
 }

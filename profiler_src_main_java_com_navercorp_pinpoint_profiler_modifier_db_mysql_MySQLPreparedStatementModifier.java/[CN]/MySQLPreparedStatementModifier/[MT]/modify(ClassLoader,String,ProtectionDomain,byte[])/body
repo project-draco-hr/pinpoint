@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentableClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     Interceptor execute=new PreparedStatementExecuteQueryInterceptor();
     preparedStatement.addGroupInterceptor("execute",null,execute,MYSQLScope.SCOPE_NAME);
     Interceptor executeQuery=new PreparedStatementExecuteQueryInterceptor();

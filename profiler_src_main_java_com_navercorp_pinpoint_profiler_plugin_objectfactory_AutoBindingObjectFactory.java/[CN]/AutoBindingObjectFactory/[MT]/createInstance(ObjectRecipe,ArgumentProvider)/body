@@ -1,5 +1,5 @@
 {
-  Class<?> type=pluginContext.getClassInjector().loadClass(classLoader,recipe.getClassName());
+  Class<?> type=pluginContext.injectClass(classLoader,recipe.getClassName());
   ArgumentsResolver argumentsResolver=getArgumentResolver(recipe,providers);
   if (recipe instanceof ByConstructor) {
     return byConstructor(type,(ByConstructor)recipe,argumentsResolver);

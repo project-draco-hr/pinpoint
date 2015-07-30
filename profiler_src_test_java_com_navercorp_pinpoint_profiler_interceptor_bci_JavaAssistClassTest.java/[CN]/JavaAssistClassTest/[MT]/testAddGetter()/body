@@ -7,7 +7,7 @@
     @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
       try {
         logger.info("modify cl:{}",classLoader);
-        InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,testClassObject,classFileBuffer);
+        InstrumentableClass aClass=byteCodeInstrumentor.getClass(classLoader,testClassObject,classFileBuffer);
         aClass.addGetter(accessor0.getType(),"value");
         aClass.addGetter(accessor1.getType(),"intValue");
         return aClass.toBytecode();
