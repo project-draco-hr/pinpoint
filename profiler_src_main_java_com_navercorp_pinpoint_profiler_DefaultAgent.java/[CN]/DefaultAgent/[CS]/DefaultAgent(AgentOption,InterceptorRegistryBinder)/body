@@ -39,12 +39,13 @@
   final AgentInformationFactory agentInformationFactory=new AgentInformationFactory();
   this.agentInformation=agentInformationFactory.createAgentInformation(typeResolver.resolve());
   logger.info("agentInformation:{}",agentInformation);
-  CommandDispatcher commandDispatcher=createCommandDispatcher();
+  CommandDispatcher commandDispatcher=new CommandDispatcher();
   this.tcpDataSender=createTcpDataSender(commandDispatcher);
   this.serverMetaDataHolder=createServerMetaDataHolder();
   this.spanDataSender=createUdpSpanDataSender(this.profilerConfig.getCollectorSpanServerPort(),"Pinpoint-UdpSpanDataExecutor",this.profilerConfig.getSpanDataSenderWriteQueueSize(),this.profilerConfig.getSpanDataSenderSocketTimeout(),this.profilerConfig.getSpanDataSenderSocketSendBufferSize());
   this.statDataSender=createUdpStatDataSender(this.profilerConfig.getCollectorStatServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext();
+  addCommandService(commandDispatcher,traceContext);
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
   this.serverMetaDataHolder.addListener(this.agentInfoSender);
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());

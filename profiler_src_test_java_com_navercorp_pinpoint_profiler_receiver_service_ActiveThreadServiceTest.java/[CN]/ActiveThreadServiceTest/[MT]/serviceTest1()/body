@@ -1,0 +1,12 @@
+{
+  ActiveTraceRepository activeTraceRepository=new ActiveTraceRepository();
+  ActiveThreadService service=new ActiveThreadService(activeTraceRepository);
+  TBase<?,?> tBase=service.requestCommandService(null);
+  if (tBase instanceof TResult) {
+    Assert.assertFalse(((TResult)tBase).isSuccess());
+  }
+ else {
+    Assert.fail();
+    ;
+  }
+}

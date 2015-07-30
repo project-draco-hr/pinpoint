@@ -1,0 +1,10 @@
+{
+  commandDispatcher.registerCommandService(new ThreadDumpService());
+  commandDispatcher.registerCommandService(new EchoService());
+  if (traceContext instanceof DefaultTraceContext) {
+    ActiveTraceLocator activeTraceLocator=((DefaultTraceContext)traceContext).getActiveTraceLocator();
+    if (activeTraceLocator != null) {
+      commandDispatcher.registerCommandService(new ActiveThreadService(activeTraceLocator));
+    }
+  }
+}

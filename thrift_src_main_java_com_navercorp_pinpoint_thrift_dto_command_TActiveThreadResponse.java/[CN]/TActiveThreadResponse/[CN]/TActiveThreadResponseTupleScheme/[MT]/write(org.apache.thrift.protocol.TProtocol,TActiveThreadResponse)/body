@@ -1,0 +1,16 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetActiveThreadCount()) {
+    optionals.set(0);
+  }
+  oprot.writeBitSet(optionals,1);
+  if (struct.isSetActiveThreadCount()) {
+{
+      oprot.writeI32(struct.activeThreadCount.size());
+      for (      int _iter36 : struct.activeThreadCount) {
+        oprot.writeI32(_iter36);
+      }
+    }
+  }
+}

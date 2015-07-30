@@ -1,0 +1,13 @@
+{
+  if (object == null) {
+    return "null_object";
+  }
+  Class clazz=object.getClass();
+  Package pkg=clazz.getPackage();
+  if (pkg != null) {
+    return clazz.getName().substring(pkg.getName().length() + 1);
+  }
+ else {
+    return clazz.getName();
+  }
+}

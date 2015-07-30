@@ -1,0 +1,25 @@
+{
+  if (tBase == null || !(tBase instanceof TActiveThread)) {
+    TResult fail=new TResult();
+    fail.setSuccess(false);
+    fail.setMessage("Expected object type error. expected:" + getCommandClazz() + ", but was:"+ ClassUtils.simpleClassName(tBase));
+    return fail;
+  }
+  Map<ActiveThreadStatus,AtomicInteger> mappedStatus=new LinkedHashMap<ActiveThreadStatus,AtomicInteger>(activeThreadStatusCount);
+  for (  ActiveThreadStatus status : ACTIVE_THREAD_STATUSES_ORDER) {
+    mappedStatus.put(status,new AtomicInteger(0));
+  }
+  long currentTime=System.currentTimeMillis();
+  List<ActiveTraceInfo> activeTraceInfoCollect=activeTraceLocator.collect();
+  for (  ActiveTraceInfo activeTraceInfo : activeTraceInfoCollect) {
+    ActiveThreadStatus status=ActiveThreadStatus.getStatus(currentTime - activeTraceInfo.getStartTime());
+    mappedStatus.get(status).incrementAndGet();
+  }
+  List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadStatusCount);
+  for (  AtomicInteger statusCount : mappedStatus.values()) {
+    activeThreadCount.add(statusCount.get());
+  }
+  TActiveThreadResponse response=new TActiveThreadResponse();
+  response.setActiveThreadCount(activeThreadCount);
+  return response;
+}
