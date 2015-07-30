@@ -1,0 +1,13 @@
+{
+  String userGroupId=params.get(USER_GROUP_ID);
+  if (userGroupId == null) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not userGroupId in params to creating user group");
+    return result;
+  }
+  userGroupService.createUserGroup(userGroupId);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}
