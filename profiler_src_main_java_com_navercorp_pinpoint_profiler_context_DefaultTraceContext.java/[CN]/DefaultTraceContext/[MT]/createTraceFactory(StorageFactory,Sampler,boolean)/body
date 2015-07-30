@@ -1,0 +1,10 @@
+{
+  final TraceFactory threadLocalTraceFactory=new ThreadLocalTraceFactory(this,storageFactory,sampler);
+  if (recordActiveThread) {
+    ActiveTraceFactory activeTraceFactory=(ActiveTraceFactory)ActiveTraceFactory.wrap(threadLocalTraceFactory);
+    return activeTraceFactory;
+  }
+ else {
+    return threadLocalTraceFactory;
+  }
+}

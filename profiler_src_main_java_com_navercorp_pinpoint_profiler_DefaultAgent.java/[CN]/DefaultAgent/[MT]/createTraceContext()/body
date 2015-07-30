@@ -4,7 +4,8 @@
   final Sampler sampler=createSampler();
   logger.info("SamplerType:{}",sampler);
   final int jdbcSqlCacheSize=profilerConfig.getJdbcSqlCacheSize();
-  final DefaultTraceContext traceContext=new DefaultTraceContext(jdbcSqlCacheSize,this.agentInformation,storageFactory,sampler,this.serverMetaDataHolder);
+  final boolean traceActiveThread=profilerConfig.isTraceAgentActiveThread();
+  final DefaultTraceContext traceContext=new DefaultTraceContext(jdbcSqlCacheSize,this.agentInformation,storageFactory,sampler,this.serverMetaDataHolder,traceActiveThread);
   traceContext.setPriorityDataSender(this.tcpDataSender);
   traceContext.setProfilerConfig(profilerConfig);
   return traceContext;
