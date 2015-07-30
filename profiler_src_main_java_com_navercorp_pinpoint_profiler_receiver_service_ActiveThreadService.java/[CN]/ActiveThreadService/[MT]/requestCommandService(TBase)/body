@@ -5,21 +5,23 @@
     fail.setMessage("Expected object type error. expected:" + getCommandClazz() + ", but was:"+ ClassUtils.simpleClassName(tBase));
     return fail;
   }
-  Map<ActiveThreadStatus,AtomicInteger> mappedStatus=new LinkedHashMap<ActiveThreadStatus,AtomicInteger>(activeThreadStatusCount);
-  for (  ActiveThreadStatus status : ACTIVE_THREAD_STATUSES_ORDER) {
-    mappedStatus.put(status,new AtomicInteger(0));
+  Map<SlotType,AtomicInteger> mappedSlot=new LinkedHashMap<SlotType,AtomicInteger>(activeThreadSlotsCount);
+  for (  SlotType slotType : ACTIVE_THREAD_SLOTS_ORDER) {
+    mappedSlot.put(slotType,new AtomicInteger(0));
   }
   long currentTime=System.currentTimeMillis();
   List<ActiveTraceInfo> activeTraceInfoCollect=activeTraceLocator.collect();
   for (  ActiveTraceInfo activeTraceInfo : activeTraceInfoCollect) {
-    ActiveThreadStatus status=ActiveThreadStatus.getStatus(currentTime - activeTraceInfo.getStartTime());
-    mappedStatus.get(status).incrementAndGet();
+    HistogramSlot slot=histogramSchema.findHistogramSlot((int)(System.currentTimeMillis() - activeTraceInfo.getStartTime()));
+    System.out.println(slot);
+    mappedSlot.get(slot.getSlotType()).incrementAndGet();
   }
-  List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadStatusCount);
-  for (  AtomicInteger statusCount : mappedStatus.values()) {
+  List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadSlotsCount);
+  for (  AtomicInteger statusCount : mappedSlot.values()) {
     activeThreadCount.add(statusCount.get());
   }
   TActiveThreadResponse response=new TActiveThreadResponse();
+  response.setHistogramSchemaType(histogramSchema.getTypeCode());
   response.setActiveThreadCount(activeThreadCount);
   return response;
 }
