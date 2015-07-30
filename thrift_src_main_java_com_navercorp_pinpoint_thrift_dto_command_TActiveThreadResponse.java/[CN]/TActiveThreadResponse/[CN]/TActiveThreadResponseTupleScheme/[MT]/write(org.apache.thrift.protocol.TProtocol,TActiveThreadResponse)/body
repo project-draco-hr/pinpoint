@@ -1,10 +1,16 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetActiveThreadCount()) {
+  if (struct.isSetHistogramSchemaType()) {
     optionals.set(0);
   }
-  oprot.writeBitSet(optionals,1);
+  if (struct.isSetActiveThreadCount()) {
+    optionals.set(1);
+  }
+  oprot.writeBitSet(optionals,2);
+  if (struct.isSetHistogramSchemaType()) {
+    oprot.writeI32(struct.histogramSchemaType);
+  }
   if (struct.isSetActiveThreadCount()) {
 {
       oprot.writeI32(struct.activeThreadCount.size());
