@@ -2,7 +2,7 @@
   final ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder(targetClassName);
   classBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
   classBuilder.conditional(new ClassCondition(){
-    @Override public boolean check(    ProfilerPluginContext context,    ClassLoader classLoader,    InstrumentClass target){
+    @Override public boolean check(    ProfilerPluginSetupContext context,    ClassLoader classLoader,    InstrumentableClass target){
       if (!target.hasConstructor(new String[]{"com.google.api.client.http.HttpRequest"})) {
         return false;
       }
