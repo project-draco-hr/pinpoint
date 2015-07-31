@@ -1,0 +1,33 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (!trace.canSampled()) {
+    traceContext.removeTraceObject();
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    final HttpChannel<?> channel=(HttpChannel<?>)args[0];
+    final Request request=channel.getRequest();
+    final String parameters=getRequestParameter(request,64,512);
+    if (parameters != null && parameters.length() > 0) {
+      recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+    }
+    recorder.recordApi(methodDescriptor);
+    recorder.recordException(throwable);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("after. Caused:{}",th.getMessage(),th);
+    }
+  }
+ finally {
+    traceContext.removeTraceObject();
+    deleteTrace(trace,target,args,result,throwable);
+  }
+}

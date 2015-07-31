@@ -1,0 +1,21 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  try {
+    final Trace trace=createTrace(target,args);
+    if (trace == null) {
+      return;
+    }
+    if (!trace.canSampled()) {
+      return;
+    }
+    SpanEventRecorder recorder=trace.traceBlockBegin();
+    recorder.recordServiceType(JETTY_METHOD);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("before. Caused:{}",th.getMessage(),th);
+    }
+  }
+}
