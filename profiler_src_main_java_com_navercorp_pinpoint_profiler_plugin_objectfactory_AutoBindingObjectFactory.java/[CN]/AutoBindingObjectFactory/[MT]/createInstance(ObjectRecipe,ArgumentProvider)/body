@@ -1,0 +1,11 @@
+{
+  Class<?> type=pluginContext.injectClass(classLoader,recipe.getClassName());
+  ArgumentsResolver argumentsResolver=getArgumentResolver(recipe,providers);
+  if (recipe instanceof ByConstructor) {
+    return byConstructor(type,(ByConstructor)recipe,argumentsResolver);
+  }
+ else   if (recipe instanceof ByStaticFactoryMethod) {
+    return byStaticFactoryMethod(type,(ByStaticFactoryMethod)recipe,argumentsResolver);
+  }
+  throw new IllegalArgumentException("Unknown recipe type: " + recipe);
+}

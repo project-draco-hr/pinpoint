@@ -7,8 +7,8 @@
   CtMethod callA=ctClass.getDeclaredMethod("callA",null);
   logger.debug("callA:{}",callA);
   callA.addLocalVariable("__test",object);
-  callA.insertBefore("{ __test = \"abc\"; System.out.println(\"before\" + __test); }");
-  callA.insertAfter("{ System.out.println(\"after\"); }");
+  callA.insertBefore("{ __test = \"abc\"; System.out.println(\"BEFORE\" + __test); }");
+  callA.insertAfter("{ System.out.println(\"AFTER\"); }");
   callA.addCatch("{ System.out.println(\"catch\"); throw $e; }",pool.get("java.lang.Throwable"));
   Class aClass=loader.loadClass(ctClass.getName());
   java.lang.reflect.Method callA1=aClass.getMethod("callA");

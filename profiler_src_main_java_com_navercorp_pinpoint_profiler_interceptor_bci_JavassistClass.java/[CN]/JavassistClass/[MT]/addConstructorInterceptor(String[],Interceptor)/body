@@ -1,0 +1,10 @@
+{
+  if (interceptor == null) {
+    throw new IllegalArgumentException("interceptor is null");
+  }
+  final JavassistMethod behavior=(JavassistMethod)getConstructor(args);
+  if (behavior == null) {
+    throw new NotFoundInstrumentException("Cannot find a constructor with parameter types: " + Arrays.toString(args));
+  }
+  return behavior.addInterceptor0(interceptor,null,InterceptPoint.AROUND);
+}

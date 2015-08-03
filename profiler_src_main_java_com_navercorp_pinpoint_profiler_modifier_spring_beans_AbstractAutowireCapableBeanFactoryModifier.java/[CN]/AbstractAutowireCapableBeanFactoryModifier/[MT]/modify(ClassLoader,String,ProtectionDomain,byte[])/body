@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",className);
   }
   try {
-    InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
+    InstrumentableClass aClass=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
     Interceptor createBeanInterceptor=new CreateBeanInstanceInterceptor(byteCodeInstrumentor.getRetransformEventTrigger(),modifier,filter);
     aClass.addInterceptor("createBeanInstance",new String[]{"java.lang.String","org.springframework.beans.factory.support.RootBeanDefinition","java.lang.Object[]"},createBeanInterceptor);
     Interceptor postProcessorInterceptor=new PostProcessorInterceptor(byteCodeInstrumentor.getRetransformEventTrigger(),modifier,filter);

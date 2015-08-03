@@ -1,0 +1,18 @@
+{
+  ThriftPluginConfig config=new ThriftPluginConfig(context.getConfig());
+  boolean traceClient=config.traceThriftClient();
+  boolean traceProcessor=config.traceThriftProcessor();
+  boolean traceCommon=traceClient || traceProcessor;
+  if (traceClient) {
+    addInterceptorsForSynchronousClients(context,config);
+    addInterceptorsForAsynchronousClients(context);
+  }
+  if (traceProcessor) {
+    addInterceptorsForSynchronousProcessors(context);
+    addInterceptorsForAsynchronousProcessors(context);
+  }
+  if (traceCommon) {
+    addInterceptorsForRetrievingSocketAddresses(context);
+    addTProtocolEditors(context,config);
+  }
+}

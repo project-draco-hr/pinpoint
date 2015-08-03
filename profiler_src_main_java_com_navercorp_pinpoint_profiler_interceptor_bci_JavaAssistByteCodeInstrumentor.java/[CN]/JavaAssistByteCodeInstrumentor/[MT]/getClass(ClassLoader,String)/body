@@ -1,9 +1,3 @@
 {
-  final NamedClassPool classPool=getClassPool(classLoader);
-  try {
-    return classPool.get(className);
-  }
- catch (  NotFoundException e) {
-    throw new InstrumentException(className + " class not found. Cause:" + e.getMessage(),e);
-  }
+  return classPool.getClass(classLoader,className);
 }

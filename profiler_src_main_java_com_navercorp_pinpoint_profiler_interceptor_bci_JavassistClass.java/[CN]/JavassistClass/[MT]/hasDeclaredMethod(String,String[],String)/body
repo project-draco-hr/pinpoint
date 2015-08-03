@@ -1,0 +1,15 @@
+{
+  final String signature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes,returnType);
+  try {
+    for (    CtMethod method : ctClass.getDeclaredMethods(methodName)) {
+      final String descriptor=method.getMethodInfo2().getDescriptor();
+      if (descriptor.startsWith(signature)) {
+        return true;
+      }
+    }
+  }
+ catch (  NotFoundException e) {
+    return false;
+  }
+  return false;
+}

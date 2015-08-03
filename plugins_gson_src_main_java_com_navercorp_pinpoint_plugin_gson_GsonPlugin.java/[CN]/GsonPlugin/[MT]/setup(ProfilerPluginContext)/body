@@ -1,6 +1,0 @@
-{
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("com.google.gson.Gson");
-  classEditorBuilder.editMethods(MethodFilters.name("fromJson")).injectInterceptor("com.navercorp.pinpoint.plugin.gson.interceptor.FromJsonInterceptor").group(GSON_GROUP);
-  classEditorBuilder.editMethods(MethodFilters.name("toJson")).injectInterceptor("com.navercorp.pinpoint.plugin.gson.interceptor.ToJsonInterceptor").group(GSON_GROUP);
-  context.addClassFileTransformer(classEditorBuilder.build());
-}

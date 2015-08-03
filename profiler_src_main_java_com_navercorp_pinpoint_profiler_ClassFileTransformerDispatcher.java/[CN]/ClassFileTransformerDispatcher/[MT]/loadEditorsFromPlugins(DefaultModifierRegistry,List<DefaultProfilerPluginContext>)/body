@@ -1,8 +1,8 @@
 {
   for (  DefaultProfilerPluginContext pluginContext : pluginContexts) {
     for (    ClassFileTransformer transformer : pluginContext.getClassEditors()) {
-      if (transformer instanceof PinpointClassFileTransformer) {
-        PinpointClassFileTransformer t=(PinpointClassFileTransformer)transformer;
+      if (transformer instanceof MatchableClassFileTransformer) {
+        MatchableClassFileTransformer t=(MatchableClassFileTransformer)transformer;
         logger.info("Registering class file transformer {} for {} ",t,t.getMatcher());
         modifierRepository.addModifier(new ClassFileTransformerAdaptor(byteCodeInstrumentor,t));
       }

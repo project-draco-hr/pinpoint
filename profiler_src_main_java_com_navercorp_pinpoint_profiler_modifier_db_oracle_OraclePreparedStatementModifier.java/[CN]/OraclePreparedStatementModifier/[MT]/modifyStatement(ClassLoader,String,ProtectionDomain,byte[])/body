@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",className);
   }
   try {
-    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
+    InstrumentableClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
     Interceptor execute=new PreparedStatementExecuteQueryInterceptor();
     preparedStatement.addGroupInterceptor("execute",null,execute,OracleScope.SCOPE_NAME);
     Interceptor executeQuery=new PreparedStatementExecuteQueryInterceptor();

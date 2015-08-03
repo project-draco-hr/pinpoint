@@ -7,6 +7,7 @@
     logPinpointAgentLoadFail();
     return;
   }
-  PinpointBootStrap bootStrap=new PinpointBootStrap(agentArgs,instrumentation);
+  loadBootstrapCoreLib(instrumentation);
+  PinpointStarter bootStrap=new PinpointStarter(agentArgs,instrumentation);
   bootStrap.start();
 }

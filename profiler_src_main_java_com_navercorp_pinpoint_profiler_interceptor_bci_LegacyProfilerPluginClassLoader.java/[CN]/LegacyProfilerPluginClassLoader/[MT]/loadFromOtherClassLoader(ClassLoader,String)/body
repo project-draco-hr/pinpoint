@@ -1,0 +1,6 @@
+{
+  ClassPool pool=new ClassPool();
+  pool.appendClassPath(new LoaderClassPath(classLoader));
+  pool.appendClassPath(new LoaderClassPath(sourceClassLoader));
+  return loadFromOtherClassLoader(pool,classLoader,className);
+}

@@ -1,0 +1,28 @@
+{
+  if (type == InstrumentableClass.class) {
+    return Option.withValue(targetClass);
+  }
+ else   if (type == MethodDescriptor.class) {
+    MethodDescriptor descriptor=targetMethod.getDescriptor();
+    cacheApiIfAnnotationNotPresent(annotations,descriptor);
+    return Option.withValue(descriptor);
+  }
+ else   if (type == InstrumentableMethod.class) {
+    return Option.withValue(targetMethod);
+  }
+ else   if (type == InterceptorGroup.class) {
+    Name annotation=TypeUtils.findAnnotation(annotations,Name.class);
+    if (annotation == null) {
+      if (interceptorGroup == null) {
+        throw new PinpointException("Group parameter is not annotated with @Name and the target class is not associated with any Group");
+      }
+ else {
+        return Option.withValue(interceptorGroup);
+      }
+    }
+ else {
+      return Option.empty();
+    }
+  }
+  return Option.empty();
+}

@@ -1,0 +1,15 @@
+{
+  SimpleAroundInterceptor interceptor=InterceptorRegistry.getSimpleInterceptor(interceptorId);
+  try {
+    interceptor.before(target,args);
+  }
+ catch (  Throwable t) {
+    if (throwException) {
+      throw new RuntimeException(t);
+    }
+ else {
+      logger.log(Level.WARNING,"Excetpion occured from interceptor",t);
+    }
+  }
+  return interceptor;
+}

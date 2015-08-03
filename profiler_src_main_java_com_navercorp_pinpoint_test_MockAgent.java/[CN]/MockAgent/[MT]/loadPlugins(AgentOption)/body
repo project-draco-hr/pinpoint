@@ -1,6 +1,6 @@
 {
   List<DefaultProfilerPluginContext> pluginContexts=new ArrayList<DefaultProfilerPluginContext>();
-  ProfilerPluginClassLoader classInjector=new TestProfilerPluginClassLoader();
+  ProfilerPluginClassInjector classInjector=new TestProfilerPluginClassLoader();
   List<ProfilerPlugin> plugins=PluginLoader.load(ProfilerPlugin.class,ClassLoader.getSystemClassLoader());
   for (  ProfilerPlugin plugin : plugins) {
     DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(this,classInjector);

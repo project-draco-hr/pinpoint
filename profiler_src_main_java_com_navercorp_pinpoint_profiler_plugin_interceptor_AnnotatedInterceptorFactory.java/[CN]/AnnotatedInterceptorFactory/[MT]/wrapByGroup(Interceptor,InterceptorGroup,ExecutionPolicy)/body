@@ -1,0 +1,9 @@
+{
+  if (interceptor instanceof SimpleAroundInterceptor) {
+    return new GroupedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,group,policy);
+  }
+ else   if (interceptor instanceof StaticAroundInterceptor) {
+    return new GroupedStaticAroundInterceptor((StaticAroundInterceptor)interceptor,group,policy);
+  }
+  throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
+}

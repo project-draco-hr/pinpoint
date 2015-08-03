@@ -1,0 +1,8 @@
+{
+  final JavassistMethod behavior=(JavassistMethod)getDeclaredMethod(methodName,args);
+  if (behavior == null) {
+    throw new NotFoundInstrumentException("Cannot find a method " + methodName + " with parameter types: "+ Arrays.toString(args));
+  }
+  behavior.addInterceptor0(interceptorId,type);
+  return interceptorId;
+}

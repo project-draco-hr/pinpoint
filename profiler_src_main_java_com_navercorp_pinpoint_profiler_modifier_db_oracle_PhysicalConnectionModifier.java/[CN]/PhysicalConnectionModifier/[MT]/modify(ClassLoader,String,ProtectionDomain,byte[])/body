@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass oracleConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentableClass oracleConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     oracleConnection.addTraceValue(DatabaseInfoTraceValue.class);
     Interceptor closeConnection=new ConnectionCloseInterceptor();
     oracleConnection.addGroupInterceptor("close",null,closeConnection,OracleScope.SCOPE_NAME);

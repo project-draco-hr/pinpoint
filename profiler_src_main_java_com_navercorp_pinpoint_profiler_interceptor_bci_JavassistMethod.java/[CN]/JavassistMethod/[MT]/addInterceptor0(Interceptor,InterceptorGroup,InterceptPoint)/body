@@ -1,0 +1,41 @@
+{
+  boolean isStatic;
+  if (interceptor instanceof StaticAroundInterceptor) {
+    isStatic=true;
+  }
+ else   if (interceptor instanceof SimpleAroundInterceptor) {
+    isStatic=false;
+  }
+ else {
+    throw new InstrumentException("unsupported interceptor type:" + interceptor);
+  }
+  if (interceptor instanceof TraceContextSupport) {
+    final TraceContext traceContext=pluginContext.getTraceContext();
+    ((TraceContextSupport)interceptor).setTraceContext(traceContext);
+  }
+  if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
+    ((ByteCodeMethodDescriptorSupport)interceptor).setMethodDescriptor(descriptor);
+  }
+  if (group != null) {
+    if (isStatic) {
+      interceptor=new GroupedStaticAroundInterceptor((StaticAroundInterceptor)interceptor,group,ExecutionPolicy.BOUNDARY);
+    }
+ else {
+      interceptor=new GroupedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,group,ExecutionPolicy.BOUNDARY);
+    }
+  }
+  int interceptorId;
+  if (isStatic) {
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addStaticInterceptor((StaticAroundInterceptor)interceptor);
+  }
+ else {
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor((SimpleAroundInterceptor)interceptor);
+  }
+  try {
+    addInterceptor0(interceptorId,type,isStatic);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException(e);
+  }
+  return interceptorId;
+}

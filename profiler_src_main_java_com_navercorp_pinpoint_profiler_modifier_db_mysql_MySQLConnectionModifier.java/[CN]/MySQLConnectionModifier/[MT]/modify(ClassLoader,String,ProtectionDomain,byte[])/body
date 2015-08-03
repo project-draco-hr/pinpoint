@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass mysqlConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentableClass mysqlConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     if (mysqlConnection.isInterface()) {
       return null;
     }

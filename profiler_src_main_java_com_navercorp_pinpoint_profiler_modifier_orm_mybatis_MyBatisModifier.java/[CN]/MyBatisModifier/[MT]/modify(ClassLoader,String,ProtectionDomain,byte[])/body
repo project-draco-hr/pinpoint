@@ -3,9 +3,9 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass myBatisClientImpl=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    List<MethodInfo> declaredMethods=myBatisClientImpl.getDeclaredMethods(getSqlSessionMethodFilter());
-    for (    MethodInfo method : declaredMethods) {
+    InstrumentableClass myBatisClientImpl=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    List<InstrumentableMethod> declaredMethods=myBatisClientImpl.getDeclaredMethods(getSqlSessionMethodFilter());
+    for (    InstrumentableMethod method : declaredMethods) {
       Interceptor sqlSessionInterceptor=new MyBatisSqlMapOperationInterceptor(serviceType);
       myBatisClientImpl.addGroupInterceptor(method.getName(),method.getParameterTypes(),sqlSessionInterceptor,SCOPE);
     }

@@ -1,0 +1,13 @@
+{
+  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
+  for (  CtMethod method : ctClass.getDeclaredMethods()) {
+    if (!method.getName().equals(methodName)) {
+      continue;
+    }
+    final String descriptor=method.getMethodInfo2().getDescriptor();
+    if (descriptor.startsWith(jvmSignature)) {
+      return method;
+    }
+  }
+  return null;
+}

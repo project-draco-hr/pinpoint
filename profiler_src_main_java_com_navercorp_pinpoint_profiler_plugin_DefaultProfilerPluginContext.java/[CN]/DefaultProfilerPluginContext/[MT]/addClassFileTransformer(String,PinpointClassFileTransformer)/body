@@ -1,0 +1,20 @@
+{
+  if (initialized) {
+    throw new IllegalStateException("Context already initialized");
+  }
+  classTransformers.add(new MatchableClassFileTransformer(){
+    private final Matcher matcher=Matchers.newClassNameMatcher(JavaAssistUtils.javaNameToJvmName(targetClassName));
+    @Override public Matcher getMatcher(){
+      return matcher;
+    }
+    @Override public byte[] transform(    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws IllegalClassFormatException {
+      try {
+        return transformer.transform(DefaultProfilerPluginContext.this,loader,targetClassName,classBeingRedefined,protectionDomain,classfileBuffer);
+      }
+ catch (      InstrumentException e) {
+        throw new PinpointException(e);
+      }
+    }
+  }
+);
+}

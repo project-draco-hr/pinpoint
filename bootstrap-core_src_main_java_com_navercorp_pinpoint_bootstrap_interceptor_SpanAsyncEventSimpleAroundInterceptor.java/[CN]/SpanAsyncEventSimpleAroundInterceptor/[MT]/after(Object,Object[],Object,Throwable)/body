@@ -1,0 +1,33 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
+  }
+  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+    logger.debug("Not found asynchronous invocation metadata");
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    doInAfterTrace(recorder,target,args,result,throwable);
+  }
+ catch (  Throwable th) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("AFTER error. Caused:{}",th.getMessage(),th);
+    }
+  }
+ finally {
+    trace.traceBlockEnd();
+    if (trace.isAsync() && trace.isRootStack()) {
+      if (isDebug) {
+        logger.debug("Close async trace. {}");
+      }
+      traceFirstBlockEnd(trace);
+      trace.close();
+      traceContext.removeTraceObject();
+    }
+  }
+}

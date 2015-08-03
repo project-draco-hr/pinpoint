@@ -3,10 +3,10 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentClass ibatisClientImpl=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentableClass ibatisClientImpl=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     final MethodFilter ibatisApiMethodFilter=getIbatisApiMethodFilter(javassistClassName);
-    List<MethodInfo> declaredMethods=ibatisClientImpl.getDeclaredMethods(ibatisApiMethodFilter);
-    for (    MethodInfo method : declaredMethods) {
+    List<InstrumentableMethod> declaredMethods=ibatisClientImpl.getDeclaredMethods(ibatisApiMethodFilter);
+    for (    InstrumentableMethod method : declaredMethods) {
       Interceptor ibatisApiInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
       ibatisClientImpl.addGroupInterceptor(method.getName(),method.getParameterTypes(),ibatisApiInterceptor,SCOPE);
     }
