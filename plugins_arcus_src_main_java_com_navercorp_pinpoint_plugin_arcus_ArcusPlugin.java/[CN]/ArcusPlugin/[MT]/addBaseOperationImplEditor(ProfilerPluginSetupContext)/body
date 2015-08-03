@@ -1,5 +1,10 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.protocol.BaseOperationImpl");
-  builder.injectMetadata(METADATA_SERVICE_CODE);
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("net.spy.memcached.protocol.BaseOperationImpl",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      target.addField(SERVICE_CODE_ACCESSOR);
+      return target.toBytecode();
+    }
+  }
+);
 }

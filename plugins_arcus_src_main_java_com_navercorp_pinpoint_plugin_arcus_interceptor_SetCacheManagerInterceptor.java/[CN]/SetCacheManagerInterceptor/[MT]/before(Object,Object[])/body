@@ -2,6 +2,6 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  String serviceCode=serviceCodeAccessor.get(args[0]);
-  serviceCodeAccessor.set(target,serviceCode);
+  String serviceCode=((ServiceCodeAccessor)args[0])._$PINPOINT$_getServiceCode();
+  ((ServiceCodeAccessor)target)._$PINPOINT$_setServiceCode(serviceCode);
 }

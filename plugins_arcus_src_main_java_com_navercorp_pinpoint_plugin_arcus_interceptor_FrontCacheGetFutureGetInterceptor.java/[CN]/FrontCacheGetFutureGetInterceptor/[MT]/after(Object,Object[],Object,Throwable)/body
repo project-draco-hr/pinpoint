@@ -9,7 +9,7 @@
   try {
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(methodDescriptor);
-    String cacheName=cacheNameAccessor.get(target);
+    String cacheName=((CacheNameAccessor)target)._$PINPOINT$_getCacheName();
     if (cacheName != null) {
       recorder.recordDestinationId(cacheName);
     }

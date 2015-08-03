@@ -2,8 +2,8 @@
   if (throwable != null || result == null) {
     return false;
   }
-  if (!asyncTraceIdAccessor.isApplicable(result)) {
-    logger.debug("Invalid result object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+  if (!(result instanceof AsyncTraceIdAccessor)) {
+    logger.debug("Invalid result object. Need accessor({}).",AsyncTraceIdAccessor.class.getName());
     return false;
   }
   return true;

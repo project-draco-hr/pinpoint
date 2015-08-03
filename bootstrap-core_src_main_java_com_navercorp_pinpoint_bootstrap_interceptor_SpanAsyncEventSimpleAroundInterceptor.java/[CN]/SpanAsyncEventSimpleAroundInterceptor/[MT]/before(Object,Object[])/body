@@ -2,11 +2,11 @@
   if (isDebug) {
     logger.beforeInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args);
   }
-  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+  final AsyncTraceId asyncTraceId=getAsyncTraceId(target);
+  if (asyncTraceId == null) {
     logger.debug("Not found asynchronous invocation metadata");
     return;
   }
-  final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getSpanStartTime());

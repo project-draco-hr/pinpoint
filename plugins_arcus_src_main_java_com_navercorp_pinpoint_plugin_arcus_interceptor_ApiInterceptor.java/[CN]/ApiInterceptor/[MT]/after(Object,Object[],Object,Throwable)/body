@@ -16,8 +16,8 @@
       recorder.recordApi(methodDescriptor);
     }
     recorder.recordException(throwable);
-    if (result instanceof Future && operationAccessor.isApplicable(result)) {
-      Operation op=operationAccessor.get(result);
+    if (result instanceof Future && result instanceof OperationAccessor) {
+      Operation op=((OperationAccessor)result)._$PINPOINT$_getOperation();
       if (op != null) {
         MemcachedNode handlingNode=op.getHandlingNode();
         SocketAddress socketAddress=handlingNode.getSocketAddress();
@@ -30,8 +30,8 @@
         logger.info("operation not found");
       }
     }
-    if (serviceCodeAccessor.isApplicable(target)) {
-      String serviceCode=serviceCodeAccessor.get(target);
+    if (target instanceof ServiceCodeAccessor) {
+      String serviceCode=((ServiceCodeAccessor)target)._$PINPOINT$_getServiceCode();
       if (serviceCode != null) {
         recorder.recordDestinationId(serviceCode);
         recorder.recordServiceType(ARCUS);
@@ -50,7 +50,7 @@
         this.traceContext.getAsyncId();
         final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
         recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
-        asyncTraceIdAccessor.set(result,asyncTraceId);
+        ((AsyncTraceIdAccessor)result)._$PINPOINT$_setAsyncTraceId(asyncTraceId);
         if (isDebug) {
           logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
         }

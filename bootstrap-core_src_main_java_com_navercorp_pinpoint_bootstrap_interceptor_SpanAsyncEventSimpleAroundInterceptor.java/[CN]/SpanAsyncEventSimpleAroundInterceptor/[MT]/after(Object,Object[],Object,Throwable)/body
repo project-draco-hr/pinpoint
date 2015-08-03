@@ -2,7 +2,7 @@
   if (isDebug) {
     logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
   }
-  if (!asyncTraceIdAccessor.isApplicable(target) || asyncTraceIdAccessor.get(target) == null) {
+  if (getAsyncTraceId(target) == null) {
     logger.debug("Not found asynchronous invocation metadata");
     return;
   }

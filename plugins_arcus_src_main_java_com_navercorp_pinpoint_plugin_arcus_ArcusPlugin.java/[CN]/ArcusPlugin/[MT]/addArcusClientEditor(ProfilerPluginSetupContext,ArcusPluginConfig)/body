@@ -1,21 +1,26 @@
 {
-  final ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.ArcusClient");
-  builder.conditional(hasMethod("addOp","net.spy.memcached.ops.Operation","java.lang.String","net.spy.memcached.ops.Operation"),new ConditionalClassFileTransformerSetup(){
-    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
-      boolean traceKey=config.isArcusKeyTrace();
-      conditional.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
-      MethodTransformerBuilder mb=conditional.editMethods(new ArcusMethodFilter());
-      mb.exceptionHandler(new MethodTransformerExceptionHandler(){
-        public void handle(        String targetClassName,        String targetMethodName,        String[] targetMethodParameterTypes,        Throwable exception) throws Throwable {
-          if (logger.isWarnEnabled()) {
-            logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+  context.addClassFileTransformer("net.spy.memcached.ArcusClient",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      if (target.hasMethod("addOp",new String[]{"java.lang.String","net.spy.memcached.ops.Operation"},"net.spy.memcached.ops.Operation")) {
+        boolean traceKey=config.isArcusKeyTrace();
+        target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
+        for (        InstrumentableMethod m : target.getDeclaredMethods(new ArcusMethodFilter())) {
+          try {
+            m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+          }
+ catch (          Exception e) {
+            if (logger.isWarnEnabled()) {
+              logger.warn("Unsupported method " + className + "."+ m.getName(),e);
+            }
           }
         }
+        return target.toBytecode();
       }
-);
-      mb.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+ else {
+        return null;
+      }
     }
   }
 );
-  context.addClassFileTransformer(builder.build());
 }

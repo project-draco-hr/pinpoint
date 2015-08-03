@@ -3,10 +3,10 @@
     logger.afterInterceptor(target,args,result,throwable);
   }
   try {
-    cacheNameAccessor.set(target,DEFAULT_FRONTCACHE_NAME);
+    ((CacheNameAccessor)target)._$PINPOINT$_setCacheName(DEFAULT_FRONTCACHE_NAME);
     if (args[0] instanceof Element) {
       Element element=(Element)args[0];
-      cacheKeyAccessor.set(target,element.getObjectKey());
+      ((CacheKeyAccessor)target)._$PINPOINT$_setCacheKey(element.getObjectKey());
     }
   }
  catch (  Exception e) {
