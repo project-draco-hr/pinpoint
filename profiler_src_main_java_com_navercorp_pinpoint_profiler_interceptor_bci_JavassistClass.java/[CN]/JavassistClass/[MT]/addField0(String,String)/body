@@ -1,0 +1,22 @@
+{
+  try {
+    Class<?> accessorType=pluginContext.injectClass(classLoader,accessorTypeName);
+    AccessorDetails accessorDetails=new AccessorAnalyzer().analyze(accessorType);
+    CtField newField=CtField.make("private " + accessorDetails.getFieldType().getName() + " "+ FIELD_PREFIX+ accessorTypeName.replace('.','_').replace('$','_')+ ";",ctClass);
+    if (initValExp == null) {
+      ctClass.addField(newField);
+    }
+ else {
+      ctClass.addField(newField,initValExp);
+    }
+    final CtClass accessorInterface=ctClass.getClassPool().get(accessorTypeName);
+    ctClass.addInterface(accessorInterface);
+    CtMethod getterMethod=CtNewMethod.getter(accessorDetails.getGetter().getName(),newField);
+    ctClass.addMethod(getterMethod);
+    CtMethod setterMethod=CtNewMethod.setter(accessorDetails.getSetter().getName(),newField);
+    ctClass.addMethod(setterMethod);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Failed to add field with accessor [" + accessorTypeName + "]. Cause:"+ e.getMessage(),e);
+  }
+}

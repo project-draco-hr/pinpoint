@@ -1,0 +1,17 @@
+{
+  try {
+    Class<?> getterType=pluginContext.injectClass(classLoader,getterTypeName);
+    GetterDetails getterDetails=new GetterAnalyzer().analyze(getterType);
+    CtField field=ctClass.getField(fieldName);
+    if (!field.getType().getName().equals(getterDetails.getFieldType().getName())) {
+      throw new IllegalArgumentException("Return type of the getter is different with the field type. getterMethod: " + getterDetails.getGetter() + ", fieldType: "+ field.getType().getName());
+    }
+    CtMethod getterMethod=CtNewMethod.getter(getterDetails.getGetter().getName(),field);
+    ctClass.addMethod(getterMethod);
+    CtClass ctInterface=ctClass.getClassPool().get(getterTypeName);
+    ctClass.addInterface(ctInterface);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Fail to add getter: " + getterTypeName,e);
+  }
+}

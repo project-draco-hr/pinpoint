@@ -1,0 +1,35 @@
+{
+  Asserts.notNull(accessorType,"accessorType");
+  if (!accessorType.isInterface()) {
+    throw new IllegalArgumentException("accessorType " + accessorType + "is not an interface");
+  }
+  Method[] methods=accessorType.getDeclaredMethods();
+  if (methods.length != 2) {
+    throw new IllegalArgumentException("accessorType has to declare 2 methods. " + accessorType + " has "+ methods.length+ ".");
+  }
+  Method getter;
+  Method setter;
+  if (methods[0].getParameterTypes().length == 0) {
+    getter=methods[0];
+    setter=methods[1];
+  }
+ else {
+    getter=methods[1];
+    setter=methods[0];
+  }
+  Class<?> fieldType=getter.getReturnType();
+  if (fieldType == void.class || fieldType == Void.class) {
+    throw new IllegalArgumentException("accessorType must declare an getter and setter: " + accessorType);
+  }
+  Class<?>[] setterParamTypes=setter.getParameterTypes();
+  if (setterParamTypes.length != 1) {
+    throw new IllegalArgumentException("accessorType must declare an getter and setter: " + accessorType);
+  }
+  if (setterParamTypes[0] != fieldType) {
+    throw new IllegalArgumentException("The return type of getter is different to the parameter type of setter: " + accessorType);
+  }
+  if (setter.getReturnType() != void.class) {
+    throw new IllegalArgumentException("Setter must have return type void: " + accessorType);
+  }
+  return new AccessorDetails(fieldType,getter,setter);
+}

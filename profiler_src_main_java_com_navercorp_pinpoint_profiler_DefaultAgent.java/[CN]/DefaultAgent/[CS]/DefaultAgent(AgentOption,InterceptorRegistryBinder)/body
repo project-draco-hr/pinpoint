@@ -24,7 +24,7 @@
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=agentOption.getProfilerConfig();
   this.instrumentation=agentOption.getInstrumentation();
-  RetransformService retransformService=new RetransformService(instrumentation);
+  this.retransformService=new RetransformService(instrumentation);
   this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapJarPath());
   this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,classPool,retransformService);
   if (logger.isInfoEnabled()) {
