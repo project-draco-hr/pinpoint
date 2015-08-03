@@ -1,5 +1,3 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.internal.ImmediateFuture");
-  injectFutureInternalInterceptor(context,builder);
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("net.spy.memcached.internal.ImmediateFuture",INTERNAL_FUTURE_TRANSFORMER);
 }

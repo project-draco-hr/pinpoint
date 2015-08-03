@@ -1,5 +1,5 @@
 {
-  final Operation op=operationAccessor.get(target);
+  final Operation op=((OperationAccessor)target)._$PINPOINT$_getOperation();
   if (op != null) {
     MemcachedNode handlingNode=op.getHandlingNode();
     if (handlingNode != null) {
@@ -16,7 +16,7 @@
  else {
     logger.info("operation not found");
   }
-  String serviceCode=serviceCodeAccessor.get(op);
+  String serviceCode=((ServiceCodeAccessor)op)._$PINPOINT$_getServiceCode();
   if (serviceCode != null) {
     recorder.recordDestinationId(serviceCode);
     recorder.recordServiceType(ARCUS_FUTURE_GET);

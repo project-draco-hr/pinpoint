@@ -1,0 +1,8 @@
+{
+  if (asyncTraceIdAccessor != null) {
+    return asyncTraceIdAccessor.isApplicable(target) ? (AsyncTraceId)asyncTraceIdAccessor.get(target) : null;
+  }
+ else {
+    return target instanceof AsyncTraceIdAccessor ? ((AsyncTraceIdAccessor)target)._$PINPOINT$_getAsyncTraceId() : null;
+  }
+}

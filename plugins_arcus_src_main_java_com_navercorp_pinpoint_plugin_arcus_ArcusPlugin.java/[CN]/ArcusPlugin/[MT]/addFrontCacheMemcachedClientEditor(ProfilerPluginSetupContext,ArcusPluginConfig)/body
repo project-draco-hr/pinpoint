@@ -1,15 +1,20 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.plugin.FrontCacheMemcachedClient");
-  boolean traceKey=config.isMemcachedKeyTrace();
-  MethodTransformerBuilder mb=builder.editMethods(new FrontCacheMemcachedMethodFilter());
-  mb.exceptionHandler(new MethodTransformerExceptionHandler(){
-    public void handle(    String targetClassName,    String targetMethodName,    String[] targetMethodParameterTypes,    Throwable exception) throws Throwable {
-      if (logger.isWarnEnabled()) {
-        logger.warn("Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+  context.addClassFileTransformer("net.spy.memcached.plugin.FrontCacheMemcachedClient",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      boolean traceKey=config.isMemcachedKeyTrace();
+      for (      InstrumentableMethod m : target.getDeclaredMethods(new FrontCacheMemcachedMethodFilter())) {
+        try {
+          m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + className + "."+ m.getName(),e);
+          }
+        }
       }
+      return target.toBytecode();
     }
   }
 );
-  mb.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
-  context.addClassFileTransformer(builder.build());
 }

@@ -1,0 +1,19 @@
+{
+  this.traceContext=context;
+  this.methodDescriptor=targetMethod;
+  if (traceKey) {
+    int index=findFirstString(targetMethod);
+    if (index != -1) {
+      this.traceKey=true;
+      this.keyIndex=index;
+    }
+ else {
+      this.traceKey=false;
+      this.keyIndex=-1;
+    }
+  }
+ else {
+    this.traceKey=false;
+    this.keyIndex=-1;
+  }
+}

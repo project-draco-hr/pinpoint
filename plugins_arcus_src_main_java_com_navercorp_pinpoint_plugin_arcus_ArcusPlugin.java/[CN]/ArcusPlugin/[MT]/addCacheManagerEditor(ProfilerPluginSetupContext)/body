@@ -1,6 +1,11 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.spy.memcached.CacheManager");
-  builder.injectMetadata(METADATA_SERVICE_CODE);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.CacheManagerConstructInterceptor");
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("net.spy.memcached.CacheManager",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      target.addField(SERVICE_CODE_ACCESSOR);
+      target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.CacheManagerConstructInterceptor");
+      return target.toBytecode();
+    }
+  }
+);
 }

@@ -2,5 +2,5 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  operationAccessor.set(target,args[0]);
+  ((OperationAccessor)target)._$PINPOINT$_setOperation((Operation)args[0]);
 }

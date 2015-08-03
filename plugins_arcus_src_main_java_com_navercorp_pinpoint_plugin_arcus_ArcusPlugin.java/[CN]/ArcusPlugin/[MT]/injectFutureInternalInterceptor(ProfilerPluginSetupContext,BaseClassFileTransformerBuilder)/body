@@ -1,6 +1,0 @@
-{
-  builder.injectMetadata(ArcusConstants.METADATA_ASYNC_TRACE_ID);
-  final MethodTransformerBuilder methodBuilder=builder.editMethods(MethodFilters.name("cancel","get"));
-  methodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  methodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FutureInternalMethodInterceptor");
-}
