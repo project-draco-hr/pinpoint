@@ -9,7 +9,7 @@
     throw new NullPointerException("sampler must not be null");
   }
   this.agentInformation=agentInformation;
-  this.sqlCache=new SimpleCache<String>(sqlCacheSize);
+  this.cachingSqlNormalizer=new DefaultCachingSqlNormalizer(sqlCacheSize);
   this.traceFactory=createTraceFactory(storageFactory,sampler,traceActiveThread);
   this.serverMetaDataHolder=serverMetaDataHolder;
 }

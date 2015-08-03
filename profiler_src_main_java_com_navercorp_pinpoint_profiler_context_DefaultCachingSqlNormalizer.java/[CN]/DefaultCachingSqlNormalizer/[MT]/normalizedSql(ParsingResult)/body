@@ -1,0 +1,30 @@
+{
+  if (parsingResult == null) {
+    return false;
+  }
+  if (parsingResult == EMPTY_OBJECT) {
+    return false;
+  }
+  if (parsingResult.getId() != ParsingResult.ID_NOT_EXIST) {
+    return false;
+  }
+  if (!(parsingResult instanceof ParsingResultInternal)) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("unsupported ParsingResult Type type {}");
+    }
+    throw new IllegalArgumentException("unsupported ParsingResult Type");
+  }
+  final ParsingResultInternal parsingResultInternal=(ParsingResultInternal)parsingResult;
+  final String originalSql=parsingResultInternal.getOriginalSql();
+  final NormalizedSql normalizedSql=this.sqlParser.normalizedSql(originalSql);
+  final Result cachingResult=this.sqlCache.put(normalizedSql.getNormalizedSql());
+  final boolean success=parsingResultInternal.setId(cachingResult.getId());
+  if (!success) {
+    if (logger.isWarnEnabled()) {
+      logger.warn("invalid state. setSqlId fail setId:{}, ParsingResultInternal:{}",cachingResult.getId(),parsingResultInternal);
+    }
+  }
+  parsingResultInternal.setSql(normalizedSql.getNormalizedSql());
+  parsingResultInternal.setOutput(normalizedSql.getParseParameter());
+  return cachingResult.isNewValue();
+}

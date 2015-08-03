@@ -2,21 +2,17 @@
   if (parsingResult == null) {
     return false;
   }
-  if (parsingResult.getId() != ParsingResult.ID_NOT_EXIST) {
-    return false;
-  }
-  final String normalizedSql=parsingResult.getSql();
-  final Result cachingResult=this.sqlCache.put(normalizedSql);
-  if (cachingResult.isNewValue()) {
+  boolean isNewValue=this.cachingSqlNormalizer.normalizedSql(parsingResult);
+  if (isNewValue) {
     if (isDebug) {
       logger.debug("NewSQLParsingResult:{}",parsingResult);
     }
     final TSqlMetaData sqlMetaData=new TSqlMetaData();
     sqlMetaData.setAgentId(getAgentId());
     sqlMetaData.setAgentStartTime(getAgentStartTime());
-    sqlMetaData.setSqlId(cachingResult.getId());
-    sqlMetaData.setSql(normalizedSql);
+    sqlMetaData.setSqlId(parsingResult.getId());
+    sqlMetaData.setSql(parsingResult.getSql());
     this.priorityDataSender.request(sqlMetaData);
   }
-  return parsingResult.setId(cachingResult.getId());
+  return isNewValue;
 }
