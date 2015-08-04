@@ -1,0 +1,12 @@
+{
+  if (StringUtils.isEmpty(user.getUserId()) || StringUtils.isEmpty(user.getName())) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not userId or name in params to creating user infomation");
+    return result;
+  }
+  userService.insertUser(user);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}
