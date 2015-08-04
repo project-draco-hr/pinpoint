@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentableClass jtdsConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass jtdsConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     jtdsConnection.addTraceValue(DatabaseInfoTraceValue.class);
     Interceptor closeConnection=new ConnectionCloseInterceptor();
     jtdsConnection.addGroupInterceptor("close",null,closeConnection,SCOPE_NAME);

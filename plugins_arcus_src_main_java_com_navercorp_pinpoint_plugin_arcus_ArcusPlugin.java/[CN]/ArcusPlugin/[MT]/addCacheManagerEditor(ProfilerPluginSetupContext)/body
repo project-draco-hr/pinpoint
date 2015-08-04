@@ -1,7 +1,7 @@
 {
   context.addClassFileTransformer("net.spy.memcached.CacheManager",new PinpointClassFileTransformer(){
     @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(SERVICE_CODE_ACCESSOR);
       target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.CacheManagerConstructInterceptor");
       return target.toBytecode();

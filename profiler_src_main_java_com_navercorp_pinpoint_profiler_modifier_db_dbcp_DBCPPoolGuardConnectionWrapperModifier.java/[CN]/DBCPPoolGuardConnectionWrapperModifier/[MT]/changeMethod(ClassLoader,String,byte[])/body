@@ -1,6 +1,6 @@
 {
   try {
-    InstrumentableClass wrapper=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass wrapper=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     Interceptor close=new DataSourceCloseInterceptor();
     wrapper.addGroupInterceptor("close",null,close,DBCPScope.SCOPE_NAME);
     return wrapper.toBytecode();

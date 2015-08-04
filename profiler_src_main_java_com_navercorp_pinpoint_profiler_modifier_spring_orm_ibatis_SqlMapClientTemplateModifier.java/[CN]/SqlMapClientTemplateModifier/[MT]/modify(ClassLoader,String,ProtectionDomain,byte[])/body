@@ -3,9 +3,9 @@
     this.logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentableClass sqlMapClientTemplate=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-    List<InstrumentableMethod> declaredMethods=sqlMapClientTemplate.getDeclaredMethods(sqlMapClientMethodFilter);
-    for (    InstrumentableMethod method : declaredMethods) {
+    InstrumentClass sqlMapClientTemplate=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    List<InstrumentMethod> declaredMethods=sqlMapClientTemplate.getDeclaredMethods(sqlMapClientMethodFilter);
+    for (    InstrumentMethod method : declaredMethods) {
       Interceptor sqlMapClientTemplateInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
       sqlMapClientTemplate.addGroupInterceptor(method.getName(),method.getParameterTypes(),sqlMapClientTemplateInterceptor,SCOPE);
     }

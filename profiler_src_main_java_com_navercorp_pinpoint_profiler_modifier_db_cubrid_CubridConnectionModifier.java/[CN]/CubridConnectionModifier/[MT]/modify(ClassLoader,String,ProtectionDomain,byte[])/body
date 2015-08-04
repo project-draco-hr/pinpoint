@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentableClass cubridConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass cubridConnection=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     cubridConnection.addTraceValue(DatabaseInfoTraceValue.class);
     Interceptor connectionCloseInterceptor=new ConnectionCloseInterceptor();
     cubridConnection.addGroupInterceptor("close",null,connectionCloseInterceptor,CubridScope.SCOPE_NAME);
