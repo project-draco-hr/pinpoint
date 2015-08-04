@@ -1,0 +1,14 @@
+{
+  String userGroupId=params.get(USER_GROUP_ID);
+  String userGroupMemberId=params.get(USER_GROUP_MEMBER_ID);
+  if (userGroupId == null || userGroupMemberId == null) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not userGroupId or userGroupMemberId in params to deleting user group");
+    return result;
+  }
+  userGroupService.insertMember(new UserGroupMember(userGroupId,userGroupMemberId));
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}

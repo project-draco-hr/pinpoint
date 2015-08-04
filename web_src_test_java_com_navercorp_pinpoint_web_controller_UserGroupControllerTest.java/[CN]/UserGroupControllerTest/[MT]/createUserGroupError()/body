@@ -1,5 +1,3 @@
 {
-  MvcResult result=this.mockMvc.perform(post("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("errorCode"))).andExpect(jsonPath("$.errorCode").value("500")).andReturn();
-  String content=result.getResponse().getContentAsString();
-  System.out.println(content);
+  this.mockMvc.perform(post("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("errorCode"))).andExpect(jsonPath("$.errorCode").value("500")).andReturn();
 }
