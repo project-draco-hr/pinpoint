@@ -1,10 +1,10 @@
 {
   JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
   String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
-  InstrumentableClass testObject=pool.getClass(null,testObjectName,null);
+  InstrumentClass testObject=pool.getClass(null,testObjectName,null);
   Assert.assertEquals(testObject.getName(),testObjectName);
   int findMethodCount=0;
-  for (  InstrumentableMethod methodInfo : testObject.getDeclaredMethods()) {
+  for (  InstrumentMethod methodInfo : testObject.getDeclaredMethods()) {
     if (!methodInfo.getName().equals("callA")) {
       continue;
     }

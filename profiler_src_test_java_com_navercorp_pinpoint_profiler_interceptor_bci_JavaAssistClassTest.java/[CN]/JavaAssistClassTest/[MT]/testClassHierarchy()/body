@@ -1,13 +1,13 @@
 {
   JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
   String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
-  InstrumentableClass testObject=pool.getClass(null,testObjectName,null);
+  InstrumentClass testObject=pool.getClass(null,testObjectName,null);
   Assert.assertEquals(testObject.getName(),testObjectName);
   String testObjectSuperClass=testObject.getSuperClass();
   Assert.assertEquals("java.lang.Object",testObjectSuperClass);
   String[] testObjectSuperClassInterfaces=testObject.getInterfaces();
   Assert.assertEquals(testObjectSuperClassInterfaces.length,0);
-  InstrumentableClass classHierarchyObject=pool.getClass(null,"com.navercorp.pinpoint.profiler.interceptor.bci.ClassHierarchyTestMock",null);
+  InstrumentClass classHierarchyObject=pool.getClass(null,"com.navercorp.pinpoint.profiler.interceptor.bci.ClassHierarchyTestMock",null);
   String hierarchySuperClass=classHierarchyObject.getSuperClass();
   Assert.assertEquals("java.util.HashMap",hierarchySuperClass);
   String[] hierarchyInterfaces=classHierarchyObject.getInterfaces();

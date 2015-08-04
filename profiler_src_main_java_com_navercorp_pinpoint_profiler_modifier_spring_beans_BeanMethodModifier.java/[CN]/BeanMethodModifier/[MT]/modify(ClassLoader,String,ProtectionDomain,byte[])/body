@@ -3,12 +3,12 @@
     logger.info("Modify {}",javassistClassName);
   }
   try {
-    InstrumentableClass clazz=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass clazz=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     if (!clazz.isInterceptable()) {
       return null;
     }
-    List<InstrumentableMethod> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
-    for (    InstrumentableMethod method : methodList) {
+    List<InstrumentMethod> methodList=clazz.getDeclaredMethods(METHOD_FILTER);
+    for (    InstrumentMethod method : methodList) {
       if (logger.isTraceEnabled()) {
         logger.trace("### c={}, m={}, params={}",javassistClassName,method.getName(),Arrays.toString(method.getParameterTypes()));
       }

@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentableClass oracleDriver=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass oracleDriver=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     final InterceptorGroupInvocation scope=byteCodeInstrumentor.getInterceptorGroupTransaction(OracleScope.SCOPE_NAME);
     Interceptor createConnection=new DriverConnectInterceptor(scope);
     String[] params=new String[]{"java.lang.String","java.util.Properties"};

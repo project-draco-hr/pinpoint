@@ -4,7 +4,7 @@
   final ClassLoader loader=getClass().getClassLoader();
   byte[] byteCode=BytecodeUtils.getClassFile(loader,TARGET);
   ByteCodeInstrumentor instrumentor=mock(ByteCodeInstrumentor.class);
-  InstrumentableClass instrumentClass=mock(InstrumentableClass.class);
+  InstrumentClass instrumentClass=mock(InstrumentClass.class);
   when(instrumentor.getClass(loader,TARGET_INTERNAL_NAME,byteCode)).thenReturn(instrumentClass);
   when(instrumentClass.isInterceptable()).thenReturn(true);
   when(instrumentClass.getDeclaredMethods(BeanMethodModifier.METHOD_FILTER)).thenReturn(realInstrumentor.getClass(loader,TARGET,byteCode).getDeclaredMethods(BeanMethodModifier.METHOD_FILTER));

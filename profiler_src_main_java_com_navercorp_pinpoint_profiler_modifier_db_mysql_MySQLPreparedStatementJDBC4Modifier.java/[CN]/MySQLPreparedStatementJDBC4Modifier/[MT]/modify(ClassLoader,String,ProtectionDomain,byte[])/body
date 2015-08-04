@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",className);
   }
   try {
-    InstrumentableClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
+    InstrumentClass preparedStatement=byteCodeInstrumentor.getClass(classLoader,className,classFileBuffer);
     bindVariableIntercept(preparedStatement,classLoader,protectedDomain);
     return preparedStatement.toBytecode();
   }

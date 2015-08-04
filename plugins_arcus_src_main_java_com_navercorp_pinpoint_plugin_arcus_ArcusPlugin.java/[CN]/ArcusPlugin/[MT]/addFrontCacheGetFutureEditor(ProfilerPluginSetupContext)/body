@@ -1,13 +1,13 @@
 {
   context.addClassFileTransformer("net.spy.memcached.plugin.FrontCacheGetFuture",new PinpointClassFileTransformer(){
     @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentableClass target=context.getInstrumentableClass(loader,className,classfileBuffer);
+      InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(CACHE_NAME_ACCESSOR);
       target.addField(CACHE_KEY_ACCESSOR);
       target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureConstructInterceptor");
-      InstrumentableMethod get0=target.getDeclaredMethod("get",new String[]{"long","java.util.concurrent.TimeUnit"});
+      InstrumentMethod get0=target.getDeclaredMethod("get",new String[]{"long","java.util.concurrent.TimeUnit"});
       get0.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
-      InstrumentableMethod get1=target.getDeclaredMethod("get",new String[0]);
+      InstrumentMethod get1=target.getDeclaredMethod("get",new String[0]);
       get1.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor");
       return target.toBytecode();
     }

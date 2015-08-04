@@ -3,7 +3,7 @@
     logger.info("Modifying. {}",javassistClassName);
   }
   try {
-    InstrumentableClass preparedStatementClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
+    InstrumentClass preparedStatementClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     Interceptor executeInterceptor=new PreparedStatementExecuteQueryInterceptor();
     preparedStatementClass.addGroupInterceptor("execute",null,executeInterceptor,CubridScope.SCOPE_NAME);
     Interceptor executeQueryInterceptor=new PreparedStatementExecuteQueryInterceptor();

@@ -5,7 +5,7 @@
   MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectRecipe.byConstructor(filterTypeName,(Object[])annotation.constructorArguments()));
   boolean singleton=annotation.singleton();
   int interceptorId=-1;
-  for (  InstrumentableMethod m : getDeclaredMethods(filter)) {
+  for (  InstrumentMethod m : getDeclaredMethods(filter)) {
     if (singleton && interceptorId != -1) {
       m.addInterceptor(interceptorId);
     }
