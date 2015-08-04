@@ -1,0 +1,11 @@
+{
+  CachingSqlNormalizer normalizer=new DefaultCachingSqlNormalizer(1);
+  ParsingResult parsingResult=normalizer.wrapSql("select * from dual");
+  boolean newCache=normalizer.normalizedSql(parsingResult);
+  Assert.assertTrue("newCacheState",newCache);
+  boolean notCached=normalizer.normalizedSql(parsingResult);
+  Assert.assertFalse("alreadyCached",notCached);
+  ParsingResult alreadyCached=normalizer.wrapSql("select * from dual");
+  boolean notCached2=normalizer.normalizedSql(alreadyCached);
+  Assert.assertFalse("alreadyCached2",notCached2);
+}

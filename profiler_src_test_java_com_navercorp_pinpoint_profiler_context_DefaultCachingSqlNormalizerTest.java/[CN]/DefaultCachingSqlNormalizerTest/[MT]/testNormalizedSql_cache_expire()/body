@@ -1,0 +1,12 @@
+{
+  CachingSqlNormalizer normalizer=new DefaultCachingSqlNormalizer(1);
+  ParsingResult parsingResult=normalizer.wrapSql("select * from table1");
+  boolean newCache=normalizer.normalizedSql(parsingResult);
+  Assert.assertTrue("newCacheState",newCache);
+  ParsingResult parsingResult2=normalizer.wrapSql("select * from table2");
+  boolean cached=normalizer.normalizedSql(parsingResult2);
+  Assert.assertTrue(cached);
+  ParsingResult parsingResult1_recached=normalizer.wrapSql("select * from table3");
+  boolean newCache_parsingResult1_recached=normalizer.normalizedSql(parsingResult1_recached);
+  Assert.assertTrue(newCache_parsingResult1_recached);
+}
