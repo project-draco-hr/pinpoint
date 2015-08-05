@@ -1,0 +1,11 @@
+{
+  List<AgentInfoBo> agentInfoList=new ArrayList<AgentInfoBo>();
+  long currentTime=System.currentTimeMillis();
+  Range range=new Range(currentTime,currentTime);
+  SortedMap<String,List<AgentInfoBo>> applicationAgentList=agentInfoService.getApplicationAgentList(applicationName,range);
+  for (  Map.Entry<String,List<AgentInfoBo>> entry : applicationAgentList.entrySet()) {
+    AgentInfoBo agentInfo=ListUtils.getFirst(entry.getValue(),null);
+    ListUtils.addIfValueNotNull(agentInfoList,agentInfo);
+  }
+  return agentInfoList;
+}

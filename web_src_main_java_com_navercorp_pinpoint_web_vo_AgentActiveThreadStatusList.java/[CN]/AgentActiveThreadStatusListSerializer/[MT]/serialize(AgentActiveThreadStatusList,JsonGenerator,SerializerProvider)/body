@@ -1,0 +1,22 @@
+{
+  Map<String,TActiveThreadResponse> agentActiveThreadReposioty=agentActiveThreadStatusList.getAgentActiveThreadReposioty();
+  jgen.writeStartObject();
+  for (  Map.Entry<String,TActiveThreadResponse> entry : agentActiveThreadReposioty.entrySet()) {
+    List<Integer> activeThreadStatus=entry.getValue().getActiveThreadCount();
+    if (activeThreadStatus == null || activeThreadStatus.size() < 4) {
+      continue;
+    }
+    jgen.writeFieldName(entry.getKey());
+    jgen.writeStartObject();
+    jgen.writeFieldName("status");
+    jgen.writeStartArray();
+    jgen.writeNumber(activeThreadStatus.get(0));
+    jgen.writeNumber(activeThreadStatus.get(1));
+    jgen.writeNumber(activeThreadStatus.get(2));
+    jgen.writeNumber(activeThreadStatus.get(3));
+    jgen.writeEndArray();
+    jgen.writeNumberField("code",0);
+    jgen.writeEndObject();
+  }
+  jgen.writeEndObject();
+}

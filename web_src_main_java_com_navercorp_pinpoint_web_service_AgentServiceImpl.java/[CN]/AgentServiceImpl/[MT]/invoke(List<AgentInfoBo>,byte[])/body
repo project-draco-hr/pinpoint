@@ -1,0 +1,10 @@
+{
+  Map<String,Future<ResponseMessage>> futureMap=new HashMap<String,Future<ResponseMessage>>();
+  for (  AgentInfoBo agentInfo : agentInfoList) {
+    TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
+    PinpointServer collector=pinpointSocketManager.getCollector(agentInfo);
+    Future<ResponseMessage> future=collector.request(serialize(transferObject));
+    futureMap.put(agentInfo.getHostName(),future);
+  }
+  return futureMap;
+}

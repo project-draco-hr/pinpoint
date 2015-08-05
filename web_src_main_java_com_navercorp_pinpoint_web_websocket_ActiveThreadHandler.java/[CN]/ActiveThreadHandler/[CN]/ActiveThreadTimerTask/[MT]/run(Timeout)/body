@@ -1,0 +1,22 @@
+{
+  logger.info("ActiveThreadTimerTask started.");
+  readLock.lock();
+  try {
+    for (    Map.Entry<String,List<WebSocketSession>> applicationEntry : applicationGroup.entrySet()) {
+      List<AgentInfoBo> agentInfoList=agentSerivce.get(applicationEntry.getKey());
+      Map<String,TActiveThreadResponse> activeThreadStatuses=agentSerivce.getActiveThreadStatus(agentInfoList);
+      AgentActiveThreadStatusList agentActiveThreadStatusList=new AgentActiveThreadStatusList(activeThreadStatuses.size());
+      agentActiveThreadStatusList.addAll(activeThreadStatuses);
+      String textMessage=jsonConverter.writeValueAsString(agentActiveThreadStatusList);
+      for (      WebSocketSession session : applicationEntry.getValue()) {
+        session.sendMessage(new TextMessage(textMessage));
+      }
+    }
+    if (timer != null) {
+      timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);
+    }
+  }
+  finally {
+    readLock.unlock();
+  }
+}
