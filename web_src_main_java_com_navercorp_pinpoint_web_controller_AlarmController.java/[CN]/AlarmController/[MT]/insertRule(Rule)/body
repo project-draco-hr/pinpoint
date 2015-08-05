@@ -1,0 +1,13 @@
+{
+  if (StringUtils.isEmpty(rule.getApplicationId()) || StringUtils.isEmpty(rule.getCheckerName()) || StringUtils.isEmpty(rule.getUserGroupId())|| StringUtils.isEmpty(rule.getThreshold())) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not applicationId/checkerName/userGroupId/threashold to insert alarm rule");
+    return result;
+  }
+  String ruleId=alarmService.insertRule(rule);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  result.put("ruleId",ruleId);
+  return result;
+}

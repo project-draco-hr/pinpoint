@@ -1,0 +1,12 @@
+{
+  if (StringUtils.isEmpty(rule.getRuleId())) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not ruleId to delete alarm rule");
+    return result;
+  }
+  alarmService.deleteRule(rule);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}
