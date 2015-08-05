@@ -1,0 +1,5 @@
+{
+  for (  PinpointWebSocketHandler handler : handlerRepository.getWebSocketHandlerRepository()) {
+    registry.addHandler(handler,handler.getRequestMapping() + WEBSOCKET_SUFFIX).addInterceptors(new HttpSessionHandshakeInterceptor());
+  }
+}

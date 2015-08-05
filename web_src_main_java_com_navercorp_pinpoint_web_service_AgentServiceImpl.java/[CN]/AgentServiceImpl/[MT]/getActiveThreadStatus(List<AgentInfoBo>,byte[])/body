@@ -1,0 +1,15 @@
+{
+  Map<String,Future<ResponseMessage>> futureMap=invoke(agentInfoList,payload);
+  Map<String,TActiveThreadResponse> responseMap=new HashMap<String,TActiveThreadResponse>();
+  for (  Map.Entry<String,Future<ResponseMessage>> futureEntry : futureMap.entrySet()) {
+    String hostName=futureEntry.getKey();
+    Future<ResponseMessage> future=futureEntry.getValue();
+    future.await();
+    ResponseMessage responseMessage=future.getResult();
+    TBase result=deserialize(responseMessage.getMessage());
+    if (result instanceof TActiveThreadResponse) {
+      responseMap.put(hostName,(TActiveThreadResponse)result);
+    }
+  }
+  return responseMap;
+}
