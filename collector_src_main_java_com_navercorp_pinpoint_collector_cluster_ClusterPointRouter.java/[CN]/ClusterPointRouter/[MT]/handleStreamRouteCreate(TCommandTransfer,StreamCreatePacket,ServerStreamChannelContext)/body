@@ -1,6 +1,6 @@
 {
   byte[] payload=((TCommandTransfer)request).getPayload();
-  TBase command=deserialize(payload);
+  TBase<?,?> command=deserialize(payload);
   RouteResult routeResult=streamRouteHandler.onRoute(new StreamEvent((TCommandTransfer)request,streamChannelContext,command));
   RouteStatus status=routeResult.getStatus();
 switch (status) {
