@@ -1,0 +1,12 @@
+{
+  if (StringUtils.isEmpty(userGroupMember.getNumber()) || StringUtils.isEmpty(userGroupMember.getMemberId()) || StringUtils.isEmpty(userGroupMember.getMemberId())) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not number/userGroupId/memberId in params to update user group member");
+    return result;
+  }
+  userGroupService.updateMember(userGroupMember);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}

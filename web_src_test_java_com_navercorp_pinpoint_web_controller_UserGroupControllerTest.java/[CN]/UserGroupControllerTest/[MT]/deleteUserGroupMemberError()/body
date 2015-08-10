@@ -1,0 +1,3 @@
+{
+  this.mockMvc.perform(delete("/userGroup/member.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("errorCode"))).andExpect(jsonPath("$.errorCode").value("500")).andReturn();
+}

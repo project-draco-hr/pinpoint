@@ -1,0 +1,5 @@
+{
+  this.mockMvc.perform(post("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"id\" : \"" + TEST_USER_GROUP_ID + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("number"))).andReturn();
+  this.mockMvc.perform(get("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$[0]",hasKey("id"))).andReturn();
+  this.mockMvc.perform(delete("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"id\" : \"" + TEST_USER_GROUP_ID + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+}
