@@ -1,0 +1,11 @@
+{
+  Map<String,String> result=new HashMap<String,String>();
+  if (StringUtils.isEmpty(rule.getRuleId()) || StringUtils.isEmpty(rule.getApplicationId()) || StringUtils.isEmpty(rule.getCheckerName())|| StringUtils.isEmpty(rule.getUserGroupId())) {
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not ruleId/userGroupId/applicationid/checkerName to get alarm rule");
+    return result;
+  }
+  alarmService.updateRule(rule);
+  result.put("result","SUCCESS");
+  return result;
+}

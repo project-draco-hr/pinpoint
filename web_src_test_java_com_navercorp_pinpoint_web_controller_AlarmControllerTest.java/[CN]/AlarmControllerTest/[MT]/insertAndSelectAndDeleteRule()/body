@@ -1,0 +1,11 @@
+{
+  String jsonParm="{" + "\"applicationId\" : \"" + APPLICATION_ID + "\","+ "\"userGroupId\" : \""+ USER_GROUP_ID+ "\","+ "\"checkerName\" : \""+ CHECKER_NAME+ "\","+ "\"threshold\" : "+ THRESHOLD+ ","+ "\"smsSend\" : "+ SMS_SEND+ ","+ "\"emailSend\" : \""+ EMAIL_SEND+ "\","+ "\"notes\" : \""+ NOTES+ "\""+ "}";
+  MvcResult result=this.mockMvc.perform(post("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content(jsonParm)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andReturn();
+  String content=result.getResponse().getContentAsString();
+  ObjectMapper objectMapper=new ObjectMapper();
+  Map<String,String> resultMap=objectMapper.readValue(content,HashMap.class);
+  Assert.assertEquals(resultMap.get("result"),"SUCCESS");
+  Assert.assertNotNull(resultMap.get("ruleId"));
+  this.mockMvc.perform(get("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"userGroupId\" : \"" + USER_GROUP_ID + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$[0]",hasKey("applicationId"))).andExpect(jsonPath("$[0]",hasKey("userGroupId"))).andExpect(jsonPath("$[0]",hasKey("checkerName"))).andExpect(jsonPath("$[0]",hasKey("threshold"))).andExpect(jsonPath("$[0]",hasKey("smsSend"))).andExpect(jsonPath("$[0]",hasKey("emailSend"))).andExpect(jsonPath("$[0]",hasKey("notes"))).andReturn();
+  this.mockMvc.perform(delete("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"ruleId\" : \"" + resultMap.get("ruleId") + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+}
