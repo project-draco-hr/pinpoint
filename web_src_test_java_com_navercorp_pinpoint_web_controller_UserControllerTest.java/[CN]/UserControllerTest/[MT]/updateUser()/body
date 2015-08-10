@@ -1,0 +1,7 @@
+{
+  String jsonParamforUserInfo="{" + "\"userId\" : \"" + USER_ID + "\","+ "\"name\" : \""+ USER_NAME+ "\","+ "\"department\" : \""+ USER_DEPARTMENT+ "\","+ "\"phoneNumber\" : \""+ USER_PHONENUMBER+ "\","+ "\"email\" : \""+ USER_EMAIL+ "\""+ "}";
+  this.mockMvc.perform(post("/user.pinpoint").contentType(MediaType.APPLICATION_JSON).content(jsonParamforUserInfo)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+  String jsonParmForUserInfoUpdated="{" + "\"userId\" : \"" + USER_ID + "\","+ "\"name\" : \""+ USER_NAME_UPDATED+ "\","+ "\"department\" : \""+ USER_DEPARTMENT+ "\","+ "\"phoneNumber\" : \""+ USER_PHONENUMBER_UPDATED+ "\","+ "\"email\" : \""+ USER_EMAIL_UPDATED+ "\""+ "}";
+  this.mockMvc.perform(put("/user.pinpoint").contentType(MediaType.APPLICATION_JSON).content(jsonParmForUserInfoUpdated)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+  this.mockMvc.perform(delete("/user.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"userId\" : \"" + USER_ID + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+}

@@ -1,0 +1,9 @@
+{
+  MvcResult mvcResult=this.mockMvc.perform(post("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"id\" : \"" + TEST_USER_GROUP_ID + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("number"))).andReturn();
+  String content=mvcResult.getResponse().getContentAsString();
+  ObjectMapper objectMapper=new ObjectMapper();
+  Map<String,String> resultMap=objectMapper.readValue(content,HashMap.class);
+  String userGroupNumber=resultMap.get("number");
+  this.mockMvc.perform(put("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"number\" : \"" + userGroupNumber + "\", \"id\" : \""+ TEST_USER_GROUP_ID_UPDATED+ "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+  this.mockMvc.perform(delete("/userGroup.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"id\" : \"" + TEST_USER_GROUP_ID_UPDATED + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+}
