@@ -1,0 +1,12 @@
+{
+  if (StringUtils.isEmpty(userGroup.getId())) {
+    Map<String,String> result=new HashMap<String,String>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is id of userGroup in params to delete user group");
+    return result;
+  }
+  userGroupService.deleteUserGroup(userGroup);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("result","SUCCESS");
+  return result;
+}
