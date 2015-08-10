@@ -1,0 +1,7 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.impl.conn.PoolingHttpClientConnectionManager");
+  final MethodTransformerBuilder executeMethodBuilder=classEditorBuilder.editMethod("connect","org.apache.http.HttpClientConnection","org.apache.http.conn.routing.HttpRoute","int","org.apache.http.protocol.HttpContext");
+  executeMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  executeMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.HttpClientConnectionManagerConnectMethodInterceptor");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}

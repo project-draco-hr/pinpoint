@@ -1,0 +1,20 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  if (invocation != null && invocation.getAttachment() != null) {
+    HttpCallContext callContext=(HttpCallContext)invocation.getAttachment();
+    if (methodDescriptor.getMethodName().equals("doSendRequest")) {
+      callContext.setWriteBeginTime(System.currentTimeMillis());
+    }
+ else {
+      callContext.setReadBeginTime(System.currentTimeMillis());
+    }
+    logger.debug("Set call context {}",callContext);
+  }
+}

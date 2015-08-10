@@ -1,0 +1,8 @@
+{
+  InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
+  if (transaction != null && transaction.getAttachment() != null) {
+    HttpCallContext callContext=(HttpCallContext)transaction.getAttachment();
+    return new NameIntValuePair<String>(callContext.getHost(),callContext.getPort());
+  }
+  return null;
+}

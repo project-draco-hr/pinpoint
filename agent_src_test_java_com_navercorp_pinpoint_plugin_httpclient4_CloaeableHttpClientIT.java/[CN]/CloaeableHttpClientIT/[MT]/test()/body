@@ -1,0 +1,30 @@
+{
+  CloseableHttpClient httpclient=HttpClients.createDefault();
+  try {
+    HttpGet httpget=new HttpGet("http://google.com");
+    CloseableHttpResponse response=httpclient.execute(httpget);
+    try {
+      HttpEntity entity=response.getEntity();
+      if (entity != null) {
+        InputStream instream=entity.getContent();
+        try {
+          instream.read();
+        }
+ catch (        IOException ex) {
+          throw ex;
+        }
+ finally {
+          instream.close();
+        }
+      }
+    }
+  finally {
+      response.close();
+    }
+  }
+  finally {
+    httpclient.close();
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+}
