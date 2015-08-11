@@ -1,33 +1,24 @@
 {
-  final ClassFileTransformerBuilder classBuilder=context.getClassFileTransformerBuilder(targetClassName);
-  classBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
-  classBuilder.conditional(new ClassCondition(){
-    @Override public boolean check(    ProfilerPluginSetupContext context,    ClassLoader classLoader,    InstrumentClass target){
-      if (!target.hasConstructor(new String[]{"com.google.api.client.http.HttpRequest"})) {
-        return false;
-      }
-      if (!target.hasMethod("call",null,"com.google.api.client.http.HttpResponse")) {
-        return false;
-      }
-      return true;
-    }
-  }
-,new ConditionalClassFileTransformerSetup(){
-    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
-      ConstructorTransformerBuilder constructorBuilder=conditional.editConstructor("com.google.api.client.http.HttpRequest");
-      constructorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassConstructorInterceptor");
-      MethodTransformerBuilder methodBuilder=conditional.editMethods(new HttpRequestExceuteAsyncMethodInnerClassMethodFilter());
-      methodBuilder.exceptionHandler(new MethodTransformerExceptionHandler(){
-        public void handle(        String targetClassName,        String targetMethodName,        String[] targetMethodParameterTypes,        Throwable exception) throws Throwable {
-          if (logger.isWarnEnabled()) {
-            logger.warn("[GoogleHttpClient] Unsupported method " + targetClassName + "."+ targetMethodName,exception);
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(AsyncTraceIdAccessor.class.getName());
+      if (target.hasConstructor("com.google.api.client.http.HttpRequest") && target.hasMethod("call","com.google.api.client.http.HttpResponse")) {
+        InstrumentMethod constructor=target.getConstructor("com.google.api.client.http.HttpRequest");
+        constructor.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassConstructorInterceptor");
+        for (        InstrumentMethod m : target.getDeclaredMethods(new HttpRequestExceuteAsyncMethodInnerClassMethodFilter())) {
+          try {
+            m.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassCallMethodInterceptor");
+          }
+ catch (          Throwable t) {
+            if (logger.isWarnEnabled()) {
+              logger.warn("[GoogleHttpClient] Unsupported method " + className + "."+ m.getName(),t);
+            }
           }
         }
       }
-);
-      methodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassCallMethodInterceptor");
+      return target.toBytecode();
     }
   }
 );
-  context.addClassFileTransformer(classBuilder.build());
 }
