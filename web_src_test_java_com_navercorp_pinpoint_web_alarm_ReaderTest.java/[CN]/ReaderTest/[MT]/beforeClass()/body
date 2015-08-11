@@ -16,7 +16,7 @@
     }
   }
 ;
-  alarmResourceDao=new MySqlAlarmResourceDao(){
+  alarmService=new AlarmServiceImpl(){
     private Map<String,Rule> ruleMap;
 {
       ruleMap=new HashMap<String,Rule>();
@@ -24,9 +24,9 @@
         ruleMap.put(APP_NAME + i,new Rule(APP_NAME + i,CheckerCategory.SLOW_COUNT.getName(),76,"testGroup",false,false,""));
       }
     }
-    @Override public java.util.List<Rule> selectAppRule(    String applicationName){
+    @Override public List<Rule> selectRuleByApplicationId(    String applicationId){
       List<Rule> rules=new LinkedList<Rule>();
-      rules.add(ruleMap.get(applicationName));
+      rules.add(ruleMap.get(applicationId));
       return rules;
     }
   }
