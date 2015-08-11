@@ -1,7 +1,13 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.DefaultHttpMethodRetryHandler");
-  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethod("retryMethod","org.apache.commons.httpclient.HttpMethod","java.io.IOException","int");
-  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.RetryMethodInterceptor");
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer("org.apache.commons.httpclient.DefaultHttpMethodRetryHandler",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod retryMethod=target.getDeclaredMethod("retryMethod","org.apache.commons.httpclient.HttpMethod","java.io.IOException","int");
+      if (retryMethod != null) {
+        retryMethod.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.RetryMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }
