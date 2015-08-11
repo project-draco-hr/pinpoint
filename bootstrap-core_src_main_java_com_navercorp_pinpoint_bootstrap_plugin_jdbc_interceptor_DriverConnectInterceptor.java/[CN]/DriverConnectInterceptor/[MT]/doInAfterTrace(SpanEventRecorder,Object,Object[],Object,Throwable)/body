@@ -1,0 +1,14 @@
+{
+  if (recordConnection) {
+    DatabaseInfo databaseInfo=(result instanceof DatabaseInfoAccessor) ? ((DatabaseInfoAccessor)result)._$PINPOINT$_getDatabaseInfo() : null;
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    recorder.recordServiceType(databaseInfo.getType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+  }
+  final String driverUrl=(String)args[0];
+  recorder.recordApiCachedString(methodDescriptor,driverUrl,0);
+  recorder.recordException(throwable);
+}

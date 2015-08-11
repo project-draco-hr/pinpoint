@@ -1,0 +1,41 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  try {
+    DatabaseInfo databaseInfo=(target instanceof DatabaseInfoAccessor) ? ((DatabaseInfoAccessor)target)._$PINPOINT$_getDatabaseInfo() : null;
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+    ParsingResult parsingResult=null;
+    if (target instanceof ParsingResultAccessor) {
+      parsingResult=((ParsingResultAccessor)target)._$PINPOINT$_getParsingResult();
+    }
+    Map<Integer,String> bindValue=null;
+    if (target instanceof BindValueAccessor) {
+      bindValue=((BindValueAccessor)target)._$PINPOINT$_getBindValue();
+    }
+    if (bindValue != null) {
+      String bindString=toBindVariable(bindValue);
+      recorder.recordSqlParsingResult(parsingResult,bindString);
+    }
+ else {
+      recorder.recordSqlParsingResult(parsingResult);
+    }
+    recorder.recordApi(descriptor);
+    clean(target);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+}

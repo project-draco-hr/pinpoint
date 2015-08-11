@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("net.spy.memcached.MemcachedClient",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       if (target.hasDeclaredMethod("addOp",new String[]{"java.lang.String","net.spy.memcached.ops.Operation"})) {
         target.addField(SERVICE_CODE_ACCESSOR);

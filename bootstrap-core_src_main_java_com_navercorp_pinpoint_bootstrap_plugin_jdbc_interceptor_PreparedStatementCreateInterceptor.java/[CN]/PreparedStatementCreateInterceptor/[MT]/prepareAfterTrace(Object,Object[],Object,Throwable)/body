@@ -1,0 +1,25 @@
+{
+  final boolean success=InterceptorUtils.isSuccess(throwable);
+  if (success) {
+    if (target instanceof DatabaseInfoAccessor) {
+      DatabaseInfo databaseInfo=((DatabaseInfoAccessor)target)._$PINPOINT$_getDatabaseInfo();
+      if (databaseInfo != null) {
+        if (result instanceof DatabaseInfoAccessor) {
+          ((DatabaseInfoAccessor)result)._$PINPOINT$_setDatabaseInfo(databaseInfo);
+        }
+      }
+    }
+    if (result instanceof ParsingResultAccessor) {
+      String sql=(String)args[0];
+      ParsingResult parsingResult=traceContext.parseSql(sql);
+      if (parsingResult != null) {
+        ((ParsingResultAccessor)result)._$PINPOINT$_setParsingResult(parsingResult);
+      }
+ else {
+        if (logger.isErrorEnabled()) {
+          logger.error("sqlParsing fail. parsingResult is null sql:{}",sql);
+        }
+      }
+    }
+  }
+}
