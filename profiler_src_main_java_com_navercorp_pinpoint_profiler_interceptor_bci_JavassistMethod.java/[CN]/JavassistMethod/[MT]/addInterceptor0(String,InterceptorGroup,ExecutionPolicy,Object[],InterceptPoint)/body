@@ -1,17 +1,18 @@
 {
   Interceptor interceptor=createInterceptor(interceptorClassName,group,policy,constructorArgs);
   int interceptorId;
-  boolean isStatic=false;
   if (interceptor instanceof StaticAroundInterceptor) {
     interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addStaticInterceptor((StaticAroundInterceptor)interceptor);
-    isStatic=true;
   }
  else   if (interceptor instanceof SimpleAroundInterceptor) {
     interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor((SimpleAroundInterceptor)interceptor);
   }
+ else   if (interceptor instanceof Interceptor) {
+    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor((Interceptor)interceptor);
+  }
  else {
     throw new InstrumentException("unsupported interceptor type:" + interceptor);
   }
-  addInterceptor0(interceptorId,type,isStatic);
+  addInterceptor0(interceptor,interceptorId,type);
   return interceptorId;
 }
