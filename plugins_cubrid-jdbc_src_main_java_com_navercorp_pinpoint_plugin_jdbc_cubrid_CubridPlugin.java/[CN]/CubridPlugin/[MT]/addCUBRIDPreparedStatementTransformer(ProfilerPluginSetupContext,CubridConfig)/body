@@ -1,10 +1,16 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDPreparedStatement");
-  builder.injectMetadata(DATABASE_INFO);
-  builder.injectMetadata(PARSING_RESULT);
-  builder.injectMetadata(BIND_VALUE,BIND_VALUE_INITIAL_VALUE_TYPE);
-  int maxBindValueSize=config.getMaxSqlBindValueSize();
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.PreparedStatementExecuteQueryInterceptor",maxBindValueSize).group(GROUP_CUBRID);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.PreparedStatementBindVariableInterceptor").group(GROUP_CUBRID);
-  context.addClassFileTransformer(builder.build());
+  setupContext.addClassFileTransformer("cubrid.jdbc.driver.CUBRIDPreparedStatement",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor","new java.util.HashMap()");
+      int maxBindValueSize=config.getMaxSqlBindValueSize();
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_CUBRID);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",group,maxBindValueSize);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",group);
+      return target.toBytecode();
+    }
+  }
+);
 }

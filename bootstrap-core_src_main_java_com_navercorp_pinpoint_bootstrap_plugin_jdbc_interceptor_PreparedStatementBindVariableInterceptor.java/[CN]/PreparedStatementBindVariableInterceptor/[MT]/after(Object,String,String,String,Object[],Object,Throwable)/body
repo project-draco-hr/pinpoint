@@ -7,8 +7,8 @@
     return;
   }
   Map<Integer,String> bindList=null;
-  if (bindValueAccessor.isApplicable(target)) {
-    bindList=bindValueAccessor.get(target);
+  if (target instanceof BindValueAccessor) {
+    bindList=((BindValueAccessor)target)._$PINPOINT$_getBindValue();
   }
   if (bindList == null) {
     if (logger.isWarnEnabled()) {

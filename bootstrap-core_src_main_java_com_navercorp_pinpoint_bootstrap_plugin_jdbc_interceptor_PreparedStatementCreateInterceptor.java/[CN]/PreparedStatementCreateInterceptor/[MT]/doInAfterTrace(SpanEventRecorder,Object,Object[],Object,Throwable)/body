@@ -1,6 +1,6 @@
 {
-  if (parsingResultAccessor.isApplicable(result)) {
-    ParsingResult parsingResult=parsingResultAccessor.get(result);
+  if (result instanceof ParsingResultAccessor) {
+    ParsingResult parsingResult=((ParsingResultAccessor)result)._$PINPOINT$_getParsingResult();
     recorder.recordSqlParsingResult(parsingResult);
   }
   recorder.recordException(throwable);

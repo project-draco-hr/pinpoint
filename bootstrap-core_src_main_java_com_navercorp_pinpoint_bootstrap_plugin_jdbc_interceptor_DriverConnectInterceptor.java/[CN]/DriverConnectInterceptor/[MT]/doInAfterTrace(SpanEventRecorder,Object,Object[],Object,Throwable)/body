@@ -1,6 +1,9 @@
 {
   if (recordConnection) {
-    final DatabaseInfo databaseInfo=databaseInfoAccessor.get(result,UnKnownDatabaseInfo.INSTANCE);
+    DatabaseInfo databaseInfo=(result instanceof DatabaseInfoAccessor) ? ((DatabaseInfoAccessor)result)._$PINPOINT$_getDatabaseInfo() : null;
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
     recorder.recordServiceType(databaseInfo.getType());
     recorder.recordEndPoint(databaseInfo.getMultipleHost());
     recorder.recordDestinationId(databaseInfo.getDatabaseId());

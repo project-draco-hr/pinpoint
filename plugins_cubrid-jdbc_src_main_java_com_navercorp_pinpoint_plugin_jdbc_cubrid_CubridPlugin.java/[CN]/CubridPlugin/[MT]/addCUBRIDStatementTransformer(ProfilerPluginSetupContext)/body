@@ -1,7 +1,13 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDStatement");
-  builder.injectMetadata(DATABASE_INFO);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementExecuteQueryInterceptor").group(GROUP_CUBRID);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementExecuteUpdateInterceptor").group(GROUP_CUBRID);
-  context.addClassFileTransformer(builder.build());
+  setupContext.addClassFileTransformer("cubrid.jdbc.driver.CUBRIDStatement",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_CUBRID);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",group);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",group);
+      return target.toBytecode();
+    }
+  }
+);
 }

@@ -1,17 +1,23 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDConnection");
-  builder.injectMetadata(DATABASE_INFO);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.ConnectionCloseInterceptor").group(GROUP_CUBRID);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.StatementCreateInterceptor").group(GROUP_CUBRID);
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.PreparedStatementCreateInterceptor").group(GROUP_CUBRID);
-  if (config.isProfileSetAutoCommit()) {
-    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionSetAutoCommitInterceptor").group(GROUP_CUBRID);
+  setupContext.addClassFileTransformer("cubrid.jdbc.driver.CUBRIDConnection",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_CUBRID);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",group);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",group);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementCreateInterceptor",group);
+      if (config.isProfileSetAutoCommit()) {
+        target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",group);
+      }
+      if (config.isProfileCommit()) {
+        target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",group);
+      }
+      if (config.isProfileRollback()) {
+        target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",group);
+      }
+      return target.toBytecode();
+    }
   }
-  if (config.isProfileCommit()) {
-    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionCommitInterceptor").group(GROUP_CUBRID);
-  }
-  if (config.isProfileRollback()) {
-    builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.TransactionRollbackInterceptor").group(GROUP_CUBRID);
-  }
-  context.addClassFileTransformer(builder.build());
+);
 }

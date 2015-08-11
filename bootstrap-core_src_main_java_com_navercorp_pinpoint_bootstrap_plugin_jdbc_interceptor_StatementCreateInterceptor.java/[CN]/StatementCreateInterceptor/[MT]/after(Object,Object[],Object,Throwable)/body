@@ -10,7 +10,10 @@
     return;
   }
   if (target instanceof Connection) {
-    final DatabaseInfo databaseInfo=databaseInfoAccessor.get(target,UnKnownDatabaseInfo.INSTANCE);
-    databaseInfoAccessor.set(result,databaseInfo);
+    DatabaseInfo databaseInfo=(target instanceof DatabaseInfoAccessor) ? ((DatabaseInfoAccessor)target)._$PINPOINT$_getDatabaseInfo() : null;
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    ((DatabaseInfoAccessor)result)._$PINPOINT$_setDatabaseInfo(databaseInfo);
   }
 }
