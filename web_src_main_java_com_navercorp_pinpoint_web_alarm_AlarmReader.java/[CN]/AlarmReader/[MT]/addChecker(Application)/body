@@ -1,5 +1,5 @@
 {
-  List<Rule> rules=alarmResourceDao.selectAppRule(application.getName());
+  List<Rule> rules=alarmService.selectRuleByApplicationId(application.getName());
   long timeSlotEndTime=System.currentTimeMillis();
   Map<DataCollectorCategory,DataCollector> collectorMap=new HashMap<DataCollectorCategory,DataCollector>();
   for (  Rule rule : rules) {
