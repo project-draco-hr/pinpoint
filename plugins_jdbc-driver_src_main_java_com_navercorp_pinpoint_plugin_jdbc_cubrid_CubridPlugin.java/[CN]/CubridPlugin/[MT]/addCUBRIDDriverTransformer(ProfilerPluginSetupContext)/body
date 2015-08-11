@@ -1,6 +1,0 @@
-{
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("cubrid.jdbc.driver.CUBRIDDriver");
-  ObjectRecipe jdbcUrlParser=ObjectRecipe.byConstructor("com.navercorp.pinpoint.plugin.jdbc.cubrid.CubridJdbcUrlParser");
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jdbc.common.interceptor.DriverConnectInterceptor",jdbcUrlParser).group(GROUP_CUBRID,ExecutionPolicy.ALWAYS);
-  context.addClassFileTransformer(builder.build());
-}
