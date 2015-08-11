@@ -1,11 +1,17 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.HttpConnection");
-  classEditorBuilder.injectFieldAccessor(FIELD_HOST_NAME);
-  classEditorBuilder.injectFieldAccessor(FIELD_PORT_NUMBER);
-  classEditorBuilder.injectFieldAccessor(FIELD_PROXY_HOST_NAME);
-  classEditorBuilder.injectFieldAccessor(FIELD_PROXY_PORT_NUMBER);
-  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethod("open");
-  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpConnectionOpenMethodInterceptor");
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer("org.apache.commons.httpclient.HttpConnection",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(HostNameGetter.class.getName(),HttpClient3Constants.FIELD_HOST_NAME);
+      target.addGetter(PortNumberGetter.class.getName(),HttpClient3Constants.FIELD_PORT_NUMBER);
+      target.addGetter(ProxyHostNameGetter.class.getName(),HttpClient3Constants.FIELD_PROXY_HOST_NAME);
+      target.addGetter(ProxyPortNumberGetter.class.getName(),HttpClient3Constants.FIELD_PROXY_PORT_NUMBER);
+      InstrumentMethod open=target.getDeclaredMethod("open");
+      if (open != null) {
+        open.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpConnectionOpenMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

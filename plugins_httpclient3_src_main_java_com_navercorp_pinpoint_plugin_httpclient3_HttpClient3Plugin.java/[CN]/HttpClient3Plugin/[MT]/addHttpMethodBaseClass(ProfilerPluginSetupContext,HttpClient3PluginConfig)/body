@@ -1,15 +1,23 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.commons.httpclient.HttpMethodBase");
-  MethodTransformerBuilder executeMethodEditorBuilder=classEditorBuilder.editMethod("execute","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
-  executeMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  executeMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseExecuteMethodInterceptor");
-  if (config.isApacheHttpClient3ProfileIo()) {
-    MethodTransformerBuilder writeRequestMethodEditorBuilder=classEditorBuilder.editMethod("writeRequest","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
-    writeRequestMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-    writeRequestMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
-    MethodTransformerBuilder readResponseMethodEditorBuilder=classEditorBuilder.editMethod("readResponse","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
-    readResponseMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-    readResponseMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
+  context.addClassFileTransformer("org.apache.commons.httpclient.HttpMethodBase",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod execute=target.getDeclaredMethod("execute","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
+      if (execute != null) {
+        execute.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseExecuteMethodInterceptor");
+      }
+      if (config.isApacheHttpClient3ProfileIo()) {
+        InstrumentMethod writeRequest=target.getDeclaredMethod("writeRequest","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
+        if (writeRequest != null) {
+          writeRequest.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
+        }
+        InstrumentMethod readResponse=target.getDeclaredMethod("readResponse","org.apache.commons.httpclient.HttpState","org.apache.commons.httpclient.HttpConnection");
+        if (readResponse != null) {
+          readResponse.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.HttpMethodBaseRequestAndResponseMethodInterceptor");
+        }
+      }
+      return target.toBytecode();
+    }
   }
-  context.addClassFileTransformer(classEditorBuilder.build());
+);
 }
