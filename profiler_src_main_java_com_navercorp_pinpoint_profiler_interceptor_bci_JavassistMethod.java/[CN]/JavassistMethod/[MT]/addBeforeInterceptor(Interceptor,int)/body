@@ -1,0 +1,21 @@
+{
+  Class<?> interceptorClass=interceptor.getClass();
+  Method interceptorMethod=getBefore(interceptorClass);
+  if (interceptorMethod == null) {
+    if (isDebug) {
+      logger.debug("Skip adding before interceptor becuase the interceptor doesn't have before method: {}",interceptorClass.getName());
+    }
+    return;
+  }
+  InterceptorInvokeCodeGenerator before=new InterceptorInvokeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,false);
+  String buildBefore=before.generate();
+  if (isDebug) {
+    logger.debug("addStaticBeforeInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildBefore);
+  }
+  if (behavior instanceof CtConstructor) {
+    ((CtConstructor)behavior).insertBeforeBody(buildBefore);
+  }
+ else {
+    behavior.insertBefore(buildBefore);
+  }
+}

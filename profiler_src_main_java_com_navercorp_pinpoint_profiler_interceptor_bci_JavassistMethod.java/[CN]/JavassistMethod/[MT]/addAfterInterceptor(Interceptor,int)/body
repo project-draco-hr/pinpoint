@@ -1,0 +1,23 @@
+{
+  Class<?> interceptorClass=interceptor.getClass();
+  Method interceptorMethod=getAfter(interceptorClass);
+  if (interceptorMethod == null) {
+    if (isDebug) {
+      logger.debug("Skip adding after interceptor becuase the interceptor doesn't have after method: {}",interceptorClass.getName());
+    }
+    return;
+  }
+  InterceptorInvokeCodeGenerator after=new InterceptorInvokeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,false);
+  final String buildAfter=after.generate();
+  if (isDebug) {
+    logger.debug("addAfterInterceptor after behavior:{} code:{}",behavior.getLongName(),buildAfter);
+  }
+  behavior.insertAfter(buildAfter);
+  InterceptorInvokeCodeGenerator catchCode=new InterceptorInvokeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,true);
+  String buildCatch=catchCode.generate();
+  if (isDebug) {
+    logger.debug("addAfterInterceptor catch behavior:{} code:{}",behavior.getLongName(),buildCatch);
+  }
+  CtClass throwable=behavior.getDeclaringClass().getClassPool().get("java.lang.Throwable");
+  behavior.addCatch(buildCatch,throwable);
+}
