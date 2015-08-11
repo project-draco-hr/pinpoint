@@ -8,22 +8,7 @@
   }
   try {
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-    HttpMethod httpMethod=getHttpMethod(args);
-    if (httpMethod != null) {
-      try {
-        final URI uri=httpMethod.getURI();
-        String uriString=uri.getURI();
-        recorder.recordAttribute(AnnotationKey.HTTP_URL,uriString);
-        recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
-      }
- catch (      URIException e) {
-        logger.error("Fail get URI",e);
-      }
-      recordRequest(trace,httpMethod,throwable);
-    }
-    if (result != null) {
-      recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,result);
-    }
+    recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
   }

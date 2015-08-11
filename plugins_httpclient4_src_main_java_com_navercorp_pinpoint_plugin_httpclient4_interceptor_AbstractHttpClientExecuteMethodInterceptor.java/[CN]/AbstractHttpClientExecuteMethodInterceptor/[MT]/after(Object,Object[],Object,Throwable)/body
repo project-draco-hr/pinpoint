@@ -1,6 +1,6 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,descriptor.getClassName(),descriptor.getMethodName(),"",args);
+    logger.afterInterceptor(target,args);
   }
   final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
@@ -8,25 +8,12 @@
   }
   try {
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-    final HttpRequest httpRequest=getHttpRequest(args);
-    if (httpRequest != null) {
-      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
-      final NameIntValuePair<String> host=getHost(args);
-      if (host != null) {
-        int port=host.getValue();
-        String endpoint=getEndpoint(host.getName(),port);
-        recorder.recordDestinationId(endpoint);
-      }
-      recordHttpRequest(trace,httpRequest,throwable);
-    }
-    if (statusCode) {
-      final Integer statusCodeValue=getStatusCode(result);
-      if (statusCodeValue != null) {
-        recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,statusCodeValue);
-      }
-    }
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
+    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null) {
+      invocation.removeAttachment();
+    }
   }
   finally {
     trace.traceBlockEnd();

@@ -6,5 +6,15 @@
   if (trace == null) {
     return;
   }
-  trace.traceBlockBegin();
+  InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  if (invocation != null && invocation.getAttachment() != null) {
+    HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
+    if (methodDescriptor.getMethodName().equals("writeRequest")) {
+      callContext.setWriteBeginTime(System.currentTimeMillis());
+    }
+ else {
+      callContext.setReadBeginTime(System.currentTimeMillis());
+    }
+    logger.debug("Set call context {}",callContext);
+  }
 }

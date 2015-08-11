@@ -1,0 +1,51 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    HttpMethod httpMethod=(HttpMethod)target;
+    if (httpMethod != null) {
+      try {
+        final URI uri=httpMethod.getURI();
+        String uriString=uri.getURI();
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,uriString);
+        recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
+      }
+ catch (      URIException e) {
+        logger.error("Fail get URI",e);
+      }
+      recordRequest(trace,httpMethod,throwable);
+    }
+    if (result != null) {
+      recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,result);
+    }
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null) {
+      final HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
+      logger.debug("Check call context {}",callContext);
+      if (io) {
+        final StringBuilder sb=new StringBuilder();
+        sb.append("write=").append(callContext.getWriteElapsedTime());
+        if (callContext.isWriteFail()) {
+          sb.append("(fail)");
+        }
+        sb.append(", read=").append(callContext.getReadElapsedTime());
+        if (callContext.isReadFail()) {
+          sb.append("(fail)");
+        }
+        recorder.recordAttribute(AnnotationKey.HTTP_IO,sb.toString());
+      }
+      invocation.removeAttachment();
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,7 @@
+{
+  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.impl.conn.AbstractPooledConnAdapter");
+  final MethodTransformerBuilder executeMethodBuilder=classEditorBuilder.editMethod("open","org.apache.http.conn.routing.HttpRoute","org.apache.http.protocol.HttpContext","org.apache.http.params.HttpParams");
+  executeMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
+  executeMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.ManagedClientConnectionOpenMethodInterceptor");
+  context.addClassFileTransformer(classEditorBuilder.build());
+}

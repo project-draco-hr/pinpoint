@@ -1,0 +1,47 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  final HttpRequest httpRequest=getHttpRequest(args);
+  final boolean sampling=trace.canSampled();
+  if (!sampling) {
+    if (isDebug) {
+      logger.debug("set Sampling flag=false");
+    }
+    if (httpRequest != null) {
+      httpRequest.setHeader(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+    }
+    return;
+  }
+  final SpanEventRecorder recorder=trace.traceBlockBegin();
+  TraceId nextId=trace.getTraceId().getNextTraceId();
+  recorder.recordNextSpanId(nextId.getSpanId());
+  recorder.recordServiceType(ServiceType.HTTP_CLIENT);
+  if (httpRequest != null) {
+    httpRequest.setHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    httpRequest.setHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    httpRequest.setHeader(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    httpRequest.setHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    httpRequest.setHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    httpRequest.setHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+    final NameIntValuePair<String> host=getHost();
+    if (host != null) {
+      logger.debug("Get host {}",host.getName());
+      httpRequest.setHeader(Header.HTTP_HOST.toString(),host.getName());
+    }
+  }
+  InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  if (invocation != null) {
+    HttpCallContext callContext=(HttpCallContext)invocation.getOrCreateAttachment(new AttachmentFactory(){
+      @Override public Object createAttachment(){
+        return new HttpCallContext();
+      }
+    }
+);
+    invocation.setAttachment(callContext);
+  }
+}

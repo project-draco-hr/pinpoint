@@ -6,13 +6,17 @@
   if (trace == null) {
     return;
   }
-  try {
-    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-    recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
-    recorder.recordApi(methodDescriptor);
-    recorder.recordException(throwable);
-  }
-  finally {
-    trace.traceBlockEnd();
+  InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  if (invocation != null && invocation.getAttachment() != null) {
+    HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
+    if (methodDescriptor.getMethodName().equals("writeRequest")) {
+      callContext.setWriteEndTime(System.currentTimeMillis());
+      callContext.setWriteFail(throwable != null);
+    }
+ else {
+      callContext.setReadEndTime(System.currentTimeMillis());
+      callContext.setReadFail(throwable != null);
+    }
+    logger.debug("Set call context {}",callContext);
   }
 }

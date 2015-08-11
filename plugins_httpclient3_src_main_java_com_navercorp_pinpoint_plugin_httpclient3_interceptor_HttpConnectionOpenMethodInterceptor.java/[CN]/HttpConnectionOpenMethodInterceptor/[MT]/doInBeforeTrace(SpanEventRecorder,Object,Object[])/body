@@ -1,0 +1,16 @@
+{
+  recorder.recordApi(methodDescriptor);
+  recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
+  if (hostNameAccessor.isApplicable(target) && portNumberAccessor.isApplicable(target) && proxyHostNameAccessor.isApplicable(target)&& proxyPortNumberAccessor.isApplicable(target)) {
+    final StringBuilder sb=new StringBuilder();
+    if (proxyHostNameAccessor.get(target) != null) {
+      sb.append(proxyHostNameAccessor.get(target));
+      sb.append(":").append(proxyPortNumberAccessor.get(target));
+    }
+ else {
+      sb.append(hostNameAccessor.get(target));
+      sb.append(":").append(proxyPortNumberAccessor.get(target));
+    }
+    recorder.recordAttribute(AnnotationKey.HTTP_INTERNAL_DISPLAY,sb.toString());
+  }
+}

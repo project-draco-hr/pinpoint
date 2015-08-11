@@ -1,0 +1,18 @@
+{
+  HttpClient httpClient=new DefaultHttpClient();
+  try {
+    HttpPost post=new HttpPost("http://google.com");
+    post.addHeader("Content-Type","application/json;charset=UTF-8");
+    ResponseHandler<String> responseHandler=new BasicResponseHandler();
+    httpClient.execute(post,responseHandler);
+  }
+ catch (  Exception e) {
+  }
+ finally {
+    if (null != httpClient && null != httpClient.getConnectionManager()) {
+      httpClient.getConnectionManager().shutdown();
+    }
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+}
