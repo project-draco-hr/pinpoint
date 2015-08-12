@@ -1,0 +1,20 @@
+{
+  final List<CallTreeNode> nodes=new ArrayList<CallTreeNode>();
+  boolean span=false;
+  CallTreeNode node=parent.getChild();
+  nodes.add(node);
+  if (node.getValue().isSpan()) {
+    span=true;
+  }
+  while (node.hasSibling()) {
+    node=node.getSibling();
+    nodes.add(node);
+    if (node.getValue().isSpan()) {
+      span=true;
+    }
+  }
+  if (nodes.size() < 2 || !span) {
+    return null;
+  }
+  return nodes;
+}
