@@ -1,0 +1,11 @@
+{
+  if (catchClause) {
+    return "null";
+  }
+  if (!targetMethod.isConstructor()) {
+    if ("void".equals(targetMethod.getReturnType())) {
+      return "null";
+    }
+  }
+  return "($w)$_";
+}

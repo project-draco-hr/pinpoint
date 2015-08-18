@@ -4,7 +4,7 @@
   }
   this.scope=new NamedThreadLocal<InterceptorGroupInvocation>(scopeDefinition.getName()){
     @Override protected InterceptorGroupInvocation initialValue(){
-      return new DefaultInterceptorStack(scopeDefinition.getName());
+      return new DefaultInterceptorGroupInvocation(scopeDefinition.getName());
     }
   }
 ;

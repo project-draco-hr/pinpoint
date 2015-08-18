@@ -1,0 +1,18 @@
+{
+  Class<? extends Interceptor> interceptorType=pluginContext.injectClass(declaringClass.getClassLoader(),interceptorClassName);
+  if (group == null) {
+    Group interceptorGroup=interceptorType.getAnnotation(Group.class);
+    if (interceptorGroup != null) {
+      String groupName=interceptorGroup.value();
+      group=pluginContext.getInterceptorGroup(groupName);
+      policy=interceptorGroup.executionPolicy();
+    }
+  }
+  if (group == null) {
+    policy=null;
+  }
+ else   if (policy == null) {
+    policy=ExecutionPolicy.BOUNDARY;
+  }
+  return new GroupInfo(group,policy);
+}

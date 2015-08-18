@@ -1,7 +1,7 @@
 {
   String oldAttachment="context";
   String newAttachment="newnew";
-  InterceptorGroupInvocation transaction=new DefaultInterceptorStack("test");
+  InterceptorGroupInvocation transaction=new DefaultInterceptorGroupInvocation("test");
   transaction.tryEnter(ExecutionPolicy.ALWAYS);
   transaction.setAttachment(oldAttachment);
   assertSame(oldAttachment,transaction.getAttachment());

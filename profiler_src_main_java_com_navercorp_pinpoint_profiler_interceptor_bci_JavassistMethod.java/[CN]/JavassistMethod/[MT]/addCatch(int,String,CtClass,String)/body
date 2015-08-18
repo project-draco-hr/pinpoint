@@ -1,0 +1,34 @@
+{
+  CtClass cc=behavior.getDeclaringClass();
+  ConstPool cp=behavior.getMethodInfo().getConstPool();
+  CodeAttribute ca=behavior.getMethodInfo().getCodeAttribute();
+  CodeIterator iterator=ca.iterator();
+  Bytecode b=new Bytecode(cp,ca.getMaxStack(),ca.getMaxLocals());
+  b.setStackDepth(1);
+  Javac jv=new Javac(b,cc);
+  try {
+    jv.recordParams(behavior.getParameterTypes(),Modifier.isStatic(getModifiers()));
+    jv.recordLocalVariables(ca,from);
+    int var=jv.recordVariable(exceptionType,exceptionName);
+    b.addAstore(var);
+    jv.compileStmnt(src);
+    int stack=b.getMaxStack();
+    int locals=b.getMaxLocals();
+    if (stack > ca.getMaxStack())     ca.setMaxStack(stack);
+    if (locals > ca.getMaxLocals())     ca.setMaxLocals(locals);
+    int len=iterator.getCodeLength();
+    int pos=iterator.append(b.get());
+    ca.getExceptionTable().add(from,len,len,cp.addClassInfo(exceptionType));
+    iterator.append(b.getExceptionTable(),pos);
+    behavior.getMethodInfo().rebuildStackMapIf6(cc.getClassPool(),cc.getClassFile2());
+  }
+ catch (  NotFoundException e) {
+    throw new CannotCompileException(e);
+  }
+catch (  CompileError e) {
+    throw new CannotCompileException(e);
+  }
+catch (  BadBytecode e) {
+    throw new CannotCompileException(e);
+  }
+}

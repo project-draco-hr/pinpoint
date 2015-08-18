@@ -1,0 +1,21 @@
+{
+  Class<?> interceptorClass=instance.getInterceptor().getClass();
+  Method interceptorMethod=findMethod(interceptorClass,"before");
+  if (interceptorMethod == null && instance.getGroup() == null) {
+    if (isDebug) {
+      logger.debug("Skip adding before interceptor becuase the interceptor doesn't have before method: {}",interceptorClass.getName());
+    }
+    return -1;
+  }
+  InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,instance.getPolicy());
+  String beforeCode=generator.generate();
+  if (isDebug) {
+    logger.debug("addBeforeInterceptor before behavior:{} code:{}",behavior.getLongName(),beforeCode);
+  }
+  if (behavior instanceof CtConstructor) {
+    return insertBeforeConstructor(beforeCode);
+  }
+ else {
+    return insertBefore(beforeCode);
+  }
+}
