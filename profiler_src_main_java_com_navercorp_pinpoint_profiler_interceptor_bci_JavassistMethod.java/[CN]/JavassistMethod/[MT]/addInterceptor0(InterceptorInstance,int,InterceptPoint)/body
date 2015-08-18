@@ -1,0 +1,20 @@
+{
+  addLocalVariable(InvokeCodeGenerator.getInterceptorInstanceVar(interceptorId),InterceptorInstance.class);
+  if (instance.getGroup() != null) {
+    addLocalVariable(InvokeCodeGenerator.getInterceptorGroupInvocationVar(interceptorId),InterceptorGroupInvocation.class);
+    point=InterceptPoint.AROUND;
+  }
+  int originalCodeOffset=-1;
+switch (point) {
+case AROUND:
+    originalCodeOffset=addBeforeInterceptor(instance,interceptorId);
+  addAfterInterceptor(instance,interceptorId,originalCodeOffset);
+break;
+case BEFORE:
+addBeforeInterceptor(instance,interceptorId);
+break;
+case AFTER:
+addAfterInterceptor(instance,interceptorId,originalCodeOffset);
+break;
+}
+}

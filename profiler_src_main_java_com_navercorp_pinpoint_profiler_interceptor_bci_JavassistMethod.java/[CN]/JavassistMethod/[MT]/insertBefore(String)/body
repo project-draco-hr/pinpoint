@@ -1,0 +1,32 @@
+{
+  CtClass cc=behavior.getDeclaringClass();
+  CodeAttribute ca=behavior.getMethodInfo().getCodeAttribute();
+  if (ca == null)   throw new CannotCompileException("no method body");
+  CodeIterator iterator=ca.iterator();
+  Javac jv=new Javac(cc);
+  try {
+    int nvars=jv.recordParams(behavior.getParameterTypes(),Modifier.isStatic(getModifiers()));
+    jv.recordParamNames(ca,nvars);
+    jv.recordLocalVariables(ca,0);
+    jv.recordType(getReturnType0());
+    jv.compileStmnt(src);
+    Bytecode b=jv.getBytecode();
+    int stack=b.getMaxStack();
+    int locals=b.getMaxLocals();
+    if (stack > ca.getMaxStack())     ca.setMaxStack(stack);
+    if (locals > ca.getMaxLocals())     ca.setMaxLocals(locals);
+    int pos=iterator.insertEx(b.get());
+    iterator.insert(b.getExceptionTable(),pos);
+    behavior.getMethodInfo().rebuildStackMapIf6(cc.getClassPool(),cc.getClassFile2());
+    return pos + b.length();
+  }
+ catch (  NotFoundException e) {
+    throw new CannotCompileException(e);
+  }
+catch (  CompileError e) {
+    throw new CannotCompileException(e);
+  }
+catch (  BadBytecode e) {
+    throw new CannotCompileException(e);
+  }
+}

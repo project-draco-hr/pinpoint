@@ -1,0 +1,15 @@
+{
+  this.interceptorClass=interceptorClass;
+  this.targetMethod=targetMethod;
+  this.interceptorId=interceptorId;
+  this.policy=policy;
+  if (SimpleAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
+    type=Type.SIMPLE;
+  }
+ else   if (StaticAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
+    type=Type.STATIC;
+  }
+ else {
+    type=Type.CUSTOM;
+  }
+}

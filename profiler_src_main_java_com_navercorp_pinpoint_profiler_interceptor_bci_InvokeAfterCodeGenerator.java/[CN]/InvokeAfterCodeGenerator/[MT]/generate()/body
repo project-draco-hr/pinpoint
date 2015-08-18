@@ -1,0 +1,26 @@
+{
+  CodeBuilder builder=new CodeBuilder();
+  builder.begin();
+  builder.append("try { ");
+  if (!hasBefore) {
+    builder.format("%1$s = %2$s.findInterceptor(%3$d); ",getInterceptorInstanceVar(),getInterceptorRegistryClassName(),interceptorId);
+  }
+ else   if (policy != null) {
+    builder.format("if (%1$s.canLeave(%2$s)) { ",getInterceptorGroupInvocationVar(),getExecutionPolicy());
+  }
+  if (interceptorMethod != null) {
+    builder.format("((%1$s)%2$s.getInterceptor()).after(",getInterceptorType(),getInterceptorInstanceVar());
+    appendArguments(builder);
+    builder.format(");");
+  }
+  if (policy != null) {
+    builder.format(" %1$s.leave(%2$s);",getInterceptorGroupInvocationVar(),getExecutionPolicy());
+    builder.format(" } else { %1$s.logSkipAfterByExecutionPolicy(%2$s, %3$s, %4$s); }",getInterceptorInvokerHelperClassName(),getInterceptorInstanceVar(),getInterceptorGroupInvocationVar(),getExecutionPolicy());
+  }
+  builder.format("} catch (java.lang.Throwable _$PINPOINT_EXCEPTION$_) { %1$s.handleException(_$PINPOINT_EXCEPTION$_); }",getInterceptorInvokerHelperClassName());
+  if (catchClause) {
+    builder.append(" throw $e;");
+  }
+  builder.end();
+  return builder.toString();
+}
