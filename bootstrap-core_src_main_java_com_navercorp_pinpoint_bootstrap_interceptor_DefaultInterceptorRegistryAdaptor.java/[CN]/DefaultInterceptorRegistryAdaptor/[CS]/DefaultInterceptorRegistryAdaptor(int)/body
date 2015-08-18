@@ -3,7 +3,7 @@
     throw new IllegalArgumentException("negative maxRegistrySize:" + maxRegistrySize);
   }
   this.registrySize=maxRegistrySize;
-  this.index=new WeakAtomicReferenceArray<Interceptor>(maxRegistrySize,Interceptor.class);
+  this.index=new WeakAtomicReferenceArray<InterceptorInstance>(maxRegistrySize,InterceptorInstance.class);
   this.staticIndex=new WeakAtomicReferenceArray<StaticAroundInterceptor>(maxRegistrySize,StaticAroundInterceptor.class);
   this.simpleIndex=new WeakAtomicReferenceArray<SimpleAroundInterceptor>(maxRegistrySize,SimpleAroundInterceptor.class);
 }

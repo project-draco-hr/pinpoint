@@ -1,12 +1,5 @@
 {
-  boolean isStatic;
-  if (interceptor instanceof StaticAroundInterceptor) {
-    isStatic=true;
-  }
- else   if (interceptor instanceof SimpleAroundInterceptor) {
-    isStatic=false;
-  }
- else {
+  if (!(interceptor instanceof StaticAroundInterceptor) && !(interceptor instanceof SimpleAroundInterceptor)) {
     throw new InstrumentException("unsupported interceptor type:" + interceptor);
   }
   if (interceptor instanceof TraceContextSupport) {
@@ -16,23 +9,10 @@
   if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
     ((ByteCodeMethodDescriptorSupport)interceptor).setMethodDescriptor(descriptor);
   }
-  if (group != null) {
-    if (isStatic) {
-      interceptor=new GroupedStaticAroundInterceptor((StaticAroundInterceptor)interceptor,group,ExecutionPolicy.BOUNDARY);
-    }
- else {
-      interceptor=new GroupedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,group,ExecutionPolicy.BOUNDARY);
-    }
-  }
-  int interceptorId;
-  if (isStatic) {
-    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addStaticInterceptor((StaticAroundInterceptor)interceptor);
-  }
- else {
-    interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addSimpleInterceptor((SimpleAroundInterceptor)interceptor);
-  }
+  DefaultInterceptorInstance holder=new DefaultInterceptorInstance(interceptor,group,group == null ? null : ExecutionPolicy.BOUNDARY);
+  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(holder);
   try {
-    addInterceptor0(interceptor,interceptorId,type);
+    addInterceptor0(holder,interceptorId,type);
   }
  catch (  Exception e) {
     throw new InstrumentException(e);

@@ -1,6 +1,6 @@
 {
   try {
-    InstrumentClass target=instrumentor.getClass(classLoader,className,classfileBuffer);
+    InstrumentClass target=context.getInstrumentClass(classLoader,className,classfileBuffer);
     recipe.edit(classLoader,target);
     return target.toBytecode();
   }

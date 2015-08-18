@@ -1,0 +1,8 @@
+{
+  ClassLoader classLoader=declaringClass.getClassLoader();
+  AutoBindingObjectFactory factory=new AutoBindingObjectFactory(pluginContext,classLoader);
+  ObjectRecipe recipe=ObjectRecipe.byConstructor(interceptorClassName,constructorArgs);
+  InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(pluginContext.getTraceContext(),groupInfo.getGroup(),declaringClass,this);
+  Interceptor interceptor=(Interceptor)factory.createInstance(recipe,interceptorArgumentProvider);
+  return interceptor;
+}

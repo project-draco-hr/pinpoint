@@ -1,0 +1,25 @@
+{
+  CodeBuilder builder=new CodeBuilder();
+  builder.begin();
+  builder.format("%1$s = null; ",getInterceptorInstanceVar());
+  if (policy != null) {
+    builder.format("%1$s = null;",getInterceptorGroupInvocationVar());
+  }
+  builder.append("try { ");
+  builder.format("%1$s = %2$s.findInterceptor(%3$d); ",getInterceptorInstanceVar(),getInterceptorRegistryClassName(),interceptorId);
+  if (policy != null) {
+    builder.format("%1$s = %2$s.getGroup().getCurrentInvocation();",getInterceptorGroupInvocationVar(),getInterceptorInstanceVar());
+    builder.format("if (%1$s.tryEnter(%2$s)) {",getInterceptorGroupInvocationVar(),getExecutionPolicy());
+  }
+  if (interceptorMethod != null) {
+    builder.format("((%1$s)%2$s.getInterceptor()).before(",getInterceptorType(),getInterceptorInstanceVar());
+    appendArguments(builder);
+    builder.format(");");
+  }
+  if (policy != null) {
+    builder.format(" } else { %1$s.logSkipBeforeByExecutionPolicy(%2$s, %3$s, %4$s); }",getInterceptorInvokerHelperClassName(),getInterceptorInstanceVar(),getInterceptorGroupInvocationVar(),getExecutionPolicy());
+  }
+  builder.format("} catch (java.lang.Throwable _$PINPOINT_EXCEPTION$_) { %1$s.handleException(_$PINPOINT_EXCEPTION$_); }",getInterceptorInvokerHelperClassName());
+  builder.end();
+  return builder.toString();
+}

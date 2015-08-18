@@ -10,7 +10,9 @@
       Interceptor ibatisApiInterceptor=new IbatisSqlMapOperationInterceptor(serviceType);
       ibatisClientImpl.addGroupInterceptor(method.getName(),method.getParameterTypes(),ibatisApiInterceptor,SCOPE);
     }
-    return ibatisClientImpl.toBytecode();
+    byte[] bytes=ibatisClientImpl.toBytecode();
+    Files.write(bytes,new File("class.dump"));
+    return bytes;
   }
  catch (  Throwable e) {
     this.logger.warn("{} modifier error. Cause:{}",javassistClassName,e.getMessage(),e);
