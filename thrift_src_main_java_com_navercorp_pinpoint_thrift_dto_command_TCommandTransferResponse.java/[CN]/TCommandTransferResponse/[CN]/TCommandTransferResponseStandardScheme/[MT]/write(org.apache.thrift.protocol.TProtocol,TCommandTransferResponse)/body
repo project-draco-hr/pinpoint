@@ -1,0 +1,23 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  if (struct.routeResult != null) {
+    oprot.writeFieldBegin(ROUTE_RESULT_FIELD_DESC);
+    oprot.writeI32(struct.routeResult.getValue());
+    oprot.writeFieldEnd();
+  }
+  if (struct.payload != null) {
+    oprot.writeFieldBegin(PAYLOAD_FIELD_DESC);
+    oprot.writeBinary(struct.payload);
+    oprot.writeFieldEnd();
+  }
+  if (struct.message != null) {
+    if (struct.isSetMessage()) {
+      oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
+      oprot.writeString(struct.message);
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}
