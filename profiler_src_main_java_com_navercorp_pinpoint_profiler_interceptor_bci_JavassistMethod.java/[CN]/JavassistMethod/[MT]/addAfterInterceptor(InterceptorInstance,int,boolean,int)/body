@@ -1,0 +1,23 @@
+{
+  Class<?> interceptorClass=instance.getInterceptor().getClass();
+  Method interceptorMethod=findMethod(interceptorClass,"after");
+  if (interceptorMethod == null && instance.getGroup() == null) {
+    if (isDebug) {
+      logger.debug("Skip adding after interceptor becuase the interceptor doesn't have after method: {}",interceptorClass.getName());
+    }
+    return;
+  }
+  InvokeAfterCodeGenerator catchGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,instance.getPolicy(),localVarsInitialized,true);
+  String catchCode=catchGenerator.generate();
+  if (isDebug) {
+    logger.debug("addAfterInterceptor catch behavior:{} code:{}",behavior.getLongName(),catchCode);
+  }
+  CtClass throwable=behavior.getDeclaringClass().getClassPool().get("java.lang.Throwable");
+  insertCatch(originalCodeOffset,catchCode,throwable,"$e");
+  InvokeAfterCodeGenerator afterGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,instance.getPolicy(),localVarsInitialized,false);
+  final String afterCode=afterGenerator.generate();
+  if (isDebug) {
+    logger.debug("addAfterInterceptor after behavior:{} code:{}",behavior.getLongName(),afterCode);
+  }
+  behavior.insertAfter(afterCode);
+}
