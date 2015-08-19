@@ -1,5 +1,5 @@
 {
-  if (rejected.getIfPresent(clazz) == EXIST) {
+  if (rejected.contains(clazz)) {
     return false;
   }
   if (targetAnnotationNames != null) {
@@ -25,6 +25,6 @@
       }
     }
   }
-  rejected.put(clazz,EXIST);
+  rejected.put(clazz);
   return false;
 }

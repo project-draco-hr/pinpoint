@@ -6,16 +6,9 @@
   if (!filter.isTarget(beanName,clazz)) {
     return;
   }
-  try {
-    ModifierTransformAdaptor transformAdaptor=new ModifierTransformAdaptor(modifier);
-    retransformEventTrigger.retransform(clazz,transformAdaptor);
-    if (logger.isInfoEnabled()) {
-      logger.info("Retransform {}",clazz.getName());
-    }
-  }
- catch (  ProfilerException e) {
-    logger.warn("Fail to retransform: {}",clazz.getName(),e);
-    return;
-  }
+  instrumentContext.retransform(clazz,transformer);
   filter.addTransformed(clazz);
+  if (logger.isInfoEnabled()) {
+    logger.info("Retransform {}",clazz.getName());
+  }
 }
