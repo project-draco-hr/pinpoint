@@ -1,11 +1,12 @@
 {
-  String jsonParm="{" + "\"applicationId\" : \"" + APPLICATION_ID + "\","+ "\"userGroupId\" : \""+ USER_GROUP_ID+ "\","+ "\"checkerName\" : \""+ CHECKER_NAME+ "\","+ "\"threshold\" : "+ THRESHOLD+ ","+ "\"smsSend\" : "+ SMS_SEND+ ","+ "\"emailSend\" : \""+ EMAIL_SEND+ "\","+ "\"notes\" : \""+ NOTES+ "\""+ "}";
+  String jsonParm="{" + "\"applicationId\" : \"" + APPLICATION_ID + "\","+ "\"serviceType\" : \""+ SERVICE_TYPE+ "\","+ "\"userGroupId\" : \""+ USER_GROUP_ID+ "\","+ "\"checkerName\" : \""+ CHECKER_NAME+ "\","+ "\"threshold\" : "+ THRESHOLD+ ","+ "\"smsSend\" : "+ SMS_SEND+ ","+ "\"emailSend\" : \""+ EMAIL_SEND+ "\","+ "\"notes\" : \""+ NOTES+ "\""+ "}";
   MvcResult result=this.mockMvc.perform(post("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content(jsonParm)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andReturn();
   String content=result.getResponse().getContentAsString();
   ObjectMapper objectMapper=new ObjectMapper();
   Map<String,String> resultMap=objectMapper.readValue(content,HashMap.class);
   Assert.assertEquals(resultMap.get("result"),"SUCCESS");
   Assert.assertNotNull(resultMap.get("ruleId"));
-  String updatedJsonParm="{" + "\"ruleId\" : \"" + resultMap.get("ruleId") + "\","+ "\"applicationId\" : \""+ APPLICATION_ID_UPDATED+ "\","+ "\"userGroupId\" : \""+ USER_GROUP_ID_UPDATED+ "\","+ "\"checkerName\" : \""+ CHECKER_NAME_UPDATED+ "\","+ "\"threshold\" : "+ THRESHOLD_UPDATED+ ","+ "\"smsSend\" : "+ SMS_SEND_UPDATED+ ","+ "\"emailSend\" : \""+ EMAIL_SEND_UPDATED+ "\","+ "\"notes\" : \""+ NOTES_UPDATED+ "\""+ "}";
+  String updatedJsonParm="{" + "\"ruleId\" : \"" + resultMap.get("ruleId") + "\","+ "\"applicationId\" : \""+ APPLICATION_ID_UPDATED+ "\","+ "\"serviceType\" : \""+ SERVICE_TYPE+ "\","+ "\"userGroupId\" : \""+ USER_GROUP_ID_UPDATED+ "\","+ "\"checkerName\" : \""+ CHECKER_NAME_UPDATED+ "\","+ "\"threshold\" : "+ THRESHOLD_UPDATED+ ","+ "\"smsSend\" : "+ SMS_SEND_UPDATED+ ","+ "\"emailSend\" : \""+ EMAIL_SEND_UPDATED+ "\","+ "\"notes\" : \""+ NOTES_UPDATED+ "\""+ "}";
   this.mockMvc.perform(put("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content(updatedJsonParm)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
+  this.mockMvc.perform(delete("/alarmRule.pinpoint").contentType(MediaType.APPLICATION_JSON).content("{\"ruleId\" : \"" + resultMap.get("ruleId") + "\"}")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("result"))).andExpect(jsonPath("$.result").value("SUCCESS")).andReturn();
 }
