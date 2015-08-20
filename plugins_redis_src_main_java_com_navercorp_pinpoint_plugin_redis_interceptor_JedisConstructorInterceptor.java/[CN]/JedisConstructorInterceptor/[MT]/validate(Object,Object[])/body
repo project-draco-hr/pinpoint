@@ -3,8 +3,8 @@
     logger.debug("Invalid arguments. Null or not found args({}).",args);
     return false;
   }
-  if (!endPointAccessor.isApplicable(target)) {
-    logger.debug("Invalid target object. Need metadata accessor({}).",METADATA_END_POINT);
+  if (!(target instanceof EndPointAccessor)) {
+    logger.debug("Invalid target object. Need field accessor({}).",METADATA_END_POINT);
     return false;
   }
   return true;

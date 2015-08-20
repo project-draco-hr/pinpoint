@@ -1,0 +1,25 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null) {
+      final CommandContext commandContext=(CommandContext)invocation.getAttachment();
+      if (methodDescriptor.getMethodName().equals("sendCommand")) {
+        commandContext.setWriteBeginTime(System.currentTimeMillis());
+      }
+ else {
+        commandContext.setReadBeginTime(System.currentTimeMillis());
+      }
+      logger.debug("Set command context {}",commandContext);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to BEFORE process. {}",t.getMessage(),t);
+  }
+}

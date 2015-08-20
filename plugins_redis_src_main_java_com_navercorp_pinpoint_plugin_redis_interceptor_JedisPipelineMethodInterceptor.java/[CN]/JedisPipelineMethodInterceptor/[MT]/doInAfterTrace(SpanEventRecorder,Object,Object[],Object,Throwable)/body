@@ -1,7 +1,25 @@
 {
   String endPoint=null;
-  if (endPointAccessor.isApplicable(target)) {
-    endPoint=endPointAccessor.get(target);
+  if (target instanceof EndPointAccessor) {
+    endPoint=((EndPointAccessor)target)._$PINPOINT$_getEndPoint();
+  }
+  final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  if (invocation != null && invocation.getAttachment() != null) {
+    final CommandContext commandContext=(CommandContext)invocation.getAttachment();
+    logger.debug("Check command context {}",commandContext);
+    if (io) {
+      final StringBuilder sb=new StringBuilder();
+      sb.append("write=").append(commandContext.getWriteElapsedTime());
+      if (commandContext.isWriteFail()) {
+        sb.append("(fail)");
+      }
+      sb.append(", read=").append(commandContext.getReadElapsedTime());
+      if (commandContext.isReadFail()) {
+        sb.append("(fail)");
+      }
+      recorder.recordAttribute(AnnotationKey.ARGS0,sb.toString());
+    }
+    invocation.removeAttachment();
   }
   recorder.recordApi(getMethodDescriptor());
   recorder.recordEndPoint(endPoint != null ? endPoint : "Unknown");

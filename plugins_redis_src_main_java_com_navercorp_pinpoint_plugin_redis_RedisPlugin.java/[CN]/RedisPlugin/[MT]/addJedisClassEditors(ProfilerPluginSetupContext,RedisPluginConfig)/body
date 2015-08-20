@@ -1,6 +1,9 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=addJedisExtendedClassEditor(context,config,BINARY_JEDIS);
-  classEditorBuilder.injectMetadata(METADATA_END_POINT);
-  context.addClassFileTransformer(classEditorBuilder.build());
-  context.addClassFileTransformer(addJedisExtendedClassEditor(context,config,JEDIS).build());
+  addJedisExtendedClassEditor(context,config,"redis.clients.jedis.BinaryJedis",new TransformHandler(){
+    @Override public void handle(    InstrumentClass target) throws InstrumentException {
+      target.addField(METADATA_END_POINT);
+    }
+  }
+);
+  addJedisExtendedClassEditor(context,config,"redis.clients.jedis.Jedis",null);
 }
