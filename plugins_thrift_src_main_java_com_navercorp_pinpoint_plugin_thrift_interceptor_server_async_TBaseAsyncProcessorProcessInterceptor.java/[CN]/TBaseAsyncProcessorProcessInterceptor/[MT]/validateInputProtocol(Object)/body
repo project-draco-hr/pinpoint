@@ -1,0 +1,18 @@
+{
+  if (iprot instanceof TProtocol) {
+    if (!(iprot instanceof ServerMarkerFlagFieldAccessor)) {
+      if (isDebug) {
+        logger.debug("Invalid target object. Need field accessor({}).",ServerMarkerFlagFieldAccessor.class.getName());
+      }
+      return false;
+    }
+    if (!(iprot instanceof AsyncMarkerFlagFieldAccessor)) {
+      if (isDebug) {
+        logger.debug("Invalid target object. Need field accessor({}).",AsyncMarkerFlagFieldAccessor.class.getName());
+      }
+      return false;
+    }
+    return true;
+  }
+  return false;
+}

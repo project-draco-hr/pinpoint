@@ -1,9 +1,17 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.transport.TNonblockingSocket");
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  classTransformerBuilder.injectMetadata(METADATA_NONBLOCKING_SOCKET_ADDRESS);
-  final ConstructorTransformerBuilder constructorTransformerBuilder=classTransformerBuilder.editConstructor("java.nio.channels.SocketChannel","int","java.net.SocketAddress");
-  constructorTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  constructorTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.transport.TNonblockingSocketConstructInterceptor");
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final String targetClassName="org.apache.thrift.transport.TNonblockingSocket";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(SocketFieldAccessor.class.getName());
+      target.addField(SocketAddressFieldAccessor.class.getName());
+      final InstrumentMethod constructor=target.getConstructor("java.nio.channels.SocketChannel","int","java.net.SocketAddress");
+      if (constructor != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.transport.TNonblockingSocketConstructInterceptor";
+        constructor.addInterceptor(interceptor);
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

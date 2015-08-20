@@ -5,6 +5,7 @@
   if (target instanceof TServiceClient) {
     TServiceClient client=(TServiceClient)target;
     TProtocol oprot=client.getOutputProtocol();
+    TTransport transport=oprot.getTransport();
     final Trace trace=traceContext.currentRawTraceObject();
     if (trace == null) {
       return;
@@ -21,10 +22,15 @@
       SpanEventRecorder recorder=trace.traceBlockBegin();
       recorder.recordServiceType(THRIFT_CLIENT);
       String remoteAddress=UNKNOWN_ADDRESS;
-      if (this.socketAccessor.isApplicable(oprot.getTransport())) {
-        Socket socket=this.socketAccessor.get(oprot.getTransport());
+      if (transport instanceof SocketFieldAccessor) {
+        Socket socket=((SocketFieldAccessor)transport)._$PINPOINT$_getSocket();
         if (socket != null) {
           remoteAddress=ThriftUtils.getHostPort(socket.getRemoteSocketAddress());
+        }
+      }
+ else {
+        if (isDebug) {
+          logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
         }
       }
       recorder.recordDestinationId(remoteAddress);

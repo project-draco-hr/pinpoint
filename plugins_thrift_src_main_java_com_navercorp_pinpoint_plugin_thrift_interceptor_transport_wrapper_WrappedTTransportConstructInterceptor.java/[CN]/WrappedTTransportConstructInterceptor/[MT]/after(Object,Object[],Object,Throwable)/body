@@ -1,9 +1,9 @@
 {
-  TTransport wrappedTransport=getWrappedTransport(args);
-  if (wrappedTransport != null && this.socketAccessor.isApplicable(wrappedTransport)) {
-    Socket rootSocket=this.socketAccessor.get(wrappedTransport);
-    if (rootSocket != null) {
-      this.socketAccessor.set(target,rootSocket);
+  if (validateTransport(target)) {
+    TTransport wrappedTransport=getWrappedTransport(args);
+    if (validateTransport(wrappedTransport)) {
+      Socket socket=((SocketFieldAccessor)wrappedTransport)._$PINPOINT$_getSocket();
+      ((SocketFieldAccessor)target)._$PINPOINT$_setSocket(socket);
     }
   }
 }

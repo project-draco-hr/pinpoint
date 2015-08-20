@@ -5,25 +5,25 @@
   Object asyncMethodCallObj=args[0];
   if (asyncMethodCallObj == null) {
     if (isDebug) {
-      logger.debug("Metadata injection target object is null.");
+      logger.debug("Field accessor target object is null.");
     }
     return false;
   }
-  if (!this.asyncTraceIdAccessor.isApplicable(asyncMethodCallObj)) {
+  if (!(asyncMethodCallObj instanceof AsyncTraceIdFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_TRACE_ID);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncTraceIdFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!this.asyncNextSpanIdAccessor.isApplicable(asyncMethodCallObj)) {
+  if (!(asyncMethodCallObj instanceof AsyncNextSpanIdFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_NEXT_SPAN_ID);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncNextSpanIdFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!this.asyncCallRemoteAddressAccessor.isApplicable(asyncMethodCallObj)) {
+  if (!(asyncMethodCallObj instanceof AsyncCallRemoteAddressFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_CALL_REMOTE_ADDRESS);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncCallRemoteAddressFieldAccessor.class.getName());
     }
     return false;
   }

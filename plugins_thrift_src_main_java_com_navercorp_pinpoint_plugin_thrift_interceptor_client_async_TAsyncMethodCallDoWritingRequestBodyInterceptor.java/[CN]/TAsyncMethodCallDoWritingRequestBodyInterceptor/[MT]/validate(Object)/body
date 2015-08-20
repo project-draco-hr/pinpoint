@@ -1,34 +1,19 @@
 {
-  if (!(target instanceof TAsyncMethodCall)) {
-    return false;
-  }
-  if (!this.asyncNextSpanIdAccessor.isApplicable(target)) {
+  if (!(target instanceof AsyncNextSpanIdFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_NEXT_SPAN_ID);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncNextSpanIdFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!(this.asyncNextSpanIdAccessor.get(target) instanceof Long)) {
+  if (!(target instanceof AsyncCallRemoteAddressFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid value for metadata {}",METADATA_ASYNC_NEXT_SPAN_ID);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncCallRemoteAddressFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!this.asyncCallRemoteAddressAccessor.isApplicable(target)) {
+  if (!(target instanceof AsyncCallEndFlagFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_CALL_REMOTE_ADDRESS);
-    }
-    return false;
-  }
-  if (!(this.asyncCallRemoteAddressAccessor.get(target) instanceof String)) {
-    if (isDebug) {
-      logger.debug("Invalid value for metadata {}",METADATA_ASYNC_CALL_REMOTE_ADDRESS);
-    }
-    return false;
-  }
-  if (!this.asyncCallEndFlagAccessor.isApplicable(target)) {
-    if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_CALL_END_FLAG);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncCallEndFlagFieldAccessor.class.getName());
     }
     return false;
   }
