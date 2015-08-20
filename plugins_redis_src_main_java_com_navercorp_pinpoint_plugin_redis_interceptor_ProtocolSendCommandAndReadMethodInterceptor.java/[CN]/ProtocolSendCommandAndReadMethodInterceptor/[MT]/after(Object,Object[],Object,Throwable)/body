@@ -1,0 +1,27 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null) {
+      final CommandContext commandContext=(CommandContext)invocation.getAttachment();
+      if (methodDescriptor.getMethodName().equals("sendCommand")) {
+        commandContext.setWriteEndTime(System.currentTimeMillis());
+        commandContext.setWriteFail(throwable != null);
+      }
+ else {
+        commandContext.setReadEndTime(System.currentTimeMillis());
+        commandContext.setReadFail(throwable != null);
+      }
+      logger.debug("Set command context {}",commandContext);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to AFTER process. {}",t.getMessage(),t);
+  }
+}
