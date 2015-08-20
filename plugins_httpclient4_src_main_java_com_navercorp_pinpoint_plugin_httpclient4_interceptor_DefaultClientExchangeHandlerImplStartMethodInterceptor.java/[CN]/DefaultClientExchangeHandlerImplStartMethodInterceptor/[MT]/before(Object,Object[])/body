@@ -20,7 +20,7 @@
   SpanEventRecorder recorder=trace.traceBlockBegin();
   final TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
-  recorder.recordServiceType(ServiceType.HTTP_CLIENT);
+  recorder.recordServiceType(HttpClient4Constants.HTTP_CLIENT_4);
   if (httpRequest != null) {
     httpRequest.setHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
     httpRequest.setHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
@@ -37,7 +37,7 @@
     if (isAsynchronousInvocation(target,args)) {
       final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
       recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
-      asyncTraceIdAccessor.set(resultFutureAccessor.get(target),asyncTraceId);
+      ((AsyncTraceIdAccessor)((ResultFutureGetter)target)._$PINPOINT$_getResultFuture())._$PINPOINT$_setAsyncTraceId(asyncTraceId);
       if (isDebug) {
         logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
       }

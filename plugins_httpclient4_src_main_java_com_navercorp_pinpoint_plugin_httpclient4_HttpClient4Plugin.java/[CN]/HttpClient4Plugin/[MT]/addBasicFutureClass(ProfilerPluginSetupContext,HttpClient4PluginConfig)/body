@@ -1,20 +1,30 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.concurrent.BasicFuture");
-  classEditorBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
-  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethod("get");
-  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
-  MethodTransformerBuilder getMethodEditorBuilder=classEditorBuilder.editMethod("get","long","java.util.concurrent.TimeUnit");
-  getMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  getMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
-  MethodTransformerBuilder completedMethodEditorBuilder=classEditorBuilder.editMethod("completed","java.lang.Object");
-  completedMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  completedMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
-  MethodTransformerBuilder failMethodEditorBuilder=classEditorBuilder.editMethod("failed","java.lang.Exception");
-  failMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  failMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
-  MethodTransformerBuilder cancelMethodEditorBuilder=classEditorBuilder.editMethod("cancel","boolean");
-  cancelMethodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  cancelMethodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer("org.apache.http.concurrent.BasicFuture",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(AsyncTraceIdAccessor.class.getName());
+      InstrumentMethod get=target.getDeclaredMethod("get");
+      if (get != null) {
+        get.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+      }
+      InstrumentMethod get2=target.getDeclaredMethod("get","long","java.util.concurrent.TimeUnit");
+      if (get2 != null) {
+        get2.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+      }
+      InstrumentMethod completed=target.getDeclaredMethod("completed","java.lang.Object");
+      if (completed != null) {
+        completed.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+      }
+      InstrumentMethod failed=target.getDeclaredMethod("failed","java.lang.Exception");
+      if (failed != null) {
+        failed.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+      }
+      InstrumentMethod cancel=target.getDeclaredMethod("cancel","boolean");
+      if (cancel != null) {
+        cancel.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.BasicFutureMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }
