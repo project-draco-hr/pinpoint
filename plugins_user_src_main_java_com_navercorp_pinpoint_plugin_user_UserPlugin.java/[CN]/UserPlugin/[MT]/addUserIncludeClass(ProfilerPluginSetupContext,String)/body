@@ -1,9 +1,21 @@
 {
   final String className=toClassName(fullQualifiedMethodName);
   final String methodName=toMethodName(fullQualifiedMethodName);
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder(className);
-  MethodTransformerBuilder methodEditorBuilder=classEditorBuilder.editMethods(MethodFilters.name(methodName));
-  methodEditorBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  methodEditorBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.user.interceptor.UserIncludeMethodInterceptor");
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer(className,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name(methodName))) {
+        try {
+          method.addInterceptor("com.navercorp.pinpoint.plugin.user.interceptor.UserIncludeMethodInterceptor");
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + method,e);
+          }
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }
