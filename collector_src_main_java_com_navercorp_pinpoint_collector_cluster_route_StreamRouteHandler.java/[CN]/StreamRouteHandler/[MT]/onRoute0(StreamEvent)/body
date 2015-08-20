@@ -1,15 +1,15 @@
 {
   TBase<?,?> requestObject=event.getRequestObject();
   if (requestObject == null) {
-    return new RouteResult(RouteStatus.BAD_REQUEST);
+    return createResponse(TRouteResult.EMPTY_REQUEST);
   }
   TargetClusterPoint clusterPoint=findClusterPoint(event.getDeliveryCommand());
   if (clusterPoint == null) {
-    return new RouteResult(RouteStatus.NOT_FOUND);
+    return createResponse(TRouteResult.AGNET_NOT_FOUND);
   }
   TCommandTypeVersion commandVersion=TCommandTypeVersion.getVersion(clusterPoint.gerVersion());
   if (!commandVersion.isSupportCommand(requestObject)) {
-    return new RouteResult(RouteStatus.NOT_ACCEPTABLE);
+    return createResponse(TRouteResult.AGENT_NOT_SUPPORTED_COMMAND);
   }
   try {
     if (clusterPoint instanceof PinpointServerClusterPoint) {
@@ -18,10 +18,10 @@
       consumerContext.setAttributeIfAbsent(ATTACHMENT_KEY,routeManager);
       ClientStreamChannelContext producerContext=createStreamChannel((PinpointServerClusterPoint)clusterPoint,event.getDeliveryCommand().getPayload(),routeManager);
       routeManager.setProducer(producerContext.getStreamChannel());
-      return new RouteResult(RouteStatus.OK);
+      return createResponse(TRouteResult.OK);
     }
  else {
-      return new RouteResult(RouteStatus.NOT_ACCEPTABLE_AGENT_TYPE);
+      return createResponse(TRouteResult.AGENT_NOT_ACCEPTABLE);
     }
   }
  catch (  Exception e) {
@@ -29,5 +29,5 @@
       logger.warn("Create StreamChannel(" + clusterPoint + ") failed. Error:"+ e.getMessage(),e);
     }
   }
-  return new RouteResult(RouteStatus.NOT_ACCEPTABLE_UNKNOWN);
+  return createResponse(TRouteResult.UNKNOWN);
 }

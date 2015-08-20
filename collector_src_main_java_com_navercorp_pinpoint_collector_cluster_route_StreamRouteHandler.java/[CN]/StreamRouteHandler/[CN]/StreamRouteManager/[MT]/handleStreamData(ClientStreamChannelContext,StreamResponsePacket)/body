@@ -1,10 +1,9 @@
 {
   StreamChannelStateCode stateCode=consumer.getCurrentState();
   if (StreamChannelStateCode.RUN == stateCode) {
-    ResponseMessage responseMessage=new ResponseMessage();
-    responseMessage.setMessage(packet.getPayload());
-    responseFilterChain.doEvent(new ResponseEvent(streamEvent,-1,new RouteResult(RouteStatus.OK,responseMessage)));
-    consumer.sendData(packet.getPayload());
+    TCommandTransferResponse response=createResponse(TRouteResult.OK,packet.getPayload());
+    responseFilterChain.doEvent(new ResponseEvent(streamEvent,-1,response));
+    consumer.sendData(serialize(response));
   }
  else {
     logger.warn("Can route stream data to consumer.(state:{})",stateCode);
