@@ -1,0 +1,7 @@
+{
+  InstrumentMethod execute=target.getDeclaredMethod("execute",parameterTypeNames);
+  if (execute != null) {
+    execute.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.HttpClientExecuteMethodWithHttpRequestInterceptor",isHasCallbackParam);
+    execute.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.HttpClientExecuteMethodInternalInterceptor",isHasCallbackParam);
+  }
+}
