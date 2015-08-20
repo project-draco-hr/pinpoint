@@ -1,0 +1,18 @@
+{
+  if (!isParsed) {
+    TBase object=deserialize(commandDeserializerFactory,payload,null);
+    if (object == null) {
+      routeResult=TRouteResult.UNKNOWN;
+    }
+ else     if (object instanceof TCommandTransferResponse) {
+      TCommandTransferResponse commandResponse=(TCommandTransferResponse)object;
+      routeResult=commandResponse.getRouteResult();
+      response=deserialize(commandDeserializerFactory,commandResponse.getPayload(),null);
+    }
+ else {
+      routeResult=TRouteResult.UNKNOWN;
+      response=object;
+    }
+    isParsed=true;
+  }
+}

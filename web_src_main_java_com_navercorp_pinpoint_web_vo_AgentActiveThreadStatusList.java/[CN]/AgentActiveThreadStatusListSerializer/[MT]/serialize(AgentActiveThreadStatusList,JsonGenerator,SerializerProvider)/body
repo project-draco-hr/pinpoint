@@ -1,21 +1,23 @@
 {
-  Map<String,TActiveThreadResponse> agentActiveThreadReposioty=agentActiveThreadStatusList.getAgentActiveThreadReposioty();
+  List<AgentActiveThreadStatus> agentActiveThreadRepository=agentActiveThreadStatusList.getAgentActiveThreadRepository();
   jgen.writeStartObject();
-  for (  Map.Entry<String,TActiveThreadResponse> entry : agentActiveThreadReposioty.entrySet()) {
-    List<Integer> activeThreadStatus=entry.getValue().getActiveThreadCount();
-    if (activeThreadStatus == null || activeThreadStatus.size() < 4) {
-      continue;
-    }
-    jgen.writeFieldName(entry.getKey());
+  for (  AgentActiveThreadStatus agentActiveThread : agentActiveThreadRepository) {
+    jgen.writeFieldName(agentActiveThread.getHostname());
     jgen.writeStartObject();
-    jgen.writeFieldName("status");
-    jgen.writeStartArray();
-    jgen.writeNumber(activeThreadStatus.get(0));
-    jgen.writeNumber(activeThreadStatus.get(1));
-    jgen.writeNumber(activeThreadStatus.get(2));
-    jgen.writeNumber(activeThreadStatus.get(3));
-    jgen.writeEndArray();
-    jgen.writeNumberField("code",0);
+    TRouteResult routeResult=agentActiveThread.getRouteResult(TRouteResult.UNKNOWN);
+    jgen.writeNumberField("code",routeResult.getValue());
+    jgen.writeStringField("message",routeResult.name());
+    TActiveThreadResponse activeThreadStatus=agentActiveThread.getActiveThreadStatus();
+    if (activeThreadStatus != null && activeThreadStatus.getActiveThreadCountSize() >= 4) {
+      List<Integer> activeThreadCount=activeThreadStatus.getActiveThreadCount();
+      jgen.writeFieldName("status");
+      jgen.writeStartArray();
+      jgen.writeNumber(activeThreadCount.get(0));
+      jgen.writeNumber(activeThreadCount.get(1));
+      jgen.writeNumber(activeThreadCount.get(2));
+      jgen.writeNumber(activeThreadCount.get(3));
+      jgen.writeEndArray();
+    }
     jgen.writeEndObject();
   }
   jgen.writeEndObject();

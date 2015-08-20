@@ -1,37 +1,32 @@
 {
-  PinpointServer collector=socketManager.getCollector(applicationName,agentId,startTimeStamp);
-  if (collector == null) {
+  AgentInfoBo agentInfo=agentService.getAgentInfo(applicationName,agentId,startTimeStamp);
+  if (agentInfo == null) {
     return createResponse(false,String.format("Can't find suitable PinpointServer(%s/%s/%d).",applicationName,agentId,startTimeStamp));
   }
   TCommandEcho echo=new TCommandEcho();
   echo.setMessage(message);
-  byte[] payload=serialize(echo);
-  TCommandTransfer transfer=new TCommandTransfer();
-  transfer.setApplicationName(applicationName);
-  transfer.setAgentId(agentId);
-  transfer.setStartTime(startTimeStamp);
-  transfer.setPayload(payload);
-  Future<ResponseMessage> future=collector.request(serialize(transfer));
-  future.await();
-  String exceptionMessage=StringUtils.EMPTY;
-  ResponseMessage responseMessage=future.getResult();
   try {
-    TBase result=deserialize(responseMessage.getMessage());
-    if (result == null) {
-      return createResponse(false,String.format("Can't get message from %s.",collector));
-    }
- else     if (result instanceof TCommandEcho) {
-      return createResponse(true,((TCommandEcho)result).getMessage());
-    }
- else     if (result instanceof TResult) {
-      return createResponse(false,((TResult)result).getMessage());
+    PinpointRouteResponse pinpointRouteResponse=agentService.invoke(agentInfo,echo);
+    if (pinpointRouteResponse != null && pinpointRouteResponse.getRouteResult() == TRouteResult.OK) {
+      TBase result=pinpointRouteResponse.getResponse();
+      if (result == null) {
+        return createResponse(false,"result null.");
+      }
+ else       if (result instanceof TCommandEcho) {
+        return createResponse(true,((TCommandEcho)result).getMessage());
+      }
+ else       if (result instanceof TResult) {
+        return createResponse(false,((TResult)result).getMessage());
+      }
+ else {
+        return createResponse(false,result.toString());
+      }
     }
  else {
-      return createResponse(false,result.toString());
+      return createResponse(false,"unknown");
     }
   }
  catch (  TException e) {
-    exceptionMessage=e.getMessage();
+    return createResponse(false,e.getMessage());
   }
-  return createResponse(false,exceptionMessage);
 }

@@ -2,12 +2,12 @@
   logger.info("Message received {}. streamChannel:{}, packet:{}.",packet.getClass().getSimpleName(),streamChannelContext,packet);
   TBase<?,?> request=deserialize(packet.getPayload());
   if (request == null) {
-    return StreamCreateFailPacket.PACKET_ERROR;
+    return (short)TRouteResult.EMPTY_REQUEST.getValue();
   }
  else   if (request instanceof TCommandTransfer) {
-    return handleStreamRouteCreate((TCommandTransfer)request,packet,streamChannelContext);
+    return (short)handleStreamRouteCreate((TCommandTransfer)request,packet,streamChannelContext).getValue();
   }
  else {
-    return StreamCreateFailPacket.UNKNWON_ERROR;
+    return (short)TRouteResult.UNKNOWN.getValue();
   }
 }
