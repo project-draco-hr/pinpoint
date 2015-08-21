@@ -1,6 +1,7 @@
 {
   if (injectedToRoot.compareAndSet(false,true)) {
     instrumentation.appendToBootstrapClassLoaderSearch(pluginJar);
+    classPool.appendToBootstrapClassPath(pluginJar.getName());
   }
   return Class.forName(className,false,null);
 }
