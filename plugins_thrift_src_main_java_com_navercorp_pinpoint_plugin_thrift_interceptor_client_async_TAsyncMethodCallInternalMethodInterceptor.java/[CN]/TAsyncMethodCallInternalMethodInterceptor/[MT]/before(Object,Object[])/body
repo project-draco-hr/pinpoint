@@ -12,6 +12,7 @@
   try {
     trace.traceBlockBegin();
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordServiceType(getServiceType());
     doInBeforeTrace(recorder,target,args);
   }
  catch (  Throwable th) {

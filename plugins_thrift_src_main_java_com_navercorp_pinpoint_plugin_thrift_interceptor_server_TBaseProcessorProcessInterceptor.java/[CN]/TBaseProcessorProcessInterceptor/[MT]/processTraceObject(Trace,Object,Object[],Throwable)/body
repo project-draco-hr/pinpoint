@@ -17,11 +17,17 @@
   String remoteAddress=UNKNOWN_ADDRESS;
   if (args.length == 2 && args[0] instanceof TProtocol) {
     TProtocol inputProtocol=(TProtocol)args[0];
-    if (this.socketAccessor.isApplicable(inputProtocol.getTransport())) {
-      Socket socket=this.socketAccessor.get(inputProtocol.getTransport());
+    TTransport inputTransport=inputProtocol.getTransport();
+    if (inputTransport instanceof SocketFieldAccessor) {
+      Socket socket=((SocketFieldAccessor)inputTransport)._$PINPOINT$_getSocket();
       if (socket != null) {
         localIpPort=ThriftUtils.getHostPort(socket.getLocalSocketAddress());
         remoteAddress=ThriftUtils.getHost(socket.getRemoteSocketAddress());
+      }
+    }
+ else {
+      if (isDebug) {
+        logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
       }
     }
   }

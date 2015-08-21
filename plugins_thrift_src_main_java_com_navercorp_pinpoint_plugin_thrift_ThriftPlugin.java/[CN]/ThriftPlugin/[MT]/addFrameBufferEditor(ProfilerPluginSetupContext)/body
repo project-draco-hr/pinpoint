@@ -1,24 +1,27 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer");
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  classTransformerBuilder.injectFieldAccessor(FIELD_FRAME_BUFFER_IN_TRANSPORT);
-  final String[] parameterTypeNames=new String[]{"org.apache.thrift.server.AbstractNonblockingServer","org.apache.thrift.transport.TNonblockingTransport","java.nio.channels.SelectionKey","org.apache.thrift.server.AbstractNonblockingServer$AbstractSelectThread"};
-  classTransformerBuilder.conditional(ClassConditions.hasField(FIELD_FRAME_BUFFER_IN_TRANSPORT_WRAPPER),new ConditionalClassFileTransformerSetup(){
-    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
-      conditional.injectFieldAccessor(FIELD_FRAME_BUFFER_IN_TRANSPORT_WRAPPER);
-      final ConstructorTransformerBuilder constructorTransformerBuilder=conditional.editConstructor(parameterTypeNames);
-      constructorTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-      constructorTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferConstructInterceptor");
+  final String targetClassName="org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(SocketFieldAccessor.class.getName());
+      target.addGetter(TNonblockingTransportFieldGetter.class.getName(),FRAME_BUFFER_FIELD_TRANS_);
+      if (target.hasField(FRAME_BUFFER_FIELD_IN_TRANS_)) {
+        target.addGetter(TTransportFieldGetter.class.getName(),FRAME_BUFFER_FIELD_IN_TRANS_);
+        final InstrumentMethod constructor=target.getConstructor("org.apache.thrift.server.AbstractNonblockingServer","org.apache.thrift.transport.TNonblockingTransport","java.nio.channels.SelectionKey","org.apache.thrift.server.AbstractNonblockingServer$AbstractSelectThread");
+        if (constructor != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferConstructInterceptor";
+          constructor.addInterceptor(interceptor);
+        }
+      }
+      if (target.hasMethod("getInputTransport","org.apache.thrift.transport.TTransport")) {
+        final InstrumentMethod getInputTransport=target.getDeclaredMethod("getInputTransport","org.apache.thrift.transport.TTransport");
+        if (getInputTransport != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferGetInputTransportInterceptor";
+          getInputTransport.addInterceptor(interceptor);
+        }
+      }
+      return target.toBytecode();
     }
   }
 );
-  classTransformerBuilder.conditional(ClassConditions.hasMethod("getInputTransport","org.apache.thrift.transport.TTransport"),new ConditionalClassFileTransformerSetup(){
-    @Override public void setup(    ConditionalClassFileTransformerBuilder conditional){
-      final MethodTransformerBuilder getInputTransportMethodTransformerBuilder=conditional.editMethod("getInputTransport");
-      getInputTransportMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-      getInputTransportMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferGetInputTransportInterceptor");
-    }
-  }
-);
-  context.addClassFileTransformer(classTransformerBuilder.build());
 }

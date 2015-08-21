@@ -1,13 +1,7 @@
 {
-  if (!this.nonblockingSocketAddressAccessor.isApplicable(asyncMethodCallObj)) {
-    if (isDebug) {
-      logger.debug("Invalid TAsyncMethodCall object. Need metadata accessor({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
-    }
+  if (!(asyncMethodCallObj instanceof SocketAddressFieldAccessor)) {
     return UNKNOWN_ADDRESS;
   }
-  Object socketAddress=this.nonblockingSocketAddressAccessor.get(asyncMethodCallObj);
-  if (socketAddress instanceof SocketAddress) {
-    return ThriftUtils.getHostPort((SocketAddress)socketAddress);
-  }
-  return UNKNOWN_ADDRESS;
+  SocketAddress socketAddress=((SocketAddressFieldAccessor)asyncMethodCallObj)._$PINPOINT$_getSocketAddress();
+  return ThriftUtils.getHostPort((SocketAddress)socketAddress);
 }

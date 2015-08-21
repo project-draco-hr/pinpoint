@@ -1,11 +1,15 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.async.TAsyncClientManager");
-  classTransformerBuilder.injectMetadata(METADATA_NONBLOCKING_SOCKET_ADDRESS);
-  classTransformerBuilder.injectMetadata(METADATA_ASYNC_TRACE_ID);
-  classTransformerBuilder.injectMetadata(METADATA_ASYNC_NEXT_SPAN_ID);
-  classTransformerBuilder.injectMetadata(METADATA_ASYNC_CALL_REMOTE_ADDRESS);
-  final MethodTransformerBuilder callMethodTransformerBuilder=classTransformerBuilder.editMethod("call","org.apache.thrift.async.TAsyncMethodCall");
-  callMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  callMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncClientManagerCallInterceptor");
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final String targetClassName="org.apache.thrift.async.TAsyncClientManager";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      final InstrumentMethod call=target.getDeclaredMethod("call","org.apache.thrift.async.TAsyncMethodCall");
+      if (call != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncClientManagerCallInterceptor";
+        call.addInterceptor(interceptor);
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

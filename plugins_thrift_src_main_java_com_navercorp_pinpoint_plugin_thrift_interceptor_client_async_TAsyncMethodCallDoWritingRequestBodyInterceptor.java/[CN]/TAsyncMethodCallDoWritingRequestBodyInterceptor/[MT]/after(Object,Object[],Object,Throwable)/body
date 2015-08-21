@@ -3,8 +3,8 @@
   if (throwable != null) {
     return;
   }
-  Boolean endAsyncBlock=this.asyncCallEndFlagAccessor.get(target);
-  if (endAsyncBlock != null && endAsyncBlock) {
+  boolean endAsyncBlock=((AsyncCallEndFlagFieldAccessor)target)._$PINPOINT$_getAsyncCallEndFlag();
+  if (endAsyncBlock) {
     final Trace trace=super.traceContext.currentTraceObject();
     if (trace == null) {
       return;
