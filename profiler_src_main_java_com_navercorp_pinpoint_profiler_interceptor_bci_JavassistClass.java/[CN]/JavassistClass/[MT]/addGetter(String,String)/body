@@ -7,6 +7,9 @@
       throw new IllegalArgumentException("Return type of the getter is different with the field type. getterMethod: " + getterDetails.getGetter() + ", fieldType: "+ field.getType().getName());
     }
     CtMethod getterMethod=CtNewMethod.getter(getterDetails.getGetter().getName(),field);
+    if (getterMethod.getDeclaringClass() != ctClass) {
+      getterMethod=CtNewMethod.copy(getterMethod,ctClass,null);
+    }
     ctClass.addMethod(getterMethod);
     CtClass ctInterface=ctClass.getClassPool().get(getterTypeName);
     ctClass.addInterface(ctInterface);
