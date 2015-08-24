@@ -1,8 +1,0 @@
-{
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("net.sf.json.JSONObject");
-  builder.editMethods(name("fromObject"),modifier(Modifier.PUBLIC)).injectInterceptor(PARSING_INTERCEPTOR).group(GROUP);
-  builder.editMethods(name("toBean"),modifier(Modifier.PUBLIC)).injectInterceptor(BASIC_INTERCEPTOR,JsonLibConstants.SERVICE_TYPE).group(GROUP);
-  builder.editMethods(name("toString"),modifier(Modifier.PUBLIC)).injectInterceptor(TO_STRING_INTERCEPTOR).group(GROUP);
-  ClassFileTransformer transformer=builder.build();
-  context.addClassFileTransformer(transformer);
-}
