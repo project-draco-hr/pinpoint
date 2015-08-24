@@ -1,0 +1,14 @@
+{
+  if (method != null && isPublicMethod(method)) {
+    try {
+      method.addInterceptor(interceptorClassName,group,constructorArgs);
+      return true;
+    }
+ catch (    InstrumentException e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + method,e);
+      }
+    }
+  }
+  return false;
+}
