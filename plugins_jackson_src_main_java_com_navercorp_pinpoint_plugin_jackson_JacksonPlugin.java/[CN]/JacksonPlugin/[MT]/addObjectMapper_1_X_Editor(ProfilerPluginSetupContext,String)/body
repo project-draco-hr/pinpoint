@@ -11,6 +11,8 @@
       addInterceptor(constructor3,BASIC_METHOD_INTERCEPTOR,group,SERVICE_TYPE);
       final InstrumentMethod constructor4=target.getConstructor("org.codehaus.jackson.map.SerializerFactory");
       addInterceptor(constructor4,BASIC_METHOD_INTERCEPTOR,group,SERVICE_TYPE);
+      final InstrumentMethod constructor5=target.getConstructor("org.codehaus.jackson.JsonFactory","org.codehaus.jackson.map.SerializerProvider","org.codehaus.jackson.map.DeserializerProvider","org.codehaus.jackson.map.SerializationConfig","org.codehaus.jackson.map.DeserializationConfig");
+      addInterceptor(constructor5,BASIC_METHOD_INTERCEPTOR,group,SERVICE_TYPE);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValue"))) {
         addInterceptor(method,BASIC_METHOD_INTERCEPTOR,group,SERVICE_TYPE);
       }

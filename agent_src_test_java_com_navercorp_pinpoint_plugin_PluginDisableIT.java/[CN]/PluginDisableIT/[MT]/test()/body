@@ -1,0 +1,13 @@
+{
+  ObjectMapper mapper=new ObjectMapper();
+  Map<String,Object> map=new HashMap<String,Object>();
+  map.put("name","jackson");
+  mapper.writeValueAsString(map);
+  mapper.writeValueAsBytes(map);
+  ObjectWriter writer=mapper.writer();
+  writer.writeValueAsString(map);
+  writer.writeValueAsBytes(map);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTraceCount(0);
+}
