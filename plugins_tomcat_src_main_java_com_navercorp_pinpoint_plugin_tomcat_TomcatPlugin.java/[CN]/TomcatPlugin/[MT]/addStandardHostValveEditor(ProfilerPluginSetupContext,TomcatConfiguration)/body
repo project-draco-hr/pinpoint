@@ -1,5 +1,13 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.apache.catalina.core.StandardHostValve");
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",config.getTomcatExcludeUrlFilter());
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("org.apache.catalina.core.StandardHostValve",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      InstrumentMethod method=target.getDeclaredMethod("invoke","org.apache.catalina.connector.Request","org.apache.catalina.connector.Response");
+      if (method != null) {
+        method.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",config.getTomcatExcludeUrlFilter());
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

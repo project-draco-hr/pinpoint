@@ -1,13 +1,6 @@
 {
-  if (!asyncAccessor.isApplicable(request) || asyncAccessor.get(request) == null) {
+  if (!(request instanceof AsyncAccessor)) {
     return false;
   }
-  try {
-    final Boolean async=asyncAccessor.get(request);
-    return async.booleanValue();
-  }
- catch (  ClassCastException e) {
-    logger.warn("Invalid async metadata({})",METADATA_ASYNC,e);
-    return false;
-  }
+  return ((AsyncAccessor)request)._$PINPOINT$_isAsync();
 }
