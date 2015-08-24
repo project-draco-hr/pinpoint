@@ -1,0 +1,12 @@
+{
+  if (validate0(target,args,result)) {
+    if (isDebug) {
+      logger.afterInterceptor(target,args,result,throwable);
+    }
+    Socket rootSocket=getRootSocket(target);
+    if (rootSocket != null) {
+      TTransport injectionTarget=getInjectionTarget(target,args,result);
+      injectSocket(injectionTarget,rootSocket);
+    }
+  }
+}

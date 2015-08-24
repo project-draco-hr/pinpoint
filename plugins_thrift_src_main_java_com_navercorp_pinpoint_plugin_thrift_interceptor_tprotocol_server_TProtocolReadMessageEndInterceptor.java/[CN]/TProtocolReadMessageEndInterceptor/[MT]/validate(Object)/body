@@ -1,0 +1,19 @@
+{
+  if (!(target instanceof TProtocol)) {
+    return false;
+  }
+  if (!(target instanceof ServerMarkerFlagFieldAccessor)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({}).",ServerMarkerFlagFieldAccessor.class.getName());
+    }
+    return false;
+  }
+  TTransport transport=((TProtocol)target).getTransport();
+  if (!(transport instanceof SocketFieldAccessor)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
+    }
+    return false;
+  }
+  return true;
+}

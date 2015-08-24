@@ -1,0 +1,40 @@
+{
+  final boolean shouldSample=checkSamplingFlag(parentTraceInfo);
+  if (!shouldSample) {
+    if (isDebug) {
+      logger.debug("Disable sampling flag given from remote. Skipping trace for method:{}",methodName);
+    }
+    return this.traceContext.disableSampling();
+  }
+  final TraceId traceId=populateTraceIdThriftHeader(parentTraceInfo);
+  if (traceId != null) {
+    final Trace trace=this.traceContext.continueTraceObject(traceId);
+    if (trace.canSampled()) {
+      recordRootSpan(trace,parentTraceInfo,target);
+      if (isDebug) {
+        logger.debug("TraceId exists - continue trace. TraceId:{}, method:{}",traceId,methodName);
+      }
+    }
+ else {
+      if (isDebug) {
+        logger.debug("TraceId exists, canSampled is false - skip trace. TraceId:{}, method:{}",traceId,methodName);
+      }
+    }
+    return trace;
+  }
+ else {
+    final Trace trace=traceContext.newTraceObject();
+    if (trace.canSampled()) {
+      recordRootSpan(trace,parentTraceInfo,target);
+      if (isDebug) {
+        logger.debug("TraceId does not exist - start new trace. Method:{}",methodName);
+      }
+    }
+ else {
+      if (isDebug) {
+        logger.debug("TraceId does not exist, canSampled is false - skip trace. Method:{}",methodName);
+      }
+    }
+    return trace;
+  }
+}

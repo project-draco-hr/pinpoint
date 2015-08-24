@@ -3,10 +3,10 @@
     logger.afterInterceptor(target,args,result,throwable);
   }
   if (validate(target)) {
-    Object nonblockingTransportObj=this.transportFieldAccessor.get(target);
-    if (validateTransport(nonblockingTransportObj)) {
-      Object socketAddress=this.nonblockingSocketAddressAccessor.get(nonblockingTransportObj);
-      this.nonblockingSocketAddressAccessor.set(target,socketAddress);
+    TNonblockingTransport transport=((TNonblockingTransportFieldGetter)target)._$PINPOINT$_getTNonblockingTransport();
+    if (validateTransport(transport)) {
+      SocketAddress socketAddress=((SocketAddressFieldAccessor)transport)._$PINPOINT$_getSocketAddress();
+      ((SocketAddressFieldAccessor)target)._$PINPOINT$_setSocketAddress(socketAddress);
     }
   }
 }

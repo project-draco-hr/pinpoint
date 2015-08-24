@@ -1,7 +1,13 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder("org.apache.http.impl.conn.ManagedClientConnectionImpl");
-  final MethodTransformerBuilder executeMethodBuilder=classEditorBuilder.editMethod("open","org.apache.http.conn.routing.HttpRoute","org.apache.http.protocol.HttpContext","org.apache.http.params.HttpParams");
-  executeMethodBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  executeMethodBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.ManagedClientConnectionOpenMethodInterceptor");
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer("org.apache.http.impl.conn.ManagedClientConnectionImpl",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod open=target.getDeclaredMethod("open","org.apache.http.conn.routing.HttpRoute","org.apache.http.protocol.HttpContext","org.apache.http.params.HttpParams");
+      if (open != null) {
+        open.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.ManagedClientConnectionOpenMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

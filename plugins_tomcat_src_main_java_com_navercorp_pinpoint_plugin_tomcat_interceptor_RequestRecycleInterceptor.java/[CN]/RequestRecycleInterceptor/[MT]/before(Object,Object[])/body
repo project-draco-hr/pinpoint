@@ -1,15 +1,15 @@
 {
   logger.beforeInterceptor(target,target.getClass().getName(),targetMethod.getName(),"",args);
   try {
-    if (asyncAccessor.isApplicable(target)) {
-      asyncAccessor.set(target,Boolean.FALSE);
+    if (target instanceof AsyncAccessor) {
+      ((AsyncAccessor)target)._$PINPOINT$_setAsync(Boolean.FALSE);
     }
-    if (traceAccessor.isApplicable(target) && traceAccessor.get(target) != null) {
-      final Trace trace=traceAccessor.get(target);
+    if (target instanceof TraceAccessor) {
+      final Trace trace=((TraceAccessor)target)._$PINPOINT$_getTrace();
       if (trace != null && trace.canSampled()) {
         trace.close();
       }
-      traceAccessor.set(target,null);
+      ((TraceAccessor)target)._$PINPOINT$_setTrace(null);
     }
   }
  catch (  Throwable t) {

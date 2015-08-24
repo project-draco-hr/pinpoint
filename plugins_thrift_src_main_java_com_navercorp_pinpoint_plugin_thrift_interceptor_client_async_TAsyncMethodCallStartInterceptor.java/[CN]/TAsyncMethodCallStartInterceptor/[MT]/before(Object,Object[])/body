@@ -2,7 +2,7 @@
   if (!validate0(target)) {
     return;
   }
-  final AsyncTraceId asyncTraceId=asyncTraceIdAccessor.get(target);
+  final AsyncTraceId asyncTraceId=((AsyncTraceIdFieldAccessor)target)._$PINPOINT$_getAsyncTraceId();
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getSpanStartTime());
@@ -13,7 +13,7 @@
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordServiceType(ServiceType.ASYNC);
     recorder.recordApi(this.thriftAsyncClientMethodDescriptor);
-    super.asyncMarkerAccessor.set(target,Boolean.TRUE);
+    ((AsyncMarkerFlagFieldAccessor)target)._$PINPOINT$_setAsyncMarkerFlag(Boolean.TRUE);
   }
   super.before(target,args);
 }

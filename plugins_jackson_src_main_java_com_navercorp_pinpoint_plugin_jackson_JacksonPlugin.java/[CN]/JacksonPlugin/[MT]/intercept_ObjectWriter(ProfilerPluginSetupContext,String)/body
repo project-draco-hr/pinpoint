@@ -1,8 +1,0 @@
-{
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder(className);
-  builder.editMethods(MethodFilters.name("writeValue")).injectInterceptor(BASIC_METHOD_INTERCEPTOR,SERVICE_TYPE).group(GROUP);
-  builder.editMethods(MethodFilters.name("writeValueAsString")).injectInterceptor(WRITE_VALUE_AS_STRING_INTERCEPTOR).group(GROUP);
-  builder.editMethods(MethodFilters.name("writeValueAsBytes")).injectInterceptor(WRITE_VALUE_AS_BYTES_INTERCEPTOR).group(GROUP);
-  ClassFileTransformer transformer=builder.build();
-  context.addClassFileTransformer(transformer);
-}

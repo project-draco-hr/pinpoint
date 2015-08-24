@@ -4,8 +4,10 @@
   }
   if (validate(target,args)) {
     Socket socket=((TNonblockingSocket)target).getSocketChannel().socket();
-    this.socketAccessor.set(target,socket);
-    Object socketAddress=args[2];
-    this.nonblockingSocketAddressAccessor.set(target,socketAddress);
+    ((SocketFieldAccessor)target)._$PINPOINT$_setSocket(socket);
+    if (args[2] instanceof SocketAddress) {
+      SocketAddress socketAddress=(SocketAddress)args[2];
+      ((SocketAddressFieldAccessor)target)._$PINPOINT$_setSocketAddress(socketAddress);
+    }
   }
 }

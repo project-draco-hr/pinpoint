@@ -2,7 +2,7 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result,throwable);
   }
-  if (!validate(target)) {
+  if (!validate0(target)) {
     return;
   }
   final Trace trace=traceContext.currentTraceObject();
@@ -11,6 +11,8 @@
   }
   try {
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(this.methodDescriptor);
+    recorder.recordException(throwable);
     doInAfterTrace(recorder,target,args,result,throwable);
   }
  catch (  Throwable th) {
