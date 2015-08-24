@@ -1,0 +1,16 @@
+{
+  final String queryForListId="queryForListId";
+  executor.queryForList(queryForListId);
+  executor.queryForList(queryForListId,new Object());
+  executor.queryForList(queryForListId,0,1);
+  executor.queryForList(queryForListId,new Object(),0,1);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForList1=executor.getClass().getDeclaredMethod("queryForList",String.class);
+  Method queryForList2=executor.getClass().getDeclaredMethod("queryForList",String.class,Object.class);
+  Method queryForList3=executor.getClass().getDeclaredMethod("queryForList",String.class,int.class,int.class);
+  Method queryForList4=executor.getClass().getDeclaredMethod("queryForList",String.class,Object.class,int.class,int.class);
+  verifier.verifyTrace(event("IBATIS",queryForList1,Expectations.cachedArgs(queryForListId)));
+  verifier.verifyTrace(event("IBATIS",queryForList2,Expectations.cachedArgs(queryForListId)));
+  verifier.verifyTrace(event("IBATIS",queryForList3,Expectations.cachedArgs(queryForListId)));
+  verifier.verifyTrace(event("IBATIS",queryForList4,Expectations.cachedArgs(queryForListId)));
+}

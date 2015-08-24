@@ -1,0 +1,10 @@
+{
+  final String queryForPaginatedListId="queryForPaginatedListId";
+  executor.queryForPaginatedList(queryForPaginatedListId,1);
+  executor.queryForPaginatedList(queryForPaginatedListId,new Object(),1);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForPaginatedList1=executor.getClass().getDeclaredMethod("queryForPaginatedList",String.class,int.class);
+  Method queryForPaginatedList2=executor.getClass().getDeclaredMethod("queryForPaginatedList",String.class,Object.class,int.class);
+  verifier.verifyTrace(event("IBATIS",queryForPaginatedList1,Expectations.cachedArgs(queryForPaginatedListId)));
+  verifier.verifyTrace(event("IBATIS",queryForPaginatedList2,Expectations.cachedArgs(queryForPaginatedListId)));
+}
