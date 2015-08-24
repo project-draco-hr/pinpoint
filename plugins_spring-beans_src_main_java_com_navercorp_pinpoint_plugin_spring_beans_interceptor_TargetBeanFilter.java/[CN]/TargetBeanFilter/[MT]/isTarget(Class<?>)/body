@@ -3,15 +3,14 @@
     return false;
   }
   if (targetAnnotationNames != null) {
-    List<Class<? extends Annotation>> targetAnnotations=getTargetAnnotations(clazz.getClassLoader());
-    for (    Class<? extends Annotation> a : targetAnnotations) {
-      if (clazz.isAnnotationPresent(a)) {
+    for (    Annotation a : clazz.getAnnotations()) {
+      if (targetAnnotationNames.contains(a.annotationType().getName())) {
         return true;
       }
     }
     for (    Annotation a : clazz.getAnnotations()) {
-      for (      Class<? extends Annotation> ac : targetAnnotations) {
-        if (a.annotationType().isAnnotationPresent(ac)) {
+      for (      Annotation ac : a.annotationType().getAnnotations()) {
+        if (targetAnnotationNames.contains(ac.annotationType().getName())) {
           return true;
         }
       }
