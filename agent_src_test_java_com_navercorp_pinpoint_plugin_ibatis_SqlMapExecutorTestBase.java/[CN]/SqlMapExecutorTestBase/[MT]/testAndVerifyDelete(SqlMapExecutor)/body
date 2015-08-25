@@ -1,0 +1,11 @@
+{
+  final String deleteId="deleteId";
+  executor.delete(deleteId);
+  executor.delete(deleteId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Method delete=executor.getClass().getDeclaredMethod("delete",String.class);
+  Method deleteWithParameter=executor.getClass().getDeclaredMethod("delete",String.class,Object.class);
+  verifier.verifyTrace(event("IBATIS",delete,Expectations.cachedArgs(deleteId)));
+  verifier.verifyTrace(event("IBATIS",deleteWithParameter,Expectations.cachedArgs(deleteId)));
+}

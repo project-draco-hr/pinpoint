@@ -1,0 +1,14 @@
+{
+  final String updateId="updateId";
+  SqlMapClientTemplate clientTemplate=new SqlMapClientTemplate(this.mockDataSource,this.sqlMapClient);
+  clientTemplate.update(updateId);
+  clientTemplate.update(updateId,new Object());
+  clientTemplate.update(updateId,new Object(),0);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method update1=SqlMapClientTemplate.class.getDeclaredMethod("update",String.class);
+  Method update2=SqlMapClientTemplate.class.getDeclaredMethod("update",String.class,Object.class);
+  Method update3=SqlMapClientTemplate.class.getDeclaredMethod("update",String.class,Object.class,int.class);
+  verifier.verifyTrace(event("IBATIS_SPRING",update1,Expectations.cachedArgs(updateId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",update2,Expectations.cachedArgs(updateId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",update3,Expectations.cachedArgs(updateId)));
+}

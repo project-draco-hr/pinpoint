@@ -1,0 +1,13 @@
+{
+  final String queryForObjectId="queryForObjectId";
+  executor.queryForObject(queryForObjectId);
+  executor.queryForObject(queryForObjectId,new Object());
+  executor.queryForObject(queryForObjectId,new Object(),new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForObject1=executor.getClass().getDeclaredMethod("queryForObject",String.class);
+  Method queryForObject2=executor.getClass().getDeclaredMethod("queryForObject",String.class,Object.class);
+  Method queryForObject3=executor.getClass().getDeclaredMethod("queryForObject",String.class,Object.class,Object.class);
+  verifier.verifyTrace(event("IBATIS",queryForObject1,Expectations.cachedArgs(queryForObjectId)));
+  verifier.verifyTrace(event("IBATIS",queryForObject2,Expectations.cachedArgs(queryForObjectId)));
+  verifier.verifyTrace(event("IBATIS",queryForObject3,Expectations.cachedArgs(queryForObjectId)));
+}
