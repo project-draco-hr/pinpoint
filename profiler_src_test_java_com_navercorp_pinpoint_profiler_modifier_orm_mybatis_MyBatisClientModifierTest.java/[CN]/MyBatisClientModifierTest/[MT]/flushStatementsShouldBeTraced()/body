@@ -1,8 +1,0 @@
-{
-  getSqlSession().flushStatements();
-  final List<SpanEventBo> spanEvents=getCurrentSpanEvents();
-  assertThat(spanEvents.size(),is(1));
-  final SpanEventBo flushStatementsSpanEvent=spanEvents.get(0);
-  assertThat(flushStatementsSpanEvent.getApiId(),not(NOT_CACHED));
-  assertNull(flushStatementsSpanEvent.getAnnotationBoList());
-}
