@@ -1,0 +1,11 @@
+{
+  if (classFilters == null) {
+    return REJECT;
+  }
+  for (  ClassFilter classFilter : classFilters) {
+    if (classFilter == null || !classFilter.accept(clazz)) {
+      return REJECT;
+    }
+  }
+  return ACCEPT;
+}
