@@ -1,0 +1,14 @@
+{
+  final String selectListId="selectListId";
+  SqlSession sqlSession=getSqlSession();
+  sqlSession.selectList(selectListId);
+  sqlSession.selectList(selectListId,new Object());
+  sqlSession.selectList(selectListId,new Object(),RowBounds.DEFAULT);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method selectList1=sqlSession.getClass().getDeclaredMethod("selectList",String.class);
+  Method selectList2=sqlSession.getClass().getDeclaredMethod("selectList",String.class,Object.class);
+  Method selectList3=sqlSession.getClass().getDeclaredMethod("selectList",String.class,Object.class,RowBounds.class);
+  verifier.verifyTrace(event("MYBATIS",selectList1,Expectations.cachedArgs(selectListId)));
+  verifier.verifyTrace(event("MYBATIS",selectList2,Expectations.cachedArgs(selectListId)));
+  verifier.verifyTrace(event("MYBATIS",selectList3,Expectations.cachedArgs(selectListId)));
+}

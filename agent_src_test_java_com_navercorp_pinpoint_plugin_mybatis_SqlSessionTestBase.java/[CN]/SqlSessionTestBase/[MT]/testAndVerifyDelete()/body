@@ -1,0 +1,11 @@
+{
+  final String deleteId="deleteId";
+  SqlSession sqlSession=getSqlSession();
+  sqlSession.delete(deleteId);
+  sqlSession.delete(deleteId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method delete1=sqlSession.getClass().getDeclaredMethod("delete",String.class);
+  Method delete2=sqlSession.getClass().getDeclaredMethod("delete",String.class,Object.class);
+  verifier.verifyTrace(event("MYBATIS",delete1,Expectations.cachedArgs(deleteId)));
+  verifier.verifyTrace(event("MYBATIS",delete2,Expectations.cachedArgs(deleteId)));
+}
