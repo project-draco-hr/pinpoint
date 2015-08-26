@@ -1,0 +1,7 @@
+{
+  InstrumentMethod method=mock(InstrumentMethod.class);
+  when(method.getModifiers()).thenReturn(1025);
+  assertTrue(MethodFilters.modifier(Modifier.PUBLIC).accept(method));
+  assertTrue(MethodFilters.modifier(Modifier.ABSTRACT).accept(method));
+  assertFalse(MethodFilters.modifier(Modifier.FINAL).accept(method));
+}
