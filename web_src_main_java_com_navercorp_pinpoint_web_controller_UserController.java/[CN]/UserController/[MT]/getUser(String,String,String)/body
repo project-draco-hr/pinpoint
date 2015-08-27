@@ -1,7 +1,9 @@
 {
   try {
     if (userId != null) {
-      return userService.selectUserByUserId(userId);
+      List<User> users=new ArrayList<User>(1);
+      users.add(userService.selectUserByUserId(userId));
+      return users;
     }
  else     if (userName != null) {
       return userService.selectUserByUserName(userName);
