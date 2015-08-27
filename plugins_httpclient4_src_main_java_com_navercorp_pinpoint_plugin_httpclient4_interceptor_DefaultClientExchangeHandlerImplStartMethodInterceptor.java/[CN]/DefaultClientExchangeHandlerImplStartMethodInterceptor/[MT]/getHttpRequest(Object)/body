@@ -1,9 +1,9 @@
 {
   try {
-    if (!requestProducerAccessor.isApplicable(target)) {
+    if (!(target instanceof RequestProducerGetter)) {
       return null;
     }
-    final HttpAsyncRequestProducer requestProducer=requestProducerAccessor.get(target);
+    final HttpAsyncRequestProducer requestProducer=((RequestProducerGetter)target)._$PINPOINT$_getRequestProducer();
     return requestProducer.generateRequest();
   }
  catch (  Exception e) {

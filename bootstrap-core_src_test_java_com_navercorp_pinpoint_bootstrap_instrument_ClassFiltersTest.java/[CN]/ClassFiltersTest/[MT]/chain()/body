@@ -1,0 +1,7 @@
+{
+  InstrumentClass clazz=mock(InstrumentClass.class);
+  when(clazz.hasEnclosingMethod("call","int")).thenReturn(Boolean.TRUE);
+  when(clazz.getInterfaces()).thenReturn(new String[]{"java.util.concurrent.Callable"});
+  assertTrue(ClassFilters.chain(ClassFilters.enclosingMethod("call","int"),ClassFilters.interfaze("java.util.concurrent.Callable")).accept(clazz));
+  assertFalse(ClassFilters.chain(ClassFilters.enclosingMethod("invalid","int"),ClassFilters.interfaze("java.lang.Runnable")).accept(clazz));
+}

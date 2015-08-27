@@ -1,0 +1,16 @@
+{
+  context.addClassFileTransformer(clazzName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP);
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toJSON"))) {
+        addInterceptor(method,PARSING_INTERCEPTOR,group);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toJava"))) {
+        addInterceptor(method,BASIC_INTERCEPTOR,group,SERVICE_TYPE);
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

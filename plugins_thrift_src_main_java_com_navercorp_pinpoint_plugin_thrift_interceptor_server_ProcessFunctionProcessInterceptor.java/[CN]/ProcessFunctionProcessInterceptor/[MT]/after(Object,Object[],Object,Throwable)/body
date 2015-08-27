@@ -3,7 +3,7 @@
     logger.afterInterceptor(target,args,result,throwable);
   }
   Object iprot=args[1];
-  if (iprot instanceof TProtocol && this.serverTraceMarker.isApplicable(iprot)) {
-    this.serverTraceMarker.set(iprot,Boolean.FALSE);
+  if (validateInputProtocol(iprot)) {
+    ((ServerMarkerFlagFieldAccessor)iprot)._$PINPOINT$_setServerMarkerFlag(false);
   }
 }

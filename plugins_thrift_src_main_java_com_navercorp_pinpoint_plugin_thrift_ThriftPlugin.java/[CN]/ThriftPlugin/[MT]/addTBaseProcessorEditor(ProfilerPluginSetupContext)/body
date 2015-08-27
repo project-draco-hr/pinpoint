@@ -1,8 +1,15 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.TBaseProcessor");
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  final MethodTransformerBuilder processMethodTransformerBuilder=classTransformerBuilder.editMethod("process","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol");
-  processMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  processMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.TBaseProcessorProcessInterceptor");
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final String targetClassName="org.apache.thrift.TBaseProcessor";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      final InstrumentMethod process=target.getDeclaredMethod("process","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol");
+      if (process != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.TBaseProcessorProcessInterceptor";
+        process.addInterceptor(interceptor);
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

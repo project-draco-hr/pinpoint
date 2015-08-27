@@ -2,10 +2,10 @@
   CodeBuilder builder=new CodeBuilder();
   builder.begin();
   builder.append("try { ");
-  if (!hasBefore) {
+  if (!localVarsInitialized) {
     builder.format("%1$s = %2$s.findInterceptor(%3$d); ",getInterceptorInstanceVar(),getInterceptorRegistryClassName(),interceptorId);
   }
- else   if (policy != null) {
+  if (policy != null) {
     builder.format("if (%1$s.canLeave(%2$s)) { ",getInterceptorGroupInvocationVar(),getExecutionPolicy());
   }
   if (interceptorMethod != null) {

@@ -1,0 +1,14 @@
+{
+  if (bean == null) {
+    return;
+  }
+  Class<?> clazz=bean.getClass();
+  if (!filter.isTarget(beanName,clazz)) {
+    return;
+  }
+  instrumentContext.retransform(clazz,transformer);
+  filter.addTransformed(clazz);
+  if (logger.isInfoEnabled()) {
+    logger.info("Retransform {}",clazz.getName());
+  }
+}

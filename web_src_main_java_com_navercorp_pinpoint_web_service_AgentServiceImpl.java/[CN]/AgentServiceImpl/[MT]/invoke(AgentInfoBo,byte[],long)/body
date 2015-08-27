@@ -1,0 +1,7 @@
+{
+  TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
+  PinpointServer collector=pinpointSocketManager.getCollector(agentInfo);
+  Future<ResponseMessage> future=collector.request(serialize(transferObject));
+  PinpointRouteResponse response=getResponse(future,timeout);
+  return response;
+}

@@ -1,9 +1,0 @@
-{
-  ClassLoader nonNull=classLoader == null ? ClassLoader.getSystemClassLoader() : classLoader;
-  List<Class<? extends Annotation>> targetAnnotations=targetAnnotationMap.get(nonNull);
-  if (targetAnnotations == null) {
-    targetAnnotations=loadTargetAnnotations(nonNull);
-    targetAnnotationMap.put(nonNull,targetAnnotations);
-  }
-  return targetAnnotations;
-}

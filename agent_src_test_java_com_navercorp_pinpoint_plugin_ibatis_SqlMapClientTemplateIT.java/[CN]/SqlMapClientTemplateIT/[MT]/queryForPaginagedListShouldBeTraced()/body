@@ -1,0 +1,13 @@
+{
+  final String queryForPaginatedListId="queryForPaginatedListId";
+  TransactionManager mockTxManager=mock(TransactionManager.class);
+  when(this.mockSqlMapExecutorDelegate.getTxManager()).thenReturn(mockTxManager);
+  SqlMapClientTemplate clientTemplate=new SqlMapClientTemplate(this.mockDataSource,this.sqlMapClient);
+  clientTemplate.queryForPaginatedList(queryForPaginatedListId,1);
+  clientTemplate.queryForPaginatedList(queryForPaginatedListId,new Object(),1);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForPaginatedList1=SqlMapClientTemplate.class.getDeclaredMethod("queryForPaginatedList",String.class,int.class);
+  Method queryForPaginatedList2=SqlMapClientTemplate.class.getDeclaredMethod("queryForPaginatedList",String.class,Object.class,int.class);
+  verifier.verifyTrace(event("IBATIS_SPRING",queryForPaginatedList1,Expectations.cachedArgs(queryForPaginatedListId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",queryForPaginatedList2,Expectations.cachedArgs(queryForPaginatedListId)));
+}

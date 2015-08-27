@@ -14,7 +14,7 @@
   InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
   currentTransaction.setAttachment(clientCallContext);
   Object iprot=args[1];
-  if (iprot instanceof TProtocol && this.serverTraceMarker.isApplicable(iprot)) {
-    this.serverTraceMarker.set(iprot,Boolean.TRUE);
+  if (validateInputProtocol(iprot)) {
+    ((ServerMarkerFlagFieldAccessor)iprot)._$PINPOINT$_setServerMarkerFlag(true);
   }
 }

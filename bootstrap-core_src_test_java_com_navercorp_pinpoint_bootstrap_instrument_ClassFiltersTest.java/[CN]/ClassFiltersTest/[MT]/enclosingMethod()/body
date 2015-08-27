@@ -1,0 +1,6 @@
+{
+  InstrumentClass clazz=mock(InstrumentClass.class);
+  when(clazz.hasEnclosingMethod("call","int")).thenReturn(Boolean.TRUE);
+  assertTrue(ClassFilters.enclosingMethod("call","int").accept(clazz));
+  assertFalse(ClassFilters.enclosingMethod("invalid","int").accept(clazz));
+}

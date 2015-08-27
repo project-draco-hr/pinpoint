@@ -1,0 +1,7 @@
+{
+  int idx=clazz.getName().hashCode() % SHARD_NUM;
+  if (idx < 0) {
+    idx+=SHARD_NUM;
+  }
+  return shards[idx];
+}

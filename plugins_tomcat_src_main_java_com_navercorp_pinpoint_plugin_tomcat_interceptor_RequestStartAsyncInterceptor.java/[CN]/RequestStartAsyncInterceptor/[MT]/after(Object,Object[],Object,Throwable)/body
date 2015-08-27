@@ -9,10 +9,10 @@
   try {
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     if (validate(target,result,throwable)) {
-      asyncAccessor.set(target,Boolean.TRUE);
+      ((AsyncAccessor)target)._$PINPOINT$_setAsync(Boolean.TRUE);
       final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
       recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
-      asyncTraceIdAccessor.set(result,asyncTraceId);
+      ((AsyncTraceIdAccessor)result)._$PINPOINT$_setAsyncTraceId(asyncTraceId);
       if (isDebug) {
         logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
       }

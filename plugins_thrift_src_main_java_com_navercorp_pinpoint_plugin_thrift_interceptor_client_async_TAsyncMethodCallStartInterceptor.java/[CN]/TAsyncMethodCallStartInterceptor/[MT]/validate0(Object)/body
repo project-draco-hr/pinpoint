@@ -1,13 +1,13 @@
 {
-  if (!this.asyncTraceIdAccessor.isApplicable(target) || !(this.asyncTraceIdAccessor.get(target) instanceof AsyncTraceId)) {
+  if (!(target instanceof AsyncTraceIdFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Asynchronous invocation metadata not found");
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncTraceIdFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!this.asyncMarkerAccessor.isApplicable(target)) {
+  if (!(target instanceof AsyncMarkerFlagFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor({})",METADATA_ASYNC_MARKER);
+      logger.debug("Invalid target object. Need field accessor({}).",AsyncMarkerFlagFieldAccessor.class.getName());
     }
     return false;
   }

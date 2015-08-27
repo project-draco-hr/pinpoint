@@ -1,0 +1,11 @@
+{
+  if (methodFilters == null) {
+    return REJECT;
+  }
+  for (  MethodFilter methodFilter : methodFilters) {
+    if (methodFilter == null || !methodFilter.accept(method)) {
+      return REJECT;
+    }
+  }
+  return ACCEPT;
+}

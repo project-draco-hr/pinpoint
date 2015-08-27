@@ -1,0 +1,11 @@
+{
+  final Trace trace=createTrace(target,parentTraceInfo,methodName);
+  if (trace == null) {
+    return;
+  }
+  if (!trace.canSampled()) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.recordServiceType(THRIFT_SERVER_INTERNAL);
+}

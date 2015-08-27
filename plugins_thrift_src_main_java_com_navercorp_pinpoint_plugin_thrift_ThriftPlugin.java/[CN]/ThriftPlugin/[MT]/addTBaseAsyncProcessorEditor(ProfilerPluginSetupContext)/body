@@ -1,10 +1,17 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.TBaseAsyncProcessor");
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  classTransformerBuilder.injectMetadata(METADATA_SERVER_MARKER);
-  classTransformerBuilder.injectMetadata(METADATA_ASYNC_MARKER);
-  final MethodTransformerBuilder processMethodTransformerBuilder=classTransformerBuilder.editMethod("process","org.apache.thrift.server.AbstractNonblockingServer$AsyncFrameBuffer");
-  processMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  processMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.server.async.TBaseAsyncProcessorProcessInterceptor");
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final String targetClassName="org.apache.thrift.TBaseAsyncProcessor";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(ServerMarkerFlagFieldAccessor.class.getName());
+      target.addField(AsyncMarkerFlagFieldAccessor.class.getName());
+      final InstrumentMethod process=target.getDeclaredMethod("process","org.apache.thrift.server.AbstractNonblockingServer$AsyncFrameBuffer");
+      if (process != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.async.TBaseAsyncProcessorProcessInterceptor";
+        process.addInterceptor(interceptor);
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

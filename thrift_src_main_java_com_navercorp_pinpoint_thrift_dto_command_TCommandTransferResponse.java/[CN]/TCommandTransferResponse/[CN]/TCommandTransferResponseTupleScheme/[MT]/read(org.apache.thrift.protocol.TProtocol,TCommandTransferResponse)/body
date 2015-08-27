@@ -1,0 +1,16 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.routeResult=com.navercorp.pinpoint.thrift.dto.command.TRouteResult.findByValue(iprot.readI32());
+    struct.setRouteResultIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.payload=iprot.readBinary();
+    struct.setPayloadIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.message=iprot.readString();
+    struct.setMessageIsSet(true);
+  }
+}

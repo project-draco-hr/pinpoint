@@ -2,8 +2,7 @@
   Method sendBase=TServiceClient.class.getDeclaredMethod("sendBase",String.class,TBase.class);
   ExpectedAnnotation thriftUrl=Expectations.annotation("thrift.url",SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort()+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo");
   ExpectedAnnotation thriftArgs=Expectations.annotation("thrift.args","echo_args(message:" + expectedMessage + ")");
-  verifier.verifyTrace(event("THRIFT_CLIENT",sendBase,null,null,SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),thriftUrl,thriftArgs));
   Method receiveBase=TServiceClient.class.getDeclaredMethod("receiveBase",TBase.class,String.class);
   ExpectedAnnotation thriftResult=Expectations.annotation("thrift.result","echo_result(success:" + expectedMessage + ")");
-  verifier.verifyTrace(event("THRIFT_CLIENT_INTERNAL",receiveBase,thriftResult));
+  verifier.verifyDiscreteTrace(event("THRIFT_CLIENT",sendBase,null,null,SERVER_ADDRESS.getHostName() + ":" + SERVER_ADDRESS.getPort(),thriftUrl,thriftArgs),event("THRIFT_CLIENT_INTERNAL",receiveBase,thriftResult));
 }

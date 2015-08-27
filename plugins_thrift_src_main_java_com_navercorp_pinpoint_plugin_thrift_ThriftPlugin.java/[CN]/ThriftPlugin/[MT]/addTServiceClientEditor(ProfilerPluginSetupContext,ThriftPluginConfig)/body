@@ -1,13 +1,22 @@
 {
-  boolean traceServiceArgs=config.traceThriftServiceArgs();
-  boolean traceServiceResult=config.traceThriftServiceResult();
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder("org.apache.thrift.TServiceClient");
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  final MethodTransformerBuilder sendBaseMethodTransformerBuilder=classTransformerBuilder.editMethod("sendBase","java.lang.String","org.apache.thrift.TBase");
-  sendBaseMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  sendBaseMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientSendBaseInterceptor",traceServiceArgs);
-  final MethodTransformerBuilder receiveBaseMethodTransformerBuilder=classTransformerBuilder.editMethod("receiveBase","org.apache.thrift.TBase","java.lang.String");
-  receiveBaseMethodTransformerBuilder.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  receiveBaseMethodTransformerBuilder.injectInterceptor("com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientReceiveBaseInterceptor",traceServiceResult);
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final boolean traceServiceArgs=config.traceThriftServiceArgs();
+  final boolean traceServiceResult=config.traceThriftServiceResult();
+  final String targetClassName="org.apache.thrift.TServiceClient";
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      final InstrumentMethod sendBase=target.getDeclaredMethod("sendBase","java.lang.String","org.apache.thrift.TBase");
+      if (sendBase != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientSendBaseInterceptor";
+        sendBase.addInterceptor(interceptor,traceServiceArgs);
+      }
+      final InstrumentMethod receiveBase=target.getDeclaredMethod("receiveBase","org.apache.thrift.TBase","java.lang.String");
+      if (receiveBase != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientReceiveBaseInterceptor";
+        receiveBase.addInterceptor(interceptor,traceServiceResult);
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

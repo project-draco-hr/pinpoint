@@ -9,7 +9,7 @@
   try {
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(methodDescriptor);
-    recorder.recordServiceType(ServiceType.HTTP_CLIENT_INTERNAL);
+    recorder.recordServiceType(HttpClientConstants.HTTP_CLIENT_INTERNAL);
     recorder.recordException(throwable);
     InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
     if (transaction != null) {

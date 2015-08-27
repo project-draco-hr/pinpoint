@@ -1,0 +1,12 @@
+{
+  if (!(result instanceof TTransport)) {
+    return false;
+  }
+  if (!(result instanceof SocketFieldAccessor)) {
+    if (!isDebug) {
+      logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
+    }
+    return false;
+  }
+  return true;
+}

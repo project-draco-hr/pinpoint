@@ -5,15 +5,15 @@
   if (args.length != 3) {
     return false;
   }
-  if (!this.socketAccessor.isApplicable(target)) {
+  if (!(target instanceof SocketFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor ({})",METADATA_SOCKET);
+      logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
     }
     return false;
   }
-  if (!this.nonblockingSocketAddressAccessor.isApplicable(target)) {
+  if (!(target instanceof SocketAddressFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need metadata accessor ({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
+      logger.debug("Invalid target object. Need field accessor({}).",SocketAddressFieldAccessor.class.getName());
     }
     return false;
   }

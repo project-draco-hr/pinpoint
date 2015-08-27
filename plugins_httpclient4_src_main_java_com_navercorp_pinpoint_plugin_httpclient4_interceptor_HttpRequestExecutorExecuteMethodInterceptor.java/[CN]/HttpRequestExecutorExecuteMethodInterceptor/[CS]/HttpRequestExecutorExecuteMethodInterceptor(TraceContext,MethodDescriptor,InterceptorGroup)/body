@@ -8,10 +8,16 @@
   if (cookie) {
     this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,profilerConfig.getApacheHttpClient4ProfileCookieSamplingRate());
   }
+ else {
+    this.cookieSampler=null;
+  }
   this.entity=profilerConfig.isApacheHttpClient4ProfileEntity();
   this.entityDumpType=profilerConfig.getApacheHttpClient4ProfileEntityDumpType();
   if (entity) {
     this.entitySampler=SimpleSamplerFactory.createSampler(entity,profilerConfig.getApacheHttpClient4ProfileEntitySamplingRate());
+  }
+ else {
+    this.entitySampler=null;
   }
   this.statusCode=profilerConfig.isApacheHttpClient4ProfileStatusCode();
   this.io=profilerConfig.isApacheHttpClient4ProfileIo();

@@ -1,0 +1,10 @@
+{
+  final String queryForMapId="queryForMapId";
+  executor.queryForMap(queryForMapId,new Object(),"key");
+  executor.queryForMap(queryForMapId,new Object(),"key","value");
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForMap1=executor.getClass().getDeclaredMethod("queryForMap",String.class,Object.class,String.class);
+  Method queryForMap2=executor.getClass().getDeclaredMethod("queryForMap",String.class,Object.class,String.class,String.class);
+  verifier.verifyTrace(event("IBATIS",queryForMap1,Expectations.cachedArgs(queryForMapId)));
+  verifier.verifyTrace(event("IBATIS",queryForMap2,Expectations.cachedArgs(queryForMapId)));
+}

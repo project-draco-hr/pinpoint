@@ -1,0 +1,21 @@
+{
+  CtBehavior behavior;
+  try {
+    behavior=ctClass.getEnclosingBehavior();
+  }
+ catch (  NotFoundException ignored) {
+    return false;
+  }
+  if (behavior == null) {
+    return false;
+  }
+  final MethodInfo methodInfo=behavior.getMethodInfo2();
+  if (!methodInfo.getName().equals(methodName)) {
+    return false;
+  }
+  final String jvmSignature=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
+  if (methodInfo.getDescriptor().startsWith(jvmSignature)) {
+    return true;
+  }
+  return false;
+}

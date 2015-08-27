@@ -41,6 +41,9 @@
     }
  else {
       Object expectedValue=expect.getValue();
+      if (expectedValue == Expectations.anyAnnotationValue()) {
+        continue;
+      }
       if (AnnotationKey.isCachedArgsKey(expectedAnnotationKey.getCode())) {
         expectedValue=getTestTcpDataSender().getStringId(expectedValue.toString());
       }

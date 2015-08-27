@@ -20,7 +20,7 @@
   final SpanEventRecorder recorder=trace.traceBlockBegin();
   TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
-  recorder.recordServiceType(ServiceType.HTTP_CLIENT);
+  recorder.recordServiceType(HttpClient3Constants.HTTP_CLIENT_3);
   if (httpMethod != null) {
     httpMethod.setRequestHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
     httpMethod.setRequestHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));

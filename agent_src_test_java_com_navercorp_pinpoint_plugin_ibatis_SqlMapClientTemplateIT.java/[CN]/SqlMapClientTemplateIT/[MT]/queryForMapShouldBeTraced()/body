@@ -1,0 +1,11 @@
+{
+  final String queryForMapId="queryForMapId";
+  SqlMapClientTemplate clientTemplate=new SqlMapClientTemplate(this.mockDataSource,this.sqlMapClient);
+  clientTemplate.queryForMap(queryForMapId,new Object(),"key");
+  clientTemplate.queryForMap(queryForMapId,new Object(),"key","value");
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method queryForMap1=SqlMapClientTemplate.class.getDeclaredMethod("queryForMap",String.class,Object.class,String.class);
+  Method queryForMap2=SqlMapClientTemplate.class.getDeclaredMethod("queryForMap",String.class,Object.class,String.class,String.class);
+  verifier.verifyTrace(event("IBATIS_SPRING",queryForMap1,Expectations.cachedArgs(queryForMapId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",queryForMap2,Expectations.cachedArgs(queryForMapId)));
+}

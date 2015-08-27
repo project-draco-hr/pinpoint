@@ -13,22 +13,4 @@
   SpanRecorder recorder=trace.getSpanRecorder();
   String methodUri=getMethodUri(target);
   recorder.recordRpcName(methodUri);
-  String localIpPort=UNKNOWN_ADDRESS;
-  String remoteAddress=UNKNOWN_ADDRESS;
-  if (args.length == 1 && args[0] instanceof AsyncFrameBuffer) {
-    AsyncFrameBuffer frameBuffer=(AsyncFrameBuffer)args[0];
-    if (this.socketAccessor.isApplicable(frameBuffer.getInputProtocol().getTransport())) {
-      Socket socket=this.socketAccessor.get(frameBuffer.getInputProtocol().getTransport());
-      if (socket != null) {
-        localIpPort=ThriftUtils.getHostPort(socket.getLocalSocketAddress());
-        remoteAddress=ThriftUtils.getHost(socket.getRemoteSocketAddress());
-      }
-    }
-  }
-  if (localIpPort != UNKNOWN_ADDRESS) {
-    recorder.recordEndPoint(localIpPort);
-  }
-  if (remoteAddress != UNKNOWN_ADDRESS) {
-    recorder.recordRemoteAddress(remoteAddress);
-  }
 }

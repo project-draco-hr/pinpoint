@@ -2,21 +2,24 @@
   if (isDebug) {
     logger.afterInterceptor(target,args,result,throwable);
   }
-  if (!shouldTrace(target)) {
+  if (!validate(target)) {
     return;
   }
-  InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
-  Object attachment=currentTransaction.getAttachment();
-  if (attachment instanceof ThriftClientCallContext) {
-    ThriftClientCallContext clientCallContext=(ThriftClientCallContext)attachment;
-    String methodName=clientCallContext.getMethodName();
-    ThriftRequestProperty parentTraceInfo=clientCallContext.getTraceHeader();
-    try {
-      this.logger.debug("parentTraceInfo : {}",parentTraceInfo);
-      recordTrace(parentTraceInfo,methodName);
-    }
- catch (    Throwable t) {
-      logger.warn("Error creating trace object. Cause:{}",t.getMessage(),t);
+  final boolean shouldTrace=((ServerMarkerFlagFieldAccessor)target)._$PINPOINT$_getServerMarkerFlag();
+  if (shouldTrace) {
+    InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+    Object attachment=currentTransaction.getAttachment();
+    if (attachment instanceof ThriftClientCallContext) {
+      ThriftClientCallContext clientCallContext=(ThriftClientCallContext)attachment;
+      String methodName=clientCallContext.getMethodName();
+      ThriftRequestProperty parentTraceInfo=clientCallContext.getTraceHeader();
+      try {
+        this.logger.debug("parentTraceInfo : {}",parentTraceInfo);
+        recordTrace(target,parentTraceInfo,methodName);
+      }
+ catch (      Throwable t) {
+        logger.warn("Error creating trace object. Cause:{}",t.getMessage(),t);
+      }
     }
   }
 }

@@ -33,8 +33,8 @@
       parentTraceInfo.setParentApplicationName(this.traceContext.getApplicationName());
       parentTraceInfo.setParentApplicationType(this.traceContext.getServerTypeCode());
       parentTraceInfo.setAcceptorHost(remoteAddress);
-      this.asyncCallRemoteAddressAccessor.set(asyncMethodCallObj,remoteAddress);
-      this.asyncNextSpanIdAccessor.set(asyncMethodCallObj,nextSpanId);
+      ((AsyncCallRemoteAddressFieldAccessor)asyncMethodCallObj)._$PINPOINT$_setAsyncCallRemoteAddress(remoteAddress);
+      ((AsyncNextSpanIdFieldAccessor)asyncMethodCallObj)._$PINPOINT$_setAsyncNextSpanId(nextSpanId);
     }
     InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
     currentTransaction.setAttachment(parentTraceInfo);

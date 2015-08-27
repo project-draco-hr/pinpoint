@@ -1,0 +1,23 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetRouteResult()) {
+    optionals.set(0);
+  }
+  if (struct.isSetPayload()) {
+    optionals.set(1);
+  }
+  if (struct.isSetMessage()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetRouteResult()) {
+    oprot.writeI32(struct.routeResult.getValue());
+  }
+  if (struct.isSetPayload()) {
+    oprot.writeBinary(struct.payload);
+  }
+  if (struct.isSetMessage()) {
+    oprot.writeString(struct.message);
+  }
+}

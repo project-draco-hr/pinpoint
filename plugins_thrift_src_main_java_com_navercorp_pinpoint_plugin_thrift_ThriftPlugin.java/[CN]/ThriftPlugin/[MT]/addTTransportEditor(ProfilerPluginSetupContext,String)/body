@@ -1,5 +1,11 @@
 {
-  final ClassFileTransformerBuilder classTransformerBuilder=context.getClassFileTransformerBuilder(tTransportClassName);
-  classTransformerBuilder.injectMetadata(METADATA_SOCKET);
-  context.addClassFileTransformer(classTransformerBuilder.build());
+  final String targetClassName=tTransportFqcn;
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(SocketFieldAccessor.class.getName());
+      return target.toBytecode();
+    }
+  }
+);
 }

@@ -1,20 +1,26 @@
 {
-  addLocalVariable(InvokeCodeGenerator.getInterceptorInstanceVar(interceptorId),InterceptorInstance.class);
+  StringBuilder initVars=new StringBuilder();
+  String interceptorInstanceVar=InvokeCodeGenerator.getInterceptorInstanceVar(interceptorId);
+  addLocalVariable(interceptorInstanceVar,InterceptorInstance.class);
+  initVars.append(interceptorInstanceVar);
+  initVars.append(" = null;");
   if (instance.getGroup() != null) {
-    addLocalVariable(InvokeCodeGenerator.getInterceptorGroupInvocationVar(interceptorId),InterceptorGroupInvocation.class);
+    String interceptorGroupInvocationVar=InvokeCodeGenerator.getInterceptorGroupInvocationVar(interceptorId);
+    addLocalVariable(interceptorGroupInvocationVar,InterceptorGroupInvocation.class);
+    initVars.append(interceptorGroupInvocationVar);
+    initVars.append(" = null;");
     point=InterceptPoint.AROUND;
   }
-  int originalCodeOffset=-1;
-switch (point) {
-case AROUND:
-    originalCodeOffset=addBeforeInterceptor(instance,interceptorId);
-  addAfterInterceptor(instance,interceptorId,originalCodeOffset);
-break;
-case BEFORE:
-addBeforeInterceptor(instance,interceptorId);
-break;
-case AFTER:
-addAfterInterceptor(instance,interceptorId,originalCodeOffset);
-break;
-}
+  int originalCodeOffset=insertBefore(-1,initVars.toString());
+  boolean localVarsInitialized=false;
+  if (point != InterceptPoint.AFTER) {
+    int offset=addBeforeInterceptor(instance,interceptorId,originalCodeOffset);
+    if (offset != -1) {
+      localVarsInitialized=true;
+      originalCodeOffset=offset;
+    }
+  }
+  if (point != InterceptPoint.BEFORE) {
+    addAfterInterceptor(instance,interceptorId,localVarsInitialized,originalCodeOffset);
+  }
 }

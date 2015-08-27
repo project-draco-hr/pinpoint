@@ -1,0 +1,11 @@
+{
+  boolean completed=future.await(DEFUALT_FUTURE_TIMEOUT);
+  if (completed) {
+    DefaultPinpointRouteResponse response=new DefaultPinpointRouteResponse(future.getResult().getMessage());
+    response.parse(commandDeserializerFactory);
+    return response;
+  }
+ else {
+    return new FailedPinpointRouteResponse(TRouteResult.TIMEOUT,null);
+  }
+}

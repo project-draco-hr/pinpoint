@@ -1,0 +1,15 @@
+{
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      final InterceptorGroup group=instrumentContext.getInterceptorGroup(IBATIS_SCOPE);
+      final List<InstrumentMethod> methodsToTrace=target.getDeclaredMethods(methodFilter);
+      for (      InstrumentMethod methodToTrace : methodsToTrace) {
+        String sqlMapOperationInterceptor="com.navercorp.pinpoint.plugin.ibatis.interceptor.SqlMapOperationInterceptor";
+        methodToTrace.addInterceptor(sqlMapOperationInterceptor,group,ExecutionPolicy.BOUNDARY,serviceType);
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

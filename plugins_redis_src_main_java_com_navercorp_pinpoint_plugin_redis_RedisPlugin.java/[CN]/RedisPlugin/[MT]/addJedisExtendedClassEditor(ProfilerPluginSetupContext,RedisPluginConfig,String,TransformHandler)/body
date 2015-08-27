@@ -1,0 +1,42 @@
+{
+  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      if (handler != null) {
+        handler.handle(target);
+      }
+      final InstrumentMethod constructorEditorBuilderArg1=target.getConstructor("java.lang.String");
+      if (constructorEditorBuilderArg1 != null) {
+        constructorEditorBuilderArg1.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg2=target.getConstructor("java.lang.String","int");
+      if (constructorEditorBuilderArg2 != null) {
+        constructorEditorBuilderArg2.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg3=target.getConstructor("java.lang.String","int","int");
+      if (constructorEditorBuilderArg3 != null) {
+        constructorEditorBuilderArg3.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg4=target.getConstructor("java.net.URI");
+      if (constructorEditorBuilderArg4 != null) {
+        constructorEditorBuilderArg4.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg5=target.getConstructor("redis.clients.jedis.JedisShardInfo");
+      if (constructorEditorBuilderArg5 != null) {
+        constructorEditorBuilderArg5.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisConstructorInterceptor");
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.chain(MethodFilters.name(JedisMethodNames.get()),MethodFilters.modifierNot(MethodFilters.SYNTHETIC)))) {
+        try {
+          method.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisMethodInterceptor",config.isIo());
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + method,e);
+          }
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

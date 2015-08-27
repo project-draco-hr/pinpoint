@@ -1,9 +1,13 @@
 {
-  if (this.transFieldAccessor.isApplicable(target)) {
-    Object trans=this.transFieldAccessor.get(target);
-    if (trans != null && this.socketAccessor.isApplicable(trans)) {
-      Socket rootSocket=this.socketAccessor.get(trans);
-      return rootSocket;
+  TNonblockingTransport inTrans=((TNonblockingTransportFieldGetter)target)._$PINPOINT$_getTNonblockingTransport();
+  if (inTrans != null) {
+    if (inTrans instanceof SocketFieldAccessor) {
+      return ((SocketFieldAccessor)inTrans)._$PINPOINT$_getSocket();
+    }
+ else {
+      if (isDebug) {
+        logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
+      }
     }
   }
   return null;

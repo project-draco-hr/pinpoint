@@ -1,10 +1,17 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.apache.catalina.loader.WebappLoader");
-  MethodTransformerBuilder startEditor=builder.editMethod("start");
-  startEditor.property(IGNORE_IF_NOT_EXIST);
-  startEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
-  MethodTransformerBuilder startInternalEditor=builder.editMethod("startInternal");
-  startInternalEditor.property(IGNORE_IF_NOT_EXIST);
-  startInternalEditor.injectInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("org.apache.catalina.loader.WebappLoader",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      InstrumentMethod startEditor=target.getDeclaredMethod("start");
+      if (startEditor != null) {
+        startEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+      }
+      InstrumentMethod startInternalEditor=target.getDeclaredMethod("startInternal");
+      if (startInternalEditor != null) {
+        startInternalEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }

@@ -3,10 +3,8 @@
   readLock.lock();
   try {
     for (    Map.Entry<String,List<WebSocketSession>> applicationEntry : applicationGroup.entrySet()) {
-      List<AgentInfoBo> agentInfoList=agentSerivce.get(applicationEntry.getKey());
-      Map<String,TActiveThreadResponse> activeThreadStatuses=agentSerivce.getActiveThreadStatus(agentInfoList);
-      AgentActiveThreadStatusList agentActiveThreadStatusList=new AgentActiveThreadStatusList(activeThreadStatuses.size());
-      agentActiveThreadStatusList.addAll(activeThreadStatuses);
+      List<AgentInfoBo> agentInfoList=agentSerivce.getAgentInfoList(applicationEntry.getKey());
+      AgentActiveThreadStatusList agentActiveThreadStatusList=agentSerivce.getActiveThreadStatus(agentInfoList);
       String textMessage=jsonConverter.writeValueAsString(agentActiveThreadStatusList);
       for (      WebSocketSession session : applicationEntry.getValue()) {
         session.sendMessage(new TextMessage(textMessage));

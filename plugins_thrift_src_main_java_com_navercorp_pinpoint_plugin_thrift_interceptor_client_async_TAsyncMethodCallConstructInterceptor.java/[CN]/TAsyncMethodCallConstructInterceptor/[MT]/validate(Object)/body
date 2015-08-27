@@ -1,13 +1,13 @@
 {
-  if (!this.transportFieldAccessor.isApplicable(target)) {
+  if (!(target instanceof TNonblockingTransportFieldGetter)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need field accessor({})",FIELD_TRANSPORT_ASYNC_METHOD_CALL);
+      logger.debug("Invalid target object. Need field accessor({}).",TNonblockingTransportFieldGetter.class.getName());
     }
     return false;
   }
-  if (!this.nonblockingSocketAddressAccessor.isApplicable(target)) {
+  if (!(target instanceof SocketAddressFieldAccessor)) {
     if (isDebug) {
-      logger.debug("Invalid target object. Need field accessor({})",METADATA_NONBLOCKING_SOCKET_ADDRESS);
+      logger.debug("Invalid target object. Need field accessor({}).",SocketAddressFieldAccessor.class.getName());
     }
     return false;
   }

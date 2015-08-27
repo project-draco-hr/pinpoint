@@ -1,11 +1,18 @@
 {
-  final ClassFileTransformerBuilder classEditorBuilder=context.getClassFileTransformerBuilder(JEDIS_CLIENT);
-  classEditorBuilder.injectMetadata(METADATA_END_POINT);
-  final ConstructorTransformerBuilder constructorEditorBuilderArg1=classEditorBuilder.editConstructor(STRING);
-  constructorEditorBuilderArg1.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  constructorEditorBuilderArg1.injectInterceptor(JEDIS_CLIENT_CONSTRUCTOR_INTERCEPTOR);
-  final ConstructorTransformerBuilder constructorEditorBuilderArg2=classEditorBuilder.editConstructor(STRING,INT);
-  constructorEditorBuilderArg2.property(MethodTransformerProperty.IGNORE_IF_NOT_EXIST);
-  constructorEditorBuilderArg2.injectInterceptor(JEDIS_CLIENT_CONSTRUCTOR_INTERCEPTOR);
-  context.addClassFileTransformer(classEditorBuilder.build());
+  context.addClassFileTransformer("redis.clients.jedis.Client",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      target.addField(METADATA_END_POINT);
+      final InstrumentMethod constructorEditorBuilderArg1=target.getConstructor("java.lang.String");
+      if (constructorEditorBuilderArg1 != null) {
+        constructorEditorBuilderArg1.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisClientConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg2=target.getConstructor("java.lang.String","int");
+      if (constructorEditorBuilderArg2 != null) {
+        constructorEditorBuilderArg2.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisClientConstructorInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
 }
