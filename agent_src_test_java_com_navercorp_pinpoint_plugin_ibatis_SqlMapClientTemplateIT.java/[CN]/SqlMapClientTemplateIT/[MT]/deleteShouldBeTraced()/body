@@ -1,0 +1,14 @@
+{
+  final String deleteId="deleteId";
+  SqlMapClientTemplate clientTemplate=new SqlMapClientTemplate(this.mockDataSource,this.sqlMapClient);
+  clientTemplate.delete(deleteId);
+  clientTemplate.delete(deleteId,new Object());
+  clientTemplate.delete(deleteId,new Object(),0);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method delete1=SqlMapClientTemplate.class.getDeclaredMethod("delete",String.class);
+  Method delete2=SqlMapClientTemplate.class.getDeclaredMethod("delete",String.class,Object.class);
+  Method delete3=SqlMapClientTemplate.class.getDeclaredMethod("delete",String.class,Object.class,int.class);
+  verifier.verifyTrace(event("IBATIS_SPRING",delete1,Expectations.cachedArgs(deleteId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",delete2,Expectations.cachedArgs(deleteId)));
+  verifier.verifyTrace(event("IBATIS_SPRING",delete3,Expectations.cachedArgs(deleteId)));
+}

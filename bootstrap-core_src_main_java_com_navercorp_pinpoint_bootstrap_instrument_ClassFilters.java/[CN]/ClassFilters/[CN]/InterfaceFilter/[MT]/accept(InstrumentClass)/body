@@ -1,0 +1,13 @@
+{
+  if (interfaceNames == null) {
+    return REJECT;
+  }
+  for (  String interfaceName : interfaceNames) {
+    for (    String name : clazz.getInterfaces()) {
+      if (name != null && name.equals(interfaceName)) {
+        return ACCEPT;
+      }
+    }
+  }
+  return REJECT;
+}

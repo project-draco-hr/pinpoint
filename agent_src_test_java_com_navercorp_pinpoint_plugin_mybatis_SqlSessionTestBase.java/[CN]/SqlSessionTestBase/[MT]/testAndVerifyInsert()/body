@@ -1,0 +1,11 @@
+{
+  final String insertId="insertId";
+  SqlSession sqlSession=getSqlSession();
+  sqlSession.insert(insertId);
+  sqlSession.insert(insertId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method insert1=sqlSession.getClass().getDeclaredMethod("insert",String.class);
+  Method insert2=sqlSession.getClass().getDeclaredMethod("insert",String.class,Object.class);
+  verifier.verifyTrace(event("MYBATIS",insert1,Expectations.cachedArgs(insertId)));
+  verifier.verifyTrace(event("MYBATIS",insert2,Expectations.cachedArgs(insertId)));
+}

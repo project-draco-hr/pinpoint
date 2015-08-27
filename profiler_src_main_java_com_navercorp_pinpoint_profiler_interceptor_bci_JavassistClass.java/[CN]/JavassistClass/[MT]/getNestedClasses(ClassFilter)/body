@@ -1,0 +1,20 @@
+{
+  List<InstrumentClass> list=new ArrayList<InstrumentClass>();
+  CtClass[] nestedClasses;
+  try {
+    nestedClasses=ctClass.getNestedClasses();
+  }
+ catch (  NotFoundException ex) {
+    return list;
+  }
+  if (nestedClasses == null || nestedClasses.length == 0) {
+    return list;
+  }
+  for (  CtClass nested : nestedClasses) {
+    final InstrumentClass clazz=new JavassistClass(pluginContext,interceptorRegistryBinder,classLoader,nested);
+    if (filter.accept(clazz)) {
+      list.add(clazz);
+    }
+  }
+  return list;
+}

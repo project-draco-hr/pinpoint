@@ -1,0 +1,13 @@
+{
+  JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
+  String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObjectNestedClass";
+  InstrumentClass testObject=pool.getClass(null,testObjectName,null);
+  Assert.assertEquals(testObject.getName(),testObjectName);
+  final String targetClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObjectNestedClass$InstanceInner";
+  for (  InstrumentClass c : testObject.getNestedClasses(ClassFilters.name(targetClassName))) {
+    assertEquals(targetClassName,c.getName());
+  }
+  assertEquals(2,testObject.getNestedClasses(ClassFilters.enclosingMethod("annonymousInnerClass")).size());
+  assertEquals(2,testObject.getNestedClasses(ClassFilters.interfaze("java.util.concurrent.Callable")).size());
+  assertEquals(1,testObject.getNestedClasses(ClassFilters.chain(ClassFilters.enclosingMethod("annonymousInnerClass"),ClassFilters.interfaze("java.util.concurrent.Callable"))).size());
+}

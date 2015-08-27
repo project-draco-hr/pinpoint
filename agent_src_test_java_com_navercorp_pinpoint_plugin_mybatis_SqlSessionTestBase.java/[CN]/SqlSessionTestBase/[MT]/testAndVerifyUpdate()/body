@@ -1,0 +1,11 @@
+{
+  final String updateId="updateId";
+  SqlSession sqlSession=getSqlSession();
+  sqlSession.update(updateId);
+  sqlSession.update(updateId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method update1=sqlSession.getClass().getDeclaredMethod("update",String.class);
+  Method update2=sqlSession.getClass().getDeclaredMethod("update",String.class,Object.class);
+  verifier.verifyTrace(event("MYBATIS",update1,Expectations.cachedArgs(updateId)));
+  verifier.verifyTrace(event("MYBATIS",update2,Expectations.cachedArgs(updateId)));
+}

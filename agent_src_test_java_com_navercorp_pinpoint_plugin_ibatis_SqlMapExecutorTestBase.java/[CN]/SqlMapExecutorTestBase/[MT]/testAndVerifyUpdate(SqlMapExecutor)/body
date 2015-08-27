@@ -1,0 +1,10 @@
+{
+  final String updateId="updateId";
+  executor.update(updateId);
+  executor.update(updateId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method update=executor.getClass().getDeclaredMethod("update",String.class);
+  Method updateWithParameter=executor.getClass().getDeclaredMethod("update",String.class,Object.class);
+  verifier.verifyTrace(event("IBATIS",update,Expectations.cachedArgs(updateId)));
+  verifier.verifyTrace(event("IBATIS",updateWithParameter,Expectations.cachedArgs(updateId)));
+}

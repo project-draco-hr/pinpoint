@@ -1,0 +1,11 @@
+{
+  final String selectOneId="selectOneId";
+  SqlSession sqlSession=getSqlSession();
+  sqlSession.selectOne(selectOneId);
+  sqlSession.selectOne(selectOneId,new Object());
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Method selectOne1=sqlSession.getClass().getDeclaredMethod("selectOne",String.class);
+  Method selectOne2=sqlSession.getClass().getDeclaredMethod("selectOne",String.class,Object.class);
+  verifier.verifyTrace(event("MYBATIS",selectOne1,Expectations.cachedArgs(selectOneId)));
+  verifier.verifyTrace(event("MYBATIS",selectOne2,Expectations.cachedArgs(selectOneId)));
+}
