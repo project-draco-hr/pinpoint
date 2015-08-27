@@ -1,7 +1,10 @@
 {
+  if (names == null) {
+    return REJECT;
+  }
   for (  String name : names) {
-    if (name.equals(method.getName())) {
-      return modifiers.accept(method.getModifiers());
+    if (name != null && name.equals(method.getName())) {
+      return ACCEPT;
     }
   }
   return REJECT;
