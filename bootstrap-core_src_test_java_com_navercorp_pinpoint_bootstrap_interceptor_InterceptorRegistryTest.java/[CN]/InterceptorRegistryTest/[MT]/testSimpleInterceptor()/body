@@ -1,7 +1,7 @@
 {
   SimpleAroundInterceptor simpleAroundInterceptor=mock(SimpleAroundInterceptor.class);
-  when(registryAdaptor.getSimpleInterceptor(0)).thenReturn(simpleAroundInterceptor);
-  int findId=registryAdaptor.addSimpleInterceptor(simpleAroundInterceptor);
-  SimpleAroundInterceptor find=InterceptorRegistry.getSimpleInterceptor(findId);
+  when(registryAdaptor.getInterceptor(0)).thenReturn(simpleAroundInterceptor);
+  int findId=registryAdaptor.addInterceptor(simpleAroundInterceptor);
+  Interceptor find=InterceptorRegistry.getInterceptor(findId);
   Assert.assertSame(find,simpleAroundInterceptor);
 }

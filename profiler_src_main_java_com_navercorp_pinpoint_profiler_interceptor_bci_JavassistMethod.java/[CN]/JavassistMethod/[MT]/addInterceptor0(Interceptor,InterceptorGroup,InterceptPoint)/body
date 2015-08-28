@@ -9,10 +9,9 @@
   if (interceptor instanceof ByteCodeMethodDescriptorSupport) {
     ((ByteCodeMethodDescriptorSupport)interceptor).setMethodDescriptor(descriptor);
   }
-  DefaultInterceptorInstance holder=new DefaultInterceptorInstance(interceptor,group,group == null ? null : ExecutionPolicy.BOUNDARY);
-  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(holder);
+  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(interceptor);
   try {
-    addInterceptor0(holder,interceptorId,type);
+    addInterceptor0(interceptor,interceptorId,type);
   }
  catch (  Exception e) {
     throw new InstrumentException(e);

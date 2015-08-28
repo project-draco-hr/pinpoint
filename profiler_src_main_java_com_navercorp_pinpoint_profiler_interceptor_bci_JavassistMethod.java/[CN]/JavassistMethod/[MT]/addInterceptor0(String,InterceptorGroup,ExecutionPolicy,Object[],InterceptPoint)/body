@@ -1,8 +1,7 @@
 {
   GroupInfo groupInfo=resolveGroupInfo(interceptorClassName,group,policy);
   Interceptor interceptor=createInterceptor(interceptorClassName,groupInfo,constructorArgs);
-  DefaultInterceptorInstance holder=new DefaultInterceptorInstance(interceptor,groupInfo.getGroup(),groupInfo.getPolicy());
-  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(holder);
-  addInterceptor0(holder,interceptorId,type);
+  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(interceptor);
+  addInterceptor0(interceptor,interceptorId,type);
   return interceptorId;
 }

@@ -1,7 +1,7 @@
 {
   SimpleAroundInterceptor mock=mock(SimpleAroundInterceptor.class);
   InterceptorRegistryAdaptor registry=new DefaultInterceptorRegistryAdaptor();
-  int key=registry.addSimpleInterceptor(mock);
-  SimpleAroundInterceptor find=registry.getSimpleInterceptor(key);
+  int key=registry.addInterceptor(mock);
+  Interceptor find=registry.getInterceptor(key);
   Assert.assertSame(mock,find);
 }
