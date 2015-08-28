@@ -1,22 +1,22 @@
 {
   if (pinpointServer == null) {
-    throw new IllegalArgumentException("pinpointServer cannot be null");
+    throw new NullPointerException("pinpointServer may not be null");
   }
   if (agentLifeCycleState == null) {
-    throw new IllegalArgumentException("agentLifeCycleState cannot be null");
+    throw new NullPointerException("agentLifeCycleState may not be null");
   }
   if (eventCounter < 0) {
-    throw new IllegalArgumentException("eventCounter cannot be negative");
+    throw new IllegalArgumentException("eventCounter may not be negative");
   }
   logger.info("handle lifecycle event - pinpointServer:{}, state:{}",pinpointServer,agentLifeCycleState);
   Map<Object,Object> channelProperties=pinpointServer.getChannelProperties();
   final Integer socketId=MapUtils.getInteger(channelProperties,SOCKET_ID_KEY);
   if (socketId == null) {
-    logger.debug("socketId not found, agent does not support life cycle management - pinpoingServer:{}",pinpointServer);
+    logger.debug("socketId not found, agent does not support life cycle management - pinpointServer:{}",pinpointServer);
     return;
   }
-  final String agentId=MapUtils.getString(channelProperties,AgentHandshakePropertyType.AGENT_ID.getName());
-  final long startTimestamp=MapUtils.getLong(channelProperties,AgentHandshakePropertyType.START_TIMESTAMP.getName());
+  final String agentId=MapUtils.getString(channelProperties,AGENT_ID.getName());
+  final long startTimestamp=MapUtils.getLong(channelProperties,START_TIMESTAMP.getName());
   final long eventIdentifier=createEventIdentifier(socketId,eventCounter);
   final AgentLifeCycleBo agentLifeCycleBo=new AgentLifeCycleBo(agentId,startTimestamp,eventTimestamp,eventIdentifier,agentLifeCycleState);
   this.executor.execute(new AgentLifeCycleHandlerDispatch(agentLifeCycleBo));

@@ -1,3 +1,13 @@
 {
-  agentEventDao.insert(this.agentEventBo);
+  AgentEventBo event=new AgentEventBo(this.agentId,this.startTimestamp,this.eventTimestamp,this.eventType);
+  try {
+    byte[] eventBody=agentEventMessageSerializer.serialize(this.eventType,this.eventMessage);
+    event.setEventBody(eventBody);
+  }
+ catch (  Exception e) {
+    logger.warn("error handling agent event",e);
+    return;
+  }
+  logger.info("handle event: {}",event);
+  agentEventDao.insert(event);
 }
