@@ -1,0 +1,26 @@
+{
+  final String javaClassName=JavaAssistUtils.jvmNameToJavaName(jvmClassName);
+  if (isDebug) {
+    if (classBeingRedefined == null) {
+      logger.debug("[transform] classLoader:{} className:{} trnasformer:{}",classLoader,javaClassName,transformer.getClass().getName());
+    }
+ else {
+      logger.debug("[retransform] classLoader:{} className:{} trnasformer:{}",classLoader,javaClassName,transformer.getClass().getName());
+    }
+  }
+  try {
+    final Thread thread=Thread.currentThread();
+    final ClassLoader before=getContextClassLoader(thread);
+    thread.setContextClassLoader(this.agentClassLoader);
+    try {
+      return transformer.transform(classLoader,javaClassName,null,protectionDomain,classFileBuffer);
+    }
+  finally {
+      thread.setContextClassLoader(before);
+    }
+  }
+ catch (  Throwable e) {
+    logger.error("Transformer:{} threw an exception. cl:{} ctxCl:{} agentCl:{} Cause:{}",transformer.getClass().getName(),classLoader,Thread.currentThread().getContextClassLoader(),agentClassLoader,e.getMessage(),e);
+    return null;
+  }
+}

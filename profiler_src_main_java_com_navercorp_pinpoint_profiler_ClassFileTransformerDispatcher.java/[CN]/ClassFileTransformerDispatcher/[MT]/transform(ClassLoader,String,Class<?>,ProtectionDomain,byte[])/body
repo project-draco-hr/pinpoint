@@ -1,6 +1,7 @@
 {
-  if (classBeingRedefined != null) {
-    return this.retransform(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer);
+  ClassFileTransformer transformer=dynamicTransformerRegistry.getTransformer(classLoader,jvmClassName);
+  if (transformer != null) {
+    return transformUsingTransformer(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,transformer);
   }
   if (skipFilter.doFilter(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
@@ -14,23 +15,5 @@
       return null;
     }
   }
-  if (isDebug) {
-    logger.debug("[transform] cl:{} className:{} Modifier:{}",classLoader,jvmClassName,findModifier.getClass().getName());
-  }
-  final String javaClassName=JavaAssistUtils.jvmNameToJavaName(jvmClassName);
-  try {
-    final Thread thread=Thread.currentThread();
-    final ClassLoader before=getContextClassLoader(thread);
-    thread.setContextClassLoader(this.agentClassLoader);
-    try {
-      return findModifier.modify(classLoader,javaClassName,protectionDomain,classFileBuffer);
-    }
-  finally {
-      thread.setContextClassLoader(before);
-    }
-  }
- catch (  Throwable e) {
-    logger.error("Modifier:{} modify fail. cl:{} ctxCl:{} agentCl:{} Cause:{}",findModifier.getMatcher(),classLoader,Thread.currentThread().getContextClassLoader(),agentClassLoader,e.getMessage(),e);
-    return null;
-  }
+  return transformUsingModifier(classLoader,jvmClassName,protectionDomain,classFileBuffer,findModifier);
 }
