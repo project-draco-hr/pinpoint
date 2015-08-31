@@ -1,0 +1,10 @@
+{
+  if (responseEvent == null) {
+    throw new NullPointerException("responseEvent may not be null");
+  }
+  TCommandTransferResponse response=responseEvent.getRouteResult();
+  if (response.getRouteResult() != TRouteResult.OK) {
+    return;
+  }
+  this.executor.execute(new AgentResponseEventHandlerDispatch(responseEvent,eventTimestamp));
+}

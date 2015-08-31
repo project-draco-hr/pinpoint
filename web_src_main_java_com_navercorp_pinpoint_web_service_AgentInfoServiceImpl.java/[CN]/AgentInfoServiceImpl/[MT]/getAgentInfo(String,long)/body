@@ -1,0 +1,15 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  AgentInfoBo agentInfoBo=this.agentInfoDao.getAgentInfo(agentId,timestamp);
+  if (agentInfoBo == null) {
+    return null;
+  }
+  AgentInfo agentInfo=new AgentInfo(agentInfoBo);
+  agentInfo.setStatus(this.getAgentStatus(agentId,timestamp));
+  return agentInfo;
+}

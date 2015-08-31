@@ -1,0 +1,11 @@
+{
+  final int prime=31;
+  int result=1;
+  result=prime * result + ((agentId == null) ? 0 : agentId.hashCode());
+  result=prime * result + (int)(eventTimestamp ^ (eventTimestamp >>> 32));
+  result=prime * result + eventTypeCode;
+  result=prime * result + ((eventTypeDesc == null) ? 0 : eventTypeDesc.hashCode());
+  result=prime * result + (hasEventMessage ? 1231 : 1237);
+  result=prime * result + (int)(startTimestamp ^ (startTimestamp >>> 32));
+  return result;
+}

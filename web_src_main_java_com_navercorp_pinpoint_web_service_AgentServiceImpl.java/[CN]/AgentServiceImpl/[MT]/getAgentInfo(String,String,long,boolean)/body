@@ -1,8 +1,7 @@
 {
   if (checkDB) {
     long currentTime=System.currentTimeMillis();
-    Range range=new Range(currentTime,currentTime);
-    Set<AgentInfoBo> agentInfoBos=agentInfoService.selectAgent(applicationName,range);
+    Set<AgentInfoBo> agentInfoBos=agentInfoService.getAgentsByApplicationName(applicationName,currentTime);
     for (    AgentInfoBo agentInfo : agentInfoBos) {
       if (agentInfo == null) {
         continue;
@@ -16,15 +15,15 @@
       if (agentInfo.getStartTime() != startTimeStamp) {
         continue;
       }
-      return agentInfo;
+      return new AgentInfo(agentInfo);
     }
     return null;
   }
  else {
-    AgentInfoBo.Builder builder=new AgentInfoBo.Builder();
-    builder.setApplicationName(applicationName);
-    builder.setAgentId(agentId);
-    builder.setStartTime(startTimeStamp);
-    return builder.build();
+    AgentInfo agentInfo=new AgentInfo();
+    agentInfo.setApplicationName(applicationName);
+    agentInfo.setAgentId(agentId);
+    agentInfo.setStartTimestamp(startTimeStamp);
+    return agentInfo;
   }
 }

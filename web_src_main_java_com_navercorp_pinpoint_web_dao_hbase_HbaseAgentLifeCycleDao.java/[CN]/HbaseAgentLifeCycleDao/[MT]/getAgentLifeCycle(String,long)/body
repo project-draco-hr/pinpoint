@@ -1,0 +1,32 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  Scan scan=new Scan();
+  scan.setMaxVersions(1);
+  scan.setCaching(NUM_LIFE_CYCLES_TO_SCAN);
+  long fromTime=TimeUtils.reverseTimeMillis(timestamp);
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,fromTime);
+  byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,Long.MAX_VALUE);
+  scan.setStartRow(startKeyBytes);
+  scan.setStopRow(endKeyBytes);
+  scan.addColumn(HBaseTables.AGENT_LIFECYCLE_CF_STATUS,HBaseTables.AGENT_LIFECYCLE_CF_STATUS_QUALI_STATES);
+  try {
+    List<AgentLifeCycleBo> agentLifeCycles=this.hbaseOperations2.find(HBaseTables.AGENT_LIFECYCLE,scan,new AgentLifeCycleResultsExtractor());
+    if (agentLifeCycles.isEmpty()) {
+      logger.debug("agentLifeCycle not found for agentId={}, timestamp={}",agentId,timestamp);
+      return null;
+    }
+    AgentLifeCycleBo latestLifeCycle=agentLifeCycles.get(0);
+    logger.debug("agentLifeCycle found for agentId={}, timestamp={}, value={}",agentId,timestamp,latestLifeCycle);
+    return latestLifeCycle;
+  }
+ catch (  Exception e) {
+    logger.warn("could not retrieve agentLifeCycle for agentId={}, timestamp={}",agentId,timestamp);
+    return null;
+  }
+}

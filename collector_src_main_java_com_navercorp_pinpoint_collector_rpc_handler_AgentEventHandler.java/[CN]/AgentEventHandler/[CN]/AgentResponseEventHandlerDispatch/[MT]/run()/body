@@ -1,0 +1,19 @@
+{
+  Class<?> payloadType=Void.class;
+  if (this.payload != null) {
+    try {
+      payloadType=SerializationUtils.deserialize(this.payload,commandDeserializerFactory).getClass();
+    }
+ catch (    TException e) {
+      logger.warn("Error deserializing ResponseEvent payload",e);
+      return;
+    }
+  }
+  for (  AgentEventType eventType : RESPONSE_EVENT_TYPES) {
+    if (eventType.getMessageType() == payloadType) {
+      AgentEventBo agentEventBo=new AgentEventBo(this.agentId,this.startTimestamp,this.eventTimestamp,eventType);
+      agentEventBo.setEventBody(this.payload);
+      agentEventDao.insert(agentEventBo);
+    }
+  }
+}

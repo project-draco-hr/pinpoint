@@ -1,0 +1,18 @@
+{
+  Map<AgentInfo,Future<ResponseMessage>> futureMap=new HashMap<AgentInfo,Future<ResponseMessage>>();
+  for (  AgentInfo agentInfo : agentInfoList) {
+    TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
+    PinpointServer collector=pinpointSocketManager.getCollector(agentInfo);
+    Future<ResponseMessage> future=collector.request(serialize(transferObject));
+    futureMap.put(agentInfo,future);
+  }
+  long startTime=System.currentTimeMillis();
+  Map<AgentInfo,PinpointRouteResponse> result=new HashMap<AgentInfo,PinpointRouteResponse>();
+  for (  Map.Entry<AgentInfo,Future<ResponseMessage>> futureEntry : futureMap.entrySet()) {
+    AgentInfo agentInfo=futureEntry.getKey();
+    Future<ResponseMessage> future=futureEntry.getValue();
+    PinpointRouteResponse response=getResponse(future,getTimeoutMillis(startTime,timeout));
+    result.put(agentInfo,response);
+  }
+  return result;
+}

@@ -1,10 +1,9 @@
 {
-  List<AgentInfoBo> agentInfoList=new ArrayList<AgentInfoBo>();
+  List<AgentInfo> agentInfoList=new ArrayList<AgentInfo>();
   long currentTime=System.currentTimeMillis();
-  Range range=new Range(currentTime,currentTime);
-  Set<AgentInfoBo> agentInfoBos=agentInfoService.selectAgent(applicationName,range);
-  for (  AgentInfoBo agentInfo : agentInfoBos) {
-    ListUtils.addIfValueNotNull(agentInfoList,agentInfo);
+  Set<AgentInfoBo> agentInfoBos=agentInfoService.getAgentsByApplicationName(applicationName,currentTime);
+  for (  AgentInfoBo agentInfoBo : agentInfoBos) {
+    ListUtils.addIfValueNotNull(agentInfoList,new AgentInfo(agentInfoBo));
   }
   return agentInfoList;
 }

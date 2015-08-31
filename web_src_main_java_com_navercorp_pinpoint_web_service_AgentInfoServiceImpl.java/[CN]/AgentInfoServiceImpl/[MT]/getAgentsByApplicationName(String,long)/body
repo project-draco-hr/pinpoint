@@ -1,0 +1,14 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+  Set<AgentInfoBo> agentSet=new HashSet<AgentInfoBo>();
+  for (  String agentId : agentIds) {
+    AgentInfoBo info=this.agentInfoDao.getAgentInfo(agentId,timestamp);
+    if (info != null) {
+      agentSet.add(info);
+    }
+  }
+  return agentSet;
+}
