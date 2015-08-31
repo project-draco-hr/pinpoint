@@ -1,0 +1,8 @@
+{
+  if (this.logger.isDebugEnabled()) {
+    logger.debug("retransform request class:{}",target.getName());
+  }
+  assertClass(target);
+  this.dynamicTransformRequestListener.onRetransformRequest(target,transformer);
+  triggerRetransform(target);
+}

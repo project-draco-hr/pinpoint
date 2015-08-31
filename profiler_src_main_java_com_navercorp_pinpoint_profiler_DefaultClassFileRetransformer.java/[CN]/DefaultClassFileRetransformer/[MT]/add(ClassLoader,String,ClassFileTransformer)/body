@@ -1,0 +1,6 @@
+{
+  ClassFileTransformer prev=transformerMap.putIfAbsent(new TransformerKey(classLoader,targetClassName.replace('.','/')),transformer);
+  if (prev != null) {
+    throw new ProfilerException("Transformer already exists. classLoader: " + classLoader + ", target: "+ targetClassName+ ", transformer: "+ prev);
+  }
+}
