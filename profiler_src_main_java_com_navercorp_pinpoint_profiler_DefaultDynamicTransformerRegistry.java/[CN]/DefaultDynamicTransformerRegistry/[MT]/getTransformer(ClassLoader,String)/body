@@ -1,0 +1,10 @@
+{
+  if (transformerMap.isEmpty()) {
+    return null;
+  }
+  ClassFileTransformer transformer=transformerMap.remove(new TransformerKey(classLoader,targetClassName));
+  if (logger.isDebugEnabled()) {
+    logger.info("removed dynamic transformer classLoader: {}, className: {}, registry size: {}",classLoader,targetClassName,transformerMap.size());
+  }
+  return transformer;
+}
