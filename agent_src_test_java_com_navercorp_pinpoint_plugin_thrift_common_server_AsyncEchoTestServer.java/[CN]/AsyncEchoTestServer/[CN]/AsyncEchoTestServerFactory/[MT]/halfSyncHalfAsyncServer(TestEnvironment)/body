@@ -1,0 +1,12 @@
+{
+  THsHaServer server=new THsHaServer(new THsHaServer.Args(new TNonblockingServerSocket(environment.getPort())).processor(getAsyncProcessor()).inputProtocolFactory(environment.getProtocolFactory()).outputProtocolFactory(environment.getProtocolFactory()));
+  return new AsyncEchoTestServer<THsHaServer>(server,environment){
+    @Override public SyncEchoTestClient getSynchronousClient() throws TTransportException {
+      return new SyncEchoTestClient.ClientForNonblockingServer(environment);
+    }
+    @Override public AsyncEchoTestClient getAsynchronousClient() throws IOException {
+      return new AsyncEchoTestClient.Client(environment);
+    }
+  }
+;
+}

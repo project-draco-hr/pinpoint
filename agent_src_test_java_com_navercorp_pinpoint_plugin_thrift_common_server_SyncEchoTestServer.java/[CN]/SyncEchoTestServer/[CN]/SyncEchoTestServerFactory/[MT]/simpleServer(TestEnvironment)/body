@@ -1,0 +1,12 @@
+{
+  TSimpleServer server=new TSimpleServer(new TSimpleServer.Args(new TServerSocket(environment.getPort())).processor(getProcessor()).inputProtocolFactory(environment.getProtocolFactory()).outputProtocolFactory(environment.getProtocolFactory()));
+  return new SyncEchoTestServer<TSimpleServer>(server,environment){
+    @Override public SyncEchoTestClient getSynchronousClient() throws TTransportException {
+      return new SyncEchoTestClient.Client(environment);
+    }
+    @Override public AsyncEchoTestClient getAsynchronousClient() throws IOException {
+      return new AsyncEchoTestClient.Client(environment);
+    }
+  }
+;
+}

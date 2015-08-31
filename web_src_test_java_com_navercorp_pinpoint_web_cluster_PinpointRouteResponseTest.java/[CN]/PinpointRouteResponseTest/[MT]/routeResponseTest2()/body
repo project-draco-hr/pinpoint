@@ -1,0 +1,9 @@
+{
+  HeaderTBaseSerializer serializer=serializerFactory.createSerializer();
+  byte[] contents=serializer.serialize(createCommandEcho("echo"));
+  byte[] responsePayload=serializer.serialize(wrapResponse(TRouteResult.OK,contents));
+  DefaultPinpointRouteResponse response=new DefaultPinpointRouteResponse(responsePayload);
+  response.parse(deserializerFactory);
+  Assert.assertEquals(TRouteResult.OK,response.getRouteResult());
+  Assert.assertTrue(response.getResponse() instanceof TCommandEcho);
+}
