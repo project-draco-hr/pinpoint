@@ -1,0 +1,12 @@
+{
+  TThreadedSelectorServer server=new TThreadedSelectorServer(new TThreadedSelectorServer.Args(new TNonblockingServerSocket(environment.getPort())).processor(getProcessor()).inputProtocolFactory(environment.getProtocolFactory()).outputProtocolFactory(environment.getProtocolFactory()));
+  return new SyncEchoTestServer<TThreadedSelectorServer>(server,environment){
+    @Override public SyncEchoTestClient getSynchronousClient() throws TTransportException {
+      return new SyncEchoTestClient.ClientForNonblockingServer(environment);
+    }
+    @Override public AsyncEchoTestClient getAsynchronousClient() throws IOException {
+      return new AsyncEchoTestClient.Client(environment);
+    }
+  }
+;
+}

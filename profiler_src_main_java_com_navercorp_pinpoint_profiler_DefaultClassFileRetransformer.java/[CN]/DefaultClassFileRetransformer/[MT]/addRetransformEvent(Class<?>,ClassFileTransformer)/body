@@ -1,9 +1,0 @@
-{
-  if (logger.isInfoEnabled()) {
-    logger.info("addRetransformEvent class:{}",target.getName());
-  }
-  final ClassFileTransformer prev=transformerMap.putIfAbsent(target,transformer);
-  if (prev != null) {
-    throw new ProfilerException("Retransform already requested. target: " + target + ", transformer: "+ prev);
-  }
-}
