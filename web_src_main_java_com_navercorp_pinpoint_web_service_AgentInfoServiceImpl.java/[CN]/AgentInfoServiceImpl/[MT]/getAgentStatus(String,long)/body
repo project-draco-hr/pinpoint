@@ -1,0 +1,18 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  AgentLifeCycleBo agentLifeCycleBo=this.agentLifeCycleDao.getAgentLifeCycle(agentId,timestamp);
+  if (agentLifeCycleBo == null) {
+    AgentStatus agentStatus=new AgentStatus();
+    agentStatus.setAgentId(agentId);
+    agentStatus.setState(AgentLifeCycleState.UNKNOWN);
+    return agentStatus;
+  }
+ else {
+    return new AgentStatus(agentLifeCycleBo);
+  }
+}

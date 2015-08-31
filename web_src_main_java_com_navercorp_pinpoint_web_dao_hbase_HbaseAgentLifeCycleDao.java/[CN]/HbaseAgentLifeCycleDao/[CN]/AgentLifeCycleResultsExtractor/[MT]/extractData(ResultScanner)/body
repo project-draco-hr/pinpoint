@@ -1,0 +1,11 @@
+{
+  int found=0;
+  List<AgentLifeCycleBo> agentLifeCycles=new ArrayList<AgentLifeCycleBo>();
+  for (  Result result : results) {
+    agentLifeCycles.add(agentLifeCycleMapper.mapRow(result,found++));
+    if (found >= NUM_LIFE_CYCLES_TO_SCAN) {
+      break;
+    }
+  }
+  return agentLifeCycles;
+}

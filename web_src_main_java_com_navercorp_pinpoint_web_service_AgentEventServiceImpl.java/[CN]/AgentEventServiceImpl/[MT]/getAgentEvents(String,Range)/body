@@ -1,0 +1,15 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  final boolean includeEventMessage=false;
+  List<AgentEventBo> agentEventBos=this.agentEventDao.getAgentEvents(agentId,range);
+  List<AgentEvent> agentEvents=new ArrayList<AgentEvent>(agentEventBos.size());
+  for (  AgentEventBo agentEventBo : agentEventBos) {
+    if (agentEventBo != null) {
+      agentEvents.add(createAgentEvent(agentEventBo,includeEventMessage));
+    }
+  }
+  Collections.sort(agentEvents,AgentEvent.EVENT_TIMESTAMP_DESC_COMPARATOR);
+  return agentEvents;
+}

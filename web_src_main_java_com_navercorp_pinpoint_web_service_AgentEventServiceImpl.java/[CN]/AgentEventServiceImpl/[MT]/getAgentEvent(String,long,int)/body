@@ -1,0 +1,18 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (eventTimestamp < 0) {
+    throw new IllegalArgumentException("eventTimeTimestamp must not be less than 0");
+  }
+  final AgentEventType eventType=AgentEventType.getTypeByCode(eventTypeCode);
+  if (eventType == null) {
+    throw new IllegalArgumentException("invalid eventTypeCode [" + eventTypeCode + "]");
+  }
+  final boolean includeEventMessage=true;
+  AgentEventBo agentEventBo=this.agentEventDao.getAgentEvent(agentId,eventTimestamp,eventType);
+  if (agentEventBo != null) {
+    return createAgentEvent(agentEventBo,includeEventMessage);
+  }
+  return null;
+}

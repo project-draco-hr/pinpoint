@@ -1,0 +1,11 @@
+{
+  AgentActiveThreadStatusList agentActiveThreadStatusList=new AgentActiveThreadStatusList(agentInfoList.size());
+  Map<AgentInfo,PinpointRouteResponse> responseList=invoke(agentInfoList,payload);
+  for (  Map.Entry<AgentInfo,PinpointRouteResponse> entry : responseList.entrySet()) {
+    AgentInfo agentInfo=entry.getKey();
+    PinpointRouteResponse response=entry.getValue();
+    AgentActiveThreadStatus agentActiveThreadStatus=new AgentActiveThreadStatus(agentInfo.getHostName(),response.getRouteResult(),response.getResponse(TActiveThreadResponse.class,null));
+    agentActiveThreadStatusList.add(agentActiveThreadStatus);
+  }
+  return agentActiveThreadStatusList;
+}

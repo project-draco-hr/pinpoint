@@ -1,0 +1,16 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (eventTimestamp < 0) {
+    throw new IllegalArgumentException("eventTimestamp must not be null");
+  }
+  if (eventType == null) {
+    throw new NullPointerException("eventType must not be null");
+  }
+  this.agentId=agentId;
+  this.eventTimestamp=eventTimestamp;
+  this.eventTypeCode=eventType.getCode();
+  this.eventTypeDesc=eventType.getDesc();
+  this.hasEventMessage=eventType.getMessageType() != Void.class;
+}

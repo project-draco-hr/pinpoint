@@ -1,5 +1,5 @@
 {
-  AgentInfoBo agentInfo=agentService.getAgentInfo(applicationName,agentId,startTimeStamp);
+  AgentInfo agentInfo=agentService.getAgentInfo(applicationName,agentId,startTimeStamp);
   if (agentInfo == null) {
     return createResponse(false,String.format("Can't find suitable PinpointServer(%s/%s/%d).",applicationName,agentId,startTimeStamp));
   }
@@ -8,7 +8,7 @@
   try {
     PinpointRouteResponse pinpointRouteResponse=agentService.invoke(agentInfo,echo);
     if (pinpointRouteResponse != null && pinpointRouteResponse.getRouteResult() == TRouteResult.OK) {
-      TBase result=pinpointRouteResponse.getResponse();
+      TBase<?,?> result=pinpointRouteResponse.getResponse();
       if (result == null) {
         return createResponse(false,"result null.");
       }

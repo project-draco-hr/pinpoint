@@ -1,0 +1,18 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (eventTimestamp < 0) {
+    throw new IllegalArgumentException("eventTimestamp must not be less than 0");
+  }
+  if (eventType == null) {
+    throw new NullPointerException("eventType must not be null");
+  }
+  final byte[] rowKey=createRowKey(agentId,eventTimestamp);
+  byte[] qualifier=Bytes.toBytes(eventType.getCode());
+  List<AgentEventBo> events=this.hbaseOperations2.get(HBaseTables.AGENT_EVENT,rowKey,HBaseTables.AGENT_EVENT_CF_EVENTS,qualifier,this.agentEventMapper);
+  if (events == null || events.isEmpty()) {
+    return null;
+  }
+  return events.get(0);
+}
