@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(12);
+  BitSet incoming=iprot.readBitSet(13);
   if (incoming.get(0)) {
     struct.hostname=iprot.readString();
     struct.setHostnameIsSet(true);
@@ -30,22 +30,26 @@
     struct.setPidIsSet(true);
   }
   if (incoming.get(7)) {
-    struct.version=iprot.readString();
-    struct.setVersionIsSet(true);
+    struct.agentVersion=iprot.readString();
+    struct.setAgentVersionIsSet(true);
   }
   if (incoming.get(8)) {
+    struct.vmVersion=iprot.readString();
+    struct.setVmVersionIsSet(true);
+  }
+  if (incoming.get(9)) {
     struct.startTimestamp=iprot.readI64();
     struct.setStartTimestampIsSet(true);
   }
-  if (incoming.get(9)) {
+  if (incoming.get(10)) {
     struct.endTimestamp=iprot.readI64();
     struct.setEndTimestampIsSet(true);
   }
-  if (incoming.get(10)) {
+  if (incoming.get(11)) {
     struct.endStatus=iprot.readI32();
     struct.setEndStatusIsSet(true);
   }
-  if (incoming.get(11)) {
+  if (incoming.get(12)) {
     struct.serverMetaData=new TServerMetaData();
     struct.serverMetaData.read(iprot);
     struct.setServerMetaDataIsSet(true);
