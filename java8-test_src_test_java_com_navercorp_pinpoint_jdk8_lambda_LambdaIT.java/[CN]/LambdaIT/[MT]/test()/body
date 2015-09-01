@@ -3,4 +3,10 @@
   Maru maru=context.getBean(Maru.class);
   Morae morae=context.getBean(Morae.class);
   maru.test(morae);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN",Maru.class.getMethod("test",Morae.class)));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN",Morae.class.getMethod("test",Predicate.class)));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN",Mozzi.class.getMethod("getAge")));
+  verifier.verifyTraceCount(0);
 }
