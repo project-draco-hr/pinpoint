@@ -1,6 +1,6 @@
 {
-  if (!asyncTraceIdAccessor.isApplicable(target)) {
-    logger.debug("Invalid target object. Need metadata accessor({}).",METADATA_ASYNC_TRACE_ID);
+  if (!(target instanceof AsyncTraceIdAccessor)) {
+    logger.debug("Invalid target object. Need field accessor({}).",METADATA_ASYNC_TRACE_ID);
     return false;
   }
   return true;

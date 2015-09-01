@@ -6,14 +6,14 @@
     if (!validate(target,args)) {
       return;
     }
-    InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
+    final InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
     if (transaction != null && transaction.getAttachment() != null) {
-      AsyncTraceId asyncTraceId=(AsyncTraceId)transaction.getAttachment();
-      asyncTraceIdAccessor.set(target,asyncTraceId);
+      final AsyncTraceId asyncTraceId=(AsyncTraceId)transaction.getAttachment();
+      ((AsyncTraceIdAccessor)target)._$PINPOINT$_setAsyncTraceId(asyncTraceId);
       transaction.removeAttachment();
     }
   }
  catch (  Throwable t) {
-    logger.warn("Failed to before process. {}",t.getMessage(),t);
+    logger.warn("Failed to BEFORE process. {}",t.getMessage(),t);
   }
 }

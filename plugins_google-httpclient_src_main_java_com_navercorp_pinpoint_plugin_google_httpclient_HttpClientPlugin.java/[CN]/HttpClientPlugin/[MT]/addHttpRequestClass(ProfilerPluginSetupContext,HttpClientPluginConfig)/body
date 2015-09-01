@@ -11,6 +11,27 @@
         if (executeAsync != null) {
           executeAsync.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInterceptor");
         }
+        for (        InstrumentClass nestedClass : target.getNestedClasses(ClassFilters.chain(ClassFilters.enclosingMethod("executeAsync","java.util.concurrent.Executor"),ClassFilters.interfaze("java.util.concurrent.Callable")))) {
+          logger.debug("Find nested class {}",target.getName());
+          instrumentContext.addClassFileTransformer(loader,nestedClass.getName(),new PinpointClassFileTransformer(){
+            @Override public byte[] transform(            ProfilerPluginInstrumentContext instrumentContext,            ClassLoader loader,            String className,            Class<?> classBeingRedefined,            ProtectionDomain protectionDomain,            byte[] classfileBuffer) throws InstrumentException {
+              InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+              target.addField(AsyncTraceIdAccessor.class.getName());
+              InstrumentMethod constructor=target.getConstructor("com.google.api.client.http.HttpRequest");
+              if (constructor != null) {
+                logger.debug("Add constuctor interceptor for nested class {}",target.getName());
+                constructor.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassConstructorInterceptor");
+              }
+              InstrumentMethod m=target.getDeclaredMethod("call");
+              if (m != null) {
+                logger.debug("Add method interceptor for nested class {}.{}",target.getName(),m.getName());
+                m.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteAsyncMethodInnerClassCallMethodInterceptor");
+              }
+              return target.toBytecode();
+            }
+          }
+);
+        }
       }
       return target.toBytecode();
     }
