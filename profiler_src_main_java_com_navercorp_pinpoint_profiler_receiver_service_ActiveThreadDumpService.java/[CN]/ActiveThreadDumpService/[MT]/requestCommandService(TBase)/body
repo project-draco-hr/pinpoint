@@ -1,0 +1,17 @@
+{
+  TCmdActiveThreadDumpRes threadDump=new TCmdActiveThreadDumpRes();
+  long currentTime=System.currentTimeMillis();
+  List<ActiveTraceInfo> collectedActiveTraceInfo=activeTraceLocator.collect();
+  for (  ActiveTraceInfo activeTraceInfo : collectedActiveTraceInfo) {
+    long execTime=currentTime - activeTraceInfo.getStartTime();
+    if (execTime >= ((TCmdActiveThreadDump)tBase).getExecTime()) {
+      TThreadDump dump=ThreadDumpUtils.createTThreadDump(activeTraceInfo.getThread());
+      if (dump != null) {
+        TActiveThreadDump activeThreadDump=new TActiveThreadDump();
+        activeThreadDump.setExecTime(execTime);
+        activeThreadDump.setThreadDump(dump);
+      }
+    }
+  }
+  return threadDump;
+}

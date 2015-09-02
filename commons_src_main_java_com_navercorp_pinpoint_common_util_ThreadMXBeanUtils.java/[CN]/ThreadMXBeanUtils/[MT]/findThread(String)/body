@@ -1,0 +1,14 @@
+{
+  Asserts.notNull(threadName,"threadName may not be null.");
+  ThreadInfo[] threadInfos=dumpAllThread();
+  if (threadInfos == null) {
+    return Collections.emptyList();
+  }
+  ArrayList<ThreadInfo> threadInfoList=new ArrayList<ThreadInfo>(1);
+  for (  ThreadInfo threadInfo : threadInfos) {
+    if (threadName.equals(threadInfo.getThreadName())) {
+      threadInfoList.add(threadInfo);
+    }
+  }
+  return threadInfoList;
+}

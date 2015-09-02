@@ -1,7 +1,5 @@
 {
-  if (activeTraceLocator == null) {
-    throw new NullPointerException("activeTraceLocator");
-  }
-  this.activeTraceLocator=activeTraceLocator;
-  this.activeThreadSlotsCount=ACTIVE_THREAD_SLOTS_ORDER.size();
+  serviceList=new ArrayList<ProfilerCommandService>();
+  serviceList.add(new ActiveThreadCountService(activeTraceLocator));
+  serviceList.add(new ActiveThreadDumpService(activeTraceLocator));
 }

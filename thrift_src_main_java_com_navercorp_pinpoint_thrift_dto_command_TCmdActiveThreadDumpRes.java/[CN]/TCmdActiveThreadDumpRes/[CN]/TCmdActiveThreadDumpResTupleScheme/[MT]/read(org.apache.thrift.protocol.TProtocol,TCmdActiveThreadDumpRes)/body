@@ -1,0 +1,17 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(1);
+  if (incoming.get(0)) {
+{
+      org.apache.thrift.protocol.TList _list45=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT,iprot.readI32());
+      struct.threadDumps=new ArrayList<TActiveThreadDump>(_list45.size);
+      TActiveThreadDump _elem46;
+      for (int _i47=0; _i47 < _list45.size; ++_i47) {
+        _elem46=new TActiveThreadDump();
+        _elem46.read(iprot);
+        struct.threadDumps.add(_elem46);
+      }
+    }
+    struct.setThreadDumpsIsSet(true);
+  }
+}
