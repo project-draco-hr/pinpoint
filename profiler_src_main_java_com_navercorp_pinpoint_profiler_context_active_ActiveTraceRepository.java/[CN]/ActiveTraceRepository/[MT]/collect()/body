@@ -1,10 +1,10 @@
 {
   List<ActiveTraceInfo> collectData=new ArrayList<ActiveTraceInfo>();
-  final Collection<Trace> copy=this.activeTraceInfoMap.values();
-  for (  Trace trace : copy) {
+  final Collection<Trace> copied=this.activeTraceInfoMap.values();
+  for (  Trace trace : copied) {
     final long startTime=trace.getStartTime();
     if (startTime > 0) {
-      ActiveTraceInfo activeTraceInfo=new ActiveTraceInfo(trace.getId(),startTime);
+      ActiveTraceInfo activeTraceInfo=new ActiveTraceInfo(trace.getId(),startTime,trace.getBindThread());
       collectData.add(activeTraceInfo);
     }
   }

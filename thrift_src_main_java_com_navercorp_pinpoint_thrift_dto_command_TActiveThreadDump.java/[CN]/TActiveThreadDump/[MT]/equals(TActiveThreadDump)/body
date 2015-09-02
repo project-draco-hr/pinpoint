@@ -1,0 +1,16 @@
+{
+  if (that == null)   return false;
+  boolean this_present_execTime=true;
+  boolean that_present_execTime=true;
+  if (this_present_execTime || that_present_execTime) {
+    if (!(this_present_execTime && that_present_execTime))     return false;
+    if (this.execTime != that.execTime)     return false;
+  }
+  boolean this_present_threadDump=true && this.isSetThreadDump();
+  boolean that_present_threadDump=true && that.isSetThreadDump();
+  if (this_present_threadDump || that_present_threadDump) {
+    if (!(this_present_threadDump && that_present_threadDump))     return false;
+    if (!this.threadDump.equals(that.threadDump))     return false;
+  }
+  return true;
+}

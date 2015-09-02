@@ -1,0 +1,14 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(EXEC_TIME_FIELD_DESC);
+  oprot.writeI64(struct.execTime);
+  oprot.writeFieldEnd();
+  if (struct.threadDump != null) {
+    oprot.writeFieldBegin(THREAD_DUMP_FIELD_DESC);
+    struct.threadDump.write(oprot);
+    oprot.writeFieldEnd();
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

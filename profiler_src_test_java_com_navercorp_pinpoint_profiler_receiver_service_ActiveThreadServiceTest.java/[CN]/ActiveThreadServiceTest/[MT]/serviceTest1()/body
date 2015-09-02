@@ -1,12 +1,18 @@
 {
+  int normalCount=5;
   ActiveTraceRepository activeTraceRepository=new ActiveTraceRepository();
-  ActiveThreadService service=new ActiveThreadService(activeTraceRepository);
-  TBase<?,?> tBase=service.requestCommandService(null);
-  if (tBase instanceof TResult) {
-    Assert.assertFalse(((TResult)tBase).isSuccess());
+  addActiveTrace(activeTraceRepository,normalCount);
+  Thread.sleep(1100);
+  int fastCount=3;
+  addActiveTrace(activeTraceRepository,fastCount);
+  ActiveThreadCountService service=new ActiveThreadCountService(activeTraceRepository);
+  TBase<?,?> tBase=service.requestCommandService(new TCmdActiveThreadCount());
+  if (tBase instanceof TCmdActiveThreadCountRes) {
+    List<Integer> activeThreadCount=((TCmdActiveThreadCountRes)tBase).getActiveThreadCount();
+    Assert.assertEquals(activeThreadCount.get(0),new Integer(fastCount));
+    Assert.assertEquals(activeThreadCount.get(1),new Integer(normalCount));
   }
  else {
     Assert.fail();
-    ;
   }
 }
