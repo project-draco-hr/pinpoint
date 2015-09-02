@@ -22,22 +22,25 @@
   if (struct.isSetPid()) {
     optionals.set(6);
   }
-  if (struct.isSetVersion()) {
+  if (struct.isSetAgentVersion()) {
     optionals.set(7);
   }
-  if (struct.isSetStartTimestamp()) {
+  if (struct.isSetVmVersion()) {
     optionals.set(8);
   }
-  if (struct.isSetEndTimestamp()) {
+  if (struct.isSetStartTimestamp()) {
     optionals.set(9);
   }
-  if (struct.isSetEndStatus()) {
+  if (struct.isSetEndTimestamp()) {
     optionals.set(10);
   }
-  if (struct.isSetServerMetaData()) {
+  if (struct.isSetEndStatus()) {
     optionals.set(11);
   }
-  oprot.writeBitSet(optionals,12);
+  if (struct.isSetServerMetaData()) {
+    optionals.set(12);
+  }
+  oprot.writeBitSet(optionals,13);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -59,8 +62,11 @@
   if (struct.isSetPid()) {
     oprot.writeI32(struct.pid);
   }
-  if (struct.isSetVersion()) {
-    oprot.writeString(struct.version);
+  if (struct.isSetAgentVersion()) {
+    oprot.writeString(struct.agentVersion);
+  }
+  if (struct.isSetVmVersion()) {
+    oprot.writeString(struct.vmVersion);
   }
   if (struct.isSetStartTimestamp()) {
     oprot.writeI64(struct.startTimestamp);

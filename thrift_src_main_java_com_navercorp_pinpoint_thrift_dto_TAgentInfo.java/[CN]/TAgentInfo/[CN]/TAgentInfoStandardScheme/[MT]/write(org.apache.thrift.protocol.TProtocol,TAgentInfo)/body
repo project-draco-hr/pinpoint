@@ -32,9 +32,14 @@
   oprot.writeFieldBegin(PID_FIELD_DESC);
   oprot.writeI32(struct.pid);
   oprot.writeFieldEnd();
-  if (struct.version != null) {
-    oprot.writeFieldBegin(VERSION_FIELD_DESC);
-    oprot.writeString(struct.version);
+  if (struct.agentVersion != null) {
+    oprot.writeFieldBegin(AGENT_VERSION_FIELD_DESC);
+    oprot.writeString(struct.agentVersion);
+    oprot.writeFieldEnd();
+  }
+  if (struct.vmVersion != null) {
+    oprot.writeFieldBegin(VM_VERSION_FIELD_DESC);
+    oprot.writeString(struct.vmVersion);
     oprot.writeFieldEnd();
   }
   oprot.writeFieldBegin(START_TIMESTAMP_FIELD_DESC);

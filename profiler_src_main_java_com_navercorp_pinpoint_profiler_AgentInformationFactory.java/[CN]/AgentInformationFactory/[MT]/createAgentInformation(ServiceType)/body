@@ -8,5 +8,6 @@
   final String applicationName=getId("pinpoint.applicationName","UnknownApplicationName",PinpointConstants.APPLICATION_NAME_MAX_LEN);
   final long startTime=RuntimeMXBeanUtils.getVmStartTime();
   final int pid=RuntimeMXBeanUtils.getPid();
-  return new AgentInformation(agentId,applicationName,startTime,pid,machineName,hostIp,serverType,Version.VERSION);
+  final String jvmVersion=JvmUtils.getSystemProperty(SystemPropertyKey.JAVA_VERSION);
+  return new AgentInformation(agentId,applicationName,startTime,pid,machineName,hostIp,serverType,jvmVersion,Version.VERSION);
 }

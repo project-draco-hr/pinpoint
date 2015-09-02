@@ -1,0 +1,18 @@
+{
+  final Buffer buffer=new FixedBuffer(serializedAgentInfo);
+  final AgentInfoBo.Builder builder=new AgentInfoBo.Builder();
+  builder.setHostName(buffer.readPrefixedString());
+  builder.setIp(buffer.readPrefixedString());
+  builder.setPorts(buffer.readPrefixedString());
+  builder.setApplicationName(buffer.readPrefixedString());
+  builder.setServiceTypeCode(buffer.readShort());
+  builder.setPid(buffer.readInt());
+  builder.setAgentVersion(buffer.readPrefixedString());
+  builder.setStartTime(buffer.readLong());
+  builder.setEndTimeStamp(buffer.readLong());
+  builder.setEndStatus(buffer.readInt());
+  if (buffer.limit() > 0) {
+    builder.setVmVersion(buffer.readPrefixedString());
+  }
+  return builder;
+}
