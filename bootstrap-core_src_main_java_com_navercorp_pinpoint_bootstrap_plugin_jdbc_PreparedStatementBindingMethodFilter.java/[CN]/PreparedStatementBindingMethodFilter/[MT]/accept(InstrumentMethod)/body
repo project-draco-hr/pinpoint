@@ -1,10 +1,10 @@
 {
-  List<String[]> paramTypes=targets.get(method.getName());
+  List<String[]> paramTypes=methods.get(method.getName());
   if (paramTypes == null) {
     return REJECT;
   }
   for (  String[] types : paramTypes) {
-    if (Arrays.deepEquals(types,method.getParameterTypes())) {
+    if (Arrays.equals(types,method.getParameterTypes())) {
       return ACCEPT;
     }
   }

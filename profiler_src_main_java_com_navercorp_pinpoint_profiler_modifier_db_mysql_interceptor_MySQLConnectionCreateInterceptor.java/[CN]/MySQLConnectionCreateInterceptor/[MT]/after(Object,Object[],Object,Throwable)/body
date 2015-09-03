@@ -10,7 +10,7 @@
   final String databaseId=getString(args[3]);
   DatabaseInfo databaseInfo=null;
   if (hostToConnectTo != null && portToConnectTo != null && databaseId != null) {
-    databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,hostToConnectTo,portToConnectTo,databaseId);
+    databaseInfo=traceContext.createDatabaseInfo(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,hostToConnectTo,portToConnectTo,databaseId);
     if (InterceptorUtils.isSuccess(throwable)) {
       if (target instanceof DatabaseInfoTraceValue) {
         ((DatabaseInfoTraceValue)target)._$PINPOINT$_setTraceDatabaseInfo(databaseInfo);
