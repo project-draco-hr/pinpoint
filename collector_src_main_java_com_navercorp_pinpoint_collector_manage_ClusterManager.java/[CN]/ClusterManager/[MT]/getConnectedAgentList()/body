@@ -1,0 +1,12 @@
+{
+  List<String> result=new ArrayList<String>();
+  List clusterPointList=clusterPointLocator.getClusterPointList();
+  for (  Object clusterPoint : clusterPointList) {
+    if (clusterPoint != null && clusterPoint instanceof TargetClusterPoint) {
+      TargetClusterPoint agentClusterPoint=(TargetClusterPoint)clusterPoint;
+      result.add(createAgentKey(agentClusterPoint));
+      ;
+    }
+  }
+  return result;
+}
