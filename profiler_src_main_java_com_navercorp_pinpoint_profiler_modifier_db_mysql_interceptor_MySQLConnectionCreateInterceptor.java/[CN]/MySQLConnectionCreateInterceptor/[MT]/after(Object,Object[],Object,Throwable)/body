@@ -1,0 +1,30 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  if (args == null || args.length != 5) {
+    return;
+  }
+  final String hostToConnectTo=getString(args[0]);
+  final Integer portToConnectTo=getInteger(args[1]);
+  final String databaseId=getString(args[3]);
+  DatabaseInfo databaseInfo=null;
+  if (hostToConnectTo != null && portToConnectTo != null && databaseId != null) {
+    databaseInfo=traceContext.createDatabaseInfo(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,hostToConnectTo,portToConnectTo,databaseId);
+    if (InterceptorUtils.isSuccess(throwable)) {
+      if (target instanceof DatabaseInfoTraceValue) {
+        ((DatabaseInfoTraceValue)target)._$PINPOINT$_setTraceDatabaseInfo(databaseInfo);
+      }
+    }
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+  if (databaseInfo != null) {
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+  }
+}

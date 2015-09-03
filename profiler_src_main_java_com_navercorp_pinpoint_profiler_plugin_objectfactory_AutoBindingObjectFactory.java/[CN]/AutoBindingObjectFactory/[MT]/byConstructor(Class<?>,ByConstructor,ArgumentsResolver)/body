@@ -5,6 +5,9 @@
   }
   Constructor<?> constructor=resolver.getResolvedConstructor();
   Object[] resolvedArguments=resolver.getResolvedArguments();
+  if (isDebug) {
+    logger.debug("Create insatnce by constructor {}, with arguments {}",constructor,Arrays.toString(resolvedArguments));
+  }
   try {
     return constructor.newInstance(resolvedArguments);
   }

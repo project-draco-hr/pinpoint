@@ -1,16 +1,16 @@
 {
   DefaultServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService();
-  String desc="MYSQL";
-  List<ServiceType> mysqlList=serviceTypeRegistryService.findDesc(desc);
+  String desc="UNKNOWN_DB";
+  List<ServiceType> serviceTypeList=serviceTypeRegistryService.findDesc(desc);
   boolean find=false;
-  for (  ServiceType serviceType : mysqlList) {
+  for (  ServiceType serviceType : serviceTypeList) {
     if (serviceType.getDesc().equals(desc)) {
       find=true;
     }
   }
   Assert.assertTrue(find);
   try {
-    mysqlList.add(ServiceType.ORACLE);
+    serviceTypeList.add(ServiceType.INTERNAL_METHOD);
     Assert.fail();
   }
  catch (  Exception e) {

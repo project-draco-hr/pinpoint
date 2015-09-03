@@ -5,6 +5,9 @@
   }
   Method method=resolver.getResolvedMethod();
   Object[] resolvedArguments=resolver.getResolvedArguments();
+  if (isDebug) {
+    logger.debug("Create insatnce by static factory method {}, with arguments {}",method,Arrays.toString(resolvedArguments));
+  }
   try {
     return method.invoke(null,resolvedArguments);
   }

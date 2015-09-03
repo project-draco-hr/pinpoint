@@ -10,10 +10,10 @@
   final String databaseId=getString(args[3]);
   DatabaseInfo databaseInfo=null;
   if (hostToConnectTo != null && portToConnectTo != null && databaseId != null) {
-    databaseInfo=traceContext.createDatabaseInfo(ServiceType.MYSQL,ServiceType.MYSQL_EXECUTE_QUERY,hostToConnectTo,portToConnectTo,databaseId);
+    databaseInfo=createDatabaseInfo(hostToConnectTo,portToConnectTo,databaseId);
     if (InterceptorUtils.isSuccess(throwable)) {
-      if (target instanceof DatabaseInfoTraceValue) {
-        ((DatabaseInfoTraceValue)target)._$PINPOINT$_setTraceDatabaseInfo(databaseInfo);
+      if (target instanceof DatabaseInfoAccessor) {
+        ((DatabaseInfoAccessor)target)._$PINPOINT$_setDatabaseInfo(databaseInfo);
       }
     }
   }
@@ -23,7 +23,7 @@
   }
   SpanEventRecorder recorder=trace.currentSpanEventRecorder();
   if (databaseInfo != null) {
-    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordServiceType(databaseInfo.getType());
     recorder.recordEndPoint(databaseInfo.getMultipleHost());
     recorder.recordDestinationId(databaseInfo.getDatabaseId());
   }
