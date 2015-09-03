@@ -1,8 +1,9 @@
 {
-  TimeHistogram histogram=targetHistogramTimeMap.get(timeStamp);
+  long key=timeWindow != null ? timeWindow.refineTimestamp(timeStamp) : timeStamp;
+  TimeHistogram histogram=targetHistogramTimeMap.get(key);
   if (histogram == null) {
-    histogram=new TimeHistogram(targetServiceType,timeStamp);
-    targetHistogramTimeMap.put(timeStamp,histogram);
+    histogram=new TimeHistogram(targetServiceType,key);
+    targetHistogramTimeMap.put(key,histogram);
   }
   return histogram;
 }

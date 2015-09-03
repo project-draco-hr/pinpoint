@@ -1,8 +1,12 @@
 {
   Scan scan=createScan(callerApplication,range);
-  final List<LinkDataMap> foundList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,mapStatisticsCallerMapper);
-  if (foundList.isEmpty()) {
+  final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
+  final ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
+  final LinkDataMap foundList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
+  logger.debug("Caller data. {}, {}",foundList,range);
+  if (foundList == null) {
     logger.debug("There's no caller data. {}, {}",callerApplication,range);
+    return new LinkDataMap();
   }
-  return merge(foundList);
+  return foundList;
 }

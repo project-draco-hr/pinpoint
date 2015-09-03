@@ -2,7 +2,8 @@
   logger.warn("ono to N replaced. node:{}->host:{} accept:{}",linkData.getFromApplication(),toApplication.getName(),acceptApplicationList);
   List<LinkData> emulationLink=new ArrayList<LinkData>();
   for (  AcceptApplication acceptApplication : acceptApplicationList) {
-    final LinkData acceptedLinkData=new LinkData(linkData.getFromApplication(),acceptApplication.getApplication(),linkData.getLinkCallDataMap());
+    final LinkData acceptedLinkData=new LinkData(linkData.getFromApplication(),acceptApplication.getApplication());
+    acceptedLinkData.setLinkCallDataMap(linkData.getLinkCallDataMap());
     emulationLink.add(acceptedLinkData);
     traceEmulationLink(acceptedLinkData);
   }
