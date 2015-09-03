@@ -1,0 +1,20 @@
+{
+  LinkKey key=new LinkKey("fromApplication",ServiceType.STAND_ALONE,"toApplication",ServiceType.STAND_ALONE);
+  long currentTime=System.currentTimeMillis();
+  LinkCallData data1=new LinkCallData(key);
+  data1.addCallData(currentTime,(short)100,1L);
+  data1.addCallData(currentTime + ONE_MINUTE,(short)100,1L);
+  data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE,(short)100,1L);
+  data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
+  data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
+  System.out.println(data1.getTimeHistogram().size());
+  Range range=new Range(currentTime,currentTime + SIX_HOURS);
+  TimeWindow window=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
+  LinkCallData data2=new LinkCallData(key,window);
+  data2.addCallData(currentTime,(short)100,1L);
+  data2.addCallData(currentTime + ONE_MINUTE,(short)100,1L);
+  data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE,(short)100,1L);
+  data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
+  data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
+  System.out.println(data2.getTimeHistogram().size());
+}
