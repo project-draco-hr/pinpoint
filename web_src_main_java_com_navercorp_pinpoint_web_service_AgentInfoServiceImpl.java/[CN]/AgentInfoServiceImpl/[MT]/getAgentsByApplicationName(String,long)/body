@@ -3,11 +3,13 @@
     throw new NullPointerException("applicationName must not be null");
   }
   List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
-  Set<AgentInfoBo> agentSet=new HashSet<AgentInfoBo>();
+  Set<AgentInfo> agentSet=new HashSet<AgentInfo>();
   for (  String agentId : agentIds) {
-    AgentInfoBo info=this.agentInfoDao.getAgentInfo(agentId,timestamp);
-    if (info != null) {
-      agentSet.add(info);
+    AgentInfoBo agentInfoBo=this.agentInfoDao.getAgentInfo(agentId,timestamp);
+    if (agentInfoBo != null) {
+      AgentInfo agentInfo=new AgentInfo(agentInfoBo);
+      agentInfo.setStatus(this.getAgentStatus(agentId,timestamp));
+      agentSet.add(agentInfo);
     }
   }
   return agentSet;

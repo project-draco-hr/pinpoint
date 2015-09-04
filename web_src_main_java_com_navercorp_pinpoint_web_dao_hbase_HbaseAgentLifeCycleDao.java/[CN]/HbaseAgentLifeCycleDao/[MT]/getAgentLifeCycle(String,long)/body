@@ -7,7 +7,7 @@
   }
   Scan scan=new Scan();
   scan.setMaxVersions(1);
-  scan.setCaching(NUM_LIFE_CYCLES_TO_SCAN);
+  scan.setCaching(SCAN_CACHING_SIZE);
   long fromTime=TimeUtils.reverseTimeMillis(timestamp);
   byte[] agentIdBytes=Bytes.toBytes(agentId);
   byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,fromTime);
@@ -16,7 +16,7 @@
   scan.setStopRow(endKeyBytes);
   scan.addColumn(HBaseTables.AGENT_LIFECYCLE_CF_STATUS,HBaseTables.AGENT_LIFECYCLE_CF_STATUS_QUALI_STATES);
   try {
-    List<AgentLifeCycleBo> agentLifeCycles=this.hbaseOperations2.find(HBaseTables.AGENT_LIFECYCLE,scan,new AgentLifeCycleResultsExtractor());
+    List<AgentLifeCycleBo> agentLifeCycles=this.hbaseOperations2.find(HBaseTables.AGENT_LIFECYCLE,scan,new AgentLifeCycleResultsExtractor(timestamp));
     if (agentLifeCycles.isEmpty()) {
       logger.debug("agentLifeCycle not found for agentId={}, timestamp={}",agentId,timestamp);
       return null;

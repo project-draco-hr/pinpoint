@@ -1,11 +1,11 @@
 {
-  AgentInfoBo agentInfoBo1=createAgentInfo("agentId1","testHost");
-  AgentInfoBo agentInfoBo2=createAgentInfo("agentId2","testHost");
-  Set<AgentInfoBo> agentInfoBoSet=new HashSet<AgentInfoBo>();
-  agentInfoBoSet.add(agentInfoBo1);
-  agentInfoBoSet.add(agentInfoBo2);
+  AgentInfo agentInfo1=createAgentInfo("agentId1","testHost");
+  AgentInfo agentInfo2=createAgentInfo("agentId2","testHost");
+  Set<AgentInfo> agentInfoSet=new HashSet<AgentInfo>();
+  agentInfoSet.add(agentInfo1);
+  agentInfoSet.add(agentInfo2);
   ServerBuilder builder=new ServerBuilder();
-  builder.addAgentInfo(agentInfoBoSet);
+  builder.addAgentInfo(agentInfoSet);
   ServerInstanceList serverInstanceList=builder.build();
   List<String> agentIdList=serverInstanceList.getAgentIdList();
   Assert.assertEquals(agentIdList.size(),2);
