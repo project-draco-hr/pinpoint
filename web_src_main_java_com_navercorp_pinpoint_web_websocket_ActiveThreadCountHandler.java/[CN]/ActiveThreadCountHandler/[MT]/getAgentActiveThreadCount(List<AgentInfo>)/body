@@ -1,0 +1,10 @@
+{
+  try {
+    AgentActiveThreadCountList agentActiveThreadCountList=agentSerivce.getActiveThreadCount(agentInfoList);
+    return agentActiveThreadCountList;
+  }
+ catch (  TException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return new AgentActiveThreadCountList(0);
+}

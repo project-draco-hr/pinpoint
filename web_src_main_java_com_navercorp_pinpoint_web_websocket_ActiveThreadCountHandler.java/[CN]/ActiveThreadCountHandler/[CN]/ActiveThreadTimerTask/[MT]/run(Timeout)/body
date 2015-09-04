@@ -1,30 +1,17 @@
 {
-  if (sessionRepository.size() != 0) {
+  try {
     logger.info("ActiveThreadTimerTask started.");
-    Map<String,List<WebSocketSession>> applicationGroup=new HashMap<String,List<WebSocketSession>>();
-    for (    WebSocketSession session : sessionRepository) {
-      String applicationName=(String)session.getAttributes().get(APPLICATION_NAME_KEY);
-      if (applicationName == null || applicationName.length() == 0) {
-        continue;
-      }
-      if (!applicationGroup.containsKey(applicationName)) {
-        applicationGroup.put(applicationName,new ArrayList<WebSocketSession>());
-      }
-      applicationGroup.get(applicationName).add(session);
-    }
+    Map<String,List<WebSocketSession>> applicationGroup=createApplicationGroup(sessionRepository);
     for (    Map.Entry<String,List<WebSocketSession>> applicationEntry : applicationGroup.entrySet()) {
       String applicationName=applicationEntry.getKey();
-      List<AgentInfo> agentInfoList=agentSerivce.getAgentInfoList(applicationName);
-      AgentActiveThreadCountList agentActiveThreadCountList=agentSerivce.getActiveThreadCount(agentInfoList);
-      Map<String,AgentActiveThreadCountList> response=new HashMap<String,AgentActiveThreadCountList>();
-      response.put(applicationName,agentActiveThreadCountList);
-      String textMessage=jsonConverter.writeValueAsString(response);
-      for (      WebSocketSession session : applicationEntry.getValue()) {
-        session.sendMessage(new TextMessage(textMessage));
-      }
+      List<AgentInfo> agentInfoList=getAgentInfoList(applicationName);
+      AgentActiveThreadCountList agentActiveThreadCountList=getAgentActiveThreadCount(agentInfoList);
+      doResponse(applicationEntry.getValue(),applicationName,agentActiveThreadCountList);
     }
   }
-  if (timer != null) {
-    timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);
+  finally {
+    if (timer != null && onTimerTask.get()) {
+      timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);
+    }
   }
 }
