@@ -1,0 +1,28 @@
+{
+  ModelAndView mv=new ModelAndView();
+  mv.addObject("resultFrom",range.getFrom());
+  mv.addObject("resultTo",range.getTo());
+  mv.addObject("scatterIndex",ScatterIndex.MATA_DATA);
+  if (version <= 2) {
+    mv.addObject("scatter",scatterData);
+  }
+ else {
+    final Map<String,List<Dot>> scatterAgentData=new HashMap<String,List<Dot>>();
+    for (    Dot dot : scatterData) {
+      List<Dot> list=scatterAgentData.get(dot.getAgentId());
+      if (list == null) {
+        list=new ArrayList<Dot>();
+        scatterAgentData.put(dot.getAgentId(),list);
+      }
+      list.add(dot);
+    }
+    mv.addObject("scatter",scatterAgentData);
+  }
+  if (jsonpCallback == null) {
+    mv.setViewName("jsonView");
+  }
+ else {
+    mv.setViewName("jsonpView");
+  }
+  return mv;
+}
