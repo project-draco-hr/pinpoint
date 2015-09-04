@@ -1,9 +1,14 @@
 {
   int found=0;
+  int matchCnt=0;
   List<AgentLifeCycleBo> agentLifeCycles=new ArrayList<AgentLifeCycleBo>();
   for (  Result result : results) {
-    agentLifeCycles.add(agentLifeCycleMapper.mapRow(result,found++));
-    if (found >= NUM_LIFE_CYCLES_TO_SCAN) {
+    AgentLifeCycleBo agentLifeCycle=agentLifeCycleMapper.mapRow(result,found++);
+    if (agentLifeCycle.getEventTimestamp() < timestamp) {
+      agentLifeCycles.add(agentLifeCycle);
+      ++matchCnt;
+    }
+    if (matchCnt >= NUM_LIFE_CYCLES_TO_MATCH) {
       break;
     }
   }
