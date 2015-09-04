@@ -1,0 +1,11 @@
+{
+  Map<String,AgentActiveThreadCountList> response=new HashMap<String,AgentActiveThreadCountList>();
+  response.put(applicationName,activeThreadCount);
+  try {
+    return jsonConverter.writeValueAsString(response);
+  }
+ catch (  JsonProcessingException e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return createEmptyJsonMessage(applicationName);
+}
