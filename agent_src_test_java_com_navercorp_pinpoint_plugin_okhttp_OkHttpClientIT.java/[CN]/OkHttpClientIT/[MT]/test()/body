@@ -1,0 +1,12 @@
+{
+  try {
+    Request request=new Request.Builder().url("http://google.com").build();
+    OkHttpClient client=new OkHttpClient();
+    Response response=client.newCall(request).execute();
+    PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+    verifier.printCache();
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+}
