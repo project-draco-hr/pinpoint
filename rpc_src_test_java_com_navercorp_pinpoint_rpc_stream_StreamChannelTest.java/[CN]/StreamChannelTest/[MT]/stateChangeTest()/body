@@ -1,0 +1,9 @@
+{
+  ClientStreamChannel sc=new ClientStreamChannel(null,1,null);
+  boolean isChanged=sc.changeStateOpen();
+  Assert.assertTrue(isChanged);
+  Assert.assertEquals(StreamChannelStateCode.OPEN,sc.getCurrentState());
+  isChanged=sc.changeStateConnected();
+  Assert.assertFalse(isChanged);
+  Assert.assertEquals(StreamChannelStateCode.ILLEGAL_STATE,sc.getCurrentState());
+}

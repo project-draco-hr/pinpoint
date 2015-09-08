@@ -2,12 +2,12 @@
   int streamChannelId=packet.getStreamChannelId();
   StreamChannel streamChannel=context.getStreamChannel();
   StreamChannelStateCode currentCode=streamChannel.getCurrentState();
-  if (StreamChannelStateCode.RUN == currentCode) {
+  if (StreamChannelStateCode.CONNECTED == currentCode) {
     context.getClientStreamChannelMessageListener().handleStreamData(context,packet);
   }
- else   if (StreamChannelStateCode.OPEN_AWAIT == currentCode) {
+ else   if (StreamChannelStateCode.CONNECT_AWAIT == currentCode) {
   }
  else {
-    clearResourceAndSendClose(streamChannelId,StreamClosePacket.STATE_NOT_RUN);
+    clearResourceAndSendClose(streamChannelId,StreamClosePacket.STATE_NOT_CONNECTED);
   }
 }
