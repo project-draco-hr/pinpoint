@@ -6,10 +6,10 @@
   }
  catch (  OracleConnectionStringException ex) {
     logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
-    return JDBCUrlParser.createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,url);
   }
 catch (  Throwable ex) {
     logger.warn("OracleConnectionString parse error. url:{} Caused:",url,ex.getMessage(),ex);
-    return JDBCUrlParser.createUnknownDataBase(ServiceType.ORACLE,ServiceType.ORACLE_EXECUTE_QUERY,url);
+    return JDBCUrlParser.createUnknownDataBase(ServiceType.UNKNOWN_DB,ServiceType.UNKNOWN_DB_EXECUTE_QUERY,url);
   }
 }

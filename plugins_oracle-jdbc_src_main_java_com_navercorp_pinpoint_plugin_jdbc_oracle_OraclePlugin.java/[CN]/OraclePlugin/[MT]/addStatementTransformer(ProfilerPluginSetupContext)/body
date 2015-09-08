@@ -1,0 +1,20 @@
+{
+  PinpointClassFileTransformer transformer=new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      if (className.equals(CLASS_STATEMENT)) {
+        if (instrumentContext.exist(loader,CLASS_STATEMENT_WRAPPER)) {
+          return null;
+        }
+      }
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_ORACLE);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",group);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",group);
+      return target.toBytecode();
+    }
+  }
+;
+  setupContext.addClassFileTransformer(CLASS_STATEMENT,transformer);
+  setupContext.addClassFileTransformer(CLASS_STATEMENT_WRAPPER,transformer);
+}
