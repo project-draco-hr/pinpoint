@@ -1,0 +1,14 @@
+{
+  TestStateChangeHandler testStateChangeHandler=new TestStateChangeHandler();
+  ClientStreamChannel sc=new ClientStreamChannel(null,1,null);
+  sc.addStateChangeEventHandler(testStateChangeHandler);
+  sc.changeStateOpen();
+  Assert.assertEquals(StreamChannelStateCode.OPEN,testStateChangeHandler.getLatestEventPerformedStateCode());
+  sc.changeStateConnectAwait();
+  Assert.assertEquals(StreamChannelStateCode.CONNECT_AWAIT,testStateChangeHandler.getLatestEventPerformedStateCode());
+  sc.changeStateConnected();
+  Assert.assertEquals(StreamChannelStateCode.CONNECTED,testStateChangeHandler.getLatestEventPerformedStateCode());
+  sc.changeStateClose();
+  Assert.assertEquals(StreamChannelStateCode.CLOSED,testStateChangeHandler.getLatestEventPerformedStateCode());
+  Assert.assertEquals(4,testStateChangeHandler.getTotalEventPerformedCount());
+}

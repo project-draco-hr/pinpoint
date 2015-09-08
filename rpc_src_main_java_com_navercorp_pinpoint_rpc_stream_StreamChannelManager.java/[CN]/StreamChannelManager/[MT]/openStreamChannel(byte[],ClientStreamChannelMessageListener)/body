@@ -8,10 +8,10 @@
   if (old != null) {
     throw new PinpointSocketException("already streamChannelId exist:" + streamChannelId + " streamChannel:"+ old);
   }
-  newStreamChannel.changeStateOpenAwait();
+  newStreamChannel.changeStateConnectAwait();
   newStreamChannel.sendCreate(payload);
   newStreamChannel.awaitOpen(3000);
-  if (newStreamChannel.checkState(StreamChannelStateCode.RUN)) {
+  if (newStreamChannel.checkState(StreamChannelStateCode.CONNECTED)) {
     logger.info("Open streamChannel initialization completed. Channel:{}, StreamChannelContext:{} ",channel,newStreamChannelContext);
     return newStreamChannelContext;
   }
