@@ -1,0 +1,19 @@
+{
+  int position;
+  if (normalizedUrl.startsWith(THIN)) {
+    position=nextPosition(THIN);
+    driverType=DriverType.THIN;
+  }
+ else   if (normalizedUrl.startsWith(OCI)) {
+    position=nextPosition(OCI);
+    driverType=DriverType.OCI;
+  }
+ else {
+    throw new IllegalArgumentException("invalid oracle jdbc url. expected token:(" + THIN + " or "+ OCI+ ") url:"+ url);
+  }
+  this.tokenizer.setPosition(position);
+  this.tokenizer.parse();
+  KeyValue keyValue=parseKeyValue();
+  checkEof();
+  return keyValue;
+}

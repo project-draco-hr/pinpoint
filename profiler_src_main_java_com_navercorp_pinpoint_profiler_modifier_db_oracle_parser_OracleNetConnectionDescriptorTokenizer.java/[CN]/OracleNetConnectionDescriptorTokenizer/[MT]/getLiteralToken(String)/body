@@ -1,0 +1,13 @@
+{
+  Token token=this.nextToken();
+  if (token == null) {
+    throw new OracleConnectionStringException("parse error. token is null. Expected token='LITERAL'");
+  }
+  if (!(token.getType() == TYPE_LITERAL)) {
+    throw new OracleConnectionStringException("Syntax error. Expected token='LITERAL' :" + token.getToken());
+  }
+  if (!expectedValue.equals(token.getToken())) {
+    throw new OracleConnectionStringException("Syntax error. Expected token=" + expectedValue + "' :"+ token.getToken());
+  }
+  return token;
+}

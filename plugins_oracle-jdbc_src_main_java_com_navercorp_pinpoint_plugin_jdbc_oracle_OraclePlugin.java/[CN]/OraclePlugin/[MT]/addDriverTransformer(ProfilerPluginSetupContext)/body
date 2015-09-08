@@ -1,0 +1,11 @@
+{
+  setupContext.addClassFileTransformer("oracle.jdbc.driver.OracleDriver",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_ORACLE);
+      target.addInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.DriverConnectInterceptor",group,ExecutionPolicy.ALWAYS,new OracleJdbcUrlParser());
+      return target.toBytecode();
+    }
+  }
+);
+}
