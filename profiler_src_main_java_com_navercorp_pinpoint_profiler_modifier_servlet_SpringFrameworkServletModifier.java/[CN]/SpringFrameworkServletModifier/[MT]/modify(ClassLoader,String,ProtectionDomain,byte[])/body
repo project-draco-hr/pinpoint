@@ -4,9 +4,9 @@
   }
   try {
     Interceptor doGetInterceptor=new MethodInterceptor();
-    setServiceType(doGetInterceptor,ServiceType.SPRING_MVC);
+    setServiceType(doGetInterceptor,ServiceType.UNKNOWN);
     Interceptor doPostInterceptor=new MethodInterceptor();
-    setServiceType(doPostInterceptor,ServiceType.SPRING_MVC);
+    setServiceType(doPostInterceptor,ServiceType.UNKNOWN);
     InstrumentClass servlet=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
     servlet.addInterceptor("doGet",new String[]{"javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse"},doGetInterceptor);
     servlet.addInterceptor("doPost",new String[]{"javax.servlet.http.HttpServletRequest","javax.servlet.http.HttpServletResponse"},doPostInterceptor);
