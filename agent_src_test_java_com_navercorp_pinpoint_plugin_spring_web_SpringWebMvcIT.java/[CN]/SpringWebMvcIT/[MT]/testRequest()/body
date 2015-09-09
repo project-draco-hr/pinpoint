@@ -1,0 +1,17 @@
+{
+  MockServletConfig config=new MockServletConfig();
+  MockHttpServletRequest req=new MockHttpServletRequest();
+  MockHttpServletResponse res=new MockHttpServletResponse();
+  config.addInitParameter("contextConfigLocation","classpath:spring-web-test.xml");
+  req.setMethod("GET");
+  req.setRequestURI("/");
+  req.setRemoteAddr("1.2.3.4");
+  DispatcherServlet servlet=new DispatcherServlet();
+  servlet.init(config);
+  servlet.service(req,res);
+  Method method=FrameworkServlet.class.getDeclaredMethod("doGet",HttpServletRequest.class,HttpServletResponse.class);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTrace(Expectations.event(SPRING_MVC,method));
+  verifier.verifyTraceCount(0);
+}

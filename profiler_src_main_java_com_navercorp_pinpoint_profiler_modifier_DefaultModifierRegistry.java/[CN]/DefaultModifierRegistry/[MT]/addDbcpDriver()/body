@@ -1,8 +1,0 @@
-{
-  AbstractModifier dbcpBasicDataSourceModifier=new DBCPBasicDataSourceModifier(byteCodeInstrumentor,agent);
-  addModifier(dbcpBasicDataSourceModifier);
-  if (profilerConfig.isJdbcProfileDbcpConnectionClose()) {
-    AbstractModifier dbcpPoolModifier=new DBCPPoolGuardConnectionWrapperModifier(byteCodeInstrumentor,agent);
-    addModifier(dbcpPoolModifier);
-  }
-}
