@@ -1,0 +1,30 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (!validate(target)) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  try {
+    final TraceId nextId=trace.getTraceId().getNextTraceId();
+    recorder.recordNextSpanId(nextId.getSpanId());
+    recorder.recordServiceType(OK_HTTP_CLIENT);
+    InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null) {
+      invocation.getOrCreateAttachment(new AttachmentFactory(){
+        @Override public Object createAttachment(){
+          return nextId;
+        }
+      }
+);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to BEFORE process. {}",t.getMessage(),t);
+  }
+}

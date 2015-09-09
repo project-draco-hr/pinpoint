@@ -1,0 +1,24 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (!validate(target)) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(methodDescriptor);
+    recorder.recordException(throwable);
+    Response response=((UserResponseGetter)target)._$PINPOINT$_getUserResponse();
+    if (response != null) {
+      recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,response.code());
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
