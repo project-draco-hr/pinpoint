@@ -4,10 +4,17 @@
     logger.warn("Error retrieving main class from [{}]",property.getClass().getName());
     return NOT_FOUND;
   }
- else   if (javaCommand.endsWith(".jar")) {
-    return extractMainClassFromJar(javaCommand);
-  }
  else {
-    return javaCommand;
+    try {
+      JarFile executableArchive=new JarFile(javaCommand);
+      return extractMainClassFromArchive(executableArchive);
+    }
+ catch (    IOException e) {
+      return javaCommand;
+    }
+catch (    Exception e) {
+      logger.warn("Error retrieving main class from java command : [{}]",javaCommand,e);
+      return NOT_FOUND;
+    }
   }
 }
