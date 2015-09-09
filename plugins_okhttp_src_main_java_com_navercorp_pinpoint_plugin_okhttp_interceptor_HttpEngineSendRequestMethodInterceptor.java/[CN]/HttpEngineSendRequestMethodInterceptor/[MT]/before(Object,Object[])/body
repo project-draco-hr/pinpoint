@@ -9,6 +9,9 @@
   if (!validate(target)) {
     return;
   }
+  if (!trace.canSampled()) {
+    return;
+  }
   SpanEventRecorder recorder=trace.traceBlockBegin();
   try {
     final TraceId nextId=trace.getTraceId().getNextTraceId();

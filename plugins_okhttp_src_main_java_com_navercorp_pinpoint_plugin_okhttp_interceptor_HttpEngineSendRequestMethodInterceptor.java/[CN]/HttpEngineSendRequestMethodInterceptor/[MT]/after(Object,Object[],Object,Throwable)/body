@@ -17,6 +17,7 @@
     if (request != null) {
       recorder.recordAttribute(AnnotationKey.HTTP_URL,request.httpUrl().toString());
       recorder.recordDestinationId(request.httpUrl().host() + ":" + request.httpUrl().port());
+      recordRequest(trace,request,throwable);
     }
     InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
     if (invocation != null && invocation.getAttachment() != null) {
