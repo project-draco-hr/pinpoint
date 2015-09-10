@@ -1,0 +1,15 @@
+{
+  context.addClassFileTransformer("com.squareup.okhttp.Request$Builder",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(HttpUrlGetter.class.getName(),FIELD_HTTP_URL);
+      InstrumentMethod buildMethod=target.getDeclaredMethod("build");
+      if (buildMethod != null) {
+        logger.debug("[OkHttp] Add Request.Builder.build interceptor.");
+        buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

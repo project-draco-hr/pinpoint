@@ -1,0 +1,21 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (!validate(args)) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(methodDescriptor);
+    recorder.recordServiceType(OkHttpConstants.OK_HTTP_CLIENT_INTERNAL);
+    recorder.recordException(throwable);
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
