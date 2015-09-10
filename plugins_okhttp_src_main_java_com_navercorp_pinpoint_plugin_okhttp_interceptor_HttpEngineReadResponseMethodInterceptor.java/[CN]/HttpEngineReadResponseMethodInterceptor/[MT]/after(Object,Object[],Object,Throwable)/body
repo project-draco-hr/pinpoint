@@ -13,9 +13,11 @@
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(methodDescriptor);
     recorder.recordException(throwable);
-    Response response=((UserResponseGetter)target)._$PINPOINT$_getUserResponse();
-    if (response != null) {
-      recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,response.code());
+    if (statusCode) {
+      Response response=((UserResponseGetter)target)._$PINPOINT$_getUserResponse();
+      if (response != null) {
+        recorder.recordAttribute(AnnotationKey.HTTP_STATUS_CODE,response.code());
+      }
     }
   }
   finally {
