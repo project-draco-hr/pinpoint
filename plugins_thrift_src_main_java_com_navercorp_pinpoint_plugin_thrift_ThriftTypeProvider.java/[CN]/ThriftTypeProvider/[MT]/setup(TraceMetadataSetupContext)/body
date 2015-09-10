@@ -1,8 +1,8 @@
 {
   context.addServiceType(THRIFT_SERVER);
-  context.addServiceType(THRIFT_CLIENT,new ExactMatcher(THRIFT_URL));
-  context.addServiceType(THRIFT_SERVER_INTERNAL,ARGS_MATCHER);
-  context.addServiceType(THRIFT_CLIENT_INTERNAL,ARGS_MATCHER);
+  context.addServiceType(THRIFT_CLIENT,AnnotationKeyMatchers.exact(THRIFT_URL));
+  context.addServiceType(THRIFT_SERVER_INTERNAL,AnnotationKeyMatchers.ARGS_MATCHER);
+  context.addServiceType(THRIFT_CLIENT_INTERNAL,AnnotationKeyMatchers.ARGS_MATCHER);
   context.addAnnotationKey(THRIFT_URL);
   context.addAnnotationKey(THRIFT_ARGS);
   context.addAnnotationKey(THRIFT_RESULT);
