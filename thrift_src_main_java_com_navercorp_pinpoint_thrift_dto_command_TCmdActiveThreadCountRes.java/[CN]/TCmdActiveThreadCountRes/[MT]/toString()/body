@@ -13,6 +13,12 @@
     sb.append(this.activeThreadCount);
   }
   first=false;
+  if (isSetTimeStamp()) {
+    if (!first)     sb.append(", ");
+    sb.append("timeStamp:");
+    sb.append(this.timeStamp);
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

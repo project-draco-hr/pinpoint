@@ -7,7 +7,10 @@
   if (struct.isSetActiveThreadCount()) {
     optionals.set(1);
   }
-  oprot.writeBitSet(optionals,2);
+  if (struct.isSetTimeStamp()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
   if (struct.isSetHistogramSchemaType()) {
     oprot.writeI32(struct.histogramSchemaType);
   }
@@ -18,5 +21,8 @@
         oprot.writeI32(_iter36);
       }
     }
+  }
+  if (struct.isSetTimeStamp()) {
+    oprot.writeI64(struct.timeStamp);
   }
 }
