@@ -25,7 +25,7 @@
   SpanEventRecorder recorder=trace.currentSpanEventRecorder();
   TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
-  recorder.recordServiceType(ServiceType.ASYNC_HTTP_CLIENT);
+  recorder.recordServiceType(NingAsyncHttpClientPlugin.ASYNC_HTTP_CLIENT);
   if (httpRequest != null) {
     final FluentCaseInsensitiveStringsMap httpRequestHeaders=httpRequest.getHeaders();
     putHeader(httpRequestHeaders,Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());

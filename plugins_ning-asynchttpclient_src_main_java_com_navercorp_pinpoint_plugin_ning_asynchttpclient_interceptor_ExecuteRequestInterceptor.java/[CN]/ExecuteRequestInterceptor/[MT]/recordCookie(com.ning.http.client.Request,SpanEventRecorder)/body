@@ -4,7 +4,7 @@
     if (cookies.isEmpty()) {
       return;
     }
-    StringBuilder sb=new StringBuilder(cookieDumpSize * 2);
+    StringBuilder sb=new StringBuilder(config.getCookieDumpSize() * 2);
     Iterator<Cookie> iterator=cookies.iterator();
     while (iterator.hasNext()) {
       Cookie cookie=iterator.next();
@@ -13,6 +13,6 @@
         sb.append(",");
       }
     }
-    recorder.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(sb.toString(),cookieDumpSize));
+    recorder.recordAttribute(AnnotationKey.HTTP_COOKIE,StringUtils.drop(sb.toString(),config.getCookieDumpSize()));
   }
 }

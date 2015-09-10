@@ -1,7 +1,7 @@
 {
   final String stringData=httpRequest.getStringData();
   if (stringData != null) {
-    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(stringData,entityDumpSize));
+    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(stringData,config.getEntityDumpSize()));
     return;
   }
   final byte[] byteData=httpRequest.getByteData();
