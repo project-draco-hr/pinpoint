@@ -1,5 +1,3 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.eclipse.jetty.server.Server");
-  builder.injectInterceptor("com.navercorp.pinpoint.plugin.jetty.interceptor.ServerHandleInterceptor",config.getJettyExcludeUrlFilter());
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("org.eclipse.jetty.server.Server",PinpointClassFileTransformers.addInterceptor("com.navercorp.pinpoint.plugin.jetty.interceptor.ServerHandleInterceptor",config.getJettyExcludeUrlFilter()));
 }
