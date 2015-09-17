@@ -1,6 +1,7 @@
 {
   try {
-    addTranslator(((JavaAssistByteCodeInstrumentor)instrumentor).getClassPool(this),instrumentTranslator);
+    ClassPool classPool=agent.getClassPool().getClassPool(this);
+    addTranslator(classPool,instrumentTranslator);
   }
  catch (  NotFoundException e) {
     throw new RuntimeException(e.getMessage(),e);

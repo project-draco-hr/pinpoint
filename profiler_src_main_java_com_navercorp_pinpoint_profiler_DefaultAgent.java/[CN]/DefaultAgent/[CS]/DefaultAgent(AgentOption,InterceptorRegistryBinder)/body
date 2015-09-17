@@ -25,12 +25,11 @@
   this.profilerConfig=agentOption.getProfilerConfig();
   this.instrumentation=agentOption.getInstrumentation();
   this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapJarPath());
-  this.byteCodeInstrumentor=new JavaAssistByteCodeInstrumentor(this,classPool);
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }
   pluginContexts=loadPlugins(agentOption);
-  this.classFileTransformer=new ClassFileTransformerDispatcher(this,byteCodeInstrumentor,pluginContexts);
+  this.classFileTransformer=new ClassFileTransformerDispatcher(this,pluginContexts);
   this.dynamicTransformService=new DynamicTransformService(instrumentation,classFileTransformer);
   instrumentation.addTransformer(this.classFileTransformer,true);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();

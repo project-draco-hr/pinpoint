@@ -1,0 +1,16 @@
+{
+  DefaultTransformerRegistry registry=new DefaultTransformerRegistry();
+  for (  DefaultProfilerPluginContext pluginContext : pluginContexts) {
+    for (    ClassFileTransformer transformer : pluginContext.getClassEditors()) {
+      if (transformer instanceof MatchableClassFileTransformer) {
+        MatchableClassFileTransformer t=(MatchableClassFileTransformer)transformer;
+        logger.info("Registering class file transformer {} for {} ",t,t.getMatcher());
+        registry.addTransformer(t.getMatcher(),t);
+      }
+ else {
+        logger.warn("Ignore class file transformer {}",transformer);
+      }
+    }
+  }
+  return registry;
+}
