@@ -1,0 +1,25 @@
+{
+switch (this.filterType) {
+case USER_TO_WAS:
+{
+      return userToWasFilter(transaction);
+    }
+case WAS_TO_UNKNOWN:
+{
+    return wasToUnknownFilter(transaction);
+  }
+case WAS_TO_WAS:
+{
+  return wasToWasFilter(transaction);
+}
+case WAS_TO_BACKEND:
+{
+return wasToBackendFilter(transaction);
+}
+default :
+{
+logger.warn("unsupported filter type:{}",this);
+throw new IllegalArgumentException("unsupported filter type:");
+}
+}
+}

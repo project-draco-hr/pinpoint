@@ -1,0 +1,9 @@
+{
+  String arrayJson="[" + writeJsonString() + "]";
+  logger.debug("json:{}",arrayJson);
+  List<FilterDescriptor> descriptor=mapper.readValue(arrayJson,new TypeReference<List<FilterDescriptor>>(){
+  }
+);
+  Assert.assertEquals(1,descriptor.size());
+  Assert.assertNotNull(descriptor.get(0));
+}

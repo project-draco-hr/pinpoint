@@ -2,24 +2,14 @@
   if (StringUtils.isEmpty(filterText)) {
     return Filter.NONE;
   }
-  try {
-    filterText=URLDecoder.decode(filterText,"UTF-8");
-    logger.debug("build filter from string. {}",filterText);
-  }
- catch (  Exception e) {
-    throw new IllegalArgumentException("invalid filter text. " + filterText);
-  }
+  filterText=decode(filterText);
+  logger.debug("build filter from string. {}",filterText);
   if (!StringUtils.isEmpty(filterHint)) {
-    try {
-      filterHint=URLDecoder.decode(filterHint,"UTF-8");
-      logger.debug("build filter hint from string. {}",filterHint);
-    }
- catch (    Exception e) {
-      throw new IllegalArgumentException("invalid filter hint. " + filterHint);
-    }
+    filterHint=decode(filterHint);
   }
  else {
     filterHint=FilterHint.EMPTY_JSON;
   }
+  logger.debug("build filter hint from string. {}",filterHint);
   return makeFilterFromJson(filterText,filterHint);
 }

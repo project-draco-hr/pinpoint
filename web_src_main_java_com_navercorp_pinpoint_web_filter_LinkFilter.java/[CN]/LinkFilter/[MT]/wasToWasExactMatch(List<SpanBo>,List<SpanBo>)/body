@@ -1,0 +1,17 @@
+{
+  for (  SpanBo fromSpanBo : fromSpanList) {
+    for (    SpanBo toSpanBo : toSpanList) {
+      if (fromSpanBo == toSpanBo) {
+        continue;
+      }
+      if (fromSpanBo.getSpanId() == toSpanBo.getParentSpanId()) {
+        final int elapsed=toSpanBo.getElapsed();
+        final boolean error=isError(toSpanBo);
+        if (checkResponseCondition(elapsed,error)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}

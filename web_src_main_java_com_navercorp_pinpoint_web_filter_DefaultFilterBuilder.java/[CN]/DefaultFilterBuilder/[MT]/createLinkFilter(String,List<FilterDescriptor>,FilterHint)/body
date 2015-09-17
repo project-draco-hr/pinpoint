@@ -1,0 +1,12 @@
+{
+  final List<LinkFilter> result=new ArrayList<>();
+  for (  FilterDescriptor descriptor : filterDescriptorList) {
+    if (!descriptor.isValid()) {
+      throw new IllegalArgumentException("invalid json " + jsonFilterText);
+    }
+    logger.debug("FilterDescriptor={}",descriptor);
+    final LinkFilter linkFilter=new LinkFilter(descriptor,hint,serviceTypeRegistryService);
+    result.add(linkFilter);
+  }
+  return result;
+}

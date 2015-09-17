@@ -1,0 +1,11 @@
+{
+  for (  SpanBo spanBo : acceptSpanList) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("urlPattern:{} rpc:{}",urlPattern,spanBo.getRpc());
+    }
+    if (matcher.match(urlPattern,spanBo.getRpc())) {
+      return ACCEPT;
+    }
+  }
+  return REJECT;
+}

@@ -1,0 +1,33 @@
+{
+  for (  SpanBo spanBo : fromSpanList) {
+    List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+    if (spanEventBoList == null) {
+      return REJECT;
+    }
+    for (    SpanEventBo event : spanEventBoList) {
+      final ServiceType eventServiceType=serviceTypeRegistryService.findServiceType(event.getServiceType());
+      if (!eventServiceType.isRpcClient()) {
+        continue;
+      }
+      if (!eventServiceType.isRecordStatistics()) {
+        continue;
+      }
+      final List<AnnotationBo> annotationBoList=event.getAnnotationBoList();
+      if (annotationBoList == null) {
+        continue;
+      }
+      for (      AnnotationBo annotationBo : annotationBoList) {
+        int key=annotationBo.getKey();
+        if (isURL(key)) {
+          String url=(String)annotationBo.getValue();
+          String path=getPath(url);
+          final boolean match=matcher.match(urlPattern,path);
+          if (match) {
+            return ACCEPT;
+          }
+        }
+      }
+    }
+  }
+  return REJECT;
+}

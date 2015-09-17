@@ -5,11 +5,12 @@
   if (endPoint == null) {
     return false;
   }
-  List<Object> list=get(applicationName);
-  for (int i=0; i < list.size(); i+=2) {
-    if (endPoint.equals(list.get(i))) {
-      if (serviceTypeCode == (Integer)list.get(i + 1)) {
-        return true;
+  for (  RpcHint rpcHint : rpcHintList) {
+    if (rpcHint.getApplicationName().equals(applicationName)) {
+      for (      RpcType rpcType : rpcHint.getRpcTypeList()) {
+        if (rpcType.isMatched(endPoint,serviceTypeCode)) {
+          return true;
+        }
       }
     }
   }

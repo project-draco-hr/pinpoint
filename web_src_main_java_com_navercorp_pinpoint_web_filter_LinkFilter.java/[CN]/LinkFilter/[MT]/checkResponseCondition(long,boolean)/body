@@ -1,0 +1,29 @@
+{
+  if (responseTimeFilter.accept(elapsed) == ResponseTimeFilter.REJECT) {
+    return false;
+  }
+switch (executionType) {
+case ALL:
+{
+      return true;
+    }
+case FAIL_ONLY:
+{
+    if (hasError == true) {
+      return true;
+    }
+    return false;
+  }
+case SUCCESS_ONLY:
+{
+  if (hasError == false) {
+    return true;
+  }
+  return false;
+}
+default :
+{
+throw new UnsupportedOperationException("Unsupported ExecutionType:" + executionType);
+}
+}
+}

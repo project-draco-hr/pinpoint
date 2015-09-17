@@ -1,0 +1,9 @@
+{
+  if (urlPattern == null) {
+    throw new NullPointerException("urlPattern must not be null");
+  }
+  this.urlPattern=new String(Base64.decodeBase64(urlPattern),UTF8);
+  this.serviceTypeRegistryService=serviceTypeRegistryService;
+  this.annotationKeyRegistryService=annotationKeyRegistryService;
+  this.npcUrl=this.annotationKeyRegistryService.findAnnotationKeyByName("npc.url");
+}

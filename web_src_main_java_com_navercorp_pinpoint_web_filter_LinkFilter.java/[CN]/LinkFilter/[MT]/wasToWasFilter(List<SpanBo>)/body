@@ -1,0 +1,20 @@
+{
+  final List<SpanBo> fromSpanList=findFromNode(transaction);
+  if (fromSpanList.isEmpty()) {
+    return false;
+  }
+  final List<SpanBo> toSpanList=findToNode(transaction);
+  if (!toSpanList.isEmpty()) {
+    final boolean exactMatch=wasToWasExactMatch(fromSpanList,toSpanList);
+    if (exactMatch) {
+      return true;
+    }
+  }
+  if (isToAgentFilter()) {
+    return false;
+  }
+  if (!rpcHintList.isEmpty()) {
+    return false;
+  }
+  return fromBaseFilter(fromSpanList);
+}
