@@ -1,0 +1,10 @@
+{
+  final Boolean includeException=filterDescriptor.getIncludeException();
+  if (includeException == null) {
+    return ExecutionType.ALL;
+  }
+  if (includeException) {
+    return ExecutionType.FAIL_ONLY;
+  }
+  return ExecutionType.SUCCESS_ONLY;
+}

@@ -1,0 +1,14 @@
+{
+  if (endPoint == null) {
+    return null;
+  }
+  final int authorityIndex=endPoint.indexOf("://");
+  if (authorityIndex == -1) {
+    return endPoint;
+  }
+  final int pathIndex=endPoint.indexOf("/",authorityIndex + 1);
+  if (pathIndex == -1) {
+    return endPoint;
+  }
+  return endPoint.substring(pathIndex + 1);
+}

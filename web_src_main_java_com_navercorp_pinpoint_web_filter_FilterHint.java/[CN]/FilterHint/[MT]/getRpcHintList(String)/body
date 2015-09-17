@@ -1,0 +1,12 @@
+{
+  if (sourceApplicationName == null) {
+    throw new NullPointerException("sourceApplicationName must not be null");
+  }
+  final List<RpcHint> findRpcHintList=new ArrayList<>();
+  for (  RpcHint rpcHint : rpcHintList) {
+    if (rpcHint.getApplicationName().equals(sourceApplicationName)) {
+      findRpcHintList.add(rpcHint);
+    }
+  }
+  return findRpcHintList;
+}

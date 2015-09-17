@@ -1,0 +1,8 @@
+{
+  if (from == null && to == null) {
+    return new AcceptResponseTimeFilter();
+  }
+  final long fromLong=defaultLong(from,Long.MIN_VALUE);
+  final long toLong=defaultLong(to,Long.MAX_VALUE);
+  return new DefaultResponseTimeFilter(fromLong,toLong);
+}
