@@ -2,7 +2,7 @@
   logger.debug("loading className:{}",javaClassName);
   final String jvmClassName=JavaAssistUtils.javaNameToJvmName(javaClassName);
   try {
-    byte[] transform=classFileTransformer.transform(this.loader,jvmClassName,null,null,null);
+    byte[] transform=dispatcher.transform(this.loader,jvmClassName,null,null,null);
     if (transform != null) {
       makeClass(pool,transform,jvmClassName);
       return;

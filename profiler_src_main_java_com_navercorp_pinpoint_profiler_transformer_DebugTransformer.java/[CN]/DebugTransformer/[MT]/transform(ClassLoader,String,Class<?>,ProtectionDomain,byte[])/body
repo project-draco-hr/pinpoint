@@ -1,0 +1,19 @@
+{
+  try {
+    InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+    if (!target.isInterceptable()) {
+      return null;
+    }
+    for (    InstrumentMethod method : target.getDeclaredMethods(MethodFilters.ACCEPT_ALL)) {
+      if (logger.isTraceEnabled()) {
+        logger.trace("### c={}, m={}, params={}",className,method.getName(),Arrays.toString(method.getParameterTypes()));
+      }
+      target.addInterceptor(BasicMethodInterceptor.class.getName());
+    }
+    return target.toBytecode();
+  }
+ catch (  InstrumentException e) {
+    logger.warn("Failed to instrument " + className,e);
+    return null;
+  }
+}
