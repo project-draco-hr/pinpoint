@@ -2,6 +2,8 @@
   this.traceContext=traceContext;
   this.methodDescriptor=descriptor;
   this.excludeUrlFilter=excludeFilter;
+  this.getParameter=traceContext.getProfilerConfig().isTomcatProfileGetParameter();
+  this.postParameter=traceContext.getProfilerConfig().isTomcatProfilePostParameter();
   traceContext.cacheApi(SERVLET_ASYNCHRONOUS_API_TAG);
   traceContext.cacheApi(SERVLET_SYNCHRONOUS_API_TAG);
 }

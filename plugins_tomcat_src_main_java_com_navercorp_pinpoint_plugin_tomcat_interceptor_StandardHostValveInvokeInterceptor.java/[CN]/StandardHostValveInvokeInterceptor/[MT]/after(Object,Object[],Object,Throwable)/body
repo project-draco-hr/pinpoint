@@ -13,9 +13,17 @@
   try {
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final HttpServletRequest request=(HttpServletRequest)args[0];
-    final String parameters=getRequestParameter(request,64,512);
-    if (parameters != null && parameters.length() > 0) {
-      recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+    if ("GET".equalsIgnoreCase(request.getMethod()) && getParameter) {
+      final String parameters=getRequestParameter(request,64,512);
+      if (parameters != null && parameters.length() > 0) {
+        recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+      }
+    }
+ else     if ("POST".equalsIgnoreCase(request.getMethod()) && postParameter) {
+      final String parameters=getRequestParameter(request,64,512);
+      if (parameters != null && parameters.length() > 0) {
+        recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
+      }
     }
     recorder.recordApi(methodDescriptor);
     recorder.recordException(throwable);

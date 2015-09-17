@@ -27,6 +27,8 @@
   if (!tomcatExcludeURL.isEmpty()) {
     this.tomcatExcludeUrlFilter=new ExcludeUrlFilter(tomcatExcludeURL);
   }
+  this.tomcatProfileGetParameter=readBoolean("profiler.tomcat.getparameter",false);
+  this.tomcatProfilePostParameter=readBoolean("profiler.tomcat.postparameter",false);
   this.apacheHttpClient3Profile=readBoolean("profiler.apache.httpclient3",true);
   this.apacheHttpClient3ProfileCookie=readBoolean("profiler.apache.httpclient3.cookie",false);
   this.apacheHttpClient3ProfileCookieDumpType=readDumpType("profiler.apache.httpclient3.cookie.dumptype",DumpType.EXCEPTION);
