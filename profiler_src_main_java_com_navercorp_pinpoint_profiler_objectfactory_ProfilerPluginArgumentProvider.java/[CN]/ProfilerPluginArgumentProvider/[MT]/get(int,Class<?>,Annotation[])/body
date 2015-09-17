@@ -8,28 +8,6 @@
  else   if (type == PinpointInstrument.class) {
     return Option.withValue(pluginContext);
   }
- else   if (type == MetadataAccessor.class) {
-    Name annotation=TypeUtils.findAnnotation(annotations,Name.class);
-    if (annotation == null) {
-      throw new PinpointException("MetadataAccessor parameter must be annotated with @Name");
-    }
-    MetadataAccessor accessor=pluginContext.getMetadataAccessor(annotation.value());
-    if (accessor == null) {
-      throw new PinpointException("No such MetadataAccessor: " + annotation.value());
-    }
-    return Option.withValue(accessor);
-  }
- else   if (type == FieldAccessor.class) {
-    Name annotation=TypeUtils.findAnnotation(annotations,Name.class);
-    if (annotation == null) {
-      throw new PinpointException("FieldAccessor parameter must be annotated with @Name");
-    }
-    FieldAccessor accessor=pluginContext.getFieldAccessor(annotation.value());
-    if (accessor == null) {
-      throw new PinpointException("No such FieldAccessor: " + annotation.value());
-    }
-    return Option.withValue(accessor);
-  }
  else   if (type == InterceptorGroup.class) {
     Name annotation=TypeUtils.findAnnotation(annotations,Name.class);
     if (annotation == null) {
