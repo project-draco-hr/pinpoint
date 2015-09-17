@@ -2,7 +2,7 @@
   if (agent == null) {
     throw new NullPointerException("agent must not be null");
   }
-  this.globalContext=new DefaultProfilerPluginContext(agent,new LegacyProfilerPluginClassLoader(getClass().getClassLoader()));
+  this.globalContext=new DefaultProfilerPluginContext(agent,new LegacyProfilerPluginClassInjector(getClass().getClassLoader()));
   this.debugTargetFilter=agent.getProfilerConfig().getProfilableClassFilter();
   this.debugTransformer=new DebugTransformer(globalContext);
   this.unmodifiableFilter=new UnmodifiableClassFilter(agentClassLoader);

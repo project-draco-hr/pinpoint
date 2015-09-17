@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("net.spy.memcached.ArcusClient",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       if (target.hasMethod("addOp","java.lang.String","net.spy.memcached.ops.Operation")) {
         boolean traceKey=config.isArcusKeyTrace();

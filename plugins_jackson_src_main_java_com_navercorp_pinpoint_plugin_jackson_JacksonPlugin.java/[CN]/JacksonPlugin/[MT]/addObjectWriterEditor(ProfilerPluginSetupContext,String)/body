@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer(clazzName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValue"))) {

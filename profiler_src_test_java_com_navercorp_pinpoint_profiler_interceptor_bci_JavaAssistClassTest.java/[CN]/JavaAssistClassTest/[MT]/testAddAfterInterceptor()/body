@@ -2,7 +2,7 @@
   final TestClassLoader loader=getTestClassLoader();
   final String testClassObject="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject2";
   loader.addTransformer(testClassObject,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       try {
         logger.info("modify cl:{}",classLoader);
         InstrumentClass aClass=instrumentContext.getInstrumentClass(classLoader,testClassObject,classfileBuffer);

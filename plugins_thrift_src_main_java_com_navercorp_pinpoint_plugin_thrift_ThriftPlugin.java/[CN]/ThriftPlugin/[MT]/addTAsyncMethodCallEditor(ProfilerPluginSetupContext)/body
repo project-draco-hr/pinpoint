@@ -1,7 +1,7 @@
 {
   final String targetClassName="org.apache.thrift.async.TAsyncMethodCall";
   context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(SocketAddressFieldAccessor.class.getName());
       target.addField(AsyncMarkerFlagFieldAccessor.class.getName());

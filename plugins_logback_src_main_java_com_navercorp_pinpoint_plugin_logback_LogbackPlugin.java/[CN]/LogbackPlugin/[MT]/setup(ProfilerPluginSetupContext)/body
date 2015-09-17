@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("ch.qos.logback.classic.spi.LoggingEvent",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass mdcClass=pluginContext.getInstrumentClass(loader,"org.slf4j.MDC",null);
       if (mdcClass == null) {
         logger.warn("modify fail. Because org.slf4j.MDC does not exist.");
