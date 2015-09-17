@@ -2,7 +2,7 @@
   final TestClassLoader loader=getTestClassLoader();
   final String javassistClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
   loader.addTransformer(javassistClassName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       try {
         logger.info("modify cl:{}",loader);
         InstrumentClass aClass=instrumentContext.getInstrumentClass(loader,javassistClassName,classfileBuffer);
@@ -28,41 +28,19 @@
   final Object testObject=testObjectClazz.newInstance();
   Method callA=testObjectClazz.getMethod(methodName);
   callA.invoke(testObject);
-  if (testObject instanceof ObjectTraceValue) {
-    ObjectTraceValue objectTraceValue=(ObjectTraceValue)testObject;
-    objectTraceValue._$PINPOINT$_setTraceObject("a");
-    Object get=objectTraceValue._$PINPOINT$_getTraceObject();
-    Assert.assertEquals("a",get);
-  }
- else {
-    Assert.fail("ObjectTraceValue implements fail");
-  }
-  if (testObject instanceof IntTraceValue) {
-    IntTraceValue intTraceValue=(IntTraceValue)testObject;
-    intTraceValue._$PINPOINT$_setTraceInt(1);
-    int a=intTraceValue._$PINPOINT$_getTraceInt();
-    Assert.assertEquals(1,a);
-  }
- else {
-    Assert.fail("IntTraceValue implements fail");
-  }
-  if (testObject instanceof DatabaseInfoTraceValue) {
-    DatabaseInfoTraceValue databaseInfoTraceValue=(DatabaseInfoTraceValue)testObject;
-    databaseInfoTraceValue._$PINPOINT$_setTraceDatabaseInfo(UnKnownDatabaseInfo.INSTANCE);
-    DatabaseInfo databaseInfo=databaseInfoTraceValue._$PINPOINT$_getTraceDatabaseInfo();
-    Assert.assertSame(UnKnownDatabaseInfo.INSTANCE,databaseInfo);
-  }
- else {
-    Assert.fail("DatabaseInfoTraceValue implements fail");
-  }
-  if (testObject instanceof BindValueTraceValue) {
-    BindValueTraceValue bindValueTraceValue=(BindValueTraceValue)testObject;
-    Map<Integer,String> integerStringMap=Collections.emptyMap();
-    bindValueTraceValue._$PINPOINT$_setTraceBindValue(integerStringMap);
-    Map<Integer,String> bindValueMap=bindValueTraceValue._$PINPOINT$_getTraceBindValue();
-    Assert.assertSame(integerStringMap,bindValueMap);
-  }
- else {
-    Assert.fail("BindValueTraceValue implements fail");
-  }
+  Class<?> objectTraceValue=loader.loadClass(ObjectTraceValue.class.getName());
+  Assert.assertTrue("ObjectTraceValue implements fail",objectTraceValue.isInstance(testObject));
+  objectTraceValue.getMethod("_$PINPOINT$_setTraceObject",Object.class).invoke(testObject,"a");
+  Object get=objectTraceValue.getMethod("_$PINPOINT$_getTraceObject").invoke(testObject);
+  Assert.assertEquals("a",get);
+  Class<?> intTraceValue=loader.loadClass(IntTraceValue.class.getName());
+  Assert.assertTrue("IntTraceValue implements fail",intTraceValue.isInstance(testObject));
+  intTraceValue.getMethod("_$PINPOINT$_setTraceInt",int.class).invoke(testObject,1);
+  int a=(Integer)intTraceValue.getMethod("_$PINPOINT$_getTraceInt").invoke(testObject);
+  Assert.assertEquals(1,a);
+  Class<?> databaseTraceValue=loader.loadClass(DatabaseInfoTraceValue.class.getName());
+  Assert.assertTrue("DatabaseInfoTraceValue implements fail",databaseTraceValue.isInstance(testObject));
+  databaseTraceValue.getMethod("_$PINPOINT$_setTraceDatabaseInfo",DatabaseInfo.class).invoke(testObject,UnKnownDatabaseInfo.INSTANCE);
+  Object databaseInfo=databaseTraceValue.getMethod("_$PINPOINT$_getTraceDatabaseInfo").invoke(testObject);
+  Assert.assertSame(UnKnownDatabaseInfo.INSTANCE,databaseInfo);
 }

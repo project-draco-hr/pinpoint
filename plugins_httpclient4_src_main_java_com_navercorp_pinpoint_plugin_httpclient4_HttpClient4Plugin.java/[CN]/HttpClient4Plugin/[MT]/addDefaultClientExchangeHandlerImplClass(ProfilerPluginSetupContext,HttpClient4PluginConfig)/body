@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("org.apache.http.impl.nio.client.DefaultClientExchangeHandlerImpl",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addGetter(RequestProducerGetter.class.getName(),FIELD_REQUEST_PRODUCER);
       target.addGetter(ResultFutureGetter.class.getName(),FIELD_RESULT_FUTURE);
