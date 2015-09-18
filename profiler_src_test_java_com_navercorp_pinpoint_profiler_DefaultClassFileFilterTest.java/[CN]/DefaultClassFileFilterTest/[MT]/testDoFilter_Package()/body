@@ -1,7 +1,7 @@
 {
-  ClassFileFilter filter=new DefaultClassFileFilter(this.getClass().getClassLoader());
-  Assert.assertTrue(filter.doFilter(null,"java/test",null,null,null));
-  Assert.assertTrue(filter.doFilter(null,"javax/test",null,null,null));
-  Assert.assertTrue(filter.doFilter(null,"com/navercorp/pinpoint/",null,null,null));
-  Assert.assertFalse(filter.doFilter(null,"test",null,null,null));
+  ClassFileFilter filter=new UnmodifiableClassFilter(this.getClass().getClassLoader());
+  Assert.assertFalse(filter.accept(null,"java/test",null,null,null));
+  Assert.assertFalse(filter.accept(null,"javax/test",null,null,null));
+  Assert.assertFalse(filter.accept(null,"com/navercorp/pinpoint/",null,null,null));
+  Assert.assertTrue(filter.accept(null,"test",null,null,null));
 }

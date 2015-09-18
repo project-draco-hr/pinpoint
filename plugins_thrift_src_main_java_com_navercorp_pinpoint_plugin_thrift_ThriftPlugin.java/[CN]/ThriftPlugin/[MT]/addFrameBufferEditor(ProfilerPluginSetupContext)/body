@@ -1,7 +1,7 @@
 {
   final String targetClassName="org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer";
   context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(SocketFieldAccessor.class.getName());
       target.addGetter(TNonblockingTransportFieldGetter.class.getName(),FRAME_BUFFER_FIELD_TRANS_);

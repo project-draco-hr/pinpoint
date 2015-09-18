@@ -1,6 +1,6 @@
 {
   PinpointClassFileTransformer transformer=new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       if (className.equals(CLASS_PREPARED_STATEMENT)) {
         if (instrumentContext.exist(loader,CLASS_PREPARED_STATEMENT_WRAPPER)) {
           return null;

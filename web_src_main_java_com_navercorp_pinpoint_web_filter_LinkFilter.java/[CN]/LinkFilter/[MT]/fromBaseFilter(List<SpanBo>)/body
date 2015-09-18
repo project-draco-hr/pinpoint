@@ -1,0 +1,27 @@
+{
+  for (  SpanBo fromSpan : fromSpanList) {
+    final List<SpanEventBo> eventBoList=fromSpan.getSpanEventBoList();
+    if (eventBoList == null) {
+      continue;
+    }
+    for (    SpanEventBo event : eventBoList) {
+      final ServiceType eventServiceType=serviceTypeRegistryService.findServiceType(event.getServiceType());
+      if (!eventServiceType.isRpcClient()) {
+        continue;
+      }
+      if (!eventServiceType.isRecordStatistics()) {
+        continue;
+      }
+      for (      RpcHint rpcHint : rpcHintList) {
+        for (        RpcType rpcType : rpcHint.getRpcTypeList()) {
+          if (rpcType.isMatched(event.getDestinationId(),eventServiceType.getCode())) {
+            if (checkResponseCondition(event.getEndElapsed(),event.hasException())) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+  }
+  return false;
+}

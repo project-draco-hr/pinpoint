@@ -1,9 +1,8 @@
 {
-  List<Object> list=get(applicationName);
-  if (list == null) {
-    return false;
+  for (  RpcHint rpcHint : rpcHintList) {
+    if (rpcHint.getApplicationName().equals(applicationName)) {
+      return true;
+    }
   }
- else {
-    return !list.isEmpty();
-  }
+  return false;
 }

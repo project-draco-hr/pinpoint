@@ -1,0 +1,19 @@
+{
+  final String applicationName=jp.getText();
+  if (jp.nextToken() != JsonToken.START_ARRAY) {
+    throw ctxt.mappingException(RpcHint.class,jp.getCurrentToken());
+  }
+  final JsonToken token=jp.nextToken();
+  if (token == JsonToken.END_ARRAY) {
+    return new RpcHint(applicationName,Collections.<RpcType>emptyList());
+  }
+  final List<RpcType> rpcHintList=new ArrayList<RpcType>();
+  while (true) {
+    RpcType rpcType=jp.readValueAs(RpcType.class);
+    rpcHintList.add(rpcType);
+    if (jp.nextToken() == JsonToken.END_ARRAY) {
+      break;
+    }
+  }
+  return new RpcHint(applicationName,rpcHintList);
+}

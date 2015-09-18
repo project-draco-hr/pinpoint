@@ -1,0 +1,38 @@
+{
+  if (filterDescriptor == null) {
+    throw new NullPointerException("filter descriptor must not be null");
+  }
+  if (filterHint == null) {
+    throw new NullPointerException("filterHint must not be null");
+  }
+  this.serviceTypeRegistryService=serviceTypeRegistryService;
+  final String fromServiceType=filterDescriptor.getFromServiceType();
+  this.fromServiceDescList=serviceTypeRegistryService.findDesc(fromServiceType);
+  if (this.fromServiceDescList == null) {
+    throw new IllegalArgumentException("fromServiceDescList not found. fromServiceType:" + fromServiceType);
+  }
+  this.fromApplicationName=filterDescriptor.getFromApplicationName();
+  Assert.notNull(this.fromApplicationName,"fromApplicationName must not be null");
+  final String toServiceType=filterDescriptor.getToServiceType();
+  this.toServiceDescList=serviceTypeRegistryService.findDesc(toServiceType);
+  if (toServiceDescList == null) {
+    throw new IllegalArgumentException("toServiceDescList not found. toServiceDescList:" + toServiceType);
+  }
+  this.toApplicationName=filterDescriptor.getToApplicationName();
+  Assert.notNull(this.toApplicationName,"toApplicationName must not be null");
+  this.responseTimeFilter=createResponseTimeFilter(filterDescriptor);
+  this.executionType=getExecutionType(filterDescriptor);
+  this.filterHint=filterHint;
+  Assert.notNull(this.filterHint,"filterHint must not be null");
+  final String fromAgentName=filterDescriptor.getFromAgentName();
+  final String toAgentName=filterDescriptor.getToAgentName();
+  this.agentFilterFactory=new AgentFilterFactory(fromAgentName,toAgentName);
+  logger.debug("agentFilterFactory:{}",agentFilterFactory);
+  this.fromAgentFilter=agentFilterFactory.createFromAgentFilter();
+  this.toAgentFilter=agentFilterFactory.createToAgentFilter();
+  this.filterType=getFilterType();
+  logger.info("filterType:{}",filterType);
+  this.rpcHintList=this.filterHint.getRpcHintList(fromApplicationName);
+  this.acceptURLFilter=cratePatternFilter(filterDescriptor);
+  logger.info("acceptURLFilter:{}",acceptURLFilter);
+}

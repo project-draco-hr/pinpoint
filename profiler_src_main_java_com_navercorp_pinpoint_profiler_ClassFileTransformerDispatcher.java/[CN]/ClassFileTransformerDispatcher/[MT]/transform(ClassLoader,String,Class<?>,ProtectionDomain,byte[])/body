@@ -1,19 +1,19 @@
 {
   ClassFileTransformer transformer=dynamicTransformerRegistry.getTransformer(classLoader,jvmClassName);
   if (transformer != null) {
-    return transformUsingTransformer(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,transformer);
+    return transform0(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,transformer);
   }
-  if (skipFilter.doFilter(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
+  if (!unmodifiableFilter.accept(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
-  AbstractModifier findModifier=this.modifierRegistry.findModifier(jvmClassName);
-  if (findModifier == null) {
-    if (this.profilerConfig.getProfilableClassFilter().filter(jvmClassName)) {
-      findModifier=this.modifierRegistry.findModifier("*");
+  transformer=this.transformerRegistry.findTransformer(jvmClassName);
+  if (transformer == null) {
+    if (this.debugTargetFilter.filter(jvmClassName)) {
+      transformer=debugTransformer;
     }
  else {
       return null;
     }
   }
-  return transformUsingModifier(classLoader,jvmClassName,protectionDomain,classFileBuffer,findModifier);
+  return transform0(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,transformer);
 }

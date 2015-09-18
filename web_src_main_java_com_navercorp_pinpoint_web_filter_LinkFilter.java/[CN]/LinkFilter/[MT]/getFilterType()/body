@@ -1,0 +1,15 @@
+{
+  if (includeWas(fromServiceDescList) && includeWas(toServiceDescList)) {
+    return FilterType.WAS_TO_WAS;
+  }
+  if (includeServiceType(fromServiceDescList,ServiceType.USER) && includeWas(toServiceDescList)) {
+    return FilterType.USER_TO_WAS;
+  }
+  if (includeWas(fromServiceDescList) && includeUnknown(toServiceDescList)) {
+    return FilterType.WAS_TO_UNKNOWN;
+  }
+  if (includeWas(fromServiceDescList)) {
+    return FilterType.WAS_TO_BACKEND;
+  }
+  return FilterType.UNSUPPORTED;
+}

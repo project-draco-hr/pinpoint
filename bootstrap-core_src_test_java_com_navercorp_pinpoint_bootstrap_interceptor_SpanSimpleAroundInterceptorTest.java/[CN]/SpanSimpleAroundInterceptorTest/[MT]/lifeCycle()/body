@@ -2,7 +2,6 @@
   MockTraceContext context=new MockTraceContext();
   MockTrace mockTrace=new MockTrace();
   context.setTrace(mockTrace);
-  TestSpanSimpleAroundInterceptor interceptor=new TestSpanSimpleAroundInterceptor();
-  interceptor.setTraceContext(context);
+  TestSpanSimpleAroundInterceptor interceptor=new TestSpanSimpleAroundInterceptor(context);
   checkSpanInterceptor(context,interceptor);
 }

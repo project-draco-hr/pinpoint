@@ -1,20 +1,17 @@
 {
   final TestClassLoader loader=getTestClassLoader();
   final String javassistClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
-  final TestModifier testModifier=new TestModifier(loader.getInstrumentor(),loader.getProfilerConfig()){
-    @Override public byte[] modify(    ClassLoader classLoader,    String className,    ProtectionDomain protectedDomain,    byte[] classFileBuffer){
+  loader.addTransformer(javassistClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       try {
-        logger.info("modify cl:{}",classLoader);
-        InstrumentClass aClass=byteCodeInstrumentor.getClass(classLoader,javassistClassName,classFileBuffer);
-        Interceptor interceptor=byteCodeInstrumentor.newInterceptor(classLoader,protectedDomain,"com.navercorp.pinpoint.profiler.interceptor.TestBeforeInterceptor");
-        addInterceptor(interceptor);
-        aClass.addTraceValue(ObjectTraceValue.class);
-        aClass.addTraceValue(IntTraceValue.class);
-        aClass.addTraceValue(DatabaseInfoTraceValue.class);
-        aClass.addTraceValue(BindValueTraceValue.class);
-        logger.info(interceptor.getClass().getClassLoader().toString());
+        logger.info("modify cl:{}",loader);
+        InstrumentClass aClass=instrumentContext.getInstrumentClass(loader,javassistClassName,classfileBuffer);
+        aClass.addField(ObjectTraceValue.class.getName());
+        aClass.addField(IntTraceValue.class.getName());
+        aClass.addField(DatabaseInfoTraceValue.class.getName());
+        aClass.addField(BindValueTraceValue.class.getName());
         String methodName="callA";
-        aClass.addInterceptor(methodName,null,interceptor);
+        aClass.getDeclaredMethod(methodName).addInterceptor("com.navercorp.pinpoint.profiler.interceptor.TestBeforeInterceptor");
         return aClass.toBytecode();
       }
  catch (      InstrumentException e) {
@@ -23,9 +20,7 @@
       }
     }
   }
-;
-  testModifier.setTargetClass(javassistClassName);
-  loader.addModifier(testModifier);
+);
   loader.initialize();
   Class<?> testObjectClazz=loader.loadClass(javassistClassName);
   final String methodName="callA";
@@ -33,41 +28,19 @@
   final Object testObject=testObjectClazz.newInstance();
   Method callA=testObjectClazz.getMethod(methodName);
   callA.invoke(testObject);
-  if (testObject instanceof ObjectTraceValue) {
-    ObjectTraceValue objectTraceValue=(ObjectTraceValue)testObject;
-    objectTraceValue._$PINPOINT$_setTraceObject("a");
-    Object get=objectTraceValue._$PINPOINT$_getTraceObject();
-    Assert.assertEquals("a",get);
-  }
- else {
-    Assert.fail("ObjectTraceValue implements fail");
-  }
-  if (testObject instanceof IntTraceValue) {
-    IntTraceValue intTraceValue=(IntTraceValue)testObject;
-    intTraceValue._$PINPOINT$_setTraceInt(1);
-    int a=intTraceValue._$PINPOINT$_getTraceInt();
-    Assert.assertEquals(1,a);
-  }
- else {
-    Assert.fail("IntTraceValue implements fail");
-  }
-  if (testObject instanceof DatabaseInfoTraceValue) {
-    DatabaseInfoTraceValue databaseInfoTraceValue=(DatabaseInfoTraceValue)testObject;
-    databaseInfoTraceValue._$PINPOINT$_setTraceDatabaseInfo(UnKnownDatabaseInfo.INSTANCE);
-    DatabaseInfo databaseInfo=databaseInfoTraceValue._$PINPOINT$_getTraceDatabaseInfo();
-    Assert.assertSame(UnKnownDatabaseInfo.INSTANCE,databaseInfo);
-  }
- else {
-    Assert.fail("DatabaseInfoTraceValue implements fail");
-  }
-  if (testObject instanceof BindValueTraceValue) {
-    BindValueTraceValue bindValueTraceValue=(BindValueTraceValue)testObject;
-    Map<Integer,String> integerStringMap=Collections.emptyMap();
-    bindValueTraceValue._$PINPOINT$_setTraceBindValue(integerStringMap);
-    Map<Integer,String> bindValueMap=bindValueTraceValue._$PINPOINT$_getTraceBindValue();
-    Assert.assertSame(integerStringMap,bindValueMap);
-  }
- else {
-    Assert.fail("BindValueTraceValue implements fail");
-  }
+  Class<?> objectTraceValue=loader.loadClass(ObjectTraceValue.class.getName());
+  Assert.assertTrue("ObjectTraceValue implements fail",objectTraceValue.isInstance(testObject));
+  objectTraceValue.getMethod("_$PINPOINT$_setTraceObject",Object.class).invoke(testObject,"a");
+  Object get=objectTraceValue.getMethod("_$PINPOINT$_getTraceObject").invoke(testObject);
+  Assert.assertEquals("a",get);
+  Class<?> intTraceValue=loader.loadClass(IntTraceValue.class.getName());
+  Assert.assertTrue("IntTraceValue implements fail",intTraceValue.isInstance(testObject));
+  intTraceValue.getMethod("_$PINPOINT$_setTraceInt",int.class).invoke(testObject,1);
+  int a=(Integer)intTraceValue.getMethod("_$PINPOINT$_getTraceInt").invoke(testObject);
+  Assert.assertEquals(1,a);
+  Class<?> databaseTraceValue=loader.loadClass(DatabaseInfoTraceValue.class.getName());
+  Assert.assertTrue("DatabaseInfoTraceValue implements fail",databaseTraceValue.isInstance(testObject));
+  databaseTraceValue.getMethod("_$PINPOINT$_setTraceDatabaseInfo",DatabaseInfo.class).invoke(testObject,UnKnownDatabaseInfo.INSTANCE);
+  Object databaseInfo=databaseTraceValue.getMethod("_$PINPOINT$_getTraceDatabaseInfo").invoke(testObject);
+  Assert.assertSame(UnKnownDatabaseInfo.INSTANCE,databaseInfo);
 }
