@@ -1,19 +1,22 @@
 {
   logger.info("Modify find classname:{}, loader:{}",jvmClassName,loader);
-  AbstractModifier modifier=modifierMap.get(jvmClassName);
-  if (modifier == null) {
+  MatchableClassFileTransformer transformer=transformerMap.get(jvmClassName);
+  if (transformer == null) {
     return;
   }
-  logger.info("Modify jvmClassName:{},  modifier{}, loader:{}",jvmClassName,modifier,loader);
+  logger.info("Modify jvmClassName:{},  modifier{}, loader:{}",jvmClassName,transformer,loader);
   final Thread thread=Thread.currentThread();
   final ClassLoader beforeClassLoader=thread.getContextClassLoader();
   thread.setContextClassLoader(loader);
   try {
     String javaClassName=JavaAssistUtils.jvmNameToJavaName(jvmClassName);
-    byte[] modify=modifier.modify(this.loader,javaClassName,null,null);
+    byte[] modify=transformer.transform(loader,javaClassName,null,null,null);
     makeClass(pool,modify,jvmClassName);
   }
-  finally {
+ catch (  IllegalClassFormatException e) {
+    throw new CannotCompileException(e);
+  }
+ finally {
     thread.setContextClassLoader(beforeClassLoader);
   }
 }

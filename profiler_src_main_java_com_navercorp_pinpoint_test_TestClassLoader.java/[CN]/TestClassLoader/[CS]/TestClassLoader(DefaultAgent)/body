@@ -1,0 +1,7 @@
+{
+  Asserts.notNull(agent,"agent");
+  this.agent=agent;
+  this.context=new DefaultProfilerPluginContext(agent,new LegacyProfilerPluginClassInjector(getClass().getClassLoader()));
+  this.instrumentTranslator=new InstrumentTranslator(this,agent.getClassFileTransformerDispatcher());
+  this.delegateClass=new ArrayList<String>();
+}

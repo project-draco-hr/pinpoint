@@ -1,0 +1,18 @@
+{
+  List<SpanBo> findList=null;
+  for (  SpanBo span : nodeList) {
+    final ServiceType spanServiceType=serviceTypeRegistryService.findServiceType(span.getServiceType());
+    if (findApplicationName.equals(span.getApplicationId()) && includeServiceType(findServiceCode,spanServiceType)) {
+      if (agentFilter.accept(span.getAgentId())) {
+        if (findList == null) {
+          findList=new ArrayList<>();
+        }
+        findList.add(span);
+      }
+    }
+  }
+  if (findList == null) {
+    return Collections.emptyList();
+  }
+  return findList;
+}

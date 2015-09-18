@@ -1,5 +1,5 @@
 {
-  InstrumentClassPool pool=mock(InstrumentClassPool.class);
+  JavassistClassPool pool=mock(JavassistClassPool.class);
   TraceContext traceContext=mock(TraceContext.class);
   InstrumentClass aClass=mock(InstrumentClass.class);
   InstrumentMethod aMethod=mock(InstrumentMethod.class);
@@ -21,13 +21,13 @@
   when(aMethod.getDescriptor()).thenReturn(aDescriptor);
   when(aClass.addInterceptor(eq(methodName),eq(parameterTypeNames),isA(Interceptor.class))).thenReturn(0);
   DefaultClassFileTransformerBuilder builder=new DefaultClassFileTransformerBuilder(context,"TargetClass");
-  builder.injectMetadata("a","java.util.HashMap");
-  builder.injectFieldAccessor("someField");
+  builder.injectField("some.accessor.Type","java.util.HashMap");
+  builder.injectGetter("some.getter.Type","someField");
   MethodTransformerBuilder ib=builder.editMethod(methodName,parameterTypeNames);
   ib.injectInterceptor("com.navercorp.pinpoint.profiler.plugin.TestInterceptor","provided");
   ClassFileTransformer transformer=builder.build();
   transformer.transform(classLoader,className,null,null,classFileBuffer);
   verify(aMethod).addInterceptor(eq("com.navercorp.pinpoint.profiler.plugin.TestInterceptor"),(InterceptorGroup)isNull(),(ExecutionPolicy)isNull(),eq("provided"));
-  verify(aClass).addTraceValue(MetadataAccessor.get(0).getType(),"new java.util.HashMap();");
-  verify(aClass).addGetter(FieldAccessor.get(0).getType(),"someField");
+  verify(aClass).addField("some.accessor.Type","new java.util.HashMap();");
+  verify(aClass).addGetter("some.getter.Type","someField");
 }

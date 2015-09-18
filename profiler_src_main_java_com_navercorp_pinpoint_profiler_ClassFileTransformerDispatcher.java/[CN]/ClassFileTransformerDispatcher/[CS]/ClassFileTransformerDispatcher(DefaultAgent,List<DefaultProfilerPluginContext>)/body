@@ -1,0 +1,11 @@
+{
+  if (agent == null) {
+    throw new NullPointerException("agent must not be null");
+  }
+  this.globalContext=new DefaultProfilerPluginContext(agent,new LegacyProfilerPluginClassInjector(getClass().getClassLoader()));
+  this.debugTargetFilter=agent.getProfilerConfig().getProfilableClassFilter();
+  this.debugTransformer=new DebugTransformer(globalContext);
+  this.unmodifiableFilter=new UnmodifiableClassFilter(agentClassLoader);
+  this.transformerRegistry=createTransformerRegistry(pluginContexts);
+  this.dynamicTransformerRegistry=new DefaultDynamicTransformerRegistry();
+}
