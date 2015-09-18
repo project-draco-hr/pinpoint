@@ -27,8 +27,10 @@
   if (!tomcatExcludeURL.isEmpty()) {
     this.tomcatExcludeUrlFilter=new ExcludeUrlFilter(tomcatExcludeURL);
   }
-  this.tomcatProfileGetParameter=readBoolean("profiler.tomcat.getparameter",false);
-  this.tomcatProfilePostParameter=readBoolean("profiler.tomcat.postparameter",false);
+  final String tomcatExcludeProfileMethod=readString("profiler.tomcat.excludemethod","");
+  if (!tomcatExcludeProfileMethod.isEmpty()) {
+    this.tomcatExcludeProfileMethodFilter=new ExcludeMethodFilter(tomcatExcludeProfileMethod);
+  }
   this.apacheHttpClient3Profile=readBoolean("profiler.apache.httpclient3",true);
   this.apacheHttpClient3ProfileCookie=readBoolean("profiler.apache.httpclient3.cookie",false);
   this.apacheHttpClient3ProfileCookieDumpType=readDumpType("profiler.apache.httpclient3.cookie.dumptype",DumpType.EXCEPTION);
