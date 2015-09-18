@@ -1,0 +1,14 @@
+{
+  InterceptorGroupInvocation transaction=group.getCurrentInvocation();
+  if (transaction.canLeave(policy)) {
+    if (after != null) {
+      after.after(target,result,throwable,args);
+    }
+    transaction.leave(policy);
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,policy,after == null ? null : after.getClass()});
+    }
+  }
+}

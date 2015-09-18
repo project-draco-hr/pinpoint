@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("org.apache.commons.httpclient.DefaultHttpMethodRetryHandler",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod retryMethod=target.getDeclaredMethod("retryMethod","org.apache.commons.httpclient.HttpMethod","java.io.IOException","int");
       if (retryMethod != null) {
