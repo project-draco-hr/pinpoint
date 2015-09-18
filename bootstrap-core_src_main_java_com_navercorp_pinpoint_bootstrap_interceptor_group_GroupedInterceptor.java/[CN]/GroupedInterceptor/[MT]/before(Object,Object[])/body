@@ -1,0 +1,13 @@
+{
+  InterceptorGroupInvocation transaction=group.getCurrentInvocation();
+  if (transaction.tryEnter(policy)) {
+    if (before != null) {
+      before.before(target,args);
+    }
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryBefore() returns false: interceptorGroupTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,policy,before == null ? null : before.getClass()});
+    }
+  }
+}

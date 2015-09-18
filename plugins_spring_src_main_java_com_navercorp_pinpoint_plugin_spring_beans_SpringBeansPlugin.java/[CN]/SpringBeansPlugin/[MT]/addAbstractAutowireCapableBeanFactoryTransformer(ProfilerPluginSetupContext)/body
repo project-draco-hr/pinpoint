@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       BeanMethodTransformer beanTransformer=new BeanMethodTransformer();
       ObjectRecipe beanFilterRecipe=ObjectRecipe.byStaticFactory("com.navercorp.pinpoint.plugin.spring.beans.interceptor.TargetBeanFilter","of",context.getConfig());

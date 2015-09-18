@@ -2,8 +2,8 @@
   this.interceptorClass=interceptorClass;
   this.targetMethod=targetMethod;
   this.interceptorId=interceptorId;
-  if (SimpleAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
-    type=Type.SIMPLE;
+  if (BeforeInterceptor.class.isAssignableFrom(interceptorClass) || AfterInterceptor.class.isAssignableFrom(interceptorClass)) {
+    type=Type.ARRAY_ARGS;
   }
  else   if (StaticAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
     type=Type.STATIC;

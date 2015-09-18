@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("org.apache.http.impl.conn.BasicHttpClientConnectionManager",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod connect=target.getDeclaredMethod("connect","org.apache.http.HttpClientConnection","org.apache.http.conn.routing.HttpRoute","int","org.apache.http.protocol.HttpContext");
       if (connect != null) {

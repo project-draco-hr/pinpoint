@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("net.spy.memcached.protocol.BaseOperationImpl",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    PinpointInstrument context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(SERVICE_CODE_ACCESSOR);
       return target.toBytecode();

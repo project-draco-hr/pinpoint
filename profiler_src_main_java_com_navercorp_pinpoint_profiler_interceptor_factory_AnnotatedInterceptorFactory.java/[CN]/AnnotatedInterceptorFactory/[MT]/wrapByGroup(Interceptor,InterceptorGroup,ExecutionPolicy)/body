@@ -1,6 +1,6 @@
 {
-  if (interceptor instanceof SimpleAroundInterceptor) {
-    return new GroupedSimpleAroundInterceptor((SimpleAroundInterceptor)interceptor,group,policy);
+  if (interceptor instanceof AroundInterceptor) {
+    return new GroupedInterceptor((AroundInterceptor)interceptor,(AroundInterceptor)interceptor,group,policy);
   }
  else   if (interceptor instanceof StaticAroundInterceptor) {
     return new GroupedStaticAroundInterceptor((StaticAroundInterceptor)interceptor,group,policy);
@@ -58,6 +58,12 @@
   }
  else   if (interceptor instanceof AfterInterceptor0) {
     return new GroupedInterceptor0(null,(AfterInterceptor0)interceptor,group,policy);
+  }
+ else   if (interceptor instanceof BeforeInterceptor) {
+    return new GroupedInterceptor((BeforeInterceptor)interceptor,null,group,policy);
+  }
+ else   if (interceptor instanceof AfterInterceptor) {
+    return new GroupedInterceptor(null,(AfterInterceptor)interceptor,group,policy);
   }
   throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
 }

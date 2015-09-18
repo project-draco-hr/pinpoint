@@ -1,0 +1,33 @@
+{
+  final TestClassLoader loader=getTestClassLoader();
+  final String javassistClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
+  loader.addTransformer(javassistClassName,new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      try {
+        logger.info("modify className:{} cl:{}",className,classLoader);
+        InstrumentClass aClass=instrumentContext.getInstrumentClass(classLoader,javassistClassName,classfileBuffer);
+        String methodName="callA";
+        aClass.getDeclaredMethod(methodName).addInterceptor("com.navercorp.pinpoint.profiler.interceptor.TestBeforeInterceptor");
+        return aClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+  }
+);
+  loader.initialize();
+  Class<?> testObjectClazz=loader.loadClass(javassistClassName);
+  final String methodName="callA";
+  logger.info("class:{}",testObjectClazz.toString());
+  final Object testObject=testObjectClazz.newInstance();
+  Method callA=testObjectClazz.getMethod(methodName);
+  callA.invoke(testObject);
+  Interceptor interceptor=getInterceptor(loader,0);
+  assertEqualsIntField(interceptor,"call",1);
+  assertEqualsObjectField(interceptor,"className","com.navercorp.pinpoint.profiler.interceptor.bci.TestObject");
+  assertEqualsObjectField(interceptor,"methodName",methodName);
+  assertEqualsObjectField(interceptor,"args",null);
+  assertEqualsObjectField(interceptor,"target",testObject);
+}

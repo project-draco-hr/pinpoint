@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("org.apache.catalina.connector.Request",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    PinpointInstrument instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       target.addField(METADATA_TRACE);
       target.addField(METADATA_ASYNC);
