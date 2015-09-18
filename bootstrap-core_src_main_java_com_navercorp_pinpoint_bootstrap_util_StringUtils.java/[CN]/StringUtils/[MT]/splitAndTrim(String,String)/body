@@ -1,0 +1,21 @@
+{
+  if (isEmpty(value)) {
+    return Collections.emptyList();
+  }
+  if (separator == null) {
+    throw new NullPointerException("separator must not be null");
+  }
+  final List<String> result=new ArrayList<String>();
+  final String[] split=value.split(separator);
+  for (  String method : split) {
+    if (isEmpty(method)) {
+      continue;
+    }
+    method=method.trim();
+    if (method.isEmpty()) {
+      continue;
+    }
+    result.add(method);
+  }
+  return result;
+}
