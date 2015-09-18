@@ -1,18 +1,11 @@
 {
-  if (excludeFormat == null || excludeFormat.isEmpty()) {
+  if (StringUtils.isEmpty(separator)) {
     this.excludeMethods=Collections.emptySet();
     return;
   }
-  final String[] split=excludeFormat.split(separator);
+  final List<String> splitList=StringUtils.splitAndTrim(excludeFormat,separator);
   this.excludeMethods=new HashSet<String>();
-  for (  String method : split) {
-    if (isEmpty(method)) {
-      continue;
-    }
-    method=method.trim();
-    if (method.isEmpty()) {
-      continue;
-    }
-    excludeMethods.add(method.toUpperCase());
+  for (  String method : splitList) {
+    this.excludeMethods.add(method.toUpperCase());
   }
 }
