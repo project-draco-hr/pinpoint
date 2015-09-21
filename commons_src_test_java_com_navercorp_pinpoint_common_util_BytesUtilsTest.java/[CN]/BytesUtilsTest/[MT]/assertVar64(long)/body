@@ -1,0 +1,9 @@
+{
+  final int computeBufferSize=BytesUtils.computeVar64Size(value);
+  final byte[] bytes=new byte[computeBufferSize];
+  BytesUtils.writeVar64(value,bytes,0);
+  final Buffer buffer=new FixedBuffer(bytes);
+  final long varInt=buffer.readVarLong();
+  Assert.assertEquals("check value",value,varInt);
+  Assert.assertEquals("check buffer size",buffer.getOffset(),computeBufferSize);
+}

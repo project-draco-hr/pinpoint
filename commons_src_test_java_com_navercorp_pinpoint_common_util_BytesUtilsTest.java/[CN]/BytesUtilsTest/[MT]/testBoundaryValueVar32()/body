@@ -1,0 +1,10 @@
+{
+  int boundSize=0;
+  for (int i=0; i < Integer.MAX_VALUE; i++) {
+    final int size=BytesUtils.computeVar32Size(i);
+    if (size > boundSize) {
+      boundSize=size;
+      logger.debug("bound {}->{}",boundSize,i);
+    }
+  }
+}
