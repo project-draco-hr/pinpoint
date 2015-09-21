@@ -1,41 +1,38 @@
 {
-  final byte[] buffer=this.buffer;
-  int offset=this.offset;
-  int result;
-  byte v=buffer[offset++];
-  if (v >= 0) {
-    this.offset=offset;
-    return v;
-  }
-  result=v & 0x7f;
-  if ((v=buffer[offset++]) >= 0) {
-    result|=v << 7;
-  }
- else {
-    result|=(v & 0x7f) << 7;
-    if ((v=buffer[offset++]) >= 0) {
-      result|=v << 14;
+  fastpath: {
+    int pos=this.offset;
+    final int bufferSize=this.buffer.length;
+    if (bufferSize == pos) {
+      break fastpath;
+    }
+    final byte[] buffer=this.buffer;
+    int x;
+    if ((x=buffer[pos++]) >= 0) {
+      this.offset=pos;
+      return x;
+    }
+ else     if (bufferSize - pos < 9) {
+      break fastpath;
+    }
+ else     if ((x^=(buffer[pos++] << 7)) < 0) {
+      x^=(~0 << 7);
+    }
+ else     if ((x^=(buffer[pos++] << 14)) >= 0) {
+      x^=(~0 << 7) ^ (~0 << 14);
+    }
+ else     if ((x^=(buffer[pos++] << 21)) < 0) {
+      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21);
     }
  else {
-      result|=(v & 0x7f) << 14;
-      if ((v=buffer[offset++]) >= 0) {
-        result|=v << 21;
-      }
- else {
-        result|=(v & 0x7f) << 21;
-        result|=(v=buffer[offset++]) << 28;
-        if (v < 0) {
-          for (int i=0; i < 5; i++) {
-            if (buffer[offset++] >= 0) {
-              this.offset=offset;
-              return result;
-            }
-          }
-          throw new IllegalArgumentException("invalid varInt. start offset:" + this.offset + " readOffset:"+ offset);
-        }
+      int y=buffer[pos++];
+      x^=y << 28;
+      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21)^ (~0 << 28);
+      if (y < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0) {
+        break fastpath;
       }
     }
+    this.offset=pos;
+    return x;
   }
-  this.offset=offset;
-  return result;
+  return (int)readVar64SlowPath();
 }
