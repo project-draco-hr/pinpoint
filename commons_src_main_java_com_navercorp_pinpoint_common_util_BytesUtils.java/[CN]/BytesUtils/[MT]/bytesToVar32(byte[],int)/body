@@ -1,0 +1,39 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer must not be null");
+  }
+  checkBound(buffer.length,offset);
+  fastpath: {
+    int pos=offset;
+    final int bufferSize=buffer.length;
+    if (bufferSize == pos) {
+      break fastpath;
+    }
+    int x;
+    if ((x=buffer[pos++]) >= 0) {
+      return x;
+    }
+ else     if (bufferSize - pos < 9) {
+      break fastpath;
+    }
+ else     if ((x^=(buffer[pos++] << 7)) < 0) {
+      x^=(~0 << 7);
+    }
+ else     if ((x^=(buffer[pos++] << 14)) >= 0) {
+      x^=(~0 << 7) ^ (~0 << 14);
+    }
+ else     if ((x^=(buffer[pos++] << 21)) < 0) {
+      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21);
+    }
+ else {
+      int y=buffer[pos++];
+      x^=y << 28;
+      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21)^ (~0 << 28);
+      if (y < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos] < 0) {
+        break fastpath;
+      }
+    }
+    return x;
+  }
+  return (int)readVar64SlowPath(buffer,offset);
+}

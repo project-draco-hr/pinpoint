@@ -1,0 +1,53 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer must not be null");
+  }
+  checkBound(buffer.length,offset);
+  fastpath: {
+    int pos=offset;
+    int bufferSize=buffer.length;
+    if (bufferSize == pos) {
+      break fastpath;
+    }
+    long x;
+    int y;
+    if ((y=buffer[pos++]) >= 0) {
+      return y;
+    }
+ else     if (bufferSize - pos < 9) {
+      break fastpath;
+    }
+ else     if ((x=y ^ (buffer[pos++] << 7)) < 0L) {
+      x^=(~0L << 7);
+    }
+ else     if ((x^=(buffer[pos++] << 14)) >= 0L) {
+      x^=(~0L << 7) ^ (~0L << 14);
+    }
+ else     if ((x^=(buffer[pos++] << 21)) < 0L) {
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21);
+    }
+ else     if ((x^=((long)buffer[pos++] << 28)) >= 0L) {
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21)^ (~0L << 28);
+    }
+ else     if ((x^=((long)buffer[pos++] << 35)) < 0L) {
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21)^ (~0L << 28)^ (~0L << 35);
+    }
+ else     if ((x^=((long)buffer[pos++] << 42)) >= 0L) {
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21)^ (~0L << 28)^ (~0L << 35)^ (~0L << 42);
+    }
+ else     if ((x^=((long)buffer[pos++] << 49)) < 0L) {
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21)^ (~0L << 28)^ (~0L << 35)^ (~0L << 42)^ (~0L << 49);
+    }
+ else {
+      x^=((long)buffer[pos++] << 56);
+      x^=(~0L << 7) ^ (~0L << 14) ^ (~0L << 21)^ (~0L << 28)^ (~0L << 35)^ (~0L << 42)^ (~0L << 49)^ (~0L << 56);
+      if (x < 0L) {
+        if (buffer[pos] < 0L) {
+          break fastpath;
+        }
+      }
+    }
+    return x;
+  }
+  return readVar64SlowPath(buffer,offset);
+}
