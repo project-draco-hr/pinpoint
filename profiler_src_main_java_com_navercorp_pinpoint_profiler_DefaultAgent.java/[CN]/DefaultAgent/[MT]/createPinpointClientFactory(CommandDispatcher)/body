@@ -1,0 +1,16 @@
+{
+  PinpointClientFactory pinpointClientFactory=new PinpointClientFactory();
+  pinpointClientFactory.setTimeoutMillis(1000 * 5);
+  Map<String,Object> properties=this.agentInformation.toMap();
+  boolean isSupportServerMode=this.profilerConfig.isTcpDataSenderCommandAcceptEnable();
+  if (isSupportServerMode) {
+    pinpointClientFactory.setMessageListener(commandDispatcher);
+    pinpointClientFactory.setServerStreamChannelMessageListener(commandDispatcher);
+    properties.put(AgentHandshakePropertyType.SUPPORT_SERVER.getName(),true);
+  }
+ else {
+    properties.put(AgentHandshakePropertyType.SUPPORT_SERVER.getName(),false);
+  }
+  pinpointClientFactory.setProperties(properties);
+  return pinpointClientFactory;
+}

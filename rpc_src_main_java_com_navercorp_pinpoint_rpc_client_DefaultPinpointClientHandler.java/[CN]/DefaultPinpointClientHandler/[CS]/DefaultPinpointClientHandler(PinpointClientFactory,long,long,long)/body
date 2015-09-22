@@ -1,0 +1,19 @@
+{
+  if (pinpointClientFactory == null) {
+    throw new NullPointerException("pinpointClientFactory must not be null");
+  }
+  HashedWheelTimer timer=TimerFactory.createHashedWheelTimer("Pinpoint-PinpointClientHandler-Timer",100,TimeUnit.MILLISECONDS,512);
+  timer.start();
+  this.channelTimer=timer;
+  this.pinpointClientFactory=pinpointClientFactory;
+  this.requestManager=new RequestManager(timer,timeoutMillis);
+  this.pingDelay=pingDelay;
+  this.timeoutMillis=timeoutMillis;
+  this.messageListener=pinpointClientFactory.getMessageListener(SimpleLoggingMessageListener.LISTENER);
+  this.serverStreamChannelMessageListener=pinpointClientFactory.getServerStreamChannelMessageListener(DisabledServerStreamChannelMessageListener.INSTANCE);
+  this.objectUniqName=ClassUtils.simpleClassNameAndHashCodeString(this);
+  this.handshaker=new PinpointClientHandshaker(channelTimer,(int)handshakeRetryInterval,maxHandshakeCount);
+  this.socketId=pinpointClientFactory.issueNewSocketId();
+  this.pingIdGenerator=new AtomicInteger(0);
+  this.state=new PinpointClientHandlerState(this.objectUniqName);
+}

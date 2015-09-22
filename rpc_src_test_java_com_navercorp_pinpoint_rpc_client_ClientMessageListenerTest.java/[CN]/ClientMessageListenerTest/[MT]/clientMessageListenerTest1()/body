@@ -1,9 +1,9 @@
 {
   PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new AlwaysHandshakeSuccessListener());
   EchoClientListener echoMessageListener=new EchoClientListener();
-  PinpointSocketFactory clientSocketFactory=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),echoMessageListener);
+  PinpointClientFactory clientSocketFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),echoMessageListener);
   try {
-    PinpointSocket socket=clientSocketFactory.connect("127.0.0.1",bindPort);
+    PinpointClient client=clientSocketFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
     List<PinpointServer> writableServerList=serverAcceptor.getWritableServerList();
     if (writableServerList.size() != 1) {
@@ -12,7 +12,7 @@
     PinpointServer writableServer=writableServerList.get(0);
     assertSendMessage(writableServer,"simple",echoMessageListener);
     assertRequestMessage(writableServer,"request",echoMessageListener);
-    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(client);
   }
   finally {
     clientSocketFactory.release();

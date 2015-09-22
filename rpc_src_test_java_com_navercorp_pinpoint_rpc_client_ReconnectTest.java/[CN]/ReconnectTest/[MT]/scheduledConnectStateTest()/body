@@ -1,8 +1,8 @@
 {
-  PinpointSocket socket=socketFactory.scheduledConnect("localhost",bindPort);
-  socket.send(new byte[10]);
+  PinpointClient client=clientFactory.scheduledConnect("localhost",bindPort);
+  client.send(new byte[10]);
   try {
-    Future future=socket.sendAsync(new byte[10]);
+    Future future=client.sendAsync(new byte[10]);
     future.await();
     future.getResult();
     Assert.fail();
@@ -10,16 +10,16 @@
  catch (  PinpointSocketException e) {
   }
   try {
-    socket.sendSync(new byte[10]);
+    client.sendSync(new byte[10]);
     Assert.fail();
   }
  catch (  PinpointSocketException e) {
   }
   try {
-    PinpointRPCTestUtils.request(socket,new byte[10]);
+    PinpointRPCTestUtils.request(client,new byte[10]);
     Assert.fail();
   }
  catch (  PinpointSocketException e) {
   }
-  PinpointRPCTestUtils.close(socket);
+  PinpointRPCTestUtils.close(client);
 }

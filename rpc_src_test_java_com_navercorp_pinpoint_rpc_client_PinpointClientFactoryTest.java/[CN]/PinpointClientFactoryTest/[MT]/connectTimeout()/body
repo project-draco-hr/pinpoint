@@ -1,0 +1,13 @@
+{
+  int timeout=1000;
+  PinpointClientFactory pinpointClientFactory=null;
+  try {
+    pinpointClientFactory=new PinpointClientFactory();
+    pinpointClientFactory.setConnectTimeout(timeout);
+    int connectTimeout=pinpointClientFactory.getConnectTimeout();
+    Assert.assertEquals(timeout,connectTimeout);
+  }
+  finally {
+    pinpointClientFactory.release();
+  }
+}

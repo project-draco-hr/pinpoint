@@ -1,11 +1,11 @@
 {
   PinpointServerAcceptor serverAcceptor=null;
-  PinpointSocket pinpointSocket=null;
-  PinpointSocketFactory clientSocketFactory=null;
+  PinpointClient client=null;
+  PinpointClientFactory clientFactory=null;
   try {
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,PinpointRPCTestUtils.createEchoServerListener());
-    clientSocketFactory=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
-    pinpointSocket=clientSocketFactory.connect("127.0.0.1",bindPort);
+    clientFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
+    client=clientFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(1000);
     List<PinpointServer> pinpointServerList=serverAcceptor.getWritableServerList();
     PinpointServer pinpointServer=pinpointServerList.get(0);
@@ -15,9 +15,9 @@
     Assert.assertEquals(SocketStateCode.UNEXPECTED_CLOSE_BY_SERVER,pinpointServer.getCurrentStateCode());
   }
   finally {
-    PinpointRPCTestUtils.close(pinpointSocket);
-    if (clientSocketFactory != null) {
-      clientSocketFactory.release();
+    PinpointRPCTestUtils.close(client);
+    if (clientFactory != null) {
+      clientFactory.release();
     }
     PinpointRPCTestUtils.close(serverAcceptor);
   }

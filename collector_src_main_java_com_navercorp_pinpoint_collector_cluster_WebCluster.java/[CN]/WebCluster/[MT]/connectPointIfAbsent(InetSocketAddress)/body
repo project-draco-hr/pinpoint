@@ -4,7 +4,7 @@
     logger.info("localhost -> {} already connected.",address);
     return;
   }
-  PinpointSocket socket=createPinpointSocket(address);
-  clusterRepository.put(address,socket);
+  PinpointClient client=createPinpointClient(address);
+  clusterRepository.put(address,client);
   logger.info("localhost -> {} connect completed.",address);
 }

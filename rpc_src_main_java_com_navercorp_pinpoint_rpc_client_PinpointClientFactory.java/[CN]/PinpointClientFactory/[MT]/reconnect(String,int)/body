@@ -1,0 +1,8 @@
+{
+  SocketAddress address=new InetSocketAddress(host,port);
+  ChannelFuture connectFuture=bootstrap.connect(address);
+  PinpointClientHandler pinpointClientHandler=getSocketHandler(connectFuture,address);
+  PinpointClient pinpointClient=new PinpointClient(pinpointClientHandler);
+  traceSocket(pinpointClient);
+  return pinpointClient;
+}

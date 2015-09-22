@@ -10,9 +10,9 @@
   final Queue<Throwable> exceptions=new ConcurrentLinkedQueue<Throwable>();
   ResponseServerMessageListener delayedServerListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(delayedServerListener);
-  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
-  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
-  TcpDataSender sender=new TcpDataSender(socket);
+  PinpointClientFactory clientFactory=createPinpointClientFactory();
+  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,clientFactory);
+  TcpDataSender sender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(sender,agentInfoSendRetryIntervalMs,getAgentInfo());
   final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(Collections.<String>emptyList());
   metaDataContext.addListener(agentInfoSender);
@@ -43,7 +43,7 @@
     Thread.sleep(10000L);
   }
   finally {
-    closeAll(serverAcceptor,agentInfoSender,socket,socketFactory);
+    closeAll(serverAcceptor,agentInfoSender,pinpointClient,clientFactory);
   }
   assertTrue("Failed with exceptions : " + exceptions,exceptions.isEmpty());
   assertEquals(threadCount,requestCount.get());
