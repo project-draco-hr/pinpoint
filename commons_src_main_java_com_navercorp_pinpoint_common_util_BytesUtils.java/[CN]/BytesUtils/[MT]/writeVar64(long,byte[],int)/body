@@ -2,9 +2,7 @@
   if (buf == null) {
     throw new NullPointerException("buf must not be null");
   }
-  if (offset < 0) {
-    throw new IndexOutOfBoundsException("negative offset:" + offset);
-  }
+  checkBound(buf.length,offset);
   while (true) {
     if ((value & ~0x7FL) == 0) {
       buf[offset++]=(byte)value;
