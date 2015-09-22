@@ -5,7 +5,7 @@
   final Map<RowKey,List<ColumnName>> rowkeyMerge=rowKeyBaseMerge(data);
   List<Increment> incrementList=new ArrayList<Increment>();
   for (  Map.Entry<RowKey,List<ColumnName>> rowKeyEntry : rowkeyMerge.entrySet()) {
-    Increment increment=createIncrement(rowKeyEntry);
+    Increment increment=createIncrement(rowKeyEntry,rowKeyDistributorByHashPrefix);
     incrementList.add(increment);
   }
   return incrementList;

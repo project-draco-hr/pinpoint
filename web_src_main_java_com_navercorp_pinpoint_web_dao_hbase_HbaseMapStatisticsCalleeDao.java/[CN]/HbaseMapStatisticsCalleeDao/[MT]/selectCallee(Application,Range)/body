@@ -8,10 +8,13 @@
   Scan scan=createScan(calleeApplication,range);
   final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
   final ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCalleeMapper,new MapStatisticsTimeWindowReducer(timeWindow));
-  LinkDataMap foundListList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,resultExtractor);
-  if (foundListList == null) {
+  LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,rowKeyDistributorByHashPrefix,resultExtractor);
+  if (linkDataMap == null || linkDataMap.size() == 0) {
     logger.debug("There's no caller data. {}, {}",calleeApplication,range);
-    return new LinkDataMap();
+    linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,resultExtractor);
+    if (linkDataMap == null) {
+      return new LinkDataMap();
+    }
   }
-  return foundListList;
+  return linkDataMap;
 }

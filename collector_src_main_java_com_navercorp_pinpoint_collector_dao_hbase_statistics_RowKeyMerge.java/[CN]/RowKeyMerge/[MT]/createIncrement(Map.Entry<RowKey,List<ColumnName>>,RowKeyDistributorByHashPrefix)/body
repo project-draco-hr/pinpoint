@@ -1,6 +1,13 @@
 {
   RowKey rowKey=rowKeyEntry.getKey();
-  final Increment increment=new Increment(rowKey.getRowKey());
+  byte[] key=null;
+  if (rowKeyDistributorByHashPrefix == null) {
+    key=rowKey.getRowKey();
+  }
+ else {
+    key=rowKeyDistributorByHashPrefix.getDistributedKey(rowKey.getRowKey());
+  }
+  final Increment increment=new Increment(key);
   for (  ColumnName columnName : rowKeyEntry.getValue()) {
     increment.addColumn(family,columnName.getColumnName(),columnName.getCallCount());
   }

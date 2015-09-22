@@ -19,7 +19,7 @@
     counter.increment(rowInfo,1L);
   }
  else {
-    final byte[] rowKey=calleeRowKey.getRowKey();
+    final byte[] rowKey=getDistributedKey(calleeRowKey.getRowKey());
     byte[] columnName=callerColumnName.getColumnName();
     increment(rowKey,columnName,1L);
   }

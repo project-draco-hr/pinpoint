@@ -2,11 +2,14 @@
   Scan scan=createScan(callerApplication,range);
   final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
   final ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
-  final LinkDataMap foundList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
-  logger.debug("Caller data. {}, {}",foundList,range);
-  if (foundList == null) {
+  LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,rowKeyDistributorByHashPrefix,resultExtractor);
+  logger.debug("Caller data. {}, {}",linkDataMap,range);
+  if (linkDataMap == null || linkDataMap.size() == 0) {
     logger.debug("There's no caller data. {}, {}",callerApplication,range);
-    return new LinkDataMap();
+    linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
+    if (linkDataMap == null) {
+      return new LinkDataMap();
+    }
   }
-  return foundList;
+  return linkDataMap;
 }
