@@ -1,0 +1,13 @@
+{
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+  try {
+    PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
+    byte[] randomByte=TestByteUtils.createRandomByte(20);
+    byte[] response=PinpointRPCTestUtils.request(client,randomByte);
+    Assert.assertArrayEquals(randomByte,response);
+    PinpointRPCTestUtils.close(client);
+  }
+  finally {
+    PinpointRPCTestUtils.close(serverAcceptor);
+  }
+}

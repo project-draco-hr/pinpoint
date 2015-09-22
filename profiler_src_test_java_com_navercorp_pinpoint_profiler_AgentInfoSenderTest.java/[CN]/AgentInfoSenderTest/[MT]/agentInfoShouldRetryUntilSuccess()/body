@@ -5,16 +5,16 @@
   final int expectedTriesUntilSuccess=5;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
-  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
-  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
-  TcpDataSender dataSender=new TcpDataSender(socket);
+  PinpointClientFactory socketFactory=createPinpointClientFactory();
+  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,socketFactory);
+  TcpDataSender dataSender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
   try {
     agentInfoSender.start();
     Thread.sleep(agentInfoSendRetryIntervalMs * expectedTriesUntilSuccess);
   }
   finally {
-    closeAll(serverAcceptor,agentInfoSender,socket,socketFactory);
+    closeAll(serverAcceptor,agentInfoSender,pinpointClient,socketFactory);
   }
   assertEquals(expectedTriesUntilSuccess,requestCount.get());
   assertEquals(1,successCount.get());

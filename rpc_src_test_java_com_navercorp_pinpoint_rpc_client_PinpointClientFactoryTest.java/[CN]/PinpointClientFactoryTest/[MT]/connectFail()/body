@@ -1,0 +1,9 @@
+{
+  try {
+    clientFactory.connect("127.0.0.1",bindPort);
+    Assert.fail();
+  }
+ catch (  PinpointSocketException e) {
+    Assert.assertTrue(ConnectException.class.isInstance(e.getCause()));
+  }
+}

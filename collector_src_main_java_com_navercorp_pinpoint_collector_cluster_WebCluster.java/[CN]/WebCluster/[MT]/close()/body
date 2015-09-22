@@ -1,10 +1,10 @@
 {
-  for (  PinpointSocket socket : clusterRepository.values()) {
-    if (socket != null) {
-      socket.close();
+  for (  PinpointClient client : clusterRepository.values()) {
+    if (client != null) {
+      client.close();
     }
   }
-  if (factory != null) {
-    factory.release();
+  if (clientFactory != null) {
+    clientFactory.release();
   }
 }

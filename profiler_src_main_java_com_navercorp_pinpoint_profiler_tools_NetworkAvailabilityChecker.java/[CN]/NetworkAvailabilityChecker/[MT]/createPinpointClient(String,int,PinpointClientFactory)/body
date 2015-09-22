@@ -1,0 +1,15 @@
+{
+  RuntimeException lastException=null;
+  for (int i=0; i < 3; i++) {
+    try {
+      PinpointClient pinpointClient=factory.connect(host,port);
+      LOGGER.info("tcp connect success:{}/{}",host,port);
+      return pinpointClient;
+    }
+ catch (    PinpointSocketException e) {
+      LOGGER.warn("tcp connect fail:{}/{} try reconnect, retryCount:{}",host,port,i);
+      lastException=e;
+    }
+  }
+  throw lastException;
+}

@@ -1,8 +1,8 @@
 {
   PinpointServerAcceptor oldAcceptor=serverAcceptorStart();
-  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
-  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
-  TcpDataSender sender=new TcpDataSender(socket);
+  PinpointClientFactory clientFactory=createPinpointClientFactory();
+  PinpointClient client=createPinpointClient(HOST,PORT,clientFactory);
+  TcpDataSender sender=new TcpDataSender(client);
   Thread.sleep(500);
   oldAcceptor.close();
   Thread.sleep(500);
@@ -15,6 +15,6 @@
   logger.info("sender stop------------------");
   sender.stop();
   serverAcceptor.close();
-  socket.close();
-  socketFactory.release();
+  client.close();
+  clientFactory.release();
 }

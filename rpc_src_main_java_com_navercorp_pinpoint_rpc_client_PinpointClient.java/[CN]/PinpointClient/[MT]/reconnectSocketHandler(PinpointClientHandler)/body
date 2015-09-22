@@ -1,0 +1,11 @@
+{
+  AssertUtils.assertNotNull(pinpointClientHandler,"pinpointClientHandler");
+  if (closed) {
+    logger.warn("reconnectClientHandler(). pinpointClientHandler force close.");
+    pinpointClientHandler.close();
+    return;
+  }
+  logger.warn("reconnectClientHandler:{}",pinpointClientHandler);
+  this.pinpointClientHandler=pinpointClientHandler;
+  notifyReconnectEvent();
+}

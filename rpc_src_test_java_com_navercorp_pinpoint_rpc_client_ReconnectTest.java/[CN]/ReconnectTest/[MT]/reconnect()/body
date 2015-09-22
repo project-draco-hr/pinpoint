@@ -3,9 +3,9 @@
   final AtomicBoolean reconnectPerformed=new AtomicBoolean(false);
   PinpointServerAcceptor newServerAcceptor=null;
   try {
-    PinpointSocket socket=socketFactory.connect("localhost",bindPort);
-    socket.addPinpointSocketReconnectEventListener(new PinpointSocketReconnectEventListener(){
-      @Override public void reconnectPerformed(      PinpointSocket socket){
+    PinpointClient client=clientFactory.connect("localhost",bindPort);
+    client.addPinpointClientReconnectEventListener(new PinpointClientReconnectEventListener(){
+      @Override public void reconnectPerformed(      PinpointClient client){
         reconnectPerformed.set(true);
       }
     }
@@ -14,7 +14,7 @@
     logger.info("server.close()---------------------------");
     Thread.sleep(1000);
     try {
-      byte[] response=PinpointRPCTestUtils.request(socket,new byte[10]);
+      byte[] response=PinpointRPCTestUtils.request(client,new byte[10]);
       Assert.fail("expected:exception");
     }
  catch (    Exception e) {
@@ -24,9 +24,9 @@
     Thread.sleep(3000);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);
-    byte[] response=PinpointRPCTestUtils.request(socket,randomByte);
+    byte[] response=PinpointRPCTestUtils.request(client,randomByte);
     Assert.assertArrayEquals(randomByte,response);
-    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(client);
   }
   finally {
     PinpointRPCTestUtils.close(newServerAcceptor);

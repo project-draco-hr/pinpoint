@@ -1,0 +1,33 @@
+{
+  logger.info("{} channelClosed() started.",objectUniqName);
+  try {
+    boolean factoryReleased=pinpointClientFactory.isReleased();
+    boolean needReconnect=false;
+    SocketStateCode currentStateCode=state.getCurrentStateCode();
+    if (currentStateCode == SocketStateCode.BEING_CLOSE_BY_CLIENT) {
+      state.toClosed();
+    }
+ else     if (currentStateCode == SocketStateCode.BEING_CLOSE_BY_SERVER) {
+      needReconnect=state.toClosedByPeer().isChange();
+    }
+ else     if (currentStateCode.isRun() && factoryReleased) {
+      state.toUnexpectedClosed();
+    }
+ else     if (currentStateCode.isRun()) {
+      needReconnect=state.toUnexpectedClosedByPeer().isChange();
+    }
+ else     if (currentStateCode.isBeforeConnected()) {
+      state.toConnectFailed();
+    }
+ else {
+      state.toErrorUnknown();
+    }
+    if (needReconnect) {
+      pinpointClientFactory.reconnect(this.pinpointClient,this.connectSocketAddress);
+    }
+  }
+  finally {
+    closeResources();
+    connectFuture.setResult(Result.FAIL);
+  }
+}
