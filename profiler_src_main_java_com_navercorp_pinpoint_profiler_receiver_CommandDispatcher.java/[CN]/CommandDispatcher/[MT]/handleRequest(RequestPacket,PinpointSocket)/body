@@ -1,0 +1,26 @@
+{
+  logger.info("handleRequest packet:{}, remote:{}",requestPacket,pinpointSocket.getRemoteAddress());
+  final TBase<?,?> request=SerializationUtils.deserialize(requestPacket.getPayload(),deserializerFactory,null);
+  logger.debug("handleRequest request:{}, remote:{}",request,pinpointSocket.getRemoteAddress());
+  TBase response;
+  if (request == null) {
+    final TResult tResult=new TResult(false);
+    tResult.setMessage("Unsupported ServiceTypeInfo.");
+    response=tResult;
+  }
+ else {
+    final ProfilerRequestCommandService service=commandServiceRegistry.getRequestService(request);
+    if (service == null) {
+      TResult tResult=new TResult(false);
+      tResult.setMessage("Can't find suitable service(" + request + ").");
+      response=tResult;
+    }
+ else {
+      response=service.requestCommandService(request);
+    }
+  }
+  final byte[] payload=SerializationUtils.serialize(response,serializerFactory,null);
+  if (payload != null) {
+    pinpointSocket.response(requestPacket,payload);
+  }
+}

@@ -1,5 +1,5 @@
 {
-  logger.info("Message received {}. streamChannel:{}, packet:{}.",packet.getClass().getSimpleName(),streamChannelContext,packet);
+  logger.info("handleStreamCreate packet:{}, streamChannel:{}",packet,streamChannelContext);
   TBase<?,?> request=deserialize(packet.getPayload());
   if (request == null) {
     return (short)TRouteResult.EMPTY_REQUEST.getValue();

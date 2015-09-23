@@ -1,7 +1,0 @@
-{
-  byte[] payload=((TCommandTransfer)request).getPayload();
-  TBase<?,?> command=deserialize(payload);
-  TCommandTransferResponse response=routeHandler.onRoute(new RequestEvent((TCommandTransfer)request,channel,requestPacket.getRequestId(),command));
-  channel.write(new ResponsePacket(requestPacket.getRequestId(),serialize(response)));
-  return response.getRouteResult() == TRouteResult.OK;
-}
