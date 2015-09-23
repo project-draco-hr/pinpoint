@@ -5,7 +5,7 @@
   final int port=request.getServerPort();
   final String endPoint=request.getServerName() + ":" + port;
   recorder.recordEndPoint(endPoint);
-  final String remoteAddr=request.getRemoteAddr();
+  final String remoteAddr=remoteAddressResolver.resolve(request);
   recorder.recordRemoteAddress(remoteAddr);
   if (!recorder.isRoot()) {
     recordParentInfo(recorder,request);
