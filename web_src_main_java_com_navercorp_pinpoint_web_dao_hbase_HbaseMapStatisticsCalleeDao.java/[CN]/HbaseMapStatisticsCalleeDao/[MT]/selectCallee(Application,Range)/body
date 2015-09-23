@@ -5,13 +5,16 @@
   if (range == null) {
     throw new NullPointerException("range must not be null");
   }
-  Scan scan=createScan(calleeApplication,range);
+  final Scan scan=createScan(calleeApplication,range);
   final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
-  final ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCalleeMapper,new MapStatisticsTimeWindowReducer(timeWindow));
+  ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCalleeMapper,new MapStatisticsTimeWindowReducer(timeWindow));
   LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,rowKeyDistributorByHashPrefix,resultExtractor);
+  logger.debug("Callee data. {}, {}",linkDataMap,range);
   if (linkDataMap == null || linkDataMap.size() == 0) {
-    logger.debug("There's no caller data. {}, {}",calleeApplication,range);
+    logger.debug("There's no callee data. {}, {}",calleeApplication,range);
+    resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCalleeMapperBackwardCompatibility,new MapStatisticsTimeWindowReducer(timeWindow));
     linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,resultExtractor);
+    logger.debug("Callee data. {}, {}",linkDataMap,range);
     if (linkDataMap == null) {
       return new LinkDataMap();
     }
