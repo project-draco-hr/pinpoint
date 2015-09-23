@@ -1,0 +1,8 @@
+{
+  if (payload == null) {
+    throw new NullPointerException("bytes");
+  }
+  ensureOpen();
+  ResponsePacket response=new ResponsePacket(requestId,payload);
+  write0(response);
+}

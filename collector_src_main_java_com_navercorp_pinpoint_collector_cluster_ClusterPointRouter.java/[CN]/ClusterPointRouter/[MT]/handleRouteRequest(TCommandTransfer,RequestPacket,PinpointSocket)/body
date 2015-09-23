@@ -1,0 +1,7 @@
+{
+  byte[] payload=((TCommandTransfer)request).getPayload();
+  TBase<?,?> command=deserialize(payload);
+  TCommandTransferResponse response=routeHandler.onRoute(new RequestEvent((TCommandTransfer)request,pinpointSocket.getRemoteAddress(),requestPacket.getRequestId(),command));
+  pinpointSocket.response(requestPacket,serialize(response));
+  return response.getRouteResult() == TRouteResult.OK;
+}
