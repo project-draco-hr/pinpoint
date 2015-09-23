@@ -2,21 +2,21 @@
   Asserts.notNull(interceptorClassName,"interceptorClassName");
   int interceptorId=-1;
   Class<?> interceptorType=pluginContext.injectClass(classLoader,interceptorClassName);
-  Targets targets=interceptorType.getAnnotation(Targets.class);
-  if (targets != null) {
-    for (    TargetMethod m : targets.methods()) {
+  TargetMethods targetMethods=interceptorType.getAnnotation(TargetMethods.class);
+  if (targetMethods != null) {
+    for (    TargetMethod m : targetMethods.value()) {
       interceptorId=addInterceptor0(m,interceptorClassName,group,executionPolicy,constructorArgs);
-    }
-    for (    TargetConstructor c : targets.constructors()) {
-      interceptorId=addInterceptor0(c,interceptorClassName,group,executionPolicy,constructorArgs);
-    }
-    for (    TargetFilter f : targets.filters()) {
-      interceptorId=addInterceptor0(f,interceptorClassName,group,executionPolicy,constructorArgs);
     }
   }
   TargetMethod targetMethod=interceptorType.getAnnotation(TargetMethod.class);
   if (targetMethod != null) {
     interceptorId=addInterceptor0(targetMethod,interceptorClassName,group,executionPolicy,constructorArgs);
+  }
+  TargetConstructors targetConstructors=interceptorType.getAnnotation(TargetConstructors.class);
+  if (targetConstructors != null) {
+    for (    TargetConstructor c : targetConstructors.value()) {
+      interceptorId=addInterceptor0(c,interceptorClassName,group,executionPolicy,constructorArgs);
+    }
   }
   TargetConstructor targetConstructor=interceptorType.getAnnotation(TargetConstructor.class);
   if (targetConstructor != null) {

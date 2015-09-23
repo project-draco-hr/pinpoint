@@ -1,15 +1,15 @@
 {
   List<MethodTransformer> editors=new ArrayList<MethodTransformer>();
-  Targets targets=interceptorType.getAnnotation(Targets.class);
-  if (targets != null) {
-    for (    TargetMethod m : targets.methods()) {
+  TargetMethods targetMethods=interceptorType.getAnnotation(TargetMethods.class);
+  if (targetMethods != null) {
+    for (    TargetMethod m : targetMethods.value()) {
       editors.add(createDedicatedMethodEditor(m,injector));
     }
-    for (    TargetConstructor c : targets.constructors()) {
+  }
+  TargetConstructors targetConstructors=interceptorType.getAnnotation(TargetConstructors.class);
+  if (targetConstructors != null) {
+    for (    TargetConstructor c : targetConstructors.value()) {
       editors.add(createConstructorEditor(c,injector));
-    }
-    for (    TargetFilter f : targets.filters()) {
-      editors.add(createFilteredMethodEditor(f,targetClass,injector,classLoader));
     }
   }
   TargetMethod targetMethod=interceptorType.getAnnotation(TargetMethod.class);
