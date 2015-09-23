@@ -1,0 +1,15 @@
+{
+  int interceptorId=-1;
+  for (  InstrumentMethod m : getDeclaredMethods(filter)) {
+    if (interceptorId != -1) {
+      m.addInterceptor(interceptorId);
+    }
+ else {
+      interceptorId=m.addGroupedInterceptor(interceptorClassName,group,executionPolicy,constructorArgs);
+    }
+  }
+  if (interceptorId == -1) {
+    logger.warn("No methods are intercepted. target: " + ctClass.getName(),", interceptor: " + interceptorClassName + ", methodFilter: "+ filter.getClass().getName());
+  }
+  return interceptorId;
+}
