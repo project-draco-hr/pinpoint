@@ -1,12 +1,23 @@
 {
-  Scan scan=createScan(callerApplication,range);
-  final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
-  final ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
-  final LinkDataMap foundList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
-  logger.debug("Caller data. {}, {}",foundList,range);
-  if (foundList == null) {
-    logger.debug("There's no caller data. {}, {}",callerApplication,range);
-    return new LinkDataMap();
+  if (callerApplication == null) {
+    throw new NullPointerException("callerApplication must not be null");
   }
-  return foundList;
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  final Scan scan=createScan(callerApplication,range);
+  final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
+  ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
+  LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,rowKeyDistributorByHashPrefix,resultExtractor);
+  logger.debug("Caller data. {}, {}",linkDataMap,range);
+  if (linkDataMap == null || linkDataMap.size() == 0) {
+    logger.debug("There's no caller data. {}, {}",callerApplication,range);
+    resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapperBackwardCompatibility,new MapStatisticsTimeWindowReducer(timeWindow));
+    linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
+    logger.debug("Caller data. {}, {}",linkDataMap,range);
+    if (linkDataMap == null) {
+      return new LinkDataMap();
+    }
+  }
+  return linkDataMap;
 }

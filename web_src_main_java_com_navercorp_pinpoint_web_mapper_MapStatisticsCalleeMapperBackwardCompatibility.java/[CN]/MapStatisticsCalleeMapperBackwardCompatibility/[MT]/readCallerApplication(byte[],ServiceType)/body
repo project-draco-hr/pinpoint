@@ -1,0 +1,11 @@
+{
+  short callerServiceType=ApplicationMapStatisticsUtils.getDestServiceTypeFromColumnName(qualifier);
+  String callerApplicationName;
+  if (registry.findServiceType(callerServiceType).isUser()) {
+    callerApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnNameForUser(qualifier,calleeServiceType);
+  }
+ else {
+    callerApplicationName=ApplicationMapStatisticsUtils.getDestApplicationNameFromColumnName(qualifier);
+  }
+  return this.applicationFactory.createApplication(callerApplicationName,callerServiceType);
+}
