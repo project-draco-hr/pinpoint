@@ -11,7 +11,7 @@
   ResponseServerMessageListener delayedServerListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(delayedServerListener);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender sender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(sender,agentInfoSendRetryIntervalMs,getAgentInfo());
   final ServerMetaDataHolder metaDataContext=new DefaultServerMetaDataHolder(Collections.<String>emptyList());

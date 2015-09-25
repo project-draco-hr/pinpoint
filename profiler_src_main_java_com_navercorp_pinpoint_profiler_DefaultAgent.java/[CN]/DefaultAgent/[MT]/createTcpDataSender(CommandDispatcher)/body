@@ -1,5 +1,5 @@
 {
   this.clientFactory=createPinpointClientFactory(commandDispatcher);
-  this.client=createPinpointClient(this.profilerConfig.getCollectorTcpServerIp(),this.profilerConfig.getCollectorTcpServerPort(),clientFactory);
+  this.client=ClientFactoryUtils.createPinpointClient(this.profilerConfig.getCollectorTcpServerIp(),this.profilerConfig.getCollectorTcpServerPort(),clientFactory);
   return new TcpDataSender(client);
 }

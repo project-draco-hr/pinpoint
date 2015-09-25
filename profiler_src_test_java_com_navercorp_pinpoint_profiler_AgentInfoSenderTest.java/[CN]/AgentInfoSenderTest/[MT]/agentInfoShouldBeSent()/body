@@ -5,7 +5,7 @@
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender sender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(sender,agentInfoSendRetryIntervalMs,getAgentInfo());
   try {

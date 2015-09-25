@@ -1,7 +1,7 @@
 {
   logger.info("{} channelClosed() started.",objectUniqName);
   try {
-    boolean factoryReleased=pinpointClientFactory.isReleased();
+    boolean factoryReleased=clientFactory.isReleased();
     boolean needReconnect=false;
     SocketStateCode currentStateCode=state.getCurrentStateCode();
     if (currentStateCode == SocketStateCode.BEING_CLOSE_BY_CLIENT) {
@@ -23,7 +23,7 @@
       state.toErrorUnknown();
     }
     if (needReconnect) {
-      pinpointClientFactory.reconnect(this.pinpointClient,this.connectSocketAddress);
+      clientFactory.reconnect(this.pinpointClient,this.connectSocketAddress);
     }
   }
   finally {

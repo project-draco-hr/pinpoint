@@ -1,8 +1,9 @@
 {
-  PinpointClientFactory socketFactory=new PinpointClientFactory();
-  socketFactory.setProperties(param);
+  PinpointClientFactory clientFactory=new PinpointClientFactory();
+  clientFactory.setProperties(param);
+  clientFactory.addStateChangeEventListener(LoggingStateChangeEventListener.getInstance());
   if (messageListener != null) {
-    socketFactory.setMessageListener(messageListener);
+    clientFactory.setMessageListener(messageListener);
   }
-  return socketFactory;
+  return clientFactory;
 }

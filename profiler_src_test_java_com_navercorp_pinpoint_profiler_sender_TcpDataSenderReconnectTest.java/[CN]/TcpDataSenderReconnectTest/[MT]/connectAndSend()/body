@@ -1,7 +1,7 @@
 {
   PinpointServerAcceptor oldAcceptor=serverAcceptorStart();
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient client=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient client=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender sender=new TcpDataSender(client);
   Thread.sleep(500);
   oldAcceptor.close();

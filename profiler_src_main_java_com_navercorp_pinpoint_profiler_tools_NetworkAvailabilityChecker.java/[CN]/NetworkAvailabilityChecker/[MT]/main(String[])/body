@@ -20,7 +20,7 @@
     String collectorTcpIp=profilerConfig.getCollectorTcpServerIp();
     int collectorTcpPort=profilerConfig.getCollectorTcpServerPort();
     clientFactory=createPinpointClientFactory();
-    client=createPinpointClient(collectorTcpIp,collectorTcpPort,clientFactory);
+    client=ClientFactoryUtils.createPinpointClient(collectorTcpIp,collectorTcpPort,clientFactory);
     tcpSender=new TcpDataSender(client);
     boolean udpSenderResult=udpStatSender.isNetworkAvailable();
     boolean udpSpanSenderResult=udpSpanSender.isNetworkAvailable();

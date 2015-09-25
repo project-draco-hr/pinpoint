@@ -7,7 +7,7 @@
   final int expectedTriesUntilSuccess=(int)stressTestTime / (randomMaxTime * 2);
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
   long startTime=System.currentTimeMillis();

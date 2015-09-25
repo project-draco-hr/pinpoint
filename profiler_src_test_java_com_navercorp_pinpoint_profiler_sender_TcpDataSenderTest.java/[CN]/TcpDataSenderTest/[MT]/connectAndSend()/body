@@ -1,7 +1,7 @@
 {
   this.sendLatch=new CountDownLatch(2);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient client=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient client=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender sender=new TcpDataSender(client);
   try {
     sender.send(new TApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
