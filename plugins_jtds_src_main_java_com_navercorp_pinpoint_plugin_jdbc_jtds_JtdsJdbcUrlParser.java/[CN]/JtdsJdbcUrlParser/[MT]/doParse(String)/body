@@ -1,6 +1,6 @@
 {
   if (url == null) {
-    return UnKnownDatabaseInfo.createUnknownDataBase(MSSQL,MSSQL_EXECUTE_QUERY,null);
+    return UnKnownDatabaseInfo.createUnknownDataBase(JtdsConstants.MSSQL,JtdsConstants.MSSQL_EXECUTE_QUERY,null);
   }
   StringMaker maker=new StringMaker(url);
   maker.lower().after("jdbc:jtds:sqlserver:");
@@ -22,5 +22,5 @@
     databaseId=maker.next().after("databasename=").before(';').value();
   }
   String normalizedUrl=maker.clear().before(";").value();
-  return new DefaultDatabaseInfo(MSSQL,MSSQL_EXECUTE_QUERY,url,normalizedUrl,hostList,databaseId);
+  return new DefaultDatabaseInfo(JtdsConstants.MSSQL,JtdsConstants.MSSQL_EXECUTE_QUERY,url,normalizedUrl,hostList,databaseId);
 }

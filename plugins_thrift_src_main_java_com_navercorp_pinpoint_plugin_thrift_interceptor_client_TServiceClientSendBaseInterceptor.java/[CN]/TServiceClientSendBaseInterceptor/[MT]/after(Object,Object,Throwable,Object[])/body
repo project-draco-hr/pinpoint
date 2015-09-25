@@ -10,7 +10,7 @@
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     if (this.traceServiceArgs) {
       if (args.length == 2 && (args[1] instanceof TBase)) {
-        recorder.recordAttribute(THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
+        recorder.recordAttribute(ThriftConstants.THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
       }
     }
     recorder.recordApi(descriptor);

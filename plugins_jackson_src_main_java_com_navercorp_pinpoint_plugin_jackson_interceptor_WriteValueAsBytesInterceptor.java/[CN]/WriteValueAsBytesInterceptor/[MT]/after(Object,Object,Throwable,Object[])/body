@@ -10,7 +10,7 @@
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
-    recorder.recordAttribute(ANNOTATION_KEY_LENGTH_VALUE,((byte[])result).length);
+    recorder.recordAttribute(JacksonConstants.ANNOTATION_KEY_LENGTH_VALUE,((byte[])result).length);
   }
   finally {
     trace.traceBlockEnd();

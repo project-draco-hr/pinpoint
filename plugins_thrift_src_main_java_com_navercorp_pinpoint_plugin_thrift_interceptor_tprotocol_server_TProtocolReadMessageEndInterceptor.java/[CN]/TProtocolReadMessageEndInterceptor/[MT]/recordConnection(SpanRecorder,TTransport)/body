@@ -1,15 +1,15 @@
 {
-  String localIpPort=UNKNOWN_ADDRESS;
-  String remoteAddress=UNKNOWN_ADDRESS;
+  String localIpPort=ThriftConstants.UNKNOWN_ADDRESS;
+  String remoteAddress=ThriftConstants.UNKNOWN_ADDRESS;
   Socket socket=((SocketFieldAccessor)transport)._$PINPOINT$_getSocket();
   if (socket != null) {
     localIpPort=ThriftUtils.getHostPort(socket.getLocalSocketAddress());
     remoteAddress=ThriftUtils.getHost(socket.getRemoteSocketAddress());
   }
-  if (localIpPort != UNKNOWN_ADDRESS) {
+  if (localIpPort != ThriftConstants.UNKNOWN_ADDRESS) {
     recorder.recordEndPoint(localIpPort);
   }
-  if (remoteAddress != UNKNOWN_ADDRESS) {
+  if (remoteAddress != ThriftConstants.UNKNOWN_ADDRESS) {
     recorder.recordRemoteAddress(remoteAddress);
   }
 }
