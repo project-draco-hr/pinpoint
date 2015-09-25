@@ -4,7 +4,7 @@
   final long agentInfoSendRetryIntervalMs=1000L;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
-  PinpointClient pinpointClient=createPinpointClient(HOST,PORT,clientFactory);
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
   try {

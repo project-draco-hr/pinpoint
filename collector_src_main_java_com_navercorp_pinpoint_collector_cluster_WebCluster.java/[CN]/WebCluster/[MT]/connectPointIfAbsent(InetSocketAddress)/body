@@ -4,7 +4,7 @@
     logger.info("localhost -> {} already connected.",address);
     return;
   }
-  PinpointClient client=createPinpointClient(address);
+  PinpointClient client=ClientFactoryUtils.createPinpointClient(address,clientFactory);
   clusterRepository.put(address,client);
   logger.info("localhost -> {} connect completed.",address);
 }

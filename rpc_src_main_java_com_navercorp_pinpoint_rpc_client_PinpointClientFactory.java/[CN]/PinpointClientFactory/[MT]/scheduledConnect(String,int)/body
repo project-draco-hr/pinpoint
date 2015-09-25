@@ -1,6 +1,4 @@
 {
-  PinpointClient pinpointClient=new PinpointClient(new ReconnectStateClientHandler());
-  SocketAddress address=new InetSocketAddress(host,port);
-  reconnect(pinpointClient,address);
-  return pinpointClient;
+  InetSocketAddress connectAddress=new InetSocketAddress(host,port);
+  return scheduledConnect(connectAddress);
 }
