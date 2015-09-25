@@ -16,7 +16,7 @@
   try {
     final TraceId nextId=trace.getTraceId().getNextTraceId();
     recorder.recordNextSpanId(nextId.getSpanId());
-    recorder.recordServiceType(OK_HTTP_CLIENT);
+    recorder.recordServiceType(OkHttpConstants.OK_HTTP_CLIENT);
     InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
     if (invocation != null) {
       invocation.getOrCreateAttachment(new AttachmentFactory(){

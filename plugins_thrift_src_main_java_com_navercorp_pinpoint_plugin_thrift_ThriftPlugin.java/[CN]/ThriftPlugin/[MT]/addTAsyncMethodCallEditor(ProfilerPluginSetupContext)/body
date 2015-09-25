@@ -9,7 +9,7 @@
       target.addField(AsyncNextSpanIdFieldAccessor.class.getName());
       target.addField(AsyncCallEndFlagFieldAccessor.class.getName());
       target.addField(AsyncCallRemoteAddressFieldAccessor.class.getName());
-      target.addGetter(TNonblockingTransportFieldGetter.class.getName(),T_ASYNC_METHOD_CALL_FIELD_TRANSPORT);
+      target.addGetter(TNonblockingTransportFieldGetter.class.getName(),ThriftConstants.T_ASYNC_METHOD_CALL_FIELD_TRANSPORT);
       final InstrumentMethod constructor=target.getConstructor("org.apache.thrift.async.TAsyncClient","org.apache.thrift.protocol.TProtocolFactory","org.apache.thrift.transport.TNonblockingTransport","org.apache.thrift.async.AsyncMethodCallback","boolean");
       if (constructor != null) {
         String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallConstructInterceptor";

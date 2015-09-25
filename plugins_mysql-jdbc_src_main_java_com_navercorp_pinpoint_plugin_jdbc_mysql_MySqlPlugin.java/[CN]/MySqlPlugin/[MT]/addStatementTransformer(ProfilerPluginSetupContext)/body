@@ -6,7 +6,7 @@
         return null;
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP_NAME);
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(MySqlConstants.GROUP_NAME);
       target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",group);
       target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",group);
       return target.toBytecode();

@@ -13,8 +13,8 @@
   SpanRecorder recorder=trace.getSpanRecorder();
   String methodUri=getMethodUri(target);
   recorder.recordRpcName(methodUri);
-  String localIpPort=UNKNOWN_ADDRESS;
-  String remoteAddress=UNKNOWN_ADDRESS;
+  String localIpPort=ThriftConstants.UNKNOWN_ADDRESS;
+  String remoteAddress=ThriftConstants.UNKNOWN_ADDRESS;
   if (args.length == 2 && args[0] instanceof TProtocol) {
     TProtocol inputProtocol=(TProtocol)args[0];
     TTransport inputTransport=inputProtocol.getTransport();
@@ -31,10 +31,10 @@
       }
     }
   }
-  if (localIpPort != UNKNOWN_ADDRESS) {
+  if (localIpPort != ThriftConstants.UNKNOWN_ADDRESS) {
     recorder.recordEndPoint(localIpPort);
   }
-  if (remoteAddress != UNKNOWN_ADDRESS) {
+  if (remoteAddress != ThriftConstants.UNKNOWN_ADDRESS) {
     recorder.recordRemoteAddress(remoteAddress);
   }
 }

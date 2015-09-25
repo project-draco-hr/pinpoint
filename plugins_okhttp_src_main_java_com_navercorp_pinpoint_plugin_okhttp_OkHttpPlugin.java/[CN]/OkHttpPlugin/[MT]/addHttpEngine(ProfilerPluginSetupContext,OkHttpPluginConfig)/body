@@ -2,9 +2,9 @@
   context.addClassFileTransformer("com.squareup.okhttp.internal.http.HttpEngine",new PinpointClassFileTransformer(){
     @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
-      target.addGetter(UserRequestGetter.class.getName(),FIELD_USER_REQUEST);
-      target.addGetter(UserResponseGetter.class.getName(),FIELD_USER_RESPONSE);
-      target.addGetter(ConnectionGetter.class.getName(),FIELD_CONNECTION);
+      target.addGetter(UserRequestGetter.class.getName(),OkHttpConstants.FIELD_USER_REQUEST);
+      target.addGetter(UserResponseGetter.class.getName(),OkHttpConstants.FIELD_USER_RESPONSE);
+      target.addGetter(ConnectionGetter.class.getName(),OkHttpConstants.FIELD_CONNECTION);
       InstrumentMethod sendRequestMethod=target.getDeclaredMethod("sendRequest");
       if (sendRequestMethod != null) {
         logger.debug("[OkHttp] Add HttpEngine.sendRequest interceptor.");

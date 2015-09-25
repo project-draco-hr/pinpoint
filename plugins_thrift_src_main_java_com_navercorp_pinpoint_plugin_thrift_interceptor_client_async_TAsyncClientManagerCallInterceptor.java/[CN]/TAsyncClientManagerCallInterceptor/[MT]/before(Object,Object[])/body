@@ -22,7 +22,7 @@
       SpanEventRecorder recorder=trace.traceBlockBegin();
       Object asyncMethodCallObj=args[0];
       final AsyncTraceId asyncTraceId=injectAsyncTraceId(asyncMethodCallObj,trace);
-      recorder.recordServiceType(THRIFT_CLIENT_INTERNAL);
+      recorder.recordServiceType(ThriftConstants.THRIFT_CLIENT_INTERNAL);
       String remoteAddress=getRemoteAddress(asyncMethodCallObj);
       final TraceId nextId=asyncTraceId.getNextTraceId();
       final long nextSpanId=nextId.getSpanId();
