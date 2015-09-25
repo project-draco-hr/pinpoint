@@ -34,16 +34,16 @@
       String serviceCode=((ServiceCodeAccessor)target)._$PINPOINT$_getServiceCode();
       if (serviceCode != null) {
         recorder.recordDestinationId(serviceCode);
-        recorder.recordServiceType(ARCUS);
+        recorder.recordServiceType(ArcusConstants.ARCUS);
       }
  else {
         recorder.recordDestinationId("MEMCACHED");
-        recorder.recordServiceType(MEMCACHED);
+        recorder.recordServiceType(ArcusConstants.MEMCACHED);
       }
     }
  else {
       recorder.recordDestinationId("MEMCACHED");
-      recorder.recordServiceType(MEMCACHED);
+      recorder.recordServiceType(ArcusConstants.MEMCACHED);
     }
     try {
       if (isAsynchronousInvocation(target,args,result,throwable)) {
