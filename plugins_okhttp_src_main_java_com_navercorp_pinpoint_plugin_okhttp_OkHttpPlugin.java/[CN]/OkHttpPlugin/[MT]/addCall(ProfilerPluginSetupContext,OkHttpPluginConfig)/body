@@ -1,0 +1,12 @@
+{
+  context.addClassFileTransformer("com.squareup.okhttp.Call",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("execute","enqueue","cancel"))) {
+        method.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.CallMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

@@ -1,0 +1,15 @@
+{
+  Set<String> userGroupNames=new HashSet<String>();
+  for (  UserGroupMember member : userGroupMembers.values()) {
+    if (member.getMemberId().equals(userId)) {
+      userGroupNames.add(member.getUserGroupId());
+    }
+  }
+  List<UserGroup> groups=new LinkedList<>();
+  for (  UserGroup userGroup : userGroups.values()) {
+    if (userGroupNames.contains(userGroup.getId())) {
+      groups.add(userGroup);
+    }
+  }
+  return groups;
+}

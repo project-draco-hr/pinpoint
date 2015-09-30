@@ -1,7 +1,6 @@
 {
   StreamChannelState state=new StreamChannelState();
   Assert.assertEquals(StreamChannelStateCode.NEW,state.getCurrentState());
-  boolean result=state.changeStateRun();
+  boolean result=state.changeStateTo(StreamChannelStateCode.CONNECTED);
   Assert.assertFalse(result);
-  Assert.assertEquals(StreamChannelStateCode.ILLEGAL_STATE,state.getCurrentState());
 }

@@ -1,0 +1,9 @@
+{
+  MonitorInfo[] monitorInfos=threadInfo.getLockedMonitors();
+  for (  MonitorInfo each : monitorInfos) {
+    TMonitorInfo tMonitorInfo=new TMonitorInfo();
+    tMonitorInfo.setStackDepth(each.getLockedStackDepth());
+    tMonitorInfo.setStackFrame(each.getLockedStackFrame().toString());
+    threadDump.addToLockedMonitors(tMonitorInfo);
+  }
+}

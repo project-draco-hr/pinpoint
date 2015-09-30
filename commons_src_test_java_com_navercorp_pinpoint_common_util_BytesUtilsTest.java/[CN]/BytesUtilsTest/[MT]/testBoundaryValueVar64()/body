@@ -1,0 +1,10 @@
+{
+  int boundSize=0;
+  for (long i=0; i < Long.MAX_VALUE; i++) {
+    final int size=BytesUtils.computeVar64Size(i);
+    if (size > boundSize) {
+      boundSize=size;
+      logger.debug("bound {}->{}",boundSize,i);
+    }
+  }
+}

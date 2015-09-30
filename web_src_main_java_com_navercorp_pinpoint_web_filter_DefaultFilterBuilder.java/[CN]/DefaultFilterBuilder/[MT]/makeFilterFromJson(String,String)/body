@@ -2,30 +2,10 @@
   if (StringUtils.isEmpty(jsonFilterText)) {
     throw new IllegalArgumentException("json string is empty");
   }
-  FilterChain chain=new FilterChain();
-  try {
-    List<FilterDescriptor> list=jsonObjectMapper.readValue(jsonFilterText,new TypeReference<List<FilterDescriptor>>(){
-    }
-);
-    FilterHint hint=jsonObjectMapper.readValue(jsonFilterHint,new TypeReference<FilterHint>(){
-    }
-);
-    for (    FilterDescriptor descriptor : list) {
-      if (!descriptor.isValid()) {
-        throw new IllegalArgumentException("invalid json " + jsonFilterText);
-      }
-      logger.debug("FilterDescriptor={}",descriptor);
-      FromToResponseFilter fromToResponseFilter=createFromToResponseFilter(descriptor,hint);
-      chain.addFilter(fromToResponseFilter);
-      if (descriptor.isSetUrl()) {
-        FromToFilter fromToFilter=createFromToFilter(descriptor);
-        Filter urlPatternFilter=new URLPatternFilter(fromToFilter,descriptor.getUrlPattern());
-        chain.addFilter(urlPatternFilter);
-      }
-    }
-  }
- catch (  IOException e) {
-    throw new RuntimeException(e.getMessage(),e);
-  }
-  return chain.get();
+  final List<FilterDescriptor> filterDescriptorList=readFilterDescriptor(jsonFilterText);
+  final FilterHint hint=readFilterHint(jsonFilterHint);
+  logger.debug("filterHint:{}",hint);
+  List<LinkFilter> linkFilter=createLinkFilter(jsonFilterText,filterDescriptorList,hint);
+  final FilterChain filterChain=new FilterChain(linkFilter);
+  return filterChain;
 }

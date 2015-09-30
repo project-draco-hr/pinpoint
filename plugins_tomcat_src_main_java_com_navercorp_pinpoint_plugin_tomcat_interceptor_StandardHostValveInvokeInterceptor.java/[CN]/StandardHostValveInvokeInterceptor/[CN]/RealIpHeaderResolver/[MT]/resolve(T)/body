@@ -1,0 +1,16 @@
+{
+  final String realIp=httpServletRequest.getHeader(this.realIpHeaderName);
+  if (realIp == null || realIp.isEmpty()) {
+    return httpServletRequest.getRemoteAddr();
+  }
+  if (emptyHeaderValue != null && emptyHeaderValue.equalsIgnoreCase(realIp)) {
+    return httpServletRequest.getRemoteAddr();
+  }
+  final int firstIndex=realIp.indexOf(',');
+  if (firstIndex == -1) {
+    return realIp;
+  }
+ else {
+    return realIp.substring(0,firstIndex);
+  }
+}

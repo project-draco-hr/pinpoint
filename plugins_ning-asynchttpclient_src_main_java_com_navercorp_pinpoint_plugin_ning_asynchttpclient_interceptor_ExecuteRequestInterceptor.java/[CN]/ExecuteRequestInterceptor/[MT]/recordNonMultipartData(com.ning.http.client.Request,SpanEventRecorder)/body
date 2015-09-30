@@ -1,0 +1,22 @@
+{
+  final String stringData=httpRequest.getStringData();
+  if (stringData != null) {
+    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(stringData,config.getEntityDumpSize()));
+    return;
+  }
+  final byte[] byteData=httpRequest.getByteData();
+  if (byteData != null) {
+    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,"BYTE_DATA");
+    return;
+  }
+  final InputStream streamData=httpRequest.getStreamData();
+  if (streamData != null) {
+    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,"STREAM_DATA");
+    return;
+  }
+  final EntityWriter entityWriter=httpRequest.getEntityWriter();
+  if (entityWriter != null) {
+    recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,"STREAM_DATA");
+    return;
+  }
+}

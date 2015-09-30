@@ -1,0 +1,13 @@
+{
+  Map<String,Object> result=new HashMap<String,Object>();
+  result.put("sendUsage",webProperties.getSendUsage());
+  result.put("editUserInfo",webProperties.getEditUserInfo());
+  result.put("showActiveThread",webProperties.isShowActiveThread());
+  if (!StringUtils.isEmpty(userId)) {
+    User user=userService.selectUserByUserId(userId);
+    result.put("userId",user.getUserId());
+    result.put("userName",user.getName());
+    result.put("userDepartment",user.getDepartment());
+  }
+  return result;
+}

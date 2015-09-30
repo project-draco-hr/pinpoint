@@ -1,0 +1,9 @@
+{
+  logger.info("handleTextMessage. session : {}, message : {}.",session,message.getPayload());
+  String request=message.getPayload();
+  if (request != null && request.startsWith(APPLICATION_NAME_KEY + "=")) {
+    String applicationName=request.substring(APPLICATION_NAME_KEY.length() + 1);
+    session.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
+  }
+  super.handleTextMessage(session,message);
+}

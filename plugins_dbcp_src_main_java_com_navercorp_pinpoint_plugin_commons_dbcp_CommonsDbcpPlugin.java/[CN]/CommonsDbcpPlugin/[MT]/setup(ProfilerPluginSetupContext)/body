@@ -1,0 +1,7 @@
+{
+  addBasicDataSourceTransformer(context);
+  boolean profileClose=context.getConfig().readBoolean("profiler.jdbc.dbcp.connectionclose",false);
+  if (profileClose) {
+    addPoolGuardConnectionWrapperTransformer(context);
+  }
+}

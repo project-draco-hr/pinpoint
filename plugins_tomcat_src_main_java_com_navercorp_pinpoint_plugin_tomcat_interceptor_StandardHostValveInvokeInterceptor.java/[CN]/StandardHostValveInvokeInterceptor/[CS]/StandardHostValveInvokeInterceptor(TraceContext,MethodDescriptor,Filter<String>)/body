@@ -2,6 +2,16 @@
   this.traceContext=traceContext;
   this.methodDescriptor=descriptor;
   this.excludeUrlFilter=excludeFilter;
+  this.excludeProfileMethodFilter=traceContext.getProfilerConfig().getTomcatExcludeProfileMethodFilter();
   traceContext.cacheApi(SERVLET_ASYNCHRONOUS_API_TAG);
   traceContext.cacheApi(SERVLET_SYNCHRONOUS_API_TAG);
+  ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
+  final String proxyIpHeader=profilerConfig.getTomcatRealIpHeader();
+  if (proxyIpHeader == null || proxyIpHeader.isEmpty()) {
+    remoteAddressResolver=new Bypass<HttpServletRequest>();
+  }
+ else {
+    final String tomcatRealIpEmptyValue=profilerConfig.getTomcatRealIpEmptyValue();
+    remoteAddressResolver=new RealIpHeaderResolver<HttpServletRequest>(proxyIpHeader,tomcatRealIpEmptyValue);
+  }
 }

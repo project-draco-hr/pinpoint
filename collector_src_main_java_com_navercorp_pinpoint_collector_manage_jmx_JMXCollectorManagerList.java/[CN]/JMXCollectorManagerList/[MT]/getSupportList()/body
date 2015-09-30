@@ -4,8 +4,7 @@
     return Collections.emptyList();
   }
   List<CollectorManager> supportManagerList=new ArrayList<CollectorManager>();
-  if (handlerManager != null) {
-    supportManagerList.add(handlerManager);
-  }
+  ListUtils.addIfValueNotNull(supportManagerList,handlerManager);
+  ListUtils.addIfValueNotNull(supportManagerList,clusterManager);
   return supportManagerList;
 }

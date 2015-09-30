@@ -1,0 +1,18 @@
+{
+  final Matcher matcher=transformer.getMatcher();
+  if (matcher instanceof ClassNameMatcher) {
+    ClassNameMatcher classNameMatcher=(ClassNameMatcher)matcher;
+    String className=classNameMatcher.getClassName();
+    addTransformer0(transformer,className);
+  }
+ else   if (matcher instanceof MultiClassNameMatcher) {
+    final MultiClassNameMatcher classNameMatcher=(MultiClassNameMatcher)matcher;
+    List<String> classNameList=classNameMatcher.getClassNames();
+    for (    String className : classNameList) {
+      addTransformer0(transformer,className);
+    }
+  }
+ else {
+    throw new IllegalArgumentException("unsupported Matcher " + matcher);
+  }
+}

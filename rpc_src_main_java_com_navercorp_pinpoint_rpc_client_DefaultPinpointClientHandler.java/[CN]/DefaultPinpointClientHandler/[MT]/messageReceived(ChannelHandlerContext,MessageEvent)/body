@@ -1,0 +1,39 @@
+{
+  final Object message=e.getMessage();
+  if (message instanceof Packet) {
+    final Packet packet=(Packet)message;
+    final short packetType=packet.getPacketType();
+switch (packetType) {
+case PacketType.APPLICATION_RESPONSE:
+      this.requestManager.messageReceived((ResponsePacket)message,objectUniqName);
+    return;
+case PacketType.APPLICATION_REQUEST:
+  this.messageListener.handleRequest((RequestPacket)message,pinpointClient);
+return;
+case PacketType.APPLICATION_SEND:
+this.messageListener.handleSend((SendPacket)message,pinpointClient);
+return;
+case PacketType.APPLICATION_STREAM_CREATE:
+case PacketType.APPLICATION_STREAM_CLOSE:
+case PacketType.APPLICATION_STREAM_CREATE_SUCCESS:
+case PacketType.APPLICATION_STREAM_CREATE_FAIL:
+case PacketType.APPLICATION_STREAM_RESPONSE:
+case PacketType.APPLICATION_STREAM_PING:
+case PacketType.APPLICATION_STREAM_PONG:
+PinpointClientHandlerContext context=getChannelContext(channel);
+context.handleStreamEvent((StreamPacket)message);
+return;
+case PacketType.CONTROL_SERVER_CLOSE:
+handleClosedPacket(e.getChannel());
+return;
+case PacketType.CONTROL_HANDSHAKE_RESPONSE:
+handleHandshakePacket((ControlHandshakeResponsePacket)message,e.getChannel());
+return;
+default :
+logger.warn("{} messageReceived() failed. unexpectedMessage received:{} address:{}",objectUniqName,message,e.getRemoteAddress());
+}
+}
+ else {
+logger.warn("{} messageReceived() failed. invalid messageReceived:{}",objectUniqName,message);
+}
+}

@@ -1,0 +1,19 @@
+{
+  Request request=new Request.Builder().url("http://google.com").build();
+  OkHttpClient client=new OkHttpClient();
+  final CountDownLatch latch=new CountDownLatch(1);
+  client.newCall(request).enqueue(new Callback(){
+    @Override public void onFailure(    Request request,    IOException e){
+      latch.countDown();
+    }
+    @Override public void onResponse(    Response response) throws IOException {
+      latch.countDown();
+    }
+  }
+);
+  latch.await(3,TimeUnit.SECONDS);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Method enqueueMethod=Call.class.getDeclaredMethod("enqueue",com.squareup.okhttp.Callback.class);
+  verifier.verifyTrace(Expectations.event("OK_HTTP_CLIENT_INTERNAL",enqueueMethod));
+}

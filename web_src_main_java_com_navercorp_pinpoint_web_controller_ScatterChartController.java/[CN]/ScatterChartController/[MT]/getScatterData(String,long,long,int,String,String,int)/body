@@ -6,10 +6,10 @@
   logger.debug("fetch scatter data. {}, LIMIT={}, FILTER={}",range,limit,filterText);
   ModelAndView mv;
   if (filterText == null) {
-    mv=selectScatterData(applicationName,range,limit,jsonpCallback);
+    mv=selectScatterData(applicationName,range,limit,jsonpCallback,version);
   }
  else {
-    mv=selectFilterScatterDataData(applicationName,range,filterText,limit,jsonpCallback);
+    mv=selectFilterScatterDataData(applicationName,range,filterText,limit,jsonpCallback,version);
   }
   watch.stop();
   logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());

@@ -1,9 +1,0 @@
-{
-  StreamChannelStateCode currentState=this.currentStateReference.get();
-  StreamChannelStateCode nextState=StreamChannelStateCode.RUN;
-  if (!nextState.canChangeState(currentState)) {
-    changeStateIllegal();
-    return false;
-  }
-  return currentStateReference.compareAndSet(currentState,StreamChannelStateCode.RUN);
-}

@@ -5,16 +5,16 @@
   final long minimumAgentInfoSendRetryCount=10;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,Integer.MAX_VALUE);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
-  PinpointSocketFactory socketFactory=createPinpointSocketFactory();
-  PinpointSocket socket=createPinpointSocket(HOST,PORT,socketFactory);
-  TcpDataSender dataSender=new TcpDataSender(socket);
+  PinpointClientFactory socketFactory=createPinpointClientFactory();
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,socketFactory);
+  TcpDataSender dataSender=new TcpDataSender(pinpointClient);
   AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
   try {
     agentInfoSender.start();
     Thread.sleep(agentInfoSendRetryIntervalMs * minimumAgentInfoSendRetryCount);
   }
   finally {
-    closeAll(serverAcceptor,agentInfoSender,socket,socketFactory);
+    closeAll(serverAcceptor,agentInfoSender,pinpointClient,socketFactory);
   }
   assertTrue(requestCount.get() >= minimumAgentInfoSendRetryCount);
   assertEquals(0,successCount.get());

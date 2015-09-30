@@ -1,0 +1,11 @@
+{
+  if (StringUtils.isEmpty(separator)) {
+    this.excludeMethods=Collections.emptySet();
+    return;
+  }
+  final List<String> splitList=StringUtils.splitAndTrim(excludeFormat,separator);
+  this.excludeMethods=new HashSet<String>();
+  for (  String method : splitList) {
+    this.excludeMethods.add(method.toUpperCase());
+  }
+}

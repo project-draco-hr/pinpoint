@@ -1,11 +1,11 @@
 {
   PinpointObjectMapper mapper=new PinpointObjectMapper();
   mapper.afterPropertiesSet();
-  AgentInfoBo agentInfoBo=ServerInstanceListTest.createAgentInfo("agentId1","testHost");
-  HashSet<AgentInfoBo> agentInfoBoSet=new HashSet<AgentInfoBo>();
-  agentInfoBoSet.add(agentInfoBo);
+  AgentInfo agentInfo=ServerInstanceListTest.createAgentInfo("agentId1","testHost");
+  HashSet<AgentInfo> agentInfoSet=new HashSet<AgentInfo>();
+  agentInfoSet.add(agentInfo);
   ServerBuilder builder=new ServerBuilder();
-  builder.addAgentInfo(agentInfoBoSet);
+  builder.addAgentInfo(agentInfoSet);
   ServerInstanceList serverInstanceList=builder.build();
   ObjectWriter objectWriter=mapper.writerWithDefaultPrettyPrinter();
   String json=objectWriter.writeValueAsString(serverInstanceList);

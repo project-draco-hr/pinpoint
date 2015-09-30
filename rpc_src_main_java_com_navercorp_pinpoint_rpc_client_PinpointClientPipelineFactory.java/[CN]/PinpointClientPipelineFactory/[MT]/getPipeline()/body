@@ -1,0 +1,12 @@
+{
+  ChannelPipeline pipeline=Channels.pipeline();
+  pipeline.addLast("encoder",new PacketEncoder());
+  pipeline.addLast("decoder",new PacketDecoder());
+  long pingDelay=pinpointClientFactory.getPingDelay();
+  long enableWorkerPacketDelay=pinpointClientFactory.getEnableWorkerPacketDelay();
+  long timeoutMillis=pinpointClientFactory.getTimeoutMillis();
+  DefaultPinpointClientHandler defaultPinpointClientHandler=new DefaultPinpointClientHandler(pinpointClientFactory,pingDelay,enableWorkerPacketDelay,timeoutMillis);
+  pipeline.addLast("writeTimeout",new WriteTimeoutHandler(defaultPinpointClientHandler.getChannelTimer(),3000,TimeUnit.MILLISECONDS));
+  pipeline.addLast("socketHandler",defaultPinpointClientHandler);
+  return pipeline;
+}

@@ -21,31 +21,17 @@
   if (this.callStackMaxDepth < 2) {
     this.callStackMaxDepth=2;
   }
-  this.jdbcProfile=readBoolean("profiler.jdbc",true);
   this.jdbcSqlCacheSize=readInt("profiler.jdbc.sqlcachesize",1024);
-  this.jdbcMaxSqlBindValueSize=readInt("profiler.jdbc.maxsqlbindvaluesize",1024);
-  this.jdbcProfileMySql=readBoolean("profiler.jdbc.mysql",true);
-  this.jdbcProfileMySqlSetAutoCommit=readBoolean("profiler.jdbc.mysql.setautocommit",false);
-  this.jdbcProfileMySqlCommit=readBoolean("profiler.jdbc.mysql.commit",false);
-  this.jdbcProfileMySqlRollback=readBoolean("profiler.jdbc.mysql.rollback",false);
-  this.jdbcProfileJtds=readBoolean("profiler.jdbc.jtds",true);
-  this.jdbcProfileJtdsSetAutoCommit=readBoolean("profiler.jdbc.jtds.setautocommit",false);
-  this.jdbcProfileJtdsCommit=readBoolean("profiler.jdbc.jtds.commit",false);
-  this.jdbcProfileJtdsRollback=readBoolean("profiler.jdbc.jtds.rollback",false);
-  this.jdbcProfileOracle=readBoolean("profiler.jdbc.oracle",true);
-  this.jdbcProfileOracleSetAutoCommit=readBoolean("profiler.jdbc.oracle.setautocommit",false);
-  this.jdbcProfileOracleCommit=readBoolean("profiler.jdbc.oracle.commit",false);
-  this.jdbcProfileOracleRollback=readBoolean("profiler.jdbc.oracle.rollback",false);
-  this.jdbcProfileCubrid=readBoolean("profiler.jdbc.cubrid",true);
-  this.jdbcProfileCubridSetAutoCommit=readBoolean("profiler.jdbc.cubrid.setautocommit",false);
-  this.jdbcProfileCubridCommit=readBoolean("profiler.jdbc.cubrid.commit",false);
-  this.jdbcProfileCubridRollback=readBoolean("profiler.jdbc.cubrid.rollback",false);
-  this.jdbcProfileDbcp=readBoolean("profiler.jdbc.dbcp",true);
-  this.jdbcProfileDbcpConnectionClose=readBoolean("profiler.jdbc.dbcp.connectionclose",false);
   this.tomcatHidePinpointHeader=readBoolean("profiler.tomcat.hidepinpointheader",true);
   final String tomcatExcludeURL=readString("profiler.tomcat.excludeurl","");
   if (!tomcatExcludeURL.isEmpty()) {
     this.tomcatExcludeUrlFilter=new ExcludeUrlFilter(tomcatExcludeURL);
+  }
+  this.tomcatRealIpHeader=readString("profiler.tomcat.realipheader",null);
+  this.tomcatRealIpEmptyValue=readString("profiler.tomcat.realipemptyvalue",null);
+  final String tomcatExcludeProfileMethod=readString("profiler.tomcat.excludemethod","");
+  if (!tomcatExcludeProfileMethod.isEmpty()) {
+    this.tomcatExcludeProfileMethodFilter=new ExcludeMethodFilter(tomcatExcludeProfileMethod);
   }
   this.apacheHttpClient3Profile=readBoolean("profiler.apache.httpclient3",true);
   this.apacheHttpClient3ProfileCookie=readBoolean("profiler.apache.httpclient3.cookie",false);
@@ -65,19 +51,6 @@
   this.apacheHttpClient4ProfileStatusCode=readBoolean("profiler.apache.httpclient4.entity.statuscode",true);
   this.apacheHttpClient4ProfileIo=readBoolean("profiler.apache.httpclient4.io",true);
   this.apacheNIOHttpClient4Profile=readBoolean("profiler.apache.nio.httpclient4",true);
-  this.ningAsyncHttpClientProfile=readBoolean("profiler.ning.asynchttpclient",true);
-  this.ningAsyncHttpClientProfileCookie=readBoolean("profiler.ning.asynchttpclient.cookie",false);
-  this.ningAsyncHttpClientProfileCookieDumpType=readDumpType("profiler.ning.asynchttpclient.cookie.dumptype",DumpType.EXCEPTION);
-  this.ningAsyncHttpClientProfileCookieDumpSize=readInt("profiler.ning.asynchttpclient.cookie.dumpsize",1024);
-  this.ningAsyncHttpClientProfileCookieSamplingRate=readInt("profiler.ning.asynchttpclient.cookie.sampling.rate",1);
-  this.ningAsyncHttpClientProfileEntity=readBoolean("profiler.ning.asynchttpclient.entity",false);
-  this.ningAsyncHttpClientProfileEntityDumpType=readDumpType("profiler.ning.asynchttpclient.entity.dumptype",DumpType.EXCEPTION);
-  this.ningAsyncHttpClientProfileEntityDumpSize=readInt("profiler.ning.asynchttpclient.entity.dumpsize",1024);
-  this.ningAsyncHttpClientProfileEntitySamplingRate=readInt("profiler.asynchttpclient.entity.sampling.rate",1);
-  this.ningAsyncHttpClientProfileParam=readBoolean("profiler.ning.asynchttpclient.param",false);
-  this.ningAsyncHttpClientProfileParamDumpType=readDumpType("profiler.ning.asynchttpclient.param.dumptype",DumpType.EXCEPTION);
-  this.ningAsyncHttpClientProfileParamDumpSize=readInt("profiler.ning.asynchttpclient.param.dumpsize",1024);
-  this.ningAsyncHttpClientProfileParamSamplingRate=readInt("profiler.asynchttpclient.param.sampling.rate",1);
   this.log4jLoggingTransactionInfo=readBoolean("profiler.log4j.logging.transactioninfo",false);
   this.logbackLoggingTransactionInfo=readBoolean("profiler.logback.logging.transactioninfo",false);
   this.redis=readBoolean("profiler.redis",true);

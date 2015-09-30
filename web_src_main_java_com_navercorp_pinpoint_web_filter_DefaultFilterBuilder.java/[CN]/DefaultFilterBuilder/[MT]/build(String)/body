@@ -2,12 +2,7 @@
   if (StringUtils.isEmpty(filterText)) {
     return Filter.NONE;
   }
-  try {
-    filterText=URLDecoder.decode(filterText,"UTF-8");
-    logger.debug("build filter from string. {}",filterText);
-  }
- catch (  Exception e) {
-    throw new IllegalArgumentException(filterText);
-  }
+  filterText=decode(filterText);
+  logger.debug("build filter from string. {}",filterText);
   return makeFilterFromJson(filterText);
 }

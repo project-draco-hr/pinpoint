@@ -1,0 +1,13 @@
+{
+  logger.info("handleRequest packet:{}, remote:{}",requestPacket,pinpointSocket.getRemoteAddress());
+  TBase<?,?> request=deserialize(requestPacket.getPayload());
+  if (request == null) {
+    handleRouteRequestFail("Protocol decoding failed.",requestPacket,pinpointSocket);
+  }
+ else   if (request instanceof TCommandTransfer) {
+    handleRouteRequest((TCommandTransfer)request,requestPacket,pinpointSocket);
+  }
+ else {
+    handleRouteRequestFail("Unknown error.",requestPacket,pinpointSocket);
+  }
+}

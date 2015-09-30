@@ -1,0 +1,14 @@
+{
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+  try {
+    PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
+    logger.info("send1");
+    client.send(new byte[20]);
+    logger.info("send2");
+    client.sendSync(new byte[20]);
+    PinpointRPCTestUtils.close(client);
+  }
+  finally {
+    PinpointRPCTestUtils.close(serverAcceptor);
+  }
+}

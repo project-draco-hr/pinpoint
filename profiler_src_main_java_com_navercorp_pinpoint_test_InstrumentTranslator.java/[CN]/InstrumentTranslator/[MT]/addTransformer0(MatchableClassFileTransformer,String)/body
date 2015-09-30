@@ -1,0 +1,7 @@
+{
+  final String checkJvmClassName=JavaAssistUtils.javaNameToJvmName(className);
+  MatchableClassFileTransformer old=transformerMap.put(checkJvmClassName,transformer);
+  if (old != null) {
+    throw new IllegalStateException("Modifier already exist new:" + transformer.getClass() + " old:"+ old.getMatcher());
+  }
+}

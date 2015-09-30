@@ -1,4 +1,7 @@
 {
+  if (preFix == null) {
+    throw new NullPointerException("preFix must not be null");
+  }
   byte[] buf=new byte[preFix.length + SHORT_BYTE_LENGTH];
   System.arraycopy(preFix,0,buf,0,preFix.length);
   writeShort(postfix,buf,preFix.length);

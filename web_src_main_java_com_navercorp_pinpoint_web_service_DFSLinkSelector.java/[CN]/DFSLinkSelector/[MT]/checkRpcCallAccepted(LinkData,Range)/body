@@ -10,7 +10,8 @@
     if (acceptApplicationList.size() == 1) {
       logger.debug("Application info replaced. {} => {}",linkData,acceptApplicationList);
       AcceptApplication first=acceptApplicationList.iterator().next();
-      final LinkData acceptedLinkData=new LinkData(linkData.getFromApplication(),first.getApplication(),linkData.getLinkCallDataMap());
+      final LinkData acceptedLinkData=new LinkData(linkData.getFromApplication(),first.getApplication());
+      acceptedLinkData.setLinkCallDataMap(linkData.getLinkCallDataMap());
       return Collections.singletonList(acceptedLinkData);
     }
  else {
@@ -19,7 +20,8 @@
   }
  else {
     final Application unknown=new Application(toApplication.getName(),ServiceType.UNKNOWN);
-    final LinkData unknownLinkData=new LinkData(linkData.getFromApplication(),unknown,linkData.getLinkCallDataMap());
+    final LinkData unknownLinkData=new LinkData(linkData.getFromApplication(),unknown);
+    unknownLinkData.setLinkCallDataMap(linkData.getLinkCallDataMap());
     return Collections.singletonList(unknownLinkData);
   }
 }

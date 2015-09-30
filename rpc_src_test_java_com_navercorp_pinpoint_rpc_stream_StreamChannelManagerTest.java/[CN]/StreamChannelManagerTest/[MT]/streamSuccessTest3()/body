@@ -2,9 +2,9 @@
   PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),null);
   serverAcceptor.bind("localhost",bindPort);
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointSocketFactory pinpointSocketFactory=createSocketFactory(new TestListener(),new ServerListener(bo));
+  PinpointClientFactory clientFactory=createSocketFactory(new TestListener(),new ServerListener(bo));
   try {
-    PinpointSocket socket=pinpointSocketFactory.connect("127.0.0.1",bindPort);
+    PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(100);
     List<PinpointServer> writableServerList=serverAcceptor.getWritableServerList();
     Assert.assertEquals(1,writableServerList.size());
@@ -18,10 +18,10 @@
     Thread.sleep(100);
     Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
     clientContext.getStreamChannel().close();
-    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(client);
   }
   finally {
-    pinpointSocketFactory.release();
+    clientFactory.release();
     PinpointRPCTestUtils.close(serverAcceptor);
   }
 }

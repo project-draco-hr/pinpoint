@@ -1,0 +1,22 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Trace trace=this.traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    if (this.traceServiceArgs) {
+      if (args.length == 2 && (args[1] instanceof TBase)) {
+        recorder.recordAttribute(ThriftConstants.THRIFT_ARGS,getMethodArgs((TBase<?,?>)args[1]));
+      }
+    }
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

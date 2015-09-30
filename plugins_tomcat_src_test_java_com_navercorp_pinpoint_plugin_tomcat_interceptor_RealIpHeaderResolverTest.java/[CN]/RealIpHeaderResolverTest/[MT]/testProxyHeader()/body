@@ -1,0 +1,8 @@
+{
+  HttpServletRequest mock=mock(HttpServletRequest.class);
+  when(mock.getHeader(xForwardedFor)).thenReturn("127.0.0.1");
+  when(mock.getRemoteAddr()).thenReturn("127.0.0.2");
+  StandardHostValveInvokeInterceptor.RealIpHeaderResolver<HttpServletRequest> realIpHeaderResolver=new StandardHostValveInvokeInterceptor.RealIpHeaderResolver<HttpServletRequest>();
+  String resolve=realIpHeaderResolver.resolve(mock);
+  Assert.assertEquals(resolve,"127.0.0.1");
+}

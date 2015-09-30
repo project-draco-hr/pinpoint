@@ -1,0 +1,9 @@
+{
+  threadDump.setLockName(threadInfo.getLockName());
+  threadDump.setLockOwnerId(threadInfo.getLockOwnerId());
+  threadDump.setLockOwnerName(threadInfo.getLockOwnerName());
+  LockInfo[] lockInfos=threadInfo.getLockedSynchronizers();
+  for (  LockInfo lockInfo : lockInfos) {
+    threadDump.addToLockedSynchronizers(lockInfo.toString());
+  }
+}

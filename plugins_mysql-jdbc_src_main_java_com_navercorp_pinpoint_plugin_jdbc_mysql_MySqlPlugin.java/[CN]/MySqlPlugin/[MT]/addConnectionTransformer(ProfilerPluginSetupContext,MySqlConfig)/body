@@ -1,0 +1,29 @@
+{
+  PinpointClassFileTransformer transformer=new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      if (!target.isInterceptable()) {
+        return null;
+      }
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(MySqlConstants.GROUP_NAME);
+      target.addInterceptor("com.navercorp.pinpoint.plugin.jdbc.mysql.interceptor.MySQLConnectionCreateInterceptor");
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",group);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",group);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementCreateInterceptor",group);
+      if (config.isProfileSetAutoCommit()) {
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",group);
+      }
+      if (config.isProfileCommit()) {
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",group);
+      }
+      if (config.isProfileRollback()) {
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",group);
+      }
+      return target.toBytecode();
+    }
+  }
+;
+  setupContext.addClassFileTransformer("com.mysql.jdbc.Connection",transformer);
+  setupContext.addClassFileTransformer("com.mysql.jdbc.ConnectionImpl",transformer);
+}

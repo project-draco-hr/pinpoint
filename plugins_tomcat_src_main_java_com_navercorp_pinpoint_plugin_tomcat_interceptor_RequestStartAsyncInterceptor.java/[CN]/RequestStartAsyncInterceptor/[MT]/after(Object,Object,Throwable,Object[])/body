@@ -1,0 +1,30 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,"",descriptor.getMethodName(),"",args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    if (validate(target,result,throwable)) {
+      ((AsyncAccessor)target)._$PINPOINT$_setAsync(Boolean.TRUE);
+      final AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+      recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
+      ((AsyncTraceIdAccessor)result)._$PINPOINT$_setAsyncTraceId(asyncTraceId);
+      if (isDebug) {
+        logger.debug("Set asyncTraceId metadata {}",asyncTraceId);
+      }
+    }
+    recorder.recordServiceType(TomcatConstants.TOMCAT_METHOD);
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to AFTER process. {}",t.getMessage(),t);
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

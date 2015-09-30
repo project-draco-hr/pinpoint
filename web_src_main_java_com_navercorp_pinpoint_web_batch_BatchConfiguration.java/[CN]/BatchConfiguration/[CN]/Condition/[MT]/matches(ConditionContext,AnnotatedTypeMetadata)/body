@@ -1,0 +1,12 @@
+{
+  Properties properties=new Properties();
+  Resource resource=context.getResourceLoader().getResource("classpath:/batch.properties");
+  try {
+    properties.load(resource.getInputStream());
+    return Boolean.valueOf(properties.getProperty("batch.enable").trim());
+  }
+ catch (  Exception e) {
+    logger.error("Exception occurred while batch configuration",e);
+  }
+  return false;
+}

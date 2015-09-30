@@ -1,0 +1,14 @@
+{
+  List<UserGroupMember> userGroupMemberList=new LinkedList<>();
+  for (  UserGroupMember member : userGroupMembers.values()) {
+    if (member.getUserGroupId().equals(userGroupId)) {
+      userGroupMemberList.add(member);
+    }
+  }
+  List<String> emails=new LinkedList<>();
+  for (  UserGroupMember member : userGroupMemberList) {
+    User user=userDao.selectUserByUserId(member.getMemberId());
+    emails.add(user.getEmail());
+  }
+  return emails;
+}

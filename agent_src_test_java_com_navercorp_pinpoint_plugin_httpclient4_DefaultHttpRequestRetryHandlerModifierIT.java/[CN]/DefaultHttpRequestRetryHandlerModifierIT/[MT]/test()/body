@@ -1,0 +1,12 @@
+{
+  DefaultHttpRequestRetryHandler retryHandler=new DefaultHttpRequestRetryHandler();
+  IOException iOException=new IOException();
+  HttpContext context=new BasicHttpContext();
+  assertTrue(retryHandler.retryRequest(iOException,1,context));
+  assertTrue(retryHandler.retryRequest(iOException,2,context));
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTrace(event("HTTP_CLIENT_4_INTERNAL",DefaultHttpRequestRetryHandler.class.getMethod("retryRequest",IOException.class,int.class,HttpContext.class),annotation("http.internal.display",IOException.class.getName() + ", 1"),annotation("RETURN_DATA",true)));
+  verifier.verifyTrace(event("HTTP_CLIENT_4_INTERNAL",DefaultHttpRequestRetryHandler.class.getMethod("retryRequest",IOException.class,int.class,HttpContext.class),annotation("http.internal.display",IOException.class.getName() + ", 2"),annotation("RETURN_DATA",true)));
+  verifier.verifyTraceCount(0);
+}

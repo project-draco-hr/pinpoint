@@ -1,0 +1,8 @@
+{
+  this.traceContext=traceContext;
+  this.descriptor=descriptor;
+  this.config=new NingAsyncHttpClientPluginConfig(traceContext.getProfilerConfig());
+  this.cookieSampler=config.isProfileCookie() ? SimpleSamplerFactory.createSampler(true,config.getCookieSamplingRate()) : null;
+  this.entitySampler=config.isProfileEntity() ? SimpleSamplerFactory.createSampler(true,config.getEntitySamplingRate()) : null;
+  this.paramSampler=config.isProfileParam() ? SimpleSamplerFactory.createSampler(true,config.getParamSamplingRate()) : null;
+}

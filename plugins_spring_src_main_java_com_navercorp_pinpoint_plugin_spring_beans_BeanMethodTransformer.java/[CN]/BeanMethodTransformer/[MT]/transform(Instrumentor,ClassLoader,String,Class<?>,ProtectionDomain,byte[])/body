@@ -1,0 +1,23 @@
+{
+  if (logger.isInfoEnabled()) {
+    logger.info("Modify {}",className);
+  }
+  try {
+    InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    if (!target.isInterceptable()) {
+      return null;
+    }
+    List<InstrumentMethod> methodList=target.getDeclaredMethods(METHOD_FILTER);
+    for (    InstrumentMethod method : methodList) {
+      if (logger.isTraceEnabled()) {
+        logger.trace("### c={}, m={}, params={}",new Object[]{className,method.getName(),Arrays.toString(method.getParameterTypes())});
+      }
+      method.addInterceptor(BasicMethodInterceptor.class.getName(),SpringBeansConstants.SERVICE_TYPE);
+    }
+    return target.toBytecode();
+  }
+ catch (  Exception e) {
+    logger.warn("modify fail. Cause:{}",e.getMessage(),e);
+    return null;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  PinpointClientFactory clientFactory=new PinpointClientFactory();
+  clientFactory.setProperties(param);
+  clientFactory.addStateChangeEventListener(LoggingStateChangeEventListener.getInstance());
+  if (messageListener != null) {
+    clientFactory.setMessageListener(messageListener);
+  }
+  return clientFactory;
+}

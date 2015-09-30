@@ -1,0 +1,11 @@
+{
+  String objectName=clientHandler.getObjectName();
+  PinpointSocket pinpointSocket=clientHandler.getPinpointClient();
+  logger.debug("{} stateTo() started. to:{}",objectName,nextState);
+  SocketStateChangeResult stateChangeResult=state.changeState(nextState);
+  if (stateChangeResult.isChange()) {
+    executeChangeEventHandler(pinpointSocket,nextState);
+  }
+  logger.info("{} stateTo() completed. {}",objectName,stateChangeResult);
+  return stateChangeResult;
+}

@@ -1,0 +1,10 @@
+{
+  for (  StateChangeEventListener eachListener : this.stateChangeEventListeners) {
+    try {
+      eachListener.eventPerformed(pinpointSocket,nextState);
+    }
+ catch (    Exception e) {
+      eachListener.exceptionCaught(pinpointSocket,nextState,e);
+    }
+  }
+}

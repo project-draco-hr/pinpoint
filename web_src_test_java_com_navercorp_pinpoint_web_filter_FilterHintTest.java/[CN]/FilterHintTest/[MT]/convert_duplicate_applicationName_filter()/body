@@ -1,0 +1,12 @@
+{
+  String json="{ \"TO_APPLICATION\" : [\"IP1\", 1,\"IP2\", 2], \"TO_APPLICATION\" : [\"IP3\", 3,\"IP4\", 4] }";
+  final FilterHint hint=mapper.readValue(json,FilterHint.class);
+  Assert.assertNotNull(hint);
+  Assert.assertEquals(2,hint.size());
+  Assert.assertTrue(hint.containApplicationHint("TO_APPLICATION"));
+  Assert.assertFalse(hint.containApplicationHint("TO_APPLICATION2"));
+  Assert.assertTrue(hint.containApplicationEndpoint("TO_APPLICATION","IP1",1));
+  Assert.assertTrue(hint.containApplicationEndpoint("TO_APPLICATION","IP2",2));
+  Assert.assertTrue(hint.containApplicationEndpoint("TO_APPLICATION","IP3",3));
+  Assert.assertTrue(hint.containApplicationEndpoint("TO_APPLICATION","IP4",4));
+}

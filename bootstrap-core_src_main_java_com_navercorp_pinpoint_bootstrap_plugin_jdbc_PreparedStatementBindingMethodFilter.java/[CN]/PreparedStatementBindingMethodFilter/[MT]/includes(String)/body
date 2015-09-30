@@ -1,0 +1,10 @@
+{
+  Map<String,List<String[]>> targets=new HashMap<String,List<String[]>>(names.length);
+  for (  String name : names) {
+    List<String[]> paramTypes=BIND_METHODS.get(name);
+    if (paramTypes != null) {
+      targets.put(name,paramTypes);
+    }
+  }
+  return new PreparedStatementBindingMethodFilter(targets);
+}

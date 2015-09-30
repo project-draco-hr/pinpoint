@@ -3,7 +3,8 @@
     return new LinkDataMap();
   }
   logger.debug("mapRow:{}",rowNum);
-  final Buffer row=new FixedBuffer(result.getRow());
+  final byte[] rowKey=getOriginalKey(result.getRow());
+  final Buffer row=new FixedBuffer(rowKey);
   final Application calleeApplication=readCalleeApplication(row);
   final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
   final LinkDataMap linkDataMap=new LinkDataMap();

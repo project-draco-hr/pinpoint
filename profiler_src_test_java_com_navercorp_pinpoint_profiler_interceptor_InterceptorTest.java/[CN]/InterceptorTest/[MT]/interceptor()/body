@@ -1,9 +1,9 @@
 {
-  SimpleAroundInterceptor aroundInterceptor=new SimpleAroundInterceptor(){
+  AroundInterceptor aroundInterceptor=new AroundInterceptor(){
     @Override public void before(    Object target,    Object[] args){
       logger.info("BEFORE target:" + target + " args:"+ Arrays.toString(args));
     }
-    @Override public void after(    Object target,    Object[] args,    Object result,    Throwable throwable){
+    @Override public void after(    Object target,    Object result,    Throwable throwable,    Object[] args){
       logger.info("AFTER target: " + target + " args:"+ Arrays.toString(args)+ " result:"+ result+ " throwable:"+ throwable);
     }
   }
@@ -15,7 +15,7 @@
   final CtMethod hello=ctClass.getMethod("hello","(Ljava/lang/String;)Ljava/lang/String;");
   logger.debug("longName:{}",hello.getLongName());
   logger.debug("name:{}",hello.getName());
-  String interceptorClassName=SimpleAroundInterceptor.class.getName();
+  String interceptorClassName=AroundInterceptor.class.getName();
   CtClass interceptor=classPool.get(interceptorClassName);
   hello.addLocalVariable("interceptor",interceptor);
   CtClass object=classPool.get(Object.class.getName());

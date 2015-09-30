@@ -72,8 +72,17 @@ org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 break;
 case 8:
 if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-struct.version=iprot.readString();
-struct.setVersionIsSet(true);
+struct.agentVersion=iprot.readString();
+struct.setAgentVersionIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 9:
+if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+struct.vmVersion=iprot.readString();
+struct.setVmVersionIsSet(true);
 }
  else {
 org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);

@@ -3,7 +3,7 @@
   final boolean traceThriftProcessor=config.traceThriftProcessor();
   final String targetClassName=tProtocolClassName;
   context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       if (traceThriftClient) {
         final InstrumentMethod writeFieldStop=target.getDeclaredMethod("writeFieldStop");

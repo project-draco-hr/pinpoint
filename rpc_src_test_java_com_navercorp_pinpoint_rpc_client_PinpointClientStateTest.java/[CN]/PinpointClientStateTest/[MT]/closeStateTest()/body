@@ -1,10 +1,10 @@
 {
   PinpointServerAcceptor serverAcceptor=null;
-  PinpointSocketFactory clientSocketFactory=null;
-  PinpointSocketHandler handler=null;
+  PinpointClientFactory clientSocketFactory=null;
+  DefaultPinpointClientHandler handler=null;
   try {
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,PinpointRPCTestUtils.createEchoServerListener());
-    clientSocketFactory=PinpointRPCTestUtils.createSocketFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
+    clientSocketFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
     handler=connect(clientSocketFactory);
     Thread.sleep(1000);
     Assert.assertEquals(SocketStateCode.RUN_DUPLEX,handler.getCurrentStateCode());

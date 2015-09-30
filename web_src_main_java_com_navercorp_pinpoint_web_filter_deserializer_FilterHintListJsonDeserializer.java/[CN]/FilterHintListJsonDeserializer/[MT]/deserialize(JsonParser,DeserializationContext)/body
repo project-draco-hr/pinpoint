@@ -1,0 +1,18 @@
+{
+  if (!jp.getCurrentToken().isStructStart()) {
+    throw ctxt.mappingException(RpcHint.class,jp.getCurrentToken());
+  }
+  final JsonToken jsonToken=jp.nextToken();
+  if (jsonToken == JsonToken.END_OBJECT) {
+    return new FilterHint(Collections.<RpcHint>emptyList());
+  }
+  List<RpcHint> rpcHintList=new ArrayList<>();
+  while (true) {
+    final RpcHint rpcHint=jp.readValueAs(RpcHint.class);
+    rpcHintList.add(rpcHint);
+    if (jp.nextToken() == JsonToken.END_OBJECT) {
+      break;
+    }
+  }
+  return new FilterHint(rpcHintList);
+}

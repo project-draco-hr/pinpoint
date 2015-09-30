@@ -1,0 +1,33 @@
+{
+  if (timeout.isCancelled()) {
+    return;
+  }
+  if (pinpointClient.isClosed()) {
+    logger.debug("pinpointClient is already closed.");
+    return;
+  }
+  logger.warn("try reconnect. connectAddress:{}",socketAddress);
+  final ChannelFuture channelFuture=reconnect(socketAddress);
+  Channel channel=channelFuture.getChannel();
+  final PinpointClientHandler pinpointClientHandler=getSocketHandler(channel);
+  pinpointClientHandler.setConnectSocketAddress(socketAddress);
+  pinpointClientHandler.setPinpointClient(pinpointClient);
+  channelFuture.addListener(new ChannelFutureListener(){
+    @Override public void operationComplete(    ChannelFuture future) throws Exception {
+      if (future.isSuccess()) {
+        Channel channel=future.getChannel();
+        logger.warn("reconnect success {}, {}",socketAddress,channel);
+        pinpointClient.reconnectSocketHandler(pinpointClientHandler);
+      }
+ else {
+        if (!pinpointClient.isClosed()) {
+          reconnect(pinpointClient,socketAddress);
+        }
+ else {
+          logger.info("pinpointClient is closed. stop reconnect.");
+        }
+      }
+    }
+  }
+);
+}

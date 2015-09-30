@@ -1,5 +1,3 @@
 {
-  ClassFileTransformerBuilder builder=context.getClassFileTransformerBuilder("org.eclipse.jetty.server.Request");
-  builder.injectMetadata(METADATA_TRACE);
-  context.addClassFileTransformer(builder.build());
+  context.addClassFileTransformer("org.eclipse.jetty.server.Request",PinpointClassFileTransformers.addField("com.navercorp.pinpoint.plugin.jetty.interceptor.TraceAccessor"));
 }

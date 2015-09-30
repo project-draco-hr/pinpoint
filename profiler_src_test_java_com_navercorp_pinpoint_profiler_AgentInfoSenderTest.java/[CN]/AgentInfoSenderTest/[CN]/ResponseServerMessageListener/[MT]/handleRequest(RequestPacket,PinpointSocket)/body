@@ -1,0 +1,17 @@
+{
+  logger.info("handleRequest packet:{}, remote:{}",requestPacket,pinpointSocket.getRemoteAddress());
+  int requestCount=this.requestCount.incrementAndGet();
+  if (requestCount < successCondition) {
+    return;
+  }
+  try {
+    HeaderTBaseSerializer serializer=HeaderTBaseSerializerFactory.DEFAULT_FACTORY.createSerializer();
+    TResult result=new TResult(true);
+    byte[] resultBytes=serializer.serialize(result);
+    this.successCount.incrementAndGet();
+    pinpointSocket.response(requestPacket,resultBytes);
+  }
+ catch (  TException e) {
+    e.printStackTrace();
+  }
+}

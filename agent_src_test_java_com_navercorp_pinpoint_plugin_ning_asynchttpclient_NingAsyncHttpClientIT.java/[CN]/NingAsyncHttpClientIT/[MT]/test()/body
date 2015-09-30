@@ -1,0 +1,14 @@
+{
+  AsyncHttpClient client=new AsyncHttpClient();
+  try {
+    Future<Response> f=client.preparePost("http://www.naver.com/").addParameter("param1","value1").execute();
+    Response response=f.get();
+  }
+  finally {
+    client.close();
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTrace(event("ASYNC_HTTP_CLIENT",AsyncHttpClient.class.getMethod("executeRequest",Request.class,AsyncHandler.class),null,null,"www.naver.com",annotation("http.url","http://www.naver.com"),annotation("http.param","param1=value1")));
+  verifier.verifyTraceCount(0);
+}

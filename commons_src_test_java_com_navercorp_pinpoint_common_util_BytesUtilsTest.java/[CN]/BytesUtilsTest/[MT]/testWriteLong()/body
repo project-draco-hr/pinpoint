@@ -3,20 +3,20 @@
     BytesUtils.writeLong(1234,null,0);
     fail("null pointer accessed");
   }
- catch (  Exception e) {
+ catch (  Exception ignore) {
   }
   byte[] such_long=new byte[13];
   try {
     BytesUtils.writeLong(1234,such_long,-1);
     fail("negative offset did not catched");
   }
- catch (  Exception e) {
+ catch (  Exception ignore) {
   }
   try {
     BytesUtils.writeLong(2222,such_long,9);
     fail("index out of range exception did not catched");
   }
- catch (  Exception e) {
+ catch (  Exception ignore) {
   }
   BytesUtils.writeLong(-1l,such_long,2);
   for (int i=2; i < 10; i++) {

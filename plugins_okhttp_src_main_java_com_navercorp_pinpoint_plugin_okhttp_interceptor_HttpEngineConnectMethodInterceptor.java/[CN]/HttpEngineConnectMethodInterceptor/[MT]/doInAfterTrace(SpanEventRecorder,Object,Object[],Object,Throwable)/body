@@ -1,0 +1,14 @@
+{
+  if (target instanceof ConnectionGetter) {
+    Connection connection=((ConnectionGetter)target)._$PINPOINT$_getConnection();
+    if (connection != null) {
+      final StringBuilder sb=new StringBuilder();
+      sb.append(connection.getRoute().getAddress().getUriHost()).append(":");
+      sb.append(connection.getRoute().getAddress().getUriPort());
+      recorder.recordAttribute(AnnotationKey.HTTP_INTERNAL_DISPLAY,sb.toString());
+    }
+  }
+  recorder.recordApi(methodDescriptor);
+  recorder.recordServiceType(OkHttpConstants.OK_HTTP_CLIENT_INTERNAL);
+  recorder.recordException(throwable);
+}

@@ -1,0 +1,17 @@
+{
+  final TCommandEcho mismatchingResponse=new TCommandEcho();
+  final byte[] mismatchingResponseBody=new byte[0];
+  final TCommandTransfer tCommandTransfer=new TCommandTransfer();
+  tCommandTransfer.setAgentId(TEST_AGENT_ID);
+  tCommandTransfer.setStartTime(TEST_START_TIMESTAMP);
+  final TCommandTransferResponse tCommandTransferResponse=new TCommandTransferResponse();
+  tCommandTransferResponse.setRouteResult(TRouteResult.OK);
+  tCommandTransferResponse.setPayload(mismatchingResponseBody);
+  final ResponseEvent responseEvent=new ResponseEvent(tCommandTransfer,null,0,tCommandTransferResponse);
+  ArgumentCaptor<AgentEventBo> argCaptor=ArgumentCaptor.forClass(AgentEventBo.class);
+  HeaderTBaseDeserializer deserializer=mock(HeaderTBaseDeserializer.class);
+  when(this.deserializerFactory.createDeserializer()).thenReturn(deserializer);
+  when(deserializer.deserialize(mismatchingResponseBody)).thenReturn((TBase)mismatchingResponse);
+  this.agentEventHandler.handleResponseEvent(responseEvent,TEST_EVENT_TIMESTAMP);
+  verify(this.agentEventDao,never()).insert(argCaptor.capture());
+}

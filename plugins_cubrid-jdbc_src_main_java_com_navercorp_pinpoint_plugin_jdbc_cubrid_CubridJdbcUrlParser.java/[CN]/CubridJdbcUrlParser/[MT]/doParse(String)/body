@@ -1,11 +1,11 @@
 {
   if (url == null) {
-    return UnKnownDatabaseInfo.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,null);
+    return UnKnownDatabaseInfo.createUnknownDataBase(CubridConstants.CUBRID,CubridConstants.CUBRID_EXECUTE_QUERY,null);
   }
   final Matcher matcher=PATTERN.matcher(url);
   if (!matcher.find()) {
     logger.warn("Cubrid connectionString parse fail. url:{}",url);
-    return UnKnownDatabaseInfo.createUnknownDataBase(CUBRID,CUBRID_EXECUTE_QUERY,url);
+    return UnKnownDatabaseInfo.createUnknownDataBase(CubridConstants.CUBRID,CubridConstants.CUBRID_EXECUTE_QUERY,url);
   }
   String host=matcher.group(2);
   String portString=matcher.group(3);
@@ -34,5 +34,5 @@
   List<String> hostList=new ArrayList<String>(1);
   final String hostAndPort=host + ":" + portString;
   hostList.add(hostAndPort);
-  return new DefaultDatabaseInfo(CUBRID,CUBRID_EXECUTE_QUERY,url,normalizedUrl,hostList,db);
+  return new DefaultDatabaseInfo(CubridConstants.CUBRID,CubridConstants.CUBRID_EXECUTE_QUERY,url,normalizedUrl,hostList,db);
 }

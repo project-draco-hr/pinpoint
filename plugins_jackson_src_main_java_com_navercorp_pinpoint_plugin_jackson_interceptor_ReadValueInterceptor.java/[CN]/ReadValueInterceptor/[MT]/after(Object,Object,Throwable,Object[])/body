@@ -1,0 +1,29 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+    Object arg=args[0];
+    if (arg != null) {
+      if (arg instanceof String) {
+        recorder.recordAttribute(JacksonConstants.ANNOTATION_KEY_LENGTH_VALUE,((String)arg).length());
+      }
+ else       if (arg instanceof byte[]) {
+        recorder.recordAttribute(JacksonConstants.ANNOTATION_KEY_LENGTH_VALUE,((byte[])arg).length);
+      }
+ else       if (arg instanceof File) {
+        recorder.recordAttribute(JacksonConstants.ANNOTATION_KEY_LENGTH_VALUE,((File)arg).length());
+      }
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

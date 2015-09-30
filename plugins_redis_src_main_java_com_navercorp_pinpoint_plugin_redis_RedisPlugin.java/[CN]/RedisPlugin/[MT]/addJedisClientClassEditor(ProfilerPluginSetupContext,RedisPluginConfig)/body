@@ -1,8 +1,8 @@
 {
   context.addClassFileTransformer("redis.clients.jedis.Client",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
-      target.addField(METADATA_END_POINT);
+      target.addField(RedisConstants.METADATA_END_POINT);
       final InstrumentMethod constructorEditorBuilderArg1=target.getConstructor("java.lang.String");
       if (constructorEditorBuilderArg1 != null) {
         constructorEditorBuilderArg1.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisClientConstructorInterceptor");

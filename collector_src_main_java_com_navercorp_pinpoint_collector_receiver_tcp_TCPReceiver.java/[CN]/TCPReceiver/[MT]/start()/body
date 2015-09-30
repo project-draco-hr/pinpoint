@@ -1,15 +1,9 @@
 {
-  for (  ChannelStateChangeEventHandler channelStateChangeEventHandler : this.channelStateChangeEventHandlers) {
+  for (  ServerStateChangeEventHandler channelStateChangeEventHandler : this.channelStateChangeEventHandlers) {
     serverAcceptor.addStateChangeEventHandler(channelStateChangeEventHandler);
   }
   setL4TcpChannel(serverAcceptor);
   this.serverAcceptor.setMessageListener(new ServerMessageListener(){
-    @Override public void handleSend(    SendPacket sendPacket,    PinpointServer pinpointServer){
-      receive(sendPacket,pinpointServer);
-    }
-    @Override public void handleRequest(    RequestPacket requestPacket,    PinpointServer pinpointServer){
-      requestResponse(requestPacket,pinpointServer);
-    }
     @Override public HandshakeResponseCode handleHandshake(    Map properties){
       if (properties == null) {
         return HandshakeResponseType.ProtocolError.PROTOCOL_ERROR;
@@ -25,6 +19,12 @@
  else {
         return HandshakeResponseType.Success.SIMPLEX_COMMUNICATION;
       }
+    }
+    @Override public void handleSend(    SendPacket sendPacket,    PinpointSocket pinpointSocket){
+      receive(sendPacket,pinpointSocket);
+    }
+    @Override public void handleRequest(    RequestPacket requestPacket,    PinpointSocket pinpointSocket){
+      requestResponse(requestPacket,pinpointSocket);
     }
     @Override public void handlePing(    PingPacket pingPacket,    PinpointServer pinpointServer){
       recordPing(pingPacket,pinpointServer);

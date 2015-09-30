@@ -1,6 +1,6 @@
 {
-  ClassFileFilter filter=new DefaultClassFileFilter(this.getClass().getClassLoader());
-  Assert.assertTrue(filter.doFilter(this.getClass().getClassLoader(),"test",null,null,null));
+  ClassFileFilter filter=new UnmodifiableClassFilter(this.getClass().getClassLoader());
+  Assert.assertFalse(filter.accept(this.getClass().getClassLoader(),"test",null,null,null));
   URLClassLoader classLoader=new URLClassLoader(new URL[]{});
-  Assert.assertFalse(filter.doFilter(classLoader,"test",null,null,null));
+  Assert.assertTrue(filter.accept(classLoader,"test",null,null,null));
 }

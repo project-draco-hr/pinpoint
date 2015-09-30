@@ -1,9 +1,9 @@
 {
   context.addClassFileTransformer("org.apache.catalina.connector.Request",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
-      target.addField(METADATA_TRACE);
-      target.addField(METADATA_ASYNC);
+      target.addField(TomcatConstants.METADATA_TRACE);
+      target.addField(TomcatConstants.METADATA_ASYNC);
       InstrumentMethod recycleMethodEditorBuilder=target.getDeclaredMethod("recycle");
       if (recycleMethodEditorBuilder != null) {
         recycleMethodEditorBuilder.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");

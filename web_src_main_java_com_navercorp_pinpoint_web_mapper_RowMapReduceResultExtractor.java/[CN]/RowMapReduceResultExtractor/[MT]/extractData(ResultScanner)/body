@@ -1,0 +1,9 @@
+{
+  int rowNum=0;
+  T r=null;
+  for (  Result result : results) {
+    T map=this.rowMapper.mapRow(result,rowNum++);
+    r=rowReducer.reduce(map);
+  }
+  return r;
+}

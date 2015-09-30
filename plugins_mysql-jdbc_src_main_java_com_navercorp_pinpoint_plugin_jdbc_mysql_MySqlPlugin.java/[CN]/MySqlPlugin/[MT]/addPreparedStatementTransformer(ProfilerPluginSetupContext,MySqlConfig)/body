@@ -1,0 +1,16 @@
+{
+  setupContext.addClassFileTransformer("com.mysql.jdbc.PreparedStatement",new PinpointClassFileTransformer(){
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor","new java.util.HashMap()");
+      int maxBindValueSize=config.getMaxSqlBindValueSize();
+      InterceptorGroup group=instrumentContext.getInterceptorGroup(MySqlConstants.GROUP_NAME);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",group,maxBindValueSize);
+      target.addGroupedInterceptor(PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML"),"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",group,ExecutionPolicy.BOUNDARY);
+      return target.toBytecode();
+    }
+  }
+);
+}

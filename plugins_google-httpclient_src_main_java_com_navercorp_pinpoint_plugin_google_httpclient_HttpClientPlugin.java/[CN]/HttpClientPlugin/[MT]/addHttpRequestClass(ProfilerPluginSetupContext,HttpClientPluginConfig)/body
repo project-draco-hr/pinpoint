@@ -1,6 +1,6 @@
 {
   context.addClassFileTransformer("com.google.api.client.http.HttpRequest",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    ProfilerPluginInstrumentContext instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod execute=target.getDeclaredMethod("execute",new String[]{});
       if (execute != null) {
@@ -14,7 +14,7 @@
         for (        InstrumentClass nestedClass : target.getNestedClasses(ClassFilters.chain(ClassFilters.enclosingMethod("executeAsync","java.util.concurrent.Executor"),ClassFilters.interfaze("java.util.concurrent.Callable")))) {
           logger.debug("Find nested class {}",target.getName());
           instrumentContext.addClassFileTransformer(loader,nestedClass.getName(),new PinpointClassFileTransformer(){
-            @Override public byte[] transform(            ProfilerPluginInstrumentContext instrumentContext,            ClassLoader loader,            String className,            Class<?> classBeingRedefined,            ProtectionDomain protectionDomain,            byte[] classfileBuffer) throws InstrumentException {
+            @Override public byte[] transform(            Instrumentor instrumentContext,            ClassLoader loader,            String className,            Class<?> classBeingRedefined,            ProtectionDomain protectionDomain,            byte[] classfileBuffer) throws InstrumentException {
               InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
               target.addField(AsyncTraceIdAccessor.class.getName());
               InstrumentMethod constructor=target.getConstructor("com.google.api.client.http.HttpRequest");

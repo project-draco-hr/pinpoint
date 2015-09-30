@@ -1,18 +1,11 @@
 {
-  if (isEmpty(excludeFormat)) {
+  if (StringUtils.isEmpty(excludeFormat)) {
     this.excludeMatcherList=Collections.emptyList();
     return;
   }
-  final String[] split=excludeFormat.split(separator);
-  final List<PathMatcher> buildList=new ArrayList<PathMatcher>();
-  for (  String path : split) {
-    if (isEmpty(path)) {
-      continue;
-    }
-    path=path.trim();
-    if (path.isEmpty()) {
-      continue;
-    }
+  final List<String> splitList=StringUtils.splitAndTrim(excludeFormat,separator);
+  final List<PathMatcher> buildList=new ArrayList<PathMatcher>(splitList.size());
+  for (  String path : splitList) {
     final PathMatcher pathMatcher=createPathMatcher(path);
     buildList.add(pathMatcher);
   }
