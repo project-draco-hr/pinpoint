@@ -2,11 +2,10 @@
   if (code > Short.MAX_VALUE || code < Short.MIN_VALUE) {
     throw new IllegalArgumentException("code must be a short value");
   }
-  checkSupportHistogramSchema(code,histogramSchema);
   this.code=(short)code;
   this.name=name;
   this.desc=desc;
-  this.histogramSchema=histogramSchema;
+  this.category=ServiceTypeCategory.findCategory((short)code);
   boolean terminal=false;
   boolean recordStatistics=false;
   boolean includeDestinationId=false;
