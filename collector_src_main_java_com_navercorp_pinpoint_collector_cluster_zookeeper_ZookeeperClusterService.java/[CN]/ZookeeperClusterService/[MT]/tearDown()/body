@@ -18,8 +18,8 @@
   if (client != null) {
     client.close();
   }
-  if (webCluster != null) {
-    webCluster.close();
+  if (clusterConnectionManager != null) {
+    clusterConnectionManager.stop();
   }
   this.serviceState.changeStateStopped();
   logger.info("{} destroying completed.",this.getClass().getSimpleName());

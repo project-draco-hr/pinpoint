@@ -6,6 +6,9 @@ case NEW:
       this.workerThread.start();
       workerState.changeStateStarted();
       logger.info("{} initialization completed.",this.getClass().getSimpleName());
+      if (clusterConnectionManager != null) {
+        clusterConnectionManager.start();
+      }
       break;
     }
 case INITIALIZING:
