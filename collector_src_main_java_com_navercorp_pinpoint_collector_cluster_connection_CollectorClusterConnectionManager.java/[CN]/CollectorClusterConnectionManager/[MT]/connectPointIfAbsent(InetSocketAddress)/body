@@ -1,0 +1,9 @@
+{
+  logger.info("localhost -> {} connect started.",address);
+  if (socketRepository.containsKey(address)) {
+    logger.info("localhost -> {} already connected.",address);
+    return;
+  }
+  socketRepository.putIfAbsent(address,clusterConnector.connect(address));
+  logger.info("localhost -> {} connect completed.",address);
+}

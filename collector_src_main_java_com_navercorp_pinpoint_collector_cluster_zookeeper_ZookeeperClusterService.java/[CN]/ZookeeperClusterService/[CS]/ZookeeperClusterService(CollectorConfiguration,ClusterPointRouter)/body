@@ -1,5 +1,13 @@
 {
   super(config,clusterPointRouter);
   this.serviceState=new WorkerStateContext();
-  this.webCluster=new WebCluster(serverIdentifier,clusterPointRouter,clusterPointRouter);
+  CollectorClusterConnectionRepository clusterRepository=new CollectorClusterConnectionRepository();
+  CollectorClusterConnectionFactory clusterConnectionFactory=new CollectorClusterConnectionFactory(serverIdentifier,clusterPointRouter,clusterPointRouter);
+  CollectorClusterConnector clusterConnector=clusterConnectionFactory.createConnector();
+  CollectorClusterAcceptor clusterAcceptor=null;
+  if (config.isClusterEnable() && config.isClusterListenEnable()) {
+    InetSocketAddress bindAddress=new InetSocketAddress(config.getClusterListenIp(),config.getClusterListenPort());
+    clusterAcceptor=clusterConnectionFactory.createAcceptor(bindAddress,clusterRepository);
+  }
+  this.clusterConnectionManager=new CollectorClusterConnectionManager(serverIdentifier,clusterRepository,clusterConnector,clusterAcceptor);
 }

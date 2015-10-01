@@ -1,0 +1,10 @@
+{
+  logger.info("{} initialization started.",ClassUtils.simpleClassName(this));
+  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor();
+  serverAcceptor.setMessageListener(new ClusterServerMessageListener(option.getClusterId(),option.getRouteMessageHandler()));
+  serverAcceptor.setServerStreamChannelMessageListener(option.getRouteStreamMessageHandler());
+  serverAcceptor.addStateChangeEventHandler(new WebClusterServerChannelStateChangeHandler());
+  serverAcceptor.bind(bindAddress);
+  this.serverAcceptor=serverAcceptor;
+  logger.info("{} initialization completed.",ClassUtils.simpleClassName(this));
+}
