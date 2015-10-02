@@ -5,9 +5,9 @@
   try {
     PinpointClient client=clientFactory1.connect("127.0.0.1",bindPort);
     Thread.sleep(500);
-    PinpointServer writableServer=getWritableServer("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()),serverAcceptor.getWritableServerList());
+    PinpointSocket writableServer=getWritableServer("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()),serverAcceptor.getWritableSocketList());
     Assert.assertNotNull(writableServer);
-    writableServer=getWritableServer("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()) + 1,serverAcceptor.getWritableServerList());
+    writableServer=getWritableServer("application","agent",(Long)params.get(AgentHandshakePropertyType.START_TIMESTAMP.getName()) + 1,serverAcceptor.getWritableSocketList());
     Assert.assertNull(writableServer);
     PinpointRPCTestUtils.close(client);
   }

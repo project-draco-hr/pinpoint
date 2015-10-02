@@ -1,0 +1,25 @@
+{
+  if (clusterAcceptor != null) {
+    List<PinpointSocket> clusterList=clusterAcceptor.getClusterSocketList();
+    for (    PinpointSocket cluster : clusterList) {
+      ClusterOption remoteClusterOption=cluster.getRemoteClusterOption();
+      if (remoteClusterOption != null) {
+        if (clusterId.equals(remoteClusterOption.getId())) {
+          return cluster;
+        }
+      }
+    }
+  }
+  if (clusterConnector != null) {
+    List<PinpointSocket> clusterList=clusterConnector.getClusterSocketList();
+    for (    PinpointSocket cluster : clusterList) {
+      ClusterOption remoteClusterOption=cluster.getRemoteClusterOption();
+      if (remoteClusterOption != null) {
+        if (clusterId.equals(remoteClusterOption.getId())) {
+          return cluster;
+        }
+      }
+    }
+  }
+  return null;
+}
