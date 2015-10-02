@@ -16,7 +16,8 @@
     Request request=((UserRequestGetter)target)._$PINPOINT$_getUserRequest();
     if (request != null) {
       recorder.recordAttribute(AnnotationKey.HTTP_URL,request.httpUrl().toString());
-      recorder.recordDestinationId(request.httpUrl().host() + ":" + request.httpUrl().port());
+      final String endpoint=getEndpoint(request.httpUrl().host(),request.httpUrl().port());
+      recorder.recordDestinationId(endpoint);
       recordRequest(trace,request,throwable);
     }
     InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
