@@ -13,8 +13,7 @@
       recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
       final NameIntValuePair<String> host=getHost();
       if (host != null) {
-        int port=host.getValue();
-        String endpoint=getEndpoint(host.getName(),port);
+        final String endpoint=getEndpoint(host.getName(),host.getValue());
         recorder.recordDestinationId(endpoint);
       }
       recordHttpRequest(trace,httpRequest,throwable);
