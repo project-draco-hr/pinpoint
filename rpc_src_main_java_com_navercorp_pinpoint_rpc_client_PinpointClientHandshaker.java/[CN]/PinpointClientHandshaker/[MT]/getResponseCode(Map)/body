@@ -1,0 +1,8 @@
+{
+  if (handshakeResponse == Collections.EMPTY_MAP) {
+    return HandshakeResponseCode.PROTOCOL_ERROR;
+  }
+  int code=MapUtils.getInteger(handshakeResponse,ControlHandshakeResponsePacket.CODE,-1);
+  int subCode=MapUtils.getInteger(handshakeResponse,ControlHandshakeResponsePacket.SUB_CODE,-1);
+  return HandshakeResponseCode.getValue(code,subCode);
+}

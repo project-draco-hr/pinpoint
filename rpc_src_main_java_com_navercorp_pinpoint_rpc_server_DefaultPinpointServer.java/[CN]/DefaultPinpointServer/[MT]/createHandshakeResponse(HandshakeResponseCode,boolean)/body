@@ -17,5 +17,8 @@
   Map<String,Object> result=new HashMap<String,Object>();
   result.put(ControlHandshakeResponsePacket.CODE,createdCode.getCode());
   result.put(ControlHandshakeResponsePacket.SUB_CODE,createdCode.getSubCode());
+  if (localClusterOption.isEnable()) {
+    result.put(ControlHandshakeResponsePacket.CLUSTER,localClusterOption.getProperties());
+  }
   return result;
 }

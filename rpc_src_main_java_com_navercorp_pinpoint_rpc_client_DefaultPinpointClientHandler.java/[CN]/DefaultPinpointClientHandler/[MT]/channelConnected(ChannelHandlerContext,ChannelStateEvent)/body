@@ -17,6 +17,9 @@
   Map<String,Object> handshakeData=new HashMap<String,Object>();
   handshakeData.putAll(clientFactory.getProperties());
   handshakeData.put("socketId",socketId);
+  if (localClusterOption.isEnable()) {
+    handshakeData.put("cluster",localClusterOption.getProperties());
+  }
   handshaker.handshakeStart(channel,handshakeData);
   connectFuture.setResult(Result.SUCCESS);
   logger.info("{} channelConnected() completed.",objectUniqName);

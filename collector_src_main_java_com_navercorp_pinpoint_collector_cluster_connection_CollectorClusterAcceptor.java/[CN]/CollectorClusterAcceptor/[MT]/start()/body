@@ -1,6 +1,7 @@
 {
   logger.info("{} initialization started.",ClassUtils.simpleClassName(this));
-  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor();
+  ClusterOption clusterOption=new ClusterOption(true,option.getClusterId(),Role.ROUTER);
+  PinpointServerAcceptor serverAcceptor=new PinpointServerAcceptor(clusterOption);
   serverAcceptor.setMessageListener(new ClusterServerMessageListener(option.getClusterId(),option.getRouteMessageHandler()));
   serverAcceptor.setServerStreamChannelMessageListener(option.getRouteStreamMessageHandler());
   serverAcceptor.addStateChangeEventHandler(new WebClusterServerChannelStateChangeHandler());
