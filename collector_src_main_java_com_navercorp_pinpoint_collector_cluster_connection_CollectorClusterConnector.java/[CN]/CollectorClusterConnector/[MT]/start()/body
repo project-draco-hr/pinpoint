@@ -1,9 +1,11 @@
 {
   logger.info("{} initialization started.",ClassUtils.simpleClassName(this));
+  ClusterOption clusterOption=new ClusterOption(true,option.getClusterId(),Role.ROUTER);
   this.clientFactory=new PinpointClientFactory();
   this.clientFactory.setTimeoutMillis(1000 * 5);
   this.clientFactory.setMessageListener(option.getRouteMessageHandler());
   this.clientFactory.setServerStreamChannelMessageListener(option.getRouteStreamMessageHandler());
+  this.clientFactory.setClusterOption(clusterOption);
   Map<String,Object> properties=new HashMap<String,Object>();
   properties.put("id",option.getClusterId());
   clientFactory.setProperties(properties);

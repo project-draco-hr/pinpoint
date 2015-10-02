@@ -1,0 +1,13 @@
+{
+  byte[] payload=message.getPayload();
+  if (payload == null) {
+    return Collections.EMPTY_MAP;
+  }
+  try {
+    Map result=(Map)ControlMessageEncodingUtils.decode(payload);
+    return result;
+  }
+ catch (  ProtocolException e) {
+  }
+  return Collections.EMPTY_MAP;
+}
