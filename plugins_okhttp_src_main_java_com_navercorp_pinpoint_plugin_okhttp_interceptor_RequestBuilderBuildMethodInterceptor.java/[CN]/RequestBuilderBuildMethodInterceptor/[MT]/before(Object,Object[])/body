@@ -30,7 +30,8 @@
     if (target instanceof HttpUrlGetter) {
       final HttpUrl url=((HttpUrlGetter)target)._$PINPOINT$_getHttpUrl();
       if (url != null) {
-        final String endpoint=getEndpoint(url.host(),url.port());
+        final String endpoint=getDestinationId(url);
+        logger.debug("Set HTTP_HOST {}",endpoint);
         builder.header(Header.HTTP_HOST.toString(),endpoint);
       }
     }
