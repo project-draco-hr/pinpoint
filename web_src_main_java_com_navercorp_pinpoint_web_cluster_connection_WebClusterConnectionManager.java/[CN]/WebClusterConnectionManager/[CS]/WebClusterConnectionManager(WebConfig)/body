@@ -1,0 +1,23 @@
+{
+  this.config=config;
+  if (config.isClusterEnable()) {
+    int bindPort=config.getClusterTcpPort();
+    if (bindPort > 0) {
+      clusterAcceptor=new WebClusterAcceptor(getRepresentationLocalV4Ip(),bindPort);
+    }
+ else {
+      clusterAcceptor=null;
+    }
+    String connectAddress=config.getClusterConnectAddress();
+    if (connectAddress != null && connectAddress.trim().length() != 0) {
+      clusterConnector=new WebClusterConnector(config.getClusterConnectAddress());
+    }
+ else {
+      clusterConnector=null;
+    }
+  }
+ else {
+    clusterAcceptor=null;
+    clusterConnector=null;
+  }
+}

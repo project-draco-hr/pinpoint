@@ -1,0 +1,16 @@
+{
+  if (!config.isClusterEnable()) {
+    return null;
+  }
+  List<String> clusterIdList=clusterManager.getRegisteredAgentList(applicationName,agentId,startTimeStamp);
+  if (clusterIdList.size() == 0) {
+    logger.warn("{}/{} couldn't find agent.",applicationName,agentId);
+    return null;
+  }
+ else   if (clusterIdList.size() > 1) {
+    logger.warn("{}/{} found duplicate agent {}.",applicationName,agentId,clusterIdList);
+    return null;
+  }
+  String clusterId=clusterIdList.get(0);
+  return getSocket0(clusterId);
+}
