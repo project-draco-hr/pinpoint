@@ -1,0 +1,13 @@
+{
+  if (!enable) {
+    return Collections.emptyMap();
+  }
+  Map<String,Object> clusterProperties=new HashMap<String,Object>(2);
+  clusterProperties.put("id",id);
+  List<String> roleList=new ArrayList<String>(roles.size());
+  for (  Role role : roles) {
+    roleList.add(role.name());
+  }
+  clusterProperties.put("roles",roleList);
+  return clusterProperties;
+}

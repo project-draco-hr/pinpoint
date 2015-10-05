@@ -1,23 +1,28 @@
 {
-  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),null);
+  PinpointServerAcceptor serverAcceptor=createServerFactory(SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE,null);
   serverAcceptor.bind("localhost",bindPort);
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointClientFactory clientFactory=createSocketFactory(new TestListener(),new ServerListener(bo));
+  PinpointClientFactory clientFactory=createSocketFactory(SimpleMessageListener.INSTANCE,new ServerListener(bo));
   try {
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(100);
-    List<PinpointServer> writableServerList=serverAcceptor.getWritableServerList();
+    List<PinpointSocket> writableServerList=serverAcceptor.getWritableSocketList();
     Assert.assertEquals(1,writableServerList.size());
-    PinpointServer writableServer=writableServerList.get(0);
+    PinpointSocket writableServer=writableServerList.get(0);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
-    ClientStreamChannelContext clientContext=writableServer.createStream(new byte[0],clientListener);
-    int sendCount=4;
-    for (int i=0; i < sendCount; i++) {
-      sendRandomBytes(bo);
+    if (writableServer instanceof PinpointServer) {
+      ClientStreamChannelContext clientContext=((PinpointServer)writableServer).createStream(new byte[0],clientListener);
+      int sendCount=4;
+      for (int i=0; i < sendCount; i++) {
+        sendRandomBytes(bo);
+      }
+      Thread.sleep(100);
+      Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
+      clientContext.getStreamChannel().close();
     }
-    Thread.sleep(100);
-    Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
-    clientContext.getStreamChannel().close();
+ else {
+      Assert.fail();
+    }
     PinpointRPCTestUtils.close(client);
   }
   finally {

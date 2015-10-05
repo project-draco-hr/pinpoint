@@ -1,6 +1,6 @@
 {
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),new ServerListener(bo));
+  PinpointServerAcceptor serverAcceptor=createServerFactory(SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE,new ServerListener(bo));
   serverAcceptor.bind("localhost",bindPort);
   PinpointClientFactory clientFactory=createSocketFactory();
   try {

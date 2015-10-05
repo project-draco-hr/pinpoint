@@ -6,6 +6,7 @@
   boolean isFirst=setChannelProperties(handshakeData);
   if (isFirst) {
     if (HandshakeResponseCode.DUPLEX_COMMUNICATION == responseCode) {
+      this.remoteClusterOption=getClusterOption(handshakeData);
       state.toRunDuplex();
     }
  else     if (HandshakeResponseCode.SIMPLEX_COMMUNICATION == responseCode || HandshakeResponseCode.SUCCESS == responseCode) {

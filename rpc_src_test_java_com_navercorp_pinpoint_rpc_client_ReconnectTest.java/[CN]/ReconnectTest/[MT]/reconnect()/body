@@ -1,5 +1,5 @@
 {
-  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
   final AtomicBoolean reconnectPerformed=new AtomicBoolean(false);
   PinpointServerAcceptor newServerAcceptor=null;
   try {
@@ -19,7 +19,7 @@
     }
  catch (    Exception e) {
     }
-    newServerAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+    newServerAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     logger.info("bind server---------------------------");
     Thread.sleep(3000);
     logger.info("request server---------------------------");

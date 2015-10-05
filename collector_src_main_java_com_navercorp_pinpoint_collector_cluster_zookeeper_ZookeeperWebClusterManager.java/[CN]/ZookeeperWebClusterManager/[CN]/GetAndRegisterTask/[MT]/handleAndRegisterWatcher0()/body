@@ -6,16 +6,16 @@
     }
     List<String> childNodeList=client.getChildrenNode(zNodePath,true);
     List<InetSocketAddress> clusterAddressList=NetUtils.toInetSocketAddressLIst(childNodeList);
-    List<InetSocketAddress> addressList=webCluster.getWebClusterList();
+    List<SocketAddress> addressList=clusterConnectionManager.getConnectedAddressList();
     logger.info("Handle register and remove Task. Current Address List = {}, Cluster Address List = {}",addressList,clusterAddressList);
     for (    InetSocketAddress clusterAddress : clusterAddressList) {
       if (!addressList.contains(clusterAddress)) {
-        webCluster.connectPointIfAbsent(clusterAddress);
+        clusterConnectionManager.connectPointIfAbsent(clusterAddress);
       }
     }
-    for (    InetSocketAddress address : addressList) {
+    for (    SocketAddress address : addressList) {
       if (!clusterAddressList.contains(address)) {
-        webCluster.disconnectPoint(address);
+        clusterConnectionManager.disconnectPoint(address);
       }
     }
     needNotRetry=true;

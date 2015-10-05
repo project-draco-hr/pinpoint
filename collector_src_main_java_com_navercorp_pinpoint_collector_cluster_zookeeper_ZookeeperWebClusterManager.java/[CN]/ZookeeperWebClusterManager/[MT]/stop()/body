@@ -5,6 +5,9 @@
     return;
   }
   logger.info("{} destroying started.",this.getClass().getSimpleName());
+  if (clusterConnectionManager != null) {
+    clusterConnectionManager.stop();
+  }
   final boolean stopOffer=queue.offer(stopTask);
   if (!stopOffer) {
     logger.warn("Insert stopTask failed.");

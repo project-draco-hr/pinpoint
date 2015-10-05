@@ -6,8 +6,11 @@ synchronized (lock) {
       this.state.set(STATE_FINISHED);
       return false;
     }
-    HandshakeResponseCode code=getHandshakeResponseCode(message);
+    Map handshakeResponse=decode(message);
+    HandshakeResponseCode code=getResponseCode(handshakeResponse);
     handshakeResult.compareAndSet(null,code);
+    ClusterOption clusterOption=getClusterOption(handshakeResponse);
+    this.clusterOption.compareAndSet(null,clusterOption);
     logger.info("{} handshakeComplete method completed. handshakeResult:{} / {}",simpleClassNameAndHashCodeString(),code,handshakeResult.get());
     return true;
   }

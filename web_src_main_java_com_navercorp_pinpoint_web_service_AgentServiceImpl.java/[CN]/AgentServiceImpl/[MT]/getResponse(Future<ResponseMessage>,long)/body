@@ -1,4 +1,7 @@
 {
+  if (future == null) {
+    return new FailedPinpointRouteResponse(TRouteResult.NOT_FOUND,null);
+  }
   boolean completed=future.await(DEFAULT_FUTURE_TIMEOUT);
   if (completed) {
     DefaultPinpointRouteResponse response=new DefaultPinpointRouteResponse(future.getResult().getMessage());
