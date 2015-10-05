@@ -1,8 +1,8 @@
 {
-  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),null);
+  PinpointServerAcceptor serverAcceptor=createServerFactory(SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE,null);
   serverAcceptor.bind("localhost",bindPort);
   SimpleStreamBO bo=new SimpleStreamBO();
-  PinpointClientFactory clientFactory=createSocketFactory(new TestListener(),new ServerListener(bo));
+  PinpointClientFactory clientFactory=createSocketFactory(SimpleMessageListener.INSTANCE,new ServerListener(bo));
   try {
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     Thread.sleep(100);

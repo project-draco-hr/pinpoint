@@ -1,5 +1,5 @@
 {
-  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new AlwaysHandshakeSuccessListener());
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_INSTANCE);
   EchoClientListener echoMessageListener=new EchoClientListener();
   PinpointClientFactory clientSocketFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),echoMessageListener);
   try {
