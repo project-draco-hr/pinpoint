@@ -7,7 +7,7 @@
       }
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.chain(MethodFilters.name(JedisPipelineMethodNames.get()),MethodFilters.modifierNot(MethodFilters.SYNTHETIC)))) {
         try {
-          method.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisPipelineMethodInterceptor",config.isIo());
+          method.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisPipelineMethodInterceptor",va(config.isIo()));
         }
  catch (        Exception e) {
           if (logger.isWarnEnabled()) {

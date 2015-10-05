@@ -4,7 +4,7 @@
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValue"))) {
-        addInterceptor(method,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+        addInterceptor(method,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       }
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValueAsString"))) {
         addInterceptor(method,WRITE_VALUE_AS_STRING_INTERCEPTOR,group);

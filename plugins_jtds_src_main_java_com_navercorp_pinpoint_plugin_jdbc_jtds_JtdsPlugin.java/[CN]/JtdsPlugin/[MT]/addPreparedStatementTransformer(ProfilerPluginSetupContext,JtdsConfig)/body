@@ -7,7 +7,7 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor","new java.util.HashMap()");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
       InterceptorGroup group=instrumentContext.getInterceptorGroup(JtdsConstants.GROUP_JTDS);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",group,maxBindValueSize);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),group);
       target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",group);
       return target.toBytecode();
     }

@@ -4,7 +4,7 @@
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("execute","cancel"))) {
         logger.debug("[OkHttp] Add Dispatcher.execute | cancel interceptor.");
-        method.addInterceptor(OkHttpConstants.BASIC_METHOD_INTERCEPTOR,OkHttpConstants.OK_HTTP_CLIENT_INTERNAL);
+        method.addInterceptor(OkHttpConstants.BASIC_METHOD_INTERCEPTOR,va(OkHttpConstants.OK_HTTP_CLIENT_INTERNAL));
       }
       InstrumentMethod enqueueMethod=target.getDeclaredMethod("enqueue","com.squareup.okhttp.Call$AsyncCall");
       if (enqueueMethod != null) {
