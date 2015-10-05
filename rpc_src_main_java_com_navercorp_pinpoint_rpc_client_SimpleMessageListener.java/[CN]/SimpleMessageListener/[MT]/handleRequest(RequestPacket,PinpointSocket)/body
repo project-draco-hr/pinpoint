@@ -1,0 +1,9 @@
+{
+  logger.info("handleRequest packet:{}, remote:{}",requestPacket,pinpointSocket.getRemoteAddress());
+  if (echo) {
+    pinpointSocket.response(requestPacket,requestPacket.getPayload());
+  }
+ else {
+    pinpointSocket.response(requestPacket,new byte[0]);
+  }
+}

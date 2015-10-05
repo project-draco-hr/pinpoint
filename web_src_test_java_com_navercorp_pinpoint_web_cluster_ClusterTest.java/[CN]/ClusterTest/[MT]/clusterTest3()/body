@@ -9,7 +9,7 @@
     getNodeAndCompareContents(zookeeper);
     Assert.assertEquals(0,clusterConnectionManager.getClusterList().size());
     clientFactory=new PinpointClientFactory();
-    clientFactory.setMessageListener(new SimpleListener());
+    clientFactory.setMessageListener(SimpleMessageListener.INSTANCE);
     client=clientFactory.connect(DEFAULT_IP,acceptorPort);
     Thread.sleep(1000);
     Assert.assertEquals(1,clusterConnectionManager.getClusterList().size());

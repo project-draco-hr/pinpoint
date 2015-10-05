@@ -5,7 +5,7 @@
   PinpointServerAcceptor serverAcceptor=null;
   try {
     client=clientFactory.scheduledConnect("localhost",bindPort);
-    serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+    serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     Thread.sleep(2000);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);

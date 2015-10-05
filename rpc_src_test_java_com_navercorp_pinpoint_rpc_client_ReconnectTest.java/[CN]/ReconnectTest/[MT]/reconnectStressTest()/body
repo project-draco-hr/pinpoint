@@ -4,12 +4,12 @@
   int threadCount=tbean.getThreadCount();
   for (int i=0; i < count; i++) {
     logger.info((i + 1) + "th's start.");
-    PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+    PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     PinpointClient socket=clientFactory.connect("localhost",bindPort);
     PinpointRPCTestUtils.close(serverAcceptor);
     logger.info("server.close()---------------------------");
     Thread.sleep(10000);
-    serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new TestSeverMessageListener());
+    serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     logger.info("bind server---------------------------");
     Thread.sleep(10000);
     logger.info("request server---------------------------");
