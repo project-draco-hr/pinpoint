@@ -5,7 +5,7 @@
       boolean traceKey=config.isMemcachedKeyTrace();
       for (      InstrumentMethod m : target.getDeclaredMethods(new FrontCacheMemcachedMethodFilter())) {
         try {
-          m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",traceKey);
+          m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",va(traceKey));
         }
  catch (        Exception e) {
           if (logger.isWarnEnabled()) {

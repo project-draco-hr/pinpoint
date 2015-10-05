@@ -4,17 +4,17 @@
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP);
       final InstrumentMethod constructor1=target.getConstructor();
-      addInterceptor(constructor1,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+      addInterceptor(constructor1,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       final InstrumentMethod constructor2=target.getConstructor("org.codehaus.jackson.JsonFactory");
-      addInterceptor(constructor2,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+      addInterceptor(constructor2,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       final InstrumentMethod constructor3=target.getConstructor("org.codehaus.jackson.JsonFactory","org.codehaus.jackson.map.SerializerProvider","org.codehaus.jackson.map.DeserializerProvider");
-      addInterceptor(constructor3,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+      addInterceptor(constructor3,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       final InstrumentMethod constructor4=target.getConstructor("org.codehaus.jackson.map.SerializerFactory");
-      addInterceptor(constructor4,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+      addInterceptor(constructor4,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       final InstrumentMethod constructor5=target.getConstructor("org.codehaus.jackson.JsonFactory","org.codehaus.jackson.map.SerializerProvider","org.codehaus.jackson.map.DeserializerProvider","org.codehaus.jackson.map.SerializationConfig","org.codehaus.jackson.map.DeserializationConfig");
-      addInterceptor(constructor5,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+      addInterceptor(constructor5,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValue"))) {
-        addInterceptor(method,BASIC_METHOD_INTERCEPTOR,group,JacksonConstants.SERVICE_TYPE);
+        addInterceptor(method,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE),group);
       }
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("writeValueAsString"))) {
         addInterceptor(method,WRITE_VALUE_AS_STRING_INTERCEPTOR,group);

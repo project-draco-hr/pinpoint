@@ -4,7 +4,7 @@
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       InstrumentMethod method=target.getDeclaredMethod("invoke","org.apache.catalina.connector.Request","org.apache.catalina.connector.Response");
       if (method != null) {
-        method.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",config.getTomcatExcludeUrlFilter());
+        method.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.StandardHostValveInvokeInterceptor",va(config.getTomcatExcludeUrlFilter()));
       }
       return target.toBytecode();
     }
