@@ -5,19 +5,24 @@
   if (range == null) {
     throw new NullPointerException("range must not be null");
   }
-  final Scan scan=createScan(callerApplication,range);
   final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
-  ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
-  LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,rowKeyDistributorByHashPrefix,resultExtractor);
-  logger.debug("Caller data. {}, {}",linkDataMap,range);
-  if (linkDataMap == null || linkDataMap.size() == 0) {
-    logger.debug("There's no caller data. {}, {}",callerApplication,range);
-    resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapperBackwardCompatibility,new MapStatisticsTimeWindowReducer(timeWindow));
-    linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
+  if (tableExists) {
+    final Scan scan=createScan(callerApplication,range,HBaseTables.MAP_STATISTICS_CALLEE_VER2_CF_COUNTER);
+    ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapper,new MapStatisticsTimeWindowReducer(timeWindow));
+    LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE_VER2,scan,rowKeyDistributorByHashPrefix,resultExtractor);
     logger.debug("Caller data. {}, {}",linkDataMap,range);
-    if (linkDataMap == null) {
-      return new LinkDataMap();
+    if (linkDataMap != null && linkDataMap.size() > 0) {
+      return linkDataMap;
     }
   }
-  return linkDataMap;
+  if (backwardCompatibility) {
+    final Scan scan=createScan(callerApplication,range,HBaseTables.MAP_STATISTICS_CALLEE_CF_COUNTER,HBaseTables.MAP_STATISTICS_CALLEE_CF_VER2_COUNTER);
+    ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<LinkDataMap>(mapStatisticsCallerMapperBackwardCompatibility,new MapStatisticsTimeWindowReducer(timeWindow));
+    LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLEE,scan,resultExtractor);
+    logger.debug("Caller data. {}, {}",linkDataMap,range);
+    return linkDataMap != null ? linkDataMap : new LinkDataMap();
+  }
+ else {
+    return new LinkDataMap();
+  }
 }

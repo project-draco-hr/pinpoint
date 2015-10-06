@@ -2,10 +2,10 @@
   if (result.isEmpty()) {
     return null;
   }
-  final byte[] rowKey=getOriginalKey(result.getRow());
+  final byte[] rowKey=result.getRow();
   ResponseTime responseTime=createResponseTime(rowKey);
   for (  Cell cell : result.rawCells()) {
-    if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_SELF_VER2_CF_COUNTER)) {
+    if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER)) {
       recordColumn(responseTime,cell);
     }
     if (logger.isDebugEnabled()) {

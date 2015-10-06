@@ -1,0 +1,8 @@
+{
+  final byte[] qArray=cell.getQualifierArray();
+  final int qOffset=cell.getQualifierOffset();
+  short slotNumber=Bytes.toShort(qArray,qOffset);
+  String agentId=Bytes.toString(qArray,qOffset + BytesUtils.SHORT_BYTE_LENGTH,cell.getQualifierLength() - BytesUtils.SHORT_BYTE_LENGTH);
+  long count=Bytes.toLong(cell.getValueArray(),cell.getValueOffset());
+  responseTime.addResponseTime(agentId,slotNumber,count);
+}
