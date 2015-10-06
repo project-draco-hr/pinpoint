@@ -1,0 +1,14 @@
+{
+  jgen.writeStartObject();
+  final short serviceTypeCode=serverInstance.getServiceTypeCode();
+  final ServiceType serviceType=serviceTypeRegistryService.findServiceType(serviceTypeCode);
+  jgen.writeBooleanField("hasInspector",hasInspector(serviceType));
+  final ServerMatcher serverMatcher=this.matcherGroup.match(serverInstance.getHostName());
+  jgen.writeStringField("linkName",serverMatcher.getLinkName());
+  jgen.writeStringField("linkURL",serverMatcher.getLink(serverInstance.getHostName()));
+  jgen.writeStringField("name",serverInstance.getName());
+  jgen.writeStringField("serviceType",serviceType.getName());
+  jgen.writeFieldName("status");
+  write(serverInstance.getStatus(),jgen,provider);
+  jgen.writeEndObject();
+}

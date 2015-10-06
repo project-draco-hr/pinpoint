@@ -1,15 +1,7 @@
 {
-  if (this == obj)   return true;
-  if (obj == null)   return false;
-  if (getClass() != obj.getClass())   return false;
-  AgentInfo other=(AgentInfo)obj;
-  if (agentId == null) {
-    if (other.agentId != null)     return false;
-  }
- else   if (!agentId.equals(other.agentId))   return false;
-  if (serviceType == null) {
-    if (other.serviceType != null)     return false;
-  }
- else   if (!serviceType.equals(other.serviceType))   return false;
-  return true;
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  AgentInfo agentInfo=(AgentInfo)o;
+  if (serviceTypeCode != agentInfo.serviceTypeCode)   return false;
+  return !(agentId != null ? !agentId.equals(agentInfo.agentId) : agentInfo.agentId != null);
 }

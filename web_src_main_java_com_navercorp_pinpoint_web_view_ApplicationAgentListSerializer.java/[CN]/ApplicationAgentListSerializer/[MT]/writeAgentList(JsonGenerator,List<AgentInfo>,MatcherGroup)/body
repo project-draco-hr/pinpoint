@@ -8,7 +8,8 @@
     jgen.writeStringField("hostName",agentInfo.getHostName());
     jgen.writeStringField("ip",agentInfo.getIp());
     jgen.writeStringField("ports",agentInfo.getPorts());
-    jgen.writeStringField("serviceType",agentInfo.getServiceType().toString());
+    final ServiceType serviceType=serviceTypeRegistryService.findServiceType(agentInfo.getServiceTypeCode());
+    jgen.writeStringField("serviceType",serviceType.getDesc());
     jgen.writeNumberField("pid",agentInfo.getPid());
     jgen.writeStringField("vmVersion",agentInfo.getVmVersion());
     jgen.writeStringField("agentVersion",agentInfo.getAgentVersion());
