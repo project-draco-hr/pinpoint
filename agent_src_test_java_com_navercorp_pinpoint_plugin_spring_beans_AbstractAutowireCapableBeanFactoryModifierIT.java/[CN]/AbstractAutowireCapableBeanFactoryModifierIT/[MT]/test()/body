@@ -1,0 +1,32 @@
+{
+  ApplicationContext context=new ClassPathXmlApplicationContext("spring-beans-test.xml");
+  Maru maru=context.getBean(Maru.class);
+  maru.publicMethod();
+  maru.protectedMethod();
+  Morae morae=(Morae)context.getBean("morae");
+  morae.doSomething();
+  Morae duplicatedMorae=(Morae)context.getBean("duplicatedMorae");
+  duplicatedMorae.doSomething();
+  Mozzi mozzi=(Mozzi)context.getBean("mozzi");
+  mozzi.doSomething();
+  Excluded excluded=(Excluded)context.getBean("excluded");
+  excluded.doSomething();
+  Outer outer=(Outer)context.getBean("outer");
+  outer.doSomething();
+  Inner inner=outer.getInner();
+  inner.doSomething();
+  ProxyTarget proxyTarget=context.getBean(ProxyTarget.class);
+  proxyTarget.doSomething();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Outer.setInner(com.navercorp.pinpoint.plugin.spring.beans.Inner)"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Maru.publicMethod()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Morae.doSomething()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Morae.doSomething()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Mozzi.doSomething()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Outer.doSomething()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Outer.getInner()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.Inner.doSomething()"));
+  verifier.verifyTrace(Expectations.event("SPRING_BEAN","com.navercorp.pinpoint.plugin.spring.beans.ProxyTarget.doSomething()"));
+  verifier.verifyTraceCount(0);
+}

@@ -1,0 +1,24 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,className,methodName,parameterDescription,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    String fullName=className + "." + methodName+ parameterDescription;
+    MethodDescriptor descriptor=descriptorMap.get(fullName);
+    if (descriptor == null) {
+      descriptor=new BeanMethodDescriptor(fullName);
+      traceContext.cacheApi(descriptor);
+      descriptorMap.putIfAbsent(fullName,descriptor);
+    }
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    recorder.recordException(throwable);
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}
