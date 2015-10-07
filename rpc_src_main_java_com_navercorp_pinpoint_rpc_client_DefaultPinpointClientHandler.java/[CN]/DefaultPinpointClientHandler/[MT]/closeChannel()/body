@@ -1,7 +1,6 @@
 {
   Channel channel=this.channel;
   if (channel != null) {
-    closeStreamChannelManager(channel);
     sendClosedPacket(channel);
     ChannelFuture closeFuture=channel.close();
     closeFuture.addListener(new WriteFailFutureListener(logger,"close() event failed.","close() event success."));

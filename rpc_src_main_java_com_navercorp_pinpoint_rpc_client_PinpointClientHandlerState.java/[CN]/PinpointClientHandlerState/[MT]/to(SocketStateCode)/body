@@ -2,7 +2,7 @@
   String objectName=clientHandler.getObjectName();
   PinpointSocket pinpointSocket=clientHandler.getPinpointClient();
   logger.debug("{} stateTo() started. to:{}",objectName,nextState);
-  SocketStateChangeResult stateChangeResult=state.changeState(nextState);
+  SocketStateChangeResult stateChangeResult=state.to(nextState);
   if (stateChangeResult.isChange()) {
     executeChangeEventHandler(pinpointSocket,nextState);
   }

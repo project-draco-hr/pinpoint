@@ -11,7 +11,7 @@
     PinpointSocket writableServer=writableServerList.get(0);
     if (writableServer instanceof PinpointServer) {
       RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
-      ClientStreamChannelContext clientContext=((PinpointServer)writableServer).createStream(new byte[0],clientListener);
+      ClientStreamChannelContext clientContext=((PinpointServer)writableServer).openStream(new byte[0],clientListener);
       StreamChannelContext aaa=client.findStreamChannel(2);
       aaa.getStreamChannel().close();
       sendRandomBytes(bo);

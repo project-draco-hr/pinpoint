@@ -1,6 +1,6 @@
 {
-  if (!channel.isConnected()) {
-    logger.debug("channel already closed. skip closeStreamChannelManager() {}",channel);
+  if (channel == null) {
+    logger.debug("channel already set null. skip closeStreamChannelManager() {}",channel);
     return;
   }
   PinpointClientHandlerContext context=getChannelContext(channel);

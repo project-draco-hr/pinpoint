@@ -6,7 +6,7 @@
   try {
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
-    ClientStreamChannelContext clientContext=client.createStreamChannel(new byte[0],clientListener);
+    ClientStreamChannelContext clientContext=client.openStream(new byte[0],clientListener);
     int sendCount=4;
     for (int i=0; i < sendCount; i++) {
       sendRandomBytes(bo);
