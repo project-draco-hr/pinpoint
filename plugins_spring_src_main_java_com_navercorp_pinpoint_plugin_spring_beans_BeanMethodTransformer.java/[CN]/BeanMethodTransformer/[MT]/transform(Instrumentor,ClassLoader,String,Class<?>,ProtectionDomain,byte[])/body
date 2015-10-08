@@ -12,7 +12,7 @@
       if (logger.isTraceEnabled()) {
         logger.trace("### c={}, m={}, params={}",new Object[]{className,method.getName(),Arrays.toString(method.getParameterTypes())});
       }
-      addInterceptor(method);
+      method.addInterceptor(BasicMethodInterceptor.class.getName(),va(SpringBeansConstants.SERVICE_TYPE));
     }
     return target.toBytecode();
   }
