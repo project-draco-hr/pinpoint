@@ -1,11 +1,7 @@
 {
-  try {
-    return addInterceptor0(interceptorClassName,group,policy,constructorArgs);
-  }
- catch (  InstrumentException e) {
-    throw e;
-  }
-catch (  Exception e) {
-    throw new InstrumentException("Failed to add interceptor " + interceptorClassName + " to "+ behavior.getLongName(),e);
-  }
+  Asserts.notNull(interceptorClassName,"interceptorClassName");
+  Asserts.notNull(constructorArgs,"constructorArgs");
+  Asserts.notNull(group,"group");
+  Asserts.notNull(executionPolicy,"executionPolicy");
+  return addInterceptor0(interceptorClassName,constructorArgs,group,executionPolicy);
 }
