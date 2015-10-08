@@ -9,7 +9,7 @@
   StreamChannelContext context=findStreamChannel(streamChannelId);
   if (context == null) {
     if (!(PacketType.APPLICATION_STREAM_CLOSE == packetType)) {
-      clearResourceAndSendClose(streamChannelId,StreamClosePacket.ID_NOT_FOUND);
+      clearResourceAndSendClose(streamChannelId,StreamCode.ID_NOT_FOUND);
     }
   }
  else {
@@ -20,7 +20,7 @@
       messageReceived((ClientStreamChannelContext)context,packet);
     }
  else {
-      clearResourceAndSendClose(streamChannelId,StreamClosePacket.TYPE_UNKOWN);
+      clearResourceAndSendClose(streamChannelId,StreamCode.UNKNWON_ERROR);
     }
   }
 }

@@ -2,7 +2,7 @@
   int streamChannelId=packet.getStreamChannelId();
   StreamChannel streamChannel=streamChannelContext.getStreamChannel();
   if (!streamChannel.checkState(StreamChannelStateCode.CONNECTED)) {
-    clearResourceAndSendClose(streamChannelId,StreamClosePacket.STATE_NOT_CONNECTED);
+    clearResourceAndSendClose(streamChannelId,StreamCode.STATE_NOT_CONNECTED);
     return;
   }
   streamChannel.sendPong(packet.getRequestId());
