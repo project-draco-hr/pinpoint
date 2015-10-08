@@ -10,7 +10,7 @@
       m.addInterceptor(interceptorId);
     }
  else {
-      interceptorId=m.addGroupedInterceptor(interceptorClassName,constructorArgs,group,executionPolicy);
+      interceptorId=((JavassistMethod)m).addInterceptorInternal(interceptorClassName,constructorArgs,group,executionPolicy);
     }
   }
   if (interceptorId == -1) {

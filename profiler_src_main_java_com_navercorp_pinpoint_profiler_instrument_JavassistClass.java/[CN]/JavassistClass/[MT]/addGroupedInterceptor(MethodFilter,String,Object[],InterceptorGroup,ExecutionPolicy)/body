@@ -1,15 +1,8 @@
 {
-  int interceptorId=-1;
-  for (  InstrumentMethod m : getDeclaredMethods(filter)) {
-    if (interceptorId != -1) {
-      m.addInterceptor(interceptorId);
-    }
- else {
-      interceptorId=m.addGroupedInterceptor(interceptorClassName,constructorArgs,group,executionPolicy);
-    }
-  }
-  if (interceptorId == -1) {
-    logger.warn("No methods are intercepted. target: " + ctClass.getName(),", interceptor: " + interceptorClassName + ", methodFilter: "+ filter.getClass().getName());
-  }
-  return interceptorId;
+  Asserts.notNull(filter,"filter");
+  Asserts.notNull(interceptorClassName,"interceptorClassName");
+  Asserts.notNull(constructorArgs,"constructorArgs");
+  Asserts.notNull(group,"group");
+  Asserts.notNull(executionPolicy,"executionPolicy");
+  return addGroupedInterceptor0(filter,interceptorClassName,constructorArgs,group,executionPolicy);
 }

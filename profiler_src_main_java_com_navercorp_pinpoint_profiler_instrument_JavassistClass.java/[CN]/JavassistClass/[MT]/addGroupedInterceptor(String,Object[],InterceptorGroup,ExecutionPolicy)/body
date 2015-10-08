@@ -1,33 +1,7 @@
 {
   Asserts.notNull(interceptorClassName,"interceptorClassName");
-  int interceptorId=-1;
-  Class<?> interceptorType=pluginContext.injectClass(classLoader,interceptorClassName);
-  TargetMethods targetMethods=interceptorType.getAnnotation(TargetMethods.class);
-  if (targetMethods != null) {
-    for (    TargetMethod m : targetMethods.value()) {
-      interceptorId=addInterceptor0(m,interceptorClassName,constructorArgs,group,executionPolicy);
-    }
-  }
-  TargetMethod targetMethod=interceptorType.getAnnotation(TargetMethod.class);
-  if (targetMethod != null) {
-    interceptorId=addInterceptor0(targetMethod,interceptorClassName,constructorArgs,group,executionPolicy);
-  }
-  TargetConstructors targetConstructors=interceptorType.getAnnotation(TargetConstructors.class);
-  if (targetConstructors != null) {
-    for (    TargetConstructor c : targetConstructors.value()) {
-      interceptorId=addInterceptor0(c,interceptorClassName,group,executionPolicy,constructorArgs);
-    }
-  }
-  TargetConstructor targetConstructor=interceptorType.getAnnotation(TargetConstructor.class);
-  if (targetConstructor != null) {
-    interceptorId=addInterceptor0(targetConstructor,interceptorClassName,group,executionPolicy,constructorArgs);
-  }
-  TargetFilter targetFilter=interceptorType.getAnnotation(TargetFilter.class);
-  if (targetFilter != null) {
-    interceptorId=addInterceptor0(targetFilter,interceptorClassName,group,executionPolicy,constructorArgs);
-  }
-  if (interceptorId == -1) {
-    throw new PinpointException("No target is specified. At least one of @Targets, @TargetMethod, @TargetConstructor, @TargetFilter must present. interceptor: " + interceptorClassName);
-  }
-  return interceptorId;
+  Asserts.notNull(constructorArgs,"constructorArgs");
+  Asserts.notNull(group,"group");
+  Asserts.notNull(executionPolicy,"executionPolicy");
+  return addInterceptor0(interceptorClassName,constructorArgs,group,executionPolicy);
 }
