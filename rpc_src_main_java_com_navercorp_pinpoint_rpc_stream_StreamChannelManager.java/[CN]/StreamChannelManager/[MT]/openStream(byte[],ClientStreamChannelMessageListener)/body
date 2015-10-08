@@ -13,11 +13,11 @@
   newStreamChannel.awaitOpen(3000);
   if (newStreamChannel.checkState(StreamChannelStateCode.CONNECTED)) {
     logger.info("Open streamChannel initialization completed. Channel:{}, StreamChannelContext:{} ",channel,newStreamChannelContext);
-    return newStreamChannelContext;
   }
  else {
     newStreamChannel.changeStateClose();
     channelMap.remove(streamChannelId);
-    throw new PinpointSocketException("Create StreamChannel failed.(channel:" + channel + ", StreamChannelId:"+ streamChannelId+ ")");
+    newStreamChannelContext.setCreateFailPacket(new StreamCreateFailPacket(streamChannelId,StreamCode.CONNECTION_TIMEOUT));
   }
+  return newStreamChannelContext;
 }
