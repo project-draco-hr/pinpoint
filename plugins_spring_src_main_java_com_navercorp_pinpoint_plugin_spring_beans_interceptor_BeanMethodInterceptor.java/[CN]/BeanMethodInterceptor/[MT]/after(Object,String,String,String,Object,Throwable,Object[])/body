@@ -10,7 +10,9 @@
     String fullName=className + "." + methodName+ parameterDescription;
     MethodDescriptor descriptor=descriptorMap.get(fullName);
     if (descriptor == null) {
-      descriptor=new BeanMethodDescriptor(fullName);
+      InstrumentClass targetClass=instrumentor.getInstrumentClass(target.getClass().getClassLoader(),className,null);
+      InstrumentMethod targetMethod=targetClass.getDeclaredMethod(methodName,divideParamTypes(parameterDescription));
+      descriptor=targetMethod.getDescriptor();
       traceContext.cacheApi(descriptor);
       descriptorMap.putIfAbsent(fullName,descriptor);
     }
