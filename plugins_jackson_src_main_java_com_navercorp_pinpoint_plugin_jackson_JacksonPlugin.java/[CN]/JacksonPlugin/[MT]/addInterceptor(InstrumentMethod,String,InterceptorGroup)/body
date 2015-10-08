@@ -1,3 +1,14 @@
 {
-  return addInterceptor(method,interceptorClassName,null,group);
+  if (method != null) {
+    try {
+      method.addGroupedInterceptor(interceptorClassName,group);
+      return true;
+    }
+ catch (    InstrumentException e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Unsupported method " + method,e);
+      }
+    }
+  }
+  return false;
 }
