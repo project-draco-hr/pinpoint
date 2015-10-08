@@ -3,5 +3,5 @@
   if (constructor == null) {
     throw new NotFoundInstrumentException("Cannot find constructor with parameter types: " + Arrays.toString(c.value()));
   }
-  return constructor.addGroupedInterceptor(interceptorClassName,constructorArgs,group,executionPolicy);
+  return ((JavassistMethod)constructor).addInterceptorInternal(interceptorClassName,constructorArgs,group,executionPolicy);
 }
