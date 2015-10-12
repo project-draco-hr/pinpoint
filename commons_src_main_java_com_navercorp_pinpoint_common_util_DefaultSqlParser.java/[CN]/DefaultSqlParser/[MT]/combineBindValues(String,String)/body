@@ -1,0 +1,77 @@
+{
+  Queue<String> bindValues=extractComma(bindValueText);
+  if (bindValues.size() == 0) {
+    return sql;
+  }
+  final int length=sql.length();
+  boolean inQuotes=false;
+  char quoteChar=0;
+  final StringBuilder result=new StringBuilder(length + 16);
+  for (int i=0; i < length; i++) {
+    final char ch=sql.charAt(i);
+    if (inQuotes) {
+      if (((ch == '\'') || (ch == '"')) && ch == quoteChar) {
+        if (lookAhead1(sql,i) == quoteChar) {
+          result.append(ch);
+          i++;
+          continue;
+        }
+        inQuotes=!inQuotes;
+        quoteChar=0;
+      }
+      result.append(ch);
+    }
+ else {
+      if (ch == '/') {
+        int lookAhead1Char=lookAhead1(sql,i);
+        if (lookAhead1Char == '*') {
+          result.append("/*");
+          i+=2;
+          for (; i < length; i++) {
+            char stateCh=sql.charAt(i);
+            if (stateCh == '*') {
+              if (lookAhead1(sql,i) == '/') {
+                result.append("*/");
+                i++;
+                break;
+              }
+            }
+            result.append(stateCh);
+          }
+        }
+ else         if (lookAhead1Char == '/') {
+          result.append("//");
+          i+=2;
+          i=readLine(sql,result,i);
+        }
+ else {
+          result.append(ch);
+        }
+      }
+ else       if (ch == '-') {
+        if (lookAhead1(sql,i) == '-') {
+          result.append("--");
+          i+=2;
+          i=readLine(sql,result,i);
+        }
+ else {
+          result.append(ch);
+        }
+      }
+ else       if (ch == '\'' || ch == '"') {
+        inQuotes=true;
+        quoteChar=ch;
+        result.append(ch);
+      }
+ else       if (ch == '?') {
+        if (!bindValues.isEmpty()) {
+          result.append('\'').append(bindValues.poll()).append('\'');
+        }
+      }
+ else {
+        result.append(ch);
+      }
+    }
+  }
+  return result.toString();
+}
