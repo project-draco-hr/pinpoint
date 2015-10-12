@@ -1,10 +1,13 @@
 {
   logger.info("MessageReceived handleStreamCreate {} {}",packet,streamChannelContext);
   final TBase<?,?> request=SerializationUtils.deserialize(packet.getPayload(),deserializerFactory,null);
+  if (request == null) {
+    return StreamCode.TYPE_UNKNOWN;
+  }
   final ProfilerStreamCommandService service=commandServiceRegistry.getStreamService(request);
   if (service == null) {
-    return StreamCreateFailPacket.PACKET_UNSUPPORT;
+    return StreamCode.TYPE_UNSUPPORT;
   }
   service.streamCommandService(request,streamChannelContext);
-  return StreamCreatePacket.SUCCESS;
+  return StreamCode.SUCCESS;
 }

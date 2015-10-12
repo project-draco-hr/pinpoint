@@ -1,6 +1,14 @@
 {
   byte[] payload=((TCommandTransfer)request).getPayload();
   TBase<?,?> command=deserialize(payload);
+  if (command == null) {
+    return StreamCode.TYPE_UNKNOWN;
+  }
   TCommandTransferResponse response=streamRouteHandler.onRoute(new StreamEvent((TCommandTransfer)request,streamChannelContext,command));
-  return response.getRouteResult();
+  TRouteResult routeResult=response.getRouteResult();
+  if (routeResult != TRouteResult.OK) {
+    logger.warn("handleStreamRouteCreate failed. command:{}, routeResult:{}",command,routeResult);
+    return StreamCode.ROUTE_ERROR;
+  }
+  return StreamCode.SUCCESS;
 }

@@ -1,0 +1,27 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    final HttpRequest httpRequest=getHttpRequest(target);
+    if (httpRequest != null) {
+      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpRequest.getRequestLine().getUri());
+      final NameIntValuePair<String> host=getHost(target);
+      if (host != null) {
+        final String endpoint=getEndpoint(host.getName(),host.getValue());
+        recorder.recordDestinationId(endpoint);
+      }
+      recordHttpRequest(recorder,httpRequest,throwable);
+    }
+    recorder.recordApi(methodDescriptor);
+    recorder.recordException(throwable);
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

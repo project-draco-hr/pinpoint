@@ -1,0 +1,31 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  if (!validate(target)) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(methodDescriptor);
+    recorder.recordException(throwable);
+    Request request=((UserRequestGetter)target)._$PINPOINT$_getUserRequest();
+    if (request != null) {
+      recorder.recordAttribute(AnnotationKey.HTTP_URL,request.httpUrl().toString());
+      final String endpoint=getDestinationId(request.httpUrl());
+      recorder.recordDestinationId(endpoint);
+      recordRequest(trace,request,throwable);
+    }
+    InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null) {
+      invocation.removeAttachment();
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

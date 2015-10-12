@@ -1,8 +1,3 @@
 {
-  ServerBootstrap bootstrap=createBootStrap(1,WORKER_COUNT);
-  setOptions(bootstrap);
-  addPipeline(bootstrap);
-  this.bootstrap=bootstrap;
-  this.healthCheckTimer=TimerFactory.createHashedWheelTimer("PinpointServerSocket-HealthCheckTimer",50,TimeUnit.MILLISECONDS,512);
-  this.requestManagerTimer=TimerFactory.createHashedWheelTimer("PinpointServerSocket-RequestManager",50,TimeUnit.MILLISECONDS,512);
+  this(ClusterOption.DISABLE_CLUSTER_OPTION);
 }

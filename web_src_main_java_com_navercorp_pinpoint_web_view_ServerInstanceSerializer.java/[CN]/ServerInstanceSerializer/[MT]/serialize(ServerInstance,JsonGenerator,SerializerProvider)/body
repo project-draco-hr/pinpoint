@@ -1,0 +1,11 @@
+{
+  jgen.writeStartObject();
+  final short serviceTypeCode=serverInstance.getServiceTypeCode();
+  final ServiceType serviceType=serviceTypeRegistryService.findServiceType(serviceTypeCode);
+  jgen.writeBooleanField("hasInspector",hasInspector(serviceType));
+  jgen.writeStringField("name",serverInstance.getName());
+  jgen.writeStringField("serviceType",serviceType.getName());
+  jgen.writeFieldName("status");
+  write(serverInstance.getStatus(),jgen,provider);
+  jgen.writeEndObject();
+}

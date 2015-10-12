@@ -1,0 +1,15 @@
+{
+  logger.info("{} destroying started.",ClassUtils.simpleClassName(this));
+  for (  PinpointSocket socket : socketRepository.getClusterSocketList()) {
+    if (socket != null) {
+      socket.close();
+    }
+  }
+  if (clusterConnector != null) {
+    clusterConnector.stop();
+  }
+  if (clusterAcceptor != null) {
+    clusterAcceptor.stop();
+  }
+  logger.info("{} destroying completed.",ClassUtils.simpleClassName(this));
+}

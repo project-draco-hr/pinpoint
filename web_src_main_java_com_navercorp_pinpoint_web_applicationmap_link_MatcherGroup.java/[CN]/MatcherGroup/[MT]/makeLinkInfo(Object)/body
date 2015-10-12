@@ -1,0 +1,13 @@
+{
+  ServerMatcher serverMatcher=defaultMatcher;
+  String value=getMatchingSource(data);
+  if (value == null) {
+    throw new NullPointerException("link source to make link information must not be null.");
+  }
+  for (  ServerMatcher matcher : serverMatcherList) {
+    if (matcher.isMatched(value)) {
+      serverMatcher=matcher;
+    }
+  }
+  return serverMatcher.getLinkInfo(value);
+}

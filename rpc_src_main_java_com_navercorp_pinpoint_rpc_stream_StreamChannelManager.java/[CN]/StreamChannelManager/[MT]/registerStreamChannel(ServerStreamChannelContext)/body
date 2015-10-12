@@ -4,12 +4,12 @@
   streamChannel.changeStateOpen();
   if (channelMap.putIfAbsent(streamChannelId,streamChannelContext) != null) {
     streamChannel.changeStateClose();
-    return StreamCreateFailPacket.ID_DUPLICATED;
+    return StreamCode.ID_DUPLICATED;
   }
   if (!streamChannel.changeStateConnectArrived()) {
     streamChannel.changeStateClose();
     channelMap.remove(streamChannelId);
-    return StreamCreateFailPacket.STATE_ILLEGAL;
+    return StreamCode.STATE_ERROR;
   }
-  return BasicStreamPacket.SUCCESS;
+  return StreamCode.SUCCESS;
 }

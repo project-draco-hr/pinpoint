@@ -1,0 +1,13 @@
+{
+  logger.info("{} destroying started.",ClassUtils.simpleClassName(this));
+  if (clusterManager != null) {
+    clusterManager.close();
+  }
+  if (clusterConnector != null) {
+    clusterConnector.stop();
+  }
+  if (clusterAcceptor != null) {
+    clusterAcceptor.stop();
+  }
+  logger.info("{} destroying completed.",ClassUtils.simpleClassName(this));
+}

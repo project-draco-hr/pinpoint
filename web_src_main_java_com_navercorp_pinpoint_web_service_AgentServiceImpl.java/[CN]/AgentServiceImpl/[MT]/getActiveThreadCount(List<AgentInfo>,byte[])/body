@@ -4,7 +4,7 @@
   for (  Map.Entry<AgentInfo,PinpointRouteResponse> entry : responseList.entrySet()) {
     AgentInfo agentInfo=entry.getKey();
     PinpointRouteResponse response=entry.getValue();
-    AgentActiveThreadCount agentActiveThreadStatus=new AgentActiveThreadCount(agentInfo.getHostName(),response.getRouteResult(),response.getResponse(TCmdActiveThreadCountRes.class,null));
+    AgentActiveThreadCount agentActiveThreadStatus=new AgentActiveThreadCount(agentInfo.getAgentId(),response.getRouteResult(),response.getResponse(TCmdActiveThreadCountRes.class,null));
     agentActiveThreadStatusList.add(agentActiveThreadStatus);
   }
   return agentActiveThreadStatusList;

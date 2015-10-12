@@ -1,0 +1,7 @@
+{
+  InstrumentMethod method=getDeclaredMethod(m.name(),m.paramTypes());
+  if (method == null) {
+    throw new NotFoundInstrumentException("Cannot find method " + m.name() + " with parameter types: "+ Arrays.toString(m.paramTypes()));
+  }
+  return ((JavassistMethod)method).addInterceptorInternal(interceptorClassName,constructorArgs,group,executionPolicy);
+}

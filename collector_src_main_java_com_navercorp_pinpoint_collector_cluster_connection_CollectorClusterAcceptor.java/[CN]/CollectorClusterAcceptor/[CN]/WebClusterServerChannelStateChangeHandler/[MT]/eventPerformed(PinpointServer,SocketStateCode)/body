@@ -1,0 +1,12 @@
+{
+  if (stateCode.isRunDuplex()) {
+    SocketAddress remoteAddress=pinpointServer.getRemoteAddress();
+    clusterSocketRepository.putIfAbsent(remoteAddress,pinpointServer);
+    return;
+  }
+ else   if (stateCode.isClosed()) {
+    SocketAddress remoteAddress=pinpointServer.getRemoteAddress();
+    clusterSocketRepository.remove(remoteAddress);
+    return;
+  }
+}

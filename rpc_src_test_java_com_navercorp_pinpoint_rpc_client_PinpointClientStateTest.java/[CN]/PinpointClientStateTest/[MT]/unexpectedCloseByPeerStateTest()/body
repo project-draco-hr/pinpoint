@@ -7,8 +7,8 @@
     clientFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
     handler=connect(clientFactory);
     Thread.sleep(1000);
-    List<PinpointServer> pinpointServerList=serverAcceptor.getWritableServerList();
-    PinpointServer pinpointServer=pinpointServerList.get(0);
+    List<PinpointSocket> pinpointServerList=serverAcceptor.getWritableSocketList();
+    PinpointSocket pinpointServer=pinpointServerList.get(0);
     Assert.assertEquals(SocketStateCode.RUN_DUPLEX,handler.getCurrentStateCode());
     ((DefaultPinpointServer)pinpointServer).stop(true);
     Thread.sleep(1000);

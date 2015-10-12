@@ -1,12 +1,16 @@
 {
-  PinpointServerAcceptor serverAcceptor=createServerFactory(new TestSeverMessageListener(),null);
+  PinpointServerAcceptor serverAcceptor=createServerFactory(SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE,null);
   serverAcceptor.bind("localhost",bindPort);
   PinpointClientFactory clientFactory=createSocketFactory();
   try {
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
-    ClientStreamChannelContext clientContext=client.createStreamChannel(new byte[0],clientListener);
+    ClientStreamChannelContext clientContext=client.openStream(new byte[0],clientListener);
     Thread.sleep(100);
+    StreamCreateFailPacket createFailPacket=clientContext.getCreateFailPacket();
+    if (createFailPacket == null) {
+      Assert.fail();
+    }
     clientContext.getStreamChannel().close();
     PinpointRPCTestUtils.close(client);
   }

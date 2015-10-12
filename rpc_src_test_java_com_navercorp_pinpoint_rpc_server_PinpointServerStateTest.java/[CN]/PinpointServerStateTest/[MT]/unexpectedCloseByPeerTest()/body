@@ -6,12 +6,16 @@
     socket.getOutputStream().write(createHandshakePayload(PinpointRPCTestUtils.getParams()));
     socket.getOutputStream().flush();
     Thread.sleep(1000);
-    List<PinpointServer> pinpointServerList=serverAcceptor.getWritableServerList();
-    PinpointServer pinpointServer=pinpointServerList.get(0);
-    Assert.assertEquals(SocketStateCode.RUN_DUPLEX,pinpointServer.getCurrentStateCode());
+    List<PinpointSocket> pinpointServerList=serverAcceptor.getWritableSocketList();
+    PinpointSocket pinpointServer=pinpointServerList.get(0);
+    if (!(pinpointServer instanceof PinpointServer)) {
+      socket.close();
+      Assert.fail();
+    }
+    Assert.assertEquals(SocketStateCode.RUN_DUPLEX,((PinpointServer)pinpointServer).getCurrentStateCode());
     socket.close();
     Thread.sleep(1000);
-    Assert.assertEquals(SocketStateCode.UNEXPECTED_CLOSE_BY_CLIENT,pinpointServer.getCurrentStateCode());
+    Assert.assertEquals(SocketStateCode.UNEXPECTED_CLOSE_BY_CLIENT,((PinpointServer)pinpointServer).getCurrentStateCode());
   }
   finally {
     PinpointRPCTestUtils.close(serverAcceptor);

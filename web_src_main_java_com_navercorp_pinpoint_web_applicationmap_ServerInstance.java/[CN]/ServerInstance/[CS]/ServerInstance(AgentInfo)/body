@@ -3,8 +3,9 @@
     throw new NullPointerException("agentInfo must not be null");
   }
   this.hostName=agentInfo.getHostName();
+  this.ip=agentInfo.getIp();
   this.name=agentInfo.getAgentId();
-  this.serviceType=agentInfo.getServiceType();
+  this.serviceTypeCode=agentInfo.getServiceTypeCode();
   AgentStatus agentStatus=agentInfo.getStatus();
   if (agentStatus != null) {
     this.status=agentStatus.getState();
@@ -13,5 +14,4 @@
     this.status=AgentLifeCycleState.UNKNOWN;
   }
   this.serverType=ServerType.Physical;
-  this.match=MATCHER_GROUP.match(hostName);
 }

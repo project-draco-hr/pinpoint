@@ -1,0 +1,16 @@
+{
+  if (result.isEmpty()) {
+    return null;
+  }
+  final byte[] rowKey=result.getRow();
+  ResponseTime responseTime=createResponseTime(rowKey);
+  for (  Cell cell : result.rawCells()) {
+    if (CellUtil.matchingFamily(cell,HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER)) {
+      recordColumn(responseTime,cell);
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("unknown column family:{}",Arrays.toString(CellUtil.cloneFamily(cell)));
+    }
+  }
+  return responseTime;
+}

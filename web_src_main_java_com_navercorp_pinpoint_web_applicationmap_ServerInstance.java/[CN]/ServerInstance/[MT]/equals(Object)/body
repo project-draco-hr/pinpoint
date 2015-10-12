@@ -2,8 +2,7 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   ServerInstance that=(ServerInstance)o;
-  if (!name.equals(that.name))   return false;
-  if (serverType != that.serverType)   return false;
-  if (serviceType != that.serviceType)   return false;
-  return true;
+  if (serviceTypeCode != that.serviceTypeCode)   return false;
+  if (name != null ? !name.equals(that.name) : that.name != null)   return false;
+  return serverType == that.serverType;
 }

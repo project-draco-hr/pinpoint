@@ -1,0 +1,17 @@
+{
+  super.after(target,args,result,throwable);
+  if (throwable != null) {
+    return;
+  }
+  boolean endAsyncBlock=((AsyncCallEndFlagFieldAccessor)target)._$PINPOINT$_getAsyncCallEndFlag();
+  if (endAsyncBlock) {
+    final Trace trace=super.traceContext.currentTraceObject();
+    if (trace == null) {
+      return;
+    }
+    if (trace.isAsync() && trace.isRootStack()) {
+      trace.close();
+      super.traceContext.removeTraceObject();
+    }
+  }
+}
