@@ -25,9 +25,21 @@
     }
     jgen.writeObjectField("status",agentStatus);
     jgen.writeNumberField("initialStartTime",agentInfo.getInitialStartTimestamp());
-    ServerMatcher serverMatcher=matcherGroup.match(agentInfo.getHostName());
-    jgen.writeStringField("linkName",serverMatcher.getLinkName());
-    jgen.writeStringField("linkURL",serverMatcher.getLink(agentInfo.getHostName()));
+    if (matcherGroupList != null) {
+      jgen.writeFieldName("linkList");
+      jgen.writeStartArray();
+      for (      MatcherGroup matcherGroup : matcherGroupList) {
+        if (matcherGroup.ismatchingType(agentInfo)) {
+          LinkInfo linkInfo=matcherGroup.makeLinkInfo(agentInfo);
+          jgen.writeStartObject();
+          jgen.writeStringField("linkName",linkInfo.getLinkName());
+          jgen.writeStringField("linkURL",linkInfo.getLinkUrl());
+          jgen.writeStringField("linkType",linkInfo.getLinktype());
+          jgen.writeEndObject();
+        }
+      }
+      jgen.writeEndArray();
+    }
     jgen.writeEndObject();
   }
   jgen.writeEndArray();
