@@ -1,8 +1,7 @@
 {
-  PinpointObjectMapper mapper=new PinpointObjectMapper();
-  mapper.afterPropertiesSet();
+  PinpointObjectMapper mapper=createMapper();
   AgentInfo agentInfo=ServerInstanceListTest.createAgentInfo("agentId1","testHost");
-  HashSet<AgentInfo> agentInfoSet=new HashSet<AgentInfo>();
+  Set<AgentInfo> agentInfoSet=new HashSet<>();
   agentInfoSet.add(agentInfo);
   ServerBuilder builder=new ServerBuilder();
   builder.addAgentInfo(agentInfoSet);
