@@ -1,25 +1,12 @@
 {
-  Class<?>[] paramTypes=interceptorMethod.getParameterTypes();
-  if (paramTypes.length == 0) {
+  Class<?>[] interceptorParamTypes=interceptorMethod.getParameterTypes();
+  if (interceptorParamTypes.length == 0) {
     return;
   }
   builder.append(getTarget());
-  if (paramTypes.length >= 2) {
-    builder.append(", ");
-    builder.append(getReturnValue());
-  }
-  if (paramTypes.length >= 3) {
-    builder.append(", ");
-    builder.append(getException());
-  }
-  int i=0;
-  int argNum=targetMethod.getParameterTypes().length;
-  int interceptorArgNum=paramTypes.length - 3;
-  int matchNum=Math.min(argNum,interceptorArgNum);
-  for (; i < matchNum; i++) {
-    builder.append(", ($w)$" + (i + 1));
-  }
-  for (; i < interceptorArgNum; i++) {
-    builder.append(", null");
-  }
+  parameterBind(builder,interceptorParamTypes);
+  builder.append(", ");
+  builder.append(getReturnValue());
+  builder.append(", ");
+  builder.append(getException());
 }
