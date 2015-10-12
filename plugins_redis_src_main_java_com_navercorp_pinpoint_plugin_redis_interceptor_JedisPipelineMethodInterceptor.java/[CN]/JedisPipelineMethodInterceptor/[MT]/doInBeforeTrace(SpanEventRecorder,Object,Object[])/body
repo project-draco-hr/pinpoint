@@ -1,12 +1,6 @@
 {
   final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
   if (invocation != null) {
-    final CommandContext callContext=(CommandContext)invocation.getOrCreateAttachment(new AttachmentFactory(){
-      @Override public Object createAttachment(){
-        return new CommandContext();
-      }
-    }
-);
-    invocation.setAttachment(callContext);
+    invocation.getOrCreateAttachment(CommandContextFactory.COMMAND_CONTEXT_FACTORY);
   }
 }
