@@ -45,6 +45,17 @@
     }
     first=false;
   }
+  if (isSetTransaction()) {
+    if (!first)     sb.append(", ");
+    sb.append("transaction:");
+    if (this.transaction == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.transaction);
+    }
+    first=false;
+  }
   if (isSetMetadata()) {
     if (!first)     sb.append(", ");
     sb.append("metadata:");

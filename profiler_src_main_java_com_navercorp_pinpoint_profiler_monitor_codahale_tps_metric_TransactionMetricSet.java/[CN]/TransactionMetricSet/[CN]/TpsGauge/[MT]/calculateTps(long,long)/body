@@ -1,0 +1,12 @@
+{
+  if (count <= 0 || timeMs <= 0) {
+    return 0;
+  }
+  final long tps=(timeMs + (count * 1000) - 1) / timeMs;
+  if (tps > Integer.MAX_VALUE) {
+    return Integer.MAX_VALUE;
+  }
+ else {
+    return (int)tps;
+  }
+}
