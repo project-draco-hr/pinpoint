@@ -1,32 +1,33 @@
 {
-  final Operation op=((OperationAccessor)target)._$PINPOINT$_getOperation();
-  if (op != null) {
-    MemcachedNode handlingNode=op.getHandlingNode();
-    if (handlingNode != null) {
-      SocketAddress socketAddress=handlingNode.getSocketAddress();
-      if (socketAddress instanceof InetSocketAddress) {
-        InetSocketAddress address=(InetSocketAddress)socketAddress;
-        recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
-      }
-    }
- else {
-      logger.info("no handling node");
-    }
-  }
- else {
-    logger.info("operation not found");
-  }
-  String serviceCode=((ServiceCodeAccessor)op)._$PINPOINT$_getServiceCode();
-  if (serviceCode != null) {
-    recorder.recordDestinationId(serviceCode);
-    recorder.recordServiceType(ArcusConstants.ARCUS_FUTURE_GET);
-  }
- else {
-    recorder.recordDestinationId("MEMCACHED");
-    recorder.recordServiceType(ArcusConstants.MEMCACHED_FUTURE_GET);
-  }
-  if (op != null) {
-    recorder.recordException(op.getException());
-  }
   recorder.recordApi(methodDescriptor);
+  recorder.recordDestinationId("MEMCACHED");
+  recorder.recordServiceType(ArcusConstants.MEMCACHED_FUTURE_GET);
+  if (!(target instanceof OperationAccessor)) {
+    logger.info("operation not found");
+    return;
+  }
+  final Operation op=((OperationAccessor)target)._$PINPOINT$_getOperation();
+  if (op == null) {
+    logger.info("operation is null");
+    return;
+  }
+  recorder.recordException(op.getException());
+  MemcachedNode handlingNode=op.getHandlingNode();
+  if (handlingNode != null) {
+    SocketAddress socketAddress=handlingNode.getSocketAddress();
+    if (socketAddress instanceof InetSocketAddress) {
+      InetSocketAddress address=(InetSocketAddress)socketAddress;
+      recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
+    }
+  }
+ else {
+    logger.info("no handling node");
+  }
+  if (op instanceof ServiceCodeAccessor) {
+    String serviceCode=((ServiceCodeAccessor)op)._$PINPOINT$_getServiceCode();
+    if (serviceCode != null) {
+      recorder.recordDestinationId(serviceCode);
+      recorder.recordServiceType(ArcusConstants.ARCUS_FUTURE_GET);
+    }
+  }
 }
