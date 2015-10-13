@@ -12,15 +12,9 @@
   if (host != null) {
     final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
     if (invocation != null) {
-      final HttpCallContext callContext=(HttpCallContext)invocation.getOrCreateAttachment(new AttachmentFactory(){
-        @Override public Object createAttachment(){
-          return new HttpCallContext();
-        }
-      }
-);
+      final HttpCallContext callContext=(HttpCallContext)invocation.getOrCreateAttachment(HttpCallContextFactory.HTTPCALL_CONTEXT_FACTORY);
       callContext.setHost(host.getName());
       callContext.setPort(host.getValue());
-      invocation.setAttachment(callContext);
     }
   }
 }

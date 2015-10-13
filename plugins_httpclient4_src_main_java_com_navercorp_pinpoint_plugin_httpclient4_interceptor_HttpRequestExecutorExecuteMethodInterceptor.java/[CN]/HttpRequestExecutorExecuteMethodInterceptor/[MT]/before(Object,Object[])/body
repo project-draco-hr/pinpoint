@@ -37,12 +37,6 @@
   }
   InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
   if (invocation != null) {
-    HttpCallContext callContext=(HttpCallContext)invocation.getOrCreateAttachment(new AttachmentFactory(){
-      @Override public Object createAttachment(){
-        return new HttpCallContext();
-      }
-    }
-);
-    invocation.setAttachment(callContext);
+    invocation.getOrCreateAttachment(HttpCallContextFactory.HTTPCALL_CONTEXT_FACTORY);
   }
 }

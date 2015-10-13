@@ -3,6 +3,11 @@
     if (result == null) {
       return;
     }
+    if (!(beanNameObject instanceof String)) {
+      logger.warn("invalid type:{}",beanNameObject);
+      return;
+    }
+    final String beanName=(String)beanNameObject;
     Object bean;
     try {
       Method getter=result.getClass().getMethod("getWrappedInstance");

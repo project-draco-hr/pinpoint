@@ -1,0 +1,13 @@
+{
+  try {
+    if (!(beanNameObject instanceof String)) {
+      logger.warn("invalid type:{}",beanNameObject);
+      return;
+    }
+    final String beanName=(String)beanNameObject;
+    processBean(beanName,result);
+  }
+ catch (  Throwable t) {
+    logger.warn("Unexpected exception",t);
+  }
+}
