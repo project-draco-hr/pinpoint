@@ -1,0 +1,9 @@
+{
+  logger.info("eventPerformed streamChannel:{}, stateCode:{}",streamChannel,updatedStateCode);
+switch (updatedStateCode) {
+case CLOSED:
+case ILLEGAL_STATE:
+    defaultFailedResponse.setFail(StreamCode.STATE_CLOSED.name());
+  break;
+}
+}

@@ -1,21 +1,6 @@
 {
-  Map<SlotType,IntAdder> mappedSlot=new LinkedHashMap<SlotType,IntAdder>(activeThreadSlotsCount);
-  for (  SlotType slotType : ACTIVE_THREAD_SLOTS_ORDER) {
-    mappedSlot.put(slotType,new IntAdder(0));
+  if (activeThreadCountObject == null) {
+    throw new NullPointerException("activeThreadCountObject may not be null.");
   }
-  long currentTime=System.currentTimeMillis();
-  List<ActiveTraceInfo> collectedActiveTraceInfo=activeTraceLocator.collect();
-  for (  ActiveTraceInfo activeTraceInfo : collectedActiveTraceInfo) {
-    HistogramSlot slot=histogramSchema.findHistogramSlot((int)(currentTime - activeTraceInfo.getStartTime()));
-    mappedSlot.get(slot.getSlotType()).incrementAndGet();
-  }
-  List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadSlotsCount);
-  for (  IntAdder statusCount : mappedSlot.values()) {
-    activeThreadCount.add(statusCount.get());
-  }
-  TCmdActiveThreadCountRes response=new TCmdActiveThreadCountRes();
-  response.setHistogramSchemaType(histogramSchema.getTypeCode());
-  response.setActiveThreadCount(activeThreadCount);
-  response.setTimeStamp(System.currentTimeMillis());
-  return response;
+  return getActiveThreadCountResponse();
 }

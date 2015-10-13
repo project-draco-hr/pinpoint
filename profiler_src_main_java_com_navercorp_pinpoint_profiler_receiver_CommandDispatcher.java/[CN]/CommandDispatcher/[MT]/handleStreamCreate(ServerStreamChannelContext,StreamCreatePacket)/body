@@ -1,6 +1,6 @@
 {
   logger.info("MessageReceived handleStreamCreate {} {}",packet,streamChannelContext);
-  final TBase<?,?> request=SerializationUtils.deserialize(packet.getPayload(),deserializerFactory,null);
+  final TBase<?,?> request=SerializationUtils.deserialize(packet.getPayload(),CommandSerializer.DESERIALIZER_FACTORY,null);
   if (request == null) {
     return StreamCode.TYPE_UNKNOWN;
   }
@@ -8,6 +8,5 @@
   if (service == null) {
     return StreamCode.TYPE_UNSUPPORT;
   }
-  service.streamCommandService(request,streamChannelContext);
-  return StreamCode.SUCCESS;
+  return service.streamCommandService(request,streamChannelContext);
 }

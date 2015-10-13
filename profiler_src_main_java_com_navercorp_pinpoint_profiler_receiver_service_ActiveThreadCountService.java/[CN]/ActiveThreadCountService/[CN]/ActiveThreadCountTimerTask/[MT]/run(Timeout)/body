@@ -1,0 +1,17 @@
+{
+  logger.info("ActiveThreadCountService timer started.");
+  try {
+    TCmdActiveThreadCountRes activeThreadCountResponse=getActiveThreadCountResponse();
+    for (    ServerStreamChannel serverStreamChannel : streamChannelRepository) {
+      byte[] payload=SerializationUtils.serialize(activeThreadCountResponse,CommandSerializer.SERIALIZER_FACTORY,null);
+      if (payload != null) {
+        serverStreamChannel.sendData(payload);
+      }
+    }
+  }
+  finally {
+    if (timer != null && onTimerTask.get()) {
+      timer.newTimeout(this,time,TimeUnit.MILLISECONDS);
+    }
+  }
+}

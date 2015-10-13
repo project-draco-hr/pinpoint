@@ -1,5 +1,10 @@
 {
-  Assert.assertEquals(data.get("code"),routeResult.getValue());
+  if (routeResult == TRouteResult.OK) {
+    Assert.assertEquals(data.get("code"),0);
+  }
+ else {
+    Assert.assertEquals(data.get("code"),-1);
+  }
   Assert.assertEquals(data.get("message"),routeResult.name());
   if (status != null) {
     Assert.assertEquals(data.get("status"),status);

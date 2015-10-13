@@ -4,7 +4,14 @@
   for (  Map.Entry<AgentInfo,PinpointRouteResponse> entry : responseList.entrySet()) {
     AgentInfo agentInfo=entry.getKey();
     PinpointRouteResponse response=entry.getValue();
-    AgentActiveThreadCount agentActiveThreadStatus=new AgentActiveThreadCount(agentInfo.getAgentId(),response.getRouteResult(),response.getResponse(TCmdActiveThreadCountRes.class,null));
+    AgentActiveThreadCount agentActiveThreadStatus=new AgentActiveThreadCount(agentInfo.getAgentId());
+    TRouteResult routeResult=response.getRouteResult();
+    if (routeResult == TRouteResult.OK) {
+      agentActiveThreadStatus.setResult(response.getResponse(TCmdActiveThreadCountRes.class,null));
+    }
+ else {
+      agentActiveThreadStatus.setFail(routeResult.name());
+    }
     agentActiveThreadStatusList.add(agentActiveThreadStatus);
   }
   return agentActiveThreadStatusList;
