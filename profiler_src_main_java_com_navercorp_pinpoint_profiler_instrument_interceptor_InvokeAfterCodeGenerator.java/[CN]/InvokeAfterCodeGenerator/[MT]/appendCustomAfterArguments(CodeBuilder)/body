@@ -1,10 +1,14 @@
 {
-  Class<?>[] interceptorParamTypes=interceptorMethod.getParameterTypes();
+  final Class<?>[] interceptorParamTypes=interceptorMethod.getParameterTypes();
   if (interceptorParamTypes.length == 0) {
     return;
   }
   builder.append(getTarget());
-  parameterBind(builder,interceptorParamTypes);
+  final int parameterSize=parameterBind(builder,interceptorParamTypes);
+  final int bindSize=parameterSize + THIS_RETURN_EXCEPTION_SIZE;
+  if (bindSize != interceptorParamTypes.length) {
+    throw new IllegalStateException("interceptor arguments not matched. interceptorSize:" + interceptorParamTypes.length + " bindSize:"+ bindSize);
+  }
   builder.append(", ");
   builder.append(getReturnValue());
   builder.append(", ");
