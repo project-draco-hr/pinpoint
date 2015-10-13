@@ -19,6 +19,7 @@
       ClientStreamChannelContext producerContext=createStreamChannel((PinpointServerClusterPoint)clusterPoint,event.getDeliveryCommand().getPayload(),routeManager);
       if (producerContext.getCreateFailPacket() == null) {
         routeManager.setProducer(producerContext.getStreamChannel());
+        producerContext.getStreamChannel().addStateChangeEventHandler(routeManager);
         return createResponse(TRouteResult.OK);
       }
     }

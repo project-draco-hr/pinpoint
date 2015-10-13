@@ -3,7 +3,7 @@
     return null;
   }
   final ProfilerCommandService service=profilerCommandServiceRepository.get(tBase.getClass());
-  if (service instanceof ProfilerStreamCommandService) {
+  if (service != null && (service instanceof ProfilerStreamCommandService)) {
     return (ProfilerStreamCommandService)service;
   }
   return null;

@@ -2,7 +2,6 @@
   logger.info("ConnectionEstablished : {}",newSession);
 synchronized (lock) {
     sessionRepository.add(newSession);
-    Timeout timeout=timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
     if (turnOn) {
       timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);

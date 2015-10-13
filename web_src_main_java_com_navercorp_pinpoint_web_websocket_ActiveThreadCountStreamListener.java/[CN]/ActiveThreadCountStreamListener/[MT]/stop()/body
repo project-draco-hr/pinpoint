@@ -1,0 +1,11 @@
+{
+  try {
+    if (streamchannel != null) {
+      streamchannel.close();
+    }
+    defaultFailedResponse.setFail(StreamCode.STATE_CLOSED.name());
+  }
+  finally {
+    this.responseAggregator.getStreamMessageListenerRepository().remove(agentInfo.getAgentId());
+  }
+}
