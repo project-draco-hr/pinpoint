@@ -1,0 +1,17 @@
+{
+  String applicationName=(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY);
+  if (StringUtils.isEmpty(applicationName)) {
+    return;
+  }
+  WebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
+  if (aggregator == null) {
+    return;
+  }
+  aggregator.unregisterWebSocketSession(webSocketSession);
+  if (aggregator.registeredWebSocketSessionCount() == 0) {
+    for (    ActiveThreadCountStreamListener r : aggregator.getStreamMessageListenerRepository().values()) {
+      r.stop();
+    }
+    aggregatorRepository.remove(applicationName);
+  }
+}

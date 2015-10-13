@@ -1,12 +1,14 @@
 {
   try {
     logger.info("ActiveThreadTimerTask started.");
-    Map<String,List<WebSocketSession>> applicationGroup=createApplicationGroup(sessionRepository);
-    for (    Map.Entry<String,List<WebSocketSession>> applicationEntry : applicationGroup.entrySet()) {
-      String applicationName=applicationEntry.getKey();
-      List<AgentInfo> agentInfoList=getAgentInfoList(applicationName);
-      AgentActiveThreadCountList agentActiveThreadCountList=getAgentActiveThreadCount(agentInfoList);
-      doResponse(applicationEntry.getValue(),applicationName,agentActiveThreadCountList);
+    Collection<WebSocketResponseAggregator> values=aggregatorRepository.values();
+    for (    WebSocketResponseAggregator aggregator : values) {
+      try {
+        aggregator.flush();
+      }
+ catch (      Exception e) {
+        logger.warn(e.getMessage(),e);
+      }
     }
   }
   finally {

@@ -1,0 +1,11 @@
+{
+  logger.info("eventPerformed streamChannel:{}, stateCode:{}",streamChannel,updatedStateCode);
+switch (updatedStateCode) {
+case CLOSED:
+case ILLEGAL_STATE:
+    if (consumer != null) {
+      consumer.close();
+    }
+  break;
+}
+}

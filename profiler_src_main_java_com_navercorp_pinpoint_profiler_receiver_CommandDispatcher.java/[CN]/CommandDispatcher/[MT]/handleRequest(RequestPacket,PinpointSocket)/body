@@ -1,6 +1,6 @@
 {
   logger.info("handleRequest packet:{}, remote:{}",requestPacket,pinpointSocket.getRemoteAddress());
-  final TBase<?,?> request=SerializationUtils.deserialize(requestPacket.getPayload(),deserializerFactory,null);
+  final TBase<?,?> request=SerializationUtils.deserialize(requestPacket.getPayload(),CommandSerializer.DESERIALIZER_FACTORY,null);
   logger.debug("handleRequest request:{}, remote:{}",request,pinpointSocket.getRemoteAddress());
   TBase response;
   if (request == null) {
@@ -19,7 +19,7 @@
       response=service.requestCommandService(request);
     }
   }
-  final byte[] payload=SerializationUtils.serialize(response,serializerFactory,null);
+  final byte[] payload=SerializationUtils.serialize(response,CommandSerializer.SERIALIZER_FACTORY,null);
   if (payload != null) {
     pinpointSocket.response(requestPacket,payload);
   }

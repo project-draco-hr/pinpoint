@@ -1,0 +1,6 @@
+{
+  LOGGING.handleStreamData(streamChannelContext,packet);
+  TBase response=agentService.deserializeResponse(packet.getPayload(),null);
+  AgentActiveThreadCount activeThreadCount=getAgentActiveThreadCount(response);
+  responseAggregator.response(activeThreadCount);
+}

@@ -4,9 +4,8 @@
   for (  AgentActiveThreadCount agentActiveThread : agentActiveThreadRepository) {
     jgen.writeFieldName(agentActiveThread.getAgentId());
     jgen.writeStartObject();
-    TRouteResult routeResult=agentActiveThread.getRouteResult(TRouteResult.UNKNOWN);
-    jgen.writeNumberField("code",routeResult.getValue());
-    jgen.writeStringField("message",routeResult.name());
+    jgen.writeNumberField("code",agentActiveThread.getCode());
+    jgen.writeStringField("message",agentActiveThread.getCodeMessage());
     TCmdActiveThreadCountRes activeThreadCount=agentActiveThread.getActiveThreadCount();
     long timeStamp=System.currentTimeMillis();
     if (activeThreadCount != null) {
@@ -22,7 +21,6 @@
         jgen.writeEndArray();
       }
     }
-    jgen.writeNumberField("timeStamp",timeStamp);
     jgen.writeEndObject();
   }
   jgen.writeEndObject();

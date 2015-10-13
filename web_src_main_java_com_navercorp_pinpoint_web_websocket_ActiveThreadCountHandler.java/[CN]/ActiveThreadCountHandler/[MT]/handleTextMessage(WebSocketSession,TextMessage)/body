@@ -1,9 +1,15 @@
 {
-  logger.info("handleTextMessage. session : {}, message : {}.",session,message.getPayload());
+  logger.info("handleTextMessage. session : {}, message : {}.",webSocketSession,message.getPayload());
   String request=message.getPayload();
   if (request != null && request.startsWith(APPLICATION_NAME_KEY + "=")) {
     String applicationName=request.substring(APPLICATION_NAME_KEY.length() + 1);
-    session.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
+synchronized (lock) {
+      closeAggregator(webSocketSession);
+      if (!StringUtils.isEmpty(applicationName)) {
+        webSocketSession.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
+        openAggregator(webSocketSession);
+      }
+    }
   }
-  super.handleTextMessage(session,message);
+  super.handleTextMessage(webSocketSession,message);
 }
