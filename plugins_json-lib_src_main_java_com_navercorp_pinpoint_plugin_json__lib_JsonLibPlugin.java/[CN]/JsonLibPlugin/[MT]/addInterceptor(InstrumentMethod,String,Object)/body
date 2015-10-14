@@ -1,7 +1,7 @@
 {
-  if (method != null) {
+  if (method != null && isPublicMethod(method)) {
     try {
-      method.addGroupedInterceptor(interceptorClassName,constructorArgs,group);
+      method.addGroupedInterceptor(interceptorClassName,constructorArgs,GROUP);
       return true;
     }
  catch (    InstrumentException e) {
