@@ -4,7 +4,7 @@ synchronized (lock) {
     sessionRepository.add(newSession);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
     if (turnOn) {
-      timer.newTimeout(new ActiveThreadTimerTask(),time,TimeUnit.MILLISECONDS);
+      timer.newTimeout(new ActiveThreadTimerTask(),flushDelay,TimeUnit.MILLISECONDS);
     }
   }
   super.afterConnectionEstablished(newSession);
