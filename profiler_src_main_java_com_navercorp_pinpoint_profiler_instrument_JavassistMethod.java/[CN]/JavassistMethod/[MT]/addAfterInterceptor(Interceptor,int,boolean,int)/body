@@ -7,14 +7,14 @@
     }
     return;
   }
-  InvokeAfterCodeGenerator catchGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,localVarsInitialized,true);
+  InvokeAfterCodeGenerator catchGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,pluginContext.getTraceContext(),localVarsInitialized,true);
   String catchCode=catchGenerator.generate();
   if (isDebug) {
     logger.debug("addAfterInterceptor catch behavior:{} code:{}",behavior.getLongName(),catchCode);
   }
   CtClass throwable=behavior.getDeclaringClass().getClassPool().get("java.lang.Throwable");
   insertCatch(originalCodeOffset,catchCode,throwable,"$e");
-  InvokeAfterCodeGenerator afterGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,localVarsInitialized,false);
+  InvokeAfterCodeGenerator afterGenerator=new InvokeAfterCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,pluginContext.getTraceContext(),localVarsInitialized,false);
   final String afterCode=afterGenerator.generate();
   if (isDebug) {
     logger.debug("addAfterInterceptor after behavior:{} code:{}",behavior.getLongName(),afterCode);
