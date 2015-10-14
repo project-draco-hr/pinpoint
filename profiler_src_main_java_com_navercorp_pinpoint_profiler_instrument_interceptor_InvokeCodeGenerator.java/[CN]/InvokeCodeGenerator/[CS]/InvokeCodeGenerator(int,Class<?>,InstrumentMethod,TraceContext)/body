@@ -2,13 +2,17 @@
   this.interceptorClass=interceptorClass;
   this.targetMethod=targetMethod;
   this.interceptorId=interceptorId;
+  this.traceContext=traceContext;
   if (BeforeInterceptor.class.isAssignableFrom(interceptorClass) || AfterInterceptor.class.isAssignableFrom(interceptorClass)) {
     type=Type.ARRAY_ARGS;
   }
  else   if (StaticAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
     type=Type.STATIC;
   }
+ else   if (ApiIdAwareAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
+    type=Type.API_ID_AWARE;
+  }
  else {
-    type=Type.CUSTOM;
+    type=Type.BASIC;
   }
 }

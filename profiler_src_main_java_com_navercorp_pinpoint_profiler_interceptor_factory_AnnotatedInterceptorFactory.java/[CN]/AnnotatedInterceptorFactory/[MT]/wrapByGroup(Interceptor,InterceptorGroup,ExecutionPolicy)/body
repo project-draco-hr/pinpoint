@@ -65,5 +65,8 @@
  else   if (interceptor instanceof AfterInterceptor) {
     return new GroupedInterceptor(null,(AfterInterceptor)interceptor,group,policy);
   }
+ else   if (interceptor instanceof ApiIdAwareAroundInterceptor) {
+    return new GroupedApiIdAwareAroundInterceptor((ApiIdAwareAroundInterceptor)interceptor,group,policy);
+  }
   throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
 }
