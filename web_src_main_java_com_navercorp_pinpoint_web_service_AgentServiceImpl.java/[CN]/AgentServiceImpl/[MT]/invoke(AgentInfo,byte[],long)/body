@@ -3,7 +3,7 @@
   PinpointSocket socket=clusterConnectionManager.getSocket(agentInfo);
   Future<ResponseMessage> future=null;
   if (socket != null) {
-    future=socket.request(serialize(transferObject));
+    future=socket.request(serializeRequest(transferObject));
   }
   PinpointRouteResponse response=getResponse(future,timeout);
   return response;

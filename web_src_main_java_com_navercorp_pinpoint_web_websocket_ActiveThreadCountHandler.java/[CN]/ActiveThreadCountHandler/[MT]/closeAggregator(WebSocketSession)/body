@@ -9,8 +9,8 @@
   }
   aggregator.unregisterWebSocketSession(webSocketSession);
   if (aggregator.registeredWebSocketSessionCount() == 0) {
-    for (    ActiveThreadCountStreamListener r : aggregator.getStreamMessageListenerRepository().values()) {
-      r.stop();
+    for (    ActiveThreadCountStreamListener listener : aggregator.getStreamMessageListenerRepository().values()) {
+      listener.stop();
     }
     aggregatorRepository.remove(applicationName);
   }

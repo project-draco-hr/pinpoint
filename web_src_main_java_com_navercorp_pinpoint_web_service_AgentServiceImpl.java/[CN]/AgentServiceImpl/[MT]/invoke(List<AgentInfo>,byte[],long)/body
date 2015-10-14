@@ -4,7 +4,7 @@
     TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
     PinpointSocket socket=clusterConnectionManager.getSocket(agentInfo);
     if (socket != null) {
-      Future<ResponseMessage> future=socket.request(serialize(transferObject));
+      Future<ResponseMessage> future=socket.request(serializeRequest(transferObject));
       futureMap.put(agentInfo,future);
     }
  else {
