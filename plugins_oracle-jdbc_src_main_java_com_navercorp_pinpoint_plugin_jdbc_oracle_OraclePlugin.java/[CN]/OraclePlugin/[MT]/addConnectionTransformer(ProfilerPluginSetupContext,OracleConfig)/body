@@ -3,18 +3,17 @@
     @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      InterceptorGroup group=instrumentContext.getInterceptorGroup(OracleConstants.GROUP_ORACLE);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",group);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",group);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementCreateInterceptor",group);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",OracleConstants.GROUP_ORACLE);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",OracleConstants.GROUP_ORACLE);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementCreateInterceptor",OracleConstants.GROUP_ORACLE);
       if (config.isProfileSetAutoCommit()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",group);
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",OracleConstants.GROUP_ORACLE);
       }
       if (config.isProfileCommit()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",group);
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",OracleConstants.GROUP_ORACLE);
       }
       if (config.isProfileRollback()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",group);
+        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",OracleConstants.GROUP_ORACLE);
       }
       return target.toBytecode();
     }

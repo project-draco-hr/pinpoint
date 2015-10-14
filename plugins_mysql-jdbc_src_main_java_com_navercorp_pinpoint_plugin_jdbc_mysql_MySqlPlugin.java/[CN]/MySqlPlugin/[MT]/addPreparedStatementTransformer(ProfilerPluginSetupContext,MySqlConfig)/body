@@ -6,9 +6,9 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor","new java.util.HashMap()");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
-      InterceptorGroup group=instrumentContext.getInterceptorGroup(MySqlConstants.GROUP_NAME);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),group);
-      target.addGroupedInterceptor(PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML"),"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",group,ExecutionPolicy.BOUNDARY);
+      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),MySqlConstants.GROUP_NAME);
+      final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
+      target.addGroupedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",MySqlConstants.GROUP_NAME,ExecutionPolicy.BOUNDARY);
       return target.toBytecode();
     }
   }

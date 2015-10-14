@@ -2,9 +2,8 @@
   context.addClassFileTransformer(clazzName,new PinpointClassFileTransformer(){
     @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
-      InterceptorGroup group=instrumentContext.getInterceptorGroup(GROUP);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("readValue","readValues"))) {
-        addInterceptor(method,READ_VALUE_INTERCEPTOR,group);
+        addInterceptor(method,READ_VALUE_INTERCEPTOR);
       }
       return target.toBytecode();
     }
