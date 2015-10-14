@@ -1,0 +1,21 @@
+{
+  String applicationName=(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY);
+  if (StringUtils.isEmpty(applicationName)) {
+    return;
+  }
+  WebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
+  if (aggregator == null) {
+    aggregator=new WebSocketResponseAggregator(applicationName);
+    aggregatorRepository.put(applicationName,aggregator);
+  }
+  ClientStreamChannelMessageListenerRepository<ActiveThreadCountStreamListener> streamMessageListenerRepository=aggregator.getStreamMessageListenerRepository();
+  List<AgentInfo> agentInfoList=agentSerivce.getAgentInfoList(applicationName);
+  for (  AgentInfo agentInfo : agentInfoList) {
+    String agentId=agentInfo.getAgentId();
+    if (!streamMessageListenerRepository.contains(agentId)) {
+      ActiveThreadCountStreamListener streamListener=new ActiveThreadCountStreamListener(agentSerivce,agentInfo,aggregator);
+      streamListener.start();
+    }
+  }
+  aggregator.registerWebSocketSession(webSocketSession);
+}

@@ -1,17 +1,17 @@
 {
   final int streamChannelId=packet.getStreamChannelId();
-  StreamCode code=StreamCode.SUCCESS;
+  StreamCode code=StreamCode.OK;
   ServerStreamChannel streamChannel=new ServerStreamChannel(this.channel,streamChannelId,this);
   ServerStreamChannelContext streamChannelContext=new ServerStreamChannelContext(streamChannel);
   code=registerStreamChannel(streamChannelContext);
-  if (code == StreamCode.SUCCESS) {
+  if (code == StreamCode.OK) {
     code=streamChannelMessageListener.handleStreamCreate(streamChannelContext,(StreamCreatePacket)packet);
-    if (code == StreamCode.SUCCESS) {
+    if (code == StreamCode.OK) {
       streamChannel.changeStateConnected();
       streamChannel.sendCreateSuccess();
     }
   }
-  if (code != StreamCode.SUCCESS) {
+  if (code != StreamCode.OK) {
     clearResourceAndSendCreateFail(streamChannelId,code);
   }
 }

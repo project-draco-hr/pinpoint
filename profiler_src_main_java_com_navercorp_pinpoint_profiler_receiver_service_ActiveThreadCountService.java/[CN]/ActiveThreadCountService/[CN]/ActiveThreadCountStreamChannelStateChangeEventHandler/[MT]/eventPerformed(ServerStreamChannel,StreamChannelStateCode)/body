@@ -1,0 +1,22 @@
+{
+synchronized (lock) {
+switch (updatedStateCode) {
+case CONNECTED:
+      streamChannelRepository.add(streamChannel);
+    boolean turnOn=onTimerTask.compareAndSet(false,true);
+  if (turnOn) {
+    timer.newTimeout(new ActiveThreadCountTimerTask(),time,TimeUnit.MILLISECONDS);
+  }
+break;
+case CLOSED:
+case ILLEGAL_STATE:
+boolean removed=streamChannelRepository.remove(streamChannel);
+if (removed) {
+if (streamChannelRepository.size() == 0) {
+boolean turnOff=onTimerTask.compareAndSet(true,false);
+}
+}
+break;
+}
+}
+}
