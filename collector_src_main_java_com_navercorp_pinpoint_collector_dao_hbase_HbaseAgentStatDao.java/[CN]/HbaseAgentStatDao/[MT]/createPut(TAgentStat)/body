@@ -1,0 +1,24 @@
+{
+  long timestamp=agentStat.getTimestamp();
+  byte[] key=getDistributedRowKey(agentStat,timestamp);
+  Put put=new Put(key);
+  if (agentStat.isSetGc()) {
+    TJvmGc gc=agentStat.getGc();
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_GC_TYPE,Bytes.toBytes(gc.getType().name()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_GC_OLD_COUNT,Bytes.toBytes(gc.getJvmGcOldCount()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_GC_OLD_TIME,Bytes.toBytes(gc.getJvmGcOldTime()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_HEAP_USED,Bytes.toBytes(gc.getJvmMemoryHeapUsed()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_HEAP_MAX,Bytes.toBytes(gc.getJvmMemoryHeapMax()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_USED,Bytes.toBytes(gc.getJvmMemoryNonHeapUsed()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_MAX,Bytes.toBytes(gc.getJvmMemoryNonHeapMax()));
+  }
+ else {
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_GC_TYPE,Bytes.toBytes(TJvmGcType.UNKNOWN.name()));
+  }
+  if (agentStat.isSetCpuLoad()) {
+    TCpuLoad cpuLoad=agentStat.getCpuLoad();
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_JVM_CPU,Bytes.toBytes(cpuLoad.getJvmCpuLoad()));
+    put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_CF_STATISTICS_COL_SYS_CPU,Bytes.toBytes(cpuLoad.getSystemCpuLoad()));
+  }
+  return put;
+}
