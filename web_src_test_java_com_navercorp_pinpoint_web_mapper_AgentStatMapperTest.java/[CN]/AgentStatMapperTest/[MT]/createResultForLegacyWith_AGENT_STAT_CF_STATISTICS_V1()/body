@@ -1,0 +1,17 @@
+{
+  final TAgentStat agentStat=new TAgentStat();
+  final TJvmGc gc=new TJvmGc();
+  gc.setType(GC_TYPE);
+  gc.setJvmGcOldCount(GC_OLD_COUNT);
+  gc.setJvmGcOldTime(GC_OLD_TIME);
+  gc.setJvmMemoryHeapUsed(HEAP_USED);
+  gc.setJvmMemoryHeapMax(HEAP_MAX);
+  gc.setJvmMemoryNonHeapUsed(NON_HEAP_USED);
+  gc.setJvmMemoryNonHeapMax(NON_HEAP_MAX);
+  agentStat.setGc(gc);
+  final TProtocolFactory factory=new TCompactProtocol.Factory();
+  final TSerializer serializer=new TSerializer(factory);
+  final byte[] qualifier=AGENT_STAT_CF_STATISTICS_V1;
+  final byte[] value=serializer.serialize(agentStat);
+  return Result.create(Arrays.asList(createCell(qualifier,value)));
+}
