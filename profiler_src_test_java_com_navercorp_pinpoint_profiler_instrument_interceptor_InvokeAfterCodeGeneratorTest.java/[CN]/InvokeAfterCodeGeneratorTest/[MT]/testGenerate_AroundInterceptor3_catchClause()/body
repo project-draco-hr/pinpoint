@@ -7,7 +7,8 @@
   Mockito.when(mockMethod.getName()).thenReturn("TestMethod");
   Mockito.when(mockMethod.getParameterTypes()).thenReturn(new String[]{"java.lang.Object","java.lang.Object","java.lang.Object"});
   Mockito.when(mockMethod.getReturnType()).thenReturn("java.lang.Object");
-  final InvokeAfterCodeGenerator invokeAfterCodeGenerator=new InvokeAfterCodeGenerator(100,aroundInterceptor3Class,interceptorAfter,mockClass,mockMethod,false,true);
+  TraceContext context=mock(TraceContext.class);
+  final InvokeAfterCodeGenerator invokeAfterCodeGenerator=new InvokeAfterCodeGenerator(100,aroundInterceptor3Class,interceptorAfter,mockClass,mockMethod,context,false,true);
   final String generate=invokeAfterCodeGenerator.generate();
   logger.debug("testGenerate_AroundInterceptor3_catchClause:{}",generate);
   Assert.assertTrue(generate.contains("($w)$1"));

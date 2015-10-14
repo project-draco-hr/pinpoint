@@ -7,7 +7,7 @@
     }
     return -1;
   }
-  InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this);
+  InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,pluginContext.getTraceContext());
   String beforeCode=generator.generate();
   if (isDebug) {
     logger.debug("addBeforeInterceptor before behavior:{} code:{}",behavior.getLongName(),beforeCode);
