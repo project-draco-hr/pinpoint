@@ -1,3 +1,10 @@
 {
   registerModule(new JacksonPinpointModule());
+  if (beanFactory != null) {
+    if (beanFactory instanceof AutowireCapableBeanFactory) {
+      logger.debug("PinpointObjectMapper.setSpringHandlerInstantiator");
+      final SpringHandlerInstantiator hi=new SpringHandlerInstantiator((AutowireCapableBeanFactory)beanFactory);
+      this.setHandlerInstantiator(hi);
+    }
+  }
 }
