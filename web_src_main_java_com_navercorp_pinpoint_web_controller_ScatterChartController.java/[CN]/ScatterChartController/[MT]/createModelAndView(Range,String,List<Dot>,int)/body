@@ -17,12 +17,14 @@
       list.add(dot);
     }
     if (version == 4) {
+      TimeWindow timeWindow=new TimeWindow(range);
       TreeMap<Long,List<Dot>> sortedMap=new TreeMap<Long,List<Dot>>();
       for (      Dot dot : scatterData) {
-        List<Dot> list=sortedMap.get(dot.getAcceptedTime());
+        long key=timeWindow.refineTimestamp(dot.getAcceptedTime());
+        List<Dot> list=sortedMap.get(key);
         if (list == null) {
           list=new ArrayList<Dot>();
-          sortedMap.put(dot.getAcceptedTime(),list);
+          sortedMap.put(key,list);
         }
         list.add(dot);
       }
@@ -44,8 +46,8 @@
         }
         int averageTime=totalTime / entry.getValue().size();
         averageList.add(new Dot(new TransactionId("",0,0),entry.getKey(),averageTime,0,""));
-        maxList.add(max);
-        minList.add(min);
+        maxList.add(new Dot(new TransactionId(max.getTransactionId()),entry.getKey(),max.getElapsedTime(),max.getExceptionCode(),max.getAgentId()));
+        minList.add(new Dot(new TransactionId(min.getTransactionId()),entry.getKey(),min.getElapsedTime(),min.getExceptionCode(),min.getAgentId()));
       }
       scatterAgentData.put("_#AverageAgent",averageList);
       scatterAgentData.put("_#MaxAgent",maxList);
