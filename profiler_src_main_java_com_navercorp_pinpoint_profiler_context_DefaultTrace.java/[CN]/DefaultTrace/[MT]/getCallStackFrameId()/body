@@ -1,7 +1,9 @@
 {
-  if (callStack.empty()) {
+  final SpanEvent spanEvent=callStack.peek();
+  if (spanEvent == null) {
     return ROOT_STACKID;
   }
-  final SpanEvent spanEvent=callStack.peek();
-  return spanEvent.getStackId();
+ else {
+    return spanEvent.getStackId();
+  }
 }
