@@ -1,0 +1,10 @@
+{
+  final Result result=createResultForLegacy_serialized_BOs();
+  List<AgentStat> agentStats=this.mapper.mapRow(result,0);
+  assertNotNull(agentStats);
+  assertThat(agentStats.size(),is(1));
+  AgentStat agentStat=agentStats.get(0);
+  assertJvmGc(agentStat);
+  assertCpuUsage(agentStat);
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getTps());
+}

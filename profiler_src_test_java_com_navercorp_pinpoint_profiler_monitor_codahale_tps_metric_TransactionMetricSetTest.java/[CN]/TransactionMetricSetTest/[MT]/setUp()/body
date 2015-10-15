@@ -1,0 +1,5 @@
+{
+  this.transactionCounter=new TestableTransactionCounter();
+  TransactionMetricSet metricSet=new TransactionMetricSet(this.transactionCounter);
+  this.tpsGauge=(Gauge<Integer>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_PER_SECOND);
+}

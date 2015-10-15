@@ -1,0 +1,11 @@
+{
+  final Result result=createResultForLegacyWith_AGENT_STAT_CF_STATISTICS_V1();
+  List<AgentStat> agentStats=this.mapper.mapRow(result,0);
+  assertNotNull(agentStats);
+  assertThat(agentStats.size(),is(1));
+  AgentStat agentStat=agentStats.get(0);
+  assertJvmGc(agentStat);
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getJvmCpuUsage(),DELTA);
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getSystemCpuUsage(),DELTA);
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getTps());
+}

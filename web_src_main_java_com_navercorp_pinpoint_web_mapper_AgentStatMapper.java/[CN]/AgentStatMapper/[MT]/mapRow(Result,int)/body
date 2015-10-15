@@ -2,18 +2,47 @@
   if (result.isEmpty()) {
     return Collections.emptyList();
   }
-  Map<byte[],byte[]> qualifierMap=result.getFamilyMap(AGENT_STAT_CF_STATISTICS);
+  final byte[] rowKey=getOriginalKey(result.getRow());
+  final String agentId=BytesUtils.toString(rowKey,0,AGENT_NAME_MAX_LEN).trim();
+  final long reverseTimestamp=BytesUtils.bytesToLong(rowKey,AGENT_NAME_MAX_LEN);
+  final long timestamp=TimeUtils.recoveryTimeMillis(reverseTimestamp);
+  NavigableMap<byte[],byte[]> qualifierMap=result.getFamilyMap(AGENT_STAT_CF_STATISTICS);
   if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_V1)) {
-    return readAgentStatThriftDto(qualifierMap.get(AGENT_STAT_CF_STATISTICS_V1));
+    return readAgentStatThriftDto(agentId,timestamp,qualifierMap.get(AGENT_STAT_CF_STATISTICS_V1));
   }
-  AgentStat agentStat=new AgentStat();
-  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC)) {
-    AgentStatMemoryGcBo.Builder builder=new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC));
-    agentStat.setMemoryGc(builder.build());
+ else   if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC) || qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
+    return readSerializedBos(agentId,timestamp,qualifierMap);
   }
-  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
-    AgentStatCpuLoadBo.Builder builder=new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD));
-    agentStat.setCpuLoad(builder.build());
+  AgentStat agentStat=new AgentStat(agentId,timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_GC_TYPE)) {
+    agentStat.setGcType(Bytes.toString(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_GC_TYPE)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_COUNT)) {
+    agentStat.setGcOldCount(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_COUNT)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_TIME)) {
+    agentStat.setGcOldTime(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_TIME)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_HEAP_USED)) {
+    agentStat.setHeapUsed(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_HEAP_USED)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_HEAP_MAX)) {
+    agentStat.setHeapMax(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_HEAP_MAX)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_USED)) {
+    agentStat.setNonHeapUsed(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_USED)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_MAX)) {
+    agentStat.setNonHeapMax(Bytes.toLong(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_MAX)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_JVM_CPU)) {
+    agentStat.setJvmCpuUsage(Bytes.toDouble(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_JVM_CPU)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_SYS_CPU)) {
+    agentStat.setSystemCpuUsage(Bytes.toDouble(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_SYS_CPU)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_COL_TPS)) {
+    agentStat.setTps(Bytes.toInt(qualifierMap.get(AGENT_STAT_CF_STATISTICS_COL_TPS)));
   }
   List<AgentStat> agentStats=new ArrayList<AgentStat>();
   agentStats.add(agentStat);

@@ -47,6 +47,7 @@
   addCommandService(commandDispatcher,traceContext);
   this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
   this.serverMetaDataHolder.addListener(this.agentInfoSender);
-  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime());
+  AgentStatCollectorFactory agentStatCollectorFactory=new AgentStatCollectorFactory(this.getTransactionCounter(this.traceContext));
+  this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime(),agentStatCollectorFactory);
   InterceptorInvokerHelper.setPropagateException(profilerConfig.isPropagateInterceptorException());
 }

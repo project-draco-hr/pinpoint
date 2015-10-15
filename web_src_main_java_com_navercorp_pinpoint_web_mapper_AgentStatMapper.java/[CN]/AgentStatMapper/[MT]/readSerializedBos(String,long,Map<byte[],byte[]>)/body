@@ -1,0 +1,23 @@
+{
+  AgentStat agentStat=new AgentStat(agentId,timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC)) {
+    AgentStatMemoryGcBo.Builder builder=new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC));
+    AgentStatMemoryGcBo agentStatMemoryGcBo=builder.build();
+    agentStat.setGcType(agentStatMemoryGcBo.getGcType());
+    agentStat.setGcOldCount(agentStatMemoryGcBo.getJvmGcOldCount());
+    agentStat.setGcOldTime(agentStatMemoryGcBo.getJvmGcOldTime());
+    agentStat.setHeapUsed(agentStatMemoryGcBo.getJvmMemoryHeapUsed());
+    agentStat.setHeapMax(agentStatMemoryGcBo.getJvmMemoryHeapMax());
+    agentStat.setNonHeapUsed(agentStatMemoryGcBo.getJvmMemoryNonHeapUsed());
+    agentStat.setNonHeapMax(agentStatMemoryGcBo.getJvmMemoryNonHeapMax());
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
+    AgentStatCpuLoadBo.Builder builder=new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD));
+    AgentStatCpuLoadBo agentStatCpuLoadBo=builder.build();
+    agentStat.setJvmCpuUsage(agentStatCpuLoadBo.getJvmCpuLoad());
+    agentStat.setSystemCpuUsage(agentStatCpuLoadBo.getSystemCpuLoad());
+  }
+  List<AgentStat> result=new ArrayList<AgentStat>(1);
+  result.add(agentStat);
+  return result;
+}

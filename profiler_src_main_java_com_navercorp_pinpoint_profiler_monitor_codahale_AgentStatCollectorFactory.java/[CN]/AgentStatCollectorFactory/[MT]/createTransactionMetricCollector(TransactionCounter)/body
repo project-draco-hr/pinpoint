@@ -1,0 +1,7 @@
+{
+  TransactionMetricSet transactionMetricSet=this.monitorRegistry.registerTpsMonitor(new MonitorName(MetricMonitorValues.TRANSACTION),transactionCounter);
+  if (logger.isInfoEnabled()) {
+    logger.info("loaded : {}",transactionMetricSet);
+  }
+  return new TransactionMetricCollector(transactionMetricSet);
+}
