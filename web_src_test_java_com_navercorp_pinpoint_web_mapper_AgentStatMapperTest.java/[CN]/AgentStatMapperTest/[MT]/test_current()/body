@@ -1,0 +1,10 @@
+{
+  final Result result=Result.create(Arrays.asList(createCell(AGENT_STAT_CF_STATISTICS_COL_GC_TYPE,Bytes.toBytes(GC_TYPE.name())),createCell(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_COUNT,Bytes.toBytes(GC_OLD_COUNT)),createCell(AGENT_STAT_CF_STATISTICS_COL_GC_OLD_TIME,Bytes.toBytes(GC_OLD_TIME)),createCell(AGENT_STAT_CF_STATISTICS_COL_HEAP_USED,Bytes.toBytes(HEAP_USED)),createCell(AGENT_STAT_CF_STATISTICS_COL_HEAP_MAX,Bytes.toBytes(HEAP_MAX)),createCell(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_USED,Bytes.toBytes(NON_HEAP_USED)),createCell(AGENT_STAT_CF_STATISTICS_COL_NON_HEAP_MAX,Bytes.toBytes(NON_HEAP_MAX)),createCell(AGENT_STAT_CF_STATISTICS_COL_JVM_CPU,Bytes.toBytes(JVM_CPU_USAGE)),createCell(AGENT_STAT_CF_STATISTICS_COL_SYS_CPU,Bytes.toBytes(SYS_CPU_USAGE)),createCell(AGENT_STAT_CF_STATISTICS_COL_TPS,Bytes.toBytes(TPS))));
+  List<AgentStat> agentStats=this.mapper.mapRow(result,0);
+  assertNotNull(agentStats);
+  assertThat(agentStats.size(),is(1));
+  AgentStat agentStat=agentStats.get(0);
+  assertJvmGc(agentStat);
+  assertCpuUsage(agentStat);
+  assertTransaction(agentStat);
+}

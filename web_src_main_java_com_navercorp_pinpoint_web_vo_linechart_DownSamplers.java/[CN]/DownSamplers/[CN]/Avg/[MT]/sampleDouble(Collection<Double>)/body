@@ -2,9 +2,11 @@
   if (CollectionUtils.isEmpty(values)) {
     return DOUBLE_ZERO;
   }
-  double total=0D;
+  double avg=0;
+  int cnt=1;
   for (  double value : values) {
-    total+=value;
+    avg+=(value - avg) / cnt;
+    ++cnt;
   }
-  return total / values.size();
+  return avg;
 }

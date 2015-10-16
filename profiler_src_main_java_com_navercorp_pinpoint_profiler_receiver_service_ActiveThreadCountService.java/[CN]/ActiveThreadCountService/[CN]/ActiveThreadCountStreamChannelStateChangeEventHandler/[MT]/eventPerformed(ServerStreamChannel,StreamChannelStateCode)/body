@@ -5,7 +5,7 @@ case CONNECTED:
       streamChannelRepository.add(streamChannel);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
   if (turnOn) {
-    timer.newTimeout(new ActiveThreadCountTimerTask(),time,TimeUnit.MILLISECONDS);
+    timer.newTimeout(new ActiveThreadCountTimerTask(),flushDelay,TimeUnit.MILLISECONDS);
   }
 break;
 case CLOSED:

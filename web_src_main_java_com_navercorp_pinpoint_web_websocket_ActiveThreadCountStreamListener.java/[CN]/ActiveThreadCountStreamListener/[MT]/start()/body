@@ -2,8 +2,8 @@
   try {
     ClientStreamChannelContext clientStreamChannelContext=agentService.openStream(agentInfo,new TCmdActiveThreadCount(),this);
     if (clientStreamChannelContext.getCreateFailPacket() == null) {
-      this.streamchannel=clientStreamChannelContext.getStreamChannel();
-      this.streamchannel.addStateChangeEventHandler(this);
+      streamchannel=clientStreamChannelContext.getStreamChannel();
+      streamchannel.addStateChangeEventHandler(this);
       defaultFailedResponse.setFail(TRouteResult.TIMEOUT.name());
     }
  else {
@@ -15,6 +15,6 @@
     defaultFailedResponse.setFail(TRouteResult.NOT_SUPPORTED_REQUEST.name());
   }
  finally {
-    this.responseAggregator.getStreamMessageListenerRepository().put(agentInfo.getAgentId(),this);
+    this.responseAggregator.registerStreamMessageListener(agentInfo.getAgentId(),this);
   }
 }

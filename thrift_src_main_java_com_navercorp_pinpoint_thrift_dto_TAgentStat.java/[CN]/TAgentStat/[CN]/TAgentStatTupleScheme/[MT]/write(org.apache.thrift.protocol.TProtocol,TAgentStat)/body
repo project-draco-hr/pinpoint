@@ -16,10 +16,13 @@
   if (struct.isSetCpuLoad()) {
     optionals.set(4);
   }
-  if (struct.isSetMetadata()) {
+  if (struct.isSetTransaction()) {
     optionals.set(5);
   }
-  oprot.writeBitSet(optionals,6);
+  if (struct.isSetMetadata()) {
+    optionals.set(6);
+  }
+  oprot.writeBitSet(optionals,7);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -34,6 +37,9 @@
   }
   if (struct.isSetCpuLoad()) {
     struct.cpuLoad.write(oprot);
+  }
+  if (struct.isSetTransaction()) {
+    struct.transaction.write(oprot);
   }
   if (struct.isSetMetadata()) {
     oprot.writeString(struct.metadata);

@@ -1,0 +1,10 @@
+{
+  this.type=agentStat.getGcType();
+  long timestamp=agentStat.getTimestamp();
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_MEMORY_HEAP_USED)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getHeapUsed()));
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_MEMORY_HEAP_MAX)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getHeapMax()));
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_MEMORY_NON_HEAP_USED)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getNonHeapUsed()));
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_MEMORY_NON_HEAP_MAX)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getNonHeapMax()));
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_GC_OLD_COUNT)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getGcOldCount()));
+  ((SampledTimeSeriesLongChartBuilder)this.chartBuilders.get(ChartType.JVM_GC_OLD_TIME)).addDataPoint(new DataPoint<Long,Long>(timestamp,agentStat.getGcOldTime()));
+}

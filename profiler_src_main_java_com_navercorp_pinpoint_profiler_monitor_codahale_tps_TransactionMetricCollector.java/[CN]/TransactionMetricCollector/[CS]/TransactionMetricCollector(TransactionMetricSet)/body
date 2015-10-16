@@ -1,0 +1,7 @@
+{
+  if (transactionMetricSet == null) {
+    throw new NullPointerException("tpsMetricSet must not be null");
+  }
+  Map<String,Metric> metrics=transactionMetricSet.getMetrics();
+  this.tpsGauge=(Gauge<Integer>)MetricMonitorValues.getMetric(metrics,TRANSACTION_PER_SECOND,new EmptyGauge<Integer>(UNSUPPORTED_TPS_METRIC));
+}

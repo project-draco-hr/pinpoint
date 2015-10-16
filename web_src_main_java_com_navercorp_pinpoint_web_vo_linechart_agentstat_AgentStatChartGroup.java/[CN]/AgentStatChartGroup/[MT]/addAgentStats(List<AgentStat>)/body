@@ -1,6 +1,9 @@
 {
   for (  AgentStat agentStat : agentStats) {
-    addMemoryGcData(agentStat.getMemoryGc());
-    addCpuLoadData(agentStat.getCpuLoad());
+    if (agentStat != null) {
+      addMemoryGcData(agentStat);
+      addCpuLoadData(agentStat);
+      addTransactionData(agentStat);
+    }
   }
 }

@@ -1,0 +1,18 @@
+{
+  final AgentStatMemoryGcBo.Builder jvmGcBuilder=new AgentStatMemoryGcBo.Builder(AGENT_ID,0L,TIMESTAMP);
+  jvmGcBuilder.gcType(GC_TYPE.name());
+  jvmGcBuilder.jvmGcOldCount(GC_OLD_COUNT);
+  jvmGcBuilder.jvmGcOldTime(GC_OLD_TIME);
+  jvmGcBuilder.jvmMemoryHeapUsed(HEAP_USED);
+  jvmGcBuilder.jvmMemoryHeapMax(HEAP_MAX);
+  jvmGcBuilder.jvmMemoryNonHeapUsed(NON_HEAP_USED);
+  jvmGcBuilder.jvmMemoryNonHeapMax(NON_HEAP_MAX);
+  final AgentStatCpuLoadBo.Builder cpuLoadBuilder=new AgentStatCpuLoadBo.Builder(AGENT_ID,0L,TIMESTAMP);
+  cpuLoadBuilder.jvmCpuLoad(JVM_CPU_USAGE);
+  cpuLoadBuilder.systemCpuLoad(SYS_CPU_USAGE);
+  final AgentStatMemoryGcBo jvmGc=jvmGcBuilder.build();
+  final AgentStatCpuLoadBo cpuLoad=cpuLoadBuilder.build();
+  final Cell jvmGcCell=createCell(AGENT_STAT_CF_STATISTICS_MEMORY_GC,jvmGc.writeValue());
+  final Cell cpuLoadCell=createCell(AGENT_STAT_CF_STATISTICS_CPU_LOAD,cpuLoad.writeValue());
+  return Result.create(Arrays.asList(jvmGcCell,cpuLoadCell));
+}

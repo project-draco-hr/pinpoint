@@ -6,6 +6,6 @@
     defaultFailedResponse.setFail(StreamCode.STATE_CLOSED.name());
   }
   finally {
-    this.responseAggregator.getStreamMessageListenerRepository().remove(agentInfo.getAgentId());
+    this.responseAggregator.unregisterStreamMessageListener(agentInfo.getAgentId());
   }
 }
