@@ -1,0 +1,14 @@
+{
+  String agentId=agentInfo.getAgentId();
+  logger.info("addAgent agentId:{}",agentId);
+synchronized (workerManagingLock) {
+    if (isStopped) {
+      return;
+    }
+    if (!activeThreadCountWorkerRepository.containsKey(agentId)) {
+      ActiveThreadCountWorker activeThreadCountWorker=new ActiveThreadCountWorker(agentService,agentInfo,this,streamConnectionManager);
+      activeThreadCountWorker.start();
+      activeThreadCountWorkerRepository.put(agentId,activeThreadCountWorker);
+    }
+  }
+}

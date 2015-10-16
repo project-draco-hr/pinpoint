@@ -1,0 +1,8 @@
+{
+  TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
+  PinpointSocket socket=clusterConnectionManager.getSocket(agentInfo);
+  if (socket != null) {
+    return socket.openStream(serializeRequest(transferObject),messageListener,stateChangeListener);
+  }
+  return null;
+}

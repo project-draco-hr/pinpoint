@@ -1,0 +1,14 @@
+{
+  logger.info("addReconnectJob. agent:{}",agentInfo);
+  ReconnectProperties reconnectProperties=new ReconnectProperties(commandObject,messageListener,stateChangeListener);
+synchronized (lock) {
+    if (isStopped.get()) {
+      return;
+    }
+    reconnectJobRepository.put(agentInfo,reconnectProperties);
+    boolean turnOn=onReconnectTimerTask.compareAndSet(false,true);
+    if (turnOn) {
+      timer.newTimeout(new ReconnectTimerTask(),DEFAULT_RECONNECT_DELAY,TimeUnit.MILLISECONDS);
+    }
+  }
+}

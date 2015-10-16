@@ -1,0 +1,22 @@
+{
+  if (webSocketSession == null) {
+    return false;
+  }
+  logger.info("removeWebSocketSessionAndGetIsCleared. applicationName{}, webSocketSession:{}",applicationName,webSocketSession);
+synchronized (workerManagingLock) {
+    if (isStopped) {
+      return true;
+    }
+    boolean removed=webSocketSessions.remove(webSocketSession);
+    if (removed) {
+      if (webSocketSessions.size() == 0) {
+        for (        ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
+          activeThreadCountWorker.stop();
+        }
+        activeThreadCountWorkerRepository.clear();
+        return true;
+      }
+    }
+  }
+  return false;
+}

@@ -3,19 +3,11 @@
   if (StringUtils.isEmpty(applicationName)) {
     return;
   }
-  WebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
+  PinpointWebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
   if (aggregator == null) {
-    aggregator=new WebSocketResponseAggregator(applicationName);
+    aggregator=new ActiveThreadCountResponseAggregator(applicationName,agentSerivce,timer);
+    aggregator.start();
     aggregatorRepository.put(applicationName,aggregator);
   }
-  ClientStreamChannelMessageListenerRepository<ActiveThreadCountStreamListener> streamMessageListenerRepository=aggregator.getStreamMessageListenerRepository();
-  List<AgentInfo> agentInfoList=agentSerivce.getAgentInfoList(applicationName);
-  for (  AgentInfo agentInfo : agentInfoList) {
-    String agentId=agentInfo.getAgentId();
-    if (!streamMessageListenerRepository.contains(agentId)) {
-      ActiveThreadCountStreamListener streamListener=new ActiveThreadCountStreamListener(agentSerivce,agentInfo,aggregator);
-      streamListener.start();
-    }
-  }
-  aggregator.registerWebSocketSession(webSocketSession);
+  aggregator.addWebSocketSession(webSocketSession);
 }

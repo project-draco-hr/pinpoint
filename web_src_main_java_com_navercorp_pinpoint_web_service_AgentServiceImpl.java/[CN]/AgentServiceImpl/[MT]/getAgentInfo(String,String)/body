@@ -1,0 +1,17 @@
+{
+  long currentTime=System.currentTimeMillis();
+  Set<AgentInfo> agentInfos=agentInfoService.getAgentsByApplicationName(applicationName,currentTime);
+  for (  AgentInfo agentInfo : agentInfos) {
+    if (agentInfo == null) {
+      continue;
+    }
+    if (!agentInfo.getApplicationName().equals(applicationName)) {
+      continue;
+    }
+    if (!agentInfo.getAgentId().equals(agentId)) {
+      continue;
+    }
+    return agentInfo;
+  }
+  return null;
+}

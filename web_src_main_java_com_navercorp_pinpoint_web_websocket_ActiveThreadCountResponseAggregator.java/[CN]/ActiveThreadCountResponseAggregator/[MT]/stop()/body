@@ -1,0 +1,14 @@
+{
+synchronized (workerManagingLock) {
+    isStopped=true;
+    if (streamConnectionManager != null) {
+      this.streamConnectionManager.close();
+    }
+    for (    ActiveThreadCountWorker worker : activeThreadCountWorkerRepository.values()) {
+      if (worker != null) {
+        worker.stop();
+      }
+    }
+    activeThreadCountWorkerRepository.clear();
+  }
+}

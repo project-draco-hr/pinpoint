@@ -3,15 +3,13 @@
   if (StringUtils.isEmpty(applicationName)) {
     return;
   }
-  WebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
+  PinpointWebSocketResponseAggregator aggregator=aggregatorRepository.get(applicationName);
   if (aggregator == null) {
     return;
   }
-  aggregator.unregisterWebSocketSession(webSocketSession);
-  if (aggregator.registeredWebSocketSessionCount() == 0) {
-    for (    ActiveThreadCountStreamListener listener : aggregator.getStreamMessageListenerRepository().values()) {
-      listener.stop();
-    }
+  boolean cleared=aggregator.removeWebSocketSessionAndGetIsCleared(webSocketSession);
+  if (cleared) {
     aggregatorRepository.remove(applicationName);
+    aggregator.stop();
   }
 }
