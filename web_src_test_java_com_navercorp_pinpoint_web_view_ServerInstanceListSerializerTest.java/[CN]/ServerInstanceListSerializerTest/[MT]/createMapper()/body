@@ -1,6 +1,9 @@
 {
-  PinpointObjectMapper mapper=new PinpointObjectMapper();
-  mapper.setHandlerInstantiator(new TestHandlerInstantiator());
-  mapper.afterPropertiesSet();
-  return mapper;
+  final Jackson2ObjectMapperFactoryBean factoryBean=new Jackson2ObjectMapperFactoryBean();
+  final ServerInstanceSerializer serverInstanceSerializer=new ServerInstanceSerializer();
+  final ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService();
+  serverInstanceSerializer.setServiceTypeRegistryService(serviceTypeRegistryService);
+  factoryBean.setHandlerInstantiator(new TestHandlerInstantiator());
+  factoryBean.afterPropertiesSet();
+  return factoryBean.getObject();
 }
