@@ -1,0 +1,16 @@
+{
+  logger.info("eventPerformed streamChannel:{}, stateCode:{}",streamChannel,updatedStateCode);
+switch (updatedStateCode) {
+case CONNECTED:
+    setStreamChannel(streamChannel);
+  defaultFailedResponse.setFail(TRouteResult.TIMEOUT.name());
+break;
+case CLOSED:
+case ILLEGAL_STATE:
+if (!stopped) {
+streamConnectionManager.addReconnectJob(agentInfo,COMMAND_INSTANCE,messageListener,stateChangeListener);
+}
+defaultFailedResponse.setFail(StreamCode.STATE_CLOSED.name());
+break;
+}
+}

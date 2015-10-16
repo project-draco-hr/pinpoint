@@ -1,0 +1,11 @@
+{
+  for (  PinpointWebSocketResponseAggregator aggregator : aggregatorRepository.values()) {
+    if (aggregator != null) {
+      aggregator.stop();
+    }
+  }
+  aggregatorRepository.clear();
+  if (timer != null) {
+    timer.stop();
+  }
+}

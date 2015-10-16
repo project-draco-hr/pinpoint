@@ -1,0 +1,24 @@
+{
+  if (webSocketSession == null) {
+    return;
+  }
+  logger.info("addWebSocketSession. applicationName:{}, webSocketSession:{}",applicationName,webSocketSession);
+  List<AgentInfo> agentInfoList=agentService.getAgentInfoList(applicationName);
+synchronized (workerManagingLock) {
+    if (isStopped) {
+      return;
+    }
+    for (    AgentInfo agentInfo : agentInfoList) {
+      String agentId=agentInfo.getAgentId();
+      if (!activeThreadCountWorkerRepository.contains(agentId)) {
+        ActiveThreadCountWorker activeThreadCountWorker=new ActiveThreadCountWorker(agentService,agentInfo,this,streamConnectionManager);
+        activeThreadCountWorker.start();
+        activeThreadCountWorkerRepository.put(agentId,activeThreadCountWorker);
+      }
+    }
+    boolean added=webSocketSessions.add(webSocketSession);
+    if (added && webSocketSessions.size() == 1) {
+      streamConnectionManager.startAgentCheckJob();
+    }
+  }
+}
