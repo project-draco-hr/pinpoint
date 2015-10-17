@@ -1,3 +1,5 @@
 {
-  streamConnectionManager=new StreamConnectionManager(this,agentService,timer);
+synchronized (workerManagingLock) {
+    streamConnectionManager=new StreamConnectionManager(this,agentService,timer);
+  }
 }

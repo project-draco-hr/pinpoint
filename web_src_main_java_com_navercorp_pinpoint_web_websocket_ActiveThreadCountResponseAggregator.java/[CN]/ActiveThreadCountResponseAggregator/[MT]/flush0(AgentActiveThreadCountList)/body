@@ -1,9 +1,9 @@
 {
-  String response=makeResponseMessage(applicationName,activeThreadCountList);
+  TextMessage responseMessage=messageConverter.createResponseMessage(activeThreadCountList,System.currentTimeMillis());
   for (  WebSocketSession webSocketSession : webSocketSessions) {
     try {
-      logger.debug("flush webSocket:{}, response:{}",webSocketSession,response);
-      webSocketSession.sendMessage(new TextMessage(response));
+      logger.debug("flush webSocket:{}, response:{}",webSocketSession,responseMessage);
+      webSocketSession.sendMessage(responseMessage);
     }
  catch (    IOException e) {
       logger.warn(e.getMessage(),e);

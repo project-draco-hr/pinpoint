@@ -1,15 +1,18 @@
 {
-  logger.info("flush");
+  logger.info("flush started.");
+  if (isStopped) {
+    return;
+  }
   AgentActiveThreadCountList response=new AgentActiveThreadCountList();
 synchronized (aggregatorLock) {
-    for (    ActiveThreadCountWorker threadCountStreamListener : activeThreadCountWorkerRepository.values()) {
-      String agentId=threadCountStreamListener.getAgentInfo().getAgentId();
+    for (    ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
+      String agentId=activeThreadCountWorker.getAgentInfo().getAgentId();
       AgentActiveThreadCount agentActiveThreadCount=activeThreadCountMap.get(agentId);
       if (agentActiveThreadCount != null) {
         response.add(agentActiveThreadCount);
       }
  else {
-        response.add(threadCountStreamListener.getDefaultFailedResponse());
+        response.add(activeThreadCountWorker.getDefaultFailedResponse());
       }
     }
     activeThreadCountMap=new HashMap<String,AgentActiveThreadCount>(activeThreadCountWorkerRepository.size());

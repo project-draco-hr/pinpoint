@@ -1,5 +1,5 @@
 {
-  logger.info("startAgentCheckJob.");
+  logger.info("startAgentCheckJob. applicationName:{}",responseAggregator.getApplicationName());
   boolean turnOn=onAgentCheckTimerTask.compareAndSet(false,true);
   if (turnOn) {
     timer.newTimeout(new AgentCheckTimerTask(),DEFAULT_AGENT_CHECk_DELAY,TimeUnit.MILLISECONDS);

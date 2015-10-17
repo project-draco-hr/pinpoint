@@ -1,0 +1,15 @@
+{
+  String applicationName=(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY);
+  if (StringUtils.isEmpty(applicationName)) {
+    return;
+  }
+  PinpointWebSocketResponseAggregator responseAggregator=aggregatorRepository.get(applicationName);
+  if (responseAggregator == null) {
+    return;
+  }
+  boolean cleared=responseAggregator.removeWebSocketSessionAndGetIsCleared(webSocketSession);
+  if (cleared) {
+    aggregatorRepository.remove(applicationName);
+    responseAggregator.stop();
+  }
+}
