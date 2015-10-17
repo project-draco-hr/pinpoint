@@ -4,15 +4,11 @@
   if (request != null && request.startsWith(APPLICATION_NAME_KEY + "=")) {
     String applicationName=request.substring(APPLICATION_NAME_KEY.length() + 1);
 synchronized (lock) {
-      String oldApplicationName=(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY);
-      if (applicationName != null && applicationName.equals(oldApplicationName)) {
+      if (StringUtils.isEquals(applicationName,(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY))) {
         return;
       }
-      closeAggregator(webSocketSession);
-      if (!StringUtils.isEmpty(applicationName)) {
-        webSocketSession.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
-        openAggregator(webSocketSession);
-      }
+      unbindingResponseAggregator(webSocketSession);
+      bindingResponseAggregator(webSocketSession,applicationName);
     }
   }
   super.handleTextMessage(webSocketSession,message);

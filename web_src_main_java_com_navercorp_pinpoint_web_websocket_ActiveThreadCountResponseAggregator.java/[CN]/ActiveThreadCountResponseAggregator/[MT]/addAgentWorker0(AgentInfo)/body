@@ -1,0 +1,10 @@
+{
+synchronized (workerManagingLock) {
+    String agentId=agentInfo.getAgentId();
+    if (!activeThreadCountWorkerRepository.containsKey(agentId)) {
+      ActiveThreadCountWorker activeThreadCountWorker=new ActiveThreadCountWorker(agentService,agentInfo,this,streamConnectionManager);
+      activeThreadCountWorker.active();
+      activeThreadCountWorkerRepository.put(agentId,activeThreadCountWorker);
+    }
+  }
+}
