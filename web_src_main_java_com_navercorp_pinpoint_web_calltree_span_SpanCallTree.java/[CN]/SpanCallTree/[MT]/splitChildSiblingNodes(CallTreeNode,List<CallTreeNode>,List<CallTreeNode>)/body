@@ -1,0 +1,18 @@
+{
+  CallTreeNode node=parent.getChild();
+  if (node.getValue().isSpan()) {
+    spans.add(node);
+  }
+ else {
+    events.add(node);
+  }
+  while (node.hasSibling()) {
+    node=node.getSibling();
+    if (node.getValue().isSpan()) {
+      spans.add(node);
+    }
+ else {
+      events.add(node);
+    }
+  }
+}

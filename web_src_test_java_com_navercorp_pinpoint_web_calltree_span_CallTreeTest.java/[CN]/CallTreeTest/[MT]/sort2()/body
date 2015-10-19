@@ -5,17 +5,17 @@
   expectResult.add("####");
   expectResult.add("###");
   expectResult.add("###");
-  expectResult.add("##");
   SpanAlign root=makeSpanAlign(0,10);
   SpanCallTree callTree=new SpanCallTree(root);
   callTree.add(1,makeSpanAlign(root.getSpanBo(),SYNC,(short)0,-1,-1,1,1));
-  SpanAlign remoteRoot=makeSpanAlign(4,5);
-  SpanCallTree subTree=new SpanCallTree(remoteRoot);
-  subTree.add(1,makeSpanAlign(remoteRoot.getSpanBo(),SYNC,(short)0,-1,-1,1,1));
-  callTree.add(subTree);
+  SpanAlign remoteRoot1=makeSpanAlign(4,5);
+  SpanCallTree subTree1=new SpanCallTree(remoteRoot1);
+  subTree1.add(1,makeSpanAlign(remoteRoot1.getSpanBo(),SYNC,(short)0,-1,-1,1,1));
+  callTree.add(subTree1);
+  SpanAlign remoteRoot2=makeSpanAlign(3,4);
+  SpanCallTree subTree2=new SpanCallTree(remoteRoot2);
+  callTree.add(subTree2);
   callTree.add(2,makeSpanAlign(root.getSpanBo(),SYNC,(short)1,-1,-1,2,1));
-  callTree.add(-1,makeSpanAlign(root.getSpanBo(),SYNC,(short)2,-1,-1,3,1));
-  callTree.add(1,makeSpanAlign(root.getSpanBo(),SYNC,(short)3,-1,-1,4,1));
   assertDepth("before sort",callTree,expectResult);
   callTree.sort();
   expectResult.clear();
@@ -25,6 +25,5 @@
   expectResult.add("###");
   expectResult.add("###");
   expectResult.add("####");
-  expectResult.add("##");
   assertDepth("after sort",callTree,expectResult);
 }
