@@ -1,0 +1,13 @@
+{
+  if (StringUtils.isEmpty(applicationName)) {
+    return;
+  }
+  webSocketSession.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
+  PinpointWebSocketResponseAggregator responseAggregator=aggregatorRepository.get(applicationName);
+  if (responseAggregator == null) {
+    responseAggregator=new ActiveThreadCountResponseAggregator(applicationName,agentSerivce,timer);
+    responseAggregator.start();
+    aggregatorRepository.put(applicationName,responseAggregator);
+  }
+  responseAggregator.addWebSocketSession(webSocketSession);
+}

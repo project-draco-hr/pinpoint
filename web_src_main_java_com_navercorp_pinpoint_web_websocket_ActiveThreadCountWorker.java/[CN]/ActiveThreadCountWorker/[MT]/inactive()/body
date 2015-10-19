@@ -7,10 +7,7 @@ synchronized (lock) {
     logger.info("ActiveThreadCountWorker stop. agentId:{}, streamChannel:{}",agentInfo.getAgentId(),streamChannel);
     try {
       streamConnectionManager.removeReconnectJob(agentInfo);
-      if (streamChannel != null) {
-        streamChannel.close();
-      }
-      defaultFailedResponse.setFail(StreamCode.STATE_CLOSED.name());
+      closeStreamChannel();
     }
  catch (    Exception e) {
     }

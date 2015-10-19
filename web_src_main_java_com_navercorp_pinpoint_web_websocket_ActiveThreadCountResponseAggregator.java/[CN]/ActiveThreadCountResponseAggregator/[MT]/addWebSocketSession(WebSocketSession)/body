@@ -9,12 +9,7 @@ synchronized (workerManagingLock) {
       return;
     }
     for (    AgentInfo agentInfo : agentInfoList) {
-      String agentId=agentInfo.getAgentId();
-      if (!activeThreadCountWorkerRepository.contains(agentId)) {
-        ActiveThreadCountWorker activeThreadCountWorker=new ActiveThreadCountWorker(agentService,agentInfo,this,streamConnectionManager);
-        activeThreadCountWorker.start();
-        activeThreadCountWorkerRepository.put(agentId,activeThreadCountWorker);
-      }
+      addAgentWorker0(agentInfo);
     }
     boolean added=webSocketSessions.add(webSocketSession);
     if (added && webSocketSessions.size() == 1) {

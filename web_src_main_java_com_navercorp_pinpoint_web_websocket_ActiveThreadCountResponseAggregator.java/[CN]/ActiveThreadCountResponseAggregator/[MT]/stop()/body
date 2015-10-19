@@ -6,7 +6,7 @@ synchronized (workerManagingLock) {
     }
     for (    ActiveThreadCountWorker worker : activeThreadCountWorkerRepository.values()) {
       if (worker != null) {
-        worker.stop();
+        worker.inactive();
       }
     }
     activeThreadCountWorkerRepository.clear();

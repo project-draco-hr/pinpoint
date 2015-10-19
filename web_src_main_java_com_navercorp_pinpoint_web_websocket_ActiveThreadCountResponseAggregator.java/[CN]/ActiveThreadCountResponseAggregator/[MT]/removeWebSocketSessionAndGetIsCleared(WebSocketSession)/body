@@ -11,7 +11,7 @@ synchronized (workerManagingLock) {
     if (removed) {
       if (webSocketSessions.size() == 0) {
         for (        ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
-          activeThreadCountWorker.stop();
+          activeThreadCountWorker.inactive();
         }
         activeThreadCountWorkerRepository.clear();
         return true;
