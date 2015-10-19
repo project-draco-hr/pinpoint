@@ -2,16 +2,26 @@
   if (!parent.hasChild() || !parent.getChild().hasSibling()) {
     return;
   }
-  final List<CallTreeNode> nodes=getChildSiblingNodes(parent);
-  if (nodes == null) {
+  final List<CallTreeNode> events=new ArrayList<CallTreeNode>();
+  final LinkedList<CallTreeNode> spans=new LinkedList<CallTreeNode>();
+  splitChildSiblingNodes(parent,events,spans);
+  if (spans.size() == 0) {
     return;
   }
-  Collections.sort(nodes,new Comparator<CallTreeNode>(){
+  Collections.sort(spans,new Comparator<CallTreeNode>(){
     @Override public int compare(    CallTreeNode source,    CallTreeNode target){
       return (int)(source.getValue().getStartTime() - target.getValue().getStartTime());
     }
   }
 );
+  final List<CallTreeNode> nodes=new ArrayList<CallTreeNode>();
+  for (  CallTreeNode event : events) {
+    while (spans.peek() != null && event.getValue().getStartTime() > spans.peek().getValue().getStartTime()) {
+      nodes.add(spans.poll());
+    }
+    nodes.add(event);
+  }
+  nodes.addAll(spans);
   CallTreeNode prev=null;
   for (  CallTreeNode node : nodes) {
     final CallTreeNode reset=null;
