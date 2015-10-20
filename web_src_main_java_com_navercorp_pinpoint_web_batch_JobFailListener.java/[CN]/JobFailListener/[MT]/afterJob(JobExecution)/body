@@ -1,5 +1,6 @@
 {
   if (!jobExecution.getExitStatus().equals(ExitStatus.COMPLETED)) {
-    sendSMS(jobExecution.getJobInstance().getJobName(),jobExecution.getStartTime(),jobExecution.getEndTime());
+    jobFailMessageSender.sendSMS(jobExecution);
+    jobFailMessageSender.sendEmail(jobExecution);
   }
 }
