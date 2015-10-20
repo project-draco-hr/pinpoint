@@ -1,0 +1,17 @@
+{
+  if (!applicationName.equals(agentInfo.getApplicationName())) {
+    return;
+  }
+  if (!agentId.equals(agentInfo.getAgentId())) {
+    return;
+  }
+synchronized (lock) {
+    if (!started) {
+      started=true;
+      logger.info("ActiveThreadCountWorker start. applicationName:{}, agentId:{}",applicationName,agentId);
+      this.active=active0(agentInfo);
+    }
+ else {
+    }
+  }
+}

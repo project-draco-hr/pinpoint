@@ -1,0 +1,14 @@
+{
+synchronized (workerManagingLock) {
+    String agentId=agentInfo.getAgentId();
+    ActiveThreadCountWorker worker=activeThreadCountWorkerRepository.get(agentId);
+    if (worker == null) {
+      worker=new ActiveThreadCountWorker(agentService,agentInfo,this,workerActiveManager);
+      worker.start(agentInfo);
+      activeThreadCountWorkerRepository.put(agentId,worker);
+    }
+ else {
+      worker.reactive(agentInfo);
+    }
+  }
+}
