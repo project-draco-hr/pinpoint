@@ -1,0 +1,26 @@
+{
+synchronized (lock) {
+    boolean active=false;
+    try {
+      ClientStreamChannelContext clientStreamChannelContext=agentService.openStream(agentInfo,COMMAND_INSTANCE,messageListener,stateChangeListener);
+      if (clientStreamChannelContext == null) {
+        defaultFailedResponse.setFail(StreamCode.CONNECTION_NOT_FOUND.name());
+        workerActiveManager.addReactiveWorker(agentInfo);
+      }
+ else {
+        if (clientStreamChannelContext.getCreateFailPacket() == null) {
+          streamChannel=clientStreamChannelContext.getStreamChannel();
+          active=true;
+        }
+ else {
+          StreamCreateFailPacket createFailPacket=clientStreamChannelContext.getCreateFailPacket();
+          defaultFailedResponse.setFail(createFailPacket.getCode().name());
+        }
+      }
+    }
+ catch (    TException exception) {
+      defaultFailedResponse.setFail(TRouteResult.NOT_SUPPORTED_REQUEST.name());
+    }
+    return active;
+  }
+}

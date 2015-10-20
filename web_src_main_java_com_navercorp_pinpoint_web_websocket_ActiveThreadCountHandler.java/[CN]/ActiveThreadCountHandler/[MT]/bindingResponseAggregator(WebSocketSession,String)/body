@@ -1,8 +1,9 @@
 {
+  logger.info("bindingResponseAggregator. session : {}, applicationName: {}.",webSocketSession,applicationName);
+  webSocketSession.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
   if (StringUtils.isEmpty(applicationName)) {
     return;
   }
-  webSocketSession.getAttributes().put(APPLICATION_NAME_KEY,applicationName);
   PinpointWebSocketResponseAggregator responseAggregator=aggregatorRepository.get(applicationName);
   if (responseAggregator == null) {
     responseAggregator=new ActiveThreadCountResponseAggregator(applicationName,agentSerivce,timer);

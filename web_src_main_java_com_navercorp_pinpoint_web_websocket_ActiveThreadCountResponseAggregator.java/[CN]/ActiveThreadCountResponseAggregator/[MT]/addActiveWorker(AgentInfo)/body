@@ -1,0 +1,12 @@
+{
+  logger.info("activeWorker applicationName:{}, agentId:{}",applicationName,agentInfo.getAgentId());
+  if (!applicationName.equals(agentInfo.getApplicationName())) {
+    return;
+  }
+synchronized (workerManagingLock) {
+    if (isStopped) {
+      return;
+    }
+    activeWorker(agentInfo);
+  }
+}
