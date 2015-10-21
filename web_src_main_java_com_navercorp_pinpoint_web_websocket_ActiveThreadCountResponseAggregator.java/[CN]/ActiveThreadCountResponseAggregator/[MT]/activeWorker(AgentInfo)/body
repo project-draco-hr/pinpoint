@@ -1,6 +1,6 @@
 {
+  String agentId=agentInfo.getAgentId();
 synchronized (workerManagingLock) {
-    String agentId=agentInfo.getAgentId();
     ActiveThreadCountWorker worker=activeThreadCountWorkerRepository.get(agentId);
     if (worker == null) {
       worker=new ActiveThreadCountWorker(agentService,agentInfo,this,workerActiveManager);
