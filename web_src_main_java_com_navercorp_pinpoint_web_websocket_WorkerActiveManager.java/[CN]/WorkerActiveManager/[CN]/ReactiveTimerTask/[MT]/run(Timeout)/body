@@ -1,0 +1,15 @@
+{
+  logger.info("ReactiveTimerTask started.");
+  Set<String> reactiveWorkerCandidates=new HashSet<String>(reactiveWorkerRepository.size());
+synchronized (lock) {
+    reactiveWorkerCandidates.addAll(reactiveWorkerRepository);
+    reactiveWorkerRepository.clear();
+    boolean turnOff=onReconnectTimerTask.compareAndSet(true,false);
+  }
+  for (  String agentId : reactiveWorkerCandidates) {
+    AgentInfo newAgentInfo=agentService.getAgentInfo(applicationName,agentId);
+    if (newAgentInfo != null) {
+      responseAggregator.addActiveWorker(newAgentInfo);
+    }
+  }
+}

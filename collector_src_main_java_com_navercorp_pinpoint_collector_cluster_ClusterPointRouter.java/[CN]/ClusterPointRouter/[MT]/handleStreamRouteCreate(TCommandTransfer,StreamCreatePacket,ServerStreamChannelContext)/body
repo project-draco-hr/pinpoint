@@ -8,7 +8,7 @@
   TRouteResult routeResult=response.getRouteResult();
   if (routeResult != TRouteResult.OK) {
     logger.warn("handleStreamRouteCreate failed. command:{}, routeResult:{}",command,routeResult);
-    return StreamCode.ROUTE_ERROR;
+    return convertToStreamCode(routeResult);
   }
   return StreamCode.OK;
 }

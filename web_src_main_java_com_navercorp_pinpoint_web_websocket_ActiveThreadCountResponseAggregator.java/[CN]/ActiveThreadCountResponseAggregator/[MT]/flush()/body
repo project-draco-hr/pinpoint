@@ -6,7 +6,7 @@
   AgentActiveThreadCountList response=new AgentActiveThreadCountList();
 synchronized (aggregatorLock) {
     for (    ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
-      String agentId=activeThreadCountWorker.getAgentInfo().getAgentId();
+      String agentId=activeThreadCountWorker.getAgentId();
       AgentActiveThreadCount agentActiveThreadCount=activeThreadCountMap.get(agentId);
       if (agentActiveThreadCount != null) {
         response.add(agentActiveThreadCount);

@@ -1,0 +1,9 @@
+{
+synchronized (lock) {
+    isStopped.compareAndSet(false,true);
+    onReconnectTimerTask.set(false);
+    reactiveWorkerRepository.clear();
+    onAgentCheckTimerTask.set(false);
+    defaultAgentIdList.clear();
+  }
+}

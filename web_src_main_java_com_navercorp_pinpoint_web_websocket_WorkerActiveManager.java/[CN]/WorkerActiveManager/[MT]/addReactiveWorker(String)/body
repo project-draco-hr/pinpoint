@@ -1,0 +1,14 @@
+{
+  logger.info("addReactiveWorker. applicationName:{}, agent:{}",applicationName,agentId);
+synchronized (lock) {
+    if (isStopped.get()) {
+      return;
+    }
+    reactiveWorkerRepository.add(agentId);
+    boolean turnOn=onReconnectTimerTask.compareAndSet(false,true);
+    logger.info("addReactiveWorker turnon:{}",turnOn);
+    if (turnOn) {
+      timer.newTimeout(new ReactiveTimerTask(),DEFAULT_RECONNECT_DELAY,TimeUnit.MILLISECONDS);
+    }
+  }
+}

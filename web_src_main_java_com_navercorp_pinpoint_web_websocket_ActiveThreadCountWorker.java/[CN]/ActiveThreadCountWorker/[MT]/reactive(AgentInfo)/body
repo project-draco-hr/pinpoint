@@ -1,0 +1,13 @@
+{
+synchronized (lock) {
+    if (isTurnOn()) {
+      if (active) {
+        return true;
+      }
+      logger.info("ActiveThreadCountWorker reactive. applicationName:{}, agentId:{}",applicationName,agentId);
+      active=active0(agentInfo);
+      return active;
+    }
+  }
+  return false;
+}

@@ -1,12 +1,12 @@
 {
 synchronized (workerManagingLock) {
     isStopped=true;
-    if (streamConnectionManager != null) {
-      this.streamConnectionManager.close();
+    if (workerActiveManager != null) {
+      this.workerActiveManager.close();
     }
     for (    ActiveThreadCountWorker worker : activeThreadCountWorkerRepository.values()) {
       if (worker != null) {
-        worker.inactive();
+        worker.stop();
       }
     }
     activeThreadCountWorkerRepository.clear();
