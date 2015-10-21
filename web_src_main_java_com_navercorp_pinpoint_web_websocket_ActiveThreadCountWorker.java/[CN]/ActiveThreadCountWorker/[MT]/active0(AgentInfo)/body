@@ -10,6 +10,7 @@ synchronized (lock) {
  else {
         if (clientStreamChannelContext.getCreateFailPacket() == null) {
           streamChannel=clientStreamChannelContext.getStreamChannel();
+          defaultFailedResponse.setFail(TRouteResult.TIMEOUT.name());
           active=true;
         }
  else {
