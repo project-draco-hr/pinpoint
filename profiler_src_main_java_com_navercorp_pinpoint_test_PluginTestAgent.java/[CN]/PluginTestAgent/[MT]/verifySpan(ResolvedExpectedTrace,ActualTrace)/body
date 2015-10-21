@@ -44,7 +44,7 @@
       if (expectedValue == Expectations.anyAnnotationValue()) {
         continue;
       }
-      if (AnnotationKey.isCachedArgsKey(expectedAnnotationKey.getCode())) {
+      if (AnnotationKeyUtils.isCachedArgsKey(expectedAnnotationKey.getCode())) {
         expectedValue=getTestTcpDataSender().getStringId(expectedValue.toString());
       }
       if (!Objects.equal(expectedValue,actualAnnotation.getValue().getFieldValue())) {
