@@ -1,6 +1,6 @@
 {
-  context.addClassFileTransformer("org.apache.http.concurrent.BasicFuture",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  context.addClassFileTransformer("org.apache.http.concurrent.BasicFuture",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(AsyncTraceIdAccessor.class.getName());
       InstrumentMethod get=target.getDeclaredMethod("get");

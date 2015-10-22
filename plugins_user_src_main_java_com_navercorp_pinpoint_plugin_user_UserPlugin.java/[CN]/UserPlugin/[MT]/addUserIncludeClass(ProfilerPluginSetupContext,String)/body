@@ -1,8 +1,8 @@
 {
   final String className=toClassName(fullQualifiedMethodName);
   final String methodName=toMethodName(fullQualifiedMethodName);
-  context.addClassFileTransformer(className,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  context.addClassFileTransformer(className,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name(methodName))) {
         try {
