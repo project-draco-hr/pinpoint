@@ -1,6 +1,6 @@
 {
-  setupContext.addClassFileTransformer("net.sourceforge.jtds.jdbc.Driver",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  setupContext.addClassFileTransformer("net.sourceforge.jtds.jdbc.Driver",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.DriverConnectInterceptor",va(new JtdsJdbcUrlParser()),JtdsConstants.GROUP_JTDS,ExecutionPolicy.ALWAYS);
       return target.toBytecode();

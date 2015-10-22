@@ -1,6 +1,6 @@
 {
-  setupContext.addClassFileTransformer("com.mysql.jdbc.JDBC4PreparedStatement",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  setupContext.addClassFileTransformer("com.mysql.jdbc.JDBC4PreparedStatement",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       final PreparedStatementBindingMethodFilter includes=PreparedStatementBindingMethodFilter.includes("setRowId","setNClob","setSQLXML");
       target.addGroupedInterceptor(includes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",MySqlConstants.GROUP_NAME,ExecutionPolicy.BOUNDARY);

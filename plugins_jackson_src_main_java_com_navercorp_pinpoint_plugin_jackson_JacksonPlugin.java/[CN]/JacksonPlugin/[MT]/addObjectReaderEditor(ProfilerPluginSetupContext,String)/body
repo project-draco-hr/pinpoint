@@ -1,6 +1,6 @@
 {
-  context.addClassFileTransformer(clazzName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  context.addClassFileTransformer(clazzName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("readValue","readValues"))) {
         addInterceptor(method,READ_VALUE_INTERCEPTOR);
