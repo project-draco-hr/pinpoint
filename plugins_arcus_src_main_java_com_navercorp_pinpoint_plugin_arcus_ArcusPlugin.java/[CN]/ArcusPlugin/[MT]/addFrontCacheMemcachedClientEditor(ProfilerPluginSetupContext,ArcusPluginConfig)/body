@@ -1,6 +1,6 @@
 {
-  context.addClassFileTransformer("net.spy.memcached.plugin.FrontCacheMemcachedClient",new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  context.addClassFileTransformer("net.spy.memcached.plugin.FrontCacheMemcachedClient",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       boolean traceKey=config.isMemcachedKeyTrace();
       for (      InstrumentMethod m : target.getDeclaredMethods(new FrontCacheMemcachedMethodFilter())) {

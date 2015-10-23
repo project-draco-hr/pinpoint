@@ -2,8 +2,8 @@
   final boolean traceServiceArgs=config.traceThriftServiceArgs();
   final boolean traceServiceResult=config.traceThriftServiceResult();
   final String targetClassName="org.apache.thrift.TServiceClient";
-  context.addClassFileTransformer(targetClassName,new PinpointClassFileTransformer(){
-    @Override public byte[] transform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+  context.addClassFileTransformer(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       final InstrumentMethod sendBase=target.getDeclaredMethod("sendBase","java.lang.String","org.apache.thrift.TBase");
       if (sendBase != null) {

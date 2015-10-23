@@ -9,10 +9,7 @@
         continue;
       }
       logger.info("Loading plugin: {}",plugin.getClass().getName());
-      ClassInjector classInjector=JarProfilerPluginClassInjector.of(agent.getInstrumentation(),agent.getClassPool(),jar);
-      DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(agent,classInjector);
-      plugin.setup(context);
-      context.markInitialized();
+      final DefaultProfilerPluginContext context=setupPlugin(jar,plugin);
       pluginContexts.add(context);
     }
   }

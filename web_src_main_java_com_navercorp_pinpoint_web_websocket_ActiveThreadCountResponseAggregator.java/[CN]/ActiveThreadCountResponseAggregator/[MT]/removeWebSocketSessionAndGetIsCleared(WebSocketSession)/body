@@ -8,14 +8,12 @@ synchronized (workerManagingLock) {
       return true;
     }
     boolean removed=webSocketSessions.remove(webSocketSession);
-    if (removed) {
-      if (webSocketSessions.size() == 0) {
-        for (        ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
-          activeThreadCountWorker.stop();
-        }
-        activeThreadCountWorkerRepository.clear();
-        return true;
+    if (removed && webSocketSessions.size() == 0) {
+      for (      ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
+        activeThreadCountWorker.stop();
       }
+      activeThreadCountWorkerRepository.clear();
+      return true;
     }
   }
   return false;

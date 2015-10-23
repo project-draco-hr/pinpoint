@@ -2,10 +2,8 @@
   List<PinpointSocket> pinpointServerList=new ArrayList<PinpointSocket>();
   for (  Channel channel : channelGroup) {
     DefaultPinpointServer pinpointServer=(DefaultPinpointServer)channel.getAttachment();
-    if (pinpointServer != null) {
-      if (pinpointServer.isEnableDuplexCommunication()) {
-        pinpointServerList.add(pinpointServer);
-      }
+    if (pinpointServer != null && pinpointServer.isEnableDuplexCommunication()) {
+      pinpointServerList.add(pinpointServer);
     }
   }
   return pinpointServerList;
