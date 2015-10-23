@@ -1,0 +1,17 @@
+{
+  List<CallStack> list=new ArrayList<CallStack>();
+  boolean first=true;
+  long barRatio=0;
+  for (  Record record : recordSet.getRecordList()) {
+    if (first) {
+      long begin=record.getBegin();
+      long end=record.getBegin() + record.getElapsed();
+      if (end - begin > 0) {
+        barRatio=100 / (end - begin);
+      }
+      first=false;
+    }
+    list.add(new CallStack(record,barRatio));
+  }
+  return list;
+}

@@ -1,0 +1,46 @@
+{
+  begin=record.getBegin();
+  end=record.getBegin() + record.getElapsed();
+  excludeFromTimeline=record.isExcludeFromTimeline();
+  applicationName=record.getApplicationName();
+  tab=record.getTab();
+  id=String.valueOf(record.getId());
+  if (record.getParentId() > 0) {
+    parentId=String.valueOf(record.getParentId());
+  }
+  isMethod=record.isMethod();
+  hasChild=record.getHasChild();
+  title=JSONObject.escape(record.getTitle());
+  arguments=JSONObject.escape(StringEscapeUtils.escapeHtml4(record.getArguments()));
+  if (record.isMethod()) {
+    executeTime=DateUtils.longToDateStr(record.getBegin(),"HH:mm:ss SSS");
+    gap=String.valueOf(record.getGap());
+    elapsedTime=String.valueOf(record.getElapsed());
+    barWidth=String.format("%1d",(int)(((end - begin) * barRatio) + 0.9));
+    executionMilliseconds=String.valueOf(record.getExecutionMilliseconds());
+  }
+  simpleClassName=record.getSimpleClassName();
+  methodType=String.valueOf(record.getMethodType());
+  apiType=record.getApiType();
+  agent=record.getAgent();
+  isFocused=record.isFocused();
+  hasException=record.getHasException();
+  logButtonName=record.getLogButtonName();
+  if (record.getLogPageUrl() != null && record.getLogPageUrl().length() > 0) {
+    try {
+      URL url=new URL(record.getLogPageUrl());
+      StringBuilder sb=new StringBuilder();
+      sb.append("transactionId=").append(record.getTransactionId());
+      sb.append("&spanId=").append(record.getSpanId());
+      sb.append("&time=").append(record.getBegin());
+      if (url.getQuery() != null) {
+        logPageUrl=record.getLogPageUrl() + "&" + sb.toString();
+      }
+ else {
+        logPageUrl=record.getLogPageUrl() + "?" + sb.toString();
+      }
+    }
+ catch (    MalformedURLException ignored) {
+    }
+  }
+}
