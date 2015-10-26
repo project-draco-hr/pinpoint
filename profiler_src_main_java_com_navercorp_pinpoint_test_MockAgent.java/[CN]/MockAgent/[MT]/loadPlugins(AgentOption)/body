@@ -4,11 +4,12 @@
   List<ProfilerPlugin> plugins=PluginLoader.load(ProfilerPlugin.class,ClassLoader.getSystemClassLoader());
   for (  ProfilerPlugin plugin : plugins) {
     final DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(this,classInjector);
+    final GuardProfilerPluginContext guard=new GuardProfilerPluginContext(context);
     try {
-      plugin.setup(context);
+      plugin.setup(guard);
     }
   finally {
-      context.markInitialized();
+      guard.close();
     }
     pluginContexts.add(context);
   }
