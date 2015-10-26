@@ -1,0 +1,31 @@
+{
+  final int newTransactionCount=50;
+  @SuppressWarnings("unused") final int expectedSampledNewCount=newTransactionCount / SAMPLING_RATE + (newTransactionCount % SAMPLING_RATE > 0 ? 1 : 0);
+  final int expectedUnsampledNewCount=newTransactionCount - expectedSampledNewCount;
+  final int expectedSampledContinuationCount=20;
+  final int expectedUnsampledContinuationCount=30;
+  final int expectedTotalTransactionCount=expectedSampledNewCount + expectedUnsampledNewCount + expectedSampledContinuationCount+ expectedUnsampledContinuationCount;
+  final CountDownLatch awaitLatch=new CountDownLatch(1);
+  final CountDownLatch executeLatch=new CountDownLatch(expectedTotalTransactionCount);
+  ListenableFuture<List<TraceThreadTuple>> futures=executeTransactions(awaitLatch,executeLatch,newTransactionCount,expectedSampledContinuationCount,expectedUnsampledContinuationCount);
+  executeLatch.await();
+  List<ActiveTraceInfo> activeTraceInfos=this.activeTraceRepository.collect();
+  awaitLatch.countDown();
+  List<TraceThreadTuple> executedTraces=futures.get();
+  Map<Long,TraceThreadTuple> executedTraceMap=new HashMap<Long,TraceThreadTuple>(executedTraces.size());
+  for (  TraceThreadTuple tuple : executedTraces) {
+    executedTraceMap.put(tuple.id,tuple);
+  }
+  assertEquals(expectedSampledNewCount,transactionCounter.getTransactionCount(SamplingType.SAMPLED_NEW));
+  assertEquals(expectedUnsampledNewCount,transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_NEW));
+  assertEquals(expectedSampledContinuationCount,transactionCounter.getTransactionCount(SamplingType.SAMPLED_CONTINUATION));
+  assertEquals(expectedUnsampledContinuationCount,transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_CONTINUATION));
+  assertEquals(expectedTotalTransactionCount,transactionCounter.getTotalTransactionCount());
+  assertEquals(executedTraceMap.size(),activeTraceInfos.size());
+  for (  ActiveTraceInfo activeTraceInfo : activeTraceInfos) {
+    TraceThreadTuple executedTrace=executedTraceMap.get(activeTraceInfo.getId());
+    assertEquals(executedTrace.id,activeTraceInfo.getId());
+    assertEquals(executedTrace.startTime,activeTraceInfo.getStartTime());
+    assertEquals(executedTrace.thread,activeTraceInfo.getThread());
+  }
+}

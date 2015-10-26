@@ -1,0 +1,18 @@
+{
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
+  if (continueTraceId == null) {
+    throw new NullPointerException("continueTraceId must not be null");
+  }
+  this.traceContext=traceContext;
+  this.traceId=continueTraceId;
+  this.id=transactionId;
+  this.sampling=sampling;
+  final Span span=createSpan();
+  this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);
+  this.spanRecorder.recordTraceId(traceId);
+  this.spanEventRecorder=new WrappedSpanEventRecorder(traceContext);
+  this.callStack=createCallStack(traceContext.getProfilerConfig(),span);
+  setCurrentThread();
+}

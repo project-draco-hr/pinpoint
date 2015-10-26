@@ -1,7 +1,7 @@
 {
   checkBeforeTraceObject();
   final boolean sampling=true;
-  final DefaultTrace trace=new DefaultTrace(traceContext,traceID,sampling);
+  final DefaultTrace trace=new DefaultTrace(traceContext,traceId,this.idGenerator.nextContinuedTransactionId(),sampling);
   final Storage storage=storageFactory.createStorage();
   trace.setStorage(storage);
   bind(trace);

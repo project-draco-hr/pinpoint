@@ -1,0 +1,15 @@
+{
+  return executorService.submit(new Callable<TraceThreadTuple>(){
+    @Override public TraceThreadTuple call() throws Exception {
+      try {
+        return new TraceThreadTuple(traceContext.continueTraceObject(new DefaultTraceId("agentId",0L,id)),Thread.currentThread());
+      }
+  finally {
+        executeLatch.countDown();
+        awaitLatch.await();
+        traceContext.removeTraceObject();
+      }
+    }
+  }
+);
+}
