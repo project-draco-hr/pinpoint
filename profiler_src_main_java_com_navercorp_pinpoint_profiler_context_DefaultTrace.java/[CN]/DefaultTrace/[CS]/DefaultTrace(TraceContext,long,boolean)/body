@@ -4,6 +4,7 @@
   }
   this.traceContext=traceContext;
   this.traceId=new DefaultTraceId(traceContext.getAgentId(),traceContext.getAgentStartTime(),transactionId);
+  this.id=this.traceId.getTransactionSequence();
   this.sampling=sampling;
   final Span span=createSpan();
   this.spanRecorder=new DefaultSpanRecorder(traceContext,span,traceId,sampling);

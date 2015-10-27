@@ -2,7 +2,7 @@
   checkBeforeTraceObject();
   final TraceId parentTraceId=traceId.getParentTraceId();
   final boolean sampling=true;
-  final DefaultTrace trace=new DefaultTrace(traceContext,parentTraceId,sampling);
+  final DefaultTrace trace=new DefaultTrace(traceContext,parentTraceId,IdGenerator.UNTRACKED_ID,sampling);
   final Storage storage=storageFactory.createStorage();
   trace.setStorage(new AsyncStorage(storage));
   final AsyncTrace asyncTrace=new AsyncTrace(trace,asyncId,traceId.nextAsyncSequence(),startTime);
