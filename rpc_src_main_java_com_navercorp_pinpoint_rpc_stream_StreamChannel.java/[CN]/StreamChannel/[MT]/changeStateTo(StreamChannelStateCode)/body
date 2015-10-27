@@ -5,12 +5,12 @@
     changeStateTo(StreamChannelStateCode.ILLEGAL_STATE);
   }
   if (isChanged) {
-    for (    StreamChannelStateChangeEventHandler h : stateChangeEventHandlers) {
+    for (    StreamChannelStateChangeEventHandler handler : stateChangeEventHandlers) {
       try {
-        h.eventPerformed(this,nextState);
+        handler.eventPerformed(this,nextState);
       }
  catch (      Exception e) {
-        h.exceptionCaught(this,nextState,e);
+        handler.exceptionCaught(this,nextState,e);
       }
     }
   }
