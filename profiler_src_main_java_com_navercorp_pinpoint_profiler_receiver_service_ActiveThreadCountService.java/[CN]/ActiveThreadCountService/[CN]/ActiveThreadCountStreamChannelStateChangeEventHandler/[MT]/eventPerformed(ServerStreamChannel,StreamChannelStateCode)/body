@@ -11,10 +11,8 @@ break;
 case CLOSED:
 case ILLEGAL_STATE:
 boolean removed=streamChannelRepository.remove(streamChannel);
-if (removed) {
-if (streamChannelRepository.size() == 0) {
+if (removed && streamChannelRepository.size() == 0) {
 boolean turnOff=onTimerTask.compareAndSet(true,false);
-}
 }
 break;
 }

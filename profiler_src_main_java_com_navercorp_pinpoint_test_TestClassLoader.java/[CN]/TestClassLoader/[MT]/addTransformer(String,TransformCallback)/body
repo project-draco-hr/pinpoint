@@ -1,17 +1,5 @@
 {
-  MatchableClassFileTransformer wrapper=new MatchableClassFileTransformer(){
-    @Override public Matcher getMatcher(){
-      return Matchers.newClassNameMatcher(targetClassName);
-    }
-    @Override public byte[] transform(    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws IllegalClassFormatException {
-      try {
-        return transformer.doInTransform(context,loader,targetClassName,classBeingRedefined,protectionDomain,classfileBuffer);
-      }
- catch (      InstrumentException e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-;
-  this.instrumentTranslator.addTransformer(wrapper);
+  final Matcher matcher=Matchers.newClassNameMatcher(targetClassName);
+  final MatchableClassFileTransformerGuardDelegate guard=new MatchableClassFileTransformerGuardDelegate(context,matcher,transformer);
+  this.instrumentTranslator.addTransformer(guard);
 }

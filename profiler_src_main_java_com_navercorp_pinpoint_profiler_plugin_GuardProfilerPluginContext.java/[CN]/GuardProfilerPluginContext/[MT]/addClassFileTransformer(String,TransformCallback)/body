@@ -1,0 +1,10 @@
+{
+  if (targetClassName == null) {
+    throw new NullPointerException("targetClassName must not be null");
+  }
+  if (transformCallback == null) {
+    throw new NullPointerException("transformCallback must not be null");
+  }
+  checkOpen();
+  this.delegate.addClassFileTransformer(targetClassName,transformCallback);
+}

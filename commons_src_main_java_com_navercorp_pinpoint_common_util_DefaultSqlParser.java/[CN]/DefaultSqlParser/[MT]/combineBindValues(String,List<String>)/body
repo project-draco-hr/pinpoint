@@ -2,7 +2,10 @@
   if (sql == null || sql.length() == 0 || bindValues == null || bindValues.size() == 0) {
     return sql;
   }
-  final Queue<String> bindValueQueue=new LinkedList<String>(bindValues);
+  final Queue<String> bindValueQueue=new LinkedList<String>();
+  for (  String value : bindValues) {
+    bindValueQueue.add(value.trim());
+  }
   final int length=sql.length();
   final StringBuilder result=new StringBuilder(length + 16);
   boolean inQuotes=false;
