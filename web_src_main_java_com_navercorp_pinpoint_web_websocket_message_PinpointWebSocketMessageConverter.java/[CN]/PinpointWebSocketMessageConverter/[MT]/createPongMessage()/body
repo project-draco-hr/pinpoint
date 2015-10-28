@@ -1,0 +1,12 @@
+{
+  Map<String,Object> ping=new HashMap<String,Object>(1);
+  ping.put(TYPE,PinpointWebSocketMessageType.PONG.name());
+  String pongTextMessage;
+  try {
+    pongTextMessage=JSON_SERIALIZER.writeValueAsString(ping);
+  }
+ catch (  JsonProcessingException e) {
+    pongTextMessage=createRawPongMessage();
+  }
+  return pongTextMessage;
+}

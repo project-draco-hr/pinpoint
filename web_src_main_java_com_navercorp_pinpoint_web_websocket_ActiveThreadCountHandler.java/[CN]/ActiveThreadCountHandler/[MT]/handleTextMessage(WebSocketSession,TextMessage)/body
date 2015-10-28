@@ -1,15 +1,11 @@
 {
   logger.info("handleTextMessage. session:{}, remote:{}, message:{}.",webSocketSession,webSocketSession.getRemoteAddress(),message.getPayload());
-  String request=message.getPayload();
-  if (request != null && request.startsWith(APPLICATION_NAME_KEY + "=")) {
-    String applicationName=request.substring(APPLICATION_NAME_KEY.length() + 1);
-synchronized (lock) {
-      if (StringUtils.isEquals(applicationName,(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY))) {
-        return;
-      }
-      unbindingResponseAggregator(webSocketSession);
-      bindingResponseAggregator(webSocketSession,applicationName);
-    }
-  }
-  super.handleTextMessage(webSocketSession,message);
+  PinpointWebSocketMessage webSocketMessage=messageConverter.getWebSocketMessage(message.getPayload());
+switch (webSocketMessage.getType()) {
+case REQUEST:
+    handleRequestMessage0(webSocketSession,(RequestMessage)webSocketMessage);
+case PONG:
+  handlePongMessage0(webSocketSession,(PongMessage)webSocketMessage);
+}
+super.handleTextMessage(webSocketSession,message);
 }

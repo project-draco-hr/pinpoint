@@ -1,0 +1,6 @@
+{
+  Object healthCheckWait=webSocketSession.getAttributes().get(HEALTH_CHECK_WAIT_KEY);
+  if (healthCheckWait != null && healthCheckWait instanceof AtomicBoolean) {
+    ((AtomicBoolean)healthCheckWait).compareAndSet(true,false);
+  }
+}
