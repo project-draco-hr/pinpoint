@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(7);
+  BitSet incoming=iprot.readBitSet(8);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -14,21 +14,25 @@
     struct.setTimestampIsSet(true);
   }
   if (incoming.get(3)) {
+    struct.collectInterval=iprot.readI64();
+    struct.setCollectIntervalIsSet(true);
+  }
+  if (incoming.get(4)) {
     struct.gc=new TJvmGc();
     struct.gc.read(iprot);
     struct.setGcIsSet(true);
   }
-  if (incoming.get(4)) {
+  if (incoming.get(5)) {
     struct.cpuLoad=new TCpuLoad();
     struct.cpuLoad.read(iprot);
     struct.setCpuLoadIsSet(true);
   }
-  if (incoming.get(5)) {
+  if (incoming.get(6)) {
     struct.transaction=new TTransaction();
     struct.transaction.read(iprot);
     struct.setTransactionIsSet(true);
   }
-  if (incoming.get(6)) {
+  if (incoming.get(7)) {
     struct.metadata=iprot.readString();
     struct.setMetadataIsSet(true);
   }

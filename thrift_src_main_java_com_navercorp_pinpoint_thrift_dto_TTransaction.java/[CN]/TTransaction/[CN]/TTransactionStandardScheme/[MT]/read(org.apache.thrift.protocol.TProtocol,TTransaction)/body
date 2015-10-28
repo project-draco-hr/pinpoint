@@ -8,16 +8,52 @@
     }
 switch (schemeField.id) {
 case 1:
-      if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-        struct.tps=iprot.readI32();
-        struct.setTpsIsSet(true);
+      if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+        struct.version=iprot.readI16();
+        struct.setVersionIsSet(true);
       }
  else {
         org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
       }
     break;
+case 2:
+  if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+    struct.sampledNewCount=iprot.readI64();
+    struct.setSampledNewCountIsSet(true);
+  }
+ else {
+    org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+  }
+break;
+case 3:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.sampledContinuationCount=iprot.readI64();
+struct.setSampledContinuationCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 4:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.unsampledNewCount=iprot.readI64();
+struct.setUnsampledNewCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
+case 5:
+if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+struct.unsampledContinuationCount=iprot.readI64();
+struct.setUnsampledContinuationCountIsSet(true);
+}
+ else {
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+}
+break;
 default :
-  org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
+org.apache.thrift.protocol.TProtocolUtil.skip(iprot,schemeField.type);
 }
 iprot.readFieldEnd();
 }

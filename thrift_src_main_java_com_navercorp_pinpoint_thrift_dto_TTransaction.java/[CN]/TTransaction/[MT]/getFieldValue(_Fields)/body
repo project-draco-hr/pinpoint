@@ -1,7 +1,15 @@
 {
 switch (field) {
-case TPS:
-    return Integer.valueOf(getTps());
+case VERSION:
+    return Short.valueOf(getVersion());
+case SAMPLED_NEW_COUNT:
+  return Long.valueOf(getSampledNewCount());
+case SAMPLED_CONTINUATION_COUNT:
+return Long.valueOf(getSampledContinuationCount());
+case UNSAMPLED_NEW_COUNT:
+return Long.valueOf(getUnsampledNewCount());
+case UNSAMPLED_CONTINUATION_COUNT:
+return Long.valueOf(getUnsampledContinuationCount());
 }
 throw new IllegalStateException();
 }
