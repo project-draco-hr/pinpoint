@@ -1,3 +1,7 @@
 {
-  return this.getSampledTransactionCount() + this.getUnsampledTransactionCount();
+  long count=0L;
+  for (  SamplingType samplingType : SamplingType.values()) {
+    count+=getTransactionCount(samplingType);
+  }
+  return count;
 }
