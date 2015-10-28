@@ -18,6 +18,11 @@
     oprot.writeI64(struct.timestamp);
     oprot.writeFieldEnd();
   }
+  if (struct.isSetCollectInterval()) {
+    oprot.writeFieldBegin(COLLECT_INTERVAL_FIELD_DESC);
+    oprot.writeI64(struct.collectInterval);
+    oprot.writeFieldEnd();
+  }
   if (struct.gc != null) {
     if (struct.isSetGc()) {
       oprot.writeFieldBegin(GC_FIELD_DESC);

@@ -1,5 +1,8 @@
 {
   final Map<String,Metric> gauges=new HashMap<String,Metric>();
-  gauges.put(MetricMonitorValues.TRANSACTION_PER_SECOND,this.tpsGauge);
+  gauges.put(MetricMonitorValues.TRANSACTION_SAMPLED_NEW,this.sampledNewGauge);
+  gauges.put(MetricMonitorValues.TRANSACTION_SAMPLED_CONTINUATION,this.sampledContinuationGauge);
+  gauges.put(MetricMonitorValues.TRANSACTION_UNSAMPLED_NEW,this.unsampledNewGauge);
+  gauges.put(MetricMonitorValues.TRANSACTION_UNSAMPLED_CONTINUATION,this.unsampledContinuationGuage);
   return Collections.unmodifiableMap(gauges);
 }
