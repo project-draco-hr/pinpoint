@@ -1,0 +1,41 @@
+{
+  try {
+    logger.info("HealthCheckTimerTask started.");
+    List<WebSocketSession> webSocketSessionList=new ArrayList<WebSocketSession>(sessionRepository);
+    for (    WebSocketSession session : webSocketSessionList) {
+      if (!session.isOpen()) {
+        continue;
+      }
+      Object untilWait=session.getAttributes().get(HEALTH_CHECK_WAIT_KEY);
+      if (untilWait != null && untilWait instanceof AtomicBoolean) {
+        if (((AtomicBoolean)untilWait).get()) {
+          session.close(CloseStatus.SESSION_NOT_RELIABLE);
+        }
+      }
+ else {
+        session.getAttributes().put(HEALTH_CHECK_WAIT_KEY,new AtomicBoolean(false));
+      }
+    }
+    String pingTextMessage=messageConverter.getPingTextMessage();
+    TextMessage pingMessage=new TextMessage(pingTextMessage);
+    webSocketSessionList=new ArrayList<WebSocketSession>(sessionRepository);
+    for (    WebSocketSession session : webSocketSessionList) {
+      if (!session.isOpen()) {
+        continue;
+      }
+      Object untilWait=session.getAttributes().get(HEALTH_CHECK_WAIT_KEY);
+      if (untilWait != null && untilWait instanceof AtomicBoolean) {
+        ((AtomicBoolean)untilWait).compareAndSet(false,true);
+      }
+ else {
+        session.getAttributes().put(HEALTH_CHECK_WAIT_KEY,new AtomicBoolean(true));
+      }
+      session.sendMessage(pingMessage);
+    }
+  }
+  finally {
+    if (timer != null && onTimerTask.get()) {
+      timer.newTimeout(this,DEFAULT_HEALTH_CHECk_DELAY,TimeUnit.MILLISECONDS);
+    }
+  }
+}

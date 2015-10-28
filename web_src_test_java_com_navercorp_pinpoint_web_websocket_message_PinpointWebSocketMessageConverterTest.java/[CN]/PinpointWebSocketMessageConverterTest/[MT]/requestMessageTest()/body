@@ -1,0 +1,13 @@
+{
+  String command="command";
+  Map parameters=new HashMap();
+  parameters.put("test","test");
+  String textMessage=messageConverter.getRequestTextMessage(command,parameters);
+  PinpointWebSocketMessage webSocketMessage=messageConverter.getWebSocketMessage(textMessage);
+  Assert.assertNotNull(webSocketMessage);
+  Assert.assertTrue(webSocketMessage instanceof RequestMessage);
+  RequestMessage requestMessage=(RequestMessage)webSocketMessage;
+  Assert.assertEquals(PinpointWebSocketMessageType.REQUEST,requestMessage.getType());
+  Assert.assertEquals(command,requestMessage.getCommand());
+  Assert.assertEquals(parameters,requestMessage.getParams());
+}
