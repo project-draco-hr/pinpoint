@@ -1,3 +1,4 @@
 {
-  context.addClassFileTransformer("org.eclipse.jetty.server.Request",PinpointClassFileTransformers.addField("com.navercorp.pinpoint.plugin.jetty.interceptor.TraceAccessor"));
+  final TransformCallback transformCallback=PinpointClassFileTransformers.addField("com.navercorp.pinpoint.plugin.jetty.interceptor.TraceAccessor");
+  context.addClassFileTransformer("org.eclipse.jetty.server.Request",transformCallback);
 }
