@@ -1,25 +1,19 @@
 {
   TTupleProtocol oprot=(TTupleProtocol)prot;
   BitSet optionals=new BitSet();
-  if (struct.isSetVersion()) {
+  if (struct.isSetSampledNewCount()) {
     optionals.set(0);
   }
-  if (struct.isSetSampledNewCount()) {
+  if (struct.isSetSampledContinuationCount()) {
     optionals.set(1);
   }
-  if (struct.isSetSampledContinuationCount()) {
+  if (struct.isSetUnsampledNewCount()) {
     optionals.set(2);
   }
-  if (struct.isSetUnsampledNewCount()) {
+  if (struct.isSetUnsampledContinuationCount()) {
     optionals.set(3);
   }
-  if (struct.isSetUnsampledContinuationCount()) {
-    optionals.set(4);
-  }
-  oprot.writeBitSet(optionals,5);
-  if (struct.isSetVersion()) {
-    oprot.writeI16(struct.version);
-  }
+  oprot.writeBitSet(optionals,4);
   if (struct.isSetSampledNewCount()) {
     oprot.writeI64(struct.sampledNewCount);
   }
