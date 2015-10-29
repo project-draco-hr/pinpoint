@@ -1,0 +1,6 @@
+{
+  final long expectedTransactionCount=1L;
+  this.idGenerator.nextContinuedTransactionId();
+  final long actualCount=this.transactionCounter.getTransactionCount(SamplingType.SAMPLED_CONTINUATION);
+  assertEquals(expectedTransactionCount,actualCount);
+}
