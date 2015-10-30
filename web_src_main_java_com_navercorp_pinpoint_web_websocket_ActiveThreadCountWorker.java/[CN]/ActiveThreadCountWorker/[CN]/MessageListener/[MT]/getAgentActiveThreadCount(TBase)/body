@@ -8,12 +8,12 @@
     }
  else {
       logger.warn("getAgentActiveThreadCount failed. applicationName:{}, agentId:{}, cause:{}",applicationName,agentId,((TCommandTransferResponse)routeResponse).getRouteResult());
-      agentActiveThreadCount.setFail(INTERNAL_ERROR_MESSAGE);
+      agentActiveThreadCount.setFail(INTERNAL_ERROR.getCode(),INTERNAL_ERROR.getMessage());
     }
   }
  else {
     logger.warn("getAgentActiveThreadCount failed. applicationName:{}, agentId:{}",applicationName,agentId);
-    agentActiveThreadCount.setFail(INTERNAL_ERROR_MESSAGE);
+    agentActiveThreadCount.setFail(INTERNAL_ERROR.getCode(),INTERNAL_ERROR.getMessage());
   }
   return agentActiveThreadCount;
 }
