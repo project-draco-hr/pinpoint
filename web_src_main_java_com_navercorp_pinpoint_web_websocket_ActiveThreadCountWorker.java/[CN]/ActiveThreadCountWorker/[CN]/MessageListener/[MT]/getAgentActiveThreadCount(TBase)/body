@@ -7,11 +7,13 @@
       agentActiveThreadCount.setResult((TCmdActiveThreadCountRes)activeThreadCountResponse);
     }
  else {
-      agentActiveThreadCount.setFail("ROUTE_ERROR:" + TRouteResult.NOT_SUPPORTED_RESPONSE.name());
+      logger.warn("getAgentActiveThreadCount failed. applicationName:{}, agentId:{}, cause:{}",applicationName,agentId,((TCommandTransferResponse)routeResponse).getRouteResult());
+      agentActiveThreadCount.setFail(INTERNAL_ERROR_MESSAGE);
     }
   }
  else {
-    agentActiveThreadCount.setFail("ROUTE_ERROR:" + TRouteResult.BAD_RESPONSE.name());
+    logger.warn("getAgentActiveThreadCount failed. applicationName:{}, agentId:{}",applicationName,agentId);
+    agentActiveThreadCount.setFail(INTERNAL_ERROR_MESSAGE);
   }
   return agentActiveThreadCount;
 }
