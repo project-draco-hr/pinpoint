@@ -1,0 +1,8 @@
+{
+  final long expectedTransactionCount=99L;
+  for (int i=0; i < expectedTransactionCount; ++i) {
+    this.idGenerator.nextDisabledId();
+  }
+  final long actualCount=this.transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_NEW);
+  assertEquals(expectedTransactionCount,actualCount);
+}

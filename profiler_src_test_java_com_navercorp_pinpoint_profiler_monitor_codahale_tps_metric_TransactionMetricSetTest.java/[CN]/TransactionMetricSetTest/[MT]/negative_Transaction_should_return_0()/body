@@ -1,0 +1,12 @@
+{
+  final long expectedNumberOfTransactions=0L;
+  initializeGauge();
+  this.transactionCounter.addTransactionCount(SamplingType.SAMPLED_NEW,-1000L);
+  this.transactionCounter.addTransactionCount(SamplingType.SAMPLED_CONTINUATION,-1000L);
+  this.transactionCounter.addTransactionCount(SamplingType.UNSAMPLED_NEW,-1000L);
+  this.transactionCounter.addTransactionCount(SamplingType.UNSAMPLED_CONTINUATION,-1000L);
+  assertEquals(expectedNumberOfTransactions,(long)this.sampledNewGauge.getValue());
+  assertEquals(expectedNumberOfTransactions,(long)this.sampledContinuationGauge.getValue());
+  assertEquals(expectedNumberOfTransactions,(long)this.unsampledNewGauge.getValue());
+  assertEquals(expectedNumberOfTransactions,(long)this.unsampledContinuationGuage.getValue());
+}

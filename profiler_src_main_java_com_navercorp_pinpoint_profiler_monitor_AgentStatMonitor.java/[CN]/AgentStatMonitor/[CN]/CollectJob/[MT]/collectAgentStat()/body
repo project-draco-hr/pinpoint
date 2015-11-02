@@ -1,14 +1,10 @@
 {
   final TAgentStat agentStat=new TAgentStat();
-  agentStat.setTimestamp(System.currentTimeMillis());
   final TJvmGc gc=garbageCollector.collect();
   agentStat.setGc(gc);
   final TCpuLoad cpuLoad=cpuLoadCollector.collect();
   agentStat.setCpuLoad(cpuLoad);
   final TTransaction transaction=transactionMetricCollector.collect();
   agentStat.setTransaction(transaction);
-  if (isTrace) {
-    logger.trace("collect agentStat:{}",agentStat);
-  }
   return agentStat;
 }

@@ -1,0 +1,31 @@
+{
+  try {
+    Map responseMessage=JSON_SERIALIZER.readValue(message,Map.class);
+    if (responseMessage == null) {
+      return new UnknownMessage();
+    }
+    PinpointWebSocketMessageType messageType=PinpointWebSocketMessageType.getType((String)responseMessage.get(TYPE));
+switch (messageType) {
+case PING:
+      return new PingMessage();
+case PONG:
+    return new PongMessage();
+case REQUEST:
+  String command=(String)responseMessage.get(COMMAND);
+Map parameters=(Map)responseMessage.get(PARAMETERS);
+return new RequestMessage(command,parameters);
+case RESPONSE:
+command=(String)responseMessage.get(COMMAND);
+Map result=(Map)responseMessage.get(RESULT);
+return new ResponseMessage(command,result);
+case SEND:
+command=(String)responseMessage.get(COMMAND);
+parameters=(Map)responseMessage.get(PARAMETERS);
+return new SendMessage(command,parameters);
+}
+}
+ catch (Exception e) {
+LOGGER.warn("getWebSocketMessage failed. message:{}",e.getMessage(),e);
+}
+return new UnknownMessage();
+}

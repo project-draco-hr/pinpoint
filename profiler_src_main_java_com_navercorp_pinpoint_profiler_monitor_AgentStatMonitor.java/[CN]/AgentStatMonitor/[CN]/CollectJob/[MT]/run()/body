@@ -1,6 +1,10 @@
 {
+  final long currentCollectionTimestamp=System.currentTimeMillis();
+  final long collectInterval=currentCollectionTimestamp - this.prevCollectionTimestamp;
   try {
     final TAgentStat agentStat=collectAgentStat();
+    agentStat.setTimestamp(currentCollectionTimestamp);
+    agentStat.setCollectInterval(collectInterval);
     this.agentStats.add(agentStat);
     if (++this.collectCount >= this.numStatsPerBatch) {
       sendAgentStats();
@@ -9,5 +13,8 @@
   }
  catch (  Exception ex) {
     logger.warn("AgentStat collect failed. Caused:{}",ex.getMessage(),ex);
+  }
+ finally {
+    this.prevCollectionTimestamp=currentCollectionTimestamp;
   }
 }

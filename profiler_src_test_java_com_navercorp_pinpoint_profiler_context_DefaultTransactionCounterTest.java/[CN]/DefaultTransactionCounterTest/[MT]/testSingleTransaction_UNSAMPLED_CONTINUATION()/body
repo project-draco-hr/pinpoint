@@ -1,0 +1,6 @@
+{
+  final long expectedTransactionCount=1L;
+  this.idGenerator.nextContinuedDisabledId();
+  final long actualCount=this.transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_CONTINUATION);
+  assertEquals(expectedTransactionCount,actualCount);
+}

@@ -1,12 +1,18 @@
 {
-  TextMessage responseMessage=messageConverter.createResponseMessage(activeThreadCountList,System.currentTimeMillis());
-  for (  WebSocketSession webSocketSession : webSocketSessions) {
-    try {
-      logger.debug("flush webSocket:{}, response:{}",webSocketSession,responseMessage);
-      webSocketSession.sendMessage(responseMessage);
+  Map resultMap=createResultMap(activeThreadCountList,System.currentTimeMillis());
+  try {
+    TextMessage responseTextMessage=new TextMessage(messageConverter.getResponseTextMessage(ActiveThreadCountHandler.API_ACTIVE_THREAD_COUNT,resultMap));
+    for (    WebSocketSession webSocketSession : webSocketSessions) {
+      try {
+        logger.debug("flush webSocketSession:{}, response:{}",webSocketSession,responseTextMessage);
+        webSocketSession.sendMessage(responseTextMessage);
+      }
+ catch (      IOException e) {
+        logger.warn(e.getMessage(),e);
+      }
     }
- catch (    IOException e) {
-      logger.warn(e.getMessage(),e);
-    }
+  }
+ catch (  JsonProcessingException e) {
+    logger.warn("json convert failed. original:{}, message:{}.",resultMap,e.getMessage(),e);
   }
 }

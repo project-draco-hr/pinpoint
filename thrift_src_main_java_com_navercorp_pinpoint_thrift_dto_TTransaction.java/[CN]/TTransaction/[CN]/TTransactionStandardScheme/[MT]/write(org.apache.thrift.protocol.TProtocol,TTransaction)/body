@@ -1,9 +1,24 @@
 {
   struct.validate();
   oprot.writeStructBegin(STRUCT_DESC);
-  if (struct.isSetTps()) {
-    oprot.writeFieldBegin(TPS_FIELD_DESC);
-    oprot.writeI32(struct.tps);
+  if (struct.isSetSampledNewCount()) {
+    oprot.writeFieldBegin(SAMPLED_NEW_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.sampledNewCount);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetSampledContinuationCount()) {
+    oprot.writeFieldBegin(SAMPLED_CONTINUATION_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.sampledContinuationCount);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetUnsampledNewCount()) {
+    oprot.writeFieldBegin(UNSAMPLED_NEW_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.unsampledNewCount);
+    oprot.writeFieldEnd();
+  }
+  if (struct.isSetUnsampledContinuationCount()) {
+    oprot.writeFieldBegin(UNSAMPLED_CONTINUATION_COUNT_FIELD_DESC);
+    oprot.writeI64(struct.unsampledContinuationCount);
     oprot.writeFieldEnd();
   }
   oprot.writeFieldStop();

@@ -8,6 +8,10 @@
   this.chartBuilders.put(ChartType.JVM_GC_OLD_TIME,new SampledTimeSeriesLongChartBuilder(timeWindow,UNCOLLECTED_DATA));
   this.chartBuilders.put(ChartType.CPU_LOAD_JVM,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA));
   this.chartBuilders.put(ChartType.CPU_LOAD_SYSTEM,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA));
-  this.chartBuilders.put(ChartType.TPS,new SampledTimeSeriesIntegerChartBuilder(timeWindow,UNCOLLECTED_DATA));
+  this.chartBuilders.put(ChartType.TPS_SAMPLED_NEW,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA,1));
+  this.chartBuilders.put(ChartType.TPS_SAMPLED_CONTINUATION,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA,1));
+  this.chartBuilders.put(ChartType.TPS_UNSAMPLED_NEW,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA,1));
+  this.chartBuilders.put(ChartType.TPS_UNSAMPLED_CONTINUATION,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA,1));
+  this.chartBuilders.put(ChartType.TPS_TOTAL,new SampledTimeSeriesDoubleChartBuilder(timeWindow,UNCOLLECTED_DATA,1));
   this.charts=new EnumMap<ChartType,Chart>(ChartType.class);
 }

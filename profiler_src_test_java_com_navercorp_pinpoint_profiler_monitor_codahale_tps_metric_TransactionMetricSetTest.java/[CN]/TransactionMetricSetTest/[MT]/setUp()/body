@@ -1,5 +1,8 @@
 {
   this.transactionCounter=new TestableTransactionCounter();
   TransactionMetricSet metricSet=new TransactionMetricSet(this.transactionCounter);
-  this.tpsGauge=(Gauge<Integer>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_PER_SECOND);
+  this.sampledNewGauge=(Gauge<Long>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_SAMPLED_NEW);
+  this.sampledContinuationGauge=(Gauge<Long>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_SAMPLED_CONTINUATION);
+  this.unsampledNewGauge=(Gauge<Long>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_UNSAMPLED_NEW);
+  this.unsampledContinuationGuage=(Gauge<Long>)metricSet.getMetrics().get(MetricMonitorValues.TRANSACTION_UNSAMPLED_CONTINUATION);
 }

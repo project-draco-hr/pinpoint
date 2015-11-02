@@ -1,0 +1,13 @@
+{
+  DefaultRouteHandler routeHandler=new DefaultRouteHandler(new ClusterPointRepository(),new DefaultRouteFilterChain(),new DefaultRouteFilterChain());
+  CountFilter requestFilter=new CountFilter();
+  routeHandler.addRequestFilter(requestFilter);
+  TCommandTransferResponse response=routeHandler.onRoute(createRequestEvent());
+  Assert.assertEquals(1,requestFilter.getCallCount());
+  CountFilter responseFilter=new CountFilter();
+  routeHandler.addResponseFilter(responseFilter);
+  response=routeHandler.onRoute(createRequestEvent());
+  Assert.assertEquals(2,requestFilter.getCallCount());
+  Assert.assertEquals(1,responseFilter.getCallCount());
+  Assert.assertEquals(TRouteResult.NOT_FOUND,response.getRouteResult());
+}
