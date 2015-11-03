@@ -2,13 +2,4 @@
   if (strategy == null) {
     target.addField(accessorTypeName);
   }
- else {
-    if (strategy instanceof ByConstructor) {
-      String javaExpression="new " + ((ByConstructor)strategy).getClassName() + "();";
-      target.addField(accessorTypeName,javaExpression);
-    }
- else {
-      throw new PinpointException("Unsupported strategy: " + strategy);
-    }
-  }
 }

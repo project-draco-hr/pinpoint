@@ -4,7 +4,7 @@
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
-      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor","new java.util.HashMap()");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
       target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),MySqlConstants.GROUP_NAME);
       final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
