@@ -1,14 +1,12 @@
 {
-  InterceptorGroupInvocation transaction=group.getCurrentInvocation();
+  final InterceptorGroupInvocation transaction=group.getCurrentInvocation();
   if (transaction.canLeave(policy)) {
-    if (after != null) {
-      after.after(target,arg1,result,throwable);
-    }
+    this.interceptor.after(target,arg1,result,throwable);
     transaction.leave(policy);
   }
  else {
     if (debugEnabled) {
-      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,policy,after == null ? null : after.getClass()});
+      logger.debug("tryAfter() returns false: interceptorGroupTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,policy,interceptor.getClass()});
     }
   }
 }
