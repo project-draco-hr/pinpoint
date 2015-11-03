@@ -6,20 +6,18 @@
   if (trace == null) {
     return;
   }
-  Map<Integer,String> bindList=null;
-  if (target instanceof BindValueAccessor) {
-    bindList=((BindValueAccessor)target)._$PINPOINT$_getBindValue();
-  }
-  if (bindList == null) {
-    if (logger.isWarnEnabled()) {
-      logger.warn("bindValue is null");
-    }
+  if (!(target instanceof BindValueAccessor)) {
     return;
   }
-  Integer index=NumberUtils.toInteger(args[0]);
+  final Integer index=NumberUtils.toInteger(args[0]);
   if (index == null) {
     return;
   }
-  String value=BindValueConverter.convert(methodName,args);
+  Map<Integer,String> bindList=((BindValueAccessor)target)._$PINPOINT$_getBindValue();
+  if (bindList == null) {
+    bindList=new HashMap<Integer,String>();
+    ((BindValueAccessor)target)._$PINPOINT$_setBindValue(bindList);
+  }
+  final String value=BindValueConverter.convert(methodName,args);
   bindList.put(index,value);
 }
