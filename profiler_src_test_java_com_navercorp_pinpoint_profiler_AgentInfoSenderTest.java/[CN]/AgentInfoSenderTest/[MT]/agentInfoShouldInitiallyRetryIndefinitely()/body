@@ -2,7 +2,7 @@
   final AtomicInteger requestCount=new AtomicInteger();
   final AtomicInteger successCount=new AtomicInteger();
   final long agentInfoSendRetryIntervalMs=100L;
-  final int expectedTriesUntilSuccess=AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT;
+  final int expectedTriesUntilSuccess=15;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointClientFactory socketFactory=createPinpointClientFactory();

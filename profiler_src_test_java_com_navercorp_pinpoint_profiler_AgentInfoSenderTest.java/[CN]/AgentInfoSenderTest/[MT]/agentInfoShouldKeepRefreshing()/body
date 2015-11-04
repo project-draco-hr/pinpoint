@@ -2,20 +2,21 @@
   final AtomicInteger requestCount=new AtomicInteger();
   final AtomicInteger successCount=new AtomicInteger();
   final long agentInfoSendRetryIntervalMs=100L;
-  final int expectedTriesUntilSuccess=AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT;
-  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
+  final long agentInfoSendRefreshIntervalMs=1000L;
+  final int expectedRefreshCount=5;
+  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointClientFactory socketFactory=createPinpointClientFactory();
   PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,socketFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
-  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).build();
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).refreshInterval(agentInfoSendRefreshIntervalMs).sendInterval(agentInfoSendRetryIntervalMs).build();
   try {
     agentInfoSender.start();
-    Thread.sleep(agentInfoSendRetryIntervalMs * expectedTriesUntilSuccess);
+    Thread.sleep(agentInfoSendRefreshIntervalMs * expectedRefreshCount);
   }
   finally {
     closeAll(serverAcceptor,agentInfoSender,pinpointClient,socketFactory);
   }
-  assertEquals(expectedTriesUntilSuccess,requestCount.get());
-  assertEquals(1,successCount.get());
+  assertTrue(requestCount.get() >= expectedRefreshCount);
+  assertTrue(successCount.get() >= expectedRefreshCount);
 }

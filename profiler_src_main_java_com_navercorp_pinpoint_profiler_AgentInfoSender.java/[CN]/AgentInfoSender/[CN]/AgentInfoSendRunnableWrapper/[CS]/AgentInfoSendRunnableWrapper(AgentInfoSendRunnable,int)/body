@@ -1,0 +1,10 @@
+{
+  if (agentInfoSendRunnable == null) {
+    throw new NullPointerException("agentInfoSendRunnable must not be null");
+  }
+  if (maxTryCount < 0) {
+    throw new IllegalArgumentException("maxTryCount must not be less than 0");
+  }
+  this.delegate=agentInfoSendRunnable;
+  this.maxTryCount=maxTryCount;
+}
