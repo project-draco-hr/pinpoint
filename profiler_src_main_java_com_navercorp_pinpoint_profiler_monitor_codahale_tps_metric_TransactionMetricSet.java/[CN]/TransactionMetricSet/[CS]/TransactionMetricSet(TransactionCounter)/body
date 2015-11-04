@@ -2,5 +2,8 @@
   if (transactionCounter == null) {
     throw new NullPointerException("transactionCounter must not be null");
   }
-  this.tpsGauge=new TpsGauge(transactionCounter);
+  this.sampledNewGauge=new TransactionGauge(transactionCounter,SamplingType.SAMPLED_NEW);
+  this.sampledContinuationGauge=new TransactionGauge(transactionCounter,SamplingType.SAMPLED_CONTINUATION);
+  this.unsampledNewGauge=new TransactionGauge(transactionCounter,SamplingType.UNSAMPLED_NEW);
+  this.unsampledContinuationGuage=new TransactionGauge(transactionCounter,SamplingType.UNSAMPLED_CONTINUATION);
 }

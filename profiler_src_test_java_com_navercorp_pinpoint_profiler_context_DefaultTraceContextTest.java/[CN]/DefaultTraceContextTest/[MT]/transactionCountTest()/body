@@ -1,0 +1,29 @@
+{
+  final int samplingRate=5;
+  final Sampler sampler=new SamplingRateSampler(samplingRate);
+  final DefaultTraceContext traceContext=new DefaultTraceContext(LRUCache.DEFAULT_CACHE_SIZE,new TestAgentInformation(),new LogStorageFactory(),sampler,new DefaultServerMetaDataHolder(RuntimeMXBeanUtils.getVmArgs()),true);
+  final TransactionCounter transactionCounter=traceContext.getTransactionCounter();
+  final long newTransactionCount=22L;
+  @SuppressWarnings("unused") final long expectedSampledNewCount=newTransactionCount / samplingRate + (newTransactionCount % samplingRate > 0 ? 1 : 0);
+  final long expectedUnsampledNewCount=newTransactionCount - expectedSampledNewCount;
+  for (int i=0; i < newTransactionCount; ++i) {
+    traceContext.newTraceObject();
+    traceContext.removeTraceObject();
+  }
+  final long expectedSampledContinuationCount=5L;
+  for (int i=0; i < expectedSampledContinuationCount; ++i) {
+    traceContext.continueTraceObject(new DefaultTraceId("agentId",0L,i));
+    traceContext.removeTraceObject();
+  }
+  final long expectedUnsampledContinuationCount=10L;
+  for (int i=0; i < expectedUnsampledContinuationCount; ++i) {
+    traceContext.disableSampling();
+    traceContext.removeTraceObject();
+  }
+  final long expectedTotalTransactionCount=expectedSampledNewCount + expectedUnsampledNewCount + expectedSampledContinuationCount+ expectedUnsampledContinuationCount;
+  Assert.assertEquals(expectedSampledNewCount,transactionCounter.getTransactionCount(SamplingType.SAMPLED_NEW));
+  Assert.assertEquals(expectedUnsampledNewCount,transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_NEW));
+  Assert.assertEquals(expectedSampledContinuationCount,transactionCounter.getTransactionCount(SamplingType.SAMPLED_CONTINUATION));
+  Assert.assertEquals(expectedUnsampledContinuationCount,transactionCounter.getTransactionCount(SamplingType.UNSAMPLED_CONTINUATION));
+  Assert.assertEquals(expectedTotalTransactionCount,transactionCounter.getTotalTransactionCount());
+}

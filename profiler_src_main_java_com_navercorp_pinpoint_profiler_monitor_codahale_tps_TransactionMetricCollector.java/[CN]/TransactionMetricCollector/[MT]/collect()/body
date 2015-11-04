@@ -1,5 +1,8 @@
 {
   TTransaction transaction=new TTransaction();
-  transaction.setTps(this.tpsGauge.getValue());
+  transaction.setSampledNewCount(this.sampledNewGauge.getValue());
+  transaction.setSampledContinuationCount(this.sampledContinuationGauge.getValue());
+  transaction.setUnsampledNewCount(this.unsampledNewGauge.getValue());
+  transaction.setUnsampledContinuationCount(this.unsampledContinuationGuage.getValue());
   return transaction;
 }

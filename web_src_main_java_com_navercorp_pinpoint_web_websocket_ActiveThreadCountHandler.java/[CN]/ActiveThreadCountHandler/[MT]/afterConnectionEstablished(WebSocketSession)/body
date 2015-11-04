@@ -1,10 +1,12 @@
 {
-  logger.info("ConnectionEstablished : {}",newSession);
+  logger.info("ConnectionEstablished. session:{}",newSession);
 synchronized (lock) {
+    newSession.getAttributes().put(HEALTH_CHECK_WAIT_KEY,new AtomicBoolean(false));
     sessionRepository.add(newSession);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
     if (turnOn) {
       timer.newTimeout(new ActiveThreadTimerTask(),flushDelay,TimeUnit.MILLISECONDS);
+      timer.newTimeout(new HealthCheckTimerTask(),DEFAULT_HEALTH_CHECk_DELAY,TimeUnit.MILLISECONDS);
     }
   }
   super.afterConnectionEstablished(newSession);

@@ -1,0 +1,7 @@
+{
+  String textMessage=messageConverter.getPingTextMessage();
+  PinpointWebSocketMessage webSocketMessage=messageConverter.getWebSocketMessage(textMessage);
+  Assert.assertNotNull(webSocketMessage);
+  Assert.assertTrue(webSocketMessage instanceof PingMessage);
+  Assert.assertEquals(PinpointWebSocketMessageType.PING,webSocketMessage.getType());
+}

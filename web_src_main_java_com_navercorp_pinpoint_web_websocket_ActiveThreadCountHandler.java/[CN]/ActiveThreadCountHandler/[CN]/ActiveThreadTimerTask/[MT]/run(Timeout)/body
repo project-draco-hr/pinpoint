@@ -1,4 +1,5 @@
 {
+  long startTime=System.currentTimeMillis();
   try {
     logger.info("ActiveThreadTimerTask started.");
     Collection<PinpointWebSocketResponseAggregator> values=aggregatorRepository.values();
@@ -13,7 +14,14 @@
   }
   finally {
     if (timer != null && onTimerTask.get()) {
-      timer.newTimeout(this,flushDelay,TimeUnit.MILLISECONDS);
+      long execTime=System.currentTimeMillis() - startTime;
+      long nextFlushDelay=flushDelay - execTime;
+      if (nextFlushDelay < DEFAULT_MIN_FLUSH_DELAY) {
+        timer.newTimeout(this,DEFAULT_MIN_FLUSH_DELAY,TimeUnit.MILLISECONDS);
+      }
+ else {
+        timer.newTimeout(this,nextFlushDelay,TimeUnit.MILLISECONDS);
+      }
     }
   }
 }

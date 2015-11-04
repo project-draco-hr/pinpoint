@@ -1,0 +1,15 @@
+{
+  String command=requestMessage.getCommand();
+  if (API_ACTIVE_THREAD_COUNT.equals(command)) {
+    String applicationName=MapUtils.getString(requestMessage.getParams(),APPLICATION_NAME_KEY);
+    if (applicationName != null) {
+synchronized (lock) {
+        if (StringUtils.isEquals(applicationName,(String)webSocketSession.getAttributes().get(APPLICATION_NAME_KEY))) {
+          return;
+        }
+        unbindingResponseAggregator(webSocketSession);
+        bindingResponseAggregator(webSocketSession,applicationName);
+      }
+    }
+  }
+}

@@ -1,9 +1,27 @@
 {
   StringBuilder sb=new StringBuilder("TTransaction(");
   boolean first=true;
-  if (isSetTps()) {
-    sb.append("tps:");
-    sb.append(this.tps);
+  if (isSetSampledNewCount()) {
+    sb.append("sampledNewCount:");
+    sb.append(this.sampledNewCount);
+    first=false;
+  }
+  if (isSetSampledContinuationCount()) {
+    if (!first)     sb.append(", ");
+    sb.append("sampledContinuationCount:");
+    sb.append(this.sampledContinuationCount);
+    first=false;
+  }
+  if (isSetUnsampledNewCount()) {
+    if (!first)     sb.append(", ");
+    sb.append("unsampledNewCount:");
+    sb.append(this.unsampledNewCount);
+    first=false;
+  }
+  if (isSetUnsampledContinuationCount()) {
+    if (!first)     sb.append(", ");
+    sb.append("unsampledContinuationCount:");
+    sb.append(this.unsampledContinuationCount);
     first=false;
   }
   sb.append(")");

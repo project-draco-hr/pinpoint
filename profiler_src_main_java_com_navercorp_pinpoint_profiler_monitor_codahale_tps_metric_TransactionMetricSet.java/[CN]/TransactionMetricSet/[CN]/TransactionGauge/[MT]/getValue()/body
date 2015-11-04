@@ -1,0 +1,13 @@
+{
+  final long transactionCount=this.transactionCounter.getTransactionCount(this.samplingType);
+  if (transactionCount < 0) {
+    return 0L;
+  }
+  if (this.prevTransactionCount == UNINITIALIZED) {
+    this.prevTransactionCount=transactionCount;
+    return 0L;
+  }
+  final long transactionCountDelta=transactionCount - this.prevTransactionCount;
+  this.prevTransactionCount=transactionCount;
+  return transactionCountDelta;
+}

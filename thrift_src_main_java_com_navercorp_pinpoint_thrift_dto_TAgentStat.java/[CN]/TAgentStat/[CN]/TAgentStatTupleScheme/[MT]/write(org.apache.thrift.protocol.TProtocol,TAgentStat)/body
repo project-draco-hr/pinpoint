@@ -10,19 +10,22 @@
   if (struct.isSetTimestamp()) {
     optionals.set(2);
   }
-  if (struct.isSetGc()) {
+  if (struct.isSetCollectInterval()) {
     optionals.set(3);
   }
-  if (struct.isSetCpuLoad()) {
+  if (struct.isSetGc()) {
     optionals.set(4);
   }
-  if (struct.isSetTransaction()) {
+  if (struct.isSetCpuLoad()) {
     optionals.set(5);
   }
-  if (struct.isSetMetadata()) {
+  if (struct.isSetTransaction()) {
     optionals.set(6);
   }
-  oprot.writeBitSet(optionals,7);
+  if (struct.isSetMetadata()) {
+    optionals.set(7);
+  }
+  oprot.writeBitSet(optionals,8);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -31,6 +34,9 @@
   }
   if (struct.isSetTimestamp()) {
     oprot.writeI64(struct.timestamp);
+  }
+  if (struct.isSetCollectInterval()) {
+    oprot.writeI64(struct.collectInterval);
   }
   if (struct.isSetGc()) {
     struct.gc.write(oprot);

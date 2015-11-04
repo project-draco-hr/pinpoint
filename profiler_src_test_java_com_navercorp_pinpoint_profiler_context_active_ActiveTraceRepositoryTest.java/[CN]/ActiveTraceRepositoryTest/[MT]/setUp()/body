@@ -1,0 +1,7 @@
+{
+  final LogStorageFactory logStorageFactory=new LogStorageFactory();
+  final Sampler sampler=new SamplingRateSampler(SAMPLING_RATE);
+  this.traceContext=new DefaultTraceContext(LRUCache.DEFAULT_CACHE_SIZE,new TestAgentInformation(),logStorageFactory,sampler,new DefaultServerMetaDataHolder(RuntimeMXBeanUtils.getVmArgs()),true);
+  this.transactionCounter=this.traceContext.getTransactionCounter();
+  this.activeTraceRepository=this.traceContext.getActiveTraceLocator();
+}

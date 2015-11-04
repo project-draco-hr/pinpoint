@@ -7,9 +7,7 @@
     jgen.writeNumberField("code",agentActiveThread.getCode());
     jgen.writeStringField("message",agentActiveThread.getCodeMessage());
     TCmdActiveThreadCountRes activeThreadCount=agentActiveThread.getActiveThreadCount();
-    long timeStamp=System.currentTimeMillis();
     if (activeThreadCount != null) {
-      timeStamp=activeThreadCount.getTimeStamp();
       if (activeThreadCount.getActiveThreadCountSize() >= 4) {
         List<Integer> values=activeThreadCount.getActiveThreadCount();
         jgen.writeFieldName("status");

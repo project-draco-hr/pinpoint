@@ -4,8 +4,12 @@
   assertNotNull(agentStats);
   assertThat(agentStats.size(),is(1));
   AgentStat agentStat=agentStats.get(0);
+  assertEquals(0,agentStat.getCollectInterval());
   assertJvmGc(agentStat);
   assertEquals(AgentStat.NOT_COLLECTED,agentStat.getJvmCpuUsage(),DELTA);
   assertEquals(AgentStat.NOT_COLLECTED,agentStat.getSystemCpuUsage(),DELTA);
-  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getTps());
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getSampledNewCount());
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getSampledContinuationCount());
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getUnsampledNewCount());
+  assertEquals(AgentStat.NOT_COLLECTED,agentStat.getUnsampledContinuationCount());
 }
