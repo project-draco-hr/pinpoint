@@ -1,5 +1,5 @@
 {
-  InterceptorGroupInvocation transaction=group.getCurrentInvocation();
+  final InterceptorGroupInvocation transaction=group.getCurrentInvocation();
   if (transaction.tryEnter(policy)) {
     this.delegate.before(target,apiId,args);
   }

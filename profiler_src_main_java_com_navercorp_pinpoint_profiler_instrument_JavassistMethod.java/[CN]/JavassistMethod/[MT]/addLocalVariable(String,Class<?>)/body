@@ -1,3 +1,5 @@
 {
-  behavior.addLocalVariable(name,behavior.getDeclaringClass().getClassPool().get(type.getName()));
+  final String interceptorClassName=type.getName();
+  final CtClass interceptorCtClass=behavior.getDeclaringClass().getClassPool().get(interceptorClassName);
+  behavior.addLocalVariable(name,interceptorCtClass);
 }

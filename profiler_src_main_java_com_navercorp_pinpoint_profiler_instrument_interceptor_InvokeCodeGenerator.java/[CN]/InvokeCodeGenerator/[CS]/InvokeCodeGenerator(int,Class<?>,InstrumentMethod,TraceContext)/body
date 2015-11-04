@@ -1,18 +1,27 @@
 {
+  if (interceptorClass == null) {
+    throw new NullPointerException("interceptorClass must not be null");
+  }
+  if (targetMethod == null) {
+    throw new NullPointerException("targetMethod must not be null");
+  }
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
   this.interceptorClass=interceptorClass;
   this.targetMethod=targetMethod;
   this.interceptorId=interceptorId;
   this.traceContext=traceContext;
-  if (BeforeInterceptor.class.isAssignableFrom(interceptorClass) || AfterInterceptor.class.isAssignableFrom(interceptorClass)) {
-    type=Type.ARRAY_ARGS;
+  if (AroundInterceptor.class.isAssignableFrom(interceptorClass)) {
+    type=InterceptorType.ARRAY_ARGS;
   }
  else   if (StaticAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
-    type=Type.STATIC;
+    type=InterceptorType.STATIC;
   }
  else   if (ApiIdAwareAroundInterceptor.class.isAssignableFrom(interceptorClass)) {
-    type=Type.API_ID_AWARE;
+    type=InterceptorType.API_ID_AWARE;
   }
  else {
-    type=Type.BASIC;
+    type=InterceptorType.BASIC;
   }
 }

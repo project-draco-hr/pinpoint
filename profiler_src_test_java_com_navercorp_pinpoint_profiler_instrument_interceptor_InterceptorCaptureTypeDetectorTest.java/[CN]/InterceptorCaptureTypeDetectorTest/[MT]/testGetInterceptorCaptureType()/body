@@ -1,0 +1,9 @@
+{
+  InterceptorTypeDetector interceptorTypeDetector=new InterceptorTypeDetector();
+  CaptureType before=interceptorTypeDetector.getInterceptorDefinition(TestBeforeInterceptor.class).getCaptureType();
+  Assert.assertSame(before,CaptureType.BEFORE);
+  CaptureType after=interceptorTypeDetector.getInterceptorDefinition(TestAfterInterceptor.class).getCaptureType();
+  Assert.assertSame(after,CaptureType.AFTER);
+  CaptureType around=interceptorTypeDetector.getInterceptorDefinition(TestAroundInterceptor.class).getCaptureType();
+  Assert.assertSame(around,CaptureType.AROUND);
+}

@@ -1,0 +1,22 @@
+{
+  final Method beforeMethod=searchMethod(interceptorClazz,before,beforeParamList);
+  if (beforeMethod == null) {
+    throw new RuntimeException(before + " method not found. " + Arrays.toString(beforeParamList));
+  }
+  final boolean beforeIgnoreMethod=beforeMethod.isAnnotationPresent(IgnoreMethod.class);
+  final Method afterMethod=searchMethod(interceptorClazz,after,afterParamList);
+  if (afterMethod == null) {
+    throw new RuntimeException(after + " method not found. " + Arrays.toString(afterParamList));
+  }
+  final boolean afterIgnoreMethod=afterMethod.isAnnotationPresent(IgnoreMethod.class);
+  if (beforeIgnoreMethod == false && afterIgnoreMethod == false) {
+    return new InterceptorDefinition(interceptorClazz,interceptorType,CaptureType.AROUND,beforeMethod,afterMethod);
+  }
+  if (beforeIgnoreMethod == true) {
+    return new InterceptorDefinition(interceptorClazz,interceptorType,CaptureType.AFTER,null,afterMethod);
+  }
+  if (afterIgnoreMethod == true) {
+    return new InterceptorDefinition(interceptorClazz,interceptorType,CaptureType.BEFORE,beforeMethod,null);
+  }
+  return new InterceptorDefinition(interceptorClazz,interceptorType,CaptureType.NON,null,null);
+}
