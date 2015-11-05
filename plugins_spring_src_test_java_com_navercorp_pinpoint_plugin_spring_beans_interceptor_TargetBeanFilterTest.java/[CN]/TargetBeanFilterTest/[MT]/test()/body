@@ -1,7 +1,7 @@
 {
   Properties properties=new Properties();
   properties.put(SpringBeansConfig.SPRING_BEANS_NAME_PATTERN,"Target.*");
-  ProfilerConfig config=new ProfilerConfig(properties);
+  ProfilerConfig config=new DefaultProfilerConfig(properties);
   TargetBeanFilter filter=TargetBeanFilter.of(config);
   assertTrue(filter.isTarget("Target0",String.class));
   filter.addTransformed(String.class);

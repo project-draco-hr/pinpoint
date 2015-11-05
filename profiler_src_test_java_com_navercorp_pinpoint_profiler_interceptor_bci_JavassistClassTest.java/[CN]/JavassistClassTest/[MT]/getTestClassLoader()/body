@@ -1,6 +1,6 @@
 {
   PLoggerFactory.initialize(new Slf4jLoggerBinder());
-  ProfilerConfig profilerConfig=new ProfilerConfig();
+  ProfilerConfig profilerConfig=new DefaultProfilerConfig();
   profilerConfig.setApplicationServerType(ServiceType.TEST_STAND_ALONE.getName());
   DefaultAgent agent=MockAgent.of(profilerConfig);
   return new TestClassLoader(agent);
