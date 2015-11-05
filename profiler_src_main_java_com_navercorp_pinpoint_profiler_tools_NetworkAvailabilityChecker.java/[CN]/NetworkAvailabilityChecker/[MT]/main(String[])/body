@@ -10,7 +10,7 @@
   PinpointClientFactory clientFactory=null;
   PinpointClient client=null;
   try {
-    ProfilerConfig profilerConfig=ProfilerConfig.load(configPath);
+    ProfilerConfig profilerConfig=DefaultProfilerConfig.load(configPath);
     String collectorStatIp=profilerConfig.getCollectorStatServerIp();
     int collectorStatPort=profilerConfig.getCollectorStatServerPort();
     udpStatSender=new UdpDataSender(collectorStatIp,collectorStatPort,"UDP-STAT",10);

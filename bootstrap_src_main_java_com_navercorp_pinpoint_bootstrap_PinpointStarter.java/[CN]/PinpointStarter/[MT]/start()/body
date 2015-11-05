@@ -32,7 +32,7 @@
   saveLogFilePath(classPathResolver);
   savePinpointVersion();
   try {
-    ProfilerConfig profilerConfig=ProfilerConfig.load(configPath);
+    ProfilerConfig profilerConfig=DefaultProfilerConfig.load(configPath);
     List<URL> libUrlList=resolveLib(classPathResolver);
     AgentClassLoader agentClassLoader=new AgentClassLoader(libUrlList.toArray(new URL[libUrlList.size()]));
     String bootClass=argMap.containsKey("bootClass") ? argMap.get("bootClass") : BOOT_CLASS;
