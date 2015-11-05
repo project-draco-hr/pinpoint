@@ -4,12 +4,13 @@
   final long stressTestTime=60 * 1000L;
   final int randomMaxTime=3000;
   final long agentInfoSendRetryIntervalMs=1000L;
+  final int maxTryPerAttempt=Integer.MAX_VALUE;
   final int expectedTriesUntilSuccess=(int)stressTestTime / (randomMaxTime * 2);
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount,expectedTriesUntilSuccess);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
   PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
-  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).maxTryPerAttempt(maxTryPerAttempt).build();
   long startTime=System.currentTimeMillis();
   try {
     agentInfoSender.start();

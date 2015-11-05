@@ -1,23 +1,23 @@
 {
   final AtomicInteger requestCount=new AtomicInteger();
   final AtomicInteger successCount=new AtomicInteger();
-  final long agentInfoSendRetryIntervalMs=1000L;
+  final long agentInfoSendRetryIntervalMs=100L;
+  final int maxTryCountPerAttempt=Integer.MAX_VALUE;
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
   PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
-  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).maxTryPerAttempt(maxTryCountPerAttempt).build();
   try {
     agentInfoSender.start();
-    createAndDeleteServer(serverListener,5000L);
-    Thread.sleep(1000L);
-    createAndDeleteServer(serverListener,5000L);
-    Thread.sleep(1000L);
-    createAndDeleteServer(serverListener,5000L);
+    createAndDeleteServer(serverListener,1000L);
+    Thread.sleep(500L);
+    createAndDeleteServer(serverListener,1000L);
+    Thread.sleep(500L);
+    createAndDeleteServer(serverListener,1000L);
   }
   finally {
     closeAll(null,agentInfoSender,pinpointClient,clientFactory);
   }
-  assertEquals(1,requestCount.get());
   assertEquals(1,successCount.get());
 }
