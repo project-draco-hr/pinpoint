@@ -1,18 +1,18 @@
 {
-  final Class<?> interceptorClass=interceptor.getInterceptorClazz();
-  final CaptureType captureType=interceptor.getCaptureType();
+  final Class<?> interceptorClass=interceptorDefinition.getInterceptorClass();
+  final CaptureType captureType=interceptorDefinition.getCaptureType();
   if (!isBeforeInterceptor(captureType)) {
     return -1;
   }
-  final Method interceptorMethod=interceptor.getBeforeMethod();
+  final Method interceptorMethod=interceptorDefinition.getBeforeMethod();
   if (interceptorMethod == null) {
     if (isDebug) {
-      logger.debug("Skip adding before interceptor because the interceptor doesn't have before method: {}",interceptorClass.getName());
+      logger.debug("Skip adding before interceptorDefinition because the interceptorDefinition doesn't have before method: {}",interceptorClass.getName());
     }
     return -1;
   }
-  InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorClass,interceptorMethod,declaringClass,this,pluginContext.getTraceContext());
-  String beforeCode=generator.generate();
+  final InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorDefinition,declaringClass,this,pluginContext.getTraceContext());
+  final String beforeCode=generator.generate();
   if (isDebug) {
     logger.debug("addBeforeInterceptor before behavior:{} code:{}",behavior.getLongName(),beforeCode);
   }

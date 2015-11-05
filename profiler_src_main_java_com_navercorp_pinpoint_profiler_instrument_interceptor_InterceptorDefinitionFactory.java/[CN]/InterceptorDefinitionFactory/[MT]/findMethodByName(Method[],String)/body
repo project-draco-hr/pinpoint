@@ -1,0 +1,17 @@
+{
+  Method findMethod=null;
+  int count=0;
+  for (  Method method : declaredMethods) {
+    if (method.getName().equals(methodName)) {
+      count++;
+      findMethod=method;
+    }
+  }
+  if (findMethod == null) {
+    throw new RuntimeException(methodName + " not found");
+  }
+  if (count > 1) {
+    throw new RuntimeException("duplicated method exist. methodName:" + methodName);
+  }
+  return findMethod;
+}
