@@ -1,0 +1,11 @@
+{
+  alarmDao.deleteCheckerResult(beforeCheckerResult);
+  if (checker.isDetected()) {
+    beforeCheckerResult.setDetected(true);
+    beforeCheckerResult.increseCount();
+    alarmDao.insertCheckerResult(beforeCheckerResult);
+  }
+ else {
+    alarmDao.insertCheckerResult(new CheckerResult(checker.getRule().getApplicationId(),checker.getRule().getCheckerName(),false,0,1));
+  }
+}
