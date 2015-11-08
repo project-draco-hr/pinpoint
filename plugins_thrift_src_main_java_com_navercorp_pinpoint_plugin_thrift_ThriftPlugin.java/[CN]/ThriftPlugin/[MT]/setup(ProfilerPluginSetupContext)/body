@@ -4,15 +4,15 @@
   boolean traceProcessor=config.traceThriftProcessor();
   boolean traceCommon=traceClient || traceProcessor;
   if (traceClient) {
-    addInterceptorsForSynchronousClients(context,config);
-    addInterceptorsForAsynchronousClients(context);
+    addInterceptorsForSynchronousClients(config);
+    addInterceptorsForAsynchronousClients();
   }
   if (traceProcessor) {
-    addInterceptorsForSynchronousProcessors(context);
-    addInterceptorsForAsynchronousProcessors(context);
+    addInterceptorsForSynchronousProcessors();
+    addInterceptorsForAsynchronousProcessors();
   }
   if (traceCommon) {
-    addInterceptorsForRetrievingSocketAddresses(context);
-    addTProtocolEditors(context,config);
+    addInterceptorsForRetrievingSocketAddresses();
+    addTProtocolEditors(config);
   }
 }

@@ -3,6 +3,7 @@
   final DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(agent,classInjector);
   final GuardProfilerPluginContext guard=new GuardProfilerPluginContext(context);
   try {
+    preparePlugin(plugin,context);
     plugin.setup(guard);
   }
   finally {

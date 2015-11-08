@@ -1,0 +1,47 @@
+{
+  final boolean traceThriftClient=config.traceThriftClient();
+  final boolean traceThriftProcessor=config.traceThriftProcessor();
+  final String targetClassName=tProtocolClassName;
+  transformTemplate.transform(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      if (traceThriftClient) {
+        final InstrumentMethod writeFieldStop=target.getDeclaredMethod("writeFieldStop");
+        if (writeFieldStop != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.client.TProtocolWriteFieldStopInterceptor";
+          writeFieldStop.addInterceptor(interceptor);
+        }
+      }
+      if (traceThriftProcessor) {
+        target.addField(ServerMarkerFlagFieldAccessor.class.getName());
+        final InstrumentMethod readFieldBegin=target.getDeclaredMethod("readFieldBegin");
+        if (readFieldBegin != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadFieldBeginInterceptor";
+          readFieldBegin.addInterceptor(interceptor);
+        }
+        final List<InstrumentMethod> readTTypes=target.getDeclaredMethods(MethodFilters.name("readBool","readBinary","readI16","readI64"));
+        if (readTTypes != null) {
+          String tTypeCommonInterceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadTTypeInterceptor";
+          for (          InstrumentMethod readTType : readTTypes) {
+            if (readTType != null) {
+              readTType.addInterceptor(tTypeCommonInterceptor);
+            }
+          }
+        }
+        final InstrumentMethod readMessageEnd=target.getDeclaredMethod("readMessageEnd");
+        if (readMessageEnd != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadMessageEndInterceptor";
+          readMessageEnd.addInterceptor(interceptor);
+        }
+        target.addField(AsyncMarkerFlagFieldAccessor.class.getName());
+        final InstrumentMethod readMessageBegin=target.getDeclaredMethod("readMessageBegin");
+        if (readMessageBegin != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.tprotocol.server.TProtocolReadMessageBeginInterceptor";
+          readMessageBegin.addInterceptor(interceptor);
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

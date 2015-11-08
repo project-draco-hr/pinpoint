@@ -1,10 +1,10 @@
 {
   final RedisPluginConfig config=new RedisPluginConfig(context.getConfig());
   final boolean pipelineEnabled=config.isPipelineEnabled();
-  addJedisClassEditors(context,config);
-  addProtocolClassEditor(context,config);
+  addJedisClassEditors(config);
+  addProtocolClassEditor(config);
   if (pipelineEnabled) {
-    addJedisClientClassEditor(context,config);
-    addJedisPipelineClassEditors(context,config);
+    addJedisClientClassEditor(config);
+    addJedisPipelineClassEditors(config);
   }
 }

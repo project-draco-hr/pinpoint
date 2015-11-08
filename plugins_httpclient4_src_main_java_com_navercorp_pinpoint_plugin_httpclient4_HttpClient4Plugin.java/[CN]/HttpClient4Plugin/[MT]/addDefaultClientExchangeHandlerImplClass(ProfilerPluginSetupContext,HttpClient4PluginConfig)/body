@@ -1,5 +1,5 @@
 {
-  context.addClassFileTransformer("org.apache.http.impl.nio.client.DefaultClientExchangeHandlerImpl",new TransformCallback(){
+  transformTemplate.transform("org.apache.http.impl.nio.client.DefaultClientExchangeHandlerImpl",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addGetter(RequestProducerGetter.class.getName(),HttpClient4Constants.FIELD_REQUEST_PRODUCER);

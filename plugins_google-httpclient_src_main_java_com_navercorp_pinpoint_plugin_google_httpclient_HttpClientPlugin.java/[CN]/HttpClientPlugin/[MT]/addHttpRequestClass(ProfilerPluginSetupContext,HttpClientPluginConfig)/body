@@ -1,8 +1,8 @@
 {
-  context.addClassFileTransformer("com.google.api.client.http.HttpRequest",new TransformCallback(){
+  transformTemplate.transform("com.google.api.client.http.HttpRequest",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
-      InstrumentMethod execute=target.getDeclaredMethod("execute",new String[]{});
+      InstrumentMethod execute=target.getDeclaredMethod("execute");
       if (execute != null) {
         execute.addInterceptor("com.navercorp.pinpoint.plugin.google.httpclient.interceptor.HttpRequestExecuteMethodInterceptor");
       }
