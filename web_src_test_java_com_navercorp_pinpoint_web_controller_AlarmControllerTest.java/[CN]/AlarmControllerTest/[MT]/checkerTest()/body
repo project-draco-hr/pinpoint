@@ -2,6 +2,6 @@
   MvcResult result=this.mockMvc.perform(get("/alarmRule/checker.pinpoint").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$").isArray()).andReturn();
   String content=result.getResponse().getContentAsString();
   ObjectMapper objectMapper=new ObjectMapper();
-  List<String> checherList=objectMapper.readValue(content,List.class);
-  Assert.assertNotEquals(checherList.size(),0);
+  List<String> checkerList=objectMapper.readValue(content,List.class);
+  Assert.assertNotEquals(checkerList.size(),0);
 }
