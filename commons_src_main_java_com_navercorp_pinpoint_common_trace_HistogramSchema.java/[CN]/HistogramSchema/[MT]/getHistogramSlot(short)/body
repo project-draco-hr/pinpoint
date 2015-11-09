@@ -1,0 +1,18 @@
+{
+  if (slotTime == ERROR_SLOT_TIME) {
+    return errorSlot;
+  }
+  if (slotTime == this.fastSlot.getSlotTime()) {
+    return fastSlot;
+  }
+  if (slotTime == this.normalSlot.getSlotTime()) {
+    return normalSlot;
+  }
+  if (slotTime == this.slowSlot.getSlotTime()) {
+    return slowSlot;
+  }
+  if (slotTime == this.verySlowSlot.getSlotTime()) {
+    return slowSlot;
+  }
+  throw new IllegalArgumentException("HistogramSlot not found. slotTime:" + slotTime);
+}
