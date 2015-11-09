@@ -1,0 +1,28 @@
+{
+  transformTemplate.transform("com.squareup.okhttp.internal.http.HttpEngine",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(UserRequestGetter.class.getName(),OkHttpConstants.FIELD_USER_REQUEST);
+      target.addGetter(UserResponseGetter.class.getName(),OkHttpConstants.FIELD_USER_RESPONSE);
+      target.addGetter(ConnectionGetter.class.getName(),OkHttpConstants.FIELD_CONNECTION);
+      InstrumentMethod sendRequestMethod=target.getDeclaredMethod("sendRequest");
+      if (sendRequestMethod != null) {
+        logger.debug("[OkHttp] Add HttpEngine.sendRequest interceptor.");
+        final ObjectRecipe objectRecipe=ObjectRecipe.byConstructor("com.navercorp.pinpoint.plugin.okhttp.OkHttpPluginConfig",instrumentContext.getProfilerConfig());
+        sendRequestMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineSendRequestMethodInterceptor",va(objectRecipe));
+      }
+      InstrumentMethod connectMethod=target.getDeclaredMethod("connect");
+      if (connectMethod != null) {
+        logger.debug("[OkHttp] Add HttpEngine.connect interceptor.");
+        connectMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineConnectMethodInterceptor");
+      }
+      InstrumentMethod readResponseMethod=target.getDeclaredMethod("readResponse");
+      if (readResponseMethod != null) {
+        logger.debug("[OkHttp] Add HttpEngine.connect interceptor.");
+        readResponseMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineReadResponseMethodInterceptor",va(config.isStatusCode()));
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

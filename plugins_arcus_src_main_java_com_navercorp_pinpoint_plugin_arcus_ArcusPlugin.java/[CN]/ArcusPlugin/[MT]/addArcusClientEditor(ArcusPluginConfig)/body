@@ -1,0 +1,26 @@
+{
+  transformTemplate.transform("net.spy.memcached.ArcusClient",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+      if (target.hasMethod("addOp","java.lang.String","net.spy.memcached.ops.Operation")) {
+        boolean traceKey=config.isArcusKeyTrace();
+        target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.SetCacheManagerInterceptor");
+        for (        InstrumentMethod m : target.getDeclaredMethods(new ArcusMethodFilter())) {
+          try {
+            m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",va(traceKey));
+          }
+ catch (          Exception e) {
+            if (logger.isWarnEnabled()) {
+              logger.warn("Unsupported method " + className + "."+ m.getName(),e);
+            }
+          }
+        }
+        return target.toBytecode();
+      }
+ else {
+        return null;
+      }
+    }
+  }
+);
+}

@@ -10,5 +10,8 @@
   agentInfo.setServiceType(this.agentInformation.getServerType().getCode());
   agentInfo.setVmVersion(this.agentInformation.getJvmVersion());
   agentInfo.setAgentVersion(Version.VERSION);
+  if (this.serverMetaData != null) {
+    agentInfo.setServerMetaData(createTServiceInfo());
+  }
   return agentInfo;
 }

@@ -1,0 +1,20 @@
+{
+  transformTemplate.transform("net.spy.memcached.plugin.FrontCacheMemcachedClient",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+      boolean traceKey=config.isMemcachedKeyTrace();
+      for (      InstrumentMethod m : target.getDeclaredMethods(new FrontCacheMemcachedMethodFilter())) {
+        try {
+          m.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.ApiInterceptor",va(traceKey));
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + className + "."+ m.getName(),e);
+          }
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

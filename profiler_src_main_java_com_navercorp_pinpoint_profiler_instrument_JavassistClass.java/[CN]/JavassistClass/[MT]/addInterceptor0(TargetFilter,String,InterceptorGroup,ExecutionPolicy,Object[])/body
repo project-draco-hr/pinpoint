@@ -1,7 +1,9 @@
 {
   String filterTypeName=annotation.type();
   Asserts.notNull(filterTypeName,"type of @TargetFilter");
-  AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,classLoader,new InterceptorArgumentProvider(pluginContext.getTraceContext(),this));
+  final TraceContext traceContext=pluginContext.getTraceContext();
+  final InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(traceContext,this);
+  AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,classLoader,interceptorArgumentProvider);
   MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectRecipe.byConstructor(filterTypeName,(Object[])annotation.constructorArguments()));
   boolean singleton=annotation.singleton();
   int interceptorId=-1;

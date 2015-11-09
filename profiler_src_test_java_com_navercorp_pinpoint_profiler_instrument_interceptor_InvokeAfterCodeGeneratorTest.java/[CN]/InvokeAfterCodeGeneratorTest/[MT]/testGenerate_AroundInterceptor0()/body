@@ -1,6 +1,6 @@
 {
   final Class<AroundInterceptor0> aroundInterceptor3Class=AroundInterceptor0.class;
-  final Method interceptorAfter=aroundInterceptor3Class.getMethod("after",Object.class,Object.class,Throwable.class);
+  final InterceptorDefinition interceptorDefinition=interceptorDefinitionFactory.createInterceptorDefinition(aroundInterceptor3Class);
   final InstrumentClass mockClass=mock(InstrumentClass.class);
   Mockito.when(mockClass.getName()).thenReturn("TestClass");
   final InstrumentMethod mockMethod=mock(InstrumentMethod.class);
@@ -8,7 +8,7 @@
   Mockito.when(mockMethod.getParameterTypes()).thenReturn(new String[]{});
   Mockito.when(mockMethod.getReturnType()).thenReturn("java.lang.Object");
   TraceContext context=mock(TraceContext.class);
-  final InvokeAfterCodeGenerator invokeAfterCodeGenerator=new InvokeAfterCodeGenerator(100,aroundInterceptor3Class,interceptorAfter,mockClass,mockMethod,context,false,true);
+  final InvokeAfterCodeGenerator invokeAfterCodeGenerator=new InvokeAfterCodeGenerator(100,interceptorDefinition,mockClass,mockMethod,context,false,true);
   final String generate=invokeAfterCodeGenerator.generate();
   logger.debug("testGenerate_AroundInterceptor0:{}",generate);
   Assert.assertFalse(generate.contains("($w)$1"));

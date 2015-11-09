@@ -1,0 +1,17 @@
+{
+  transformTemplate.transform("org.apache.catalina.loader.WebappLoader",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      InstrumentMethod startEditor=target.getDeclaredMethod("start");
+      if (startEditor != null) {
+        startEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+      }
+      InstrumentMethod startInternalEditor=target.getDeclaredMethod("startInternal");
+      if (startInternalEditor != null) {
+        startInternalEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

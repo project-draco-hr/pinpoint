@@ -45,7 +45,7 @@
   this.statDataSender=createUdpStatDataSender(this.profilerConfig.getCollectorStatServerPort(),"Pinpoint-UdpStatDataExecutor",this.profilerConfig.getStatDataSenderWriteQueueSize(),this.profilerConfig.getStatDataSenderSocketTimeout(),this.profilerConfig.getStatDataSenderSocketSendBufferSize());
   this.traceContext=createTraceContext();
   addCommandService(commandDispatcher,traceContext);
-  this.agentInfoSender=new AgentInfoSender(tcpDataSender,profilerConfig.getAgentInfoSendRetryInterval(),this.agentInformation);
+  this.agentInfoSender=new AgentInfoSender.Builder(tcpDataSender,this.agentInformation).sendInterval(profilerConfig.getAgentInfoSendRetryInterval()).build();
   this.serverMetaDataHolder.addListener(this.agentInfoSender);
   AgentStatCollectorFactory agentStatCollectorFactory=new AgentStatCollectorFactory(this.getTransactionCounter(this.traceContext));
   this.agentStatMonitor=new AgentStatMonitor(this.statDataSender,this.agentInformation.getAgentId(),this.agentInformation.getStartTime(),agentStatCollectorFactory);

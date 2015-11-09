@@ -3,7 +3,7 @@
     logger.info("Modify {}",className);
   }
   try {
-    InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
     if (!target.isInterceptable()) {
       return null;
     }

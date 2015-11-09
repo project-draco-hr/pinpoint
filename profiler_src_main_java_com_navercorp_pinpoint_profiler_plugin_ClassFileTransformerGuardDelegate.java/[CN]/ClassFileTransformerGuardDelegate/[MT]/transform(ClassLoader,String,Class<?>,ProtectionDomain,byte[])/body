@@ -2,7 +2,7 @@
   if (className == null) {
     throw new NullPointerException("className must not be null");
   }
-  final GuardInstrumentor guard=new GuardInstrumentor(this.instrumentor);
+  final GuardInstrumentor guard=new GuardInstrumentor(this.instrumentContext);
   try {
     return transformCallback.doInTransform(guard,loader,className,classBeingRedefined,protectionDomain,classfileBuffer);
   }

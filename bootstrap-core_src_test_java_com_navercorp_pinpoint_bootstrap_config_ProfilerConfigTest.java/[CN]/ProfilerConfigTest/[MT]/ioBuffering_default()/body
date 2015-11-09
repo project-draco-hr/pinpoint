@@ -1,7 +1,7 @@
 {
-  String path=ProfilerConfig.class.getResource("/com/navercorp/pinpoint/bootstrap/config/default.property").getPath();
+  String path=DefaultProfilerConfig.class.getResource("/com/navercorp/pinpoint/bootstrap/config/default.property").getPath();
   logger.debug("path:{}",path);
-  ProfilerConfig profilerConfig=ProfilerConfig.load(path);
+  ProfilerConfig profilerConfig=DefaultProfilerConfig.load(path);
   Assert.assertEquals(profilerConfig.isIoBufferingEnable(),true);
   Assert.assertEquals(profilerConfig.getIoBufferingBufferSize(),10);
 }

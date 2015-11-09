@@ -1,0 +1,22 @@
+{
+  final boolean traceServiceArgs=config.traceThriftServiceArgs();
+  final boolean traceServiceResult=config.traceThriftServiceResult();
+  final String targetClassName="org.apache.thrift.TServiceClient";
+  transformTemplate.transform(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      final InstrumentMethod sendBase=target.getDeclaredMethod("sendBase","java.lang.String","org.apache.thrift.TBase");
+      if (sendBase != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientSendBaseInterceptor";
+        sendBase.addInterceptor(interceptor,va(traceServiceArgs));
+      }
+      final InstrumentMethod receiveBase=target.getDeclaredMethod("receiveBase","org.apache.thrift.TBase","java.lang.String");
+      if (receiveBase != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.TServiceClientReceiveBaseInterceptor";
+        receiveBase.addInterceptor(interceptor,va(traceServiceResult));
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}
