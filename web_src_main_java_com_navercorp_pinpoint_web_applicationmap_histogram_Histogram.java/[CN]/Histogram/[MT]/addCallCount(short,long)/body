@@ -4,20 +4,32 @@
     this.verySlowCount+=count;
     return;
   }
-  if (slotTime == schema.getErrorSlot().getSlotTime()) {
-    this.errorCount+=count;
+  if (slotTime == schema.getVerySlowErrorSlot().getSlotTime()) {
+    this.verySlowErrorCount+=count;
     return;
   }
   if (slotTime <= schema.getFastSlot().getSlotTime()) {
     this.fastCount+=count;
     return;
   }
+  if (slotTime <= schema.getFastErrorSlot().getSlotTime()) {
+    this.fastErrorCount+=count;
+    return;
+  }
   if (slotTime <= schema.getNormalSlot().getSlotTime()) {
     this.normalCount+=count;
     return;
   }
+  if (slotTime <= schema.getNormalErrorSlot().getSlotTime()) {
+    this.normalErrorCount+=count;
+    return;
+  }
   if (slotTime <= schema.getSlowSlot().getSlotTime()) {
     this.slowCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getSlowErrorSlot().getSlotTime()) {
+    this.slowErrorCount+=count;
     return;
   }
   throw new IllegalArgumentException("slot not found slotTime:" + slotTime + " count:"+ count);
