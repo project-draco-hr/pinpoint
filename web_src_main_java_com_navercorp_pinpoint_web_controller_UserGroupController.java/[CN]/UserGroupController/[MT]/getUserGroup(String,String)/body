@@ -1,8 +1,8 @@
 {
-  if (userId != null) {
+  if (!StringUtils.isEmpty(userId)) {
     return userGroupService.selectUserGroupByUserId(userId);
   }
- else   if (userGroupId != null) {
+ else   if (!StringUtils.isEmpty(userGroupId)) {
     return userGroupService.selectUserGroupByUserGroupId(userGroupId);
   }
   return userGroupService.selectUserGroup();
