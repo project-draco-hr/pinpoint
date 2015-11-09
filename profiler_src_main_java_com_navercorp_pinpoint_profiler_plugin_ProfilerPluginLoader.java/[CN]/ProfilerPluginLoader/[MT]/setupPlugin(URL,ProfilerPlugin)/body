@@ -1,13 +1,14 @@
 {
   final ClassInjector classInjector=JarProfilerPluginClassInjector.of(agent.getInstrumentation(),agent.getClassPool(),jar);
   final DefaultProfilerPluginContext context=new DefaultProfilerPluginContext(agent,classInjector);
-  final GuardProfilerPluginContext guard=new GuardProfilerPluginContext(context);
+  final GuardProfilerPluginContext guardPluginContext=new GuardProfilerPluginContext(context);
+  final GuardInstrumentContext guardInstrumentContext=preparePlugin(plugin,context);
   try {
-    preparePlugin(plugin,context);
-    plugin.setup(guard);
+    plugin.setup(guardPluginContext);
   }
   finally {
-    guard.close();
+    guardPluginContext.close();
+    guardInstrumentContext.close();
   }
   return context;
 }
