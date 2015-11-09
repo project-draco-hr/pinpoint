@@ -6,7 +6,8 @@
     return Option.withValue(pluginContext.getTraceContext());
   }
  else   if (type == Instrumentor.class) {
-    return Option.withValue(pluginContext);
+    final InstrumentorDelegate delegate=new InstrumentorDelegate(pluginContext);
+    return Option.withValue(delegate);
   }
  else   if (type == InterceptorGroup.class) {
     Name annotation=TypeUtils.findAnnotation(annotations,Name.class);

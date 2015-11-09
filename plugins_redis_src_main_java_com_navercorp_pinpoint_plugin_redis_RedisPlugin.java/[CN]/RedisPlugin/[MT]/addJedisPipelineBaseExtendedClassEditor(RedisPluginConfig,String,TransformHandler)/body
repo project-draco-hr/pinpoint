@@ -1,0 +1,22 @@
+{
+  transformTemplate.transform(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      if (handler != null) {
+        handler.handle(target);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.chain(MethodFilters.name(JedisPipelineMethodNames.get()),MethodFilters.modifierNot(MethodFilters.SYNTHETIC)))) {
+        try {
+          method.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisPipelineMethodInterceptor",va(config.isIo()));
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + method,e);
+          }
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

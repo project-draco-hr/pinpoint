@@ -1,0 +1,18 @@
+{
+  transformTemplate.transform("org.apache.commons.httpclient.HttpClient",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      injectHttpClientExecuteMethod(target,"org.apache.commons.httpclient.HttpMethod");
+      injectHttpClientExecuteMethod(target,"org.apache.commons.httpclient.HostConfiguration","org.apache.commons.httpclient.HttpMethod");
+      injectHttpClientExecuteMethod(target,"org.apache.commons.httpclient.HostConfiguration","org.apache.commons.httpclient.HttpMethod","org.apache.commons.httpclient.HttpState");
+      return target.toBytecode();
+    }
+    private void injectHttpClientExecuteMethod(    InstrumentClass target,    String... parameterTypeNames) throws InstrumentException {
+      InstrumentMethod method=target.getDeclaredMethod("executeMethod",parameterTypeNames);
+      if (method != null) {
+        method.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.ExecuteInterceptor");
+      }
+    }
+  }
+);
+}

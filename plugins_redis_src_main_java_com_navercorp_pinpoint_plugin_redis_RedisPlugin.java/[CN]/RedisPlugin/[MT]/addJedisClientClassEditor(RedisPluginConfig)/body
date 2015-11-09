@@ -1,0 +1,18 @@
+{
+  transformTemplate.transform("redis.clients.jedis.Client",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      target.addField(RedisConstants.METADATA_END_POINT);
+      final InstrumentMethod constructorEditorBuilderArg1=target.getConstructor("java.lang.String");
+      if (constructorEditorBuilderArg1 != null) {
+        constructorEditorBuilderArg1.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisClientConstructorInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilderArg2=target.getConstructor("java.lang.String","int");
+      if (constructorEditorBuilderArg2 != null) {
+        constructorEditorBuilderArg2.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisClientConstructorInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

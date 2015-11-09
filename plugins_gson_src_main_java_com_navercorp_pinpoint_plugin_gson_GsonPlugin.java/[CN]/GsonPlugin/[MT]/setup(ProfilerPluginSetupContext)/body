@@ -1,5 +1,5 @@
 {
-  context.addClassFileTransformer("com.google.gson.Gson",new TransformCallback(){
+  transformTemplate.transform("com.google.gson.Gson",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=pluginContext.getInstrumentClass(loader,className,classfileBuffer);
       for (      InstrumentMethod m : target.getDeclaredMethods(MethodFilters.name("fromJson"))) {

@@ -1,0 +1,16 @@
+{
+  final String targetClassName="org.apache.thrift.ProcessFunction";
+  transformTemplate.transform(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(ServerMarkerFlagFieldAccessor.class.getName());
+      final InstrumentMethod process=target.getDeclaredMethod("process","int","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol","java.lang.Object");
+      if (process != null) {
+        String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.ProcessFunctionProcessInterceptor";
+        process.addInterceptor(interceptor);
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

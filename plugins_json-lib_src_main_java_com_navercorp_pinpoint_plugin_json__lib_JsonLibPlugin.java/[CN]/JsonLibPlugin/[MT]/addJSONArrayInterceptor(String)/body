@@ -1,0 +1,24 @@
+{
+  transformTemplate.transform(clazzName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("fromObject"))) {
+        addInterceptor(method,PARSING_INTERCEPTOR);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toArray"))) {
+        addInterceptor(method,BASIC_INTERCEPTOR,JsonLibConstants.SERVICE_TYPE);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toList"))) {
+        addInterceptor(method,BASIC_INTERCEPTOR,JsonLibConstants.SERVICE_TYPE);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toCollection"))) {
+        addInterceptor(method,BASIC_INTERCEPTOR,JsonLibConstants.SERVICE_TYPE);
+      }
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("toString"))) {
+        addInterceptor(method,TO_STRING_INTERCEPTOR);
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

@@ -1,5 +1,5 @@
 {
-  context.addClassFileTransformer("org.apache.log4j.spi.LoggingEvent",new TransformCallback(){
+  transformTemplate.transform("org.apache.log4j.spi.LoggingEvent",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass mdcClass=pluginContext.getInstrumentClass(loader,"org.apache.log4j.MDC",null);
       if (mdcClass == null) {

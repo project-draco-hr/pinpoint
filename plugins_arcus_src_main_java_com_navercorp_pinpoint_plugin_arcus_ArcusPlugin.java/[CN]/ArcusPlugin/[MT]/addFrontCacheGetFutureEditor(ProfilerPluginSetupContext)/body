@@ -1,5 +1,5 @@
 {
-  context.addClassFileTransformer("net.spy.memcached.plugin.FrontCacheGetFuture",new TransformCallback(){
+  transformTemplate.transform("net.spy.memcached.plugin.FrontCacheGetFuture",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(CACHE_NAME_ACCESSOR);

@@ -1,5 +1,5 @@
 {
-  context.addClassFileTransformer("ch.qos.logback.classic.spi.LoggingEvent",new TransformCallback(){
+  transformTemplate.transform("ch.qos.logback.classic.spi.LoggingEvent",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass mdcClass=pluginContext.getInstrumentClass(loader,"org.slf4j.MDC",null);
       if (mdcClass == null) {
