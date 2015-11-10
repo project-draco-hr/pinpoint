@@ -4,7 +4,8 @@
   final TraceContext traceContext=pluginContext.getTraceContext();
   final InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(traceContext,this);
   AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,classLoader,interceptorArgumentProvider);
-  MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectRecipe.byConstructor(filterTypeName,(Object[])annotation.constructorArguments()));
+  final ObjectFactory objectFactory=ObjectFactory.byConstructor(filterTypeName,(Object[])annotation.constructorArguments());
+  MethodFilter filter=(MethodFilter)filterFactory.createInstance(objectFactory);
   boolean singleton=annotation.singleton();
   int interceptorId=-1;
   for (  InstrumentMethod m : getDeclaredMethods(filter)) {
