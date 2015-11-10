@@ -8,8 +8,8 @@
       InstrumentMethod sendRequestMethod=target.getDeclaredMethod("sendRequest");
       if (sendRequestMethod != null) {
         logger.debug("[OkHttp] Add HttpEngine.sendRequest interceptor.");
-        final ObjectRecipe objectRecipe=ObjectRecipe.byConstructor("com.navercorp.pinpoint.plugin.okhttp.OkHttpPluginConfig",instrumentContext.getProfilerConfig());
-        sendRequestMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineSendRequestMethodInterceptor",va(objectRecipe));
+        final ObjectFactory objectFactory=ObjectFactory.byConstructor("com.navercorp.pinpoint.plugin.okhttp.OkHttpPluginConfig",instrumentContext.getProfilerConfig());
+        sendRequestMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineSendRequestMethodInterceptor",va(objectFactory));
       }
       InstrumentMethod connectMethod=target.getDeclaredMethod("connect");
       if (connectMethod != null) {
