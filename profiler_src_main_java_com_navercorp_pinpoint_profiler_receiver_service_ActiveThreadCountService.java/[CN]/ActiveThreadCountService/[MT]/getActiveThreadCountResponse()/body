@@ -6,7 +6,7 @@
   long currentTime=System.currentTimeMillis();
   List<ActiveTraceInfo> collectedActiveTraceInfo=activeTraceLocator.collect();
   for (  ActiveTraceInfo activeTraceInfo : collectedActiveTraceInfo) {
-    HistogramSlot slot=histogramSchema.findHistogramSlot((int)(currentTime - activeTraceInfo.getStartTime()));
+    HistogramSlot slot=histogramSchema.findHistogramSlot((int)(currentTime - activeTraceInfo.getStartTime()),false);
     mappedSlot.get(slot.getSlotType()).incrementAndGet();
   }
   List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadSlotsCount);
