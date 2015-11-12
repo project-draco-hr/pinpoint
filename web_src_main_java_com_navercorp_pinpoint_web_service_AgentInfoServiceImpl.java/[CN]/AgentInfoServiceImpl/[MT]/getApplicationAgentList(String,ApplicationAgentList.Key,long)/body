@@ -2,6 +2,9 @@
   if (applicationName == null) {
     throw new NullPointerException("applicationName must not be null");
   }
+  if (applicationAgentListKey == null) {
+    throw new NullPointerException("applicationAgentListKey must not be null");
+  }
   final List<String> agentIdList=this.applicationIndexDao.selectAgentIds(applicationName);
   if (logger.isDebugEnabled()) {
     logger.debug("agentIdList={}",agentIdList);
@@ -23,7 +26,7 @@
     if (initialAgentInfo != null) {
       agentInfo.setInitialStartTimestamp(initialAgentInfo.getStartTime());
     }
-    String hostname=agentInfoBo.getHostName();
+    String hostname=applicationAgentListKey.getKey(agentInfo);
     if (result.containsKey(hostname)) {
       result.get(hostname).add(agentInfo);
     }

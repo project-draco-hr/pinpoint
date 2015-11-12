@@ -1,0 +1,11 @@
+{
+  for (  Map.Entry<String,List<AgentInfo>> e : applicationAgentList.getApplicationAgentList().entrySet()) {
+    String key=e.getKey();
+    if (this.applicationAgentList.containsKey(key)) {
+      this.applicationAgentList.get(key).addAll(e.getValue());
+    }
+ else {
+      this.applicationAgentList.put(key,e.getValue());
+    }
+  }
+}

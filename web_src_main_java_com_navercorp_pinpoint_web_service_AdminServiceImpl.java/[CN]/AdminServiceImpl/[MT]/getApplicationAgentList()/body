@@ -1,0 +1,8 @@
+{
+  ApplicationAgentList applicationAgentList=new ApplicationAgentList();
+  List<Application> applications=applicationIndexDao.selectAllApplicationNames();
+  for (  Application application : applications) {
+    applicationAgentList.merge(this.getApplicationAgentList(application.getName()));
+  }
+  return applicationAgentList;
+}

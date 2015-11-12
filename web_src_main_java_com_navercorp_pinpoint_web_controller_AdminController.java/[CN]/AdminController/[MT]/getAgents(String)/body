@@ -1,0 +1,10 @@
+{
+  if (StringUtils.isEmpty(applicationName)) {
+    logger.debug("/getAgents");
+    return this.adminService.getApplicationAgentList();
+  }
+ else {
+    logger.debug("/getAgents - ApplicationName: [{}]",applicationName);
+    return this.adminService.getApplicationAgentList(applicationName);
+  }
+}
