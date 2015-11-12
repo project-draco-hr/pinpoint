@@ -17,13 +17,14 @@
     }
     recorder.recordException(throwable);
     if (result instanceof Future && result instanceof OperationAccessor) {
-      Operation op=((OperationAccessor)result)._$PINPOINT$_getOperation();
+      final Operation op=((OperationAccessor)result)._$PINPOINT$_getOperation();
       if (op != null) {
-        MemcachedNode handlingNode=op.getHandlingNode();
-        SocketAddress socketAddress=handlingNode.getSocketAddress();
-        if (socketAddress instanceof InetSocketAddress) {
-          InetSocketAddress address=(InetSocketAddress)socketAddress;
-          recorder.recordEndPoint(address.getHostName() + ":" + address.getPort());
+        final MemcachedNode handlingNode=op.getHandlingNode();
+        if (handlingNode != null) {
+          final String endPoint=getEndPoint(handlingNode);
+          if (endPoint != null) {
+            recorder.recordEndPoint(endPoint);
+          }
         }
       }
  else {

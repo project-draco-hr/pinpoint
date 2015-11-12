@@ -1,0 +1,18 @@
+{
+  final SocketAddress socketAddress=handlingNode.getSocketAddress();
+  if (socketAddress instanceof InetSocketAddress) {
+    final InetSocketAddress inetSocketAddress=(InetSocketAddress)socketAddress;
+    final String hostAddress=getHostAddress(inetSocketAddress);
+    if (hostAddress == null) {
+      logger.debug("hostAddress is null");
+      return null;
+    }
+    return hostAddress + ":" + inetSocketAddress.getPort();
+  }
+ else {
+    if (logger.isDebugEnabled()) {
+      logger.debug("invalid socketAddress:{}",socketAddress);
+    }
+    return null;
+  }
+}

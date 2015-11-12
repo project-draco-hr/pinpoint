@@ -3,24 +3,27 @@
   try {
     c=classLoader.loadClass(className);
   }
- catch (  ClassNotFoundException ignore) {
+ catch (  ClassNotFoundException ex) {
+    if (logger.isTraceEnabled()) {
+      logger.trace("ClassNotFound {}",ex.getMessage(),ex);
+    }
   }
   if (c != null) {
     return c;
   }
-  CtClass ct=pool.get(className);
+  final CtClass ct=pool.get(className);
   if (ct == null) {
     throw new NotFoundException(className);
   }
-  CtClass superClass=ct.getSuperclass();
+  final CtClass superClass=ct.getSuperclass();
   if (superClass != null) {
     injectToPlainClassLoader(pool,classLoader,superClass.getName());
   }
-  CtClass[] interfaces=ct.getInterfaces();
-  for (  CtClass i : interfaces) {
-    injectToPlainClassLoader(pool,classLoader,i.getName());
+  final CtClass[] interfaces=ct.getInterfaces();
+  for (  CtClass ctInterface : interfaces) {
+    injectToPlainClassLoader(pool,classLoader,ctInterface.getName());
   }
-  Collection<String> refs=ct.getRefClasses();
+  final Collection<String> refs=ct.getRefClasses();
   for (  String ref : refs) {
     try {
       injectToPlainClassLoader(pool,classLoader,ref);
@@ -29,6 +32,6 @@
       logger.warn("Skip a referenced class because of NotFoundException : ",e);
     }
   }
-  byte[] bytes=ct.toBytecode();
+  final byte[] bytes=ct.toBytecode();
   return (Class<?>)DEFINE_CLASS.invoke(classLoader,ct.getName(),bytes,0,bytes.length);
 }

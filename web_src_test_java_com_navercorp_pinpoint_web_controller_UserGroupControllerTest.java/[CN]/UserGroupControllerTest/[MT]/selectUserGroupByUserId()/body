@@ -2,6 +2,6 @@
   MvcResult result=this.mockMvc.perform(get("/userGroup.pinpoint?userId=" + TEST_USER_GROUP_MEMBER_ID2).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andReturn();
   String content=result.getResponse().getContentAsString();
   ObjectMapper objectMapper=new ObjectMapper();
-  List<Map> checkerList=objectMapper.readValue(content,List.class);
-  Assert.assertEquals(checkerList.size(),2);
+  List<Map> userGroupList=objectMapper.readValue(content,List.class);
+  Assert.assertEquals(userGroupList.size(),2);
 }
