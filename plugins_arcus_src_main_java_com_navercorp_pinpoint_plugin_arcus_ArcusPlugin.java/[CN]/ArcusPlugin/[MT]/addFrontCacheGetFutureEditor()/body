@@ -2,8 +2,8 @@
   transformTemplate.transform("net.spy.memcached.plugin.FrontCacheGetFuture",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
-      target.addField(CACHE_NAME_ACCESSOR);
-      target.addField(CACHE_KEY_ACCESSOR);
+      target.addField(CacheNameAccessor.class.getName());
+      target.addField(CacheKeyAccessor.class.getName());
       target.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureConstructInterceptor");
       InstrumentMethod get0=target.getDeclaredMethod("get",new String[]{"long","java.util.concurrent.TimeUnit"});
       get0.addInterceptor("com.navercorp.pinpoint.plugin.arcus.interceptor.FrontCacheGetFutureGetInterceptor");

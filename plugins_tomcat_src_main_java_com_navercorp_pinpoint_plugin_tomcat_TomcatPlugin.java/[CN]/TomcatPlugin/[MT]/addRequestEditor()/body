@@ -2,8 +2,8 @@
   transformTemplate.transform("org.apache.catalina.connector.Request",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
-      target.addField(TomcatConstants.METADATA_TRACE);
-      target.addField(TomcatConstants.METADATA_ASYNC);
+      target.addField(TraceAccessor.class.getName());
+      target.addField(AsyncAccessor.class.getName());
       InstrumentMethod recycleMethodEditorBuilder=target.getDeclaredMethod("recycle");
       if (recycleMethodEditorBuilder != null) {
         recycleMethodEditorBuilder.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.RequestRecycleInterceptor");
