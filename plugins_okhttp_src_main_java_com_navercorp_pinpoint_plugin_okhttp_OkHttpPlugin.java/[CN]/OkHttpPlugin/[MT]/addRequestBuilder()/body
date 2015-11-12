@@ -2,11 +2,17 @@
   transformTemplate.transform("com.squareup.okhttp.Request$Builder",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
-      target.addGetter(HttpUrlGetter.class.getName(),OkHttpConstants.FIELD_HTTP_URL);
       InstrumentMethod buildMethod=target.getDeclaredMethod("build");
       if (buildMethod != null) {
         logger.debug("[OkHttp] Add Request.Builder.build interceptor.");
-        buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodInterceptor");
+        if (instrumentContext.exist(loader,"com.squareup.okhttp.HttpUrl")) {
+          target.addGetter(HttpUrlGetter.class.getName(),OkHttpConstants.FIELD_HTTP_URL);
+          buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodInterceptor");
+        }
+ else {
+          target.addGetter(UrlGetter.class.getName(),OkHttpConstants.FIELD_HTTP_URL);
+          buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodBackwardCompatibilityInterceptor");
+        }
       }
       return target.toBytecode();
     }
