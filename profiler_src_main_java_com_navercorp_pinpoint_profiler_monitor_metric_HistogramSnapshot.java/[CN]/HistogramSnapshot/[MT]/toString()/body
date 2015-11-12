@@ -1,3 +1,14 @@
 {
-  return "HistogramSnapshot{" + "serviceType=" + serviceType + "fast="+ fastCount+ ", normal="+ normalCount+ ", slow="+ slowCount+ ", verySlow="+ verySlowCount+ ", error="+ errorCount+ '}';
+  final StringBuilder sb=new StringBuilder("{");
+  sb.append("serviceType=").append(serviceType);
+  sb.append(", fastCount=").append(fastCount);
+  sb.append(", fastErrorCount=").append(fastErrorCount);
+  sb.append(", normalCount=").append(normalCount);
+  sb.append(", normalErrorCount=").append(normalErrorCount);
+  sb.append(", slowCount=").append(slowCount);
+  sb.append(", slowErrorCount=").append(slowErrorCount);
+  sb.append(", verySlowCount=").append(verySlowCount);
+  sb.append(", verySlowErrorCount=").append(verySlowErrorCount);
+  sb.append('}');
+  return sb.toString();
 }

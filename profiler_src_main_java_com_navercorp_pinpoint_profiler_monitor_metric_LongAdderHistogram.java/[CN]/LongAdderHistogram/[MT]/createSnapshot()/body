@@ -1,8 +1,11 @@
 {
   long fast=fastCounter.sum();
+  long fastError=fastErrorCounter.sum();
   long normal=normalCounter.sum();
+  long normalError=normalErrorCounter.sum();
   long slow=slowCounter.sum();
+  long slowError=slowErrorCounter.sum();
   long verySlow=verySlowCounter.sum();
-  long error=errorCounter.sum();
-  return new HistogramSnapshot(this.serviceType,fast,normal,slow,verySlow,error);
+  long verySlowError=verySlowErrorCounter.sum();
+  return new HistogramSnapshot(this.serviceType,fast,normal,slow,verySlow,fastError,normalError,slowError,verySlowError);
 }
