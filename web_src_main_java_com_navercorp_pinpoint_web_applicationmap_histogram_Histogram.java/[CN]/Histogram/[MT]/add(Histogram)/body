@@ -5,9 +5,13 @@
   if (this.schema != histogram.schema) {
     throw new IllegalArgumentException("schema not equals. this=" + this + ", histogram="+ histogram);
   }
-  this.fastCount+=histogram.fastCount;
-  this.normalCount+=histogram.normalCount;
-  this.slowCount+=histogram.slowCount;
-  this.verySlowCount+=histogram.verySlowCount;
-  this.errorCount+=histogram.errorCount;
+  this.errorCount+=histogram.getErrorCount();
+  this.fastCount+=histogram.getFastCount();
+  this.fastErrorCount+=histogram.getFastErrorCount();
+  this.normalCount+=histogram.getNormalCount();
+  this.normalErrorCount+=histogram.getNormalErrorCount();
+  this.slowCount+=histogram.getSlowCount();
+  this.slowErrorCount+=histogram.getSlowErrorCount();
+  this.verySlowCount+=histogram.getVerySlowCount();
+  this.verySlowErrorCount+=histogram.getVerySlowErrorCount();
 }

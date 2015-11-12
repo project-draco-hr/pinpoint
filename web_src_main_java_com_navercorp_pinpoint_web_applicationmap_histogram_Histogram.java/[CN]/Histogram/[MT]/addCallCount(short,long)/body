@@ -1,11 +1,27 @@
 {
   final HistogramSchema schema=this.schema;
-  if (slotTime == schema.getVerySlowSlot().getSlotTime()) {
-    this.verySlowCount+=count;
+  if (slotTime <= schema.getVerySlowErrorSlot().getSlotTime()) {
+    this.verySlowErrorCount+=count;
     return;
   }
-  if (slotTime == schema.getErrorSlot().getSlotTime()) {
+  if (slotTime <= schema.getSlowErrorSlot().getSlotTime()) {
+    this.slowErrorCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getNormalErrorSlot().getSlotTime()) {
+    this.normalErrorCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getFastErrorSlot().getSlotTime()) {
+    this.fastErrorCount+=count;
+    return;
+  }
+  if (slotTime <= schema.getErrorSlot().getSlotTime()) {
     this.errorCount+=count;
+    return;
+  }
+  if (slotTime == schema.getVerySlowSlot().getSlotTime()) {
+    this.verySlowCount+=count;
     return;
   }
   if (slotTime <= schema.getFastSlot().getSlotTime()) {
@@ -20,5 +36,5 @@
     this.slowCount+=count;
     return;
   }
-  throw new IllegalArgumentException("slot not found slotTime:" + slotTime + " count:"+ count);
+  throw new IllegalArgumentException("slot not found slotTime=" + slotTime + ", count="+ count+ ", schema="+ schema);
 }
