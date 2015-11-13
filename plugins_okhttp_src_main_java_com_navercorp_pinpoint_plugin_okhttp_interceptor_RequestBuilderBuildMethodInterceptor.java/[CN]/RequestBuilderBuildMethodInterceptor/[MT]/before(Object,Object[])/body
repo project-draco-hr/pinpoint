@@ -15,9 +15,9 @@
       ((Request.Builder)target).header(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
       return;
     }
-    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
     if (invocation == null || invocation.getAttachment() == null || !(invocation.getAttachment() instanceof TraceId)) {
-      logger.debug("Invalid interceptor group invocation. {}",invocation);
+      logger.debug("Invalid interceptor scope invocation. {}",invocation);
       return;
     }
     final TraceId nextId=(TraceId)invocation.getAttachment();

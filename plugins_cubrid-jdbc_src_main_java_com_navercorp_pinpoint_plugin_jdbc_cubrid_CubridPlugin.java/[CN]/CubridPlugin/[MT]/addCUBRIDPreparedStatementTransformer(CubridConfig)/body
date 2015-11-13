@@ -6,8 +6,8 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),CubridConstants.GROUP_CUBRID);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",CubridConstants.GROUP_CUBRID);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),CubridConstants.CUBRID_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",CubridConstants.CUBRID_SCOPE);
       return target.toBytecode();
     }
   }

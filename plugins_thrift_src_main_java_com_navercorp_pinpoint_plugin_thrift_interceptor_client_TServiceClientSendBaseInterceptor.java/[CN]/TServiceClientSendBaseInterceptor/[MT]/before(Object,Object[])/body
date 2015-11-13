@@ -51,7 +51,7 @@
       parentTraceInfo.setParentApplicationType(traceContext.getServerTypeCode());
       parentTraceInfo.setAcceptorHost(remoteAddress);
     }
-    InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+    InterceptorScopeInvocation currentTransaction=this.scope.getCurrentInvocation();
     currentTransaction.setAttachment(parentTraceInfo);
   }
 }

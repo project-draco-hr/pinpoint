@@ -26,7 +26,7 @@
     }
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
-    InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
     if (invocation != null && invocation.getAttachment() != null) {
       final HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
       logger.debug("Check call context {}",callContext);

@@ -1,0 +1,18 @@
+{
+  final Class<? extends Interceptor> interceptorType=pluginContext.injectClass(declaringClass.getClassLoader(),interceptorClassName);
+  if (scope == null) {
+    Scope interceptorScope=interceptorType.getAnnotation(Scope.class);
+    if (interceptorScope != null) {
+      String scopeName=interceptorScope.value();
+      scope=pluginContext.getInterceptorScope(scopeName);
+      policy=interceptorScope.executionPolicy();
+    }
+  }
+  if (scope == null) {
+    policy=null;
+  }
+ else   if (policy == null) {
+    policy=ExecutionPolicy.BOUNDARY;
+  }
+  return new ScopeInfo(scope,policy);
+}

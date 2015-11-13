@@ -6,8 +6,8 @@
         return null;
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",MySqlConstants.GROUP_NAME);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",MySqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",MySqlConstants.MYSQL_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",MySqlConstants.MYSQL_SCOPE);
       return target.toBytecode();
     }
   }

@@ -1,0 +1,11 @@
+{
+  if (name == null) {
+    throw new NullPointerException("name must not be null");
+  }
+  InterceptorScope scope=interceptorScopeList.get(name);
+  if (scope == null) {
+    scope=new DefaultInterceptorScope(name);
+    interceptorScopeList.add(name,scope);
+  }
+  return scope;
+}

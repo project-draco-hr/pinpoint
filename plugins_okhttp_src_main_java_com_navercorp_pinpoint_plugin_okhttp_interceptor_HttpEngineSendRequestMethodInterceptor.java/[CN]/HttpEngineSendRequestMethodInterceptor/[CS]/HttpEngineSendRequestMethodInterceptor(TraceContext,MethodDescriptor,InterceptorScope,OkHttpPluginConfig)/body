@@ -1,0 +1,14 @@
+{
+  this.traceContext=traceContext;
+  this.methodDescriptor=methodDescriptor;
+  this.interceptorScope=interceptorScope;
+  this.cookie=config.isCookie();
+  this.cookieDumpType=config.getCookieDumpType();
+  if (cookie) {
+    cookieSampler=SimpleSamplerFactory.createSampler(cookie,config.getCookieSamplingRate());
+  }
+ else {
+    this.cookieSampler=null;
+  }
+  statusCode=config.isStatusCode();
+}

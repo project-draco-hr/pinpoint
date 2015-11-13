@@ -8,8 +8,8 @@
       }
       InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",OracleConstants.GROUP_ORACLE);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",OracleConstants.GROUP_ORACLE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",OracleConstants.ORACLE_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",OracleConstants.ORACLE_SCOPE);
       return target.toBytecode();
     }
   }

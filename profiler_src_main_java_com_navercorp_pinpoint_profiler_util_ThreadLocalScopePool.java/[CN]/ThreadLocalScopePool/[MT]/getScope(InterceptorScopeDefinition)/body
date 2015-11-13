@@ -1,0 +1,15 @@
+{
+  if (scopeDefinition == null) {
+    throw new NullPointerException("scopeDefinition must not be null");
+  }
+  final InterceptorScopeInvocation scope=this.pool.get(scopeDefinition);
+  if (scope != null) {
+    return scope;
+  }
+  final InterceptorScopeInvocation newScope=createScope(scopeDefinition);
+  final InterceptorScopeInvocation exist=this.pool.putIfAbsent(scopeDefinition,newScope);
+  if (exist != null) {
+    return exist;
+  }
+  return newScope;
+}

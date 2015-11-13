@@ -13,7 +13,7 @@
       methodName=message.name;
     }
     ThriftClientCallContext clientCallContext=new ThriftClientCallContext(methodName);
-    InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+    InterceptorScopeInvocation currentTransaction=this.scope.getCurrentInvocation();
     currentTransaction.setAttachment(clientCallContext);
   }
 }

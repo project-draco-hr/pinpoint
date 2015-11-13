@@ -1,0 +1,11 @@
+{
+  if (scopeDefinition == null) {
+    throw new NullPointerException("scopeDefinition must not be null");
+  }
+  this.scope=new NamedThreadLocal<InterceptorScopeInvocation>(scopeDefinition.getName()){
+    @Override protected InterceptorScopeInvocation initialValue(){
+      return new DefaultInterceptorScopeInvocation(scopeDefinition.getName());
+    }
+  }
+;
+}

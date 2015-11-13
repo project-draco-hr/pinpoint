@@ -3,7 +3,7 @@
   if (target instanceof EndPointAccessor) {
     endPoint=((EndPointAccessor)target)._$PINPOINT$_getEndPoint();
   }
-  final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+  final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
   if (invocation != null && invocation.getAttachment() != null) {
     final CommandContext commandContext=(CommandContext)invocation.getAttachment();
     logger.debug("Check command context {}",commandContext);

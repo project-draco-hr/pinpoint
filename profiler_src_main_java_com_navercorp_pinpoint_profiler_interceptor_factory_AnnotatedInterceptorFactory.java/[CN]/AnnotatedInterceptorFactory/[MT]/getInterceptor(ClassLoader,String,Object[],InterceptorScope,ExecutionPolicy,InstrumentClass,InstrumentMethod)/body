@@ -1,0 +1,19 @@
+{
+  Class<? extends Interceptor> interceptorType=pluginContext.injectClass(classLoader,interceptorClassName);
+  if (scope == null) {
+    Scope interceptorScope=interceptorType.getAnnotation(Scope.class);
+    if (interceptorScope != null) {
+      String scopeName=interceptorScope.value();
+      scope=pluginContext.getInterceptorScope(scopeName);
+      policy=interceptorScope.executionPolicy();
+    }
+  }
+  AutoBindingObjectFactory factory=new AutoBindingObjectFactory(pluginContext,classLoader);
+  ObjectFactory objectFactory=ObjectFactory.byConstructor(interceptorClassName,providedArguments);
+  InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(pluginContext.getTraceContext(),scope,target,targetMethod);
+  Interceptor interceptor=(Interceptor)factory.createInstance(objectFactory,interceptorArgumentProvider);
+  if (scope != null) {
+    interceptor=wrapByScope(interceptor,scope,policy == null ? ExecutionPolicy.BOUNDARY : policy);
+  }
+  return interceptor;
+}
