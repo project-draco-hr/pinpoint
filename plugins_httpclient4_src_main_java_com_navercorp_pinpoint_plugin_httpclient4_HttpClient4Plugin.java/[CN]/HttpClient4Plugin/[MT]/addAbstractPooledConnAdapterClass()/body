@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("org.apache.http.impl.conn.AbstractPooledConnAdapter",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrument,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrument.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod open=target.getDeclaredMethod("open","org.apache.http.conn.routing.HttpRoute","org.apache.http.protocol.HttpContext","org.apache.http.params.HttpParams");
       if (open != null) {
         open.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.ManagedClientConnectionOpenMethodInterceptor");

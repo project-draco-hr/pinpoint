@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("org.apache.http.protocol.HttpRequestExecutor",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrument,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrument.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod execute=target.getDeclaredMethod("execute","org.apache.http.HttpRequest","org.apache.http.HttpClientConnection","org.apache.http.protocol.HttpContext");
       if (execute != null) {
         execute.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.HttpRequestExecutorExecuteMethodInterceptor");

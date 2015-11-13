@@ -1,7 +1,7 @@
 {
   transformTemplate.transform(clazzName,new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(classLoader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
       final InstrumentMethod constructor1=target.getConstructor();
       addInterceptor(constructor1,BASIC_METHOD_INTERCEPTOR,va(JacksonConstants.SERVICE_TYPE));
       final InstrumentMethod constructor2=target.getConstructor("com.fasterxml.jackson.core.JsonFactory");

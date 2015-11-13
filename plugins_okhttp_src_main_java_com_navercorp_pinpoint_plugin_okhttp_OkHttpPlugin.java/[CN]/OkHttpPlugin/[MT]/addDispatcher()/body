@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("com.squareup.okhttp.Dispatcher",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("execute","cancel"))) {
         logger.debug("[OkHttp] Add Dispatcher.execute | cancel interceptor.");
         method.addInterceptor(BasicMethodInterceptor.class.getName(),va(OkHttpConstants.OK_HTTP_CLIENT_INTERNAL));
