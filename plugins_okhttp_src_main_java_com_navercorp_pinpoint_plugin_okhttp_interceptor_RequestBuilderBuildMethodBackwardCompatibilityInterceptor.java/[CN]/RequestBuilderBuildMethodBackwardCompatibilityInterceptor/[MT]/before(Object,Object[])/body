@@ -1,0 +1,42 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  final Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    final Request.Builder builder=((Request.Builder)target);
+    if (!trace.canSampled()) {
+      if (isDebug) {
+        logger.debug("set Sampling flag=false");
+      }
+      ((Request.Builder)target).header(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+      return;
+    }
+    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    if (invocation == null || invocation.getAttachment() == null || !(invocation.getAttachment() instanceof TraceId)) {
+      logger.debug("Invalid interceptor group invocation. {}",invocation);
+      return;
+    }
+    final TraceId nextId=(TraceId)invocation.getAttachment();
+    builder.header(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    builder.header(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    builder.header(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    builder.header(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    builder.header(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    builder.header(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+    if (target instanceof UrlGetter) {
+      final URL url=((UrlGetter)target)._$PINPOINT$_getUrl();
+      if (url != null) {
+        final String endpoint=getDestinationId(url);
+        logger.debug("Set HTTP_HOST {}",endpoint);
+        builder.header(Header.HTTP_HOST.toString(),endpoint);
+      }
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("Failed to BEFORE process. {}",t.getMessage(),t);
+  }
+}
