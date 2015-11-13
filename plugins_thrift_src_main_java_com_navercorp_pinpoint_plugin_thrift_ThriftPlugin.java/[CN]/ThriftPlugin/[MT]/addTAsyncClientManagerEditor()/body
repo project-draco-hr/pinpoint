@@ -1,8 +1,8 @@
 {
   final String targetClassName="org.apache.thrift.async.TAsyncClientManager";
   transformTemplate.transform(targetClassName,new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       final InstrumentMethod call=target.getDeclaredMethod("call","org.apache.thrift.async.TAsyncMethodCall");
       if (call != null) {
         String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncClientManagerCallInterceptor";

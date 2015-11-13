@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("org.apache.commons.httpclient.DefaultHttpMethodRetryHandler",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrument,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrument.getInstrumentClass(loader,className,classfileBuffer);
       InstrumentMethod retryMethod=target.getDeclaredMethod("retryMethod","org.apache.commons.httpclient.HttpMethod","java.io.IOException","int");
       if (retryMethod != null) {
         retryMethod.addInterceptor("com.navercorp.pinpoint.plugin.httpclient3.interceptor.RetryMethodInterceptor");

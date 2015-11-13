@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("org.apache.commons.dbcp.BasicDataSource",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor pluginContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=pluginContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addInterceptor("com.navercorp.pinpoint.plugin.commons.dbcp.interceptor.DataSourceGetConnectionInterceptor");
       return target.toBytecode();
     }

@@ -1,8 +1,8 @@
 {
   final String targetClassName="org.apache.thrift.TBaseAsyncProcessor";
   transformTemplate.transform(targetClassName,new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(ServerMarkerFlagFieldAccessor.class.getName());
       target.addField(AsyncMarkerFlagFieldAccessor.class.getName());
       final InstrumentMethod process=target.getDeclaredMethod("process","org.apache.thrift.server.AbstractNonblockingServer$AsyncFrameBuffer");

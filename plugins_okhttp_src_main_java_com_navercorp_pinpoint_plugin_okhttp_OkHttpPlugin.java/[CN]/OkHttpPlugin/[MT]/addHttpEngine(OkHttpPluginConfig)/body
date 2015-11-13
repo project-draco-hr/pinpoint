@@ -1,14 +1,14 @@
 {
   transformTemplate.transform("com.squareup.okhttp.internal.http.HttpEngine",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addGetter(UserRequestGetter.class.getName(),OkHttpConstants.FIELD_USER_REQUEST);
       target.addGetter(UserResponseGetter.class.getName(),OkHttpConstants.FIELD_USER_RESPONSE);
       target.addGetter(ConnectionGetter.class.getName(),OkHttpConstants.FIELD_CONNECTION);
       InstrumentMethod sendRequestMethod=target.getDeclaredMethod("sendRequest");
       if (sendRequestMethod != null) {
         logger.debug("[OkHttp] Add HttpEngine.sendRequest interceptor.");
-        final ObjectFactory objectFactory=ObjectFactory.byConstructor("com.navercorp.pinpoint.plugin.okhttp.OkHttpPluginConfig",instrumentContext.getProfilerConfig());
+        final ObjectFactory objectFactory=ObjectFactory.byConstructor("com.navercorp.pinpoint.plugin.okhttp.OkHttpPluginConfig",Instrumentor.getProfilerConfig());
         sendRequestMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.HttpEngineSendRequestMethodInterceptor",va(objectFactory));
       }
       InstrumentMethod connectMethod=target.getDeclaredMethod("connect");

@@ -1,8 +1,8 @@
 {
   final String targetClassName="org.apache.thrift.TBaseProcessor";
   transformTemplate.transform(targetClassName,new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      final InstrumentClass target=instrumentContext.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       final InstrumentMethod process=target.getDeclaredMethod("process","org.apache.thrift.protocol.TProtocol","org.apache.thrift.protocol.TProtocol");
       if (process != null) {
         String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.TBaseProcessorProcessInterceptor";
