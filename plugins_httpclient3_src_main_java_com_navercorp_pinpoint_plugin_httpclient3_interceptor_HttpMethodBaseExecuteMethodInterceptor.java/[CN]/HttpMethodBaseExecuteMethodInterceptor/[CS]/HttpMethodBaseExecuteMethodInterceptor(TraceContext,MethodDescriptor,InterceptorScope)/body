@@ -1,0 +1,17 @@
+{
+  this.traceContext=traceContext;
+  this.descriptor=methodDescriptor;
+  this.interceptorScope=interceptorScope;
+  final ProfilerConfig config=traceContext.getProfilerConfig();
+  this.cookie=config.isApacheHttpClient3ProfileCookie();
+  this.cookieDumpType=config.getApacheHttpClient3ProfileCookieDumpType();
+  if (cookie) {
+    this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,config.getApacheHttpClient3ProfileCookieSamplingRate());
+  }
+  this.entity=config.isApacheHttpClient3ProfileEntity();
+  this.entityDumpType=config.getApacheHttpClient3ProfileEntityDumpType();
+  if (entity) {
+    this.entitySampler=SimpleSamplerFactory.createSampler(entity,config.getApacheHttpClient3ProfileEntitySamplingRate());
+  }
+  this.io=config.isApacheHttpClient3ProfileIo();
+}

@@ -1,4 +1,4 @@
 {
-  InterceptorGroup group=groupName == null ? null : pluginContext.getInterceptorGroup(groupName);
-  return targetMethod.addGroupedInterceptor(interceptorClassName,providedArguments,group,executionPolicy);
+  final InterceptorScope scope=getScope();
+  return targetMethod.addScopedInterceptor(interceptorClassName,providedArguments,scope,executionPolicy);
 }

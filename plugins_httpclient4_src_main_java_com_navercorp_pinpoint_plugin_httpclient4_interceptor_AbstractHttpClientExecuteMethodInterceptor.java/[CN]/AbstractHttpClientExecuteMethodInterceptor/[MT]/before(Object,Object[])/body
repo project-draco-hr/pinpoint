@@ -10,7 +10,7 @@
   recorder.recordServiceType(HttpClient4Constants.HTTP_CLIENT_4_INTERNAL);
   final NameIntValuePair<String> host=getHost(args);
   if (host != null) {
-    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
     if (invocation != null) {
       final HttpCallContext callContext=(HttpCallContext)invocation.getOrCreateAttachment(HttpCallContextFactory.HTTPCALL_CONTEXT_FACTORY);
       callContext.setHost(host.getName());

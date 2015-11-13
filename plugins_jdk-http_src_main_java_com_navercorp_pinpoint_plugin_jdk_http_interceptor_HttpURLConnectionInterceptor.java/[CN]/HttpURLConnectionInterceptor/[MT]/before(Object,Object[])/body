@@ -17,7 +17,7 @@
     request.setRequestProperty(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
     return;
   }
-  group.getCurrentInvocation().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
+  scope.getCurrentInvocation().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
   SpanEventRecorder recorder=trace.traceBlockBegin();
   TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());

@@ -12,7 +12,7 @@
       final StatusLine statusLine=response.getStatusLine();
       if (statusLine != null) {
         context.setStatusCode(statusLine.getStatusCode());
-        InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
+        InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
         transaction.setAttachment(context);
       }
     }

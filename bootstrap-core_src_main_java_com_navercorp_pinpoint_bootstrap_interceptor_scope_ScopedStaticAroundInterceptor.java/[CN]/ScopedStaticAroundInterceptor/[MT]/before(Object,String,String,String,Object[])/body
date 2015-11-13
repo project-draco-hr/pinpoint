@@ -1,0 +1,11 @@
+{
+  final InterceptorScopeInvocation transaction=scope.getCurrentInvocation();
+  if (transaction.tryEnter(policy)) {
+    this.delegate.before(target,className,methodName,parameterDescription,args);
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryBefore() returns false: interceptorScopeTransaction: {}, executionPoint: {}. Skip interceptor {}",new Object[]{transaction,policy,delegate.getClass()});
+    }
+  }
+}

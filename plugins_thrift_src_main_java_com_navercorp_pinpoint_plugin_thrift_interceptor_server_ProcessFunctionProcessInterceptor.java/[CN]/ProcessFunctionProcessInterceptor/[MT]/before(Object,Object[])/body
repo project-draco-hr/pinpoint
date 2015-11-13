@@ -11,7 +11,7 @@
     methodName=processFunction.getMethodName();
   }
   ThriftClientCallContext clientCallContext=new ThriftClientCallContext(methodName);
-  InterceptorGroupInvocation currentTransaction=this.group.getCurrentInvocation();
+  InterceptorScopeInvocation currentTransaction=this.scope.getCurrentInvocation();
   currentTransaction.setAttachment(clientCallContext);
   Object iprot=args[1];
   if (validateInputProtocol(iprot)) {
