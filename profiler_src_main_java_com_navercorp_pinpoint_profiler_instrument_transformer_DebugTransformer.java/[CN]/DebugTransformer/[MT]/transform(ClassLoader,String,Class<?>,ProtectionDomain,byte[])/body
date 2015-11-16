@@ -1,6 +1,12 @@
 {
   try {
-    InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+    final InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+    if (target == null) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("targetClass not found. className:{}, classBeingRedefined:{} :{} ",className,classBeingRedefined,loader);
+      }
+      return null;
+    }
     if (!target.isInterceptable()) {
       return null;
     }
