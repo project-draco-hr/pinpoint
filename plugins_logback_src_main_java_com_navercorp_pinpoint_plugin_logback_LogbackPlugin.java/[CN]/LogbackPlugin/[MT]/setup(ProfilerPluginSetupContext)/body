@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("ch.qos.logback.classic.spi.LoggingEvent",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass mdcClass=Instrumentor.getInstrumentClass(loader,"org.slf4j.MDC",null);
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass mdcClass=instrumentor.getInstrumentClass(loader,"org.slf4j.MDC",null);
       if (mdcClass == null) {
         logger.warn("modify fail. Because org.slf4j.MDC does not exist.");
         return null;
@@ -14,7 +14,7 @@
         logger.warn("modify fail. Because remove method does not exist at org.slf4j.MDC class.");
         return null;
       }
-      InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addInterceptor("com.navercorp.pinpoint.plugin.logback.interceptor.LoggingEventOfLogbackInterceptor");
       return target.toBytecode();
     }
