@@ -1,0 +1,8 @@
+{
+  final URLClassLoader agentClassLoader=new URLClassLoader(new URL[0]);
+  ClassFileFilter filter=new PinpointClassFilter(agentClassLoader);
+  Assert.assertSame("bootstrap test",filter.accept(null,"test",null,null,null),ClassFileFilter.CONTINUE);
+  final ClassLoader defaultClassLoader=ClassLoaderUtils.getDefaultClassLoader();
+  Assert.assertSame(filter.accept(defaultClassLoader,"test",null,null,null),ClassFileFilter.CONTINUE);
+  Assert.assertSame(filter.accept(agentClassLoader,"test",null,null,null),ClassFileFilter.SKIP);
+}

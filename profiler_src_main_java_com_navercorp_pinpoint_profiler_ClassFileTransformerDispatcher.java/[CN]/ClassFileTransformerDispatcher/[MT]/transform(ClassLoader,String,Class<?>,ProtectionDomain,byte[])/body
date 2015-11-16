@@ -1,12 +1,15 @@
 {
-  ClassFileTransformer transformer=dynamicTransformerRegistry.getTransformer(classLoader,jvmClassName);
-  if (transformer != null) {
-    return transform0(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,transformer);
+  if (!pinpointClassFilter.accept(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
+    return null;
+  }
+  final ClassFileTransformer dynamicTransformer=dynamicTransformerRegistry.getTransformer(classLoader,jvmClassName);
+  if (dynamicTransformer != null) {
+    return transform0(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer,dynamicTransformer);
   }
   if (!unmodifiableFilter.accept(classLoader,jvmClassName,classBeingRedefined,protectionDomain,classFileBuffer)) {
     return null;
   }
-  transformer=this.transformerRegistry.findTransformer(jvmClassName);
+  ClassFileTransformer transformer=this.transformerRegistry.findTransformer(jvmClassName);
   if (transformer == null) {
     if (this.debugTargetFilter.filter(jvmClassName)) {
       transformer=debugTransformer;
