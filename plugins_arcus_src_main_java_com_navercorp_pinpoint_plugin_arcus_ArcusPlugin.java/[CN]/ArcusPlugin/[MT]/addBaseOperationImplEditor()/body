@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("net.spy.memcached.protocol.BaseOperationImpl",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor context,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=context.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addField(ServiceCodeAccessor.class.getName());
       return target.toBytecode();
     }

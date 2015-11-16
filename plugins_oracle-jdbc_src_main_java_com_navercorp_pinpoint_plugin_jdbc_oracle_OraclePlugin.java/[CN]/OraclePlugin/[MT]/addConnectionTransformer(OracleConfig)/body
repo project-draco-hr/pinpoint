@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("oracle.jdbc.driver.PhysicalConnection",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor Instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=Instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
       target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",OracleConstants.ORACLE_SCOPE);
       target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",OracleConstants.ORACLE_SCOPE);
