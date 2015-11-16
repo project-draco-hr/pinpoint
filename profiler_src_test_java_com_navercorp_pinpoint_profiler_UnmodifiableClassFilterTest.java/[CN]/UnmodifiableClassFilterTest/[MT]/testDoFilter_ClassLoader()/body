@@ -1,0 +1,6 @@
+{
+  ClassFileFilter filter=new UnmodifiableClassFilter();
+  Assert.assertSame(filter.accept(this.getClass().getClassLoader(),"test",null,null,null),ClassFileFilter.CONTINUE);
+  URLClassLoader classLoader=new URLClassLoader(new URL[]{});
+  Assert.assertSame(filter.accept(classLoader,"test",null,null,null),ClassFileFilter.CONTINUE);
+}

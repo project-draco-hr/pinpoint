@@ -5,7 +5,8 @@
   this.globalContext=new DefaultProfilerPluginContext(agent,new LegacyProfilerPluginClassInjector(getClass().getClassLoader()));
   this.debugTargetFilter=agent.getProfilerConfig().getProfilableClassFilter();
   this.debugTransformer=new DebugTransformer(globalContext);
-  this.unmodifiableFilter=new UnmodifiableClassFilter(agentClassLoader);
+  this.pinpointClassFilter=new PinpointClassFilter(agentClassLoader);
+  this.unmodifiableFilter=new UnmodifiableClassFilter();
   this.transformerRegistry=createTransformerRegistry(pluginContexts);
   this.dynamicTransformerRegistry=new DefaultDynamicTransformerRegistry();
 }
