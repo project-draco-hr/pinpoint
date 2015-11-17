@@ -1,21 +1,32 @@
 {
-  if (urlString == null || urlString.length() == 0) {
+  if (uriString == null || uriString.length() == 0) {
     return "";
   }
   if (param) {
-    return urlString;
+    return uriString;
   }
   try {
-    final URL url=new URL(urlString);
+    final URI url=new URI(uriString);
     final StringBuilder sb=new StringBuilder();
-    sb.append(url.getProtocol()).append("://");
-    sb.append(url.getHost());
-    if (url.getPort() > 0 && url.getPort() != url.getDefaultPort()) {
-      sb.append(":").append(url.getPort());
+    if (url.getScheme() != null) {
+      sb.append(url.getScheme()).append(":");
+    }
+    if (url.getHost() != null) {
+      if (url.getScheme() != null) {
+        sb.append("//");
+      }
+      sb.append(url.getHost());
+      if (url.getPort() > 0) {
+        sb.append(":").append(url.getPort());
+      }
+    }
+    if (url.getPath() != null) {
+      sb.append(url.getPath());
     }
     return sb.toString();
   }
  catch (  Exception ignored) {
+    ignored.printStackTrace();
   }
   return "";
 }
