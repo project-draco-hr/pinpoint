@@ -13,7 +13,7 @@
     logger.debug("agentIdList is empty. applicationName={}",applicationName);
     return new ApplicationAgentList(new TreeMap<String,List<AgentInfo>>());
   }
-  SortedMap<String,List<AgentInfo>> result=new TreeMap<String,List<AgentInfo>>();
+  SortedMap<String,List<AgentInfo>> result=new TreeMap<>();
   for (  String agentId : agentIdList) {
     AgentInfoBo agentInfoBo=this.agentInfoDao.getAgentInfo(agentId,timestamp);
     if (agentInfoBo == null) {
@@ -31,7 +31,7 @@
       result.get(hostname).add(agentInfo);
     }
  else {
-      List<AgentInfo> list=new ArrayList<AgentInfo>();
+      List<AgentInfo> list=new ArrayList<>();
       list.add(agentInfo);
       result.put(hostname,list);
     }

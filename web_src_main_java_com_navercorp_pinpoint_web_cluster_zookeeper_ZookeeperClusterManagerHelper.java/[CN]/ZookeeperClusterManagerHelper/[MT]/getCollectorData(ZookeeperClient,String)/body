@@ -1,7 +1,7 @@
 {
   try {
     List<String> collectorList=client.getChildren(path,true);
-    Map<String,byte[]> map=new HashMap<String,byte[]>();
+    Map<String,byte[]> map=new HashMap<>();
     for (    String collector : collectorList) {
       String node=bindingPathAndZnode(path,collector);
       byte[] data=client.getData(node,true);
