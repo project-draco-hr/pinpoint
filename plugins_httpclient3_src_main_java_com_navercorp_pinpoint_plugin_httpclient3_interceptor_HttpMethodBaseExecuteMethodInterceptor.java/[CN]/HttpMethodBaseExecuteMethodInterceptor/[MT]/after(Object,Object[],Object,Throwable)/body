@@ -13,7 +13,7 @@
       try {
         final URI uri=httpMethod.getURI();
         String uriString=uri.getURI();
-        recorder.recordAttribute(AnnotationKey.HTTP_URL,uriString);
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(uriString,param));
         recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
       }
  catch (      URIException e) {
