@@ -1,2 +1,14 @@
 {
+  List<UserGroup> userGroupList=userGroupDao.selectUserGroup();
+  String beforeUserGroupId="";
+  for (  UserGroup userGroup : userGroupList) {
+    if (userGroup.getNumber().equals(updatedUserGroup.getNumber())) {
+      beforeUserGroupId=userGroup.getId();
+      break;
+    }
+  }
+  List<Rule> ruleList=selectRuleByUserGroupId(beforeUserGroupId);
+  for (  Rule rule : ruleList) {
+    rule.setuserGroupId(updatedUserGroup.getId());
+  }
 }
