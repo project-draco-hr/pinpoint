@@ -12,7 +12,9 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
       target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),OracleConstants.ORACLE_SCOPE);
-      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",OracleConstants.ORACLE_SCOPE);
+      if (config.isTraceSqlBindValue()) {
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",OracleConstants.ORACLE_SCOPE);
+      }
       return target.toBytecode();
     }
   }
