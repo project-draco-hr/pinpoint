@@ -1,6 +1,6 @@
 {
-  ServiceType serviceType=findServiceType(expected.getServiceType());
-  Class<?> spanClass=resolveSpanClass(expected.getType());
-  int apiId=expected.getMethod() != null ? findApiId(expected.getMethod()) : (expected.getMethodSignature() == null ? null : findApiId(expected.getMethodSignature()));
+  final ServiceType serviceType=findServiceType(expected.getServiceType());
+  final Class<?> spanClass=resolveSpanClass(expected.getType());
+  final int apiId=getApiId(expected);
   return new ResolvedExpectedTrace(spanClass,serviceType,apiId,expected.getRpc(),expected.getEndPoint(),expected.getRemoteAddr(),expected.getDestinationId(),expected.getAnnotations(),asyncId);
 }
