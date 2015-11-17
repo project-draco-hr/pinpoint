@@ -7,7 +7,7 @@
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
       target.addInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSQLConnectionCreateInterceptor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor3",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor3",PostgreSqlConstants.GROUP_NAME);
       return target.toBytecode();
     }
   }
@@ -19,7 +19,7 @@
         return null;
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",PostgreSqlConstants.GROUP_NAME);
       return target.toBytecode();
     }
   }
@@ -31,16 +31,16 @@
         return null;
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",PostgreSqlConstants.GROUP_NAME);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor1",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor1",PostgreSqlConstants.GROUP_NAME);
       if (config.isProfileSetAutoCommit()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",PostgreSqlConstants.GROUP_NAME);
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",PostgreSqlConstants.GROUP_NAME);
       }
       if (config.isProfileCommit()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",PostgreSqlConstants.GROUP_NAME);
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",PostgreSqlConstants.GROUP_NAME);
       }
       if (config.isProfileRollback()) {
-        target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",PostgreSqlConstants.GROUP_NAME);
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",PostgreSqlConstants.GROUP_NAME);
       }
       return target.toBytecode();
     }
@@ -53,7 +53,7 @@
         return null;
       }
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
-      target.addGroupedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor2",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.jdbc.postgresql.interceptor.PostgreSqlPreparedStatementCreateInterceptor2",PostgreSqlConstants.GROUP_NAME);
       return target.toBytecode();
     }
   }

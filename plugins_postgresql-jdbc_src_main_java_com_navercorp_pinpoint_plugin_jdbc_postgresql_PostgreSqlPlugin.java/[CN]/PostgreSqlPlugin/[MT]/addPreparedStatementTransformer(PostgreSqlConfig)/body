@@ -6,7 +6,7 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),PostgreSqlConstants.GROUP_NAME);
       return target.toBytecode();
     }
   }
@@ -18,9 +18,9 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
-      target.addGroupedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",PostgreSqlConstants.GROUP_NAME,ExecutionPolicy.BOUNDARY);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",PostgreSqlConstants.GROUP_NAME);
-      target.addGroupedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",PostgreSqlConstants.GROUP_NAME,ExecutionPolicy.BOUNDARY);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteQueryInterceptor",PostgreSqlConstants.GROUP_NAME);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementExecuteUpdateInterceptor",PostgreSqlConstants.GROUP_NAME);
       return target.toBytecode();
     }
   }
