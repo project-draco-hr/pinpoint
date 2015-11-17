@@ -22,6 +22,7 @@
     this.callStackMaxDepth=2;
   }
   this.jdbcSqlCacheSize=readInt("profiler.jdbc.sqlcachesize",1024);
+  this.traceSqlBindValue=readBoolean("profiler.jdbc.tracesqlbindvalue",false);
   this.tomcatHidePinpointHeader=readBoolean("profiler.tomcat.hidepinpointheader",true);
   final String tomcatExcludeURL=readString("profiler.tomcat.excludeurl","");
   if (!tomcatExcludeURL.isEmpty()) {
@@ -31,8 +32,8 @@
   this.tomcatRealIpEmptyValue=readString("profiler.tomcat.realipemptyvalue",null);
   final String tomcatExcludeProfileMethod=readString("profiler.tomcat.excludemethod","");
   if (!tomcatExcludeProfileMethod.isEmpty()) {
-    this.tomcatExcludeProfileMethodFilter=new ExcludeMethodFilter(tomcatExcludeProfileMethod);
   }
+  this.tomcatExcludeProfileMethodFilter=new ExcludeMethodFilter(tomcatExcludeProfileMethod);
   this.apacheHttpClient3Profile=readBoolean("profiler.apache.httpclient3",true);
   this.apacheHttpClient3ProfileCookie=readBoolean("profiler.apache.httpclient3.cookie",false);
   this.apacheHttpClient3ProfileCookieDumpType=readDumpType("profiler.apache.httpclient3.cookie.dumptype",DumpType.EXCEPTION);
