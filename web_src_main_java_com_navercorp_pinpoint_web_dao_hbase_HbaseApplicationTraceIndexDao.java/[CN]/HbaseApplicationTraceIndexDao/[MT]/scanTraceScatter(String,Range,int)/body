@@ -11,7 +11,7 @@
   logger.debug("scanTraceScatter");
   Scan scan=createScan(applicationName,range);
   List<List<Dot>> dotListList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexScatterMapper);
-  List<Dot> mergeList=new ArrayList<Dot>(limit + 10);
+  List<Dot> mergeList=new ArrayList<>(limit + 10);
   for (  List<Dot> dotList : dotListList) {
     mergeList.addAll(dotList);
   }

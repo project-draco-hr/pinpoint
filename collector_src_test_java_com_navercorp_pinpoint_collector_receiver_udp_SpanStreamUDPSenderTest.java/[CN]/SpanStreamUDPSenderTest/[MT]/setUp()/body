@@ -2,7 +2,7 @@
   port=getAvaiableUDPPort(21111);
   try {
     messageHolder=new MessageHolderDispatchHandler();
-    receiver=new TestUDPReceiver("test",new SpanStreamUDPPacketHandlerFactory<DatagramPacket>(messageHolder,new TestTBaseFilter()),"127.0.0.1",port,1024,1,10);
+    receiver=new TestUDPReceiver("test",new SpanStreamUDPPacketHandlerFactory<>(messageHolder,new TestTBaseFilter()),"127.0.0.1",port,1024,1,10);
     receiver.start();
   }
  catch (  Exception ignored) {

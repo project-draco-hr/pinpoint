@@ -2,7 +2,7 @@
   if (spanList == null) {
     throw new NullPointerException("spanList must not be null");
   }
-  final List<SpanBo> root=new ArrayList<SpanBo>();
+  final List<SpanBo> root=new ArrayList<>();
   for (  SpanBo span : spanList) {
     if (span.getParentSpanId() == ROOT) {
       root.add(span);
@@ -19,7 +19,7 @@
     logger.warn("parentSpanId(-1) collision. size:{} root span:{} allSpan:{}",rootSpanBoSize,root,spanList);
     throw new IllegalStateException("parentSpanId(-1) collision. size:" + rootSpanBoSize);
   }
-  final List<SpanBo> collectorAcceptTimeMatcher=new ArrayList<SpanBo>();
+  final List<SpanBo> collectorAcceptTimeMatcher=new ArrayList<>();
   for (  SpanBo span : spanList) {
     if (span.getCollectorAcceptTime() == collectorAcceptTime) {
       collectorAcceptTimeMatcher.add(span);
