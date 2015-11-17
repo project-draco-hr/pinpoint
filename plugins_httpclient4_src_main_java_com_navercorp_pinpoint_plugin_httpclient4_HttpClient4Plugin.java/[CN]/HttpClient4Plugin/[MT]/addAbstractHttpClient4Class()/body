@@ -1,7 +1,7 @@
 {
   transformTemplate.transform("org.apache.http.impl.client.AbstractHttpClient",new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor Instrument,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
-      InstrumentClass target=Instrument.getInstrumentClass(loader,className,classfileBuffer);
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
       injectHttpClientExecuteMethodWithHttpRequestInterceptor(target,false,"org.apache.http.HttpHost","org.apache.http.HttpRequest");
       injectHttpClientExecuteMethodWithHttpRequestInterceptor(target,false,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.protocol.HttpContext");
       injectHttpClientExecuteMethodWithHttpRequestInterceptor(target,true,"org.apache.http.HttpHost","org.apache.http.HttpRequest","org.apache.http.client.ResponseHandler");
