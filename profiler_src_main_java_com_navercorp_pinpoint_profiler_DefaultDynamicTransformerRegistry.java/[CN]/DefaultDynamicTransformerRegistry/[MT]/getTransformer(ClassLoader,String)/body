@@ -2,7 +2,8 @@
   if (transformerMap.isEmpty()) {
     return null;
   }
-  ClassFileTransformer transformer=transformerMap.remove(new TransformerKey(classLoader,targetClassName));
+  final TransformerKey key=new TransformerKey(classLoader,targetClassName);
+  final ClassFileTransformer transformer=transformerMap.remove(key);
   if (logger.isDebugEnabled()) {
     logger.info("removed dynamic transformer classLoader: {}, className: {}, registry size: {}",classLoader,targetClassName,transformerMap.size());
   }

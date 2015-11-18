@@ -1,4 +1,7 @@
 {
-  TransformerKey other=(TransformerKey)obj;
-  return this.classLoader.equals(other.classLoader) && this.targetClassName.equals(other.targetClassName);
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  TransformerKey that=(TransformerKey)o;
+  if (classLoader != null ? !classLoader.equals(that.classLoader) : that.classLoader != null)   return false;
+  return targetClassName.equals(that.targetClassName);
 }
