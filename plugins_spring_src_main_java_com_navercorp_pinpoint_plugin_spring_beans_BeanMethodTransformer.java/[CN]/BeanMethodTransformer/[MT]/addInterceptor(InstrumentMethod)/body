@@ -4,7 +4,7 @@
     targetMethod.addInterceptor(id);
     return;
   }
-synchronized (interceptorId) {
+synchronized (lock) {
     id=interceptorId.get();
     if (id != -1) {
       targetMethod.addInterceptor(id);
