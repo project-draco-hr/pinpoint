@@ -34,8 +34,8 @@
     }
   }
   finally {
-    if (timer != null && onTimerTask.get()) {
-      timer.newTimeout(this,healthCheckDelay,TimeUnit.MILLISECONDS);
+    if (healthCheckTimer != null && onTimerTask.get()) {
+      healthCheckTimer.newTimeout(this,healthCheckDelay,TimeUnit.MILLISECONDS);
     }
   }
 }
