@@ -3,9 +3,9 @@
     logger.error("invalid tbase:{}",tbase);
     return null;
   }
-  TSqlMetaData sqlMetaData=(TSqlMetaData)tbase;
-  if (logger.isInfoEnabled()) {
-    logger.info("Received SqlMetaData:{}",sqlMetaData);
+  final TSqlMetaData sqlMetaData=(TSqlMetaData)tbase;
+  if (logger.isDebugEnabled()) {
+    logger.debug("Received SqlMetaData:{}",sqlMetaData);
   }
   try {
     sqlMetaDataDao.insert(sqlMetaData);
