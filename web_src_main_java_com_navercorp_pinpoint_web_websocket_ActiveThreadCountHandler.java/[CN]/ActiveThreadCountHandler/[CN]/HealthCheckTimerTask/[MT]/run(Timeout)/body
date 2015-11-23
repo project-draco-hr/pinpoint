@@ -1,7 +1,7 @@
 {
   try {
     logger.info("HealthCheckTimerTask started.");
-    List<WebSocketSession> webSocketSessionList=new ArrayList<WebSocketSession>(sessionRepository);
+    List<WebSocketSession> webSocketSessionList=new ArrayList<>(sessionRepository);
     for (    WebSocketSession session : webSocketSessionList) {
       if (!session.isOpen()) {
         continue;
@@ -18,7 +18,7 @@
     }
     String pingTextMessage=messageConverter.getPingTextMessage();
     TextMessage pingMessage=new TextMessage(pingTextMessage);
-    webSocketSessionList=new ArrayList<WebSocketSession>(sessionRepository);
+    webSocketSessionList=new ArrayList<>(sessionRepository);
     for (    WebSocketSession session : webSocketSessionList) {
       if (!session.isOpen()) {
         continue;
@@ -34,8 +34,8 @@
     }
   }
   finally {
-    if (timer != null && onTimerTask.get()) {
-      timer.newTimeout(this,healthCheckDelay,TimeUnit.MILLISECONDS);
+    if (healthCheckTimer != null && onTimerTask.get()) {
+      healthCheckTimer.newTimeout(this,healthCheckDelay,TimeUnit.MILLISECONDS);
     }
   }
 }

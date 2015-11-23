@@ -7,10 +7,10 @@
     double unsampledNewTps=calculateTps(agentStat.getUnsampledNewCount(),interval);
     double unsampledContinuationTps=calculateTps(agentStat.getUnsampledContinuationCount(),interval);
     double totalTps=sampledNewTps + sampledContinuationTps + unsampledNewTps+ unsampledContinuationTps;
-    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_SAMPLED_NEW)).addDataPoint(new DataPoint<Long,Double>(timestamp,sampledNewTps));
-    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_SAMPLED_CONTINUATION)).addDataPoint(new DataPoint<Long,Double>(timestamp,sampledContinuationTps));
-    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_UNSAMPLED_NEW)).addDataPoint(new DataPoint<Long,Double>(timestamp,unsampledNewTps));
-    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_UNSAMPLED_CONTINUATION)).addDataPoint(new DataPoint<Long,Double>(timestamp,unsampledContinuationTps));
-    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_TOTAL)).addDataPoint(new DataPoint<Long,Double>(timestamp,totalTps));
+    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_SAMPLED_NEW)).addDataPoint(new DataPoint<>(timestamp,sampledNewTps));
+    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_SAMPLED_CONTINUATION)).addDataPoint(new DataPoint<>(timestamp,sampledContinuationTps));
+    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_UNSAMPLED_NEW)).addDataPoint(new DataPoint<>(timestamp,unsampledNewTps));
+    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_UNSAMPLED_CONTINUATION)).addDataPoint(new DataPoint<>(timestamp,unsampledContinuationTps));
+    ((SampledTimeSeriesDoubleChartBuilder)this.chartBuilders.get(ChartType.TPS_TOTAL)).addDataPoint(new DataPoint<>(timestamp,totalTps));
   }
 }

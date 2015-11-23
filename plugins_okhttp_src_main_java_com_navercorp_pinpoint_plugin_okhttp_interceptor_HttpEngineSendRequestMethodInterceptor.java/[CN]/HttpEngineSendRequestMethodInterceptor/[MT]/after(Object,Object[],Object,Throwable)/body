@@ -16,7 +16,7 @@
     Request request=((UserRequestGetter)target)._$PINPOINT$_getUserRequest();
     if (request != null) {
       try {
-        recorder.recordAttribute(AnnotationKey.HTTP_URL,request.urlString());
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(request.urlString(),param));
         final String endpoint=getDestinationId(request.url());
         recorder.recordDestinationId(endpoint);
       }

@@ -25,7 +25,7 @@
     final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,area,limit);
     final List<TransactionId> traceIdList=limitedScanResult.getScanData();
     logger.trace("submitted transactionId count={}",traceIdList.size());
-    SortedSet<TransactionId> traceIdSet=new TreeSet<TransactionId>(traceIdList);
+    SortedSet<TransactionId> traceIdSet=new TreeSet<>(traceIdList);
     logger.debug("unified traceIdSet size={}",traceIdSet.size());
     List<Dot> dots=scatter.selectScatterData(traceIdSet,applicationName,filterBuilder.build(filterText));
   }

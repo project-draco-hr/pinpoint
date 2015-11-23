@@ -2,23 +2,24 @@
   this.traceContext=traceContext;
   this.methodDescriptor=methodDescriptor;
   this.interceptorScope=interceptorScope;
-  final ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
-  this.cookie=profilerConfig.isApacheHttpClient4ProfileCookie();
-  this.cookieDumpType=profilerConfig.getApacheHttpClient4ProfileCookieDumpType();
+  final HttpClient4PluginConfig profilerConfig=new HttpClient4PluginConfig(traceContext.getProfilerConfig());
+  this.param=profilerConfig.isParam();
+  this.cookie=profilerConfig.isCookie();
+  this.cookieDumpType=profilerConfig.getCookieDumpType();
   if (cookie) {
-    this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,profilerConfig.getApacheHttpClient4ProfileCookieSamplingRate());
+    this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,profilerConfig.getCookieSamplingRate());
   }
  else {
     this.cookieSampler=null;
   }
-  this.entity=profilerConfig.isApacheHttpClient4ProfileEntity();
-  this.entityDumpType=profilerConfig.getApacheHttpClient4ProfileEntityDumpType();
+  this.entity=profilerConfig.isEntity();
+  this.entityDumpType=profilerConfig.getEntityDumpType();
   if (entity) {
-    this.entitySampler=SimpleSamplerFactory.createSampler(entity,profilerConfig.getApacheHttpClient4ProfileEntitySamplingRate());
+    this.entitySampler=SimpleSamplerFactory.createSampler(entity,profilerConfig.getEntitySamplingRate());
   }
  else {
     this.entitySampler=null;
   }
-  this.statusCode=profilerConfig.isApacheHttpClient4ProfileStatusCode();
-  this.io=profilerConfig.isApacheHttpClient4ProfileIo();
+  this.statusCode=profilerConfig.isStatusCode();
+  this.io=profilerConfig.isIo();
 }

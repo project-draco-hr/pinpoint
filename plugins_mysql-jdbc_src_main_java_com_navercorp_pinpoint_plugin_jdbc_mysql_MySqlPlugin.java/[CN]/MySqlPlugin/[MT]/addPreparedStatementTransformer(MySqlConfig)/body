@@ -7,8 +7,10 @@
       target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
       int maxBindValueSize=config.getMaxSqlBindValueSize();
       target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementExecuteQueryInterceptor",va(maxBindValueSize),MySqlConstants.MYSQL_SCOPE);
-      final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
-      target.addScopedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",MySqlConstants.MYSQL_SCOPE,ExecutionPolicy.BOUNDARY);
+      if (config.isTraceSqlBindValue()) {
+        final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
+        target.addScopedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementBindVariableInterceptor",MySqlConstants.MYSQL_SCOPE,ExecutionPolicy.BOUNDARY);
+      }
       return target.toBytecode();
     }
   }

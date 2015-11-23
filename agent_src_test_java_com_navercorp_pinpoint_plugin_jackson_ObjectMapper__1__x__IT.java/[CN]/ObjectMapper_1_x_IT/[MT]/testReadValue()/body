@@ -12,7 +12,7 @@
     readerReadValueString=getMethod(readerClass,"readValue",String.class);
     readerReadValueBytes=getMethod(readerClass,"readValue",byte[].class);
   }
- catch (  ClassNotFoundException e) {
+ catch (  ClassNotFoundException ignored) {
   }
   Object foo=mapper.readValue(jsonString,__POJO.class);
   foo=mapperReadValueBytes == null ? null : mapperReadValueBytes.invoke(mapper,jsonBytes,__POJO.class);

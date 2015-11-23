@@ -1,10 +1,10 @@
 {
-  final Map<Application,List<ResponseTime>> result=new HashMap<Application,List<ResponseTime>>();
+  final Map<Application,List<ResponseTime>> result=new HashMap<>();
   for (  Map<Application,ResponseTime> entry : responseTimeApplicationMap.values()) {
     for (    Map.Entry<Application,ResponseTime> applicationResponseTimeEntry : entry.entrySet()) {
       List<ResponseTime> responseTimeList=result.get(applicationResponseTimeEntry.getKey());
       if (responseTimeList == null) {
-        responseTimeList=new ArrayList<ResponseTime>();
+        responseTimeList=new ArrayList<>();
         Application key=applicationResponseTimeEntry.getKey();
         result.put(key,responseTimeList);
       }

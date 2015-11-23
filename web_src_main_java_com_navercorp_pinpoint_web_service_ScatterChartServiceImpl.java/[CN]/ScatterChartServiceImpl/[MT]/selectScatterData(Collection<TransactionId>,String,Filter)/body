@@ -9,7 +9,7 @@
     throw new NullPointerException("filter must not be null");
   }
   final List<List<SpanBo>> traceList=traceDao.selectAllSpans(transactionIdList);
-  final List<Dot> result=new ArrayList<Dot>();
+  final List<Dot> result=new ArrayList<>();
   for (  List<SpanBo> trace : traceList) {
     if (!filter.include(trace)) {
       continue;
