@@ -1,0 +1,10 @@
+{
+  transformTemplate.transform("org.postgresql.Driver",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.DriverConnectInterceptor",va(new PostgreSqlJdbcUrlParser(),false),PostgreSqlConstants.POSTGRESQL_SCOPE,ExecutionPolicy.ALWAYS);
+      return target.toBytecode();
+    }
+  }
+);
+}
