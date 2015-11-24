@@ -1,3 +1,11 @@
 {
+  Collections.sort(agentActiveThreadRepository,new Comparator<AgentActiveThreadCount>(){
+    @Override public int compare(    AgentActiveThreadCount o1,    AgentActiveThreadCount o2){
+      final String agentId1=StringUtils.defaultString(o1.getAgentId(),"");
+      final String agentId2=StringUtils.defaultString(o2.getAgentId(),"");
+      return agentId1.compareTo(agentId2);
+    }
+  }
+);
   return agentActiveThreadRepository;
 }
