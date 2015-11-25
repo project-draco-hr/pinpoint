@@ -1,0 +1,12 @@
+{
+  final MockTraceContext traceContext=new MockTraceContext();
+  final Trace trace=Mockito.mock(Trace.class);
+  traceContext.setTrace(trace);
+  final SpanEventRecorder recorder=Mockito.mock(SpanEventRecorder.class);
+  Mockito.when(trace.currentSpanEventRecorder()).thenReturn(recorder);
+  final BeanMethodInterceptor beanMethodInterceptor=new BeanMethodInterceptor(traceContext,true);
+  Object thisObject=new Object();
+  final Exception throwable=new Exception();
+  beanMethodInterceptor.after(thisObject,10,null,null,throwable);
+  Mockito.verify(recorder,times(1)).recordException(true,throwable);
+}
