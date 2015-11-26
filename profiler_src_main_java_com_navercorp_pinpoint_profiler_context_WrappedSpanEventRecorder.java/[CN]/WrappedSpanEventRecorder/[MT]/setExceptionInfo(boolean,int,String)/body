@@ -1,0 +1,9 @@
+{
+  spanEvent.setExceptionInfo(exceptionClassId,exceptionMessage);
+  if (markError) {
+    final Span span=spanEvent.getSpan();
+    if (!span.isSetErrCode()) {
+      span.setErrCode(1);
+    }
+  }
+}

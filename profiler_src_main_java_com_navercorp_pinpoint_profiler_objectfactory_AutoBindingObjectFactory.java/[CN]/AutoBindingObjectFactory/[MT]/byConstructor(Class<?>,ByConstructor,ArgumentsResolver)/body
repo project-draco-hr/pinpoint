@@ -1,12 +1,12 @@
 {
-  ConstructorResolver resolver=new ConstructorResolver(type,argumentsResolver);
+  final ConstructorResolver resolver=new ConstructorResolver(type,argumentsResolver);
   if (!resolver.resolve()) {
     throw new PinpointException("Cannot find suitable constructor for " + type.getName());
   }
-  Constructor<?> constructor=resolver.getResolvedConstructor();
-  Object[] resolvedArguments=resolver.getResolvedArguments();
+  final Constructor<?> constructor=resolver.getResolvedConstructor();
+  final Object[] resolvedArguments=resolver.getResolvedArguments();
   if (isDebug) {
-    logger.debug("Create insatnce by constructor {}, with arguments {}",constructor,Arrays.toString(resolvedArguments));
+    logger.debug("Create instance by constructor {}, with arguments {}",constructor,Arrays.toString(resolvedArguments));
   }
   try {
     return constructor.newInstance(resolvedArguments);

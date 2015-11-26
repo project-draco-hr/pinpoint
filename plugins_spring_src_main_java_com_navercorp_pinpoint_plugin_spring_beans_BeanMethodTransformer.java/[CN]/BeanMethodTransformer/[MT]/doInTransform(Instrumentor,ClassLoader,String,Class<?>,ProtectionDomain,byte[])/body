@@ -9,8 +9,8 @@
     }
     final List<InstrumentMethod> methodList=target.getDeclaredMethods(METHOD_FILTER);
     for (    InstrumentMethod method : methodList) {
-      if (logger.isTraceEnabled()) {
-        logger.trace("### c={}, m={}, params={}",className,method.getName(),Arrays.toString(method.getParameterTypes()));
+      if (logger.isDebugEnabled()) {
+        logger.debug("### c={}, m={}, params={}",className,method.getName(),Arrays.toString(method.getParameterTypes()));
       }
       addInterceptor(method);
     }

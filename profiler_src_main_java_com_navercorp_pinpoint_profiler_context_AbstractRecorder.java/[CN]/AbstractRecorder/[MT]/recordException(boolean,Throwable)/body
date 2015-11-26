@@ -1,0 +1,8 @@
+{
+  if (throwable == null) {
+    return;
+  }
+  final String drop=StringUtils.drop(throwable.getMessage(),256);
+  final int exceptionId=traceContext.cacheString(throwable.getClass().getName());
+  setExceptionInfo(markError,exceptionId,drop);
+}

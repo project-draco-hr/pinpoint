@@ -1,8 +1,8 @@
 {
-  List<ArgumentProvider> merged=new ArrayList<ArgumentProvider>(commonProviders);
+  final List<ArgumentProvider> merged=new ArrayList<ArgumentProvider>(commonProviders);
   merged.addAll(Arrays.asList(providers));
-  if (recipe.getArguments() != null) {
-    merged.add(new OrderedValueProvider(this,recipe.getArguments()));
+  if (objectFactory.getArguments() != null) {
+    merged.add(new OrderedValueProvider(this,objectFactory.getArguments()));
   }
   return new ArgumentsResolver(merged);
 }

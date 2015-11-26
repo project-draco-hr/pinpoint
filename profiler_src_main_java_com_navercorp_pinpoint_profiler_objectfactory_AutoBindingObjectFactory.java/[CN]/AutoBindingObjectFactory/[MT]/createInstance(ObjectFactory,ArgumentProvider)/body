@@ -1,6 +1,6 @@
 {
-  Class<?> type=pluginContext.injectClass(classLoader,objectFactory.getClassName());
-  ArgumentsResolver argumentsResolver=getArgumentResolver(objectFactory,providers);
+  final Class<?> type=pluginContext.injectClass(classLoader,objectFactory.getClassName());
+  final ArgumentsResolver argumentsResolver=getArgumentResolver(objectFactory,providers);
   if (objectFactory instanceof ByConstructor) {
     return byConstructor(type,(ByConstructor)objectFactory,argumentsResolver);
   }
