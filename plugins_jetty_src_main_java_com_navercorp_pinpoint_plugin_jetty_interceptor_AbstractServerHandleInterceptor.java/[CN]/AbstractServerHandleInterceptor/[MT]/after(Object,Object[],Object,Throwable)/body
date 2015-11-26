@@ -12,8 +12,7 @@
   }
   try {
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-    final HttpChannel<?> channel=(HttpChannel<?>)args[0];
-    final Request request=channel.getRequest();
+    final Request request=getRequest(args);
     final String parameters=getRequestParameter(request,64,512);
     if (parameters != null && parameters.length() > 0) {
       recorder.recordAttribute(AnnotationKey.HTTP_PARAM,parameters);
