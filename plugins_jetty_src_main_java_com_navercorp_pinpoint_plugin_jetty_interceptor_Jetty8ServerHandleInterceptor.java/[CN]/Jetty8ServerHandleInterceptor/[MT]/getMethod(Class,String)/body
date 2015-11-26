@@ -1,0 +1,18 @@
+{
+  Class targetClazz=clazz;
+  while (targetClazz != null) {
+    try {
+      Method method=targetClazz.getMethod(methodName);
+      if (method != null) {
+        return method;
+      }
+    }
+ catch (    NoSuchMethodException e) {
+      Class superclass=targetClazz.getSuperclass();
+      if (superclass != null) {
+        targetClazz=superclass;
+      }
+    }
+  }
+  return null;
+}
