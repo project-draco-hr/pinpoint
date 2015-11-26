@@ -1,15 +1,15 @@
 {
   try {
-    DatagramSocket datagramSocket=new DatagramSocket();
+    final DatagramSocket datagramSocket=new DatagramSocket();
     datagramSocket.setSoTimeout(timeout);
     datagramSocket.setSendBufferSize(sendBufferSize);
-    if (logger.isWarnEnabled()) {
+    if (logger.isInfoEnabled()) {
       final int checkSendBufferSize=datagramSocket.getSendBufferSize();
       if (sendBufferSize != checkSendBufferSize) {
-        logger.warn("DatagramSocket.setSendBufferSize() error. {}!={}",sendBufferSize,checkSendBufferSize);
+        logger.info("DatagramSocket.setSendBufferSize() error. {}!={}",sendBufferSize,checkSendBufferSize);
       }
     }
-    InetSocketAddress serverAddress=new InetSocketAddress(host,port);
+    final InetSocketAddress serverAddress=new InetSocketAddress(host,port);
     datagramSocket.connect(serverAddress);
     return datagramSocket;
   }
