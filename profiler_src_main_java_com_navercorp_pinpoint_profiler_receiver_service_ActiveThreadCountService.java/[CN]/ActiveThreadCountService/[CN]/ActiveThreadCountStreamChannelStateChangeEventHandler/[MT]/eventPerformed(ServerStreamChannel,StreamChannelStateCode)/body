@@ -1,10 +1,12 @@
 {
+  logger.info("eventPerformed. ServerStreamChannel:{}, StreamChannelStateCode:{}.",streamChannel,updatedStateCode);
 synchronized (lock) {
 switch (updatedStateCode) {
 case CONNECTED:
       streamChannelRepository.add(streamChannel);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
   if (turnOn) {
+    logger.info("turn on ActiveThreadCountTimerTask.");
     timer.newTimeout(new ActiveThreadCountTimerTask(),flushDelay,TimeUnit.MILLISECONDS);
   }
 break;
@@ -13,6 +15,7 @@ case ILLEGAL_STATE:
 boolean removed=streamChannelRepository.remove(streamChannel);
 if (removed && streamChannelRepository.size() == 0) {
 boolean turnOff=onTimerTask.compareAndSet(true,false);
+logger.info("turn off ActiveThreadCountTimerTask.");
 }
 break;
 }

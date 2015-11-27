@@ -1,17 +1,17 @@
 {
-  logger.info("{} handshakeComplete method started. params:{}",simpleClassNameAndHashCodeString(),message);
+  logger.info("{} handshakeComplete method started. responsePacket:{}",simpleClassNameAndHashCodeString(),responsePacket);
 synchronized (lock) {
     if (!this.state.compareAndSet(STATE_STARTED,STATE_FINISHED)) {
-      logger.info("{} handshakeComplete method failed. beforeState:{}",simpleClassNameAndHashCodeString(),state.get());
+      logger.info("{} handshakeComplete method failed. caused:unexpected state.",simpleClassNameAndHashCodeString());
       this.state.set(STATE_FINISHED);
       return false;
     }
-    Map handshakeResponse=decode(message);
+    Map handshakeResponse=decode(responsePacket);
     HandshakeResponseCode code=getResponseCode(handshakeResponse);
     handshakeResult.compareAndSet(null,code);
     ClusterOption clusterOption=getClusterOption(handshakeResponse);
     this.clusterOption.compareAndSet(null,clusterOption);
-    logger.info("{} handshakeComplete method completed. handshakeResult:{} / {}",simpleClassNameAndHashCodeString(),code,handshakeResult.get());
+    logger.info("{} handshakeComplete method completed. handshake-response:{}.",simpleClassNameAndHashCodeString(),handshakeResponse);
     return true;
   }
 }

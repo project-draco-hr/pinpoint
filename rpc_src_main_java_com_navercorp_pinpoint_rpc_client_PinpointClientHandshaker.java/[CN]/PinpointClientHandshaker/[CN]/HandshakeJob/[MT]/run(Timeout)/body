@@ -1,18 +1,18 @@
 {
-  logger.info("Do handshake ({}/{}). channel:{}.",handshakeCount.get(),maxHandshakeCount,channel);
+  logger.debug("{} HandshakeJob started.",simpleClassNameAndHashCodeString());
   if (timeout.isCancelled()) {
-    reservationJob(this);
+    reserveHandshake(this);
     return;
   }
   int currentState=currentState();
   if (isRun(currentState)) {
     handshake(this);
-    reservationJob(this);
+    reserveHandshake(this);
   }
  else   if (isFinished(currentState)) {
-    logger.warn("Handshake already completed.");
+    logger.info("{} HandshakeJob completed.",simpleClassNameAndHashCodeString());
   }
  else {
-    logger.warn("Handshake invalid state. {}",state.get());
+    logger.warn("{} HandshakeJob will be stop. caused:unexpected state.",simpleClassNameAndHashCodeString());
   }
 }
