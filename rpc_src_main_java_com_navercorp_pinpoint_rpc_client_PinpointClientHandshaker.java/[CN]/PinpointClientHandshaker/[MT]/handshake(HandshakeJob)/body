@@ -2,7 +2,7 @@
   handshakeCount.incrementAndGet();
   Channel channel=handshakeJob.getChannel();
   ControlHandshakePacket packet=handshakeJob.getHandshakePacket();
+  logger.info("{} do handshake({}/{}). channel:{}.",simpleClassNameAndHashCodeString(),handshakeCount.get(),maxHandshakeCount,channel);
   final ChannelFuture future=channel.write(packet);
-  logger.debug("{} handshakePacket sent. channel:{}, packet:{}.",simpleClassNameAndHashCodeString(),channel,packet);
   future.addListener(handShakeFailFutureListener);
 }
