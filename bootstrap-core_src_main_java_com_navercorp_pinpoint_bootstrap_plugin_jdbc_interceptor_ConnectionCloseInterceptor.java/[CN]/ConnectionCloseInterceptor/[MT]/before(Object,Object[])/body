@@ -2,5 +2,7 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  ((DatabaseInfoAccessor)target)._$PINPOINT$_setDatabaseInfo(null);
+  if (target instanceof DatabaseInfoAccessor) {
+    ((DatabaseInfoAccessor)target)._$PINPOINT$_setDatabaseInfo(null);
+  }
 }
