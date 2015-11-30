@@ -1,9 +1,9 @@
 {
   if (handshakeCount.get() >= maxHandshakeCount) {
-    logger.warn("{} reserveHandshake method failed. caused:Retry count is over({}/{}).",simpleClassNameAndHashCodeString(),handshakeCount.get(),maxHandshakeCount);
+    logger.warn("{} reserveHandshake() failed. caused:Retry count is over({}/{}).",simpleClassNameAndHashCodeString(),handshakeCount.get(),maxHandshakeCount);
     handshakeAbort();
     return;
   }
-  logger.debug("{} reserveHandshake method started.",simpleClassNameAndHashCodeString());
+  logger.debug("{} reserveHandshake() started.",simpleClassNameAndHashCodeString());
   this.handshakerTimer.newTimeout(handshake,retryInterval,TimeUnit.MILLISECONDS);
 }
