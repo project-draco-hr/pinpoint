@@ -1,15 +1,15 @@
 {
-  logger.info("{} handshakeStart method started. channel:{}",simpleClassNameAndHashCodeString(),channel);
+  logger.info("{} handshakeStart() started. channel:{}",simpleClassNameAndHashCodeString(),channel);
   if (channel == null) {
-    logger.warn("{} handshakeStart method failed. caused:channel may not be null.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:channel may not be null.",simpleClassNameAndHashCodeString());
     return;
   }
   if (!channel.isConnected()) {
-    logger.warn("{} handshakeStart method failed. caused:channel is not connected.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:channel is not connected.",simpleClassNameAndHashCodeString());
     return;
   }
   if (!state.compareAndSet(STATE_INIT,STATE_STARTED)) {
-    logger.warn("{} handshakeStart method failed. caused:unexpected state.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:unexpected state.",simpleClassNameAndHashCodeString());
     return;
   }
   HandshakeJob handshakeJob=null;
@@ -20,11 +20,11 @@
     logger.warn("{} create HandshakeJob failed. caused:{}",simpleClassNameAndHashCodeString(),e.getMessage(),e);
   }
   if (handshakeJob == null) {
-    logger.warn("{} handshakeStart method failed. caused:handshakeJob may not be null.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:handshakeJob may not be null.",simpleClassNameAndHashCodeString());
     handshakeAbort();
     return;
   }
   handshake(handshakeJob);
   reserveHandshake(handshakeJob);
-  logger.info("{} handshakeStart method completed. channel:{}, data:{}",simpleClassNameAndHashCodeString(),channel,handshakeData);
+  logger.info("{} handshakeStart() completed. channel:{}, data:{}",simpleClassNameAndHashCodeString(),channel,handshakeData);
 }
