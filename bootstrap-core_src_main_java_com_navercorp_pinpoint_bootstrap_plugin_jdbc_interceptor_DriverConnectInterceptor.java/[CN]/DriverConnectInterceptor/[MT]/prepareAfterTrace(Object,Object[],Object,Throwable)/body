@@ -4,7 +4,9 @@
   DatabaseInfo databaseInfo=createDatabaseInfo(driverUrl);
   if (success) {
     if (recordConnection) {
-      ((DatabaseInfoAccessor)result)._$PINPOINT$_setDatabaseInfo(databaseInfo);
+      if (result instanceof DatabaseInfoAccessor) {
+        ((DatabaseInfoAccessor)result)._$PINPOINT$_setDatabaseInfo(databaseInfo);
+      }
     }
   }
 }
