@@ -2,12 +2,28 @@
   if (isDebug) {
     logger.afterInterceptor(target,args);
   }
-  final Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentRawTraceObject();
   if (trace == null) {
     return;
   }
+  if (trace.getTraceType() == TraceType.USER) {
+    final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
+    entryPointChecker.leave();
+  }
+  if (!trace.canSampled()) {
+    if (trace.getTraceType() == TraceType.USER) {
+      final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
+      if (!entryPointChecker.isNested()) {
+        if (isDebug) {
+          logger.debug("Remove trace. {}",trace);
+        }
+        traceContext.removeTraceObject();
+      }
+    }
+    return;
+  }
   try {
-    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
     recorder.recordServiceType(UserConstants.USER_INCLUDE);
     recorder.recordException(throwable);
@@ -17,12 +33,15 @@
     if (isDebug) {
       logger.debug("Closed user trace. {}",trace.getCallStackFrameId());
     }
-    if (trace.getTraceType() == TraceType.USER && trace.isRootStack()) {
-      if (isDebug) {
-        logger.debug("Closed user trace. {}",trace);
+    if (trace.getTraceType() == TraceType.USER) {
+      final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
+      if (!entryPointChecker.isNested()) {
+        if (isDebug) {
+          logger.debug("Closed user trace. {}",trace);
+        }
+        trace.close();
+        traceContext.removeTraceObject();
       }
-      trace.close();
-      traceContext.removeTraceObject();
     }
   }
 }
