@@ -7,6 +7,9 @@
     return;
   }
   if (trace.getTraceType() == TraceType.USER) {
+    if (isDebug) {
+      logger.debug("Leave user trace. {}",trace);
+    }
     final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
     entryPointChecker.leave();
   }
@@ -15,7 +18,7 @@
       final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
       if (!entryPointChecker.isNested()) {
         if (isDebug) {
-          logger.debug("Remove trace. {}",trace);
+          logger.debug("Remove user trace. {}",trace);
         }
         traceContext.removeTraceObject();
       }
@@ -30,14 +33,11 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (isDebug) {
-      logger.debug("Closed user trace. {}",trace.getCallStackFrameId());
-    }
     if (trace.getTraceType() == TraceType.USER) {
       final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
       if (!entryPointChecker.isNested()) {
         if (isDebug) {
-          logger.debug("Closed user trace. {}",trace);
+          logger.debug("Close and remove user trace. {}",trace);
         }
         trace.close();
         traceContext.removeTraceObject();

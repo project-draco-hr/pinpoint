@@ -13,6 +13,9 @@
     recorder.recordApi(USER_INCLUDE_METHOD_DESCRIPTOR);
   }
   if (trace.getTraceType() == TraceType.USER) {
+    if (isDebug) {
+      logger.debug("Entry user trace. {}",trace);
+    }
     final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
     entryPointChecker.entry();
   }
