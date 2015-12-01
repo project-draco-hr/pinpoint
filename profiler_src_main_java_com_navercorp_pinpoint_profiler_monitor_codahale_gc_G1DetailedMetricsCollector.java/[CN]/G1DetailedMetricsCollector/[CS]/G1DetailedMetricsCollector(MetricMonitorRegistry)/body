@@ -1,0 +1,19 @@
+{
+  super(registry);
+  final MetricRegistry metricRegistry=registry.getRegistry();
+  @SuppressWarnings("rawtypes") final SortedMap<String,Gauge> gauges=metricRegistry.getGauges();
+  this.codeCacheUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_CODE_CACHE_USAGE);
+  this.newGenUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_NEWGEN_USAGE);
+  this.oldGenUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_OLDGEN_USAGE);
+  this.survivorUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_SURVIVOR_USAGE);
+  if (gauges.containsKey(JVM_MEMORY_POOLS_G1_PERMGEN_USAGE)) {
+    this.permGenUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_PERMGEN_USAGE);
+    this.metaspaceUsage=EXCLUDED_DOUBLE;
+  }
+ else {
+    this.metaspaceUsage=getDoubleGauge(gauges,JVM_MEMORY_POOLS_G1_METASPACE_USAGE);
+    this.permGenUsage=EXCLUDED_DOUBLE;
+  }
+  this.newGcCount=getLongGauge(gauges,JVM_GC_G1_NEWGEN_COUNT);
+  this.newGcTime=getLongGauge(gauges,JVM_GC_G1_NEWGEN_TIME);
+}

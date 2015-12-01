@@ -1,0 +1,39 @@
+{
+  MetricMonitorRegistry registry=this.monitorRegistry;
+  registry.registerJvmMemoryMonitor(new MonitorName(MetricMonitorValues.JVM_MEMORY));
+  registry.registerJvmGcMonitor(new MonitorName(MetricMonitorValues.JVM_GC));
+  Collection<String> keys=registry.getRegistry().getNames();
+  GarbageCollector garbageCollectorToReturn=new UnknownGarbageCollector();
+  if (collectDetailedMetrics) {
+    if (keys.contains(JVM_GC_SERIAL_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new SerialDetailedMetricsCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_PS_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new ParallelDetailedMetricsCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_CMS_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new CmsDetailedMetricsCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_G1_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new G1DetailedMetricsCollector(registry);
+    }
+  }
+ else {
+    if (keys.contains(JVM_GC_SERIAL_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new SerialCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_PS_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new ParallelCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_CMS_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new CmsCollector(registry);
+    }
+ else     if (keys.contains(JVM_GC_G1_OLDGEN_COUNT)) {
+      garbageCollectorToReturn=new G1Collector(registry);
+    }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("found : {}",garbageCollectorToReturn);
+  }
+  return garbageCollectorToReturn;
+}
