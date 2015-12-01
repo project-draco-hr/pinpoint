@@ -6,43 +6,30 @@
   if (trace == null) {
     return;
   }
-  final TraceScope scope=trace.getScope(SCOPE_NAME);
-  if (scope != null) {
-    if (scope.canLeave()) {
-      scope.leave();
-    }
- else {
-      if (logger.isInfoEnabled()) {
-        logger.info("Detected invalid scope={}. close and remove user trace={}, sampled={}",scope.getName(),trace,trace.canSampled());
-      }
-      trace.close();
-      traceContext.removeTraceObject();
-      return;
-    }
+  if (!isUserIncludeTrace(trace)) {
+    return;
+  }
+  if (!leaveUserIncludeTraceScope(trace)) {
+    logger.warn("Failed to leave scope of user include trace. trace={}, sampled={}",trace,trace.canSampled());
+    deleteUserIncludeTrace(trace);
+    return;
   }
   if (!trace.canSampled()) {
-    if (scope != null && !scope.isActive()) {
-      if (isDebug) {
-        logger.debug("Remove user trace={}, sampled={}",trace,trace.canSampled());
-      }
-      traceContext.removeTraceObject();
+    if (isUserIncludeTraceDestination(trace)) {
+      deleteUserIncludeTrace(trace);
     }
     return;
   }
   try {
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
-    recorder.recordServiceType(UserConstants.USER_INCLUDE);
+    recorder.recordServiceType(ServiceType.INTERNAL_METHOD);
     recorder.recordException(throwable);
   }
   finally {
     trace.traceBlockEnd();
-    if (scope != null && !scope.isActive()) {
-      if (isDebug) {
-        logger.debug("Close and remove user trace={}, sampled={}",trace,trace.canSampled());
-      }
-      trace.close();
-      traceContext.removeTraceObject();
+    if (isUserIncludeTraceDestination(trace)) {
+      deleteUserIncludeTrace(trace);
     }
   }
 }
