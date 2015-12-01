@@ -1,7 +1,10 @@
 {
+  if (isIgnoreAddress(packet.getAddress())) {
+    return;
+  }
   final HeaderTBaseDeserializer deserializer=deserializerFactory.createDeserializer();
-  TBase<?,?> tBase=null;
   SocketAddress socketAddress=packet.getSocketAddress();
+  TBase<?,?> tBase=null;
   try {
     tBase=deserializer.deserialize(packet.getData());
     if (filter.filter(tBase,socketAddress) == TBaseFilter.BREAK) {
