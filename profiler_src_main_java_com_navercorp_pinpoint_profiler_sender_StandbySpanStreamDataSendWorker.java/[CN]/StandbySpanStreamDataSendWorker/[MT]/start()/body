@@ -1,11 +1,13 @@
 {
-  logger.info("{} initialization started.",this.getClass().getSimpleName());
+  final ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName(),true);
+  this.workerThread=threadFactory.newThread(this);
+  logger.info("start() started.");
   if (!workerThread.isAlive()) {
     this.isStarted=true;
     this.workerThread.start();
-    logger.info("{} initialization completed.",this.getClass().getSimpleName());
+    logger.info("start() completed.");
   }
  else {
-    logger.info("{} already started.",this.getClass().getSimpleName());
+    logger.info("start() failed. caused:already started.",this.getClass().getSimpleName());
   }
 }
