@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(7);
+  BitSet incoming=iprot.readBitSet(8);
   if (incoming.get(0)) {
     struct.type=com.navercorp.pinpoint.thrift.dto.TJvmGcType.findByValue(iprot.readI32());
     struct.setTypeIsSet(true);
@@ -28,5 +28,10 @@
   if (incoming.get(6)) {
     struct.jvmGcOldTime=iprot.readI64();
     struct.setJvmGcOldTimeIsSet(true);
+  }
+  if (incoming.get(7)) {
+    struct.jvmGcDetailed=new TJvmGcDetailed();
+    struct.jvmGcDetailed.read(iprot);
+    struct.setJvmGcDetailedIsSet(true);
   }
 }

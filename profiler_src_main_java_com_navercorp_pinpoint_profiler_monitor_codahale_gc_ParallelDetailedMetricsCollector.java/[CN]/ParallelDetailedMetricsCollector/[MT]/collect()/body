@@ -1,0 +1,18 @@
+{
+  final TJvmGc gc=super.collect();
+  final TJvmGcDetailed details=new TJvmGcDetailed();
+  details.setJvmPoolCodeCacheUsed(codeCacheUsage.getValue());
+  details.setJvmPoolNewGenUsed(newGenUsage.getValue());
+  details.setJvmPoolOldGenUsed(oldGenUsage.getValue());
+  details.setJvmPoolSurvivorSpaceUsed(survivorUsage.getValue());
+  if (EXCLUDED_DOUBLE.equals(permGenUsage.getValue())) {
+    details.setJvmPoolPermGenUsed(permGenUsage.getValue());
+  }
+ else {
+    details.setJvmPoolMetaspaceUsed(metaspaceUsage.getValue());
+  }
+  details.setJvmGcNewCount(newGcCount.getValue());
+  details.setJvmGcNewTime(newGcTime.getValue());
+  gc.setJvmGcDetailed(details);
+  return gc;
+}

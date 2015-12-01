@@ -1,5 +1,6 @@
 {
-  GarbageCollector collector=new AgentStatCollectorFactory(new TestableTransactionCounter()).getGarbageCollector();
+  ProfilerConfig profilerConfig=new DefaultProfilerConfig();
+  GarbageCollector collector=new AgentStatCollectorFactory(new TestableTransactionCounter(),profilerConfig).getGarbageCollector();
   logger.debug("collector.getType():{}",collector);
   TJvmGc collect1=collector.collect();
   logger.debug("collector.collect():{}",collect1);

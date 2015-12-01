@@ -3,11 +3,11 @@
     throw new NullPointerException("registry must not be null");
   }
   final MetricRegistry metricRegistry=registry.getRegistry();
-  final SortedMap<String,Gauge> gauges=metricRegistry.getGauges();
+  @SuppressWarnings("rawtypes") final SortedMap<String,Gauge> gauges=metricRegistry.getGauges();
   this.heapMax=getLongGauge(gauges,JVM_MEMORY_HEAP_MAX);
   this.heapUsed=getLongGauge(gauges,JVM_MEMORY_HEAP_USED);
   this.heapNonHeapMax=getLongGauge(gauges,JVM_MEMORY_NONHEAP_MAX);
   this.heapNonHeapUsed=getLongGauge(gauges,JVM_MEMORY_NONHEAP_USED);
-  this.gcCount=getLongGauge(gauges,JVM_GC_G1_OLD_COUNT);
-  this.gcTime=getLongGauge(gauges,JVM_GC_G1_OLD_TIME);
+  this.oldGcCount=getLongGauge(gauges,JVM_GC_G1_OLDGEN_COUNT);
+  this.oldGcTime=getLongGauge(gauges,JVM_GC_G1_OLDGEN_TIME);
 }
