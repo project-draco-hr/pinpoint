@@ -11,7 +11,9 @@
   AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).build();
   try {
     agentInfoSender.start();
-    Thread.sleep(agentInfoSendRetryIntervalMs * expectedTriesUntilSuccess);
+    while (requestCount.get() < expectedTriesUntilSuccess) {
+      Thread.sleep(1000L);
+    }
   }
   finally {
     closeAll(serverAcceptor,agentInfoSender,pinpointClient,socketFactory);
