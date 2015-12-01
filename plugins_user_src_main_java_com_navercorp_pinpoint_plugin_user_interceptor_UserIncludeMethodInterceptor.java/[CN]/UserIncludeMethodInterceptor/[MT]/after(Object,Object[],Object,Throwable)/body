@@ -6,22 +6,26 @@
   if (trace == null) {
     return;
   }
-  if (trace.getTraceType() == TraceType.USER) {
-    if (isDebug) {
-      logger.debug("Leave user trace. {}",trace);
+  final TraceScope scope=trace.getScope(SCOPE_NAME);
+  if (scope != null) {
+    if (scope.canLeave()) {
+      scope.leave();
     }
-    final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
-    entryPointChecker.leave();
+ else {
+      if (logger.isInfoEnabled()) {
+        logger.info("Detected invalid scope={}. close and remove user trace={}, sampled={}",scope.getName(),trace,trace.canSampled());
+      }
+      trace.close();
+      traceContext.removeTraceObject();
+      return;
+    }
   }
   if (!trace.canSampled()) {
-    if (trace.getTraceType() == TraceType.USER) {
-      final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
-      if (!entryPointChecker.isNested()) {
-        if (isDebug) {
-          logger.debug("Remove user trace. {}",trace);
-        }
-        traceContext.removeTraceObject();
+    if (scope != null && !scope.isActive()) {
+      if (isDebug) {
+        logger.debug("Remove user trace={}, sampled={}",trace,trace.canSampled());
       }
+      traceContext.removeTraceObject();
     }
     return;
   }
@@ -33,15 +37,12 @@
   }
   finally {
     trace.traceBlockEnd();
-    if (trace.getTraceType() == TraceType.USER) {
-      final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
-      if (!entryPointChecker.isNested()) {
-        if (isDebug) {
-          logger.debug("Close and remove user trace. {}",trace);
-        }
-        trace.close();
-        traceContext.removeTraceObject();
+    if (scope != null && !scope.isActive()) {
+      if (isDebug) {
+        logger.debug("Close and remove user trace={}, sampled={}",trace,trace.canSampled());
       }
+      trace.close();
+      traceContext.removeTraceObject();
     }
   }
 }

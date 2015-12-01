@@ -8,20 +8,19 @@
     if (isDebug) {
       logger.debug("New user trace {} and sampled {}",trace,trace.canSampled());
     }
+    trace.addScope(SCOPE_NAME);
     if (trace.canSampled()) {
       final SpanRecorder recorder=trace.getSpanRecorder();
       recorder.recordServiceType(ServiceType.STAND_ALONE);
       recorder.recordApi(USER_INCLUDE_METHOD_DESCRIPTOR);
     }
   }
-  if (trace.getTraceType() == TraceType.USER) {
-    if (isDebug) {
-      logger.debug("Entry user trace. {}",trace);
-    }
-    final EntryPointChecker entryPointChecker=trace.getEntryPointChecker();
-    entryPointChecker.entry();
+  final TraceScope scope=trace.getScope(SCOPE_NAME);
+  if (scope != null) {
+    scope.tryEnter();
   }
   if (!trace.canSampled()) {
     return;
   }
+  trace.traceBlockBegin();
 }
