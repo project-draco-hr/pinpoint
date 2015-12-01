@@ -2,20 +2,19 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  Trace trace=traceContext.currentTraceObject();
+  Trace trace=traceContext.currentRawTraceObject();
   if (trace == null) {
-    trace=traceContext.newTraceObject(TraceType.USER);
-    if (!trace.canSampled()) {
-      if (isDebug) {
-        logger.debug("New trace and can't sampled {}",trace);
-      }
+    trace=createUserIncludeTrace();
+    if (trace == null) {
       return;
     }
-    if (isDebug) {
-      logger.debug("New trace and sampled {}",trace);
-    }
-    SpanRecorder recorder=trace.getSpanRecorder();
-    recordRootSpan(recorder);
+  }
+  if (!isUserIncludeTrace(trace)) {
+    return;
+  }
+  entryUserIncludeTraceScope(trace);
+  if (!trace.canSampled()) {
+    return;
   }
   trace.traceBlockBegin();
 }
