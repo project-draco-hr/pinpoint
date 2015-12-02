@@ -10,8 +10,10 @@
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final HttpRequest httpRequest=getHttpRequest(args);
     if (httpRequest != null) {
-      final String httpUrl=InterceptorUtils.getHttpUrl(httpRequest.getRequestLine().getUri(),param);
-      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpUrl);
+      if (httpRequest.getRequestLine() != null) {
+        final String httpUrl=InterceptorUtils.getHttpUrl(httpRequest.getRequestLine().getUri(),param);
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,httpUrl);
+      }
       final NameIntValuePair<String> host=getHost();
       if (host != null) {
         final String endpoint=getEndpoint(host.getName(),host.getValue());
@@ -27,8 +29,8 @@
     }
     recorder.recordApi(methodDescriptor);
     recorder.recordException(throwable);
-    InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
-    if (invocation != null && invocation.getAttachment() != null) {
+    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null && invocation.getAttachment() instanceof HttpCallContext) {
       final HttpCallContext callContext=(HttpCallContext)invocation.getAttachment();
       logger.debug("Check call context {}",callContext);
       if (io) {

@@ -7,7 +7,7 @@
     return;
   }
   InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
-  if (invocation != null && invocation.getAttachment() != null) {
+  if (invocation != null && invocation.getAttachment() != null && invocation.getAttachment() instanceof HttpClient3CallContext) {
     HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
     if (methodDescriptor.getMethodName().equals("writeRequest")) {
       callContext.setWriteEndTime(System.currentTimeMillis());

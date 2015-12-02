@@ -1,6 +1,6 @@
 {
-  InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
-  if (transaction != null && transaction.getAttachment() != null) {
+  final InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
+  if (transaction != null && transaction.getAttachment() != null && transaction.getAttachment() instanceof HttpCallContext) {
     HttpCallContext callContext=(HttpCallContext)transaction.getAttachment();
     return new NameIntValuePair<String>(callContext.getHost(),callContext.getPort());
   }
