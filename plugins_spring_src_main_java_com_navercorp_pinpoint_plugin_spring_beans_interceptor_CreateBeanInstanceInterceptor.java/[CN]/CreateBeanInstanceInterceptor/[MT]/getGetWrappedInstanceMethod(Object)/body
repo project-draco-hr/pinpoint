@@ -1,0 +1,16 @@
+{
+  if (getWrappedInstanceMethod != null) {
+    return getWrappedInstanceMethod;
+  }
+synchronized (this) {
+    if (getWrappedInstanceMethod != null) {
+      return getWrappedInstanceMethod;
+    }
+    Method findedMethod=object.getClass().getMethod("getWrappedInstance");
+    if (findedMethod != null) {
+      getWrappedInstanceMethod=findedMethod;
+      return getWrappedInstanceMethod;
+    }
+  }
+  return null;
+}
