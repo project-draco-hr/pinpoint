@@ -10,8 +10,8 @@
     final String beanName=(String)beanNameObject;
     Object bean;
     try {
-      Method getter=result.getClass().getMethod("getWrappedInstance");
-      bean=getter.invoke(result);
+      Method getWrappedInstanceMethod=getGetWrappedInstanceMethod(result);
+      bean=getWrappedInstanceMethod.invoke(result);
     }
  catch (    Exception e) {
       logger.warn("Fail to get create bean instance",e);
