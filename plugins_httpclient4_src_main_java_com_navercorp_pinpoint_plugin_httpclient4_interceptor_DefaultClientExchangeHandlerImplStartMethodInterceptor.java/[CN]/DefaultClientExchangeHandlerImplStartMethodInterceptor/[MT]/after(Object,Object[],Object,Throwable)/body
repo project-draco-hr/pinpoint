@@ -10,8 +10,10 @@
     SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     final HttpRequest httpRequest=getHttpRequest(target);
     if (httpRequest != null) {
-      final String httpUrl=InterceptorUtils.getHttpUrl(httpRequest.getRequestLine().getUri(),param);
-      recorder.recordAttribute(AnnotationKey.HTTP_URL,httpUrl);
+      if (httpRequest.getRequestLine() != null) {
+        final String httpUrl=InterceptorUtils.getHttpUrl(httpRequest.getRequestLine().getUri(),param);
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,httpUrl);
+      }
       final NameIntValuePair<String> host=getHost(target);
       if (host != null) {
         final String endpoint=getEndpoint(host.getName(),host.getValue());

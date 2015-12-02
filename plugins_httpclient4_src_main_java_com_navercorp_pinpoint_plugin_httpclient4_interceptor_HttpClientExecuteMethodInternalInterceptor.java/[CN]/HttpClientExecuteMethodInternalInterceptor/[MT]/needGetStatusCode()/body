@@ -7,7 +7,7 @@
     return false;
   }
   InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
-  if (transaction.getAttachment() != null) {
+  if (transaction != null && transaction.getAttachment() != null && transaction.getAttachment() instanceof HttpCallContext) {
     return false;
   }
   return true;

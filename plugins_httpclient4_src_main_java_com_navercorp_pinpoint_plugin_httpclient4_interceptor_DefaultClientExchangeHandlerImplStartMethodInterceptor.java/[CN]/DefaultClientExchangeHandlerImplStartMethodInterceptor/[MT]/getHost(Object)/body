@@ -4,5 +4,10 @@
   }
   final HttpAsyncRequestProducer producer=((RequestProducerGetter)target)._$PINPOINT$_getRequestProducer();
   final HttpHost httpHost=producer.getTarget();
-  return new NameIntValuePair<String>(httpHost.getHostName(),httpHost.getPort());
+  if (httpHost != null) {
+    return new NameIntValuePair<String>(httpHost.getHostName(),httpHost.getPort());
+  }
+ else {
+    return null;
+  }
 }
