@@ -1,4 +1,9 @@
 {
-  Interceptor interceptor=this.index.get(key);
-  return interceptor == null ? LOGGING_INTERCEPTOR : interceptor;
+  final Interceptor interceptor=this.index.get(key);
+  if (interceptor == null) {
+    return LOGGING_INTERCEPTOR;
+  }
+ else {
+    return interceptor;
+  }
 }
