@@ -1,6 +1,6 @@
 {
   if (isDebug) {
-    logger.afterInterceptor(target,methodDescriptor.getClassName(),methodDescriptor.getMethodName(),"",args,result,throwable);
+    logger.afterInterceptor(target,args,result,throwable);
   }
   if (getAsyncTraceId(target) == null) {
     logger.debug("Not found asynchronous invocation metadata");
@@ -8,6 +8,11 @@
   }
   Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
+    return;
+  }
+  if (!leaveAsyncTraceScope(trace)) {
+    logger.warn("Failed to leave scope of async trace {}.",trace);
+    deleteAsyncTrace(trace);
     return;
   }
   try {
@@ -21,13 +26,8 @@
   }
  finally {
     trace.traceBlockEnd();
-    if (trace.isAsync() && trace.isRootStack()) {
-      if (isDebug) {
-        logger.debug("Close async trace. {}");
-      }
-      traceFirstBlockEnd(trace);
-      trace.close();
-      traceContext.removeTraceObject();
+    if (isAsyncTraceDestination(trace)) {
+      deleteAsyncTrace(trace);
     }
   }
 }

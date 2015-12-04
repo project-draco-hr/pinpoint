@@ -1,0 +1,12 @@
+{
+  final TraceScope scope=trace.getScope(SCOPE_NAME);
+  if (scope != null) {
+    if (scope.canLeave()) {
+      scope.leave();
+    }
+ else {
+      return false;
+    }
+  }
+  return true;
+}
