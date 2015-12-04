@@ -3,5 +3,7 @@
     final Thread th=Thread.currentThread();
     logger.trace("[DefaultTrace] Write {} thread{id={}, name={}}",spanEvent,th.getId(),th.getName());
   }
-  this.storage.store(spanEvent);
+  if (this.storage != null) {
+    this.storage.store(spanEvent);
+  }
 }
