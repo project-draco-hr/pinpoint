@@ -21,7 +21,6 @@
     if (trace.canSampled()) {
       SpanRecorder recorder=trace.getSpanRecorder();
       recordRootSpan(recorder,request);
-      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID exist. continue trace. traceId:{}, requestUrl:{}, remoteAddr:{}",traceId,request.getRequestURI(),request.getRemoteAddr());
       }
@@ -38,7 +37,6 @@
     if (trace.canSampled()) {
       SpanRecorder recorder=trace.getSpanRecorder();
       recordRootSpan(recorder,request);
-      setTraceMetadata(request,trace);
       if (isDebug) {
         logger.debug("TraceID not exist. start new trace. requestUrl:{}, remoteAddr:{}",request.getRequestURI(),request.getRemoteAddr());
       }
