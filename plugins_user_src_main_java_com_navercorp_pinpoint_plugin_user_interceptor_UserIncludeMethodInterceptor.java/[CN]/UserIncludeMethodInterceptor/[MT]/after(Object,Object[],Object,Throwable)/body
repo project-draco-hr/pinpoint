@@ -6,11 +6,10 @@
   if (trace == null) {
     return;
   }
-  if (!isUserIncludeTrace(trace)) {
-    return;
-  }
   if (!leaveUserIncludeTraceScope(trace)) {
-    logger.warn("Failed to leave scope of user include trace. trace={}, sampled={}",trace,trace.canSampled());
+    if (logger.isInfoEnabled()) {
+      logger.info("Failed to leave scope of user include trace. trace={}, sampled={}",trace,trace.canSampled());
+    }
     deleteUserIncludeTrace(trace);
     return;
   }

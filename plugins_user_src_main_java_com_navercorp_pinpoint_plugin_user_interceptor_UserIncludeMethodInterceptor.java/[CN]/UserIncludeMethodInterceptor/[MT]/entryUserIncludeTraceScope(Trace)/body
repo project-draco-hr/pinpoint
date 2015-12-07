@@ -2,5 +2,8 @@
   final TraceScope scope=trace.getScope(SCOPE_NAME);
   if (scope != null) {
     scope.tryEnter();
+    if (isDebug) {
+      logger.debug("Try enter trace scope={}",scope.getName());
+    }
   }
 }

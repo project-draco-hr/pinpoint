@@ -4,13 +4,18 @@
   }
   Trace trace=traceContext.currentRawTraceObject();
   if (trace == null) {
+    if (isDebug) {
+      logger.debug("Not found trace. Crate user include trace.");
+    }
     trace=createUserIncludeTrace();
     if (trace == null) {
       return;
     }
   }
-  if (!isUserIncludeTrace(trace)) {
-    return;
+ else {
+    if (isDebug) {
+      logger.debug("Found trace {}, sampled={}.",trace,trace.canSampled());
+    }
   }
   entryUserIncludeTraceScope(trace);
   if (!trace.canSampled()) {
