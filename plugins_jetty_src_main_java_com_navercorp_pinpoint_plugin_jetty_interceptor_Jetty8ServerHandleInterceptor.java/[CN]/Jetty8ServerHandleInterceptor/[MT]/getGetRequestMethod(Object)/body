@@ -7,7 +7,8 @@ synchronized (this) {
       return getRequestMethod;
     }
     try {
-      Method findedMethod=clazz.getMethod("getRequest");
+      final Class<?> clazz=target.getClass();
+      final Method findedMethod=clazz.getMethod("getRequest");
       if (findedMethod != null) {
         getRequestMethod=findedMethod;
         return getRequestMethod;
