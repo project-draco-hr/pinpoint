@@ -1,0 +1,8 @@
+{
+  InterceptorRegistryBinder binder=new TestInterceptorRegistryBinder();
+  JavassistClassPool pool=new JavassistClassPool(binder,null);
+  final byte[] transformByteCode=getTransformByteCode();
+  final InstrumentClass transformClass=pool.getClass(null,mock,transformByteCode);
+  Assert.assertNotNull(transformClass.getDeclaredMethod("test"));
+  Assert.assertNotNull("transform method",transformClass.getDeclaredMethod("transformMethod"));
+}

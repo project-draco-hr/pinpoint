@@ -1,7 +1,8 @@
 {
   JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
   String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObjectNestedClass";
-  InstrumentClass testObject=pool.getClass(null,testObjectName,null);
+  byte[] testObjectByteCode=readByteCode(testObjectName);
+  InstrumentClass testObject=pool.getClass(null,null,testObjectName,testObjectByteCode);
   Assert.assertEquals(testObject.getName(),testObjectName);
   final String targetClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObjectNestedClass$InstanceInner";
   for (  InstrumentClass c : testObject.getNestedClasses(ClassFilters.name(targetClassName))) {
