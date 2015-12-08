@@ -1,9 +1,11 @@
 {
   try {
-    Object object=args[0];
-    Method getRequestMethod=getGetRequestMethod(object.getClass());
-    Request request=(Request)getRequestMethod.invoke(object);
-    return request;
+    final Object object=args[0];
+    final Method getRequestMethod=getGetRequestMethod(object);
+    if (getRequestMethod == null) {
+      final Request request=(Request)getRequestMethod.invoke(object);
+      return request;
+    }
   }
  catch (  Exception e) {
     logger.warn(e.getMessage(),e);

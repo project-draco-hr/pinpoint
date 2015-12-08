@@ -3,13 +3,13 @@
   transformTemplate.transform(targetClassName,new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       final InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
-      target.addField(SocketAddressFieldAccessor.class.getName());
-      target.addField(AsyncMarkerFlagFieldAccessor.class.getName());
-      target.addField(AsyncTraceIdFieldAccessor.class.getName());
-      target.addField(AsyncNextSpanIdFieldAccessor.class.getName());
-      target.addField(AsyncCallEndFlagFieldAccessor.class.getName());
-      target.addField(AsyncCallRemoteAddressFieldAccessor.class.getName());
-      target.addGetter(TNonblockingTransportFieldGetter.class.getName(),ThriftConstants.T_ASYNC_METHOD_CALL_FIELD_TRANSPORT);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_SOCKET_ADDRESS);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_ASYNC_MARKER_FLAG);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_ASYNC_TRACE_ID);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_ASYNC_NEXT_SPAN_ID);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_ASYNC_CALL_END_FLAG);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_ASYNC_CALL_REMOTE_ADDRESS);
+      target.addGetter(ThriftConstants.FIELD_GETTER_T_NON_BLOCKING_TRANSPORT,ThriftConstants.T_ASYNC_METHOD_CALL_FIELD_TRANSPORT);
       final InstrumentMethod constructor=target.getConstructor("org.apache.thrift.async.TAsyncClient","org.apache.thrift.protocol.TProtocolFactory","org.apache.thrift.transport.TNonblockingTransport","org.apache.thrift.async.AsyncMethodCallback","boolean");
       if (constructor != null) {
         String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.client.async.TAsyncMethodCallConstructInterceptor";
