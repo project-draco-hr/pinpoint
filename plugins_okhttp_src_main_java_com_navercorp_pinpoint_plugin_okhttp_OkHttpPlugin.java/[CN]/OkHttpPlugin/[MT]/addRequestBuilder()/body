@@ -6,11 +6,11 @@
       if (buildMethod != null) {
         logger.debug("[OkHttp] Add Request.Builder.build interceptor.");
         if (instrumentor.exist(loader,"com.squareup.okhttp.HttpUrl")) {
-          target.addGetter(HttpUrlGetter.class.getName(),OkHttpConstants.FIELD_HTTP_URL);
+          target.addGetter(OkHttpConstants.HTTP_URL_GETTER,OkHttpConstants.FIELD_HTTP_URL);
           buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodInterceptor");
         }
  else {
-          target.addGetter(UrlGetter.class.getName(),OkHttpConstants.FIELD_HTTP_URL);
+          target.addGetter(OkHttpConstants.URL_GETTER,OkHttpConstants.FIELD_HTTP_URL);
           buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodBackwardCompatibilityInterceptor");
         }
       }
