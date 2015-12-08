@@ -2,9 +2,9 @@
   transformTemplate.transform("com.squareup.okhttp.internal.http.HttpEngine",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
-      target.addGetter(UserRequestGetter.class.getName(),OkHttpConstants.FIELD_USER_REQUEST);
-      target.addGetter(UserResponseGetter.class.getName(),OkHttpConstants.FIELD_USER_RESPONSE);
-      target.addGetter(ConnectionGetter.class.getName(),OkHttpConstants.FIELD_CONNECTION);
+      target.addGetter(OkHttpConstants.USER_REQUEST_GETTER,OkHttpConstants.FIELD_USER_REQUEST);
+      target.addGetter(OkHttpConstants.USER_RESPONSE_GETTER,OkHttpConstants.FIELD_USER_RESPONSE);
+      target.addGetter(OkHttpConstants.CONNECTION_GETTER,OkHttpConstants.FIELD_CONNECTION);
       InstrumentMethod sendRequestMethod=target.getDeclaredMethod("sendRequest");
       if (sendRequestMethod != null) {
         logger.debug("[OkHttp] Add HttpEngine.sendRequest interceptor.");
