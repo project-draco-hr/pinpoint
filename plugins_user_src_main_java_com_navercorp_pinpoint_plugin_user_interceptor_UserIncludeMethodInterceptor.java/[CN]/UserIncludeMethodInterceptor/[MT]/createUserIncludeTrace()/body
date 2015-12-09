@@ -5,7 +5,9 @@
   }
   TraceScope oldScope=trace.addScope(SCOPE_NAME);
   if (oldScope != null) {
-    logger.warn("Duplicated user include trace scope={}.",oldScope.getName());
+    if (logger.isInfoEnabled()) {
+      logger.info("Duplicated user include trace scope={}.",oldScope.getName());
+    }
     deleteUserIncludeTrace(trace);
     return null;
   }

@@ -3,6 +3,9 @@
   if (scope != null) {
     if (scope.canLeave()) {
       scope.leave();
+      if (isDebug) {
+        logger.debug("Leave trace scope={}",scope.getName());
+      }
     }
  else {
       return false;
