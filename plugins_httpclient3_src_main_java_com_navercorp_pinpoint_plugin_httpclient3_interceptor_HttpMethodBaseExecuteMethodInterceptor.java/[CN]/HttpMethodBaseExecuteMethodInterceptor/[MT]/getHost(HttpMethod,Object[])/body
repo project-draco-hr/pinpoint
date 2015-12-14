@@ -1,0 +1,21 @@
+{
+  try {
+    final URI url=httpMethod.getURI();
+    if (url.isAbsoluteURI()) {
+      return getEndpoint(url.getHost(),url.getPort());
+    }
+    final HttpConnection httpConnection=getHttpConnection(args);
+    if (httpConnection != null) {
+      final String host=httpConnection.getHost();
+      int port=httpConnection.getPort();
+      if (httpConnection.getProtocol() != null && port == httpConnection.getProtocol().getDefaultPort()) {
+        port=-1;
+      }
+      return getEndpoint(host,port);
+    }
+  }
+ catch (  URIException e) {
+    logger.error("Fail get URI",e);
+  }
+  return null;
+}

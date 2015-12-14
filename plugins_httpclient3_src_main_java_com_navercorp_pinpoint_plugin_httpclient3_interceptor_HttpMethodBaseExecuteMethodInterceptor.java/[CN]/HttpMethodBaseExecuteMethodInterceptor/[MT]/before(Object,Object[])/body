@@ -28,7 +28,7 @@
     httpMethod.setRequestHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
     httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
     httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
-    final String host=getHost(httpMethod);
+    final String host=getHost(httpMethod,args);
     if (host != null) {
       httpMethod.setRequestHeader(Header.HTTP_HOST.toString(),host);
     }

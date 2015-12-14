@@ -10,15 +10,7 @@
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     HttpMethod httpMethod=(HttpMethod)target;
     if (httpMethod != null) {
-      try {
-        final URI uri=httpMethod.getURI();
-        String uriString=uri.getURI();
-        recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(uriString,param));
-        recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
-      }
- catch (      URIException e) {
-        logger.error("Fail get URI",e);
-      }
+      recordDestination(trace,httpMethod,args);
       recordRequest(trace,httpMethod,throwable);
     }
     if (result != null) {
