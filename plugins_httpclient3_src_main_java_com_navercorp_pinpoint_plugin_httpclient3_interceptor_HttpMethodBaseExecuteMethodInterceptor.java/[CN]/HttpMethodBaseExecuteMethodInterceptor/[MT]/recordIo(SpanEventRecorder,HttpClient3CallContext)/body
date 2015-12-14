@@ -1,12 +1,14 @@
 {
-  final StringBuilder sb=new StringBuilder();
-  sb.append("write=").append(callContext.getWriteElapsedTime());
-  if (callContext.isWriteFail()) {
-    sb.append("(fail)");
+  if (io) {
+    final StringBuilder sb=new StringBuilder();
+    sb.append("write=").append(callContext.getWriteElapsedTime());
+    if (callContext.isWriteFail()) {
+      sb.append("(fail)");
+    }
+    sb.append(", read=").append(callContext.getReadElapsedTime());
+    if (callContext.isReadFail()) {
+      sb.append("(fail)");
+    }
+    recorder.recordAttribute(AnnotationKey.HTTP_IO,sb.toString());
   }
-  sb.append(", read=").append(callContext.getReadElapsedTime());
-  if (callContext.isReadFail()) {
-    sb.append("(fail)");
-  }
-  recorder.recordAttribute(AnnotationKey.HTTP_IO,sb.toString());
 }
