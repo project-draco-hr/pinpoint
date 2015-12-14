@@ -1,5 +1,5 @@
 {
-  port=getAvaiableUDPPort(21111);
+  port=SocketUtils.findAvailableUdpPort(21111);
   try {
     messageHolder=new MessageHolderDispatchHandler();
     receiver=new TestUDPReceiver("test",new SpanStreamUDPPacketHandlerFactory<>(messageHolder,new TestTBaseFilter()),"127.0.0.1",port,1024,1,10);
