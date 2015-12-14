@@ -17,13 +17,16 @@
   callTree.add(-1,makeSpanAlign(root.getSpanBo(),SYNC,(short)7,8,1));
   callTree.add(1,makeSpanAlign(root.getSpanBo(),SYNC,(short)8,9,1));
   CallTreeIterator iterator=callTree.iterator();
-  System.out.println("gapAsync");
+  final StringBuilder buffer=new StringBuilder("gapAsync \n");
   while (iterator.hasNext()) {
     CallTreeNode node=iterator.next();
     SpanAlign align=node.getValue();
     for (int i=0; i <= align.getDepth(); i++) {
-      System.out.print("#");
+      buffer.append("#");
     }
-    System.out.println(" : gap=" + align.getGap());
+    buffer.append(" : gap=");
+    buffer.append(align.getGap());
+    buffer.append("\n");
   }
+  logger.debug(buffer.toString());
 }

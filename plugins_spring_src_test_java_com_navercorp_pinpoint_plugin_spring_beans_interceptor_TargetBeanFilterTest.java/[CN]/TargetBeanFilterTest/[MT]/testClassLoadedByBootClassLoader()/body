@@ -4,7 +4,7 @@
   ProfilerConfig config=new DefaultProfilerConfig(properties);
   TargetBeanFilter filter=TargetBeanFilter.of(config);
   if (String.class.getClassLoader() != null) {
-    System.out.println("String is not loaded by: " + String.class.getClassLoader() + ". Skip test.");
+    logger.debug("String is not loaded by: {}. Skip test.",String.class.getClassLoader());
     return;
   }
   filter.isTarget("someBean",String.class);
