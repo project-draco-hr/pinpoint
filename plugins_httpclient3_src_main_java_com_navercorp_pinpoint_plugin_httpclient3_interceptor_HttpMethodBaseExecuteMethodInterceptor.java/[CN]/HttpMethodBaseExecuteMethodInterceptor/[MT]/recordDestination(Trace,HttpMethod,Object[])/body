@@ -8,6 +8,9 @@
       recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
       return;
     }
+    if (isDebug) {
+      logger.debug("URI is not absolute. {}",uri.getURI());
+    }
     final String host=httpConnection.getHost();
     int port=httpConnection.getPort();
     final StringBuilder httpUrl=new StringBuilder();

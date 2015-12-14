@@ -1,6 +1,6 @@
 {
-  if (args == null || args.length <= 1 || !(args[1] instanceof HttpConnection)) {
-    return null;
+  if (args != null && args.length > 1 && args[1] instanceof HttpConnection) {
+    return (HttpConnection)args[1];
   }
-  return (HttpConnection)args[1];
+  return null;
 }

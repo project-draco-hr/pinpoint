@@ -4,6 +4,9 @@
     if (url.isAbsoluteURI()) {
       return getEndpoint(url.getHost(),url.getPort());
     }
+    if (isDebug) {
+      logger.debug("URI is not absolute. {}",url.getURI());
+    }
     final HttpConnection httpConnection=getHttpConnection(args);
     if (httpConnection != null) {
       final String host=httpConnection.getHost();
@@ -15,7 +18,7 @@
     }
   }
  catch (  URIException e) {
-    logger.error("Fail get URI",e);
+    logger.error("[HttpClient3] Fail get URI",e);
   }
   return null;
 }
