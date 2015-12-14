@@ -1,4 +1,13 @@
 {
   closeZookeeperServer(ts);
-  clusterConnectionManager.stop();
+  try {
+    clusterDataManager.stop();
+  }
+ catch (  Exception ignore) {
+  }
+  try {
+    clusterConnectionManager.stop();
+  }
+ catch (  Exception ignore) {
+  }
 }
