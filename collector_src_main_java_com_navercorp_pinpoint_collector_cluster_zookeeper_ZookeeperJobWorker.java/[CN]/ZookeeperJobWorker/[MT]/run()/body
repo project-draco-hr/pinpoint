@@ -1,0 +1,21 @@
+{
+  logger.info("run() started.");
+  ZookeeperJob latestHeadJob=null;
+  while (workerState.isStarted()) {
+    boolean eventExists=awaitJob(60000,200);
+    if (eventExists) {
+      ZookeeperJob headJob=jobQueue.peek();
+      if (latestHeadJob != null && latestHeadJob == headJob) {
+        await(1000);
+      }
+      if (headJob != null) {
+        latestHeadJob=headJob;
+        boolean completed=handle(headJob);
+        if (completed) {
+          jobQueue.remove(headJob);
+        }
+      }
+    }
+  }
+  logger.info("run() completed.");
+}

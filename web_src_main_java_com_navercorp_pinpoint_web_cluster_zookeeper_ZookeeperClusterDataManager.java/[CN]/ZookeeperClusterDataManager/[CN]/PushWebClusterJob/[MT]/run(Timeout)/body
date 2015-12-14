@@ -1,0 +1,9 @@
+{
+  logger.info("Reserved {} started.",ClassUtils.simpleClassName(this));
+  if (!isConnected()) {
+    return;
+  }
+  if (!clusterDataManagerHelper.pushWebClusterResource(client,this)) {
+    timer.newTimeout(this,getRetryInterval(),TimeUnit.MILLISECONDS);
+  }
+}

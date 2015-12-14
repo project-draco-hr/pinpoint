@@ -1,0 +1,9 @@
+{
+  String key=getKey(pinpointServer);
+synchronized (lock) {
+    boolean keyRemoved=pinpointServerRepository.removeAndGetIsKeyRemoved(key,pinpointServer);
+    if (keyRemoved) {
+      putZookeeperJob(new ZookeeperJob(ZookeeperJob.Type.REMOVE,key));
+    }
+  }
+}

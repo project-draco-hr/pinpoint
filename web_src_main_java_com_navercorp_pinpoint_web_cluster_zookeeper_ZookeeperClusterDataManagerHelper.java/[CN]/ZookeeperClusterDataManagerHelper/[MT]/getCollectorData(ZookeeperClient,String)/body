@@ -1,0 +1,19 @@
+{
+  try {
+    List<String> collectorList=client.getChildren(path,true);
+    if (collectorList == Collections.EMPTY_LIST) {
+      return Collections.emptyMap();
+    }
+    Map<String,byte[]> map=new HashMap<>();
+    for (    String collector : collectorList) {
+      String node=bindingPathAndZnode(path,collector);
+      byte[] data=client.getData(node,true);
+      map.put(node,data);
+    }
+    return map;
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return Collections.emptyMap();
+}

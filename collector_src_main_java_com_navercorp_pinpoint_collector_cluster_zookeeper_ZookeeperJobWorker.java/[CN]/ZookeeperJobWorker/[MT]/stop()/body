@@ -1,0 +1,20 @@
+{
+  if (!(this.workerState.changeStateDestroying())) {
+    WorkerState state=this.workerState.getCurrentState();
+    logger.info("stop() failed. caused:Unexpected State.");
+    return;
+  }
+  logger.info("stop() started.");
+  boolean interrupted=false;
+  while (workerThread != null && this.workerThread.isAlive()) {
+    this.workerThread.interrupt();
+    try {
+      this.workerThread.join(100L);
+    }
+ catch (    InterruptedException e) {
+      interrupted=true;
+    }
+  }
+  this.workerState.changeStateStopped();
+  logger.info("stop() completed.");
+}

@@ -1,0 +1,9 @@
+{
+  Map<Object,Object> properties=new HashMap<>();
+  properties.put(AgentHandshakePropertyType.APPLICATION_NAME.getName(),applicationName);
+  properties.put(AgentHandshakePropertyType.AGENT_ID.getName(),agentId);
+  properties.put(AgentHandshakePropertyType.START_TIMESTAMP.getName(),startTimeStamp);
+  PinpointServer mockServer=mock(PinpointServer.class);
+  when(mockServer.getChannelProperties()).thenReturn(properties);
+  return mockServer;
+}

@@ -1,0 +1,14 @@
+{
+  logger.info("start() started.");
+  int bindPort=config.getClusterTcpPort();
+  if (bindPort > 0) {
+    clusterAcceptor=new ClusterAcceptor(getRepresentationLocalV4Ip(),bindPort);
+    clusterAcceptor.start();
+  }
+  String connectAddress=config.getClusterConnectAddress();
+  if (connectAddress != null && connectAddress.trim().length() != 0) {
+    clusterConnector=new ClusterConnector(config.getClusterConnectAddress());
+    clusterConnector.start();
+  }
+  logger.info("start() completed.");
+}

@@ -1,0 +1,18 @@
+{
+  MockZookeeperClient zookeeperClient=new MockZookeeperClient();
+  ZookeeperJobWorker zookeeperWorker=new ZookeeperJobWorker(zookeeperClient,IDENTIFIER);
+  zookeeperWorker.start();
+  try {
+    PinpointServer mockServer1=createMockPinpointServer("app","agent",System.currentTimeMillis());
+    zookeeperWorker.addPinpointServer(mockServer1);
+    PinpointServer mockServer2=createMockPinpointServer("app","agent",System.currentTimeMillis() + 1000);
+    zookeeperWorker.addPinpointServer(mockServer2);
+    Thread.sleep(100);
+    zookeeperWorker.removePinpointServer(mockServer1);
+    Thread.sleep(100);
+    Assert.assertEquals(1,getServerData(zookeeperClient).size());
+  }
+  finally {
+    zookeeperWorker.stop();
+  }
+}

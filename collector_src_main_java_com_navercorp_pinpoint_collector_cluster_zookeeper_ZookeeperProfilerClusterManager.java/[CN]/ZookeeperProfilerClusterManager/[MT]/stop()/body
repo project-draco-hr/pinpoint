@@ -1,13 +1,11 @@
 {
   if (!(this.workerState.changeStateDestroying())) {
     WorkerState state=this.workerState.getCurrentState();
-    logger.info("{} already {}.",this.getClass().getSimpleName(),state.toString());
+    logger.info("stop() failed. caused:unexpected state.");
     return;
   }
-  logger.info("{} destroying started.",this.getClass().getSimpleName());
-  if (worker != null) {
-    worker.stop();
-  }
+  logger.info("stop() started.");
+  worker.stop();
   this.workerState.changeStateStopped();
-  logger.info("{} destroying completed.",this.getClass().getSimpleName());
+  logger.info("stop() completed.");
 }
