@@ -13,8 +13,8 @@
   for (  TSpanEvent e : spanChunk.getSpanEventList()) {
     stream.write(e);
   }
-  System.out.println("event " + stream);
+  logger.debug("event {}",stream);
   TBaseStream chunkStream=new TBaseStream(DEFAULT_PROTOCOL_FACTORY);
   List<ByteArrayOutput> nodes=stream.split(1024);
-  System.out.println("nodes " + nodes);
+  logger.debug("nodes {}",nodes);
 }
