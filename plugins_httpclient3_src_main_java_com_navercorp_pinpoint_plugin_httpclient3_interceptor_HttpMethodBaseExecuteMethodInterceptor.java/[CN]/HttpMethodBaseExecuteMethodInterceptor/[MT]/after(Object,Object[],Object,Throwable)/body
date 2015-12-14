@@ -18,13 +18,9 @@
     }
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
-    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
-    if (invocation != null && invocation.getAttachment() != null && invocation.getAttachment() instanceof HttpClient3CallContext) {
-      final HttpClient3CallContext callContext=(HttpClient3CallContext)invocation.getAttachment();
-      if (io) {
-        recordIo(recorder,callContext);
-      }
-      invocation.removeAttachment();
+    final HttpClient3CallContext callContext=getAndCleanAttachment();
+    if (callContext != null & io) {
+      recordIo(recorder,callContext);
     }
   }
   finally {

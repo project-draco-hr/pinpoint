@@ -15,8 +15,5 @@
   recorder.recordNextSpanId(nextId.getSpanId());
   recorder.recordServiceType(HttpClient3Constants.HTTP_CLIENT_3);
   setHttpTraceHeader(target,args,nextId);
-  InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
-  if (invocation != null) {
-    invocation.getOrCreateAttachment(HttpClient3CallContextFactory.HTTPCLIENT3_CONTEXT_FACTORY);
-  }
+  initAttachment();
 }
