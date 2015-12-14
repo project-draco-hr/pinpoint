@@ -1,6 +1,6 @@
 {
-  acceptorPort=PinpointWebTestUtils.findAvailablePort();
-  zookeeperPort=PinpointWebTestUtils.findAvailablePort(acceptorPort + 1);
+  acceptorPort=SocketUtils.findAvailableTcpPort();
+  zookeeperPort=SocketUtils.findAvailableTcpPort(acceptorPort + 1);
   zookeeperAddress=DEFAULT_IP + ":" + zookeeperPort;
   CLUSTER_NODE_PATH="/pinpoint-cluster/web/" + DEFAULT_IP + ":"+ acceptorPort;
   LOGGER.info("CLUSTER_NODE_PATH:{}",CLUSTER_NODE_PATH);
