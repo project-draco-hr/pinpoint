@@ -16,10 +16,7 @@
   }
   if (serviceState.isStarted() && connected.get()) {
     if (ZookeeperUtils.isConnectedEvent(state,eventType)) {
-      List<PinpointServer> pinpointServerList=profilerClusterManager.getRegisteredPinpointServerList();
-      for (      PinpointServer pinpointServer : pinpointServerList) {
-        profilerClusterManager.eventPerformed(pinpointServer,pinpointServer.getCurrentStateCode());
-      }
+      profilerClusterManager.initZookeeperClusterData();
       webClusterManager.handleAndRegisterWatcher(PINPOINT_WEB_CLUSTER_PATH);
     }
  else     if (eventType == EventType.NodeChildrenChanged) {

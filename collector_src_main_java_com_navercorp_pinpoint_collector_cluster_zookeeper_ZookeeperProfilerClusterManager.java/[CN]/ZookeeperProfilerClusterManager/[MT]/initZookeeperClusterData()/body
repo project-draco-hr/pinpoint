@@ -1,0 +1,14 @@
+{
+  profileCluster.clear();
+synchronized (lock) {
+    List clusterPointList=profileCluster.getClusterPointList();
+    for (    Object clusterPoint : clusterPointList) {
+      if (clusterPoint instanceof PinpointServerClusterPoint) {
+        PinpointServer pinpointServer=((PinpointServerClusterPoint)clusterPoint).getPinpointServer();
+        if (SocketStateCode.isRunDuplex(pinpointServer.getCurrentStateCode())) {
+          worker.addPinpointServer(pinpointServer);
+        }
+      }
+    }
+  }
+}

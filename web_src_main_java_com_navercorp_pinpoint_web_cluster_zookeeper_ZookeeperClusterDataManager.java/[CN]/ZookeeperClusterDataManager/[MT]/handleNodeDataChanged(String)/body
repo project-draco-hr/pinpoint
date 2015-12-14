@@ -1,0 +1,12 @@
+{
+  if (path != null) {
+    String id=clusterDataManagerHelper.extractCollectorClusterId(path,PINPOINT_COLLECTOR_CLUSTER_PATH);
+    if (id != null) {
+      if (pushCollectorClusterData(id)) {
+        return true;
+      }
+      timer.newTimeout(new PullCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+    }
+  }
+  return false;
+}

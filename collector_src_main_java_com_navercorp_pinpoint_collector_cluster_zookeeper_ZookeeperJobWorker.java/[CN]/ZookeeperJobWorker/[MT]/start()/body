@@ -1,0 +1,26 @@
+{
+  final ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName(),true);
+  this.workerThread=threadFactory.newThread(this);
+switch (this.workerState.getCurrentState()) {
+case NEW:
+    if (this.workerState.changeStateInitializing()) {
+      logger.info("start() started.");
+      workerState.changeStateStarted();
+      this.workerThread.start();
+      logger.info("start() completed.");
+      break;
+    }
+case INITIALIZING:
+  logger.info("start() failed. cause: already initializing.");
+break;
+case STARTED:
+logger.info("start() failed. cause: already initializing.");
+break;
+case DESTROYING:
+throw new IllegalStateException("Already destroying.");
+case STOPPED:
+throw new IllegalStateException(ClassUtils.simpleClassName(this) + " start() failed. caused:Already stopped.");
+case ILLEGAL_STATE:
+throw new IllegalStateException(ClassUtils.simpleClassName(this) + " start() failed. caused:Invalid State.");
+}
+}

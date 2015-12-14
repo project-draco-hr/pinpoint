@@ -1,0 +1,17 @@
+{
+  String zNodePath=clusterDataManagerHelper.bindingPathAndZnode(PINPOINT_WEB_CLUSTER_PATh,zNodeName);
+  logger.info("registerWebCluster() started. create UniqPath={}.",zNodePath);
+  PushWebClusterJob job=new PushWebClusterJob(zNodePath,contents,retryInterval);
+  if (!this.job.compareAndSet(null,job)) {
+    logger.warn("Already Register Web Cluster Node.");
+    return false;
+  }
+  if (!isConnected()) {
+    logger.info("Zookeeper is Disconnected.");
+    return true;
+  }
+  if (!clusterDataManagerHelper.pushWebClusterResource(client,job)) {
+    timer.newTimeout(job,job.getRetryInterval(),TimeUnit.MILLISECONDS);
+  }
+  return true;
+}

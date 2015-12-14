@@ -1,12 +1,13 @@
 {
   ts.restart();
   ZooKeeper zookeeper=null;
-  ZookeeperClusterManager manager=null;
+  ZookeeperClusterDataManager manager=null;
   try {
     zookeeper=new ZooKeeper(DEFAULT_IP + ":" + zookeeperPort,5000,null);
     createPath(zookeeper,COLLECTOR_TEST_NODE_PATH,true);
     zookeeper.setData(COLLECTOR_TEST_NODE_PATH,"a:b:1".getBytes(),-1);
-    manager=new ZookeeperClusterManager(DEFAULT_IP + ":" + zookeeperPort,5000,60000);
+    manager=new ZookeeperClusterDataManager(DEFAULT_IP + ":" + zookeeperPort,5000,60000);
+    manager.start();
     Thread.sleep(3000);
     List<String> agentList=manager.getRegisteredAgentList("a","b",1L);
     Assert.assertEquals(1,agentList.size());
@@ -23,7 +24,7 @@
       zookeeper.close();
     }
     if (manager != null) {
-      manager.close();
+      manager.stop();
     }
   }
 }

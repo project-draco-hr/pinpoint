@@ -1,9 +1,0 @@
-{
-  logger.info("Reservation Job({}) started.",this.getClass().getSimpleName());
-  if (!isConnected()) {
-    return;
-  }
-  if (!zookeeperClusterManagerHelper.pushWebClusterResource(client,this)) {
-    timer.newTimeout(this,getRetryInterval(),TimeUnit.MILLISECONDS);
-  }
-}

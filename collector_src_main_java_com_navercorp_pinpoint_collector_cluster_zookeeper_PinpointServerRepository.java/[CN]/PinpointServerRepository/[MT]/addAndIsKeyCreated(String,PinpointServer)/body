@@ -1,0 +1,16 @@
+{
+synchronized (this) {
+    boolean isContains=pinpointServerRepository.containsKey(key);
+    if (isContains) {
+      Set<PinpointServer> pinpointServerSet=pinpointServerRepository.get(key);
+      pinpointServerSet.add(pinpointServer);
+      return false;
+    }
+ else {
+      Set<PinpointServer> pinpointServerSet=new HashSet<>();
+      pinpointServerSet.add(pinpointServer);
+      pinpointServerRepository.put(key,pinpointServerSet);
+      return true;
+    }
+  }
+}

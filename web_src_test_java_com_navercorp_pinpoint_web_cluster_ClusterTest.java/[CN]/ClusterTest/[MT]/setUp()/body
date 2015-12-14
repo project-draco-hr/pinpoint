@@ -10,7 +10,7 @@
   when(config.getClusterZookeeperAddress()).thenReturn(zookeeperAddress);
   when(config.getClusterZookeeperRetryInterval()).thenReturn(60000);
   when(config.getClusterZookeeperSessionTimeout()).thenReturn(3000);
-  clusterConnectionManager=new WebClusterConnectionManager(config);
+  clusterConnectionManager=new ClusterConnectionManager(config);
   clusterConnectionManager.start();
   ts=createZookeeperServer(zookeeperPort);
 }

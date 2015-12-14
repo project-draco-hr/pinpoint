@@ -1,0 +1,20 @@
+{
+  logger.info("pushCollectorClusterData() started.");
+  String path=clusterDataManagerHelper.bindingPathAndZnode(PINPOINT_COLLECTOR_CLUSTER_PATH,id);
+synchronized (this) {
+    try {
+      byte[] data=client.getData(path,true);
+      collectorClusterInfo.put(id,data);
+      logger.info("pushCollectorClusterData() completed.");
+      return true;
+    }
+ catch (    NoNodeException e) {
+      logger.warn("No node path({}).",path);
+      collectorClusterInfo.remove(id);
+    }
+catch (    Exception e) {
+      logger.warn(e.getMessage(),e);
+    }
+    return false;
+  }
+}

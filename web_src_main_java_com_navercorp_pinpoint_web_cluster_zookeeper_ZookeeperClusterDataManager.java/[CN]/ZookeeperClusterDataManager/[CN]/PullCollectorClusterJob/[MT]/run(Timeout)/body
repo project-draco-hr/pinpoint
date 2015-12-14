@@ -1,0 +1,9 @@
+{
+  logger.info("Reserved {} started.",ClassUtils.simpleClassName(this));
+  if (!isConnected()) {
+    return;
+  }
+  if (!syncPullCollectorCluster()) {
+    timer.newTimeout(new PullCollectorClusterJob(),SYNC_INTERVAL_TIME_MILLIS,TimeUnit.MILLISECONDS);
+  }
+}

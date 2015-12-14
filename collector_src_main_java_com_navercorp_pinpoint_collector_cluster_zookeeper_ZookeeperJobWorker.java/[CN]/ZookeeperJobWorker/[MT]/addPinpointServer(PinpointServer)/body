@@ -1,0 +1,9 @@
+{
+  String key=getKey(pinpointServer);
+synchronized (lock) {
+    boolean keyCreated=pinpointServerRepository.addAndIsKeyCreated(key,pinpointServer);
+    if (keyCreated) {
+      putZookeeperJob(new ZookeeperJob(ZookeeperJob.Type.ADD,key));
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  String addContents=job.getKey();
+  try {
+    if (zookeeperClient.exists(collectorUniqPath)) {
+      byte[] contents=zookeeperClient.getData(collectorUniqPath);
+      String data=addIfAbsentContents(new String(contents,charset),addContents);
+      zookeeperClient.setData(collectorUniqPath,data.getBytes(charset));
+    }
+ else {
+      zookeeperClient.createPath(collectorUniqPath);
+      zookeeperClient.createNode(collectorUniqPath,addContents.getBytes(charset));
+    }
+    return true;
+  }
+ catch (  Exception e) {
+    logger.warn(e.getMessage(),e);
+  }
+  return false;
+}
