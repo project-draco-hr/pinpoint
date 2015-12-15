@@ -6,35 +6,14 @@
   if (trace == null) {
     return;
   }
-  final HttpMethod httpMethod=(HttpMethod)target;
-  final boolean sampling=trace.canSampled();
-  if (!sampling) {
-    if (isDebug) {
-      logger.debug("set Sampling flag=false");
-    }
-    if (httpMethod != null) {
-      httpMethod.setRequestHeader(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
-    }
+  if (!trace.canSampled()) {
+    setHttpSampledHeader(target);
     return;
   }
   final SpanEventRecorder recorder=trace.traceBlockBegin();
-  TraceId nextId=trace.getTraceId().getNextTraceId();
+  final TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
   recorder.recordServiceType(HttpClient3Constants.HTTP_CLIENT_3);
-  if (httpMethod != null) {
-    httpMethod.setRequestHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
-    httpMethod.setRequestHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
-    httpMethod.setRequestHeader(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
-    httpMethod.setRequestHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
-    httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
-    httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
-    final String host=getHost(httpMethod);
-    if (host != null) {
-      httpMethod.setRequestHeader(Header.HTTP_HOST.toString(),host);
-    }
-  }
-  InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
-  if (invocation != null) {
-    invocation.getOrCreateAttachment(HttpClient3CallContextFactory.HTTPCLIENT3_CONTEXT_FACTORY);
-  }
+  setHttpTraceHeader(target,args,nextId);
+  initAttachment();
 }

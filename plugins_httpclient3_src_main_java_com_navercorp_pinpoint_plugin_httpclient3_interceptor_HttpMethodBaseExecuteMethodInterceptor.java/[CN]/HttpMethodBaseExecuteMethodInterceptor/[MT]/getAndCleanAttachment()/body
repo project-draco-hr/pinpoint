@@ -1,0 +1,7 @@
+{
+  final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
+  if (invocation != null && invocation.getAttachment() != null && invocation.getAttachment() instanceof HttpClient3CallContext) {
+    return (HttpClient3CallContext)invocation.removeAttachment();
+  }
+  return null;
+}
