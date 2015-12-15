@@ -1,0 +1,16 @@
+{
+  final NamedClassPool classPool=getClassPool(classLoader);
+  try {
+    if (classfileBuffer == null) {
+      logger.info("classFileBuffer is null className:{}",className);
+      return classPool.get(className);
+    }
+ else {
+      final ClassPool contextCassPool=getContextClassPool(classPool,className,classfileBuffer);
+      return contextCassPool.get(className);
+    }
+  }
+ catch (  NotFoundException e) {
+    throw new NotFoundInstrumentException(className + " class not found. Cause:" + e.getMessage(),e);
+  }
+}

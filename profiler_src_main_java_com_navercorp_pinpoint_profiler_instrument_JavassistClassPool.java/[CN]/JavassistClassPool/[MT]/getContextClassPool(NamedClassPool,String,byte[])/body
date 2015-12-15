@@ -1,0 +1,11 @@
+{
+  final ClassPool contextCassPool=new ClassPool(parent);
+  contextCassPool.childFirstLookup=true;
+  final String javaName=JavaAssistUtils.jvmNameToJavaName(jvmInternalClassName);
+  if (isDebug) {
+    logger.debug("getContextClassPool() className={}",javaName);
+  }
+  final ClassPath byteArrayClassPath=new ByteArrayClassPath(javaName,classfileBuffer);
+  contextCassPool.insertClassPath(byteArrayClassPath);
+  return contextCassPool;
+}

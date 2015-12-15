@@ -1,5 +1,6 @@
 {
-  add(classLoader,targetClassName,transformer);
+  final TransformerKey transformKey=createTransformKey(classLoader,targetClassName);
+  add(transformKey,transformer);
   if (logger.isInfoEnabled()) {
     logger.info("added dynamic transformer classLoader: {}, className: {}, registry size: {}",classLoader,targetClassName,transformerMap.size());
   }

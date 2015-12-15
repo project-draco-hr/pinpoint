@@ -1,8 +1,0 @@
-{
-  final String jvmName=JavaAssistUtils.javaNameToJvmName(targetClassName);
-  final TransformerKey key=new TransformerKey(classLoader,jvmName);
-  final ClassFileTransformer prev=transformerMap.putIfAbsent(key,transformer);
-  if (prev != null) {
-    throw new ProfilerException("Transformer already exists. classLoader: " + classLoader + ", target: "+ targetClassName+ ", transformer: "+ prev);
-  }
-}

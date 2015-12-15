@@ -1,4 +1,7 @@
 {
-  CtClass cc=getClass(classLoader,jvmInternalClassName);
+  if (jvmInternalClassName == null) {
+    throw new NullPointerException("jvmInternalClassName must not be null");
+  }
+  final CtClass cc=getCtClass(classLoader,jvmInternalClassName,classFileBuffer);
   return new JavassistClass(instrumentContext,interceptorRegistryBinder,classLoader,cc);
 }

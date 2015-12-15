@@ -1,7 +1,8 @@
 {
   JavassistClassPool pool=new JavassistClassPool(new GlobalInterceptorRegistryBinder(),null);
   String testObjectName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObjectNestedClass";
-  InstrumentClass testObject=pool.getClass(null,testObjectName,null);
+  byte[] testObjectByteCode=readByteCode(testObjectName);
+  InstrumentClass testObject=pool.getClass(null,null,testObjectName,testObjectByteCode);
   Assert.assertEquals(testObject.getName(),testObjectName);
   assertEquals(1,testObject.getNestedClasses(ClassFilters.enclosingMethod("enclosingMethod","java.lang.String","int")).size());
   assertEquals(0,testObject.getNestedClasses(ClassFilters.enclosingMethod("enclosingMethod","int")).size());
