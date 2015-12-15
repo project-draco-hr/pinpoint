@@ -1,13 +1,16 @@
 {
   logger.info("handleTextMessage. session:{}, remote:{}, message:{}.",webSocketSession,webSocketSession.getRemoteAddress(),message.getPayload());
   PinpointWebSocketMessage webSocketMessage=messageConverter.getWebSocketMessage(message.getPayload());
-switch (webSocketMessage.getType()) {
+  PinpointWebSocketMessageType webSocketMessageType=webSocketMessage.getType();
+switch (webSocketMessageType) {
 case REQUEST:
     handleRequestMessage0(webSocketSession,(RequestMessage)webSocketMessage);
   break;
 case PONG:
 handlePongMessage0(webSocketSession,(PongMessage)webSocketMessage);
 break;
+default :
+logger.warn("Unexpected WebSocketMessageType received. messageType:{}.",webSocketMessageType);
 }
 super.handleTextMessage(webSocketSession,message);
 }
