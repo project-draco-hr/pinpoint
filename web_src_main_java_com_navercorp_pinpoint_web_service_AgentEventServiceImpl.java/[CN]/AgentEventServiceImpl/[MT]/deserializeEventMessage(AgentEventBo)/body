@@ -1,0 +1,9 @@
+{
+  try {
+    return this.agentEventMessageDeserializer.deserialize(agentEventBo.getEventType(),agentEventBo.getEventBody());
+  }
+ catch (  UnsupportedEncodingException e) {
+    logger.warn("error deserializing event message",e);
+    return null;
+  }
+}

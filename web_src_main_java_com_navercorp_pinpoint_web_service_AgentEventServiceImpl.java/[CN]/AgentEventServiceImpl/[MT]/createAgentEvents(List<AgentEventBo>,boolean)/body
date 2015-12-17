@@ -1,0 +1,25 @@
+{
+  List<AgentEvent> agentEvents=new ArrayList<>(agentEventBos.size());
+  PriorityQueue<DurationalAgentEvent> durationalAgentEvents=new PriorityQueue<>(agentEventBos.size(),AgentEvent.EVENT_TIMESTAMP_ASC_COMPARATOR);
+  for (  AgentEventBo agentEventBo : agentEventBos) {
+    if (agentEventBo.getEventType().isCategorizedAs(AgentEventTypeCategory.DURATIONAL)) {
+      durationalAgentEvents.add(createDurationalAgentEvent(agentEventBo,includeEventMessage));
+    }
+ else {
+      agentEvents.add(createAgentEvent(agentEventBo,includeEventMessage));
+    }
+  }
+  long durationStartTimestamp=DurationalAgentEvent.UNKNOWN_TIMESTAMP;
+  while (!durationalAgentEvents.isEmpty()) {
+    DurationalAgentEvent currentEvent=durationalAgentEvents.remove();
+    currentEvent.setDurationStartTimestamp(durationStartTimestamp);
+    DurationalAgentEvent nextEvent=durationalAgentEvents.peek();
+    if (nextEvent != null) {
+      long nextEventTimestamp=nextEvent.getEventTimestamp();
+      currentEvent.setDurationEndTimestamp(nextEventTimestamp);
+      durationStartTimestamp=nextEventTimestamp;
+    }
+    agentEvents.add(currentEvent);
+  }
+  return agentEvents;
+}
