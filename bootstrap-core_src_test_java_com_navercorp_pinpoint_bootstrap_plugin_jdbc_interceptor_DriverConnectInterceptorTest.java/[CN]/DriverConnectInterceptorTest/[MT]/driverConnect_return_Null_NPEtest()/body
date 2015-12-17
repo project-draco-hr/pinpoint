@@ -1,0 +1,12 @@
+{
+  MockTraceContext mockTraceContext=new MockTraceContext();
+  MethodDescriptor mock=mock(MethodDescriptor.class);
+  JdbcUrlParser parser=mock(JdbcUrlParser.class);
+  when(parser.parse(anyString())).thenReturn(UnKnownDatabaseInfo.INSTANCE);
+  String invalidJdbcUrl="invalidUrl";
+  final Driver driver=mock(Driver.class);
+  SpanEventRecorder spanEventRecorder=mock(SpanEventRecorder.class);
+  DriverConnectInterceptor driverConnectInterceptor=new DriverConnectInterceptor(mockTraceContext,mock,parser);
+  driverConnectInterceptor.prepareAfterTrace(driver,va(invalidJdbcUrl),null,null);
+  driverConnectInterceptor.doInAfterTrace(spanEventRecorder,driver,va(invalidJdbcUrl),null,null);
+}
