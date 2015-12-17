@@ -1,16 +1,7 @@
 {
-  final String agentId=agentEventBo.getAgentId();
-  final long eventTimestamp=agentEventBo.getEventTimestamp();
-  final AgentEventType eventType=agentEventBo.getEventType();
-  AgentEvent agentEvent=new AgentEvent(agentId,eventTimestamp,eventType);
-  agentEvent.setStartTimestamp(agentEventBo.getStartTimestamp());
+  AgentEvent agentEvent=new AgentEvent(agentEventBo);
   if (includeEventMessage) {
-    try {
-      agentEvent.setEventMessage(this.agentEventMessageDeserializer.deserialize(eventType,agentEventBo.getEventBody()));
-    }
- catch (    UnsupportedEncodingException e) {
-      logger.warn("error deserializing event message",e);
-    }
+    agentEvent.setEventMessage(deserializeEventMessage(agentEventBo));
   }
   return agentEvent;
 }
