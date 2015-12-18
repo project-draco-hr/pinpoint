@@ -9,7 +9,8 @@
         continue;
       }
       logger.info("Loading plugin: {}",plugin.getClass().getName());
-      final DefaultProfilerPluginContext context=setupPlugin(jar,plugin);
+      PluginConfig pluginConfig=new PluginConfig(jar,plugin,agent.getInstrumentation(),agent.getClassPool(),agent.getBootstrapCoreJar());
+      final DefaultProfilerPluginContext context=setupPlugin(pluginConfig);
       pluginContexts.add(context);
     }
   }

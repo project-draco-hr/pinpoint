@@ -1,7 +1,9 @@
 {
-  GuardInstrumentContext guardInstrumentContext=new GuardInstrumentContext(context);
+  final GuardInstrumentContext guardInstrumentContext=new GuardInstrumentContext(context);
   if (plugin instanceof TransformTemplateAware) {
-    logger.info("setTransformTemplate");
+    if (logger.isDebugEnabled()) {
+      logger.debug("setTransformTemplate {}",plugin.getClass().getName());
+    }
     final TransformTemplate transformTemplate=new TransformTemplate(guardInstrumentContext);
     ((TransformTemplateAware)plugin).setTransformTemplate(transformTemplate);
   }

@@ -12,6 +12,7 @@
     logPinpointAgentLoadFail();
     return;
   }
+  this.bootStrapCore=bootStrapCoreJar;
   if (!isValidId("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
     logPinpointAgentLoadFail();
     return;
@@ -38,7 +39,7 @@
     String bootClass=argMap.containsKey("bootClass") ? argMap.get("bootClass") : BOOT_CLASS;
     agentClassLoader.setBootClass(bootClass);
     logger.info("pinpoint agent [" + bootClass + "] starting...");
-    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,null,serviceTypeRegistryService,annotationKeyRegistryService);
+    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,bootStrapCore,serviceTypeRegistryService,annotationKeyRegistryService,bootStrapCoreJar);
     Agent pinpointAgent=agentClassLoader.boot(option);
     pinpointAgent.start();
     registerShutdownHook(pinpointAgent);
