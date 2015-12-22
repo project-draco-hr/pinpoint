@@ -1,12 +1,14 @@
 {
-  TNonblockingTransport inTrans=((TNonblockingTransportFieldGetter)target)._$PINPOINT$_getTNonblockingTransport();
-  if (inTrans != null) {
-    if (inTrans instanceof SocketFieldAccessor) {
-      return ((SocketFieldAccessor)inTrans)._$PINPOINT$_getSocket();
-    }
+  if (target instanceof TNonblockingTransportFieldGetter) {
+    TNonblockingTransport inTrans=((TNonblockingTransportFieldGetter)target)._$PINPOINT$_getTNonblockingTransport();
+    if (inTrans != null) {
+      if (inTrans instanceof SocketFieldAccessor) {
+        return ((SocketFieldAccessor)inTrans)._$PINPOINT$_getSocket();
+      }
  else {
-      if (isDebug) {
-        logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
+        if (isDebug) {
+          logger.debug("Invalid target object. Need field accessor({}).",SocketFieldAccessor.class.getName());
+        }
       }
     }
   }

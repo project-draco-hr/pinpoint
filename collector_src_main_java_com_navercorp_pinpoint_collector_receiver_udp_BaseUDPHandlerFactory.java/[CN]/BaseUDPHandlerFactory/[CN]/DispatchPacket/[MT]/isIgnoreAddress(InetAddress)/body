@@ -1,0 +1,17 @@
+{
+  if (ignoreAddresses == null) {
+    return false;
+  }
+  if (remoteAddress == null) {
+    return false;
+  }
+  for (  InetAddress ignore : ignoreAddresses) {
+    if (ignore.equals(remoteAddress)) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("UDP Connected ignore address. IP : " + remoteAddress.getHostAddress());
+      }
+      return true;
+    }
+  }
+  return false;
+}

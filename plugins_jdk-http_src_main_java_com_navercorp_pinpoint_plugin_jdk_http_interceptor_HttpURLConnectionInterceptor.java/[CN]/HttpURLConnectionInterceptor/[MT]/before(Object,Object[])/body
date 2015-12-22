@@ -6,9 +6,15 @@
   if (trace == null) {
     return;
   }
-  HttpURLConnection request=(HttpURLConnection)target;
-  boolean connected=((ConnectedGetter)target)._$PINPOINT$_isConnected();
-  boolean connecting=(target instanceof ConnectingGetter) && ((ConnectingGetter)target)._$PINPOINT$_isConnecting();
+  final HttpURLConnection request=(HttpURLConnection)target;
+  boolean connected=false;
+  if (target instanceof ConnectedGetter) {
+    connected=((ConnectedGetter)target)._$PINPOINT$_isConnected();
+  }
+  boolean connecting=false;
+  if (target instanceof ConnectingGetter) {
+    connecting=((ConnectingGetter)target)._$PINPOINT$_isConnecting();
+  }
   if (connected || connecting) {
     return;
   }
@@ -17,7 +23,7 @@
     request.setRequestProperty(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
     return;
   }
-  group.getCurrentInvocation().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
+  scope.getCurrentInvocation().setAttachment(TRACE_BLOCK_BEGIN_MARKER);
   SpanEventRecorder recorder=trace.traceBlockBegin();
   TraceId nextId=trace.getTraceId().getNextTraceId();
   recorder.recordNextSpanId(nextId.getSpanId());
@@ -36,5 +42,5 @@
   }
   recorder.recordServiceType(JdkHttpConstants.SERVICE_TYPE);
   recorder.recordDestinationId(endpoint);
-  recorder.recordAttribute(AnnotationKey.HTTP_URL,url.toString());
+  recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(url.toString(),param));
 }

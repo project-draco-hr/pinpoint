@@ -1,15 +1,15 @@
 {
-  StringBuilder initVars=new StringBuilder();
-  String interceptorInstanceVar=InvokeCodeGenerator.getInterceptorVar(interceptorId);
-  addLocalVariable(interceptorInstanceVar,Interceptor.class);
-  initVars.append(interceptorInstanceVar);
-  initVars.append(" = null;");
-  int originalCodeOffset=insertBefore(-1,initVars.toString());
+  if (interceptor == null) {
+    throw new NullPointerException("interceptor must not be null");
+  }
+  final InterceptorDefinition interceptorDefinition=interceptorDefinitionFactory.createInterceptorDefinition(interceptor.getClass());
+  final String localVariableName=initializeLocalVariable(interceptorId);
+  int originalCodeOffset=insertBefore(-1,localVariableName);
   boolean localVarsInitialized=false;
-  int offset=addBeforeInterceptor(interceptor,interceptorId,originalCodeOffset);
+  final int offset=addBeforeInterceptor(interceptorDefinition,interceptorId,originalCodeOffset);
   if (offset != -1) {
     localVarsInitialized=true;
     originalCodeOffset=offset;
   }
-  addAfterInterceptor(interceptor,interceptorId,localVarsInitialized,originalCodeOffset);
+  addAfterInterceptor(interceptorDefinition,interceptorId,localVarsInitialized,originalCodeOffset);
 }

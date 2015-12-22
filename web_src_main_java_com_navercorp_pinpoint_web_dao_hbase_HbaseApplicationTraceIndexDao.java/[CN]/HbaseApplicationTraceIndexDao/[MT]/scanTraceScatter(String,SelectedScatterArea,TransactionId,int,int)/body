@@ -13,7 +13,7 @@
   ResponseTimeRange responseTimeRange=area.getResponseTimeRange();
   TraceIndexScatterMapper2 mapper=new TraceIndexScatterMapper2(responseTimeRange.getFrom(),responseTimeRange.getTo());
   List<List<Dot>> dotListList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,mapper);
-  List<Dot> result=new ArrayList<Dot>();
+  List<Dot> result=new ArrayList<>();
   for (  List<Dot> dotList : dotListList) {
     result.addAll(dotList);
   }

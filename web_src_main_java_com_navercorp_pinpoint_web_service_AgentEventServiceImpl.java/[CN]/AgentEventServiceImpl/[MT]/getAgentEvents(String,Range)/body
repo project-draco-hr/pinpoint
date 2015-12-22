@@ -4,12 +4,7 @@
   }
   final boolean includeEventMessage=false;
   List<AgentEventBo> agentEventBos=this.agentEventDao.getAgentEvents(agentId,range);
-  List<AgentEvent> agentEvents=new ArrayList<AgentEvent>(agentEventBos.size());
-  for (  AgentEventBo agentEventBo : agentEventBos) {
-    if (agentEventBo != null) {
-      agentEvents.add(createAgentEvent(agentEventBo,includeEventMessage));
-    }
-  }
-  Collections.sort(agentEvents,AgentEvent.EVENT_TIMESTAMP_DESC_COMPARATOR);
+  List<AgentEvent> agentEvents=createAgentEvents(agentEventBos,includeEventMessage);
+  Collections.sort(agentEvents,AgentEvent.EVENT_TIMESTAMP_ASC_COMPARATOR);
   return agentEvents;
 }

@@ -1,0 +1,32 @@
+{
+  int interceptorId=-1;
+  Class<?> interceptorType=pluginContext.injectClass(classLoader,interceptorClassName);
+  TargetMethods targetMethods=interceptorType.getAnnotation(TargetMethods.class);
+  if (targetMethods != null) {
+    for (    TargetMethod m : targetMethods.value()) {
+      interceptorId=addInterceptor0(m,interceptorClassName,constructorArgs,scope,executionPolicy);
+    }
+  }
+  TargetMethod targetMethod=interceptorType.getAnnotation(TargetMethod.class);
+  if (targetMethod != null) {
+    interceptorId=addInterceptor0(targetMethod,interceptorClassName,constructorArgs,scope,executionPolicy);
+  }
+  TargetConstructors targetConstructors=interceptorType.getAnnotation(TargetConstructors.class);
+  if (targetConstructors != null) {
+    for (    TargetConstructor c : targetConstructors.value()) {
+      interceptorId=addInterceptor0(c,interceptorClassName,scope,executionPolicy,constructorArgs);
+    }
+  }
+  TargetConstructor targetConstructor=interceptorType.getAnnotation(TargetConstructor.class);
+  if (targetConstructor != null) {
+    interceptorId=addInterceptor0(targetConstructor,interceptorClassName,scope,executionPolicy,constructorArgs);
+  }
+  TargetFilter targetFilter=interceptorType.getAnnotation(TargetFilter.class);
+  if (targetFilter != null) {
+    interceptorId=addInterceptor0(targetFilter,interceptorClassName,scope,executionPolicy,constructorArgs);
+  }
+  if (interceptorId == -1) {
+    throw new PinpointException("No target is specified. At least one of @Targets, @TargetMethod, @TargetConstructor, @TargetFilter must present. interceptor: " + interceptorClassName);
+  }
+  return interceptorId;
+}

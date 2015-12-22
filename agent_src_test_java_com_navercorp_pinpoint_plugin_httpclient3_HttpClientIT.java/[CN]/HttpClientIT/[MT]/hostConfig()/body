@@ -1,0 +1,18 @@
+{
+  HttpClient client=new HttpClient();
+  HostConfiguration config=new HostConfiguration();
+  config.setHost("weather.naver.com",80,"http");
+  GetMethod method=new GetMethod("/rgn/cityWetrMain.nhn");
+  method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,new DefaultHttpMethodRetryHandler(3,false));
+  method.setQueryString(new NameValuePair[]{new NameValuePair("key2","value2")});
+  try {
+    client.executeMethod(config,method);
+  }
+ catch (  Exception ignored) {
+  }
+ finally {
+    method.releaseConnection();
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+}

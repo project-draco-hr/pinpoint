@@ -1,0 +1,9 @@
+{
+  if (isDebug) {
+    logger.debug("set Sampling flag=false");
+  }
+  if (target instanceof HttpMethod) {
+    final HttpMethod httpMethod=(HttpMethod)target;
+    httpMethod.setRequestHeader(Header.HTTP_SAMPLED.toString(),SamplingFlagUtils.SAMPLING_RATE_FALSE);
+  }
+}

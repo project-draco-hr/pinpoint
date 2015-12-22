@@ -1,0 +1,24 @@
+{
+  final AtomicInteger requestCount=new AtomicInteger();
+  final AtomicInteger successCount=new AtomicInteger();
+  final long agentInfoSendRetryIntervalMs=100L;
+  final long agentInfoSendRefreshIntervalMs=100L;
+  final int expectedRefreshCount=5;
+  ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
+  PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
+  PinpointClientFactory socketFactory=createPinpointClientFactory();
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,socketFactory);
+  TcpDataSender dataSender=new TcpDataSender(pinpointClient);
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).refreshInterval(agentInfoSendRefreshIntervalMs).sendInterval(agentInfoSendRetryIntervalMs).build();
+  try {
+    agentInfoSender.start();
+    while (requestCount.get() < expectedRefreshCount) {
+      Thread.sleep(1000L);
+    }
+  }
+  finally {
+    closeAll(serverAcceptor,agentInfoSender,pinpointClient,socketFactory);
+  }
+  assertTrue(requestCount.get() >= expectedRefreshCount);
+  assertTrue(successCount.get() >= expectedRefreshCount);
+}

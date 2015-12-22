@@ -1,0 +1,22 @@
+{
+  logger.info("start() started.");
+  if (!config.isClusterEnable()) {
+    logger.info("start() skipped. caused:cluster option disabled.");
+    return;
+  }
+  try {
+    clusterConnectionManager.start();
+    clusterDataManager.start();
+    ClusterAcceptor clusterAcceptor=clusterConnectionManager.getClusterAcceptor();
+    if (clusterAcceptor != null) {
+      String nodeName=clusterAcceptor.getBindHost() + ":" + clusterAcceptor.getBindPort();
+      List<String> localIpList=NetUtils.getLocalV4IpList();
+      clusterDataManager.registerWebCluster(nodeName,convertIpListToBytes(localIpList,"\r\n"));
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("start() failed. caused:{}.",e.getMessage(),e);
+    clearResource();
+  }
+  logger.info("start() completed.");
+}

@@ -1,0 +1,33 @@
+{
+  logger.info("Handle Zookeeper Event({}) started.",event);
+  KeeperState state=event.getState();
+  EventType eventType=event.getType();
+  String path=event.getPath();
+  boolean result=false;
+  if (ZookeeperUtils.isDisconnectedEvent(event)) {
+    result=handleDisconnected();
+    if (state == KeeperState.Expired) {
+      client.reconnectWhenSessionExpired();
+    }
+  }
+ else   if (state == KeeperState.SyncConnected || state == KeeperState.NoSyncConnected) {
+    if (eventType == EventType.None) {
+      result=handleConnected();
+    }
+ else     if (eventType == EventType.NodeChildrenChanged) {
+      result=handleNodeChildrenChanged(path);
+    }
+ else     if (eventType == EventType.NodeDeleted) {
+      result=handleNodeDeleted(path);
+    }
+ else     if (eventType == EventType.NodeDataChanged) {
+      result=handleNodeDataChanged(path);
+    }
+  }
+  if (result) {
+    logger.info("Handle Zookeeper Event({}) completed.",event);
+  }
+ else {
+    logger.info("Handle Zookeeper Event({}) failed.",event);
+  }
+}

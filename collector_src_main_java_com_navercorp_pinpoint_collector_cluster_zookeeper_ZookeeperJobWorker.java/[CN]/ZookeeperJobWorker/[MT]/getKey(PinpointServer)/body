@@ -1,0 +1,10 @@
+{
+  Map<Object,Object> properties=pinpointServer.getChannelProperties();
+  final String applicationName=MapUtils.getString(properties,AgentHandshakePropertyType.APPLICATION_NAME.getName());
+  final String agentId=MapUtils.getString(properties,AgentHandshakePropertyType.AGENT_ID.getName());
+  final Long startTimeStamp=MapUtils.getLong(properties,AgentHandshakePropertyType.START_TIMESTAMP.getName());
+  if (StringUtils.isBlank(applicationName) || StringUtils.isBlank(agentId) || startTimeStamp == null || startTimeStamp <= 0) {
+    return StringUtils.EMPTY;
+  }
+  return applicationName + ":" + agentId+ ":"+ startTimeStamp;
+}

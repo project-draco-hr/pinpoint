@@ -1,0 +1,13 @@
+{
+  transformTemplate.transform("org.apache.http.impl.client.DefaultHttpRequestRetryHandler",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod retryRequest=target.getDeclaredMethod("retryRequest","java.io.IOException","int","org.apache.http.protocol.HttpContext");
+      if (retryRequest != null) {
+        retryRequest.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.DefaultHttpRequestRetryHandlerRetryRequestMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

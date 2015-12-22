@@ -1,0 +1,12 @@
+{
+  if (this.refreshIntervalMs <= 0) {
+    throw new IllegalStateException("agentInfoRefreshIntervalMs must be greater than 0");
+  }
+  if (this.sendIntervalMs <= 0) {
+    throw new IllegalStateException("agentInfoSendIntervalMs must be greater than 0");
+  }
+  if (this.maxTryPerAttempt <= 0) {
+    throw new IllegalStateException("maxTryPerAttempt must be greater than 0");
+  }
+  return new AgentInfoSender(this);
+}

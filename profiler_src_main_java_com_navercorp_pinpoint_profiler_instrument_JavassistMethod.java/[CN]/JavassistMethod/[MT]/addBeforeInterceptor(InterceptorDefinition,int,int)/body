@@ -1,0 +1,20 @@
+{
+  final Class<?> interceptorClass=interceptorDefinition.getInterceptorClass();
+  final CaptureType captureType=interceptorDefinition.getCaptureType();
+  if (!isBeforeInterceptor(captureType)) {
+    return -1;
+  }
+  final Method interceptorMethod=interceptorDefinition.getBeforeMethod();
+  if (interceptorMethod == null) {
+    if (isDebug) {
+      logger.debug("Skip adding before interceptorDefinition because the interceptorDefinition doesn't have before method: {}",interceptorClass.getName());
+    }
+    return -1;
+  }
+  final InvokeBeforeCodeGenerator generator=new InvokeBeforeCodeGenerator(interceptorId,interceptorDefinition,declaringClass,this,pluginContext.getTraceContext());
+  final String beforeCode=generator.generate();
+  if (isDebug) {
+    logger.debug("addBeforeInterceptor before behavior:{} code:{}",behavior.getLongName(),beforeCode);
+  }
+  return insertBefore(pos,beforeCode);
+}

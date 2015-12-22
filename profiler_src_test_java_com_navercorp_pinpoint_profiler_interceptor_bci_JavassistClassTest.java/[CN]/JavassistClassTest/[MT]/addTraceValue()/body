@@ -2,10 +2,10 @@
   final TestClassLoader loader=getTestClassLoader();
   final String javassistClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject";
   loader.addTransformer(javassistClassName,new TransformCallback(){
-    @Override public byte[] doInTransform(    Instrumentor instrumentContext,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       try {
         logger.info("modify cl:{}",loader);
-        InstrumentClass aClass=instrumentContext.getInstrumentClass(loader,javassistClassName,classfileBuffer);
+        InstrumentClass aClass=instrumentor.getInstrumentClass(loader,javassistClassName,classfileBuffer);
         aClass.addField(ObjectTraceValue.class.getName());
         aClass.addField(IntTraceValue.class.getName());
         aClass.addField(DatabaseInfoTraceValue.class.getName());

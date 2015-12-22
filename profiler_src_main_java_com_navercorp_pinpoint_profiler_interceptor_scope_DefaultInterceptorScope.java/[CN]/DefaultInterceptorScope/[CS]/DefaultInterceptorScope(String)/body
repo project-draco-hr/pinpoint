@@ -1,0 +1,9 @@
+{
+  this.name=name;
+  this.threadLocal=new ThreadLocal<InterceptorScopeInvocation>(){
+    @Override protected InterceptorScopeInvocation initialValue(){
+      return new DefaultInterceptorScopeInvocation(name);
+    }
+  }
+;
+}

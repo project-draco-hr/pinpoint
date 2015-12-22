@@ -1,0 +1,10 @@
+{
+  if (isTurnToSendAlarm(beforeCheckerResult)) {
+    if (checker.isSMSSend()) {
+      alarmMessageSender.sendSms(checker,beforeCheckerResult.getSequenceCount() + 1);
+    }
+    if (checker.isEmailSend()) {
+      alarmMessageSender.sendEmail(checker,beforeCheckerResult.getSequenceCount() + 1);
+    }
+  }
+}

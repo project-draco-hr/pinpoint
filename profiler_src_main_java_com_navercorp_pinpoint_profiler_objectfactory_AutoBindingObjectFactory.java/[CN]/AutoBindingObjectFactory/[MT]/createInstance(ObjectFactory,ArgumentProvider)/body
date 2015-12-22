@@ -1,0 +1,11 @@
+{
+  final Class<?> type=pluginContext.injectClass(classLoader,objectFactory.getClassName());
+  final ArgumentsResolver argumentsResolver=getArgumentResolver(objectFactory,providers);
+  if (objectFactory instanceof ByConstructor) {
+    return byConstructor(type,(ByConstructor)objectFactory,argumentsResolver);
+  }
+ else   if (objectFactory instanceof ByStaticFactoryMethod) {
+    return byStaticFactoryMethod(type,(ByStaticFactoryMethod)objectFactory,argumentsResolver);
+  }
+  throw new IllegalArgumentException("Unknown objectFactory type: " + objectFactory);
+}

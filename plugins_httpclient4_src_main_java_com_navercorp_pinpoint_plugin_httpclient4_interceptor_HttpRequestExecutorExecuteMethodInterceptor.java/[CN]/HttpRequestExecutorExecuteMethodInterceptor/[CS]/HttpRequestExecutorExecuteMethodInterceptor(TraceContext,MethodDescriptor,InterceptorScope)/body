@@ -1,0 +1,25 @@
+{
+  this.traceContext=traceContext;
+  this.methodDescriptor=methodDescriptor;
+  this.interceptorScope=interceptorScope;
+  final HttpClient4PluginConfig profilerConfig=new HttpClient4PluginConfig(traceContext.getProfilerConfig());
+  this.param=profilerConfig.isParam();
+  this.cookie=profilerConfig.isCookie();
+  this.cookieDumpType=profilerConfig.getCookieDumpType();
+  if (cookie) {
+    this.cookieSampler=SimpleSamplerFactory.createSampler(cookie,profilerConfig.getCookieSamplingRate());
+  }
+ else {
+    this.cookieSampler=null;
+  }
+  this.entity=profilerConfig.isEntity();
+  this.entityDumpType=profilerConfig.getEntityDumpType();
+  if (entity) {
+    this.entitySampler=SimpleSamplerFactory.createSampler(entity,profilerConfig.getEntitySamplingRate());
+  }
+ else {
+    this.entitySampler=null;
+  }
+  this.statusCode=profilerConfig.isStatusCode();
+  this.io=profilerConfig.isIo();
+}

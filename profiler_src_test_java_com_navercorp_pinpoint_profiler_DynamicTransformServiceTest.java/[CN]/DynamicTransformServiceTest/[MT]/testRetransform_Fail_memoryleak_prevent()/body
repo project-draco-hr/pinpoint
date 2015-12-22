@@ -1,0 +1,20 @@
+{
+  final Instrumentation instrumentation=mock(Instrumentation.class);
+  when(instrumentation.isModifiableClass(any(Class.class))).thenReturn(true);
+  doAnswer(new Answer<Void>(){
+    @Override public Void answer(    InvocationOnMock invocation) throws Throwable {
+      throw new UnmodifiableClassException();
+    }
+  }
+).when(instrumentation).retransformClasses(any(Class.class));
+  DefaultDynamicTransformerRegistry listener=new DefaultDynamicTransformerRegistry();
+  final ClassFileTransformer classFileTransformer=mock(ClassFileTransformer.class);
+  DynamicTransformService dynamicTransformService=new DynamicTransformService(instrumentation,listener);
+  try {
+    dynamicTransformService.retransform(String.class,classFileTransformer);
+    Assert.fail("expected retransform fail");
+  }
+ catch (  Exception e) {
+  }
+  Assert.assertEquals(listener.size(),0);
+}

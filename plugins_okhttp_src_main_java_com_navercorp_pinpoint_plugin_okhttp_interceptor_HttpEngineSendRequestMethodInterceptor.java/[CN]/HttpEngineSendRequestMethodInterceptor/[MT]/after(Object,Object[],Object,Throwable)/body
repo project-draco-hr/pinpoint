@@ -15,12 +15,17 @@
     recorder.recordException(throwable);
     Request request=((UserRequestGetter)target)._$PINPOINT$_getUserRequest();
     if (request != null) {
-      recorder.recordAttribute(AnnotationKey.HTTP_URL,request.httpUrl().toString());
-      final String endpoint=getDestinationId(request.httpUrl());
-      recorder.recordDestinationId(endpoint);
+      try {
+        recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(request.urlString(),param));
+        final String endpoint=getDestinationId(request.url());
+        recorder.recordDestinationId(endpoint);
+      }
+ catch (      Exception ignored) {
+        logger.warn("Failed to invoke of request.url(). {}",ignored.getMessage());
+      }
       recordRequest(trace,request,throwable);
     }
-    InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
     if (invocation != null && invocation.getAttachment() != null) {
       invocation.removeAttachment();
     }

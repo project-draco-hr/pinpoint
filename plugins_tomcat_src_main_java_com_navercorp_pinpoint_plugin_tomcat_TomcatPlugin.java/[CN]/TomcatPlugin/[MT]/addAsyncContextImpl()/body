@@ -1,0 +1,13 @@
+{
+  transformTemplate.transform("org.apache.catalina.core.AsyncContextImpl",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
+      target.addField(AsyncTraceIdAccessor.class.getName());
+      for (      InstrumentMethod method : target.getDeclaredMethods(MethodFilters.name("dispatch"))) {
+        method.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.AsyncContextImplDispatchMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

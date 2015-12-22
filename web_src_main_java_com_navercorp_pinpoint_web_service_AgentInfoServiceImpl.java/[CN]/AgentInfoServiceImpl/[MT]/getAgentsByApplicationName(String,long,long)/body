@@ -1,0 +1,23 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  if (timeDiff > timestamp) {
+    throw new IllegalArgumentException("timeDiff must not be greater than timestamp");
+  }
+  final long eventTimestampFloor=timestamp - timeDiff;
+  List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+  Set<AgentInfo> agentSet=new HashSet<>();
+  for (  String agentId : agentIds) {
+    AgentInfoBo agentInfoBo=this.agentInfoDao.getAgentInfo(agentId,timestamp);
+    if (agentInfoBo != null) {
+      AgentStatus agentStatus=this.getAgentStatus(agentId,timestamp);
+      if (AgentLifeCycleState.UNKNOWN == agentStatus.getState() || eventTimestampFloor <= agentStatus.getEventTimestamp()) {
+        AgentInfo agentInfo=new AgentInfo(agentInfoBo);
+        agentInfo.setStatus(agentStatus);
+        agentSet.add(agentInfo);
+      }
+    }
+  }
+  return agentSet;
+}

@@ -1,8 +1,3 @@
 {
-  if (th == null) {
-    return;
-  }
-  final String drop=StringUtils.drop(th.getMessage(),256);
-  final int exceptionId=traceContext.cacheString(th.getClass().getName());
-  setExceptionInfo(exceptionId,drop);
+  recordException(true,throwable);
 }

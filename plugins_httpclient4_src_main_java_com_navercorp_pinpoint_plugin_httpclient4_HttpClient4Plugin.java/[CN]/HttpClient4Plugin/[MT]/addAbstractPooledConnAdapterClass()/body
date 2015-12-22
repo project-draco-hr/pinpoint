@@ -1,0 +1,13 @@
+{
+  transformTemplate.transform("org.apache.http.impl.conn.AbstractPooledConnAdapter",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod open=target.getDeclaredMethod("open","org.apache.http.conn.routing.HttpRoute","org.apache.http.protocol.HttpContext","org.apache.http.params.HttpParams");
+      if (open != null) {
+        open.addInterceptor("com.navercorp.pinpoint.plugin.httpclient4.interceptor.ManagedClientConnectionOpenMethodInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

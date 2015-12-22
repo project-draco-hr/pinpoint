@@ -1,0 +1,14 @@
+{
+  final Member method=expected.getMethod();
+  if (method == null) {
+    if (expected.getMethodSignature() == null) {
+      throw new RuntimeException("Method or MethodSignature is null");
+    }
+ else {
+      return findApiId(expected.getMethodSignature());
+    }
+  }
+ else {
+    return findApiId(method);
+  }
+}

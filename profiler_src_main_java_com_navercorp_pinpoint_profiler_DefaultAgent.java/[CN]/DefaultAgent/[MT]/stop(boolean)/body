@@ -1,0 +1,21 @@
+{
+synchronized (this) {
+    if (this.agentStatus == AgentStatus.RUNNING) {
+      changeStatus(AgentStatus.STOPPED);
+    }
+ else {
+      logger.warn("Cannot stop agent. Current status = [{}]",this.agentStatus);
+      return;
+    }
+  }
+  logger.info("Stopping {} Agent.",ProductInfo.NAME);
+  this.agentInfoSender.stop();
+  this.agentStatMonitor.stop();
+  this.spanDataSender.stop();
+  this.statDataSender.stop();
+  closeTcpDataSender();
+  if (staticResourceCleanup) {
+    PLoggerFactory.unregister(this.binder);
+    this.interceptorRegistryBinder.unbind();
+  }
+}

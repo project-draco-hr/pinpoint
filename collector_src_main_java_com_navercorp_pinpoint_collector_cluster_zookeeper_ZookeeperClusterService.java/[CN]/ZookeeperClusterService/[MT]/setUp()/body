@@ -8,7 +8,7 @@ case NEW:
     if (this.serviceState.changeStateInitializing()) {
       logger.info("{} initialization started.",this.getClass().getSimpleName());
       ClusterManagerWatcher watcher=new ClusterManagerWatcher();
-      this.client=new ZookeeperClient(config.getClusterAddress(),config.getClusterSessionTimeout(),watcher);
+      this.client=new DefaultZookeeperClient(config.getClusterAddress(),config.getClusterSessionTimeout(),watcher);
       this.profilerClusterManager=new ZookeeperProfilerClusterManager(client,serverIdentifier,clusterPointRouter.getTargetClusterPointRepository());
       this.profilerClusterManager.start();
       this.webClusterManager=new ZookeeperWebClusterManager(client,PINPOINT_WEB_CLUSTER_PATH,serverIdentifier,clusterConnectionManager);

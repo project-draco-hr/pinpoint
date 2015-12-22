@@ -1,0 +1,44 @@
+{
+  final AtomicInteger successServerRequestCount=new AtomicInteger();
+  final AtomicInteger failServerRequestCount=new AtomicInteger();
+  final AtomicInteger successCount=new AtomicInteger();
+  final long agentInfoSendRetryIntervalMs=1000L;
+  final long agentInfoSendRefreshIntervalMs=5000L;
+  final int expectedSuccessServerTries=1;
+  final int expectedFailServerTries=AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT;
+  final CountDownLatch agentReconnectLatch=new CountDownLatch(1);
+  ResponseServerMessageListener successServerListener=new ResponseServerMessageListener(successServerRequestCount,successCount);
+  ResponseServerMessageListener failServerListener=new ResponseServerMessageListener(failServerRequestCount,successCount,Integer.MAX_VALUE);
+  PinpointServerAcceptor successServerAcceptor=createServerAcceptor(successServerListener);
+  PinpointServerAcceptor failServerAcceptor=null;
+  PinpointClientFactory socketFactory=createPinpointClientFactory();
+  PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,socketFactory);
+  TcpDataSender dataSender=new TcpDataSender(pinpointClient);
+  dataSender.addReconnectEventListener(new PinpointClientReconnectEventListener(){
+    @Override public void reconnectPerformed(    PinpointClient client){
+      agentReconnectLatch.countDown();
+    }
+  }
+);
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).refreshInterval(agentInfoSendRefreshIntervalMs).sendInterval(agentInfoSendRetryIntervalMs).build();
+  try {
+    agentInfoSender.start();
+    while (successServerRequestCount.get() < expectedSuccessServerTries) {
+      Thread.sleep(agentInfoSendRetryIntervalMs);
+    }
+    successServerAcceptor.close();
+    Thread.sleep(agentInfoSendRetryIntervalMs * AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT);
+    failServerAcceptor=createServerAcceptor(failServerListener);
+    agentReconnectLatch.await();
+    while (failServerRequestCount.get() < expectedFailServerTries) {
+      Thread.sleep(agentInfoSendRetryIntervalMs * AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT);
+    }
+    failServerAcceptor.close();
+  }
+  finally {
+    closeAll(null,agentInfoSender,pinpointClient,socketFactory);
+  }
+  assertEquals(1,successCount.get());
+  assertEquals(expectedSuccessServerTries,successServerRequestCount.get());
+  assertEquals(expectedFailServerTries,failServerRequestCount.get());
+}

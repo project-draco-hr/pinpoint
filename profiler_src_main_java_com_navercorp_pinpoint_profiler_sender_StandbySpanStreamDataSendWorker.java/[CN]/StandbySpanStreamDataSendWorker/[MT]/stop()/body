@@ -1,18 +1,18 @@
 {
-  logger.info("{} destroying started.",this.getClass().getSimpleName());
+  logger.info("stop() started.");
   this.isStarted=false;
   long startTimeMillis=System.currentTimeMillis();
   long maxWaitTimeMillis=3000;
-  while (this.workerThread.isAlive()) {
-    this.workerThread.interrupt();
+  while (workerThread != null && workerThread.isAlive()) {
+    workerThread.interrupt();
     try {
-      this.workerThread.join(100L);
+      workerThread.join(100L);
       if (System.currentTimeMillis() - startTimeMillis > maxWaitTimeMillis) {
         break;
       }
     }
- catch (    InterruptedException e) {
+ catch (    InterruptedException ignored) {
     }
   }
-  logger.info("{} destroying completed.",this.getClass().getSimpleName());
+  logger.info("stop() completed.");
 }

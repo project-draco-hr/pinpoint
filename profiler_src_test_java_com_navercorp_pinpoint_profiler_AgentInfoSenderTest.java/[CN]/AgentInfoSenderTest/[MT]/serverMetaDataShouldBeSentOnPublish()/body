@@ -6,8 +6,8 @@
   PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
   PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
-  TcpDataSender sender=new TcpDataSender(pinpointClient);
-  AgentInfoSender agentInfoSender=new AgentInfoSender(sender,agentInfoSendRetryIntervalMs,getAgentInfo());
+  TcpDataSender dataSender=new TcpDataSender(pinpointClient);
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).build();
   final List<ServerMetaData> serverMetaDataObjects=new ArrayList<ServerMetaData>();
   serverMetaDataObjects.add(new DefaultServerMetaData("server1",Collections.<String>emptyList(),Collections.<Integer,String>emptyMap(),Collections.<ServiceInfo>emptyList()));
   serverMetaDataObjects.add(new DefaultServerMetaData("server2",Collections.<String>emptyList(),Collections.<Integer,String>emptyMap(),Collections.<ServiceInfo>emptyList()));

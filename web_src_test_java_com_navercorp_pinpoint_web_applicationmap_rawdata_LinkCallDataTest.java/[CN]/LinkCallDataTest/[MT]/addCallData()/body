@@ -7,7 +7,7 @@
   data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE,(short)100,1L);
   data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
   data1.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
-  System.out.println(data1.getTimeHistogram().size());
+  logger.debug("{}",data1.getTimeHistogram().size());
   Range range=new Range(currentTime,currentTime + SIX_HOURS);
   TimeWindow window=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
   LinkCallData data2=new LinkCallData(key,window);
@@ -16,5 +16,5 @@
   data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE,(short)100,1L);
   data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
   data2.addCallData(currentTime + ONE_MINUTE + ONE_MINUTE+ ONE_MINUTE+ ONE_MINUTE,(short)100,1L);
-  System.out.println(data2.getTimeHistogram().size());
+  logger.debug("{}",data2.getTimeHistogram().size());
 }

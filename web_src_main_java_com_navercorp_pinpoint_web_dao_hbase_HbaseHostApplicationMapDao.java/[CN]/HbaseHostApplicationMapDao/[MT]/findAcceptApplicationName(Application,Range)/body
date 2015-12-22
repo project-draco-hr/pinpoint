@@ -5,7 +5,7 @@
   final Scan scan=createScan(fromApplication,range);
   final List<List<AcceptApplication>> result=hbaseOperations2.find(HBaseTables.HOST_APPLICATION_MAP_VER2,scan,acceptApplicationRowKeyDistributor,hostApplicationMapperVer2);
   if (CollectionUtils.isNotEmpty(result)) {
-    final Set<AcceptApplication> resultSet=new HashSet<AcceptApplication>();
+    final Set<AcceptApplication> resultSet=new HashSet<>();
     for (    List<AcceptApplication> resultList : result) {
       resultSet.addAll(resultList);
     }

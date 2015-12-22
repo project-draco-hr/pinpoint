@@ -1,0 +1,16 @@
+{
+  logger.debug("CanonicalHostName:{}",InetAddress.getLocalHost().getCanonicalHostName());
+  logger.debug("HostName:{}",InetAddress.getLocalHost().getHostName());
+  logger.debug("NetworkInterface");
+  Enumeration<NetworkInterface> networkInterfaces=NetworkInterface.getNetworkInterfaces();
+  while (networkInterfaces.hasMoreElements()) {
+    NetworkInterface networkInterface=networkInterfaces.nextElement();
+    logger.debug("NetworkInterface:{}",networkInterface);
+    Enumeration<InetAddress> inetAddresses=networkInterface.getInetAddresses();
+    while (inetAddresses.hasMoreElements()) {
+      InetAddress inetAddress=inetAddresses.nextElement();
+      logger.debug(inetAddress.getCanonicalHostName());
+      logger.debug(inetAddress.getHostName());
+    }
+  }
+}

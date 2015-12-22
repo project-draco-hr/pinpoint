@@ -5,15 +5,17 @@
   if (!needGetStatusCode()) {
     return;
   }
-  if (result instanceof HttpResponse) {
+  if (result != null && result instanceof HttpResponse) {
     HttpResponse response=(HttpResponse)result;
     if (response.getStatusLine() != null) {
       HttpCallContext context=new HttpCallContext();
       final StatusLine statusLine=response.getStatusLine();
       if (statusLine != null) {
         context.setStatusCode(statusLine.getStatusCode());
-        InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
-        transaction.setAttachment(context);
+        InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
+        if (transaction != null && transaction.getAttachment() == null) {
+          transaction.setAttachment(context);
+        }
       }
     }
   }

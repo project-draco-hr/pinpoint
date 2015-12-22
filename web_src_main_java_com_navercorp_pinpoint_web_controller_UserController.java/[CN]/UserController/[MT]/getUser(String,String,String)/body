@@ -1,7 +1,7 @@
 {
   try {
     if (userId != null) {
-      List<User> users=new ArrayList<User>(1);
+      List<User> users=new ArrayList<>(1);
       users.add(userService.selectUserByUserId(userId));
       return users;
     }
@@ -17,7 +17,7 @@
   }
  catch (  Exception e) {
     logger.error("can't select user",e);
-    Map<String,String> result=new HashMap<String,String>();
+    Map<String,String> result=new HashMap<>();
     result.put("errorCode","500");
     result.put("errorMessage","This api need to collect condition for search.");
     return result;

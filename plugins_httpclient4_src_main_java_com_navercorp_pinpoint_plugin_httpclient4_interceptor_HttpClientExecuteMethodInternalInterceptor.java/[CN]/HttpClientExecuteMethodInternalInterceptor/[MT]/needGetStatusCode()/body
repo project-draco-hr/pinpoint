@@ -6,8 +6,8 @@
   if (trace == null) {
     return false;
   }
-  InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
-  if (transaction.getAttachment() != null) {
+  InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
+  if (transaction != null && transaction.getAttachment() != null && transaction.getAttachment() instanceof HttpCallContext) {
     return false;
   }
   return true;

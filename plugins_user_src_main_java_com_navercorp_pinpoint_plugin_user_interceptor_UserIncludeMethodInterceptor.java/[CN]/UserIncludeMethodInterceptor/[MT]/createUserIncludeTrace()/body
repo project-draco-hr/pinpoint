@@ -1,0 +1,20 @@
+{
+  final Trace trace=traceContext.newTraceObject();
+  if (isDebug) {
+    logger.debug("New user include trace {} and sampled {}",trace,trace.canSampled());
+  }
+  TraceScope oldScope=trace.addScope(SCOPE_NAME);
+  if (oldScope != null) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Duplicated user include trace scope={}.",oldScope.getName());
+    }
+    deleteUserIncludeTrace(trace);
+    return null;
+  }
+  if (trace.canSampled()) {
+    final SpanRecorder recorder=trace.getSpanRecorder();
+    recorder.recordServiceType(ServiceType.STAND_ALONE);
+    recorder.recordApi(USER_INCLUDE_METHOD_DESCRIPTOR);
+  }
+  return trace;
+}

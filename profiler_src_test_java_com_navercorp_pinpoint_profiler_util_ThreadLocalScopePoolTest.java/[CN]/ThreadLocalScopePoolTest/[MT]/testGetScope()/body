@@ -1,6 +1,6 @@
 {
   ScopePool pool=new ThreadLocalScopePool();
-  InterceptorGroupInvocation scope=pool.getScope(new DefaultInterceptorGroupDefinition("test"));
+  InterceptorScopeInvocation scope=pool.getScope(new DefaultInterceptorScopeDefinition("test"));
   Assert.assertTrue(scope instanceof ThreadLocalScope);
   Assert.assertEquals("name",scope.getName(),"test");
 }

@@ -1,0 +1,9 @@
+{
+  Request request=new Request.Builder().url("http://google.com").build();
+  OkHttpClient client=new OkHttpClient();
+  Response response=client.newCall(request).execute();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Method callMethod=Call.class.getDeclaredMethod("execute");
+  verifier.verifyTrace(Expectations.event("OK_HTTP_CLIENT_INTERNAL",callMethod));
+}

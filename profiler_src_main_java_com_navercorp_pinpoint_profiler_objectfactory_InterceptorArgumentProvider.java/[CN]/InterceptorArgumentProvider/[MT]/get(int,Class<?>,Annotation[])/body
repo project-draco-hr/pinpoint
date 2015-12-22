@@ -10,14 +10,14 @@
  else   if (type == InstrumentMethod.class) {
     return Option.withValue(targetMethod);
   }
- else   if (type == InterceptorGroup.class) {
+ else   if (type == InterceptorScope.class) {
     Name annotation=TypeUtils.findAnnotation(annotations,Name.class);
     if (annotation == null) {
-      if (interceptorGroup == null) {
-        throw new PinpointException("Group parameter is not annotated with @Name and the target class is not associated with any Group");
+      if (interceptorScope == null) {
+        throw new PinpointException("Scope parameter is not annotated with @Name and the target class is not associated with any Scope");
       }
  else {
-        return Option.withValue(interceptorGroup);
+        return Option.withValue(interceptorScope);
       }
     }
  else {

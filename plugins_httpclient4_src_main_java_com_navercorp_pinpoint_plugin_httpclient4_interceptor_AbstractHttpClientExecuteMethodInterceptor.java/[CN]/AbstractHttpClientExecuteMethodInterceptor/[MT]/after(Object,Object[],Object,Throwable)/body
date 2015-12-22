@@ -10,7 +10,7 @@
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
     recorder.recordException(throwable);
-    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
+    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
     if (invocation != null) {
       invocation.removeAttachment();
     }

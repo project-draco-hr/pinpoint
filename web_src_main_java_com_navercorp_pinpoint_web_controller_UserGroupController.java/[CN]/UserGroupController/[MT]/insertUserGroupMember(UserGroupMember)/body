@@ -1,12 +1,12 @@
 {
-  if (StringUtils.isEmpty(userGroupMember.getMemberId()) || StringUtils.isEmpty(userGroupMember.getMemberId())) {
-    Map<String,String> result=new HashMap<String,String>();
+  if (StringUtils.isEmpty(userGroupMember.getMemberId()) || StringUtils.isEmpty(userGroupMember.getUserGroupId())) {
+    Map<String,String> result=new HashMap<>();
     result.put("errorCode","500");
     result.put("errorMessage","there is not userGroupId or memberId in params to insert user group member");
     return result;
   }
   userGroupService.insertMember(userGroupMember);
-  Map<String,String> result=new HashMap<String,String>();
+  Map<String,String> result=new HashMap<>();
   result.put("result","SUCCESS");
   return result;
 }

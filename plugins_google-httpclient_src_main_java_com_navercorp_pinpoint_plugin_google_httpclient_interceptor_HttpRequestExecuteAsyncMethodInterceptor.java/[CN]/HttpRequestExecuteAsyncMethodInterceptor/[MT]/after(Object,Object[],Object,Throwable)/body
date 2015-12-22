@@ -11,7 +11,7 @@
     recorder.recordApi(methodDescriptor);
     recorder.recordServiceType(HttpClientConstants.HTTP_CLIENT_INTERNAL);
     recorder.recordException(throwable);
-    InterceptorGroupInvocation transaction=interceptorGroup.getCurrentInvocation();
+    InterceptorScopeInvocation transaction=interceptorScope.getCurrentInvocation();
     if (transaction != null) {
       transaction.removeAttachment();
     }

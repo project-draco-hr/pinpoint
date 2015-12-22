@@ -1,0 +1,27 @@
+{
+  final String targetClassName="org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer";
+  transformTemplate.transform(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      final InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField(ThriftConstants.FIELD_ACCESSOR_SOCKET);
+      target.addGetter(ThriftConstants.FIELD_GETTER_T_NON_BLOCKING_TRANSPORT,ThriftConstants.FRAME_BUFFER_FIELD_TRANS_);
+      if (target.hasField(ThriftConstants.FRAME_BUFFER_FIELD_IN_TRANS_)) {
+        target.addGetter(ThriftConstants.FIELD_GETTER_T_TRANSPORT,ThriftConstants.FRAME_BUFFER_FIELD_IN_TRANS_);
+        final InstrumentMethod constructor=target.getConstructor("org.apache.thrift.server.AbstractNonblockingServer","org.apache.thrift.transport.TNonblockingTransport","java.nio.channels.SelectionKey","org.apache.thrift.server.AbstractNonblockingServer$AbstractSelectThread");
+        if (constructor != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferConstructInterceptor";
+          constructor.addInterceptor(interceptor);
+        }
+      }
+      if (target.hasMethod("getInputTransport","org.apache.thrift.transport.TTransport")) {
+        final InstrumentMethod getInputTransport=target.getDeclaredMethod("getInputTransport","org.apache.thrift.transport.TTransport");
+        if (getInputTransport != null) {
+          String interceptor="com.navercorp.pinpoint.plugin.thrift.interceptor.server.nonblocking.FrameBufferGetInputTransportInterceptor";
+          getInputTransport.addInterceptor(interceptor);
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

@@ -1,0 +1,21 @@
+{
+  transformTemplate.transform("com.squareup.okhttp.Request$Builder",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      InstrumentMethod buildMethod=target.getDeclaredMethod("build");
+      if (buildMethod != null) {
+        logger.debug("[OkHttp] Add Request.Builder.build interceptor.");
+        if (instrumentor.exist(loader,"com.squareup.okhttp.HttpUrl")) {
+          target.addGetter(OkHttpConstants.HTTP_URL_GETTER,OkHttpConstants.FIELD_HTTP_URL);
+          buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodInterceptor");
+        }
+ else {
+          target.addGetter(OkHttpConstants.URL_GETTER,OkHttpConstants.FIELD_HTTP_URL);
+          buildMethod.addInterceptor("com.navercorp.pinpoint.plugin.okhttp.interceptor.RequestBuilderBuildMethodBackwardCompatibilityInterceptor");
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

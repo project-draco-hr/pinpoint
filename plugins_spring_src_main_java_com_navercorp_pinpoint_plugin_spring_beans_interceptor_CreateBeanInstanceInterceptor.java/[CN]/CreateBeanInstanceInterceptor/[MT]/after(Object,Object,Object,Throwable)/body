@@ -8,16 +8,17 @@
       return;
     }
     final String beanName=(String)beanNameObject;
-    Object bean;
     try {
-      Method getter=result.getClass().getMethod("getWrappedInstance");
-      bean=getter.invoke(result);
+      final Method getWrappedInstanceMethod=getGetWrappedInstanceMethod(result);
+      if (getWrappedInstanceMethod != null) {
+        final Object bean=getWrappedInstanceMethod.invoke(result);
+        processBean(beanName,bean);
+      }
     }
  catch (    Exception e) {
       logger.warn("Fail to get create bean instance",e);
       return;
     }
-    processBean(beanName,bean);
   }
  catch (  Throwable t) {
     logger.warn("Unexpected exception",t);

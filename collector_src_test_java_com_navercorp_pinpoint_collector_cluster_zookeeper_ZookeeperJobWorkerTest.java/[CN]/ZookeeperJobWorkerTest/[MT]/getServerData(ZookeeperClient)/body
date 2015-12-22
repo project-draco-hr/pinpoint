@@ -1,0 +1,10 @@
+{
+  List<String> servers=new ArrayList<>();
+  String[] allData=new String(zookeeperClient.getData(PATH)).split("\r\n");
+  for (  String data : allData) {
+    if (!EMPTY_STRING.equals(data.trim())) {
+      servers.add(data);
+    }
+  }
+  return servers;
+}

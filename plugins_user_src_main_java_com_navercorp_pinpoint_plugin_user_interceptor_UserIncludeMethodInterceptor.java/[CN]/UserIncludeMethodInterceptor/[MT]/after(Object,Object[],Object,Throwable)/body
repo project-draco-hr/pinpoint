@@ -2,27 +2,33 @@
   if (isDebug) {
     logger.afterInterceptor(target,args);
   }
-  final Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentRawTraceObject();
   if (trace == null) {
     return;
   }
+  if (!leaveUserIncludeTraceScope(trace)) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Failed to leave scope of user include trace. trace={}, sampled={}",trace,trace.canSampled());
+    }
+    deleteUserIncludeTrace(trace);
+    return;
+  }
+  if (!trace.canSampled()) {
+    if (isUserIncludeTraceDestination(trace)) {
+      deleteUserIncludeTrace(trace);
+    }
+    return;
+  }
   try {
-    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
     recorder.recordApi(descriptor);
-    recorder.recordServiceType(UserConstants.USER_INCLUDE);
+    recorder.recordServiceType(ServiceType.INTERNAL_METHOD);
     recorder.recordException(throwable);
   }
   finally {
     trace.traceBlockEnd();
-    if (isDebug) {
-      logger.debug("Closed user trace. {}",trace.getCallStackFrameId());
-    }
-    if (trace.getTraceType() == TraceType.USER && trace.isRootStack()) {
-      if (isDebug) {
-        logger.debug("Closed user trace. {}",trace);
-      }
-      trace.close();
-      traceContext.removeTraceObject();
+    if (isUserIncludeTraceDestination(trace)) {
+      deleteUserIncludeTrace(trace);
     }
   }
 }

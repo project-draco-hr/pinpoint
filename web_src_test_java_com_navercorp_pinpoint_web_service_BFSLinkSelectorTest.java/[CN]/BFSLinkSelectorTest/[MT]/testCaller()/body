@@ -1,7 +1,7 @@
 {
   int callCount_A_B=10;
   LinkDataMap linkDataMap=new LinkDataMap();
-  linkDataMap.addLinkData(APP_A,"agentA",APP_B,"agentB",1000,HistogramSchema.NORMAL_SCHEMA.getNormalSlot().getSlotTime(),callCount_A_B);
+  linkDataMap.addLinkData(APP_A,"agentA",APP_B,"agentB",1000,BaseHistogramSchema.NORMAL_SCHEMA.getNormalSlot().getSlotTime(),callCount_A_B);
   when(callerDao.selectCaller(eq(APP_A),any(Range.class))).thenReturn(linkDataMap);
   when(calleeDao.selectCallee(any(Application.class),any(Range.class))).thenReturn(newEmptyLinkDataMap());
   when(hostApplicationMapDao.findAcceptApplicationName(any(Application.class),any(Range.class))).thenReturn(new HashSet<AcceptApplication>());

@@ -1,0 +1,22 @@
+{
+  if (getRequestMethod != null) {
+    return getRequestMethod;
+  }
+synchronized (this) {
+    if (getRequestMethod != null) {
+      return getRequestMethod;
+    }
+    try {
+      final Class<?> clazz=target.getClass();
+      final Method findedMethod=clazz.getMethod("getRequest");
+      if (findedMethod != null) {
+        getRequestMethod=findedMethod;
+        return getRequestMethod;
+      }
+    }
+ catch (    NoSuchMethodException e) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+  return null;
+}

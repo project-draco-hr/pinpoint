@@ -1,0 +1,15 @@
+{
+  logger.info("start() started.");
+  clientFactory.setTimeoutMillis(1000 * 5);
+  clientFactory.setMessageListener(UnsupportOperationMessageListener.getInstance());
+  clientFactory.addStateChangeEventListener(LoggingStateChangeEventListener.INSTANCE);
+  clientFactory.setProperties(Collections.EMPTY_MAP);
+  ClusterOption clusterOption=new ClusterOption(true,WebUtils.getServerIdentifier(),Role.CALLER);
+  clientFactory.setClusterOption(clusterOption);
+  List<InetSocketAddress> connectHostList=parseConnectString(connectString);
+  for (  InetSocketAddress host : connectHostList) {
+    PinpointSocket pinpointSocket=ClientFactoryUtils.createPinpointClient(host,clientFactory);
+    clusterSocketList.add(pinpointSocket);
+  }
+  logger.info("start completed.");
+}

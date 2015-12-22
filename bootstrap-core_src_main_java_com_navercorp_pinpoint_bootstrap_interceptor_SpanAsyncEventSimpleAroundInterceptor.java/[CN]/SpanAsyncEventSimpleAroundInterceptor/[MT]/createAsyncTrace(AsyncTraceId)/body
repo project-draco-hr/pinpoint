@@ -1,0 +1,20 @@
+{
+  final Trace trace=traceContext.continueAsyncTraceObject(asyncTraceId,asyncTraceId.getAsyncId(),asyncTraceId.getSpanStartTime());
+  if (trace == null) {
+    logger.warn("Failed to continue async trace. 'result is null'");
+    return null;
+  }
+  if (isDebug) {
+    logger.debug("Continue async trace {}, id={}",trace,asyncTraceId);
+  }
+  TraceScope oldScope=trace.addScope(SCOPE_NAME);
+  if (oldScope != null) {
+    logger.warn("Duplicated async trace scope={}.",oldScope.getName());
+    deleteAsyncTrace(trace);
+    return null;
+  }
+  final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+  recorder.recordServiceType(ServiceType.ASYNC);
+  recorder.recordApi(asyncMethodDescriptor);
+  return trace;
+}

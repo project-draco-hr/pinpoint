@@ -3,8 +3,10 @@
   if (type == null) {
     throw new PinpointException("type of @TargetFilter is null: " + interceptorClassName);
   }
-  AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,classLoader,new InterceptorArgumentProvider(pluginContext.getTraceContext(),targetClass));
-  MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectRecipe.byConstructor(type,(Object[])annotation.constructorArguments()));
+  final TraceContext traceContext=pluginContext.getTraceContext();
+  final InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(traceContext,targetClass);
+  AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(pluginContext,classLoader,interceptorArgumentProvider);
+  MethodFilter filter=(MethodFilter)filterFactory.createInstance(ObjectFactory.byConstructor(type,(Object[])annotation.constructorArguments()));
   MethodRecipe recipe=annotation.singleton() ? new SharedAnnotatedInterceptorInjector(injector) : injector;
   return new FilteringMethodTransformer(new MethodFilter[]{filter},Arrays.<MethodRecipe>asList(recipe),null);
 }

@@ -1,8 +1,8 @@
 {
-  Map<AgentInfo,Future<ResponseMessage>> futureMap=new HashMap<AgentInfo,Future<ResponseMessage>>();
+  Map<AgentInfo,Future<ResponseMessage>> futureMap=new HashMap<>();
   for (  AgentInfo agentInfo : agentInfoList) {
     TCommandTransfer transferObject=createCommandTransferObject(agentInfo,payload);
-    PinpointSocket socket=clusterConnectionManager.getSocket(agentInfo);
+    PinpointSocket socket=clusterManager.getSocket(agentInfo);
     if (socket != null) {
       Future<ResponseMessage> future=socket.request(serializeRequest(transferObject));
       futureMap.put(agentInfo,future);
@@ -12,7 +12,7 @@
     }
   }
   long startTime=System.currentTimeMillis();
-  Map<AgentInfo,PinpointRouteResponse> result=new HashMap<AgentInfo,PinpointRouteResponse>();
+  Map<AgentInfo,PinpointRouteResponse> result=new HashMap<>();
   for (  Map.Entry<AgentInfo,Future<ResponseMessage>> futureEntry : futureMap.entrySet()) {
     AgentInfo agentInfo=futureEntry.getKey();
     Future<ResponseMessage> future=futureEntry.getValue();

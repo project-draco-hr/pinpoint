@@ -1,0 +1,24 @@
+{
+  TransformCallback transformer=new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.ConnectionCloseInterceptor",JtdsConstants.JTDS_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.StatementCreateInterceptor",JtdsConstants.JTDS_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.PreparedStatementCreateInterceptor",JtdsConstants.JTDS_SCOPE);
+      if (config.isProfileSetAutoCommit()) {
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionSetAutoCommitInterceptor",JtdsConstants.JTDS_SCOPE);
+      }
+      if (config.isProfileCommit()) {
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionCommitInterceptor",JtdsConstants.JTDS_SCOPE);
+      }
+      if (config.isProfileRollback()) {
+        target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.TransactionRollbackInterceptor",JtdsConstants.JTDS_SCOPE);
+      }
+      return target.toBytecode();
+    }
+  }
+;
+  transformTemplate.transform("net.sourceforge.jtds.jdbc.ConnectionJDBC2",transformer);
+  transformTemplate.transform("net.sourceforge.jtds.jdbc.JtdsConnection",transformer);
+}

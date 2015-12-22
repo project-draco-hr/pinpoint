@@ -1,3 +1,6 @@
 {
-  this.timer=TimerFactory.createHashedWheelTimer(ClassUtils.simpleClassName(this) + "-Timer",100,TimeUnit.MILLISECONDS,512);
+  PinpointThreadFactory threadFactory=new PinpointThreadFactory(ClassUtils.simpleClassName(this) + "-Timer",true);
+  this.flushTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
+  this.healthCheckTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
+  this.reactiveTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
 }

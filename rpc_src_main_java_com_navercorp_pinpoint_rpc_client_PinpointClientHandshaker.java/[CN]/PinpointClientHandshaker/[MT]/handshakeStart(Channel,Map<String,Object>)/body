@@ -1,15 +1,15 @@
 {
-  logger.info("{} handshakeStart method started.",simpleClassNameAndHashCodeString());
+  logger.info("{} handshakeStart() started. channel:{}",simpleClassNameAndHashCodeString(),channel);
   if (channel == null) {
-    logger.info("{} handshakeStart method failed. channel may not be null.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:channel may not be null.",simpleClassNameAndHashCodeString());
     return;
   }
   if (!channel.isConnected()) {
-    logger.info("{} handshakeStart method failed. channel is not connected.",simpleClassNameAndHashCodeString());
+    logger.warn("{} handshakeStart() failed. caused:channel is not connected.",simpleClassNameAndHashCodeString());
     return;
   }
   if (!state.compareAndSet(STATE_INIT,STATE_STARTED)) {
-    logger.info("{} handshakeStart method failed. currentState:{}",simpleClassNameAndHashCodeString(),state.get());
+    logger.warn("{} handshakeStart() failed. caused:unexpected state.",simpleClassNameAndHashCodeString());
     return;
   }
   HandshakeJob handshakeJob=null;
@@ -17,16 +17,14 @@
     handshakeJob=createHandshakeJob(channel,handshakeData);
   }
  catch (  Exception e) {
-    if (logger.isWarnEnabled()) {
-      logger.warn(simpleClassNameAndHashCodeString() + " create handshake job failed. Error:" + e.getMessage()+ " state will be aborted.",e);
-    }
+    logger.warn("{} create HandshakeJob failed. caused:{}",simpleClassNameAndHashCodeString(),e.getMessage(),e);
   }
   if (handshakeJob == null) {
+    logger.warn("{} handshakeStart() failed. caused:handshakeJob may not be null.",simpleClassNameAndHashCodeString());
     handshakeAbort();
-    logger.info("{} handshakeStart method failed.",simpleClassNameAndHashCodeString());
     return;
   }
   handshake(handshakeJob);
-  reservationJob(handshakeJob);
-  logger.info("{} handshakeStart method completed. channel:{}, data:{}",simpleClassNameAndHashCodeString(),channel,handshakeData);
+  reserveHandshake(handshakeJob);
+  logger.info("{} handshakeStart() completed. channel:{}, data:{}",simpleClassNameAndHashCodeString(),channel,handshakeData);
 }

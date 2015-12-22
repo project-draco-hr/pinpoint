@@ -1,0 +1,12 @@
+{
+synchronized (lock) {
+    try {
+      jobQueue.put(zookeeperJob);
+      lock.notifyAll();
+      return true;
+    }
+ catch (    InterruptedException ignore) {
+    }
+  }
+  return false;
+}

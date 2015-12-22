@@ -1,0 +1,18 @@
+{
+  addJedisPipelineBaseExtendedClassEditor(config,"redis.clients.jedis.PipelineBase",null);
+  addJedisPipelineBaseExtendedClassEditor(config,"redis.clients.jedis.MultiKeyPipelineBase",null);
+  addJedisPipelineBaseExtendedClassEditor(config,"redis.clients.jedis.Pipeline",new TransformHandler(){
+    @Override public void handle(    InstrumentClass target) throws InstrumentException {
+      target.addField(RedisConstants.END_POINT_ACCESSOR);
+      final InstrumentMethod setClientMethodEditorBuilder=target.getDeclaredMethod("setClient","redis.clients.jedis.Client");
+      if (setClientMethodEditorBuilder != null) {
+        setClientMethodEditorBuilder.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisPipelineSetClientMethodInterceptor");
+      }
+      final InstrumentMethod constructorEditorBuilder=target.getConstructor("redis.clients.jedis.Client");
+      if (constructorEditorBuilder != null) {
+        constructorEditorBuilder.addInterceptor("com.navercorp.pinpoint.plugin.redis.interceptor.JedisPipelineConstructorInterceptor");
+      }
+    }
+  }
+);
+}

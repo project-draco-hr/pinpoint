@@ -1,0 +1,9 @@
+{
+  InterceptorDefinitionFactory interceptorDefinitionFactory=new InterceptorDefinitionFactory();
+  CaptureType before=interceptorDefinitionFactory.createInterceptorDefinition(TestBeforeInterceptor.class).getCaptureType();
+  Assert.assertSame(before,CaptureType.BEFORE);
+  CaptureType after=interceptorDefinitionFactory.createInterceptorDefinition(TestAfterInterceptor.class).getCaptureType();
+  Assert.assertSame(after,CaptureType.AFTER);
+  CaptureType around=interceptorDefinitionFactory.createInterceptorDefinition(TestAroundInterceptor.class).getCaptureType();
+  Assert.assertSame(around,CaptureType.AROUND);
+}

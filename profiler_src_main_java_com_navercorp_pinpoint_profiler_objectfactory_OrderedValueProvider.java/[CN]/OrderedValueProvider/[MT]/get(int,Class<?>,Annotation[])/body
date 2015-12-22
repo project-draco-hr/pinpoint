@@ -2,7 +2,7 @@
   if (this.index >= values.length) {
     return Option.empty();
   }
-  Object value=values[this.index];
+  final Object value=values[this.index];
   if (type.isPrimitive()) {
     if (value == null) {
       return Option.empty();
@@ -16,6 +16,11 @@
     if (type.isInstance(value)) {
       prepareNextCandidate();
       return Option.withValue(value);
+    }
+ else {
+      if (logger.isDebugEnabled()) {
+        logger.debug("argument miss match index:{}, type:{} value:{} typeCl:{}, valueCl:{}",this.index,type,value,type.getClassLoader(),getClassLoader(value));
+      }
     }
   }
   return Option.empty();

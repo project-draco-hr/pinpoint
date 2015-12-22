@@ -1,0 +1,15 @@
+{
+  logger.info("syncPullCollectorCluster() started.");
+synchronized (this) {
+    Map<String,byte[]> map=clusterDataManagerHelper.syncPullCollectorCluster(client,PINPOINT_COLLECTOR_CLUSTER_PATH);
+    if (Collections.EMPTY_MAP == map) {
+      return false;
+    }
+    logger.info("Get collector({}) info.",map.keySet());
+    for (    Map.Entry<String,byte[]> entry : map.entrySet()) {
+      collectorClusterInfo.put(entry.getKey(),entry.getValue());
+    }
+    logger.info("syncPullCollectorCluster() completed.");
+    return true;
+  }
+}

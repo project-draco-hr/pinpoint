@@ -1,8 +1,8 @@
 {
   MvcResult result=this.mockMvc.perform(get("/configuration.pinpoint").contentType(MediaType.APPLICATION_JSON).header("SSO_USER","naver01")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("showActiveThread"))).andExpect(jsonPath("$",hasKey("editUserInfo"))).andExpect(jsonPath("$",hasKey("sendUsage"))).andExpect(jsonPath("$",hasKey("userId"))).andExpect(jsonPath("$",hasKey("userName"))).andExpect(jsonPath("$",hasKey("userDepartment"))).andReturn();
   String content=result.getResponse().getContentAsString();
-  System.out.println(content);
+  logger.debug(content);
   result=this.mockMvc.perform(get("/configuration.pinpoint").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(jsonPath("$",hasKey("showActiveThread"))).andExpect(jsonPath("$",hasKey("editUserInfo"))).andExpect(jsonPath("$",hasKey("sendUsage"))).andReturn();
   content=result.getResponse().getContentAsString();
-  System.out.println(content);
+  logger.debug(content);
 }

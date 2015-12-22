@@ -1,0 +1,14 @@
+{
+synchronized (this) {
+    boolean isContains=pinpointServerRepository.containsKey(key);
+    if (isContains) {
+      Set<PinpointServer> pinpointServerSet=pinpointServerRepository.get(key);
+      pinpointServerSet.remove(pinpointServer);
+      if (pinpointServerSet.size() == 0) {
+        pinpointServerRepository.remove(key);
+        return true;
+      }
+    }
+    return false;
+  }
+}

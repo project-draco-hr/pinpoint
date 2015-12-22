@@ -1,0 +1,36 @@
+{
+  final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+  try {
+    final URI uri=httpMethod.getURI();
+    final HttpConnection httpConnection=getHttpConnection(args);
+    if (uri.isAbsoluteURI() || httpConnection == null) {
+      recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(uri.getURI(),param));
+      recorder.recordDestinationId(getEndpoint(uri.getHost(),uri.getPort()));
+      return;
+    }
+    if (isDebug) {
+      logger.debug("URI is not absolute. {}",uri.getURI());
+    }
+    final String host=httpConnection.getHost();
+    int port=httpConnection.getPort();
+    final StringBuilder httpUrl=new StringBuilder();
+    final Protocol protocol=httpConnection.getProtocol();
+    if (protocol != null) {
+      httpUrl.append(protocol.getScheme()).append("://");
+      httpUrl.append(httpConnection.getHost());
+      if (httpConnection.getPort() == protocol.getDefaultPort()) {
+        port=-1;
+      }
+ else {
+        httpUrl.append(":").append(port);
+      }
+    }
+    httpUrl.append(uri.getURI());
+    recorder.recordAttribute(AnnotationKey.HTTP_URL,InterceptorUtils.getHttpUrl(httpUrl.toString(),param));
+    recorder.recordDestinationId(getEndpoint(host,port));
+  }
+ catch (  URIException e) {
+    logger.error("Fail get URI",e);
+    recorder.recordDestinationId("unknown");
+  }
+}

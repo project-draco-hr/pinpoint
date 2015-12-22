@@ -1,6 +1,6 @@
 {
-  if (this.delegate.isSuccessful()) {
-    this.self.cancel(true);
+  if (this.delegate.isSuccessful() || this.tryCount.getAndIncrement() == this.maxTryCount) {
+    this.self.cancel(false);
   }
  else {
     this.delegate.run();

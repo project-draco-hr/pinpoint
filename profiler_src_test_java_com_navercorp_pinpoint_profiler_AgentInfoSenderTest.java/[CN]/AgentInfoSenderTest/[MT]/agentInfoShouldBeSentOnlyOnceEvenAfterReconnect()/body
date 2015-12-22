@@ -1,23 +1,46 @@
 {
   final AtomicInteger requestCount=new AtomicInteger();
   final AtomicInteger successCount=new AtomicInteger();
-  final long agentInfoSendRetryIntervalMs=1000L;
+  final AtomicInteger reconnectCount=new AtomicInteger();
+  final int expectedReconnectCount=3;
+  final long agentInfoSendRetryIntervalMs=100L;
+  final int maxTryCountPerAttempt=Integer.MAX_VALUE;
+  final CyclicBarrier reconnectEventBarrier=new CyclicBarrier(2);
   ResponseServerMessageListener serverListener=new ResponseServerMessageListener(requestCount,successCount);
+  PinpointServerAcceptor serverAcceptor=createServerAcceptor(serverListener);
   PinpointClientFactory clientFactory=createPinpointClientFactory();
   PinpointClient pinpointClient=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender dataSender=new TcpDataSender(pinpointClient);
-  AgentInfoSender agentInfoSender=new AgentInfoSender(dataSender,agentInfoSendRetryIntervalMs,getAgentInfo());
+  dataSender.addReconnectEventListener(new PinpointClientReconnectEventListener(){
+    @Override public void reconnectPerformed(    PinpointClient client){
+      reconnectCount.incrementAndGet();
+      try {
+        reconnectEventBarrier.await();
+      }
+ catch (      Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+);
+  AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).maxTryPerAttempt(maxTryCountPerAttempt).build();
   try {
     agentInfoSender.start();
-    createAndDeleteServer(serverListener,5000L);
-    Thread.sleep(1000L);
-    createAndDeleteServer(serverListener,5000L);
-    Thread.sleep(1000L);
-    createAndDeleteServer(serverListener,5000L);
+    while (requestCount.get() < 1) {
+      Thread.sleep(1000L);
+    }
+    serverAcceptor.close();
+    for (int i=0; i < expectedReconnectCount; ++i) {
+      PinpointServerAcceptor reconnectServerAcceptor=createServerAcceptor(serverListener);
+      reconnectEventBarrier.await();
+      Thread.sleep(1000L);
+      reconnectServerAcceptor.close();
+      reconnectEventBarrier.reset();
+    }
   }
   finally {
     closeAll(null,agentInfoSender,pinpointClient,clientFactory);
   }
-  assertEquals(1,requestCount.get());
   assertEquals(1,successCount.get());
+  assertEquals(expectedReconnectCount,reconnectCount.get());
 }

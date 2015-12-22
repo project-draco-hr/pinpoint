@@ -1,0 +1,14 @@
+{
+  try {
+    final ClassPool pool=new ClassPool(true);
+    final CtClass ctClass=pool.get(mock);
+    final ConstPool constPool=ctClass.getClassFile2().getConstPool();
+    MethodInfo info=new MethodInfo(constPool,"transformMethod","()V");
+    final CtMethod newMethod=CtMethod.make(info,ctClass);
+    ctClass.addMethod(newMethod);
+    return ctClass.toBytecode();
+  }
+ catch (  Exception ex) {
+    throw new RuntimeException(ex.getMessage(),ex);
+  }
+}

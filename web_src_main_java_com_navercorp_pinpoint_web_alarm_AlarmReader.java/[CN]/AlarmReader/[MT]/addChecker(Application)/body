@@ -1,7 +1,7 @@
 {
   List<Rule> rules=alarmService.selectRuleByApplicationId(application.getName());
   long timeSlotEndTime=System.currentTimeMillis();
-  Map<DataCollectorCategory,DataCollector> collectorMap=new HashMap<DataCollectorCategory,DataCollector>();
+  Map<DataCollectorCategory,DataCollector> collectorMap=new HashMap<>();
   for (  Rule rule : rules) {
     CheckerCategory checkerCategory=CheckerCategory.getValue(rule.getCheckerName());
     DataCollector collector=collectorMap.get(checkerCategory.getDataCollectorCategory());

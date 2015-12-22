@@ -1,7 +1,9 @@
 {
-  final TAgentInfo agentInfo=createTAgentInfo();
-  if (LOGGER.isInfoEnabled()) {
-    LOGGER.info("AgentInfoSender started. Sending startup information to Pinpoint server via {}. agentInfo={}",dataSender.getClass().getSimpleName(),agentInfo);
+  submit(Integer.MAX_VALUE);
+  this.executor.scheduleWithFixedDelay(new Runnable(){
+    @Override public void run(){
+      submit(maxTryPerAttempt);
+    }
   }
-  send(agentInfo);
+,this.refreshIntervalMs,this.refreshIntervalMs,TimeUnit.MILLISECONDS);
 }

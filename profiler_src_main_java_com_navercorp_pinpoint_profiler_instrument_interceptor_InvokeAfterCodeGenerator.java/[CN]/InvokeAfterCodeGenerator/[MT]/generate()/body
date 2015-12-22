@@ -1,11 +1,12 @@
 {
-  CodeBuilder builder=new CodeBuilder();
+  final CodeBuilder builder=new CodeBuilder();
   builder.begin();
   builder.append("try { ");
   if (!localVarsInitialized) {
     builder.format("%1$s = %2$s.getInterceptor(%3$d); ",getInterceptorVar(),getInterceptorRegistryClassName(),interceptorId);
   }
-  if (interceptorMethod != null) {
+  final Method afterMethod=interceptorDefinition.getAfterMethod();
+  if (afterMethod != null) {
     builder.format("((%1$s)%2$s).after(",getInterceptorType(),getInterceptorVar());
     appendArguments(builder);
     builder.format(");");

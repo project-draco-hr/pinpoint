@@ -1,0 +1,15 @@
+{
+  if (target instanceof HttpMethod) {
+    final HttpMethod httpMethod=(HttpMethod)target;
+    httpMethod.setRequestHeader(Header.HTTP_TRACE_ID.toString(),nextId.getTransactionId());
+    httpMethod.setRequestHeader(Header.HTTP_SPAN_ID.toString(),String.valueOf(nextId.getSpanId()));
+    httpMethod.setRequestHeader(Header.HTTP_PARENT_SPAN_ID.toString(),String.valueOf(nextId.getParentSpanId()));
+    httpMethod.setRequestHeader(Header.HTTP_FLAGS.toString(),String.valueOf(nextId.getFlags()));
+    httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_NAME.toString(),traceContext.getApplicationName());
+    httpMethod.setRequestHeader(Header.HTTP_PARENT_APPLICATION_TYPE.toString(),Short.toString(traceContext.getServerTypeCode()));
+    final String host=getHost(httpMethod,args);
+    if (host != null) {
+      httpMethod.setRequestHeader(Header.HTTP_HOST.toString(),host);
+    }
+  }
+}

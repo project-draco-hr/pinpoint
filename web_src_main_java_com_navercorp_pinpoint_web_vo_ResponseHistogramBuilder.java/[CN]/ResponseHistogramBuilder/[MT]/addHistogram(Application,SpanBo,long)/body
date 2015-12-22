@@ -1,10 +1,9 @@
 {
   timeStamp=window.refineTimestamp(timeStamp);
   final ResponseTime responseTime=getResponseTime(application,timeStamp);
+  boolean error=false;
   if (span.getErrCode() != 0) {
-    responseTime.addResponseTime(span.getAgentId(),HistogramSchema.ERROR_SLOT_TIME);
+    error=true;
   }
- else {
-    responseTime.addResponseTime(span.getAgentId(),span.getElapsed());
-  }
+  responseTime.addResponseTime(span.getAgentId(),span.getElapsed(),error);
 }

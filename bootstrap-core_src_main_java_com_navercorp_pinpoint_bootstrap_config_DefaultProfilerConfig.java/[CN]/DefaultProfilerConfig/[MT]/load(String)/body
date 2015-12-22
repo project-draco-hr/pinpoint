@@ -1,0 +1,18 @@
+{
+  try {
+    Properties properties=PropertyUtils.loadProperty(pinpointConfigFileName);
+    return new DefaultProfilerConfig(properties);
+  }
+ catch (  FileNotFoundException fe) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,pinpointConfigFileName + " file does not exist. Please check your configuration.");
+    }
+    throw fe;
+  }
+catch (  IOException e) {
+    if (logger.isLoggable(Level.WARNING)) {
+      logger.log(Level.WARNING,pinpointConfigFileName + " file I/O error. Error:" + e.getMessage(),e);
+    }
+    throw e;
+  }
+}

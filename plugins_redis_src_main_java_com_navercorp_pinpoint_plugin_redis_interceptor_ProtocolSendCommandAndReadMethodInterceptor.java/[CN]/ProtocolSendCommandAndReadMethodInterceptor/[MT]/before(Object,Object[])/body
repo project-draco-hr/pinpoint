@@ -7,8 +7,8 @@
     return;
   }
   try {
-    final InterceptorGroupInvocation invocation=interceptorGroup.getCurrentInvocation();
-    if (invocation != null && invocation.getAttachment() != null) {
+    final InterceptorScopeInvocation invocation=interceptorScope.getCurrentInvocation();
+    if (invocation != null && invocation.getAttachment() != null && invocation.getAttachment() instanceof CommandContext) {
       final CommandContext commandContext=(CommandContext)invocation.getAttachment();
       if (methodDescriptor.getMethodName().equals("sendCommand")) {
         commandContext.setWriteBeginTime(System.currentTimeMillis());

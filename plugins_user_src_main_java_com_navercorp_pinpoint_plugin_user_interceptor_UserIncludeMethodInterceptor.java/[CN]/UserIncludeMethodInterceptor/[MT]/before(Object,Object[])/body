@@ -2,20 +2,24 @@
   if (isDebug) {
     logger.beforeInterceptor(target,args);
   }
-  Trace trace=traceContext.currentTraceObject();
+  Trace trace=traceContext.currentRawTraceObject();
   if (trace == null) {
-    trace=traceContext.newTraceObject(TraceType.USER);
-    if (!trace.canSampled()) {
-      if (isDebug) {
-        logger.debug("New trace and can't sampled {}",trace);
-      }
+    if (isDebug) {
+      logger.debug("Not found trace. Crate user include trace.");
+    }
+    trace=createUserIncludeTrace();
+    if (trace == null) {
       return;
     }
+  }
+ else {
     if (isDebug) {
-      logger.debug("New trace and sampled {}",trace);
+      logger.debug("Found trace {}, sampled={}.",trace,trace.canSampled());
     }
-    SpanRecorder recorder=trace.getSpanRecorder();
-    recordRootSpan(recorder);
+  }
+  entryUserIncludeTraceScope(trace);
+  if (!trace.canSampled()) {
+    return;
   }
   trace.traceBlockBegin();
 }
