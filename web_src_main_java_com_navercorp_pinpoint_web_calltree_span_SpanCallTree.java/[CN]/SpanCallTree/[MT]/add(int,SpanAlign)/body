@@ -1,13 +1,13 @@
 {
   if (depth < MIN_DEPTH || depth == ROOT_DEPTH) {
-    throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+    throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
   }
   if (hasCorrupted(spanAlign)) {
-    throw new CorruptedSpanCallTreeNodeException("corrupted event. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+    throw new CorruptedSpanCallTreeNodeException("invalid sequence","corrupted event. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
   }
   if (depth == LEVEL_DEPTH || depth == cursor.getDepth()) {
     if (cursor.isRoot()) {
-      throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+      throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
     }
     CallTreeNode sibling=findLastSibling(cursor);
     sibling.setSibling(spanAlign);
@@ -16,7 +16,7 @@
   }
   if (depth > cursor.getDepth()) {
     if (depth > cursor.getDepth() + 1) {
-      throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+      throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
     }
     if (!cursor.hasChild()) {
       cursor.setChild(spanAlign);
@@ -29,7 +29,7 @@
     return;
   }
   if (cursor.getDepth() - depth <= ROOT_DEPTH) {
-    throw new IllegalArgumentException("invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
+    throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + depth + ", cursor="+ cursor+ ", align="+ spanAlign);
   }
   final CallTreeNode node=findUpperLevelLastSibling(depth,cursor);
   node.setSibling(spanAlign);

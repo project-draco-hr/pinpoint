@@ -20,7 +20,12 @@
     argumentAnnotation.setValue("Corrupted(waiting for packet) ");
   }
  else {
-    argumentAnnotation.setValue("Corrupted");
+    if (title != null) {
+      argumentAnnotation.setValue("Corrupted(" + title + ")");
+    }
+ else {
+      argumentAnnotation.setValue("Corrupted");
+    }
   }
   annotations.add(argumentAnnotation);
   missedEvent.setAnnotationBoList(annotations);
