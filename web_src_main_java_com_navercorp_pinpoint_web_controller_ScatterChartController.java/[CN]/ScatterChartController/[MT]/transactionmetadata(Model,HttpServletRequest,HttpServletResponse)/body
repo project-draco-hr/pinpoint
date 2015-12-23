@@ -1,8 +1,10 @@
 {
+  TransactionMetaDataViewModel viewModel=new TransactionMetaDataViewModel();
   TransactionMetadataQuery query=parseSelectTransaction(request);
+  ModelAndView mv=new ModelAndView();
   if (query.size() > 0) {
     List<SpanBo> metadata=scatter.selectTransactionMetadata(query);
-    model.addAttribute("metadata",metadata);
+    viewModel.setSpanBoList(metadata);
   }
-  return "transactionmetadata";
+  return viewModel;
 }

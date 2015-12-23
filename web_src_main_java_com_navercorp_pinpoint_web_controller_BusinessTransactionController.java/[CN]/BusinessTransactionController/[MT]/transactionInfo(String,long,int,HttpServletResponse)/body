@@ -3,37 +3,8 @@
   final TransactionId traceId=new TransactionId(traceIdParam);
   final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
   final CallTreeIterator callTreeIterator=spanResult.getCallTree();
-  if (callTreeIterator.isEmpty()) {
-    final ModelAndView error=new ModelAndView();
-    error.addObject("errorCode",9);
-    error.addObject("message","Trace not found. traceId:" + traceId);
-    error.setViewName("error");
-    return error;
-  }
-  final ModelAndView mv=new ModelAndView();
-  mv.addObject("spanList",callTreeIterator.values());
-  mv.addObject("traceId",traceId);
   ApplicationMap map=filteredMapService.selectApplicationMap(traceId);
-  mv.addObject("nodes",map.getNodes());
-  mv.addObject("links",map.getLinks());
   RecordSet recordSet=this.transactionInfoService.createRecordSet(callTreeIterator,focusTimestamp);
-  mv.addObject("recordSet",recordSet);
-  mv.addObject("applicationName",recordSet.getApplicationName());
-  mv.addObject("callstack",recordSet.getRecordList());
-  mv.addObject("timeline",recordSet.getRecordList());
-  mv.addObject("callstackStart",recordSet.getStartTime());
-  mv.addObject("callstackEnd",recordSet.getEndTime());
-  mv.addObject("completeState",spanResult.getCompleteTypeString());
-  mv.addObject("logLinkEnable",logLinkEnable);
-  mv.addObject("loggingTransactionInfo",recordSet.isLoggingTransactionInfo());
-  mv.addObject("logButtonName",logButtonName);
-  mv.addObject("logPageUrl",logPageUrl);
-  mv.addObject("disableButtonMessage",disableButtonMessage);
-  if (viewVersion == 2) {
-    mv.setViewName("transactionInfoJsonHash");
-  }
- else {
-    mv.setViewName("transactionInfoJson");
-  }
-  return mv;
+  TransactionInfoViewModel result=new TransactionInfoViewModel(traceId,map.getNodes(),map.getLinks(),recordSet,spanResult.getCompleteTypeString(),logLinkEnable,logButtonName,logPageUrl,disableButtonMessage);
+  return result;
 }
