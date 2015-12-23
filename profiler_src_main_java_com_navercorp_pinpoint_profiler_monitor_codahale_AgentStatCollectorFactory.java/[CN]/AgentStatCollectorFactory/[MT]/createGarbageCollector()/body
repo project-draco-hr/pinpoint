@@ -1,0 +1,26 @@
+{
+  MetricMonitorRegistry registry=this.monitorRegistry;
+  registry.registerJvmMemoryMonitor(new MonitorName(MetricMonitorValues.JVM_MEMORY));
+  registry.registerJvmGcMonitor(new MonitorName(MetricMonitorValues.JVM_GC));
+  Collection<String> keys=registry.getRegistry().getNames();
+  GarbageCollector garbageCollectorToReturn;
+  if (keys.contains(JVM_GC_SERIAL_MSC_COUNT)) {
+    garbageCollectorToReturn=new SerialCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_PS_MS_COUNT)) {
+    garbageCollectorToReturn=new ParallelCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_CMS_COUNT)) {
+    garbageCollectorToReturn=new CmsCollector(registry);
+  }
+ else   if (keys.contains(JVM_GC_G1_OLD_COUNT)) {
+    garbageCollectorToReturn=new G1Collector(registry);
+  }
+ else {
+    garbageCollectorToReturn=new UnknownGarbageCollector();
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("found : {}",garbageCollectorToReturn);
+  }
+  return garbageCollectorToReturn;
+}
