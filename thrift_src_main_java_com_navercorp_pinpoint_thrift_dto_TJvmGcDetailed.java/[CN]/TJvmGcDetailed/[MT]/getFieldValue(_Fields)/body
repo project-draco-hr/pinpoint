@@ -1,0 +1,21 @@
+{
+switch (field) {
+case JVM_GC_NEW_COUNT:
+    return Long.valueOf(getJvmGcNewCount());
+case JVM_GC_NEW_TIME:
+  return Long.valueOf(getJvmGcNewTime());
+case JVM_POOL_CODE_CACHE_USED:
+return Double.valueOf(getJvmPoolCodeCacheUsed());
+case JVM_POOL_NEW_GEN_USED:
+return Double.valueOf(getJvmPoolNewGenUsed());
+case JVM_POOL_OLD_GEN_USED:
+return Double.valueOf(getJvmPoolOldGenUsed());
+case JVM_POOL_SURVIVOR_SPACE_USED:
+return Double.valueOf(getJvmPoolSurvivorSpaceUsed());
+case JVM_POOL_PERM_GEN_USED:
+return Double.valueOf(getJvmPoolPermGenUsed());
+case JVM_POOL_METASPACE_USED:
+return Double.valueOf(getJvmPoolMetaspaceUsed());
+}
+throw new IllegalStateException();
+}

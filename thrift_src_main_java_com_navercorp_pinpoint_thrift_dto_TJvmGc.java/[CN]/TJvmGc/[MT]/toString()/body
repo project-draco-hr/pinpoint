@@ -33,6 +33,17 @@
   sb.append("jvmGcOldTime:");
   sb.append(this.jvmGcOldTime);
   first=false;
+  if (isSetJvmGcDetailed()) {
+    if (!first)     sb.append(", ");
+    sb.append("jvmGcDetailed:");
+    if (this.jvmGcDetailed == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.jvmGcDetailed);
+    }
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

@@ -1,0 +1,10 @@
+{
+  ProfilerConfig profilerConfig=new DefaultProfilerConfig();
+  profilerConfig.setProfilerJvmCollectDetailedMetrics(true);
+  GarbageCollector collector=new AgentStatCollectorFactory(new TestableTransactionCounter(),profilerConfig).getGarbageCollector();
+  logger.debug("collector.getType():{}",collector);
+  TJvmGc collect1=collector.collect();
+  logger.debug("collector.collect():{}",collect1);
+  TJvmGc collect2=collector.collect();
+  logger.debug("collector.collect():{}",collect2);
+}

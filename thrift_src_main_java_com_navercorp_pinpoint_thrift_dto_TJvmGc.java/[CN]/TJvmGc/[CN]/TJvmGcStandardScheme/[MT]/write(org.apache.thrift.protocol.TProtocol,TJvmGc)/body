@@ -24,6 +24,13 @@
   oprot.writeFieldBegin(JVM_GC_OLD_TIME_FIELD_DESC);
   oprot.writeI64(struct.jvmGcOldTime);
   oprot.writeFieldEnd();
+  if (struct.jvmGcDetailed != null) {
+    if (struct.isSetJvmGcDetailed()) {
+      oprot.writeFieldBegin(JVM_GC_DETAILED_FIELD_DESC);
+      struct.jvmGcDetailed.write(oprot);
+      oprot.writeFieldEnd();
+    }
+  }
   oprot.writeFieldStop();
   oprot.writeStructEnd();
 }
