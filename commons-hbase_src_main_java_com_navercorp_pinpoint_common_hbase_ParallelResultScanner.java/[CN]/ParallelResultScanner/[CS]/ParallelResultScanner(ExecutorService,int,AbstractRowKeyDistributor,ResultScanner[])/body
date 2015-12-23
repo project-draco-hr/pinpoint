@@ -1,0 +1,20 @@
+{
+  if (executor == null) {
+    throw new NullPointerException("executor must not be null");
+  }
+  if (keyDistributor == null) {
+    throw new NullPointerException("keyDistributor must not be null");
+  }
+  if (scanners == null) {
+    throw new NullPointerException("scanners must not be null");
+  }
+  this.keyDistributor=keyDistributor;
+  this.nextResults=new Result[scanners.length];
+  this.scanTasks=new ArrayList<>(scanners.length);
+  final int scanTaskQueueSize=numCaching < DEFAULT_SCAN_TASK_QUEUE_SIZE ? numCaching : DEFAULT_SCAN_TASK_QUEUE_SIZE;
+  for (  ResultScanner scanner : scanners) {
+    ScanTask scanTask=new ScanTask(scanner,scanTaskQueueSize);
+    this.scanTasks.add(scanTask);
+    executor.execute(scanTask);
+  }
+}
