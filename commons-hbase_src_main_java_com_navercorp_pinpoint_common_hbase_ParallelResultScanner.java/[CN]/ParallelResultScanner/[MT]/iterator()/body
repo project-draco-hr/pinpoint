@@ -1,0 +1,29 @@
+{
+  return new Iterator<Result>(){
+    Result next=null;
+    public boolean hasNext(){
+      if (next == null) {
+        try {
+          next=ParallelResultScanner.this.next();
+          return next != null;
+        }
+ catch (        IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      return true;
+    }
+    public Result next(){
+      if (!hasNext()) {
+        return null;
+      }
+      Result temp=next;
+      next=null;
+      return temp;
+    }
+    public void remove(){
+      throw new UnsupportedOperationException();
+    }
+  }
+;
+}

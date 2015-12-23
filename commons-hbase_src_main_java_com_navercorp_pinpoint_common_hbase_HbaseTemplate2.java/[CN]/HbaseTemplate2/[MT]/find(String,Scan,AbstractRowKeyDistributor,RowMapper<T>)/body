@@ -1,15 +1,4 @@
 {
   final ResultsExtractor<List<T>> resultsExtractor=new RowMapperResultsExtractor<>(action);
-  return execute(tableName,new TableCallback<List<T>>(){
-    @Override public List<T> doInTable(    HTableInterface htable) throws Throwable {
-      final ResultScanner scanner=createDistributeScanner(htable,scan,rowKeyDistributor);
-      try {
-        return resultsExtractor.extractData(scanner);
-      }
-  finally {
-        scanner.close();
-      }
-    }
-  }
-);
+  return execute(tableName,new DistributedScannerTableCallback<>(scan,rowKeyDistributor,resultsExtractor));
 }

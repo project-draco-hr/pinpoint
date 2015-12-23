@@ -12,7 +12,7 @@
   Scan scan=createScan(applicationName,range);
   final LimitedScanResult<List<TransactionId>> limitedScanResult=new LimitedScanResult<>();
   LastRowAccessor lastRowAccessor=new LastRowAccessor();
-  List<List<TransactionId>> traceIndexList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,lastRowAccessor);
+  List<List<TransactionId>> traceIndexList=hbaseOperations2.findParallel(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,traceIndexMapper,lastRowAccessor,APPLICATION_TRACE_INDEX_NUM_PARTITIONS);
   List<TransactionId> transactionIdSum=new ArrayList<>(128);
   for (  List<TransactionId> transactionId : traceIndexList) {
     transactionIdSum.addAll(transactionId);

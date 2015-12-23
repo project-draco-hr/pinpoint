@@ -1,0 +1,11 @@
+{
+  if (this.isQueueClosed) {
+    return null;
+  }
+  Result take=this.resultQueue.take();
+  if (take == END_RESULT) {
+    this.isQueueClosed=true;
+    return null;
+  }
+  return take;
+}

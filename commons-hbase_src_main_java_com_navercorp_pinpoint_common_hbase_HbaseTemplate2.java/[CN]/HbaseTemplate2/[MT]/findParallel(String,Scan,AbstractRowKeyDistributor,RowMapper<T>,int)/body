@@ -1,0 +1,10 @@
+{
+  if (!this.enableParallelScan || numParallelThreads <= 1) {
+    return find(tableName,scan,rowKeyDistributor,action);
+  }
+ else {
+    int numThreadsUsed=numParallelThreads < this.maxThreadsPerParallelScan ? numParallelThreads : this.maxThreadsPerParallelScan;
+    final ResultsExtractor<List<T>> resultsExtractor=new RowMapperResultsExtractor<>(action);
+    return execute(tableName,new ParallelDistributedScannerTableCallback<>(scan,rowKeyDistributor,resultsExtractor,this.executor,numThreadsUsed));
+  }
+}

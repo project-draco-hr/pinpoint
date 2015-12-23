@@ -1,29 +1,3 @@
 {
-  return execute(tableName,new TableCallback<T>(){
-    @Override public T doInTable(    HTableInterface htable) throws Throwable {
-      final boolean debugEnabled=logger.isDebugEnabled();
-      StopWatch watch=null;
-      if (debugEnabled) {
-        watch=new StopWatch();
-        watch.start();
-      }
-      final ResultScanner scanner=createDistributeScanner(htable,scan,rowKeyDistributor);
-      if (debugEnabled) {
-        logger.debug("DistributeScanner createTime:{}",watch.stop());
-      }
-      if (debugEnabled) {
-        watch.start();
-      }
-      try {
-        return action.extractData(scanner);
-      }
-  finally {
-        scanner.close();
-        if (debugEnabled) {
-          logger.debug("DistributeScanner scanTime:{}",watch.stop());
-        }
-      }
-    }
-  }
-);
+  return execute(tableName,new DistributedScannerTableCallback<>(scan,rowKeyDistributor,action));
 }

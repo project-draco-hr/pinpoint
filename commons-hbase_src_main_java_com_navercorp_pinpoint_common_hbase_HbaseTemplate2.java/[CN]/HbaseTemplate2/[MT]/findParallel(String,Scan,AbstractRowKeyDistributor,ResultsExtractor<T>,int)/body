@@ -1,0 +1,9 @@
+{
+  if (!this.enableParallelScan || numParallelThreads <= 1) {
+    return find(tableName,scan,rowKeyDistributor,action);
+  }
+ else {
+    int numThreadsUsed=numParallelThreads < this.maxThreadsPerParallelScan ? numParallelThreads : this.maxThreadsPerParallelScan;
+    return execute(tableName,new ParallelDistributedScannerTableCallback<>(scan,rowKeyDistributor,action,this.executor,numThreadsUsed));
+  }
+}
