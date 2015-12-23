@@ -12,7 +12,7 @@
   Scan scan=createScan(applicationName,area.getTimeRange());
   ResponseTimeRange responseTimeRange=area.getResponseTimeRange();
   TraceIndexScatterMapper2 mapper=new TraceIndexScatterMapper2(responseTimeRange.getFrom(),responseTimeRange.getTo());
-  List<List<Dot>> dotListList=hbaseOperations2.find(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,mapper);
+  List<List<Dot>> dotListList=hbaseOperations2.findParallel(HBaseTables.APPLICATION_TRACE_INDEX,scan,traceIdRowKeyDistributor,limit,mapper,APPLICATION_TRACE_INDEX_NUM_PARTITIONS);
   List<Dot> result=new ArrayList<>();
   for (  List<Dot> dotList : dotListList) {
     result.addAll(dotList);
