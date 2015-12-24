@@ -1,0 +1,10 @@
+{
+  MariaDBConfig config=new MariaDBConfig(context.getConfig());
+  if (config.isPluginEnabled()) {
+    addConnectionTransformer(config);
+    addDriverTransformer();
+    addPreparedStatementTransformer(config);
+    addPreparedStatementBindVariableTransformer(config);
+    addStatementTransformer();
+  }
+}
