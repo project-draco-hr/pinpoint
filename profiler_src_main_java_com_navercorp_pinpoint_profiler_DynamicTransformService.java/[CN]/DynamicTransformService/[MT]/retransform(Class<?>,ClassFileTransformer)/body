@@ -3,7 +3,7 @@
     logger.debug("retransform request class:{}",target.getName());
   }
   assertClass(target);
-  this.dynamicTransformRequestListener.onRetransformRequest(target,transformer);
+  final RequestHandle requestHandle=this.dynamicTransformRequestListener.onRetransformRequest(target,transformer);
   boolean success=false;
   try {
     triggerRetransform(target);
@@ -11,7 +11,7 @@
   }
   finally {
     if (!success) {
-      this.dynamicTransformRequestListener.onRetransformFail(target);
+      requestHandle.cancel();
     }
   }
 }
