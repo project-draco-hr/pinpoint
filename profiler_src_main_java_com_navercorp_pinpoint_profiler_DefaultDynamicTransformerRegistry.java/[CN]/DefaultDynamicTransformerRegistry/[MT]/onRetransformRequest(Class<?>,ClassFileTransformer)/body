@@ -1,7 +1,14 @@
 {
+  if (target == null) {
+    throw new NullPointerException("target must not be null");
+  }
+  if (transformer == null) {
+    throw new NullPointerException("transformer must not be null");
+  }
   final TransformerKey key=createTransformKey(target);
   add(key,transformer);
   if (logger.isInfoEnabled()) {
     logger.info("added retransformer classLoader: {}, class: {}, registry size: {}",target.getClassLoader(),target.getName(),transformerMap.size());
   }
+  return new DefaultRequestHandle(key);
 }
