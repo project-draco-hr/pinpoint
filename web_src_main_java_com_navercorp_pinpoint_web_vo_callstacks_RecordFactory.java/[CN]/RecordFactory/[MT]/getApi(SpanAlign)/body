@@ -5,9 +5,14 @@
     final ApiMetaDataBo apiMetaData=(ApiMetaDataBo)annotation.getValue();
     api.title=api.description=getApiInfo(apiMetaData);
     if (apiMetaData.getType() == 0) {
-      ApiDescription apiDescription=apiDescriptionParser.parse(api.description);
-      api.title=apiDescription.getSimpleMethodDescription();
-      api.className=apiDescription.getSimpleClassName();
+      try {
+        ApiDescription apiDescription=apiDescriptionParser.parse(api.description);
+        api.title=apiDescription.getSimpleMethodDescription();
+        api.className=apiDescription.getSimpleClassName();
+      }
+ catch (      Exception e) {
+        logger.warn("Failed to api parse. {}",api.description,e);
+      }
     }
     api.type=apiMetaData.getType();
   }
