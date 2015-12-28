@@ -1,0 +1,18 @@
+{
+  if (scanTaskConfig == null) {
+    throw new NullPointerException("scanTaskConfig must not be null");
+  }
+  if (scans == null) {
+    throw new NullPointerException("scans must not be null");
+  }
+  if (scans.length == 0) {
+    throw new IllegalArgumentException("scans must not be empty");
+  }
+  this.tableName=scanTaskConfig.getTableName();
+  this.configuration=scanTaskConfig.getConfiguration();
+  this.charset=scanTaskConfig.getCharset();
+  this.tableFactory=scanTaskConfig.getTableFactory();
+  this.rowKeyDistributor=scanTaskConfig.getRowKeyDistributor();
+  this.scans=scans;
+  this.resultQueue=new ArrayBlockingQueue<>(scanTaskConfig.getScanTaskQueueSize());
+}

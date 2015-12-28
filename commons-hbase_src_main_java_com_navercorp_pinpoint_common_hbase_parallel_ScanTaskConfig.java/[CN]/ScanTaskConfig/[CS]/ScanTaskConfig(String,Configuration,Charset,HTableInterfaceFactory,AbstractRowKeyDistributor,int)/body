@@ -1,0 +1,19 @@
+{
+  if (tableName == null) {
+    throw new NullPointerException("No table specified");
+  }
+  if (rowKeyDistributor == null) {
+    throw new NullPointerException("rowKeyDistributor must not be null");
+  }
+  this.tableName=tableName;
+  this.configuration=configuration;
+  this.charset=charset;
+  this.tableFactory=tableFactory;
+  this.rowKeyDistributor=rowKeyDistributor;
+  if (scanCaching > 0) {
+    this.scanTaskQueueSize=scanCaching;
+  }
+ else {
+    this.scanTaskQueueSize=configuration.getInt(HConstants.HBASE_CLIENT_SCANNER_CACHING,HConstants.DEFAULT_HBASE_CLIENT_SCANNER_CACHING);
+  }
+}

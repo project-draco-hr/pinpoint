@@ -1,4 +1,4 @@
 {
   final ResultsExtractor<List<T>> resultsExtractor=new LimitRowMapperResultsExtractor<>(action,limit);
-  return execute(tableName,new DistributedScannerTableCallback<>(scan,rowKeyDistributor,resultsExtractor));
+  return executeDistributedScan(tableName,scan,rowKeyDistributor,resultsExtractor);
 }

@@ -4,6 +4,6 @@
   }
  else {
     int numThreadsUsed=numParallelThreads < this.maxThreadsPerParallelScan ? numParallelThreads : this.maxThreadsPerParallelScan;
-    return execute(tableName,new ParallelDistributedScannerTableCallback<>(scan,rowKeyDistributor,action,this.executor,numThreadsUsed));
+    return executeParallelDistributedScan(tableName,scan,rowKeyDistributor,action,numThreadsUsed);
   }
 }

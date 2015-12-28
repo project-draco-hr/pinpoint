@@ -1,0 +1,27 @@
+{
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    HTableInterface table) throws Throwable {
+      StopWatch watch=null;
+      if (debugEnabled) {
+        watch=new StopWatch();
+        watch.start();
+      }
+      final ResultScanner[] splitScanners=splitScan(table,scan,rowKeyDistributor);
+      final ResultScanner scanner=new DistributedScanner(rowKeyDistributor,splitScanners);
+      if (debugEnabled) {
+        logger.debug("DistributedScanner createTime: {}ms",watch.stop());
+        watch.start();
+      }
+      try {
+        return action.extractData(scanner);
+      }
+  finally {
+        scanner.close();
+        if (debugEnabled) {
+          logger.debug("DistributedScanner scanTime: {}ms",watch.stop());
+        }
+      }
+    }
+  }
+);
+}
