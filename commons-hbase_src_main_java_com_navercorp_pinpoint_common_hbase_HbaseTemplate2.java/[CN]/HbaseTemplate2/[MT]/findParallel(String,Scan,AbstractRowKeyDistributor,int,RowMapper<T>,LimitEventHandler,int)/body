@@ -5,6 +5,6 @@
  else {
     int numThreadsUsed=numParallelThreads < this.maxThreadsPerParallelScan ? numParallelThreads : this.maxThreadsPerParallelScan;
     final LimitRowMapperResultsExtractor<T> resultsExtractor=new LimitRowMapperResultsExtractor<>(action,limit,limitEventHandler);
-    return execute(tableName,new ParallelDistributedScannerTableCallback<>(scan,rowKeyDistributor,resultsExtractor,this.executor,numThreadsUsed));
+    return executeParallelDistributedScan(tableName,scan,rowKeyDistributor,resultsExtractor,numThreadsUsed);
   }
 }

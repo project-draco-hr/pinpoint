@@ -1,0 +1,25 @@
+{
+  if (splitScans.length <= numParallelThreads) {
+    List<ScanTask> scanTasks=new ArrayList<>(splitScans.length);
+    for (    Scan scan : splitScans) {
+      scanTasks.add(new ScanTask(scanTaskConfig,scan));
+    }
+    return scanTasks;
+  }
+ else {
+    int maxIndividualScans=(splitScans.length + (numParallelThreads - 1)) / numParallelThreads;
+    List<List<Scan>> scanDistributions=new ArrayList<>(numParallelThreads);
+    for (int i=0; i < numParallelThreads; ++i) {
+      scanDistributions.add(new ArrayList<Scan>(maxIndividualScans));
+    }
+    for (int i=0; i < splitScans.length; ++i) {
+      scanDistributions.get(i % numParallelThreads).add(splitScans[i]);
+    }
+    List<ScanTask> scanTasks=new ArrayList<>(numParallelThreads);
+    for (    List<Scan> scanDistribution : scanDistributions) {
+      Scan[] scansForSingleTask=scanDistribution.toArray(new Scan[scanDistribution.size()]);
+      scanTasks.add(new ScanTask(scanTaskConfig,scansForSingleTask));
+    }
+    return scanTasks;
+  }
+}

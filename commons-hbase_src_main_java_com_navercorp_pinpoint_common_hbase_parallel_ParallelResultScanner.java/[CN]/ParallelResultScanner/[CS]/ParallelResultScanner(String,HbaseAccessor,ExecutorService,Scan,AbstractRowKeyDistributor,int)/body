@@ -1,0 +1,22 @@
+{
+  if (hbaseAccessor == null) {
+    throw new NullPointerException("hbaseAccessor must not be null");
+  }
+  if (executor == null) {
+    throw new NullPointerException("executor must not be null");
+  }
+  if (keyDistributor == null) {
+    throw new NullPointerException("keyDistributor must not be null");
+  }
+  if (originalScan == null) {
+    throw new NullPointerException("originalScan must not be null");
+  }
+  this.keyDistributor=keyDistributor;
+  final ScanTaskConfig scanTaskConfig=new ScanTaskConfig(tableName,hbaseAccessor,keyDistributor,originalScan.getCaching());
+  final Scan[] splitScans=splitScans(originalScan);
+  this.scanTasks=createScanTasks(scanTaskConfig,splitScans,numParallelThreads);
+  this.nextResults=new Result[scanTasks.size()];
+  for (  ScanTask scanTask : scanTasks) {
+    executor.execute(scanTask);
+  }
+}

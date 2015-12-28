@@ -1,9 +1,0 @@
-{
-  if (scanners.length < this.numParallelThreads) {
-    return new ParallelResultScanner(this.executor,this.numCaching,rowKeyDistributor,scanners);
-  }
- else {
-    ResultScanner[] distributedScanners=createDistributedScanners(scanners);
-    return new ParallelResultScanner(this.executor,this.numCaching,rowKeyDistributor,distributedScanners);
-  }
-}

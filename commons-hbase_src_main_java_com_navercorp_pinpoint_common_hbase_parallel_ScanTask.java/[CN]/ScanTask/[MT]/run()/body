@@ -1,0 +1,28 @@
+{
+  HTableInterface table=null;
+  try {
+    table=HbaseUtils.getHTable(this.tableName,this.configuration,this.charset,this.tableFactory);
+    ResultScanner scanner=createResultScanner(table);
+    try {
+      for (      Result result : scanner) {
+        this.resultQueue.put(result);
+        if (this.isDone) {
+          break;
+        }
+      }
+    }
+  finally {
+      this.isDone=true;
+      this.resultQueue.put(END_RESULT);
+      scanner.close();
+    }
+  }
+ catch (  Throwable th) {
+    this.throwable=th;
+    this.resultQueue.clear();
+    this.resultQueue.offer(END_RESULT);
+  }
+ finally {
+    HbaseUtils.releaseTable(this.tableName,table);
+  }
+}
