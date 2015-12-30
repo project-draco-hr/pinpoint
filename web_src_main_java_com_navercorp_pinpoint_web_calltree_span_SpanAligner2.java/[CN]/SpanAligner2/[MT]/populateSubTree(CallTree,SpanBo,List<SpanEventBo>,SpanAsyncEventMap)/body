@@ -1,17 +1,7 @@
 {
-  logger.debug("Populate start. span={}",span);
-  final SpanAlign spanAlign=new SpanAlign(span);
-  CallTree tree=new SpanCallTree(spanAlign);
-  if (asyncSpanEventMap == null) {
-    asyncSpanEventMap=extractAsyncSpanEvent(spanEventBoList);
-  }
- else {
-    tree=new SpanAsyncCallTree(spanAlign);
-  }
   if (spanEventBoList == null) {
-    return tree;
+    return;
   }
-  spanAlign.setHasChild(true);
   for (  SpanEventBo spanEventBo : spanEventBoList) {
     if (logger.isDebugEnabled()) {
       logger.debug("Align seq={}, depth={}, async={}, event={}",spanEventBo.getSequence(),spanEventBo.getDepth(),spanEventBo.isAsync(),spanEventBo);
@@ -25,14 +15,14 @@
       CorruptedSpanAlignFactory factory=new CorruptedSpanAlignFactory();
       final CallTree subTree=new SpanCallTree(factory.get(e.getTitle(),span,spanEventBo));
       tree.add(subTree);
-      return tree;
+      return;
     }
     final long nextSpanId=spanEventBo.getNextSpanId();
     final List<SpanBo> nextSpanBoList=spanIdMap.remove(nextSpanId);
     if (nextSpanId != ROOT && nextSpanBoList != null) {
       final SpanBo nextSpanBo=getNextSpan(span,spanEventBo,nextSpanBoList);
       if (nextSpanBo != null) {
-        final CallTree subTree=populate(nextSpanBo,nextSpanBo.getSpanEventBoList(),null);
+        final CallTree subTree=createSpanCallTree(nextSpanBo);
         tree.add(subTree);
       }
  else {
@@ -41,10 +31,8 @@
     }
     final int nextAsyncId=spanEventBo.getNextAsyncId();
     for (    List<SpanEventBo> list : asyncSpanEventMap.get(nextAsyncId)) {
-      final CallTree subTree=populate(span,list,asyncSpanEventMap);
+      final CallTree subTree=createAsyncSpanCallTree(span,list,asyncSpanEventMap);
       tree.add(subTree);
     }
   }
-  logger.debug("populate end. span={}",span);
-  return tree;
 }
