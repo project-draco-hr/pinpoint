@@ -7,7 +7,7 @@
     throw new IllegalStateException("duplicate rootList span found. rootSpanId=" + rootSpanId + ", map="+ spanIdMap.keySet());
   }
   final SpanBo rootSpanBo=rootList.get(0);
-  final CallTree tree=populate(rootSpanBo,rootSpanBo.getSpanEventBoList(),null);
+  final CallTree tree=createSpanCallTree(rootSpanBo);
   tree.sort();
   return tree;
 }

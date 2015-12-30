@@ -1,0 +1,10 @@
+{
+  logger.debug("Populate start. span={}",span);
+  final List<SpanEventBo> spanEventBoList=span.getSpanEventBoList();
+  final SpanAlign spanAlign=new SpanAlign(span);
+  final CallTree tree=new SpanCallTree(spanAlign);
+  final SpanAsyncEventMap asyncSpanEventMap=extractAsyncSpanEvent(span.getSpanEventBoList());
+  populateSubTree(tree,span,spanEventBoList,asyncSpanEventMap);
+  logger.debug("populate end. span={}",span);
+  return tree;
+}

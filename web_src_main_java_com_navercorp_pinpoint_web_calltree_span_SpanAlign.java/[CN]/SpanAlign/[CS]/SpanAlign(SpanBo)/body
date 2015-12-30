@@ -3,5 +3,13 @@
     throw new NullPointerException("spanBo must not be null");
   }
   this.spanBo=spanBo;
+  this.spanEventBo=null;
   this.span=true;
+  List<SpanEventBo> spanEvents=this.spanBo.getSpanEventBoList();
+  if (spanEvents == null || spanEvents.isEmpty()) {
+    this.hasChild=false;
+  }
+ else {
+    this.hasChild=true;
+  }
 }
