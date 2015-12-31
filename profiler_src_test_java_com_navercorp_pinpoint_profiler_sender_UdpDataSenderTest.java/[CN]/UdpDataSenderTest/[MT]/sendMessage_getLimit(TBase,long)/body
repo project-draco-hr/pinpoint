@@ -1,7 +1,7 @@
 {
   final AtomicBoolean limitCounter=new AtomicBoolean(false);
   final CountDownLatch latch=new CountDownLatch(1);
-  UdpDataSender sender=new UdpDataSender("localhost",9009,"test",128,1000,1024 * 64 * 100){
+  UdpDataSender sender=new UdpDataSender("localhost",PORT,"test",128,1000,1024 * 64 * 100){
     @Override protected boolean isLimit(    int interBufferSize){
       boolean limit=super.isLimit(interBufferSize);
       limitCounter.set(limit);
