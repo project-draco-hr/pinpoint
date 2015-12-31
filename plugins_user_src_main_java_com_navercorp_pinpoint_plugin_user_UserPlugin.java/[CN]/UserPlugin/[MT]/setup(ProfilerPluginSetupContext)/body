@@ -1,14 +1,33 @@
 {
   final UserPluginConfig config=new UserPluginConfig(context.getConfig());
+  final Map<String,Set<String>> methods=new HashMap<String,Set<String>>();
   for (  String fullQualifiedMethodName : config.getIncludeList()) {
     try {
-      addUserIncludeClass(fullQualifiedMethodName);
+      final String className=toClassName(fullQualifiedMethodName);
+      final String methodName=toMethodName(fullQualifiedMethodName);
+      Set<String> names=methods.get(className);
+      if (names == null) {
+        names=new HashSet<String>();
+        methods.put(className,names);
+      }
+      names.add(methodName);
+    }
+ catch (    Exception e) {
+      logger.warn("Failed to parse entry point(" + fullQualifiedMethodName + ").",e);
+    }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("UserPlugin entry points={}",methods);
+  }
+  for (  Map.Entry<String,Set<String>> entry : methods.entrySet()) {
+    try {
+      addUserIncludeClass(entry.getKey(),entry.getValue());
       if (logger.isDebugEnabled()) {
-        logger.debug("Add user include class interceptor {}",fullQualifiedMethodName);
+        logger.debug("Add user include class interceptor {}.{}",entry.getKey(),entry.getValue());
       }
     }
  catch (    Exception e) {
-      logger.warn("Failed to add user include class(" + fullQualifiedMethodName + ").",e);
+      logger.warn("Failed to add user include class(" + entry.getKey() + "."+ entry.getValue()+ ").",e);
     }
   }
 }
