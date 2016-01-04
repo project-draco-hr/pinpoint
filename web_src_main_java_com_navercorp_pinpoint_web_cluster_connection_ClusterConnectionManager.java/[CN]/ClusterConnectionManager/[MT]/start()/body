@@ -6,7 +6,7 @@
     clusterAcceptor.start();
   }
   String connectAddress=config.getClusterConnectAddress();
-  if (connectAddress != null && connectAddress.trim().length() != 0) {
+  if (connectAddress != null && !connectAddress.trim().isEmpty()) {
     clusterConnector=new ClusterConnector(config.getClusterConnectAddress());
     clusterConnector.start();
   }
