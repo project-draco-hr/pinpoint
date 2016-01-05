@@ -1,13 +1,10 @@
 {
-  List<TSpanEvent> spanEventBoList=span.getSpanEventList();
+  final List<TSpanEvent> spanEventBoList=span.getSpanEventList();
   if (CollectionUtils.isEmpty(spanEventBoList)) {
     return;
   }
-  long acceptedTime0=acceptedTimeService.getAcceptedTime();
   for (  TSpanEvent spanEvent : spanEventBoList) {
-    SpanEventBo spanEventBo=new SpanEventBo(span,spanEvent);
-    byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence(),spanEventBo.getAsyncId(),spanEventBo.getAsyncSequence());
-    byte[] value=spanEventBo.writeValue();
-    put.addColumn(TRACES_CF_TERMINALSPAN,rowId,acceptedTime0,value);
+    final SpanEventBo spanEventBo=new SpanEventBo(span,spanEvent);
+    addColumn(put,spanEventBo);
   }
 }
