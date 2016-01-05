@@ -4,6 +4,9 @@
   }
   final int sequence=spanEventBo.getSequence();
   if (sequence > sequenceLimit) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("discard spanEvent:{}",spanEventBo);
+    }
     return REJECT;
   }
   return ACCEPT;
