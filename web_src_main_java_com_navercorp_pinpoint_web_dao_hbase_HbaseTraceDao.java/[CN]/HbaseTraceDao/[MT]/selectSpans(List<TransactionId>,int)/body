@@ -1,0 +1,9 @@
+{
+  if (transactionIdList == null) {
+    throw new NullPointerException("transactionIdList must not be null");
+  }
+  List<List<TransactionId>> splitTransactionIdList=splitTransactionIdList(transactionIdList,hBaseGetLimitSize);
+  List<byte[]> hBaseFamilyList=new ArrayList<>(1);
+  hBaseFamilyList.add(HBaseTables.TRACES_CF_SPAN);
+  return getSpans(splitTransactionIdList,hBaseFamilyList);
+}
