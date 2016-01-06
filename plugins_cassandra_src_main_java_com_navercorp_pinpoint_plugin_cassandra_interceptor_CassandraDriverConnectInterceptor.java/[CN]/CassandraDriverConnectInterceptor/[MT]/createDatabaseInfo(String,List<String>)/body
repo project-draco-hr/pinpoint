@@ -1,0 +1,10 @@
+{
+  if (keyspace == null) {
+    return UnKnownDatabaseInfo.INSTANCE;
+  }
+  DatabaseInfo databaseInfo=new DefaultDatabaseInfo(CassandraConstants.CASSANDRA,CassandraConstants.CASSANDRA_EXECUTE_QUERY,null,null,hostList,keyspace);
+  if (isDebug) {
+    logger.debug("parse DatabaseInfo:{}",databaseInfo);
+  }
+  return databaseInfo;
+}

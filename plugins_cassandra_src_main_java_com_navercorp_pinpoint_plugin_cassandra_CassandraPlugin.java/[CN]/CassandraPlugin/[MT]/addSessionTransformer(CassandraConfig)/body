@@ -1,0 +1,25 @@
+{
+  TransformCallback transformer=new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      if (!target.isInterceptable()) {
+        return null;
+      }
+      if (className.equals(CLASS_SESSION_MANAGER)) {
+        if (instrumentor.exist(loader,CLASS_ABSTRACT_SESSION)) {
+          return null;
+        }
+      }
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.cassandra.interceptor.CassandraConnectionCloseInterceptor",CassandraConstants.CASSANDRA_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.cassandra.interceptor.CassandraPreparedStatementCreateInterceptor",CassandraConstants.CASSANDRA_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.plugin.cassandra.interceptor.CassandraStatementExecuteQueryInterceptor",va(config.getMaxSqlBindValueSize()),CassandraConstants.CASSANDRA_SCOPE);
+      return target.toBytecode();
+    }
+  }
+;
+  transformTemplate.transform(CLASS_SESSION_MANAGER,transformer);
+  transformTemplate.transform(CLASS_ABSTRACT_SESSION,transformer);
+}

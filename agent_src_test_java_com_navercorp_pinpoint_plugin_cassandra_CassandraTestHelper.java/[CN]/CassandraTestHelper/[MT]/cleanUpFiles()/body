@@ -1,0 +1,14 @@
+{
+  Set<String> fileLocations=new HashSet<String>();
+  for (  String dataFileLocation : DatabaseDescriptor.getAllDataFileLocations()) {
+    fileLocations.add(dataFileLocation);
+  }
+  fileLocations.add(DatabaseDescriptor.getCommitLogLocation());
+  fileLocations.add(DatabaseDescriptor.getSavedCachesLocation());
+  for (  String fileLocation : fileLocations) {
+    File location=new File(fileLocation);
+    if (location.exists() && location.isDirectory()) {
+      FileUtils.deleteDirectory(fileLocation);
+    }
+  }
+}

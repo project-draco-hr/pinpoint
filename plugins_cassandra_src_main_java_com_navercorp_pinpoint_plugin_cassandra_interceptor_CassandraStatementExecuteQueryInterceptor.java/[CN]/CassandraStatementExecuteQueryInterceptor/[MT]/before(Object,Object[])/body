@@ -1,0 +1,53 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  try {
+    DatabaseInfo databaseInfo=(target instanceof DatabaseInfoAccessor) ? ((DatabaseInfoAccessor)target)._$PINPOINT$_getDatabaseInfo() : null;
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    recorder.recordServiceType(databaseInfo.getExecuteQueryType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+    String sql;
+    if (args[0] instanceof BoundStatement) {
+      sql=((BoundStatement)args[0]).preparedStatement().getQueryString();
+    }
+ else     if (args[0] instanceof RegularStatement) {
+      sql=((RegularStatement)args[0]).getQueryString();
+    }
+ else {
+      sql=(String)args[0];
+    }
+    ParsingResult parsingResult=traceContext.parseSql(sql);
+    if (parsingResult != null) {
+      ((ParsingResultAccessor)target)._$PINPOINT$_setParsingResult(parsingResult);
+    }
+ else {
+      if (logger.isErrorEnabled()) {
+        logger.error("sqlParsing fail. parsingResult is null sql:{}",sql);
+      }
+    }
+    Map<Integer,String> bindValue=((BindValueAccessor)target)._$PINPOINT$_getBindValue();
+    if (bindValue != null && !bindValue.isEmpty()) {
+      String bindString=toBindVariable(bindValue);
+      recorder.recordSqlParsingResult(parsingResult,bindString);
+    }
+ else {
+      recorder.recordSqlParsingResult(parsingResult);
+    }
+    recorder.recordApi(descriptor);
+    clean(target);
+  }
+ catch (  Exception e) {
+    if (logger.isWarnEnabled()) {
+      logger.warn(e.getMessage(),e);
+    }
+  }
+}

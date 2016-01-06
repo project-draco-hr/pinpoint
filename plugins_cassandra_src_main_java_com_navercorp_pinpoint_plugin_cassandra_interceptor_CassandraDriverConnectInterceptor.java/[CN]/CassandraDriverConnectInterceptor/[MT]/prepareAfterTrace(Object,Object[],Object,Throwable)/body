@@ -1,0 +1,25 @@
+{
+  final boolean success=InterceptorUtils.isSuccess(throwable);
+  List<String> hostList=new ArrayList<String>();
+  if (target instanceof Cluster) {
+    Cluster cluster=(Cluster)target;
+    final Set<Host> hosts=cluster.getMetadata().getAllHosts();
+    final int port=cluster.getConfiguration().getProtocolOptions().getPort();
+    for (    Host host : hosts) {
+      final String hostAddress=host.getAddress().getHostAddress() + ":" + port;
+      hostList.add(hostAddress);
+    }
+  }
+  if (args == null) {
+    return;
+  }
+  final String keyspace=(String)args[0];
+  DatabaseInfo databaseInfo=createDatabaseInfo(keyspace,hostList);
+  if (success) {
+    if (recordConnection) {
+      if (result instanceof DatabaseInfoAccessor) {
+        ((DatabaseInfoAccessor)result)._$PINPOINT$_setDatabaseInfo(databaseInfo);
+      }
+    }
+  }
+}

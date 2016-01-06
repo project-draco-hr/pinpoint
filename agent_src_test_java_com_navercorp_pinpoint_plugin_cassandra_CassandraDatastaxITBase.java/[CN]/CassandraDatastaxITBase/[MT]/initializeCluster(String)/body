@@ -1,0 +1,23 @@
+{
+  CassandraTestHelper.init(cassandraVersion);
+  HOST=CassandraTestHelper.getHost();
+  PORT=CassandraTestHelper.getNativeTransportPort();
+  CASSANDRA_ADDRESS=HOST + ":" + PORT;
+  cluster=Cluster.builder().addContactPoint(HOST).withPort(PORT).withoutMetrics().build();
+  Session emptySession=null;
+  try {
+    emptySession=cluster.connect();
+    emptySession.execute(CQL_CREATE_KEYSPACE);
+  }
+  finally {
+    closeSession(emptySession);
+  }
+  Session myKeyspaceSession=null;
+  try {
+    myKeyspaceSession=cluster.connect(TEST_KEYSPACE);
+    myKeyspaceSession.execute(CQL_CREATE_TABLE);
+  }
+  finally {
+    closeSession(myKeyspaceSession);
+  }
+}
