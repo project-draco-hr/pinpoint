@@ -1,13 +1,15 @@
 {
-  byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunk));
-  Put put=new Put(rowKey);
-  long acceptedTime=acceptedTimeService.getAcceptedTime();
-  List<TSpanEvent> spanEventBoList=spanChunk.getSpanEventList();
-  for (  TSpanEvent spanEvent : spanEventBoList) {
-    SpanEventBo spanEventBo=new SpanEventBo(spanChunk,spanEvent);
-    byte[] value=spanEventBo.writeValue();
-    byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence(),spanEventBo.getAsyncId(),spanEventBo.getAsyncSequence());
-    put.addColumn(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunk));
+  final Put put=new Put(rowKey);
+  final List<TSpanEvent> spanEventBoList=spanChunk.getSpanEventList();
+  if (CollectionUtils.isEmpty(spanEventBoList)) {
+    return;
   }
-  hbaseTemplate.put(TRACES,put);
+  for (  TSpanEvent spanEvent : spanEventBoList) {
+    final SpanEventBo spanEventBo=new SpanEventBo(spanChunk,spanEvent);
+    addColumn(put,spanEventBo);
+  }
+  if (!put.isEmpty()) {
+    hbaseTemplate.put(TRACES,put);
+  }
 }

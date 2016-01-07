@@ -1,0 +1,9 @@
+{
+  if (!spanEventFilter.filter(spanEventBo)) {
+    return;
+  }
+  byte[] rowId=BytesUtils.add(spanEventBo.getSpanId(),spanEventBo.getSequence(),spanEventBo.getAsyncId(),spanEventBo.getAsyncSequence());
+  byte[] value=spanEventBo.writeValue();
+  final long acceptedTime=acceptedTimeService.getAcceptedTime();
+  put.addColumn(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+}
