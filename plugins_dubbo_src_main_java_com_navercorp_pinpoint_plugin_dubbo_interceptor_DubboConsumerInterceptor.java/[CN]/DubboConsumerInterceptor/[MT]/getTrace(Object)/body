@@ -1,0 +1,7 @@
+{
+  Invoker invoker=(Invoker)target;
+  if (DubboConstants.MONITOR_SERVICE_FQCN.equals(invoker.getInterface().getName())) {
+    return null;
+  }
+  return traceContext.currentTraceObject();
+}

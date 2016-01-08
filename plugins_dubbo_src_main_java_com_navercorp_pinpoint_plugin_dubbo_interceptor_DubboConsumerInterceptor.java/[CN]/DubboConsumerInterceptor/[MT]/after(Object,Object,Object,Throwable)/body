@@ -1,0 +1,24 @@
+{
+  Trace trace=this.getTrace(target);
+  if (trace == null) {
+    return;
+  }
+  RpcInvocation invocation=(RpcInvocation)arg0;
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    if (throwable == null) {
+      String endPoint=RpcContext.getContext().getRemoteAddressString();
+      recorder.recordEndPoint(endPoint);
+      recorder.recordDestinationId(endPoint);
+      recorder.recordAttribute(DubboConstants.DUBBO_ARGS_ANNOTATION_KEY,invocation.getArguments());
+      recorder.recordAttribute(DubboConstants.DUBBO_RESULT_ANNOTATION_KEY,result);
+    }
+ else {
+      recorder.recordException(throwable);
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

@@ -1,0 +1,19 @@
+{
+  Invoker invoker=(Invoker)target;
+  if (DubboConstants.MONITOR_SERVICE_FQCN.equals(invoker.getInterface().getName())) {
+    return traceContext.disableSampling();
+  }
+  RpcInvocation invocation=(RpcInvocation)args[0];
+  if (invocation.getAttachment(DubboConstants.META_DO_NOT_TRACE) != null) {
+    return traceContext.disableSampling();
+  }
+  String transactionId=invocation.getAttachment(DubboConstants.META_TRANSACTION_ID);
+  if (transactionId == null) {
+    return traceContext.newTraceObject();
+  }
+  long parentSpanID=NumberUtils.parseLong(invocation.getAttachment(DubboConstants.META_PARENT_SPAN_ID),SpanId.NULL);
+  long spanID=NumberUtils.parseLong(invocation.getAttachment(DubboConstants.META_SPAN_ID),SpanId.NULL);
+  short flags=NumberUtils.parseShort(invocation.getAttachment(DubboConstants.META_FLAGS),(short)0);
+  TraceId traceId=traceContext.createTraceId(transactionId,parentSpanID,spanID,flags);
+  return traceContext.continueTraceObject(traceId);
+}

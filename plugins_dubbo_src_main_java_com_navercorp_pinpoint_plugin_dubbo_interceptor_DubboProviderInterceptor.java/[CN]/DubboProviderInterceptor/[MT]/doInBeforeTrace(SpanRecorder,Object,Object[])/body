@@ -1,0 +1,16 @@
+{
+  RpcInvocation invocation=(RpcInvocation)args[0];
+  RpcContext rpcContext=RpcContext.getContext();
+  recorder.recordServiceType(DubboConstants.DUBBO_PROVIDER_SERVICE_TYPE);
+  recorder.recordRpcName(invocation.getInvoker().getInterface().getSimpleName() + ":" + invocation.getMethodName());
+  recorder.recordEndPoint(rpcContext.getLocalAddressString());
+  recorder.recordRemoteAddress(rpcContext.getRemoteAddressString());
+  if (!recorder.isRoot()) {
+    String parentApplicationName=invocation.getAttachment(DubboConstants.META_PARENT_APPLICATION_NAME);
+    if (parentApplicationName != null) {
+      short parentApplicationType=NumberUtils.parseShort(invocation.getAttachment(DubboConstants.META_PARENT_APPLICATION_TYPE),ServiceType.UNDEFINED.getCode());
+      recorder.recordParentApplication(parentApplicationName,parentApplicationType);
+      recorder.recordAcceptorHost(rpcContext.getLocalAddressString());
+    }
+  }
+}

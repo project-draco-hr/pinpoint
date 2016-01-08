@@ -1,0 +1,14 @@
+{
+  url=new URL("dubbo","1.2.3.4",5678);
+  MockitoAnnotations.initMocks(this);
+  when(directory.getUrl()).thenReturn(url);
+  when(rpcInvocation.getMethodName()).thenReturn("toString");
+  when(rpcInvocation.getInvoker()).thenReturn(invoker);
+  when(invoker.getInterface()).thenReturn(String.class);
+  when(rpcInvocation.getAttachment(DubboConstants.META_TRANSACTION_ID)).thenReturn("frontend.agent^1234567890^123321");
+  when(rpcInvocation.getAttachment(DubboConstants.META_SPAN_ID)).thenReturn("9876543210");
+  when(rpcInvocation.getAttachment(DubboConstants.META_PARENT_SPAN_ID)).thenReturn("1357913579");
+  when(rpcInvocation.getAttachment(DubboConstants.META_PARENT_APPLICATION_TYPE)).thenReturn("1000");
+  when(rpcInvocation.getAttachment(DubboConstants.META_PARENT_APPLICATION_NAME)).thenReturn("test.dubbo.consumer");
+  when(rpcInvocation.getAttachment(DubboConstants.META_FLAGS)).thenReturn("0");
+}
