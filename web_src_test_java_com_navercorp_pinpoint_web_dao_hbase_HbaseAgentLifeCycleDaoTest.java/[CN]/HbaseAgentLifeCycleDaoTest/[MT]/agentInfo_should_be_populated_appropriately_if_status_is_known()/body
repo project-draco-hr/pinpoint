@@ -1,0 +1,15 @@
+{
+  final String expectedAgentId="test-agent";
+  final long expectedTimestamp=1000L;
+  final AgentLifeCycleState expectedAgentLifeCycleState=AgentLifeCycleState.RUNNING;
+  final AgentLifeCycleBo scannedLifeCycleBo=createAgentLifeCycleBo(expectedAgentId,expectedTimestamp,expectedAgentLifeCycleState);
+  when(this.hbaseOperations2.find(anyString(),any(Scan.class),any(ResultsExtractor.class))).thenReturn(scannedLifeCycleBo);
+  AgentInfo givenAgentInfo=new AgentInfo();
+  givenAgentInfo.setAgentId(expectedAgentId);
+  givenAgentInfo.setStartTimestamp(expectedTimestamp);
+  this.agentLifeCycleDao.populateAgentStatus(givenAgentInfo,expectedTimestamp);
+  AgentStatus actualAgentStatus=givenAgentInfo.getStatus();
+  Assert.assertEquals(expectedAgentId,actualAgentStatus.getAgentId());
+  Assert.assertEquals(expectedTimestamp,actualAgentStatus.getEventTimestamp());
+  Assert.assertEquals(expectedAgentLifeCycleState,actualAgentStatus.getState());
+}
