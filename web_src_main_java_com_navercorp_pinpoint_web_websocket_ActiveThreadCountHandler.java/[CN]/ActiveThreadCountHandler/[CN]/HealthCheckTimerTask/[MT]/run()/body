@@ -9,7 +9,7 @@
       Object untilWait=session.getAttributes().get(HEALTH_CHECK_WAIT_KEY);
       if (untilWait != null && untilWait instanceof AtomicBoolean) {
         if (((AtomicBoolean)untilWait).get()) {
-          session.close(CloseStatus.SESSION_NOT_RELIABLE);
+          closeSession(session,CloseStatus.SESSION_NOT_RELIABLE);
         }
       }
  else {
@@ -30,12 +30,12 @@
  else {
         session.getAttributes().put(HEALTH_CHECK_WAIT_KEY,new AtomicBoolean(true));
       }
-      session.sendMessage(pingMessage);
+      sendPingMessage(session,pingMessage);
     }
   }
   finally {
     if (healthCheckTimer != null && onTimerTask.get()) {
-      healthCheckTimer.newTimeout(this,healthCheckDelay,TimeUnit.MILLISECONDS);
+      healthCheckTimer.schedule(new HealthCheckTimerTask(),healthCheckDelay);
     }
   }
 }

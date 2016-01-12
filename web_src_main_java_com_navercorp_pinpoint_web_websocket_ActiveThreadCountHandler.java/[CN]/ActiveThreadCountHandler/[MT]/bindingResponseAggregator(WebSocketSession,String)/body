@@ -6,7 +6,7 @@
   }
   PinpointWebSocketResponseAggregator responseAggregator=aggregatorRepository.get(applicationName);
   if (responseAggregator == null) {
-    responseAggregator=new ActiveThreadCountResponseAggregator(applicationName,agentSerivce,reactiveTimer);
+    responseAggregator=new ActiveThreadCountResponseAggregator(applicationName,agentService,reactiveTimer);
     responseAggregator.start();
     aggregatorRepository.put(applicationName,responseAggregator);
   }

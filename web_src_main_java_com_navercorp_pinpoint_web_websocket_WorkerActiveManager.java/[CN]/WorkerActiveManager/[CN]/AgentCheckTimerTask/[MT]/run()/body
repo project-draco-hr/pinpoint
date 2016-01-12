@@ -20,7 +20,7 @@
   }
   finally {
     if (timer != null && onAgentCheckTimerTask.get() && !isStopped.get()) {
-      timer.newTimeout(this,DEFAULT_AGENT_CHECk_DELAY,TimeUnit.MILLISECONDS);
+      timer.schedule(new AgentCheckTimerTask(),DEFAULT_AGENT_CHECk_DELAY);
     }
   }
 }

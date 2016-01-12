@@ -6,12 +6,15 @@
   }
   aggregatorRepository.clear();
   if (flushTimer != null) {
-    flushTimer.stop();
+    flushTimer.cancel();
   }
   if (healthCheckTimer != null) {
-    healthCheckTimer.stop();
+    healthCheckTimer.cancel();
   }
   if (reactiveTimer != null) {
-    reactiveTimer.stop();
+    reactiveTimer.cancel();
+  }
+  if (webSocketFlushThreadPool != null) {
+    webSocketFlushThreadPool.shutdown();
   }
 }

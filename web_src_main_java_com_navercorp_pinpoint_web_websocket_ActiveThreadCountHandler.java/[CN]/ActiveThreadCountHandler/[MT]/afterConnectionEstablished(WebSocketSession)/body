@@ -5,8 +5,8 @@ synchronized (lock) {
     sessionRepository.add(newSession);
     boolean turnOn=onTimerTask.compareAndSet(false,true);
     if (turnOn) {
-      flushTimer.newTimeout(new ActiveThreadTimerTask(),flushDelay,TimeUnit.MILLISECONDS);
-      healthCheckTimer.newTimeout(new HealthCheckTimerTask(),DEFAULT_HEALTH_CHECk_DELAY,TimeUnit.MILLISECONDS);
+      flushTimer.schedule(new ActiveThreadTimerTask(flushDelay),flushDelay);
+      healthCheckTimer.schedule(new HealthCheckTimerTask(),DEFAULT_HEALTH_CHECk_DELAY);
     }
   }
   super.afterConnectionEstablished(newSession);
