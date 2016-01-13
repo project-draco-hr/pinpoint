@@ -1,3 +1,7 @@
 {
-  return this.getAgentsByApplicationName(applicationName,timestamp,timestamp);
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+  return new HashSet<>(this.agentInfoDao.getAgentInfos(agentIds,timestamp));
 }

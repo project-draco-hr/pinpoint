@@ -7,5 +7,7 @@
   scan.setStartRow(startKeyBytes);
   scan.setStopRow(endKeyBytes);
   scan.addFamily(HBaseTables.AGENTINFO_CF_INFO);
+  scan.setMaxVersions(1);
+  scan.setCaching(SCANNER_CACHING);
   return scan;
 }

@@ -1,0 +1,12 @@
+{
+  if (CollectionUtils.isEmpty(agentIds)) {
+    return Collections.emptyList();
+  }
+  List<Scan> scans=new ArrayList<>(agentIds.size());
+  for (  String agentId : agentIds) {
+    scans.add(createScan(agentId,timestamp));
+  }
+  List<AgentInfo> agentInfos=this.hbaseOperations2.findParallel(HBaseTables.AGENTINFO,scans,new AgentInfoResultsExtractor());
+  this.agentLifeCycleDao.populateAgentStatuses(agentInfos,timestamp);
+  return agentInfos;
+}

@@ -1,0 +1,24 @@
+{
+  if (CollectionUtils.isEmpty(agentInfos)) {
+    return;
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  List<Scan> scans=new ArrayList<>(agentInfos.size());
+  for (  AgentInfo agentInfo : agentInfos) {
+    if (agentInfo != null) {
+      final String agentId=agentInfo.getAgentId();
+      final long startTimestamp=TimeUtils.reverseTimeMillis(agentInfo.getStartTimestamp());
+      scans.add(createScan(agentId,startTimestamp,startTimestamp + 1));
+    }
+  }
+  List<AgentLifeCycleBo> agentLifeCycles=this.hbaseOperations2.findParallel(HBaseTables.AGENT_LIFECYCLE,scans,new AgentLifeCycleResultsExtractor(this.agentLifeCycleMapper,timestamp));
+  int idx=0;
+  for (  AgentInfo agentInfo : agentInfos) {
+    if (agentInfo != null) {
+      AgentStatus agentStatus=createAgentStatus(agentInfo.getAgentId(),agentLifeCycles.get(idx++));
+      agentInfo.setStatus(agentStatus);
+    }
+  }
+}

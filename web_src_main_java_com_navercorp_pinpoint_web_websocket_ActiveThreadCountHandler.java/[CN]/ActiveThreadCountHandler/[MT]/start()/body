@@ -1,6 +1,7 @@
 {
-  PinpointThreadFactory threadFactory=new PinpointThreadFactory(ClassUtils.simpleClassName(this) + "-Timer",true);
-  this.flushTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
-  this.healthCheckTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
-  this.reactiveTimer=TimerFactory.createHashedWheelTimer(threadFactory,100,TimeUnit.MILLISECONDS,512);
+  PinpointThreadFactory flushThreadFactory=new PinpointThreadFactory(ClassUtils.simpleClassName(this) + "-Flush-Thread",true);
+  webSocketFlushThreadPool=new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),Integer.MAX_VALUE,DEFAULT_HEALTH_CHECk_DELAY,TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(),flushThreadFactory);
+  flushTimer=new java.util.Timer(ClassUtils.simpleClassName(this) + "-Flush-Timer",true);
+  healthCheckTimer=new java.util.Timer(ClassUtils.simpleClassName(this) + "-HealthCheck-Timer",true);
+  reactiveTimer=new java.util.Timer(ClassUtils.simpleClassName(this) + "-Reactive-Timer",true);
 }
