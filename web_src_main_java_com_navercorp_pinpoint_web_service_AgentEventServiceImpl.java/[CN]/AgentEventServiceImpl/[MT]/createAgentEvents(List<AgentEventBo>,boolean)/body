@@ -1,4 +1,7 @@
 {
+  if (CollectionUtils.isEmpty(agentEventBos)) {
+    return Collections.emptyList();
+  }
   List<AgentEvent> agentEvents=new ArrayList<>(agentEventBos.size());
   PriorityQueue<DurationalAgentEvent> durationalAgentEvents=new PriorityQueue<>(agentEventBos.size(),AgentEvent.EVENT_TIMESTAMP_ASC_COMPARATOR);
   for (  AgentEventBo agentEventBo : agentEventBos) {
