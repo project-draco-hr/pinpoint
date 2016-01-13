@@ -8,7 +8,7 @@ synchronized (lock) {
     boolean turnOn=onReconnectTimerTask.compareAndSet(false,true);
     logger.info("addReactiveWorker turnon:{}",turnOn);
     if (turnOn) {
-      timer.newTimeout(new ReactiveTimerTask(),DEFAULT_RECONNECT_DELAY,TimeUnit.MILLISECONDS);
+      timer.schedule(new ReactiveTimerTask(),DEFAULT_RECONNECT_DELAY);
     }
   }
 }

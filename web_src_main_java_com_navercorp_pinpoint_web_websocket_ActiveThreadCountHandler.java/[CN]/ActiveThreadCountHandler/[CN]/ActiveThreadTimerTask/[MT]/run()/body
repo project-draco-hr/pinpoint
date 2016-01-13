@@ -1,0 +1,25 @@
+{
+  try {
+    logger.info("ActiveThreadTimerTask started.");
+    Collection<PinpointWebSocketResponseAggregator> values=aggregatorRepository.values();
+    for (    final PinpointWebSocketResponseAggregator aggregator : values) {
+      webSocketFlushThreadPool.execute(new Runnable(){
+        @Override public void run(){
+          try {
+            aggregator.flush();
+          }
+ catch (          Exception e) {
+            logger.warn(e.getMessage(),e);
+          }
+        }
+      }
+);
+    }
+  }
+  finally {
+    long waitTimeMillis=getWaitTimeMillis();
+    if (flushTimer != null && onTimerTask.get()) {
+      flushTimer.schedule(new ActiveThreadTimerTask(startTimeMillis,delay,times),waitTimeMillis);
+    }
+  }
+}
