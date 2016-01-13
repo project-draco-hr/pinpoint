@@ -5,13 +5,5 @@
   if (timestamp < 0) {
     throw new IllegalArgumentException("timestamp must not be less than 0");
   }
-  AgentLifeCycleBo agentLifeCycleBo=this.agentLifeCycleDao.getAgentLifeCycle(agentId,timestamp);
-  if (agentLifeCycleBo == null) {
-    AgentStatus agentStatus=new AgentStatus(agentId);
-    agentStatus.setState(AgentLifeCycleState.UNKNOWN);
-    return agentStatus;
-  }
- else {
-    return new AgentStatus(agentLifeCycleBo);
-  }
+  return this.agentLifeCycleDao.getAgentStatus(agentId,timestamp);
 }

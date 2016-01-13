@@ -1,0 +1,10 @@
+{
+  if (agentIds == null || agentIds.isEmpty()) {
+    return Collections.emptyList();
+  }
+  List<Scan> scans=new ArrayList<>(agentIds.size());
+  for (  String agentId : agentIds) {
+    scans.add(createScanForInitialAgentInfo(agentId));
+  }
+  return this.hbaseOperations2.find(HBaseTables.AGENTINFO,scans,new AgentInfoResultsExtractor());
+}

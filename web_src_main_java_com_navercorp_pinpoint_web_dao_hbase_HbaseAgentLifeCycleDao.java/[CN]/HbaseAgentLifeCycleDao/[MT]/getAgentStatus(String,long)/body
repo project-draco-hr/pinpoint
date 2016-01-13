@@ -1,0 +1,13 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  long startRowTimestamp=TimeUtils.reverseTimeMillis(timestamp);
+  long endRowTimestamp=Long.MAX_VALUE;
+  Scan scan=createScan(agentId,startRowTimestamp,endRowTimestamp);
+  AgentLifeCycleBo agentLifeCycleBo=this.hbaseOperations2.find(HBaseTables.AGENT_LIFECYCLE,scan,new AgentLifeCycleResultsExtractor(this.agentLifeCycleMapper,timestamp));
+  return createAgentStatus(agentId,agentLifeCycleBo);
+}

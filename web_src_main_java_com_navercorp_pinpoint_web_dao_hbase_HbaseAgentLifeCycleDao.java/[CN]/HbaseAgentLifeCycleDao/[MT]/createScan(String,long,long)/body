@@ -1,0 +1,10 @@
+{
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  byte[] startKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,startTimestamp);
+  byte[] endKeyBytes=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,endTimestamp);
+  Scan scan=new Scan(startKeyBytes,endKeyBytes);
+  scan.addColumn(HBaseTables.AGENT_LIFECYCLE_CF_STATUS,HBaseTables.AGENT_LIFECYCLE_CF_STATUS_QUALI_STATES);
+  scan.setMaxVersions(1);
+  scan.setCaching(SCANNER_CACHING);
+  return scan;
+}

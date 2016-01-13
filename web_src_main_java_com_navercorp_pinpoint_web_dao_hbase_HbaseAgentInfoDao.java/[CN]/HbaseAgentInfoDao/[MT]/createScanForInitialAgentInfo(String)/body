@@ -1,0 +1,10 @@
+{
+  Scan scan=new Scan();
+  byte[] agentIdBytes=Bytes.toBytes(agentId);
+  byte[] reverseStartKey=RowKeyUtils.concatFixedByteAndLong(agentIdBytes,HBaseTables.AGENT_NAME_MAX_LEN,Long.MAX_VALUE);
+  scan.setStartRow(reverseStartKey);
+  scan.setReversed(true);
+  scan.setMaxVersions(1);
+  scan.setCaching(SCANNER_CACHING);
+  return scan;
+}
