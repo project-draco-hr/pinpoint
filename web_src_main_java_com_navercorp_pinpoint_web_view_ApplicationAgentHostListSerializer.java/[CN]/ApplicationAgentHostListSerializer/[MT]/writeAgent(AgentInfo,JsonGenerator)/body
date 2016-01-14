@@ -1,7 +1,7 @@
 {
-  jsonGenerator.writeStringField("agentId",agentInfo.getAgentId());
+  jsonGenerator.writeStringField("agentId",StringUtils.defaultString(agentInfo.getAgentId(),""));
   final ServiceType serviceType=serviceTypeRegistryService.findServiceType(agentInfo.getServiceTypeCode());
-  jsonGenerator.writeStringField("serviceType",serviceType.getDesc());
-  jsonGenerator.writeStringField("hostName",agentInfo.getHostName());
-  jsonGenerator.writeStringField("ip",agentInfo.getIp());
+  jsonGenerator.writeStringField("serviceType",StringUtils.defaultString(serviceType.getDesc(),""));
+  jsonGenerator.writeStringField("hostName",StringUtils.defaultString(agentInfo.getHostName(),""));
+  jsonGenerator.writeStringField("ip",StringUtils.defaultString(agentInfo.getIp(),""));
 }
