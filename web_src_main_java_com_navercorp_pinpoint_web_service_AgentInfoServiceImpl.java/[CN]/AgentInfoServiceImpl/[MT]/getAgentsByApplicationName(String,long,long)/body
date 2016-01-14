@@ -14,6 +14,7 @@
   if (unfilteredAgentInfos == null || unfilteredAgentInfos.isEmpty()) {
     return Collections.emptySet();
   }
+  CollectionUtils.filter(unfilteredAgentInfos,PredicateUtils.notNullPredicate());
   this.agentLifeCycleDao.populateAgentStatuses(unfilteredAgentInfos,timestamp);
   Set<AgentInfo> filteredAgentInfos=new HashSet<>();
   for (  AgentInfo agentInfo : unfilteredAgentInfos) {
