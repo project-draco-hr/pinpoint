@@ -2,5 +2,11 @@
   if (isRoot()) {
     return 0;
   }
-  return parent.getDepth() + 1;
+  int depth=1;
+  CallTreeNode node=parent.getParent();
+  while (node != null) {
+    depth++;
+    node=node.getParent();
+  }
+  return depth;
 }
