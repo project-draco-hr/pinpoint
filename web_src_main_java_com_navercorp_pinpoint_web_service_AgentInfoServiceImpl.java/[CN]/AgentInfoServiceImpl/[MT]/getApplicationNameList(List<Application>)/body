@@ -1,0 +1,10 @@
+{
+  List<String> applicationNameList=new ArrayList<>(applications.size());
+  for (  Application application : applications) {
+    if (!applicationNameList.contains(application.getName())) {
+      applicationNameList.add(application.getName());
+    }
+  }
+  Collections.sort(applicationNameList,Ordering.usingToString());
+  return applicationNameList;
+}
