@@ -1,0 +1,20 @@
+{
+  if (offset <= 0 || limit <= 0) {
+    throw new IllegalArgumentException("Value must be greater than 0.");
+  }
+  List<String> applicationNameList=getApplicationNameList(applicationIndexDao.selectAllApplicationNames());
+  if (offset > applicationNameList.size()) {
+    return new ApplicationAgentHostList(offset,offset,applicationNameList.size());
+  }
+  long timeStamp=System.currentTimeMillis();
+  int startIndex=offset - 1;
+  int endIndex=Math.min(startIndex + limit,applicationNameList.size());
+  ApplicationAgentHostList applicationAgentHostList=new ApplicationAgentHostList(offset,endIndex,applicationNameList.size());
+  for (int i=startIndex; i < endIndex; i++) {
+    String applicationName=applicationNameList.get(i);
+    List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+    List<AgentInfo> agentInfoList=this.agentInfoDao.getAgentInfos(agentIds,timeStamp);
+    applicationAgentHostList.put(applicationName,agentInfoList);
+  }
+  return applicationAgentHostList;
+}

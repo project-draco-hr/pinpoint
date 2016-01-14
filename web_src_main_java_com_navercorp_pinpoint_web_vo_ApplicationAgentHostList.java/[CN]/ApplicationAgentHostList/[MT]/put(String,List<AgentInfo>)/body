@@ -1,0 +1,11 @@
+{
+  List<AgentInfo> value=null;
+  if (map.containsKey(applicationName)) {
+    value=map.get(applicationName);
+  }
+  if (value == null) {
+    value=new ArrayList<>(agentInfoList.size());
+    map.put(applicationName,value);
+  }
+  value.addAll(agentInfoList);
+}

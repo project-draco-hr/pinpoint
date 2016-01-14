@@ -1,0 +1,10 @@
+{
+  jsonGenerator.writeStartObject();
+  jsonGenerator.writeNumberField("startIndex",applicationAgentHostList.getStartApplicationIndex());
+  jsonGenerator.writeNumberField("endIndex",applicationAgentHostList.getEndApplicationIndex());
+  jsonGenerator.writeNumberField("totalApplications",applicationAgentHostList.getTotalApplications());
+  jsonGenerator.writeArrayFieldStart("applications");
+  writeApplicationList(applicationAgentHostList,jsonGenerator);
+  jsonGenerator.writeEndArray();
+  jsonGenerator.writeEndObject();
+}
