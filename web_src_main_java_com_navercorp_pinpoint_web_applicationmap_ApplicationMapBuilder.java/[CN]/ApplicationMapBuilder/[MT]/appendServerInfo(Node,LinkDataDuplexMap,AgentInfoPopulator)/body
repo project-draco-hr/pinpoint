@@ -15,18 +15,7 @@
     node.setServerInstanceList(serverInstanceList);
   }
  else   if (nodeServiceType.isWas()) {
-    Set<AgentInfo> agentList=agentInfoService.getAgentsByApplicationName(node.getApplication().getName(),range.getTo());
-    if (agentList.isEmpty()) {
-      logger.warn("agentInfo not found. applicationName:{}",node.getApplication());
-      node.setServerInstanceList(new ServerInstanceList());
-      return;
-    }
-    logger.debug("add agentInfo. {}, {}",node.getApplication(),agentList);
-    ServerBuilder builder=new ServerBuilder();
-    agentList=filterAgentInfoByResponseData(agentList,node);
-    builder.addAgentInfo(agentList);
-    ServerInstanceList serverInstanceList=builder.build();
-    node.setServerInstanceList(serverInstanceList);
+    agentInfoPopulator.addAgentInfos(node);
   }
  else {
     node.setServerInstanceList(new ServerInstanceList());

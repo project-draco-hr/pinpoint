@@ -3,9 +3,5 @@
     throw new NullPointerException("agentId must not be null");
   }
   Scan scan=createScan(agentId,timestamp);
-  AgentInfo agentInfo=this.hbaseOperations2.find(HBaseTables.AGENTINFO,scan,new AgentInfoResultsExtractor());
-  if (agentInfo != null) {
-    this.agentLifeCycleDao.populateAgentStatus(agentInfo,timestamp);
-  }
-  return agentInfo;
+  return this.hbaseOperations2.find(HBaseTables.AGENTINFO,scan,new AgentInfoResultsExtractor());
 }

@@ -5,5 +5,9 @@
   if (timestamp < 0) {
     throw new IllegalArgumentException("timestamp must not be less than 0");
   }
-  return this.agentInfoDao.getAgentInfo(agentId,timestamp);
+  AgentInfo agentInfo=this.agentInfoDao.getAgentInfo(agentId,timestamp);
+  if (agentInfo != null) {
+    this.agentLifeCycleDao.populateAgentStatus(agentInfo,timestamp);
+  }
+  return agentInfo;
 }
