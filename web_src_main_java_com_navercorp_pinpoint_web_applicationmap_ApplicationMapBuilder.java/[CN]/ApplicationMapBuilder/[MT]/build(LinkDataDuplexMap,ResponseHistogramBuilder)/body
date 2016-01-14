@@ -1,4 +1,10 @@
 {
+  AgentInfoPopulator emptyPopulator=new AgentInfoPopulator(){
+    @Override public void addAgentInfos(    Node node){
+      node.setServerInstanceList(new ServerInstanceList());
+    }
+  }
+;
   NodeHistogramDataSource responseSource=new NodeHistogramDataSource(){
     @Override public NodeHistogram createNodeHistogram(    Application application){
       List<ResponseTime> responseHistogram=mapHistogramSummary.getResponseTimeList(application);
@@ -7,5 +13,5 @@
     }
   }
 ;
-  return this.build(linkDataDuplexMap,agentInfoService,responseSource);
+  return this.build(linkDataDuplexMap,emptyPopulator,responseSource);
 }

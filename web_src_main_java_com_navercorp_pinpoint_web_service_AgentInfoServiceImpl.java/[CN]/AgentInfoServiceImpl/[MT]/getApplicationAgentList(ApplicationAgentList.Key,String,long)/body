@@ -15,6 +15,7 @@
   }
   SortedMap<String,List<AgentInfo>> result=new TreeMap<>();
   List<AgentInfo> agentInfos=this.agentInfoDao.getAgentInfos(agentIdList,timestamp);
+  this.agentLifeCycleDao.populateAgentStatuses(agentInfos,timestamp);
   for (  AgentInfo agentInfo : agentInfos) {
     if (agentInfo != null) {
       String hostname=applicationAgentListKey.getKey(agentInfo);

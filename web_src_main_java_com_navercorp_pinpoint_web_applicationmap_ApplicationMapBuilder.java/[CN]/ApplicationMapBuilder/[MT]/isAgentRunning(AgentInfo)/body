@@ -1,3 +1,8 @@
 {
-  return agentInfo.getStatus().getState() == AgentLifeCycleState.RUNNING;
+  if (agentInfo.getStatus() != null) {
+    return agentInfo.getStatus().getState() == AgentLifeCycleState.RUNNING;
+  }
+ else {
+    return false;
+  }
 }
