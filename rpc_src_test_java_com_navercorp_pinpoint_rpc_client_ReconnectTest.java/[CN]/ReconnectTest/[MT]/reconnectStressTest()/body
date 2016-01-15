@@ -5,18 +5,18 @@
   for (int i=0; i < count; i++) {
     logger.info((i + 1) + "th's start.");
     PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
-    PinpointClient socket=clientFactory.connect("localhost",bindPort);
+    PinpointClient client=clientFactory.connect("localhost",bindPort);
     PinpointRPCTestUtils.close(serverAcceptor);
     logger.info("server.close()---------------------------");
-    Thread.sleep(10000);
+    assertClientDisconnected(client);
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     logger.info("bind server---------------------------");
-    Thread.sleep(10000);
+    assertClientConnected(client);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);
-    byte[] response=PinpointRPCTestUtils.request(socket,randomByte);
+    byte[] response=PinpointRPCTestUtils.request(client,randomByte);
     Assert.assertArrayEquals(randomByte,response);
-    PinpointRPCTestUtils.close(socket);
+    PinpointRPCTestUtils.close(client);
     PinpointRPCTestUtils.close(serverAcceptor);
   }
   Thread.sleep(10000);

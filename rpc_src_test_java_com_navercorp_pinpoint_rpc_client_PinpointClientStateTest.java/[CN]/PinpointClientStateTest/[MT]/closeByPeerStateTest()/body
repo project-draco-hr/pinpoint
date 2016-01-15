@@ -6,11 +6,9 @@
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,PinpointRPCTestUtils.createEchoServerListener());
     clientFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
     handler=connect(clientFactory);
-    Thread.sleep(1000);
-    Assert.assertEquals(SocketStateCode.RUN_DUPLEX,handler.getCurrentStateCode());
+    assertHandlerState(SocketStateCode.RUN_DUPLEX,handler);
     serverAcceptor.close();
-    Thread.sleep(1000);
-    Assert.assertEquals(SocketStateCode.CLOSED_BY_SERVER,handler.getCurrentStateCode());
+    assertHandlerState(SocketStateCode.CLOSED_BY_SERVER,handler);
   }
   finally {
     closeHandler(handler);

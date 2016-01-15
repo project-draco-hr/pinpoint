@@ -4,8 +4,7 @@
   try {
     clientFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
     handler=connect(clientFactory);
-    Thread.sleep(2000);
-    Assert.assertEquals(SocketStateCode.CONNECT_FAILED,handler.getCurrentStateCode());
+    assertHandlerState(SocketStateCode.CONNECT_FAILED,handler);
   }
   finally {
     closeHandler(handler);

@@ -14,8 +14,7 @@
     }
     Assert.assertEquals(SocketStateCode.RUN_DUPLEX,((PinpointServer)pinpointServer).getCurrentStateCode());
     socket.close();
-    Thread.sleep(1000);
-    Assert.assertEquals(SocketStateCode.UNEXPECTED_CLOSE_BY_CLIENT,((PinpointServer)pinpointServer).getCurrentStateCode());
+    assertPinpointServerState(SocketStateCode.UNEXPECTED_CLOSE_BY_CLIENT,(PinpointServer)pinpointServer);
   }
   finally {
     PinpointRPCTestUtils.close(serverAcceptor);

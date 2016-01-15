@@ -6,7 +6,7 @@
   try {
     client=clientFactory.scheduledConnect("localhost",bindPort);
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
-    Thread.sleep(2000);
+    assertClientConnected(client);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);
     byte[] response=PinpointRPCTestUtils.request(client,randomByte);

@@ -7,11 +7,8 @@
   try {
     PinpointClient client=clientSocketFactory1.connect("127.0.0.1",bindPort);
     PinpointClient client2=clientSocketFactory2.connect("127.0.0.1",bindPort);
-    Thread.sleep(500);
+    assertAvaiableWritableSocket(serverAcceptor,2);
     List<PinpointSocket> writableServerList=serverAcceptor.getWritableSocketList();
-    if (writableServerList.size() != 2) {
-      Assert.fail();
-    }
     PinpointSocket writableServer=writableServerList.get(0);
     assertRequestMessage(writableServer,"socket1",null);
     PinpointSocket writableServer2=writableServerList.get(1);

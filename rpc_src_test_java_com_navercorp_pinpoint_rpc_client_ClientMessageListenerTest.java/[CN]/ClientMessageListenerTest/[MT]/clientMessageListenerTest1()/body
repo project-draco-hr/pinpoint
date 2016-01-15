@@ -4,11 +4,8 @@
   PinpointClientFactory clientSocketFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),echoMessageListener);
   try {
     PinpointClient client=clientSocketFactory.connect("127.0.0.1",bindPort);
-    Thread.sleep(500);
+    assertAvaiableWritableSocket(serverAcceptor,1);
     List<PinpointSocket> writableServerList=serverAcceptor.getWritableSocketList();
-    if (writableServerList.size() != 1) {
-      Assert.fail();
-    }
     PinpointSocket writableServer=writableServerList.get(0);
     assertSendMessage(writableServer,"simple",echoMessageListener);
     assertRequestMessage(writableServer,"request",echoMessageListener);
