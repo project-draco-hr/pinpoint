@@ -1,0 +1,12 @@
+{
+  try {
+    final URI uri=pluginJar.toURI();
+    return new JarFile(new File(uri));
+  }
+ catch (  URISyntaxException e) {
+    throw new RuntimeException("URISyntax error. " + e.getCause(),e);
+  }
+catch (  IOException e) {
+    throw new RuntimeException("IO error. " + e.getCause(),e);
+  }
+}

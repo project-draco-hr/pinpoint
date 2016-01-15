@@ -4,7 +4,8 @@
       return (Class<T>)injectToBootstrapClassLoader(className);
     }
  else     if (classLoader instanceof URLClassLoader) {
-      return (Class<T>)injectToURLClassLoader((URLClassLoader)classLoader,className);
+      final URLClassLoader urlClassLoader=(URLClassLoader)classLoader;
+      return (Class<T>)injectToURLClassLoader(urlClassLoader,className);
     }
  else {
       return (Class<T>)injectToPlainClassLoader(classLoader,className);

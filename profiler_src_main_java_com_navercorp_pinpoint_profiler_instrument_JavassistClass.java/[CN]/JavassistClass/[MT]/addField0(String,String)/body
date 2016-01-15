@@ -1,8 +1,9 @@
 {
   try {
     Class<?> accessorType=pluginContext.injectClass(classLoader,accessorTypeName);
-    AccessorDetails accessorDetails=new AccessorAnalyzer().analyze(accessorType);
-    CtField newField=CtField.make("private " + accessorDetails.getFieldType().getName() + " "+ FIELD_PREFIX+ accessorTypeName.replace('.','_').replace('$','_')+ ";",ctClass);
+    final AccessorAnalyzer accessorAnalyzer=new AccessorAnalyzer();
+    final AccessorDetails accessorDetails=accessorAnalyzer.analyze(accessorType);
+    final CtField newField=CtField.make("private " + accessorDetails.getFieldType().getName() + " "+ FIELD_PREFIX+ accessorTypeName.replace('.','_').replace('$','_')+ ";",ctClass);
     if (initValExp == null) {
       ctClass.addField(newField);
     }

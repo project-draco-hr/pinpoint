@@ -1,0 +1,67 @@
+{
+  if (pluginConfig.getProfilerPackageFilter().accept(className)) {
+    if (isDebug) {
+      logger.debug("ProfilerFilter skip class {}",className);
+    }
+    return null;
+  }
+  if (!pluginConfig.getPluginPackageFilter().accept(className)) {
+    if (isDebug) {
+      logger.debug("PluginFilter skip class:{}",className);
+    }
+    return null;
+  }
+  if (!classLoadingChecker.isFirstLoad(className)) {
+    if (isDebug) {
+      logger.debug("skip already loaded class:{}",className);
+    }
+    return null;
+  }
+  Class<?> c=null;
+  try {
+    c=classLoader.loadClass(className);
+    if (isDebug) {
+      logger.debug("loadClass:{}",className);
+    }
+  }
+ catch (  ClassNotFoundException ex) {
+    if (isDebug) {
+      logger.debug("ClassNotFound {}",ex.getMessage());
+    }
+  }
+  if (c != null) {
+    return c;
+  }
+  final CtClass ct=pool.getOrNull(className);
+  if (ct == null) {
+    throw new NotFoundException(className);
+  }
+  final CtClass superClass=ct.getSuperclass();
+  if (superClass != null) {
+    if ("java.lang.Object".equals(superClass.getName())) {
+      return null;
+    }
+    injectToPlainClassLoader(pool,classLoader,superClass.getName(),classLoadingChecker);
+  }
+  final CtClass[] interfaces=ct.getInterfaces();
+  for (  CtClass ctInterface : interfaces) {
+    injectToPlainClassLoader(pool,classLoader,ctInterface.getName(),classLoadingChecker);
+  }
+  @SuppressWarnings("unchecked") final Collection<String> referenceClassList=ct.getRefClasses();
+  if (isDebug) {
+    logger.debug("target:{} referenceClassList:{}",className,referenceClassList);
+  }
+  for (  String referenceClass : referenceClassList) {
+    try {
+      injectToPlainClassLoader(pool,classLoader,referenceClass,classLoadingChecker);
+    }
+ catch (    NotFoundException e) {
+      logger.warn("Skip a referenced class because of NotFoundException : {}",e.getMessage(),e);
+    }
+  }
+  if (logger.isInfoEnabled()) {
+    logger.debug("defineClass pluginClass:{} cl:{}",className,classLoader);
+  }
+  final byte[] bytes=ct.toBytecode();
+  return (Class<?>)DEFINE_CLASS.invoke(classLoader,ct.getName(),bytes,0,bytes.length);
+}

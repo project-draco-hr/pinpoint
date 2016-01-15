@@ -14,6 +14,7 @@
   if (interceptorRegistryBinder == null) {
     throw new NullPointerException("interceptorRegistryBinder must not be null");
   }
+  logger.info("AgentOption:{}",agentOption);
   this.binder=new Slf4jLoggerBinder();
   bindPLoggerFactory(this.binder);
   this.interceptorRegistryBinder=interceptorRegistryBinder;
@@ -24,7 +25,8 @@
   changeStatus(AgentStatus.INITIALIZING);
   this.profilerConfig=agentOption.getProfilerConfig();
   this.instrumentation=agentOption.getInstrumentation();
-  this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapJarPath());
+  this.agentOption=agentOption;
+  this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }

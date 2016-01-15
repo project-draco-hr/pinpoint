@@ -1,0 +1,7 @@
+{
+  final ClassPool pool=new ClassPool();
+  pool.appendClassPath(pluginConfig.getBootstrapCoreJarPath());
+  pool.appendClassPath(new LoaderClassPath(classLoader));
+  pool.appendClassPath(pluginConfig.getPluginJarFile().getName());
+  return pool;
+}
