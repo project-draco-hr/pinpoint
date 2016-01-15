@@ -1,0 +1,17 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  final boolean includeEventMessage=false;
+  Set<AgentEventType> excludeEventTypes=EnumSet.noneOf(AgentEventType.class);
+  for (  int excludeEventTypeCode : excludeEventTypeCodes) {
+    AgentEventType excludeEventType=AgentEventType.getTypeByCode(excludeEventTypeCode);
+    if (excludeEventType != null) {
+      excludeEventTypes.add(excludeEventType);
+    }
+  }
+  List<AgentEventBo> agentEventBos=this.agentEventDao.getAgentEvents(agentId,range,excludeEventTypes);
+  List<AgentEvent> agentEvents=createAgentEvents(agentEventBos,includeEventMessage);
+  Collections.sort(agentEvents,AgentEvent.EVENT_TIMESTAMP_ASC_COMPARATOR);
+  return agentEvents;
+}

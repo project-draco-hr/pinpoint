@@ -11,6 +11,14 @@
   scan.setStartRow(createRowKey(agentId,range.getTo()));
   scan.setStopRow(createRowKey(agentId,range.getFrom()));
   scan.addFamily(HBaseTables.AGENT_EVENT_CF_EVENTS);
+  if (!CollectionUtils.isEmpty(excludeEventTypes)) {
+    FilterList filterList=new FilterList(FilterList.Operator.MUST_PASS_ALL);
+    for (    AgentEventType excludeEventType : excludeEventTypes) {
+      byte[] excludeQualifier=Bytes.toBytes(excludeEventType.getCode());
+      filterList.addFilter(new QualifierFilter(CompareFilter.CompareOp.NOT_EQUAL,new BinaryComparator(excludeQualifier)));
+    }
+    scan.setFilter(filterList);
+  }
   List<AgentEventBo> agentEvents=this.hbaseOperations2.find(HBaseTables.AGENT_EVENT,scan,new AgentEventResultsExtractor());
   logger.debug("agentEvents found. {}",agentEvents);
   return agentEvents;
