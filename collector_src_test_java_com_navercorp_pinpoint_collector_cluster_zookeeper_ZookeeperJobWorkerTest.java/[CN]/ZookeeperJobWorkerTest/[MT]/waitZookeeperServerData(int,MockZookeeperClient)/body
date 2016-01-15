@@ -1,0 +1,15 @@
+{
+  boolean pass=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      try {
+        return expectedServerDataCount == getServerData(zookeeperClient).size();
+      }
+ catch (      Exception e) {
+        logger.warn(e.getMessage(),e);
+      }
+      return false;
+    }
+  }
+);
+  Assert.assertTrue(pass);
+}

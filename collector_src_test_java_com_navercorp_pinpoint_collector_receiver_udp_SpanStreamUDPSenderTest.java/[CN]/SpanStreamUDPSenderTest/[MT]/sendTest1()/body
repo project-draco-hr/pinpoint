@@ -1,13 +1,11 @@
 {
   SpanStreamUdpSender sender=null;
   try {
-    sender=new SpanStreamUdpSender("127.0.0.1",port,"threadName",10);
+    sender=new SpanStreamUdpSender("127.0.0.1",port,"threadName",10,200,SpanStreamUdpSender.SEND_BUFFER_SIZE);
     sender.send(createSpanChunk(10));
     sender.send(createSpanChunk(3));
-    Thread.sleep(6000);
+    awaitMessageReceived(2,messageHolder,TSpanChunk.class);
     List<TBase> tBaseList=messageHolder.getMessageHolder();
-    int spanChunkCount=getObjectCount(tBaseList,TSpanChunk.class);
-    Assert.assertEquals(2,spanChunkCount);
     tBaseList.clear();
   }
   finally {

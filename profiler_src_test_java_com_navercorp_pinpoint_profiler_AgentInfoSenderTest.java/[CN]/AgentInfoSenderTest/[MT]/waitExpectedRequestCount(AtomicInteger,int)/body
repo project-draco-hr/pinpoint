@@ -1,0 +1,9 @@
+{
+  boolean pass=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      return requestCount.get() == expectedRequestCount;
+    }
+  }
+);
+  Assert.assertTrue(pass);
+}
