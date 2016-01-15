@@ -15,6 +15,9 @@
   long durationStartTimestamp=DurationalAgentEvent.UNKNOWN_TIMESTAMP;
   while (!durationalAgentEvents.isEmpty()) {
     DurationalAgentEvent currentEvent=durationalAgentEvents.remove();
+    if (durationStartTimestamp == DurationalAgentEvent.UNKNOWN_TIMESTAMP) {
+      durationStartTimestamp=currentEvent.getEventTimestamp();
+    }
     currentEvent.setDurationStartTimestamp(durationStartTimestamp);
     DurationalAgentEvent nextEvent=durationalAgentEvents.peek();
     if (nextEvent != null) {
