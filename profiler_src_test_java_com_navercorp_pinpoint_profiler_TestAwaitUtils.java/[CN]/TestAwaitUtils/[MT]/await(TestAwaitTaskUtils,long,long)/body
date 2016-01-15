@@ -1,0 +1,17 @@
+{
+  StopWatch stopWatch=new StopWatch();
+  stopWatch.start();
+  while (true) {
+    if (awaitTaskUtils.checkCompleted()) {
+      return true;
+    }
+    try {
+      Thread.sleep(waitUnitTime);
+    }
+ catch (    InterruptedException e) {
+    }
+    if (stopWatch.stop() > maxWaitTime) {
+      return false;
+    }
+  }
+}

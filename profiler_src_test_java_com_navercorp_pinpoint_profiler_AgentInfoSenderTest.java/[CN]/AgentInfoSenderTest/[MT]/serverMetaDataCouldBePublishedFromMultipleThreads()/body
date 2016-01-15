@@ -40,7 +40,8 @@
   endLatch.await();
   executorService.shutdown();
   try {
-    Thread.sleep(10000L);
+    waitExpectedRequestCount(requestCount,threadCount);
+    waitExpectedRequestCount(successCount,threadCount);
   }
   finally {
     closeAll(serverAcceptor,agentInfoSender,pinpointClient,clientFactory);

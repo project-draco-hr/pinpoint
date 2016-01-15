@@ -26,9 +26,7 @@
   AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).sendInterval(agentInfoSendRetryIntervalMs).maxTryPerAttempt(maxTryCountPerAttempt).build();
   try {
     agentInfoSender.start();
-    while (requestCount.get() < 1) {
-      Thread.sleep(1000L);
-    }
+    waitExpectedRequestCount(requestCount,1);
     serverAcceptor.close();
     for (int i=0; i < expectedReconnectCount; ++i) {
       PinpointServerAcceptor reconnectServerAcceptor=createServerAcceptor(serverListener);

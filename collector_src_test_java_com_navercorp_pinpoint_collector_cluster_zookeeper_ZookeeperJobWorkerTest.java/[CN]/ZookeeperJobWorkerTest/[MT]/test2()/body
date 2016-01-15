@@ -6,11 +6,9 @@
     PinpointServer mockServer=createMockPinpointServer("app","agent",System.currentTimeMillis());
     zookeeperWorker.addPinpointServer(mockServer);
     zookeeperWorker.addPinpointServer(mockServer);
-    Thread.sleep(100);
-    Assert.assertEquals(1,getServerData(zookeeperClient).size());
+    waitZookeeperServerData(1,zookeeperClient);
     zookeeperWorker.removePinpointServer(mockServer);
-    Thread.sleep(100);
-    Assert.assertEquals(0,getServerData(zookeeperClient).size());
+    waitZookeeperServerData(0,zookeeperClient);
   }
   finally {
     zookeeperWorker.stop();

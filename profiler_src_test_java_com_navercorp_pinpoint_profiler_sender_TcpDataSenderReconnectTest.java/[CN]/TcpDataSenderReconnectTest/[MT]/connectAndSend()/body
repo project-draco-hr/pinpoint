@@ -3,12 +3,12 @@
   PinpointClientFactory clientFactory=createPinpointClientFactory();
   PinpointClient client=ClientFactoryUtils.createPinpointClient(HOST,PORT,clientFactory);
   TcpDataSender sender=new TcpDataSender(client);
-  Thread.sleep(500);
+  waitClientConnected(oldAcceptor);
   oldAcceptor.close();
-  Thread.sleep(500);
+  waitClientDisconnected(client);
   logger.info("Server start------------------");
   PinpointServerAcceptor serverAcceptor=serverAcceptorStart();
-  Thread.sleep(5000);
+  waitClientConnected(serverAcceptor);
   logger.info("sendMessage------------------");
   sender.send(new TApiMetaData("test",System.currentTimeMillis(),1,"TestApi"));
   Thread.sleep(500);

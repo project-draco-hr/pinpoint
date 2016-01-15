@@ -23,16 +23,12 @@
   AgentInfoSender agentInfoSender=new AgentInfoSender.Builder(dataSender,getAgentInfo()).refreshInterval(agentInfoSendRefreshIntervalMs).sendInterval(agentInfoSendRetryIntervalMs).build();
   try {
     agentInfoSender.start();
-    while (successServerRequestCount.get() < expectedSuccessServerTries) {
-      Thread.sleep(agentInfoSendRetryIntervalMs);
-    }
+    waitExpectedRequestCount(successServerRequestCount,expectedSuccessServerTries);
     successServerAcceptor.close();
     Thread.sleep(agentInfoSendRetryIntervalMs * AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT);
     failServerAcceptor=createServerAcceptor(failServerListener);
     agentReconnectLatch.await();
-    while (failServerRequestCount.get() < expectedFailServerTries) {
-      Thread.sleep(agentInfoSendRetryIntervalMs * AgentInfoSender.DEFAULT_MAX_TRY_COUNT_PER_ATTEMPT);
-    }
+    waitExpectedRequestCount(failServerRequestCount,expectedFailServerTries);
     failServerAcceptor.close();
   }
   finally {

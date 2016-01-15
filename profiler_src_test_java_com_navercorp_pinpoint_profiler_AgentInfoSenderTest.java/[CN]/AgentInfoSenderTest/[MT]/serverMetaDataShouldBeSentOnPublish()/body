@@ -18,7 +18,7 @@
     for (    ServerMetaData serverMetaData : serverMetaDataObjects) {
       agentInfoSender.publishServerMetaData(serverMetaData);
     }
-    Thread.sleep(10000L);
+    waitExpectedRequestCount(requestCount,5);
   }
   finally {
     closeAll(serverAcceptor,agentInfoSender,pinpointClient,clientFactory);

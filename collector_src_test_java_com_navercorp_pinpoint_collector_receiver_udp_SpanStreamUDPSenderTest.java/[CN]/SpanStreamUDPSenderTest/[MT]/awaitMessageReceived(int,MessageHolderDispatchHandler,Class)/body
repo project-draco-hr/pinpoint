@@ -1,0 +1,11 @@
+{
+  boolean pass=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      List<TBase> messageHolder=dispatchHandler.getMessageHolder();
+      int objectCount=getObjectCount(messageHolder,clazz);
+      return receivedCount == objectCount;
+    }
+  }
+);
+  Assert.assertTrue(pass);
+}
