@@ -1,0 +1,9 @@
+{
+  boolean passed=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      return pinpointServer.getCurrentStateCode() == stateCode;
+    }
+  }
+);
+  Assert.assertTrue(passed);
+}

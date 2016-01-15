@@ -1,0 +1,9 @@
+{
+  boolean pass=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      return serverAcceptor.getWritableSocketList().size() == expectedWritableSocketSize;
+    }
+  }
+);
+  Assert.assertTrue(pass);
+}

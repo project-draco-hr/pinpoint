@@ -12,16 +12,10 @@
 );
     PinpointRPCTestUtils.close(serverAcceptor);
     logger.info("server.close()---------------------------");
-    Thread.sleep(1000);
-    try {
-      byte[] response=PinpointRPCTestUtils.request(client,new byte[10]);
-      Assert.fail("expected:exception");
-    }
- catch (    Exception e) {
-    }
+    assertClientDisconnected(client);
     newServerAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,SimpleServerMessageListener.DUPLEX_ECHO_INSTANCE);
     logger.info("bind server---------------------------");
-    Thread.sleep(3000);
+    assertClientConnected(client);
     logger.info("request server---------------------------");
     byte[] randomByte=TestByteUtils.createRandomByte(10);
     byte[] response=PinpointRPCTestUtils.request(client,randomByte);

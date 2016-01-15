@@ -6,13 +6,12 @@
     serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,PinpointRPCTestUtils.createEchoServerListener());
     clientFactory=PinpointRPCTestUtils.createClientFactory(PinpointRPCTestUtils.getParams(),PinpointRPCTestUtils.createEchoClientListener());
     client=clientFactory.connect("127.0.0.1",bindPort);
-    Thread.sleep(1000);
+    assertAvaiableWritableSocket(serverAcceptor);
     List<PinpointSocket> pinpointServerList=serverAcceptor.getWritableSocketList();
     PinpointSocket pinpointServer=pinpointServerList.get(0);
     Assert.assertEquals(SocketStateCode.RUN_DUPLEX,((PinpointServer)pinpointServer).getCurrentStateCode());
     serverAcceptor.close();
-    Thread.sleep(1000);
-    Assert.assertEquals(SocketStateCode.CLOSED_BY_SERVER,((PinpointServer)pinpointServer).getCurrentStateCode());
+    assertPinpointServerState(SocketStateCode.CLOSED_BY_SERVER,(PinpointServer)pinpointServer);
   }
   finally {
     PinpointRPCTestUtils.close(client);
