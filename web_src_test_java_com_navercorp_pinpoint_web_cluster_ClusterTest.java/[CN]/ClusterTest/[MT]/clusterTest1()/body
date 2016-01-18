@@ -1,8 +1,6 @@
 {
-  ts.restart();
-  Thread.sleep(5000);
   ZooKeeper zookeeper=new ZooKeeper(zookeeperAddress,5000,null);
-  getNodeAndCompareContents(zookeeper);
+  awaitZookeeperConnected(zookeeper);
   if (zookeeper != null) {
     zookeeper.close();
   }

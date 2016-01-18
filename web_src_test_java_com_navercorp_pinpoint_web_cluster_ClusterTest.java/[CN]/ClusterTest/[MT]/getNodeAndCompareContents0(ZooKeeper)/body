@@ -1,0 +1,24 @@
+{
+  try {
+    LOGGER.info("getNodeAndCompareContents() {}",CLUSTER_NODE_PATH);
+    byte[] contents=zookeeper.getData(CLUSTER_NODE_PATH,null,null);
+    if (contents == null) {
+      contents=new byte[0];
+    }
+    String[] registeredIplist=new String(contents).split("\r\n");
+    List<String> ipList=NetUtils.getLocalV4IpList();
+    if (registeredIplist.length != ipList.size()) {
+      return false;
+    }
+    for (    String ip : registeredIplist) {
+      if (!ipList.contains(ip)) {
+        return false;
+      }
+    }
+    return true;
+  }
+ catch (  Exception e) {
+    LOGGER.warn(e.getMessage(),e);
+  }
+  return false;
+}

@@ -1,5 +1,4 @@
 {
-  ts.restart();
   ZooKeeper zookeeper=null;
   ZookeeperClusterDataManager manager=null;
   try {
@@ -8,16 +7,21 @@
     zookeeper.setData(COLLECTOR_TEST_NODE_PATH,"a:b:1".getBytes(),-1);
     manager=new ZookeeperClusterDataManager(DEFAULT_IP + ":" + zookeeperPort,5000,60000);
     manager.start();
-    Thread.sleep(3000);
+    awaitClusterManagerConnected(manager);
     List<String> agentList=manager.getRegisteredAgentList("a","b",1L);
     Assert.assertEquals(1,agentList.size());
     Assert.assertEquals("test",agentList.get(0));
     agentList=manager.getRegisteredAgentList("b","c",1L);
     Assert.assertEquals(0,agentList.size());
     zookeeper.setData(COLLECTOR_TEST_NODE_PATH,"".getBytes(),-1);
-    Thread.sleep(3000);
-    agentList=manager.getRegisteredAgentList("a","b",1L);
-    Assert.assertEquals(0,agentList.size());
+    final ZookeeperClusterDataManager finalManager=manager;
+    boolean await=awaitUtils.await(new TestAwaitTaskUtils(){
+      @Override public boolean checkCompleted(){
+        return finalManager.getRegisteredAgentList("a","b",1L).size() == 0;
+      }
+    }
+);
+    Assert.assertTrue(await);
   }
   finally {
     if (zookeeper != null) {
