@@ -2,8 +2,13 @@
   StopWatch stopWatch=new StopWatch();
   stopWatch.start();
   while (true) {
-    if (awaitTaskUtils.checkCompleted()) {
-      return true;
+    try {
+      if (awaitTaskUtils.checkCompleted()) {
+        return true;
+      }
+    }
+ catch (    Exception e) {
+      LOGGER.warn(e.getMessage(),e);
     }
     try {
       Thread.sleep(waitUnitTime);
