@@ -1,0 +1,9 @@
+{
+  boolean await=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      return !manager.getRegisteredAgentList(applicationName,agentId,startTimeStamp).isEmpty();
+    }
+  }
+);
+  Assert.assertTrue(await);
+}

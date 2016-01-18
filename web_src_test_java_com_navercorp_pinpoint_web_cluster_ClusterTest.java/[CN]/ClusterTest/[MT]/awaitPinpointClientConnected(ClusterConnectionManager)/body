@@ -1,0 +1,9 @@
+{
+  boolean pass=awaitUtils.await(new TestAwaitTaskUtils(){
+    @Override public boolean checkCompleted(){
+      return !connectionManager.getClusterList().isEmpty();
+    }
+  }
+);
+  Assert.assertTrue(pass);
+}
