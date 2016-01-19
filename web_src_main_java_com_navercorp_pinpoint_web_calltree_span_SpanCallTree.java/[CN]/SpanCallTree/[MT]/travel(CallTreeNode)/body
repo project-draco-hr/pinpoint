@@ -3,7 +3,12 @@
   if (node.hasChild()) {
     travel(node.getChild());
   }
-  if (node.hasSibling()) {
-    travel(node.getSibling());
+  CallTreeNode sibling=node.getSibling();
+  while (sibling != null) {
+    sortChildSibling(sibling);
+    if (sibling.hasChild()) {
+      travel(sibling.getChild());
+    }
+    sibling=sibling.getSibling();
   }
 }
