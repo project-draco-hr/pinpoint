@@ -1,0 +1,12 @@
+{
+  Map<String,List<String>> duplicateAgentIdMap=new TreeMap<>(Ordering.usingToString());
+  Map<String,List<String>> agentIdMap=this.getAgentIdMap();
+  for (  Map.Entry<String,List<String>> entry : agentIdMap.entrySet()) {
+    String agentId=entry.getKey();
+    List<String> applications=entry.getValue();
+    if (applications.size() > 1) {
+      duplicateAgentIdMap.put(agentId,applications);
+    }
+  }
+  return duplicateAgentIdMap;
+}
