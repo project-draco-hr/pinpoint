@@ -1,0 +1,15 @@
+{
+  int matchCnt=0;
+  for (  Result result : results) {
+    if (!result.isEmpty()) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("stat data exists, most recent data : {}",this.agentStatMapper.mapRow(result,matchCnt++));
+      }
+      return true;
+    }
+ else {
+      return false;
+    }
+  }
+  return false;
+}
