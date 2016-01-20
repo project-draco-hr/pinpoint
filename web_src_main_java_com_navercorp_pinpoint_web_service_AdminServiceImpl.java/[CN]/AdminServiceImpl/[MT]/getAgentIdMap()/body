@@ -1,13 +1,13 @@
 {
-  Map<String,List<String>> agentIdMap=new TreeMap<>(Ordering.usingToString());
+  Map<String,List<Application>> agentIdMap=new TreeMap<>(Ordering.usingToString());
   List<Application> applications=this.applicationIndexDao.selectAllApplicationNames();
   for (  Application application : applications) {
     List<String> agentIds=this.applicationIndexDao.selectAgentIds(application.getName());
     for (    String agentId : agentIds) {
       if (!agentIdMap.containsKey(agentId)) {
-        agentIdMap.put(agentId,new ArrayList<String>());
+        agentIdMap.put(agentId,new ArrayList<Application>());
       }
-      agentIdMap.get(agentId).add(application.toString());
+      agentIdMap.get(agentId).add(application);
     }
   }
   return agentIdMap;
