@@ -1,0 +1,15 @@
+{
+  if (applicationName == null) {
+    throw new NullPointerException("applicationName must not be null");
+  }
+  if (timestamp < 0) {
+    throw new IllegalArgumentException("timestamp must not be less than 0");
+  }
+  List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+  List<AgentInfo> agentInfos=this.agentInfoDao.getAgentInfos(agentIds,timestamp);
+  CollectionUtils.filter(agentInfos,PredicateUtils.notNullPredicate());
+  if (CollectionUtils.isEmpty(agentInfos)) {
+    return Collections.emptySet();
+  }
+  return new HashSet<>(agentInfos);
+}

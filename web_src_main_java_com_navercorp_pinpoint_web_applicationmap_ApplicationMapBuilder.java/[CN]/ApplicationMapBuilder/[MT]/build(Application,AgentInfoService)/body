@@ -3,18 +3,18 @@
   LinkList emptyLinkList=new LinkList();
   Node node=new Node(application);
   Set<AgentInfo> agentInfos=agentInfoService.getAgentsByApplicationName(application.getName(),range.getTo());
-  for (Iterator<AgentInfo> iterator=agentInfos.iterator(); iterator.hasNext(); ) {
-    AgentInfo agentInfo=iterator.next();
-    if (!isAgentRunning(agentInfo)) {
-      iterator.remove();
+  Set<AgentInfo> runningAgents=new HashSet<>();
+  for (  AgentInfo agentInfo : agentInfos) {
+    if (isAgentRunning(agentInfo)) {
+      runningAgents.add(agentInfo);
     }
   }
-  if (agentInfos.isEmpty()) {
+  if (runningAgents.isEmpty()) {
     return new ApplicationMap(range,nodeList,emptyLinkList);
   }
  else {
     ServerBuilder serverBuilder=new ServerBuilder();
-    serverBuilder.addAgentInfo(agentInfos);
+    serverBuilder.addAgentInfo(runningAgents);
     ServerInstanceList serverInstanceList=serverBuilder.build();
     node.setServerInstanceList(serverInstanceList);
     node.setNodeHistogram(new NodeHistogram(application,range));

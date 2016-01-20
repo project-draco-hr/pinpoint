@@ -1,0 +1,15 @@
+{
+  if (timeDiff > timestamp) {
+    throw new IllegalArgumentException("timeDiff must not be greater than timestamp");
+  }
+  Set<AgentInfo> unfilteredAgentInfos=this.getAgentsByApplicationName(applicationName,timestamp);
+  final long eventTimestampFloor=timestamp - timeDiff;
+  Set<AgentInfo> filteredAgentInfos=new HashSet<>();
+  for (  AgentInfo agentInfo : unfilteredAgentInfos) {
+    AgentStatus agentStatus=agentInfo.getStatus();
+    if (AgentLifeCycleState.UNKNOWN == agentStatus.getState() || eventTimestampFloor <= agentStatus.getEventTimestamp()) {
+      filteredAgentInfos.add(agentInfo);
+    }
+  }
+  return filteredAgentInfos;
+}
