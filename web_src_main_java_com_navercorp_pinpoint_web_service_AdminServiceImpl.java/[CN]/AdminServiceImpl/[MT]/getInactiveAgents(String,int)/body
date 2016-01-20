@@ -17,12 +17,12 @@
   cal.add(Calendar.DATE,durationDays * -1);
   final long fromTimestamp=cal.getTimeInMillis();
   Range queryRange=new Range(fromTimestamp,toTimestamp);
-  Map<String,List<String>> agentIdMap=this.getAgentIdMap();
-  Map<String,List<String>> inactiveAgentMap=new TreeMap<>(Ordering.usingToString());
+  Map<String,List<Application>> agentIdMap=this.getAgentIdMap();
+  Map<String,List<Application>> inactiveAgentMap=new TreeMap<>(Ordering.usingToString());
   for (  String agentId : agentIds) {
     boolean dataExists=this.agentStatDao.agentStatExists(agentId,queryRange);
     if (!dataExists) {
-      List<String> applications=agentIdMap.get(agentId);
+      List<Application> applications=agentIdMap.get(agentId);
       inactiveAgentMap.put(agentId,applications);
     }
   }
