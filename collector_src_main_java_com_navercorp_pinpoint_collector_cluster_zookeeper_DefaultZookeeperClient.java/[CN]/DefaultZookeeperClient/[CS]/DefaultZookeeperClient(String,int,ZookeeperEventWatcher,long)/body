@@ -3,6 +3,6 @@
   this.sessionTimeout=sessionTimeout;
   this.watcher=watcher;
   this.reconnectDelayWhenSessionExpired=reconnectDelayWhenSessionExpired;
-  this.zookeeper=new ZooKeeper(hostPort,sessionTimeout,this.watcher);
   this.timer=TimerFactory.createHashedWheelTimer(this.getClass().getSimpleName(),100,TimeUnit.MILLISECONDS,512);
+  this.stateContext=new CommonStateContext();
 }

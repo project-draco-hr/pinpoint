@@ -2,14 +2,14 @@
   checkState();
   ZooKeeper zookeeper=this.zookeeper;
   try {
-    if (zookeeper.exists(znodePath,false) != null) {
-      return znodePath;
+    if (zookeeper.exists(zNodePath,false) != null) {
+      return zNodePath;
     }
-    String pathName=zookeeper.create(znodePath,data,Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);
+    String pathName=zookeeper.create(zNodePath,data,Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);
     return pathName;
   }
  catch (  KeeperException exception) {
     handleException(exception);
   }
-  return znodePath;
+  return zNodePath;
 }

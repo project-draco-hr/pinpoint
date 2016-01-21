@@ -1,0 +1,9 @@
+{
+  if (stateContext.changeStateInitializing()) {
+    this.zookeeper=new ZooKeeper(hostPort,sessionTimeout,watcher);
+    stateContext.changeStateStarted();
+  }
+ else {
+    logger.warn("connect() failed. error : Illegal State. State may be {}.",stateContext.getCurrentState());
+  }
+}

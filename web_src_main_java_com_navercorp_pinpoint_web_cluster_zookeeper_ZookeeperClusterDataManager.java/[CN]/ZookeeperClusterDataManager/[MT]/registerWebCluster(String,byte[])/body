@@ -1,5 +1,5 @@
 {
-  String zNodePath=clusterDataManagerHelper.bindingPathAndZnode(PINPOINT_WEB_CLUSTER_PATh,zNodeName);
+  String zNodePath=clusterDataManagerHelper.bindingPathAndZNode(PINPOINT_WEB_CLUSTER_PATh,zNodeName);
   logger.info("registerWebCluster() started. create UniqPath={}.",zNodePath);
   PushWebClusterJob job=new PushWebClusterJob(zNodePath,contents,retryInterval);
   if (!this.job.compareAndSet(null,job)) {
