@@ -1,7 +1,8 @@
 {
   AgentInfoPopulator agentInfoPopulator=new AgentInfoPopulator(){
     @Override public void addAgentInfos(    Node node){
-      Set<AgentInfo> agentList=agentInfoService.getAgentsByApplicationName(node.getApplication().getName(),range.getTo());
+      long timestamp=range.getTo();
+      Set<AgentInfo> agentList=agentInfoService.getAgentsByApplicationNameWithoutStatus(node.getApplication().getName(),timestamp);
       if (agentList.isEmpty()) {
         logger.warn("agentInfo not found. applicationName:{}",node.getApplication());
         node.setServerInstanceList(new ServerInstanceList());
@@ -9,7 +10,7 @@
       }
       logger.debug("add agentInfo. {}, {}",node.getApplication(),agentList);
       ServerBuilder builder=new ServerBuilder();
-      agentList=filterAgentInfoByResponseData(agentList,node);
+      agentList=filterAgentInfoByResponseData(agentList,timestamp,node,agentInfoService);
       builder.addAgentInfo(agentList);
       ServerInstanceList serverInstanceList=builder.build();
       node.setServerInstanceList(serverInstanceList);

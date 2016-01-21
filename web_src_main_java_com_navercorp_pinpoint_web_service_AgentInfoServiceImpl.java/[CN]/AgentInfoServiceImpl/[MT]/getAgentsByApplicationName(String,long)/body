@@ -1,3 +1,5 @@
 {
-  return this.getAgentsByApplicationName(applicationName,timestamp,timestamp);
+  Set<AgentInfo> agentInfos=this.getAgentsByApplicationNameWithoutStatus(applicationName,timestamp);
+  this.agentLifeCycleDao.populateAgentStatuses(agentInfos,timestamp);
+  return agentInfos;
 }

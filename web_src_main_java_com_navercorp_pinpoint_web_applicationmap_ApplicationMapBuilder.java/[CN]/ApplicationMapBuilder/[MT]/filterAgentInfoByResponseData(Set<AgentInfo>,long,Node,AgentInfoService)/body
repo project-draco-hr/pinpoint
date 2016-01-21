@@ -8,6 +8,8 @@
       filteredAgentInfo.add(agentInfo);
     }
  else {
+      AgentStatus status=agentInfoService.getAgentStatus(agentId,timestamp);
+      agentInfo.setStatus(status);
       if (isAgentRunning(agentInfo)) {
         filteredAgentInfo.add(agentInfo);
       }
