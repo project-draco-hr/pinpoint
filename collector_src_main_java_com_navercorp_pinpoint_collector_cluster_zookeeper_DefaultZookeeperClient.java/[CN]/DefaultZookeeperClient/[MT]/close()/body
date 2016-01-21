@@ -1,9 +1,9 @@
 {
-  if (clientState.compareAndSet(true,false)) {
+  if (stateContext.changeStateDestroying()) {
+    ZooKeeper zookeeper=this.zookeeper;
     if (timer != null) {
       timer.stop();
     }
-    ZooKeeper zookeeper=this.zookeeper;
     if (zookeeper != null) {
       try {
         zookeeper.close();
@@ -13,5 +13,6 @@
         Thread.currentThread().interrupt();
       }
     }
+    stateContext.changeStateStopped();
   }
 }

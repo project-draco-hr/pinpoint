@@ -1,5 +1,5 @@
 {
-  if (!clientState.get()) {
+  if (stateContext.getCurrentState() != CommonState.STARTED) {
     logger.warn("ZookeeperClient.reconnectWhenSessionExpired() failed. Error: Already closed.");
     return;
   }

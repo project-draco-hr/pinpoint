@@ -1,5 +1,5 @@
 {
-  if (clientState.compareAndSet(true,false)) {
+  if (stateContext.changeStateDestroying()) {
     if (timer != null) {
       timer.stop();
     }
@@ -11,5 +11,9 @@
         logger.debug(ignore.getMessage(),ignore);
       }
     }
+    stateContext.changeStateStopped();
+  }
+ else {
+    logger.warn("close failed. error : Illegal State. State may be {}.",stateContext.getCurrentState());
   }
 }

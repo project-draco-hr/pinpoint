@@ -1,6 +1,6 @@
 {
-  if (!clientState.get()) {
-    logger.warn("ZookeeperClient.reconnect() failed. Error: Already closed.");
+  if (stateContext.getCurrentState() != CommonState.STARTED) {
+    logger.warn("ZookeeperClient.reconnectWhenSessionExpired() failed. Error: Already closed.");
     return;
   }
   ZooKeeper zookeeper=this.zookeeper;
@@ -16,6 +16,10 @@
     Thread.currentThread().interrupt();
   }
   ZooKeeper newZookeeper=createNewZookeeper();
+  if (stateContext.getCurrentState() != CommonState.STARTED) {
+    logger.warn("ZookeeperClient.reconnectWhenSessionExpired() failed. Error: Already closed.");
+    return;
+  }
   if (newZookeeper == null) {
     logger.warn("Failed to create new Zookeeper instance. It will be retry  AFTER {}ms.",reconnectDelayWhenSessionExpired);
     timer.newTimeout(new TimerTask(){

@@ -2,7 +2,7 @@
   this.client=client;
   this.clusterConnectionManager=clusterConnectionManager;
   this.zNodePath=zookeeperClusterPath;
-  this.workerState=new WorkerStateContext();
+  this.workerState=new CommonStateContext();
   final ThreadFactory threadFactory=new PinpointThreadFactory(this.getClass().getSimpleName(),true);
-  this.workerThread=threadFactory.newThread(this);
+  this.workerThread=threadFactory.newThread(new Worker());
 }
