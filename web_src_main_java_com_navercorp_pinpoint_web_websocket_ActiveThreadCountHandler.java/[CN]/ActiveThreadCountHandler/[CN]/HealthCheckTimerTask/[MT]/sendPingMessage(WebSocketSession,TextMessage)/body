@@ -2,7 +2,8 @@
   try {
     session.sendMessage(pingMessage);
   }
- catch (  IOException e) {
+ catch (  Exception e) {
     logger.warn(e.getMessage(),e);
+    closeSession(session,CloseStatus.SERVER_ERROR);
   }
 }
