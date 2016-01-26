@@ -1,5 +1,7 @@
 {
-  logger.info("flush started. applicationName:{}",applicationName);
+  if ((flushCount.getAndIncrement() % flushLogRecordRate) == 0) {
+    logger.info("flush started. applicationName:{}",applicationName);
+  }
   if (isStopped) {
     return;
   }
