@@ -1,0 +1,18 @@
+{
+  if (prev.getDepth() < current.getDepth()) {
+    return prev.getValue().getStartTime();
+  }
+  CallTreeNode node=prev;
+  if (prev.getDepth() > current.getDepth()) {
+    node=getPrevSibling(current);
+  }
+  while (true) {
+    if (!node.getValue().isAsyncFirst()) {
+      return node.getValue().getLastTime();
+    }
+ else     if (isFirstChild(node)) {
+      return node.getParent().getValue().getStartTime();
+    }
+    node=getPrevSibling(node);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  final SpanEventBo[] originalStack=this.stack;
+  if (size >= originalStack.length) {
+    final int copyStackSize=originalStack.length << 1;
+    final SpanEventBo[] copyStack=new SpanEventBo[copyStackSize];
+    System.arraycopy(originalStack,0,copyStack,0,originalStack.length);
+    this.stack=copyStack;
+  }
+}

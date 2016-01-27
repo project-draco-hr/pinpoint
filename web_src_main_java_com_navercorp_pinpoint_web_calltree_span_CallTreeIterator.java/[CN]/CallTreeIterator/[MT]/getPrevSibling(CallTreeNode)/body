@@ -2,6 +2,9 @@
   CallTreeNode sibling=node.getParent().getChild();
   while (node != sibling.getSibling()) {
     sibling=sibling.getSibling();
+    if (sibling == null) {
+      throw new IllegalStateException("Not found prev sibling " + node);
+    }
   }
   return sibling;
 }

@@ -1,0 +1,39 @@
+{
+  if (parentDepth < MIN_DEPTH) {
+    throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid parent depth. parent depth=" + parentDepth + ", cursor="+ cursor+ ", tree="+ tree);
+  }
+  final CallTreeNode node=tree.getRoot();
+  if (node == null) {
+    return;
+  }
+  if (parentDepth == LEVEL_DEPTH || parentDepth == cursor.getDepth()) {
+    if (cursor.isRoot()) {
+      throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + parentDepth + ", cursor="+ cursor+ ", tree="+ tree);
+    }
+    if (!cursor.hasChild()) {
+      node.setParent(cursor);
+      cursor.setChild(node);
+      return;
+    }
+    CallTreeNode sibling=findLastSibling(cursor.getChild());
+    node.setParent(cursor);
+    sibling.setSibling(node);
+    return;
+  }
+  if (parentDepth > cursor.getDepth()) {
+    throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + parentDepth + ", cursor="+ cursor+ ", align="+ tree);
+  }
+  if (cursor.getDepth() - parentDepth < ROOT_DEPTH) {
+    throw new CorruptedSpanCallTreeNodeException("invalid depth","invalid depth. depth=" + parentDepth + ", cursor="+ cursor+ ", align="+ tree);
+  }
+  final CallTreeNode parent=findUpperLevelLastSibling(parentDepth,cursor);
+  cursor=parent;
+  if (!cursor.hasChild()) {
+    node.setParent(cursor);
+    cursor.setChild(node);
+    return;
+  }
+  CallTreeNode sibling=findLastSibling(cursor.getChild());
+  node.setParent(cursor);
+  sibling.setSibling(node);
+}

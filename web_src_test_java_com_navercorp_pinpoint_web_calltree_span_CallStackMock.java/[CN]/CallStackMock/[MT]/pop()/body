@@ -1,0 +1,10 @@
+{
+  final SpanEventBo spanEvent=peek();
+  if (spanEvent != null) {
+    stack[index - 1]=null;
+    index--;
+    final int endElapsed=(int)(currentTime - (spanBo.getStartTime() + spanEvent.getStartElapsed()));
+    spanEvent.setEndElapsed(endElapsed);
+  }
+  return spanEvent;
+}
