@@ -1,0 +1,18 @@
+{
+  AbstractProxyInvoker abstractProxyInvoker=new AbstractProxyInvoker(new String(),String.class,url){
+    @Override protected Object doInvoke(    Object proxy,    String methodName,    Class[] parameterTypes,    Object[] arguments) throws Throwable {
+      Method method=proxy.getClass().getMethod(methodName,parameterTypes);
+      return method.invoke(proxy,arguments);
+    }
+  }
+;
+  try {
+    abstractProxyInvoker.invoke(rpcInvocation);
+  }
+ catch (  RpcException ignore) {
+    ignore.printStackTrace();
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTraceCount(1);
+}

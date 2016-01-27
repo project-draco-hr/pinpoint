@@ -1,0 +1,14 @@
+{
+  abstractClusterInvoker=new FailoverClusterInvoker(directory);
+  when(abstractClusterInvoker.getInterface()).thenReturn(String.class);
+  try {
+    abstractClusterInvoker.invoke(rpcInvocation);
+  }
+ catch (  RpcException ignore) {
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Method invoke=AbstractClusterInvoker.class.getMethod("invoke",Invocation.class);
+  verifier.verifyTrace(Expectations.event("DUBBO_CONSUMER",invoke));
+  verifier.verifyTraceCount(0);
+}

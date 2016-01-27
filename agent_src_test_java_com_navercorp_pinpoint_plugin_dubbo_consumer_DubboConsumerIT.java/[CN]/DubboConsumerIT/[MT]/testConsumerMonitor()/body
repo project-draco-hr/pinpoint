@@ -1,0 +1,12 @@
+{
+  abstractClusterInvoker=new FailoverClusterInvoker(directory);
+  when(abstractClusterInvoker.getInterface()).thenReturn(MonitorService.class);
+  try {
+    abstractClusterInvoker.invoke(rpcInvocation);
+  }
+ catch (  RpcException ignore) {
+  }
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTraceCount(0);
+}
