@@ -8,8 +8,13 @@
     LinkKey findLinkKey=new LinkKey(emulationLinkData.getFromApplication(),emulationLinkData.getToApplication());
     LinkData targetLinkData=linkDataDuplexMap.getTargetLinkData(findLinkKey);
     if (targetLinkData == null) {
-      logger.error("targetLinkData not found findLinkKey:{}",findLinkKey);
-      continue;
+      final Application targetApplication=emulationLinkData.getToApplication();
+      final LinkDataMap callee=mapStatisticsCalleeDao.selectCallee(targetApplication,range);
+      targetLinkData=callee.getLinkData(findLinkKey);
+      if (targetLinkData == null) {
+        logger.error("targetLinkData not found findLinkKey:{}",findLinkKey);
+        continue;
+      }
     }
     LinkCallDataMap targetList=targetLinkData.getLinkCallDataMap();
     Collection<LinkCallData> beforeLinkDataList=beforeImage.getLinkDataList();
