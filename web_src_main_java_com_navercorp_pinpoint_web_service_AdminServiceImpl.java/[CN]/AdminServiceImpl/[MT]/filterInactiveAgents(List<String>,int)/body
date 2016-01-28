@@ -1,0 +1,18 @@
+{
+  if (CollectionUtils.isEmpty(agentIds)) {
+    return Collections.emptyList();
+  }
+  List<String> inactiveAgentIds=new ArrayList<>();
+  final long toTimestamp=System.currentTimeMillis();
+  Calendar cal=Calendar.getInstance();
+  cal.add(Calendar.DATE,durationDays * -1);
+  final long fromTimestamp=cal.getTimeInMillis();
+  Range queryRange=new Range(fromTimestamp,toTimestamp);
+  for (  String agentId : agentIds) {
+    boolean dataExists=this.agentStatDao.agentStatExists(agentId,queryRange);
+    if (!dataExists) {
+      inactiveAgentIds.add(agentId);
+    }
+  }
+  return inactiveAgentIds;
+}

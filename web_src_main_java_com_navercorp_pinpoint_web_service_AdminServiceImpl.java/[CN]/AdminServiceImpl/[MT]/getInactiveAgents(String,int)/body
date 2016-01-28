@@ -2,29 +2,19 @@
   if (applicationName == null) {
     throw new NullPointerException("applicationName must not be null");
   }
-  if (durationDays < 30) {
-    throw new IllegalArgumentException("duration may not be less than 30 days");
-  }
-  if (durationDays > 180) {
-    throw new IllegalArgumentException("duration may not be greater than 180 days");
+  if (durationDays < MIN_DURATION_DAYS_FOR_INACTIVITY) {
+    throw new IllegalArgumentException("duration may not be less than " + MIN_DURATION_DAYS_FOR_INACTIVITY + " days");
   }
   List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
   if (CollectionUtils.isEmpty(agentIds)) {
     return Collections.emptyMap();
   }
-  final long toTimestamp=System.currentTimeMillis();
-  Calendar cal=Calendar.getInstance();
-  cal.add(Calendar.DATE,durationDays * -1);
-  final long fromTimestamp=cal.getTimeInMillis();
-  Range queryRange=new Range(fromTimestamp,toTimestamp);
   Map<String,List<Application>> agentIdMap=this.getAgentIdMap();
   Map<String,List<Application>> inactiveAgentMap=new TreeMap<>(Ordering.usingToString());
-  for (  String agentId : agentIds) {
-    boolean dataExists=this.agentStatDao.agentStatExists(agentId,queryRange);
-    if (!dataExists) {
-      List<Application> applications=agentIdMap.get(agentId);
-      inactiveAgentMap.put(agentId,applications);
-    }
+  List<String> inactiveAgentIds=filterInactiveAgents(agentIds,durationDays);
+  for (  String inactiveAgentId : inactiveAgentIds) {
+    List<Application> applications=agentIdMap.get(inactiveAgentId);
+    inactiveAgentMap.put(inactiveAgentId,applications);
   }
   return inactiveAgentMap;
 }

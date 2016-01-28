@@ -1,0 +1,21 @@
+{
+  if (durationDays < MIN_DURATION_DAYS_FOR_INACTIVITY) {
+    throw new IllegalArgumentException("duration may not be less than " + MIN_DURATION_DAYS_FOR_INACTIVITY + " days");
+  }
+  Map<String,List<String>> inactiveAgentMap=new TreeMap<>(Ordering.usingToString());
+  List<Application> applications=this.applicationIndexDao.selectAllApplicationNames();
+  Set<String> applicationNames=new TreeSet<>(Ordering.usingToString());
+  for (  Application application : applications) {
+    applicationNames.add(application.getName());
+  }
+  for (  String applicationName : applicationNames) {
+    List<String> agentIds=this.applicationIndexDao.selectAgentIds(applicationName);
+    Collections.sort(agentIds);
+    List<String> inactiveAgentIds=filterInactiveAgents(agentIds,durationDays);
+    if (!CollectionUtils.isEmpty(inactiveAgentIds)) {
+      inactiveAgentMap.put(applicationName,inactiveAgentIds);
+    }
+  }
+  logger.info("deleting {}",inactiveAgentMap);
+  this.applicationIndexDao.deleteAgentIds(inactiveAgentMap);
+}
