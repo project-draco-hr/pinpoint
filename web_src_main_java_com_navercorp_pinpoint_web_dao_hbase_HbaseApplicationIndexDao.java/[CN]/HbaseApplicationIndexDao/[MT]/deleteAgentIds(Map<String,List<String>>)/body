@@ -1,0 +1,23 @@
+{
+  if (MapUtils.isEmpty(applicationAgentIdMap)) {
+    return;
+  }
+  List<Delete> deletes=new ArrayList<>(applicationAgentIdMap.size());
+  for (  Map.Entry<String,List<String>> entry : applicationAgentIdMap.entrySet()) {
+    String applicationName=entry.getKey();
+    List<String> agentIds=entry.getValue();
+    if (StringUtils.isEmpty(applicationName) || CollectionUtils.isEmpty(agentIds)) {
+      continue;
+    }
+    Delete delete=new Delete(Bytes.toBytes(applicationName));
+    for (    String agentId : agentIds) {
+      if (!StringUtils.isEmpty(agentId)) {
+        delete.addColumns(HBaseTables.APPLICATION_INDEX_CF_AGENTS,Bytes.toBytes(agentId));
+      }
+    }
+    if (!delete.getFamilyCellMap().isEmpty()) {
+      deletes.add(delete);
+    }
+  }
+  hbaseOperations2.delete(HBaseTables.APPLICATION_INDEX,deletes);
+}

@@ -1,0 +1,11 @@
+{
+  logger.info("removing inactive agents for the last {} days.",durationDays);
+  try {
+    this.adminService.removeInactiveAgents(durationDays);
+    return "OK";
+  }
+ catch (  Exception e) {
+    logger.error("error while removing inactive agents for the last " + durationDays + " days.",e);
+    return e.getMessage();
+  }
+}
