@@ -1,0 +1,10 @@
+{
+  boolean totalShutdown=true;
+  for (  ExecutorService executorService : childExecutors) {
+    final boolean child=executorService.awaitTermination(timeout,unit);
+    if (!child) {
+      totalShutdown=false;
+    }
+  }
+  return totalShutdown;
+}

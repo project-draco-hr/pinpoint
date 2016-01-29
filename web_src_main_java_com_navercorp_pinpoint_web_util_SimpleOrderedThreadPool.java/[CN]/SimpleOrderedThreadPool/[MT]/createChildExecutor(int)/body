@@ -1,0 +1,8 @@
+{
+  final ExecutorService[] childExecutor=new ExecutorService[threadCount];
+  for (int i=0; i < threadCount; i++) {
+    final ExecutorService child=createSingleThreadExecutor(this.workerQueueSize,threadFactory);
+    childExecutor[i]=child;
+  }
+  return childExecutor;
+}

@@ -1,0 +1,12 @@
+{
+  SimpleOrderedThreadPool threadPool=new SimpleOrderedThreadPool(3,100,new PinpointThreadFactory("test",true));
+  int testCount=100;
+  CountDownLatch latch=new CountDownLatch(testCount);
+  for (int i=0; i < testCount; i++) {
+    final int selectKey=random.nextInt();
+    threadPool.execute(new TestHashSelectorRunnable(selectKey,latch));
+  }
+  threadPool.shutdown();
+  threadPool.awaitTermination(10000,TimeUnit.MILLISECONDS);
+  Assert.assertEquals(latch.getCount(),0);
+}

@@ -1,0 +1,8 @@
+{
+  if (!(command instanceof HashSelector)) {
+    throw new IllegalArgumentException("invalid HashSelector command");
+  }
+  final HashSelector selector=(HashSelector)command;
+  final int mod=mod(selector);
+  return this.childExecutors[mod];
+}
