@@ -1,0 +1,20 @@
+{
+  final ClassLoader classLoader=this.getClass().getClassLoader();
+  final Class<ClassLoader> aClass=(Class<ClassLoader>)classLoader.loadClass(CONTEXT_TYPE_MATCH_CLASS_LOADER);
+  final Constructor<ClassLoader> constructor=aClass.getConstructor(ClassLoader.class);
+  ReflectionUtils.makeAccessible(constructor);
+  final LibClass libClassFilter=new LibClass(){
+    @Override public boolean onLoadClass(    String clazzName){
+      if (clazzName.startsWith("org.slf4j")) {
+        logger.debug("Loading {}",clazzName);
+        return ON_LOAD_CLASS;
+      }
+      return DELEGATE_PARENT;
+    }
+  }
+;
+  PinpointURLClassLoader testClassLoader=new PinpointURLClassLoader(urlArray,ClassLoader.getSystemClassLoader(),libClassFilter);
+  final ClassLoader contextTypeMatchClassLoader=constructor.newInstance(testClassLoader);
+  logger.debug("cl:{}",contextTypeMatchClassLoader);
+  return contextTypeMatchClassLoader;
+}

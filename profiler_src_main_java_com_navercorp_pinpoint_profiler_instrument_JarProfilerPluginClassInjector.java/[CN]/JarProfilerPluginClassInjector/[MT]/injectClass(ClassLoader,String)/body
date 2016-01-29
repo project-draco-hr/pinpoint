@@ -1,14 +1,14 @@
 {
   try {
     if (classLoader == null) {
-      return (Class<T>)injectToBootstrapClassLoader(className);
+      return (Class<T>)bootstrapClassLoaderHandler.injectClass(null,className);
     }
  else     if (classLoader instanceof URLClassLoader) {
       final URLClassLoader urlClassLoader=(URLClassLoader)classLoader;
-      return (Class<T>)injectToURLClassLoader(urlClassLoader,className);
+      return (Class<T>)urlClassLoaderHandler.injectClass(urlClassLoader,className);
     }
  else {
-      return (Class<T>)injectToPlainClassLoader(classLoader,className);
+      return (Class<T>)plainClassLoaderHandler.injectClass(classLoader,className);
     }
   }
  catch (  Exception e) {

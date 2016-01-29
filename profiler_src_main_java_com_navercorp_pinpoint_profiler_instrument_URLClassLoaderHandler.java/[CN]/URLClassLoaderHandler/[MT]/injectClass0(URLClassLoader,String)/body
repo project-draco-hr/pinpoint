@@ -1,0 +1,11 @@
+{
+  final URL[] urls=classLoader.getURLs();
+  if (urls != null) {
+    final boolean hasPluginJar=hasPluginJar(urls);
+    if (!hasPluginJar) {
+      logger.debug("add Jar:{}",pluginURLString);
+      ADD_URL.invoke(classLoader,pluginURL);
+    }
+  }
+  return classLoader.loadClass(className);
+}

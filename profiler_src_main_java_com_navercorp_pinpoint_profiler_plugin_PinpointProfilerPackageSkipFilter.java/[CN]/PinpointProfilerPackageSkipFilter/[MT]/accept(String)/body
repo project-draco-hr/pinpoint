@@ -1,0 +1,14 @@
+{
+  if (className == null) {
+    throw new NullPointerException("className must not be null");
+  }
+  for (  String packageName : packageList) {
+    if (className.startsWith(packageName)) {
+      if (logger.isDebugEnabled()) {
+        logger.info("skip ProfilerPackage:{} Class:{}",packageName,className);
+      }
+      return REJECT;
+    }
+  }
+  return ACCEPT;
+}

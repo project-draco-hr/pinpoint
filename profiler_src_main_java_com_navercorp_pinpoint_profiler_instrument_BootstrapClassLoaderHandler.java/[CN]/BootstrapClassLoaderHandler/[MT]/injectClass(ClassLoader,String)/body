@@ -1,0 +1,12 @@
+{
+  try {
+    if (classLoader == null) {
+      return (Class<T>)injectClass0(className);
+    }
+  }
+ catch (  Exception e) {
+    logger.warn("Failed to load plugin class {} with classLoader {}",className,classLoader,e);
+    throw new PinpointException("Failed to load plugin class " + className + " with classLoader "+ classLoader,e);
+  }
+  throw new PinpointException("invalid ClassLoader");
+}

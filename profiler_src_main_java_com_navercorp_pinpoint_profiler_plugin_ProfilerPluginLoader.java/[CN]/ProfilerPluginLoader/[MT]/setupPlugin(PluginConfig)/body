@@ -5,6 +5,9 @@
   final GuardInstrumentContext guardInstrumentContext=preparePlugin(pluginConfig.getPlugin(),context);
   try {
     final ProfilerPlugin plugin=pluginConfig.getPlugin();
+    if (logger.isInfoEnabled()) {
+      logger.info("{} Plugin setup",plugin.getClass().getName());
+    }
     plugin.setup(guardPluginContext);
   }
   finally {
