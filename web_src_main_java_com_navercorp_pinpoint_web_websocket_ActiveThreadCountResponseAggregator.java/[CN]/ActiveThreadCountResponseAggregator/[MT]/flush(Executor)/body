@@ -1,0 +1,31 @@
+{
+  if ((flushCount.getAndIncrement() % flushLogRecordRate) == 0) {
+    logger.info("flush started. applicationName:{}",applicationName);
+  }
+  if (isStopped) {
+    return;
+  }
+  AgentActiveThreadCountList response=new AgentActiveThreadCountList();
+synchronized (aggregatorLock) {
+    for (    ActiveThreadCountWorker activeThreadCountWorker : activeThreadCountWorkerRepository.values()) {
+      String agentId=activeThreadCountWorker.getAgentId();
+      AgentActiveThreadCount agentActiveThreadCount=activeThreadCountMap.get(agentId);
+      if (agentActiveThreadCount != null) {
+        response.add(agentActiveThreadCount);
+      }
+ else {
+        response.add(activeThreadCountWorker.getDefaultFailedResponse());
+      }
+    }
+    activeThreadCountMap=new HashMap<>(activeThreadCountWorkerRepository.size());
+  }
+  TextMessage webSocketTextMessage=createWebSocketTextMessage(response);
+  if (webSocketTextMessage != null) {
+    if (executor == null) {
+      flush0(webSocketTextMessage);
+    }
+ else {
+      flushAsync0(webSocketTextMessage,executor);
+    }
+  }
+}

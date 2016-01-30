@@ -1,0 +1,9 @@
+{
+  for (  WebSocketSession webSocketSession : webSocketSessions) {
+    if (webSocketSession == null) {
+      logger.warn("failed caused webSocketSession is null. applicationName:{}",applicationName);
+      continue;
+    }
+    executor.execute(new OrderedWebSocketFlushRunnable(webSocketSession,webSocketMessage));
+  }
+}

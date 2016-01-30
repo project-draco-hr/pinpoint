@@ -3,17 +3,12 @@
     logger.info("ActiveThreadTimerTask started.");
     Collection<PinpointWebSocketResponseAggregator> values=aggregatorRepository.values();
     for (    final PinpointWebSocketResponseAggregator aggregator : values) {
-      webSocketFlushThreadPool.execute(new Runnable(){
-        @Override public void run(){
-          try {
-            aggregator.flush();
-          }
- catch (          Exception e) {
-            logger.warn(e.getMessage(),e);
-          }
-        }
+      try {
+        aggregator.flush(webSocketflushExecutor);
       }
-);
+ catch (      Exception e) {
+        logger.warn("failed while flushing ActiveThreadCount to aggregator. applicationName:{}, error:{}",aggregator.getApplicationName(),e.getMessage(),e);
+      }
     }
   }
   finally {
