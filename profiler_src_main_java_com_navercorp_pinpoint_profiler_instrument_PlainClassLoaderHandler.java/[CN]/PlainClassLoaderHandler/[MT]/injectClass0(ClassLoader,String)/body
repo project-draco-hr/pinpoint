@@ -1,0 +1,9 @@
+{
+  if (isDebug) {
+    logger.debug("injectClass0 className:{} cl:{}",className,classLoader);
+  }
+  logger.info("bootstrapCoreJarPath:{}",pluginConfig.getBootstrapCoreJarPath());
+  final ClassPool pool=createClassPool(classLoader);
+  final ClassLoadingChecker classLoadingChecker=new ClassLoadingChecker();
+  return injectClass0(pool,classLoader,className,classLoadingChecker);
+}

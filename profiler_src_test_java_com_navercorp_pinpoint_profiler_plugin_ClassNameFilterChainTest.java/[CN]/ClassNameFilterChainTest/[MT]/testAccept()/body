@@ -1,0 +1,8 @@
+{
+  PluginPackageFilter include=new PluginPackageFilter(Arrays.asList("com.include"));
+  PinpointProfilerPackageSkipFilter exclude=new PinpointProfilerPackageSkipFilter(Arrays.asList("com.exclude"));
+  ClassNameFilterChain chain=new ClassNameFilterChain(Arrays.asList(include,exclude));
+  Assert.assertTrue(chain.accept("com.include"));
+  Assert.assertFalse(chain.accept("com.exclude"));
+  Assert.assertFalse(chain.accept("unknown"));
+}

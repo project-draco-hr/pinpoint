@@ -1,0 +1,12 @@
+{
+  final Manifest manifest=getManifest(pluginJarFile);
+  if (manifest == null) {
+    return PluginConfig.DEFAULT_PINPOINT_PLUGIN_PACKAGE_NAME;
+  }
+  final Attributes attributes=manifest.getMainAttributes();
+  final String pluginPackage=attributes.getValue(PluginConfig.PINPOINT_PLUGIN_PACKAGE);
+  if (pluginPackage == null) {
+    return PluginConfig.DEFAULT_PINPOINT_PLUGIN_PACKAGE_NAME;
+  }
+  return StringUtils.splitAndTrim(pluginPackage,",");
+}
