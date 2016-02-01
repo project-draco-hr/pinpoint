@@ -1,0 +1,7 @@
+{
+  if (activeTraceMetricSet == null) {
+    throw new NullPointerException("activeTraceMetricSet must not be null");
+  }
+  Map<String,Metric> metrics=activeTraceMetricSet.getMetrics();
+  this.activeTraceHistogramGauge=((Gauge<TActiveTraceHistogram>)MetricMonitorValues.getMetric(metrics,ACTIVE_TRACE_COUNT,UNSUPPORTED_GAUGE));
+}

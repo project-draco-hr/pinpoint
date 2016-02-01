@@ -1,0 +1,24 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.version=iprot.readI16();
+    struct.setVersionIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.histogramSchemaType=iprot.readI32();
+    struct.setHistogramSchemaTypeIsSet(true);
+  }
+  if (incoming.get(2)) {
+{
+      org.apache.thrift.protocol.TList _list29=new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32,iprot.readI32());
+      struct.activeTraceCount=new ArrayList<Integer>(_list29.size);
+      int _elem30;
+      for (int _i31=0; _i31 < _list29.size; ++_i31) {
+        _elem30=iprot.readI32();
+        struct.activeTraceCount.add(_elem30);
+      }
+    }
+    struct.setActiveTraceCountIsSet(true);
+  }
+}

@@ -1,0 +1,14 @@
+{
+  if (traceContext == null) {
+    throw new NullPointerException("traceContext must not be null");
+  }
+  ProfilerConfig profilerConfig=traceContext.getProfilerConfig();
+  if (profilerConfig == null) {
+    profilerConfig=new DefaultProfilerConfig();
+  }
+  this.monitorRegistry=createRegistry();
+  this.garbageCollector=createGarbageCollector(profilerConfig.isProfilerJvmCollectDetailedMetrics());
+  this.cpuLoadCollector=createCpuLoadCollector();
+  this.transactionMetricCollector=createTransactionMetricCollector(traceContext);
+  this.activeTraceMetricCollector=createActiveTraceCollector(traceContext,profilerConfig.isTraceAgentActiveThread());
+}

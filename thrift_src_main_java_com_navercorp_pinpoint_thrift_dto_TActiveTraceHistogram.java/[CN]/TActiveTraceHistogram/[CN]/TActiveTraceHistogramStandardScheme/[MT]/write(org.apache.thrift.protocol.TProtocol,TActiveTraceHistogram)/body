@@ -1,0 +1,27 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(VERSION_FIELD_DESC);
+  oprot.writeI16(struct.version);
+  oprot.writeFieldEnd();
+  if (struct.isSetHistogramSchemaType()) {
+    oprot.writeFieldBegin(HISTOGRAM_SCHEMA_TYPE_FIELD_DESC);
+    oprot.writeI32(struct.histogramSchemaType);
+    oprot.writeFieldEnd();
+  }
+  if (struct.activeTraceCount != null) {
+    if (struct.isSetActiveTraceCount()) {
+      oprot.writeFieldBegin(ACTIVE_TRACE_COUNT_FIELD_DESC);
+{
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32,struct.activeTraceCount.size()));
+        for (        int _iter27 : struct.activeTraceCount) {
+          oprot.writeI32(_iter27);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

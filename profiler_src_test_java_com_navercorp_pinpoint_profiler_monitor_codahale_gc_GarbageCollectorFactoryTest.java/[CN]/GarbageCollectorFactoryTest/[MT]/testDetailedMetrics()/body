@@ -1,7 +1,8 @@
 {
-  ProfilerConfig profilerConfig=new DefaultProfilerConfig();
-  profilerConfig.setProfilerJvmCollectDetailedMetrics(true);
-  GarbageCollector collector=new AgentStatCollectorFactory(new TestableTransactionCounter(),profilerConfig).getGarbageCollector();
+  TraceContext testTraceContext=new MockTraceContextFactory().create();
+  ProfilerConfig testProfilerConfig=testTraceContext.getProfilerConfig();
+  testProfilerConfig.setProfilerJvmCollectDetailedMetrics(true);
+  GarbageCollector collector=new AgentStatCollectorFactory(testTraceContext).getGarbageCollector();
   logger.debug("collector.getType():{}",collector);
   TJvmGc collect1=collector.collect();
   logger.debug("collector.collect():{}",collect1);

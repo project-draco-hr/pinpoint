@@ -1,21 +1,8 @@
 {
-  Map<SlotType,IntAdder> mappedSlot=new LinkedHashMap<SlotType,IntAdder>(activeThreadSlotsCount);
-  for (  SlotType slotType : ACTIVE_THREAD_SLOTS_ORDER) {
-    mappedSlot.put(slotType,new IntAdder(0));
-  }
-  long currentTime=System.currentTimeMillis();
-  List<ActiveTraceInfo> collectedActiveTraceInfo=activeTraceLocator.collect();
-  for (  ActiveTraceInfo activeTraceInfo : collectedActiveTraceInfo) {
-    HistogramSlot slot=histogramSchema.findHistogramSlot((int)(currentTime - activeTraceInfo.getStartTime()),false);
-    mappedSlot.get(slot.getSlotType()).incrementAndGet();
-  }
-  List<Integer> activeThreadCount=new ArrayList<Integer>(activeThreadSlotsCount);
-  for (  IntAdder statusCount : mappedSlot.values()) {
-    activeThreadCount.add(statusCount.get());
-  }
+  ActiveTraceHistogram activeTraceHistogram=this.activeTraceHistogramFactory.createHistogram();
   TCmdActiveThreadCountRes response=new TCmdActiveThreadCountRes();
-  response.setHistogramSchemaType(histogramSchema.getTypeCode());
-  response.setActiveThreadCount(activeThreadCount);
+  response.setHistogramSchemaType(activeTraceHistogram.getHistogramSchema().getTypeCode());
+  response.setActiveThreadCount(activeTraceHistogram.getActiveTraceCounts());
   response.setTimeStamp(System.currentTimeMillis());
   return response;
 }
