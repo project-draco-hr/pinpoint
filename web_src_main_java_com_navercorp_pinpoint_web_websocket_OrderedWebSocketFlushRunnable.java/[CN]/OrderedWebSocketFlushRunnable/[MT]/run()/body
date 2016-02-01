@@ -1,0 +1,11 @@
+{
+  try {
+    webSocketSession.sendMessage(webSocketMessage);
+  }
+ catch (  Exception e) {
+    LOGGER.warn("failed while flushing message to webSocket. session:{}, message:{}, error:{}",webSocketSession,webSocketMessage,e.getMessage(),e);
+    if (sessionCloseOnError) {
+      closeSession(webSocketSession);
+    }
+  }
+}

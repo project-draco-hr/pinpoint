@@ -1,0 +1,15 @@
+{
+  if (threadFactory == null) {
+    throw new NullPointerException("threadFactory must not be null");
+  }
+  if (threadCount < 0) {
+    throw new IllegalArgumentException("threadCount workerQueueSize");
+  }
+  if (workerQueueSize < 0) {
+    throw new IllegalArgumentException("workerQueueSize workerQueueSize");
+  }
+  this.threadCount=threadCount;
+  this.workerQueueSize=workerQueueSize;
+  this.threadFactory=threadFactory;
+  this.childExecutors=createChildExecutor(threadCount);
+}
