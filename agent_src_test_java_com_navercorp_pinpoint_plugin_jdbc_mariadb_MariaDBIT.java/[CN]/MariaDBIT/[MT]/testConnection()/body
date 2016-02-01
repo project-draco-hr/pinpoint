@@ -1,0 +1,21 @@
+{
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Connection connection=DriverManager.getConnection(JDBC_URL,"root",null);
+  Statement statement=connection.createStatement();
+  ResultSet result=statement.executeQuery("SELECT count(1) FROM playground");
+  result.first();
+  assertEquals(3,result.getInt(1));
+  verifier.printCache();
+  verifier.verifyTraceCount(2);
+  verifier.verifyTrace(event("MARIADB",Driver.class.getMethod("connect",String.class,Properties.class),cachedArgs(JDBC_URL)));
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",MariaDbStatement.class.getMethod("executeQuery",String.class),sql("SELECT count(0#) FROM playground","1")));
+  PreparedStatement ps=connection.prepareStatement(PREPARED_STATEMENT);
+  ps.setInt(1,3);
+  result=ps.executeQuery();
+  result.first();
+  assertEquals("THREE",result.getString(2));
+  verifier.printCache();
+  verifier.verifyTraceCount(2);
+  verifier.verifyTrace(event("MARIADB",MariaDbConnection.class.getMethod("prepareStatement",String.class),sql(PREPARED_STATEMENT,null)));
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",MariaDbServerPreparedStatement.class.getMethod("executeQuery"),sql(PREPARED_STATEMENT,null,"3")));
+}
