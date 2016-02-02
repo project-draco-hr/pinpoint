@@ -29,5 +29,12 @@
     put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_COL_TRANSACTION_UNSAMPLED_NEW,Bytes.toBytes(transaction.getUnsampledNewCount()));
     put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_COL_TRANSACTION_UNSAMPLED_CONTINUATION,Bytes.toBytes(transaction.getUnsampledContinuationCount()));
   }
+  if (agentStat.isSetActiveTrace()) {
+    TActiveTrace activeTrace=agentStat.getActiveTrace();
+    if (activeTrace.isSetHistogram()) {
+      ActiveTraceHistogramBo activeTraceHistogramBo=this.activeTraceHistogramBoMapper.map(activeTrace.getHistogram());
+      put.addColumn(AGENT_STAT_CF_STATISTICS,AGENT_STAT_COL_ACTIVE_TRACE_HISTOGRAM,activeTraceHistogramBo.writeValue());
+    }
+  }
   return put;
 }

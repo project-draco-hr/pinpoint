@@ -1,0 +1,25 @@
+{
+  if (activeTraceCounts == null) {
+    return createUnknownActiveTraceCountMap(version);
+  }
+switch (version) {
+case 0:
+    if (activeTraceCounts.size() != 4) {
+      throw new IllegalArgumentException("activeTraceCounts does not match specification. Version : " + version + ", activeTraceCounts : "+ activeTraceCounts);
+    }
+ else {
+      int fastCount=activeTraceCounts.get(0) == null ? 0 : activeTraceCounts.get(0);
+      int normalCount=activeTraceCounts.get(1) == null ? 0 : activeTraceCounts.get(1);
+      int slowCount=activeTraceCounts.get(2) == null ? 0 : activeTraceCounts.get(2);
+      int verySlowCount=activeTraceCounts.get(3) == null ? 0 : activeTraceCounts.get(3);
+      Map<SlotType,Integer> activeTraceCountMap=new HashMap<SlotType,Integer>();
+      activeTraceCountMap.put(SlotType.FAST,fastCount);
+      activeTraceCountMap.put(SlotType.NORMAL,normalCount);
+      activeTraceCountMap.put(SlotType.SLOW,slowCount);
+      activeTraceCountMap.put(SlotType.VERY_SLOW,verySlowCount);
+      return activeTraceCountMap;
+    }
+default :
+  return Collections.emptyMap();
+}
+}

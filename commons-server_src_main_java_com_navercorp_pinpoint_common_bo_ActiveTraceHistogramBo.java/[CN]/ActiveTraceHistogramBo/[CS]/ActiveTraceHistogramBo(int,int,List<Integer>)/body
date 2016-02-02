@@ -1,0 +1,8 @@
+{
+  if (version < 0 || version > 255) {
+    throw new IllegalArgumentException("version out of range (0~255)");
+  }
+  this.version=(byte)(version & 0xFF);
+  this.histogramSchemaType=histogramSchemaType;
+  this.activeTraceCountMap=createActiveTraceCountMap(version,activeTraceCounts);
+}
