@@ -1,6 +1,9 @@
 {
   TCPReceiver tcpReceiver=new TCPReceiver(createConfiguration(),new UdpDispatchHandler());
-  tcpReceiver.start();
-  Thread.sleep(1000);
-  tcpReceiver.stop();
+  try {
+    tcpReceiver.start();
+  }
+  finally {
+    tcpReceiver.stop();
+  }
 }
