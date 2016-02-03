@@ -1,0 +1,14 @@
+{
+  long currentTime=System.currentTimeMillis();
+  List<TransactionId> transactionIdList=new ArrayList<>(createSize);
+  for (int i=0; i < createSize; i++) {
+    transactionIdList.add(new TransactionId(transactionAgentId,currentTime,i));
+  }
+  long acceptedTime=Math.max(Math.abs(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE)),from);
+  int executionTime=(int)Math.abs(ThreadLocalRandom.current().nextLong(60 * 1000));
+  List<Dot> dotList=new ArrayList<>(createSize);
+  for (int i=0; i < createSize; i++) {
+    dotList.add(new Dot(transactionIdList.get(i),acceptedTime,executionTime,Dot.EXCEPTION_NONE,agentId));
+  }
+  return dotList;
+}

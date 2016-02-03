@@ -1,0 +1,17 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  StopWatch watch=new StopWatch();
+  watch.start("getScatterDataMadeOfDotGroup");
+  final Range range=Range.createUncheckedRange(from,to);
+  logger.debug("fetch scatter data made of dot group. RANGE={}, LIMIT={}, X-Group-Unit:{}, Y-Group-Unit:{}",range,limit,xGroupUnit,yGroupUnit);
+  ModelAndView mv=selectScatterDataMadeOfDotGroup(applicationName,range,xGroupUnit,yGroupUnit,limit);
+  if (jsonpCallback == null) {
+    mv.setViewName("jsonView");
+  }
+ else {
+    mv.setViewName("jsonpView");
+  }
+  watch.stop();
+  logger.info("Fetch scatterDataMadeOfDotGroup time : {}ms",watch.getLastTaskTimeMillis());
+  return mv;
+}

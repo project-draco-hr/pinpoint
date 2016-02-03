@@ -1,0 +1,16 @@
+{
+  if (transactionAgentScatterData == null) {
+    return;
+  }
+  Map<Coordinates,DotGroup> dotGroupMap=transactionAgentScatterData.getDotGroupMap();
+  for (  Map.Entry<Coordinates,DotGroup> entry : dotGroupMap.entrySet()) {
+    Coordinates key=entry.getKey();
+    DotGroup dotGroup=this.dotGroupMap.get(key);
+    if (dotGroup == null) {
+      this.dotGroupMap.put(key,entry.getValue());
+    }
+ else {
+      dotGroup.merge(entry.getValue());
+    }
+  }
+}

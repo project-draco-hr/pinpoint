@@ -1,0 +1,15 @@
+{
+  int count=100;
+  long from=1000;
+  int xGroupUnit=100;
+  int yGroupUnit=100;
+  ScatterData scatterData=new ScatterData(from,xGroupUnit,yGroupUnit);
+  List<Dot> dotList=createDotList("agent","transactionAgent",count,from);
+  for (  Dot dot : dotList) {
+    ScatterData newScatterData=new ScatterData(from,xGroupUnit,yGroupUnit);
+    newScatterData.addDot(dot);
+    scatterData.merge(newScatterData);
+  }
+  List<Dot> dots=extractDotList(scatterData);
+  Assert.assertEquals(count,dots.size());
+}

@@ -42,8 +42,8 @@
       }
       int averageTime=totalTime / entry.getValue().size();
       averageList.add(new Dot(new TransactionId("",0,0),entry.getKey(),averageTime,0,""));
-      maxList.add(new Dot(new TransactionId(max.getTransactionId()),entry.getKey(),max.getElapsedTime(),max.getExceptionCode(),max.getAgentId()));
-      minList.add(new Dot(new TransactionId(min.getTransactionId()),entry.getKey(),min.getElapsedTime(),min.getExceptionCode(),min.getAgentId()));
+      maxList.add(new Dot(new TransactionId(max.getTransactionIdAsString()),entry.getKey(),max.getElapsedTime(),max.getExceptionCode(),max.getAgentId()));
+      minList.add(new Dot(new TransactionId(min.getTransactionIdAsString()),entry.getKey(),min.getElapsedTime(),min.getExceptionCode(),min.getAgentId()));
     }
     scatterAgentData.put("_#AverageAgent",averageList);
     scatterAgentData.put("_#MaxAgent",maxList);

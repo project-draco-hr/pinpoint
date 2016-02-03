@@ -1,0 +1,16 @@
+{
+  if (agentScatterData == null) {
+    return;
+  }
+  Map<ScatterAgentInfo,TransactionAgentScatterData> transactionAgentScatterDataMap=agentScatterData.getTransactionAgentScatterDataMap();
+  for (  Map.Entry<ScatterAgentInfo,TransactionAgentScatterData> entry : transactionAgentScatterDataMap.entrySet()) {
+    ScatterAgentInfo key=entry.getKey();
+    TransactionAgentScatterData transactionAgentScatterData=this.transactionAgentScatterDataMap.get(key);
+    if (transactionAgentScatterData == null) {
+      this.transactionAgentScatterDataMap.put(key,entry.getValue());
+    }
+ else {
+      transactionAgentScatterData.merge(entry.getValue());
+    }
+  }
+}

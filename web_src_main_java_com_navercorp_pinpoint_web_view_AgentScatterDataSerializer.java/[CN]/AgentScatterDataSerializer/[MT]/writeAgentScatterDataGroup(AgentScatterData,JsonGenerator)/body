@@ -1,0 +1,11 @@
+{
+  Map<ScatterAgentInfo,TransactionAgentScatterData> transactionAgentScatterDataMap=value.getTransactionAgentScatterDataMap();
+  for (  Map.Entry<ScatterAgentInfo,TransactionAgentScatterData> entry : transactionAgentScatterDataMap.entrySet()) {
+    jgen.writeStartObject();
+    ScatterAgentInfo key=entry.getKey();
+    jgen.writeStringField("agentId",key.getAgentId());
+    jgen.writeObjectField("startTime",key.getAgentStartTime());
+    jgen.writeObjectField("dotGroup",entry.getValue());
+    jgen.writeEndObject();
+  }
+}
