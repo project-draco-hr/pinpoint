@@ -6,7 +6,6 @@
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
     RecordedStreamChannelMessageListener clientListener=new RecordedStreamChannelMessageListener(4);
     ClientStreamChannelContext clientContext=client.openStream(new byte[0],clientListener);
-    Thread.sleep(100);
     StreamCreateFailPacket createFailPacket=clientContext.getCreateFailPacket();
     if (createFailPacket == null) {
       Assert.fail();
