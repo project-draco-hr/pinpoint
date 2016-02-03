@@ -16,7 +16,7 @@
       for (int i=0; i < sendCount; i++) {
         sendRandomBytes(bo);
       }
-      Thread.sleep(100);
+      clientListener.getLatch().await();
       Assert.assertEquals(sendCount,clientListener.getReceivedMessage().size());
       clientContext.getStreamChannel().close();
     }

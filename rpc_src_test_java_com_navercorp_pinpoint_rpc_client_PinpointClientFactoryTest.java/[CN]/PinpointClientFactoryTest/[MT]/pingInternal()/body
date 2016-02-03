@@ -1,8 +1,14 @@
 {
-  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort);
+  final CountDownLatch pingLatch=new CountDownLatch(1);
+  PinpointServerAcceptor serverAcceptor=PinpointRPCTestUtils.createPinpointServerFactory(bindPort,new PinpointRPCTestUtils.EchoServerListener(){
+    @Override public void handlePing(    PingPacket pingPacket,    PinpointServer pinpointServer){
+      pingLatch.countDown();
+    }
+  }
+);
   try {
     PinpointClient client=clientFactory.connect("127.0.0.1",bindPort);
-    Thread.sleep(1000);
+    pingLatch.await();
     PinpointRPCTestUtils.close(client);
   }
   finally {

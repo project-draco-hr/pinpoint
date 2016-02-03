@@ -2,11 +2,13 @@
   if (this.server.isServing()) {
     return;
   }
+  CountDownLatch waitToServeLatch=new CountDownLatch(1);
+  server.setServerEventHandler(new WaitToServeHandler(waitToServeLatch));
   executor.execute(new Runnable(){
     @Override public void run(){
       server.serve();
     }
   }
 );
-  Thread.sleep(500L);
+  waitToServeLatch.await();
 }
