@@ -1,0 +1,13 @@
+{
+  Map<Coordinates,DotGroup> dotGroupMap=value.getSortedDotGroupMap();
+  for (  Map.Entry<Coordinates,DotGroup> entry : dotGroupMap.entrySet()) {
+    jgen.writeStartArray();
+    Coordinates coordinates=entry.getKey();
+    jgen.writeNumber(coordinates.getX());
+    jgen.writeNumber(coordinates.getY());
+    DotGroup dotGroup=entry.getValue();
+    List<Dot> dotList=dotGroup.getSortedDotList();
+    writeDotList(coordinates.getX(),coordinates.getY(),dotList,jgen);
+    jgen.writeEndArray();
+  }
+}

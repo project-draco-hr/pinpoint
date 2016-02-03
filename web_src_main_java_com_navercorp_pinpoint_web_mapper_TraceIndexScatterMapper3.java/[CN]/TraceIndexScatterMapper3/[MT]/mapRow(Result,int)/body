@@ -1,0 +1,14 @@
+{
+  if (result.isEmpty()) {
+    return new ScatterData(from,xGroupUnit,yGroupUnit);
+  }
+  ScatterData scatterData=new ScatterData(from,xGroupUnit,yGroupUnit);
+  Cell[] rawCells=result.rawCells();
+  for (  Cell cell : rawCells) {
+    final Dot dot=createDot(cell);
+    if (dot != null) {
+      scatterData.addDot(dot);
+    }
+  }
+  return scatterData;
+}

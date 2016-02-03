@@ -1,0 +1,22 @@
+{
+  if (scatterData == null) {
+    return;
+  }
+  Map<ScatterAgentInfo,AgentScatterData> agentScatterDataMap=scatterData.getAgentScatterDataMap();
+  for (  Map.Entry<ScatterAgentInfo,AgentScatterData> entry : agentScatterDataMap.entrySet()) {
+    ScatterAgentInfo key=entry.getKey();
+    AgentScatterData agentScatterData=this.agentScatterDataMap.get(key);
+    if (agentScatterData == null) {
+      this.agentScatterDataMap.put(key,entry.getValue());
+    }
+ else {
+      agentScatterData.merge(entry.getValue());
+    }
+  }
+  if (oldestAcceptedTime > scatterData.getOldestAcceptedTime()) {
+    oldestAcceptedTime=scatterData.getOldestAcceptedTime();
+  }
+  if (latestAcceptedTime < scatterData.getLatestAcceptedTime()) {
+    latestAcceptedTime=scatterData.getLatestAcceptedTime();
+  }
+}
