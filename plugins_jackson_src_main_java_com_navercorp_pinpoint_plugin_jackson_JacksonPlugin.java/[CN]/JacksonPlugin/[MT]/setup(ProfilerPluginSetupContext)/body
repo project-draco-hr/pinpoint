@@ -1,8 +1,12 @@
 {
-  addObjectMapperEditor("com.fasterxml.jackson.databind.ObjectMapper");
-  addObjectReaderEditor("com.fasterxml.jackson.databind.ObjectReader");
-  addObjectWriterEditor("com.fasterxml.jackson.databind.ObjectWriter");
-  addObjectMapper_1_X_Editor("org.codehaus.jackson.map.ObjectMapper");
-  addObjectReaderEditor("org.codehaus.jackson.map.ObjectReader");
-  addObjectWriterEditor("org.codehaus.jackson.map.ObjectWriter");
+  JacksonConfig config=new JacksonConfig(context.getConfig());
+  logger.debug("[Jackson] Initialized config={}",config);
+  if (config.isProfile()) {
+    addObjectMapperEditor("com.fasterxml.jackson.databind.ObjectMapper");
+    addObjectReaderEditor("com.fasterxml.jackson.databind.ObjectReader");
+    addObjectWriterEditor("com.fasterxml.jackson.databind.ObjectWriter");
+    addObjectMapper_1_X_Editor("org.codehaus.jackson.map.ObjectMapper");
+    addObjectReaderEditor("org.codehaus.jackson.map.ObjectReader");
+    addObjectWriterEditor("org.codehaus.jackson.map.ObjectWriter");
+  }
 }
