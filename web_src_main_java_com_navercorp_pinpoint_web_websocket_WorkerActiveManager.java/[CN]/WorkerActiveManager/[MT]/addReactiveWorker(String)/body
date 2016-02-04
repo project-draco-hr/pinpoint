@@ -6,7 +6,7 @@ synchronized (lock) {
     }
     reactiveWorkerRepository.add(agentId);
     boolean turnOn=onReconnectTimerTask.compareAndSet(false,true);
-    logger.info("addReactiveWorker turnon:{}",turnOn);
+    logger.info("addReactiveWorker turnOn:{}",turnOn);
     if (turnOn) {
       timer.schedule(new ReactiveTimerTask(),DEFAULT_RECONNECT_DELAY);
     }

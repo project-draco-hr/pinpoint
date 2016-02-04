@@ -1,7 +1,13 @@
 {
   logger.info("AgentCheckTimerTask started.");
+  List<AgentInfo> agentInfoList=Collections.emptyList();
   try {
-    List<AgentInfo> agentInfoList=agentService.getRecentAgentInfoList(applicationName);
+    agentInfoList=agentService.getRecentAgentInfoList(applicationName);
+  }
+ catch (  Exception e) {
+    logger.warn("failed while to get RecentAgentInfoList(applicationName:{}). error:{}.",applicationName,e.getMessage(),e);
+  }
+  try {
     for (    AgentInfo agentInfo : agentInfoList) {
       String agentId=agentInfo.getAgentId();
       if (defaultAgentIdList.contains(agentId)) {
@@ -9,12 +15,10 @@
       }
       AgentStatus agentStatus=agentInfo.getStatus();
       if (agentStatus != null && agentStatus.getState() != AgentLifeCycleState.UNKNOWN) {
-        responseAggregator.addActiveWorker(agentInfo);
-        defaultAgentIdList.add(agentId);
+        addActiveWorker(agentInfo);
       }
  else       if (agentService.isConnected(agentInfo)) {
-        responseAggregator.addActiveWorker(agentInfo);
-        defaultAgentIdList.add(agentId);
+        addActiveWorker(agentInfo);
       }
     }
   }
