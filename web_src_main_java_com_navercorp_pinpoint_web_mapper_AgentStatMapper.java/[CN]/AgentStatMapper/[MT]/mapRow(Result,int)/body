@@ -56,6 +56,11 @@
   if (qualifierMap.containsKey(AGENT_STAT_COL_TRANSACTION_UNSAMPLED_CONTINUATION)) {
     agentStat.setUnsampledContinuationCount(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_TRANSACTION_UNSAMPLED_CONTINUATION)));
   }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_ACTIVE_TRACE_HISTOGRAM)) {
+    ActiveTraceHistogramBo activeTraceHistogramBo=new ActiveTraceHistogramBo(qualifierMap.get(AGENT_STAT_COL_ACTIVE_TRACE_HISTOGRAM));
+    agentStat.setHistogramSchema(BaseHistogramSchema.getDefaultHistogramSchemaByTypeCode(activeTraceHistogramBo.getHistogramSchemaType()));
+    agentStat.setActiveTraceCounts(activeTraceHistogramBo.getActiveTraceCountMap());
+  }
   List<AgentStat> agentStats=new ArrayList<>();
   agentStats.add(agentStat);
   return agentStats;
