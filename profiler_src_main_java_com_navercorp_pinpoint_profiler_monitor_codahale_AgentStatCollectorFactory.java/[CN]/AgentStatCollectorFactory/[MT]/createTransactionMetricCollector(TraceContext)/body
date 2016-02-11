@@ -1,0 +1,13 @@
+{
+  if (traceContext instanceof DefaultTraceContext) {
+    TransactionCounter transactionCounter=((DefaultTraceContext)traceContext).getTransactionCounter();
+    TransactionMetricSet transactionMetricSet=this.monitorRegistry.registerTpsMonitor(new MonitorName(MetricMonitorValues.TRANSACTION),transactionCounter);
+    if (logger.isInfoEnabled()) {
+      logger.info("loaded : {}",transactionMetricSet);
+    }
+    return new DefaultTransactionMetricCollector(transactionMetricSet);
+  }
+ else {
+    return TransactionMetricCollector.EMPTY_TRANSACTION_METRIC_COLLECTOR;
+  }
+}

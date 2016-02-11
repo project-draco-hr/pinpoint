@@ -1,0 +1,15 @@
+{
+  long timestamp=agentStat.getTimestamp();
+  HistogramSchema schema=agentStat.getHistogramSchema();
+  if (schema != null) {
+    Map<SlotType,Integer> activeTraceCounts=agentStat.getActiveTraceCounts();
+    DataPoint<Long,Integer> fastDataPoint=new TitledDataPoint<>(schema.getFastSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.FAST));
+    ((SampledTimeSeriesIntegerChartBuilder)this.chartBuilders.get(ChartType.ACTIVE_TRACE_FAST)).addDataPoint(fastDataPoint);
+    DataPoint<Long,Integer> normalDataPoint=new TitledDataPoint<>(schema.getNormalSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.NORMAL));
+    ((SampledTimeSeriesIntegerChartBuilder)this.chartBuilders.get(ChartType.ACTIVE_TRACE_NORMAL)).addDataPoint(normalDataPoint);
+    DataPoint<Long,Integer> slowDataPoint=new TitledDataPoint<>(schema.getSlowSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.SLOW));
+    ((SampledTimeSeriesIntegerChartBuilder)this.chartBuilders.get(ChartType.ACTIVE_TRACE_SLOW)).addDataPoint(slowDataPoint);
+    DataPoint<Long,Integer> verySlowDataPoint=new TitledDataPoint<>(schema.getVerySlowSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.VERY_SLOW));
+    ((SampledTimeSeriesIntegerChartBuilder)this.chartBuilders.get(ChartType.ACTIVE_TRACE_VERY_SLOW)).addDataPoint(verySlowDataPoint);
+  }
+}

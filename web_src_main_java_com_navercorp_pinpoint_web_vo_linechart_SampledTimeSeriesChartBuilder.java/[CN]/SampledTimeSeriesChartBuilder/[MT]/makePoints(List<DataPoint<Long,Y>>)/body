@@ -3,8 +3,9 @@
   allocateDataPoints(dataPoints);
   int timeSlotIndex=0;
   for (  Long timestamp : this.timeWindow) {
-    List<Y> dataPointsToSample=this.timeslots.get(timeSlotIndex);
-    points.addPoint(makePoint(timestamp,dataPointsToSample));
+    List<Y> samples=this.timeslots.get(timeSlotIndex);
+    Point point=new Point(timestamp,sampleMin(samples),sampleMax(samples),sampleAvg(samples));
+    points.addPoint(point);
     ++timeSlotIndex;
   }
   return points;

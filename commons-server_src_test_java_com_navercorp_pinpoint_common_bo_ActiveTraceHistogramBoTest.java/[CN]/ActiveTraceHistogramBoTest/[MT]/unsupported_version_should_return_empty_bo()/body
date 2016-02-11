@@ -1,0 +1,10 @@
+{
+  final int unsupportedVersion=255;
+  final int expectedHistogramSchemaType=1;
+  ActiveTraceHistogramBo givenBo=new ActiveTraceHistogramBo(unsupportedVersion,expectedHistogramSchemaType,Arrays.asList(0,1));
+  byte[] serializedBo=givenBo.writeValue();
+  ActiveTraceHistogramBo deserializedBo=new ActiveTraceHistogramBo(serializedBo);
+  assertEquals(unsupportedVersion,deserializedBo.getVersion());
+  assertEquals(expectedHistogramSchemaType,deserializedBo.getHistogramSchemaType());
+  assertEquals(Collections.emptyMap(),deserializedBo.getActiveTraceCountMap());
+}

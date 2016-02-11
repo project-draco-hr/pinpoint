@@ -1,10 +1,11 @@
 {
+  final long defaultValue=0L;
   final int sampleRate=60;
   final int totalPoints=10000;
   final int expectedNumPoints=getExpectedNumPoints(sampleRate,totalPoints);
-  ChartBuilder<Long,Long> longDataChartBuilder=new SampledDataLongChartBuilder(sampleRate);
+  ChartBuilder<Long,Long> longDataChartBuilder=new SampledDataLongChartBuilder(DownSamplers.getLongDownSampler(defaultValue),sampleRate);
   for (long i=0; i < totalPoints; ++i) {
-    longDataChartBuilder.addDataPoint(new DataPoint<Long,Long>(i,i));
+    longDataChartBuilder.addDataPoint(new DataPoint<>(i,i));
   }
   Chart lineChart=longDataChartBuilder.buildChart();
   assertTrue(lineChart.getPoints().size() == expectedNumPoints);

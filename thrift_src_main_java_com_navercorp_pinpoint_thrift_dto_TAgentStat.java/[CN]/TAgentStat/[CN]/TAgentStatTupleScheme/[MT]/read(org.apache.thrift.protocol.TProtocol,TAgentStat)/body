@@ -1,6 +1,6 @@
 {
   TTupleProtocol iprot=(TTupleProtocol)prot;
-  BitSet incoming=iprot.readBitSet(8);
+  BitSet incoming=iprot.readBitSet(9);
   if (incoming.get(0)) {
     struct.agentId=iprot.readString();
     struct.setAgentIdIsSet(true);
@@ -33,6 +33,11 @@
     struct.setTransactionIsSet(true);
   }
   if (incoming.get(7)) {
+    struct.activeTrace=new TActiveTrace();
+    struct.activeTrace.read(iprot);
+    struct.setActiveTraceIsSet(true);
+  }
+  if (incoming.get(8)) {
     struct.metadata=iprot.readString();
     struct.setMetadataIsSet(true);
   }

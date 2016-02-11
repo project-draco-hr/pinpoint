@@ -1,0 +1,12 @@
+{
+  if (CollectionUtils.isEmpty(values)) {
+    return this.defaultValue;
+  }
+  double avg=0;
+  int cnt=1;
+  for (  int value : values) {
+    avg+=(value - avg) / cnt;
+    ++cnt;
+  }
+  return (int)Math.round(avg);
+}

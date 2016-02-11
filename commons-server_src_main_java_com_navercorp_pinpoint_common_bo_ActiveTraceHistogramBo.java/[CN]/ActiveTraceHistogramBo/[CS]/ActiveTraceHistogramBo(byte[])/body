@@ -1,0 +1,19 @@
+{
+  final Buffer buffer=new FixedBuffer(serializedActiveTraceHistogramBo);
+  this.version=buffer.readByte();
+  this.histogramSchemaType=buffer.readVarInt();
+  int version=this.version & 0xFF;
+switch (version) {
+case 0:
+    int numActiveTraceCounts=buffer.readVarInt();
+  List<Integer> activeTraceCounts=new ArrayList<Integer>(numActiveTraceCounts);
+for (int i=0; i < numActiveTraceCounts; ++i) {
+  activeTraceCounts.add(buffer.readVarInt());
+}
+this.activeTraceCountMap=createActiveTraceCountMap(version,activeTraceCounts);
+break;
+default :
+this.activeTraceCountMap=Collections.emptyMap();
+break;
+}
+}

@@ -22,10 +22,13 @@
   if (struct.isSetTransaction()) {
     optionals.set(6);
   }
-  if (struct.isSetMetadata()) {
+  if (struct.isSetActiveTrace()) {
     optionals.set(7);
   }
-  oprot.writeBitSet(optionals,8);
+  if (struct.isSetMetadata()) {
+    optionals.set(8);
+  }
+  oprot.writeBitSet(optionals,9);
   if (struct.isSetAgentId()) {
     oprot.writeString(struct.agentId);
   }
@@ -46,6 +49,9 @@
   }
   if (struct.isSetTransaction()) {
     struct.transaction.write(oprot);
+  }
+  if (struct.isSetActiveTrace()) {
+    struct.activeTrace.write(oprot);
   }
   if (struct.isSetMetadata()) {
     oprot.writeString(struct.metadata);

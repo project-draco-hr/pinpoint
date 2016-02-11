@@ -1,10 +1,11 @@
 {
+  final double defaultValue=0D;
   int sampleRate=60;
   int totalPoints=10000;
   final int expectedNumPoints=getExpectedNumPoints(sampleRate,totalPoints);
-  ChartBuilder<Long,Double> doubleLineChartBuilder=new SampledDataDoubleChartBuilder(sampleRate);
+  ChartBuilder<Long,Double> doubleLineChartBuilder=new SampledDataDoubleChartBuilder(DownSamplers.getDoubleDownSampler(defaultValue,1),sampleRate);
   for (long i=0; i < totalPoints; ++i) {
-    doubleLineChartBuilder.addDataPoint(new DataPoint<Long,Double>(i,(double)i));
+    doubleLineChartBuilder.addDataPoint(new DataPoint<>(i,(double)i));
   }
   Chart lineChart=doubleLineChartBuilder.buildChart();
   assertTrue(lineChart.getPoints().size() == expectedNumPoints);

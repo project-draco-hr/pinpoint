@@ -1,0 +1,9 @@
+{
+  final int validVersion=0;
+  final int expectedHistogramSchemaType=1;
+  final List<Integer> expectedActiveTraceCounts=Arrays.asList(0,1,2,3);
+  ActiveTraceHistogramBo expectedBo=new ActiveTraceHistogramBo(validVersion,expectedHistogramSchemaType,expectedActiveTraceCounts);
+  byte[] serializedBo=expectedBo.writeValue();
+  ActiveTraceHistogramBo deserializedBo=new ActiveTraceHistogramBo(serializedBo);
+  assertEquals(expectedBo,deserializedBo);
+}

@@ -1,0 +1,19 @@
+{
+  if (!isTraceAgentActiveThread) {
+    return ActiveTraceMetricCollector.EMPTY_ACTIVE_TRACE_COLLECTOR;
+  }
+  if (traceContext instanceof DefaultTraceContext) {
+    ActiveTraceLocator activeTraceLocator=((DefaultTraceContext)traceContext).getActiveTraceLocator();
+    if (activeTraceLocator != null) {
+      ActiveTraceMetricSet activeTraceMetricSet=this.monitorRegistry.registerActiveTraceMetricSet(new MonitorName(MetricMonitorValues.ACTIVE_TRACE),activeTraceLocator);
+      if (logger.isInfoEnabled()) {
+        logger.info("loaded : {}",activeTraceMetricSet);
+      }
+      return new DefaultActiveTraceMetricCollector(activeTraceMetricSet);
+    }
+ else {
+      logger.warn("agent set to trace active threads but no ActiveTraceLocator found");
+    }
+  }
+  return ActiveTraceMetricCollector.EMPTY_ACTIVE_TRACE_COLLECTOR;
+}
