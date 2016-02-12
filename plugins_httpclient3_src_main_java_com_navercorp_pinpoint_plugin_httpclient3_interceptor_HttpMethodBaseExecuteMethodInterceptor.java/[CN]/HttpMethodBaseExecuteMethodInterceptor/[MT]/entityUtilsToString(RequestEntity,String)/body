@@ -1,0 +1,14 @@
+{
+  FixedByteArrayOutputStream outStream=new FixedByteArrayOutputStream(MAX_READ_SIZE);
+  entity.writeRequest(outStream);
+  String entityValue=outStream.toString(charSet);
+  if (entity.getContentLength() > MAX_READ_SIZE) {
+    StringBuilder sb=new StringBuilder();
+    sb.append(entityValue);
+    sb.append(" (HTTP entity is large. length: ");
+    sb.append(entity.getContentLength());
+    sb.append(" )");
+    return sb.toString();
+  }
+  return entityValue;
+}

@@ -7,11 +7,11 @@
         if (entitySampler.isSampling()) {
           final String entityString=entityUtilsToString(entity,"UTF8",1024);
           final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-          recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,StringUtils.drop(entityString,1024));
+          recorder.recordAttribute(AnnotationKey.HTTP_PARAM_ENTITY,entityString);
         }
       }
     }
- catch (    IOException e) {
+ catch (    Exception e) {
       logger.debug("HttpEntityEnclosingRequest entity record fail. Caused:{}",e.getMessage(),e);
     }
   }

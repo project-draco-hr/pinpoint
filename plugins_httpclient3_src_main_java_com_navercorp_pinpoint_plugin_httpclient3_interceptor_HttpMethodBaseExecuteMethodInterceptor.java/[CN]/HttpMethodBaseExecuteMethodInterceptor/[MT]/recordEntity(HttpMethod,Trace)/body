@@ -10,11 +10,8 @@
           if (charSet == null || charSet.isEmpty()) {
             charSet=HttpConstants.DEFAULT_CONTENT_CHARSET;
           }
-          if (entity instanceof ByteArrayRequestEntity) {
-            entityValue=readByteArray((ByteArrayRequestEntity)entity,charSet);
-          }
- else           if (entity instanceof StringRequestEntity) {
-            entityValue=readString((StringRequestEntity)entity);
+          if (entity instanceof ByteArrayRequestEntity || entity instanceof StringRequestEntity) {
+            entityValue=entityUtilsToString(entity,charSet);
           }
  else {
             entityValue=entity.getClass() + " (ContentType:" + entity.getContentType()+ ")";
