@@ -2,12 +2,6 @@
   if (dot == null) {
     return;
   }
-  ScatterAgentInfo agentInfo=new ScatterAgentInfo(dot.getAgentId());
-  AgentScatterData agentScatterData=agentScatterDataMap.get(agentInfo);
-  if (agentScatterData == null) {
-    agentScatterData=new AgentScatterData(agentInfo);
-    agentScatterDataMap.put(agentInfo,agentScatterData);
-  }
   long acceptedTimeDiff=dot.getAcceptedTime() - from;
   long x=acceptedTimeDiff - (acceptedTimeDiff % xGroupUnitMillis);
   if (x < 0) {
@@ -15,7 +9,7 @@
   }
   int y=dot.getElapsedTime() - (dot.getElapsedTime() % yGroupUnitMillis);
   Coordinates coordinates=new Coordinates(x,y);
-  agentScatterData.addDot(coordinates,new Dot(dot.getTransactionId(),acceptedTimeDiff,dot.getElapsedTime(),dot.getExceptionCode(),dot.getAgentId()));
+  addDot(coordinates,new Dot(dot.getTransactionId(),acceptedTimeDiff,dot.getElapsedTime(),dot.getExceptionCode(),dot.getAgentId()));
   if (oldestAcceptedTime > dot.getAcceptedTime()) {
     oldestAcceptedTime=dot.getAcceptedTime();
   }
