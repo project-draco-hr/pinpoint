@@ -1,0 +1,16 @@
+{
+  jgen.writeStartArray();
+  jgen.writeNumber(dot.getAcceptedTime());
+  jgen.writeNumber(dot.getElapsedTime());
+  int agentId=metaData.getId(dot);
+  jgen.writeNumber(agentId);
+  if (agentId == -1) {
+    jgen.writeString(dot.getTransactionIdAsString());
+  }
+ else {
+    jgen.writeNumber(dot.getTransactionId().getTransactionSequence());
+  }
+  jgen.writeNumber(dot.getSimpleExceptionCode());
+  jgen.writeNumber(thick);
+  jgen.writeEndArray();
+}

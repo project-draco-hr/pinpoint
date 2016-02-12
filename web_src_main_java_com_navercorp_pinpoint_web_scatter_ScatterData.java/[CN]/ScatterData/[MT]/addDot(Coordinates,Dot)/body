@@ -1,0 +1,9 @@
+{
+  DotGroups dotGroups=scatterData.get(coordinates.getX());
+  if (dotGroups == null) {
+    dotGroups=new DotGroups(coordinates.getX());
+    scatterData.put(coordinates.getX(),dotGroups);
+  }
+  dotGroups.addDot(coordinates,dot);
+  scatterAgentMetadataRepository.addDotAgentInfo(new DotAgentInfo(dot));
+}

@@ -1,0 +1,12 @@
+{
+  Map<Dot,DotGroup> dotGroupLeaders=dotGroups.getDotGroupLeaders();
+  Set<Dot> dotSet=dotGroups.getSortedDotSet();
+  for (  Dot dot : dotSet) {
+    if (dotGroupLeaders.containsKey(dot)) {
+      writeDot(dot,dotGroupLeaders.get(dot).getDotSize(),metaData,jgen);
+    }
+ else {
+      writeDot(dot,0,metaData,jgen);
+    }
+  }
+}

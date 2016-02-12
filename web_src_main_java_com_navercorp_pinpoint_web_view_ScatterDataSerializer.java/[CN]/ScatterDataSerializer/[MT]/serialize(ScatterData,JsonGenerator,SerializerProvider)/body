@@ -1,5 +1,7 @@
 {
-  jgen.writeStartArray();
-  writeAgentDotGroupMap(value,jgen);
-  jgen.writeEndArray();
+  jgen.writeStartObject();
+  ScatterAgentMetaData metadata=value.getScatterAgentMetadata();
+  writeScatterAgentMetaData(metadata,jgen);
+  wrtieScatterData(value,metadata,jgen);
+  jgen.writeEndObject();
 }

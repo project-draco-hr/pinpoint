@@ -1,0 +1,14 @@
+{
+  Collection<DotGroup> dotGroupList=dotGroupMap.values();
+  int size=0;
+  for (  DotGroup dotGroup : dotGroupList) {
+    size+=dotGroup.getDotSize();
+  }
+  List<Dot> dotList=new ArrayList<>(size);
+  for (  DotGroup dotGroup : dotGroupList) {
+    dotList.addAll(dotGroup.getDotSet());
+  }
+  Set<Dot> sortedSet=new TreeSet<>(DOT_COMPARATOR);
+  sortedSet.addAll(dotList);
+  return sortedSet;
+}

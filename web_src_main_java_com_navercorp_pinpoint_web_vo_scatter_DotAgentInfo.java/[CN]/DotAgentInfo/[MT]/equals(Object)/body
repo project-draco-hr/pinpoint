@@ -1,0 +1,16 @@
+{
+  if (this == o) {
+    return true;
+  }
+  if (o == null || getClass() != o.getClass()) {
+    return false;
+  }
+  DotAgentInfo that=(DotAgentInfo)o;
+  if (agentId != null ? !agentId.equals(that.getAgentId()) : that.getAgentId() != null) {
+    return false;
+  }
+  if (transactionAgentStartTime != that.getTransactionAgentStartTime()) {
+    return false;
+  }
+  return transactionAgentId != null ? transactionAgentId.equals(that.getTransactionAgentId()) : that.getTransactionAgentId() == null;
+}

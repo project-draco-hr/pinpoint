@@ -1,0 +1,9 @@
+{
+  jgen.writeArrayFieldStart("dotList");
+  Map<Long,DotGroups> sortedScatterDataMap=scatterData.getSortedScatterDataMap();
+  for (  Map.Entry<Long,DotGroups> entry : sortedScatterDataMap.entrySet()) {
+    DotGroups dotGroups=entry.getValue();
+    writeDotSet(dotGroups,metaData,jgen);
+  }
+  jgen.writeEndArray();
+}
