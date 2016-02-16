@@ -1,0 +1,10 @@
+{
+  TJvmInfo tJvmInfo=new TJvmInfo();
+  tJvmInfo.setVmVersion(this.jvmInformation.getJvmVersion());
+  TJvmGcType gcType=TJvmGcType.findByValue(this.jvmInformation.getGcTypeCode());
+  if (gcType == null) {
+    gcType=TJvmGcType.UNKNOWN;
+  }
+  tJvmInfo.setGcType(gcType);
+  return tJvmInfo;
+}

@@ -1,0 +1,14 @@
+{
+  final Buffer buffer=new AutomaticBuffer();
+  buffer.put(this.version);
+  int version=this.version & 0xFF;
+switch (version) {
+case 0:
+    buffer.putPrefixedString(this.jvmVersion);
+  buffer.putPrefixedString(this.gcTypeName);
+break;
+default :
+break;
+}
+return buffer.getBuffer();
+}

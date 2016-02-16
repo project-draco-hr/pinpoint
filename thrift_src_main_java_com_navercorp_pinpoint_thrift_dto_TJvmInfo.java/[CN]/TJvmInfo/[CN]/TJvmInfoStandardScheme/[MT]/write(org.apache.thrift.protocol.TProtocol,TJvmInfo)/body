@@ -1,0 +1,23 @@
+{
+  struct.validate();
+  oprot.writeStructBegin(STRUCT_DESC);
+  oprot.writeFieldBegin(VERSION_FIELD_DESC);
+  oprot.writeI16(struct.version);
+  oprot.writeFieldEnd();
+  if (struct.vmVersion != null) {
+    if (struct.isSetVmVersion()) {
+      oprot.writeFieldBegin(VM_VERSION_FIELD_DESC);
+      oprot.writeString(struct.vmVersion);
+      oprot.writeFieldEnd();
+    }
+  }
+  if (struct.gcType != null) {
+    if (struct.isSetGcType()) {
+      oprot.writeFieldBegin(GC_TYPE_FIELD_DESC);
+      oprot.writeI32(struct.gcType.getValue());
+      oprot.writeFieldEnd();
+    }
+  }
+  oprot.writeFieldStop();
+  oprot.writeStructEnd();
+}

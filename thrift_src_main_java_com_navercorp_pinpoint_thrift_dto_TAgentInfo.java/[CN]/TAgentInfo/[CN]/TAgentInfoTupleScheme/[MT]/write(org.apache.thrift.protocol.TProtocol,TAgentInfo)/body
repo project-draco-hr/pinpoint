@@ -40,7 +40,10 @@
   if (struct.isSetServerMetaData()) {
     optionals.set(12);
   }
-  oprot.writeBitSet(optionals,13);
+  if (struct.isSetJvmInfo()) {
+    optionals.set(13);
+  }
+  oprot.writeBitSet(optionals,14);
   if (struct.isSetHostname()) {
     oprot.writeString(struct.hostname);
   }
@@ -79,5 +82,8 @@
   }
   if (struct.isSetServerMetaData()) {
     struct.serverMetaData.write(oprot);
+  }
+  if (struct.isSetJvmInfo()) {
+    struct.jvmInfo.write(oprot);
   }
 }

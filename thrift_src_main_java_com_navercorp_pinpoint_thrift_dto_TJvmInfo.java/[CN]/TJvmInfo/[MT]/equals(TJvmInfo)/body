@@ -1,0 +1,22 @@
+{
+  if (that == null)   return false;
+  boolean this_present_version=true;
+  boolean that_present_version=true;
+  if (this_present_version || that_present_version) {
+    if (!(this_present_version && that_present_version))     return false;
+    if (this.version != that.version)     return false;
+  }
+  boolean this_present_vmVersion=true && this.isSetVmVersion();
+  boolean that_present_vmVersion=true && that.isSetVmVersion();
+  if (this_present_vmVersion || that_present_vmVersion) {
+    if (!(this_present_vmVersion && that_present_vmVersion))     return false;
+    if (!this.vmVersion.equals(that.vmVersion))     return false;
+  }
+  boolean this_present_gcType=true && this.isSetGcType();
+  boolean that_present_gcType=true && that.isSetGcType();
+  if (this_present_gcType || that_present_gcType) {
+    if (!(this_present_gcType && that_present_gcType))     return false;
+    if (!this.gcType.equals(that.gcType))     return false;
+  }
+  return true;
+}
