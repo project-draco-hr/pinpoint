@@ -1,17 +1,18 @@
 {
   final CallTreeNode current=getCurrent();
-  final long lastExecuteTime=getLastExecuteTime();
-  final SpanAlign currentAlign=current.getValue();
-  if (currentAlign.isSpan()) {
-    return currentAlign.getStartTime() - lastExecuteTime;
+  if (current.isRoot()) {
+    return 0;
   }
-  if (currentAlign.isAsyncFirst()) {
+  if (current.getValue().isAsyncFirst()) {
     final CallTreeNode parent=getAsyncParent(current);
     if (parent == null) {
       return 0;
     }
-    final SpanAlign parentAlign=parent.getValue();
-    return currentAlign.getStartTime() - parentAlign.getStartTime();
+    return current.getValue().getStartTime() - parent.getValue().getStartTime();
   }
-  return currentAlign.getStartTime() - lastExecuteTime;
+  final CallTreeNode prev=getPrev();
+  if (prev == null) {
+    throw new IllegalStateException("A non-root CallTreeNode must have a previous node");
+  }
+  return current.getValue().getStartTime() - getLastExecuteTime(current,prev);
 }

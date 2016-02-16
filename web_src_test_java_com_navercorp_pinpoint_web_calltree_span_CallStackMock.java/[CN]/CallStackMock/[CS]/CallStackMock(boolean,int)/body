@@ -1,0 +1,13 @@
+{
+  this.spanBo=new SpanBo();
+  this.spanBo.setStartTime(currentTime);
+  currentTime++;
+  this.async=async;
+  if (this.async) {
+    callTree=new SpanAsyncCallTree(new SpanAlign(spanBo));
+  }
+ else {
+    callTree=new SpanCallTree(new SpanAlign(spanBo));
+  }
+  this.asyncId=asyncId;
+}

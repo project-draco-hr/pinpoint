@@ -1,0 +1,12 @@
+{
+  CallStackDummy callStack=new CallStackDummy();
+  callStack.add("R",0,0,1);
+  callStack.add("##",1,1,1);
+  callStack.add("###",2,1,6);
+  callStack.add("RRRR",3,1,1);
+  callStack.add("#####",4,1,3);
+  callStack.add("######",5,1,1);
+  callStack.add("AAAAAA",5,3,1);
+  CallTree callTree=factory.get(callStack.getEvents());
+  assertCallTree(callTree,callStack.getDepths(),callStack.getGaps(),callStack.getExecs(),true);
+}

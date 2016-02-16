@@ -1,0 +1,12 @@
+{
+  CallStackMock callStack=callStacks.peek();
+  if (callStack.empty()) {
+    if (callStacks.size() > 1) {
+      callStacks.pop();
+      callStacks.peek().append(callStack.close());
+    }
+  }
+ else {
+    callStack.pop();
+  }
+}

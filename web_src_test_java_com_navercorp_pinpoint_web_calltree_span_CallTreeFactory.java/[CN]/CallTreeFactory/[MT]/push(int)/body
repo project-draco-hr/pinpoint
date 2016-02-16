@@ -1,0 +1,18 @@
+{
+  if (type == REMOTE) {
+    callStacks.push(new CallStackMock());
+    CallStackMock callStack=callStacks.peek();
+  }
+ else   if (type == ASYNC) {
+    final int asyncId=nextAsyncId++;
+    CallStackMock callStack=callStacks.peek();
+    callStack.peek().setNextAsyncId(asyncId);
+    CallStackMock asyncCallStack=new CallStackMock(true,asyncId);
+    callStacks.push(asyncCallStack);
+    asyncCallStack.push();
+  }
+ else {
+    CallStackMock callStack=callStacks.peek();
+    callStack.push();
+  }
+}

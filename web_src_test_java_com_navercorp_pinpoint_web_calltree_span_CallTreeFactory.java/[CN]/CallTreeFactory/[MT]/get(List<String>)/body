@@ -1,0 +1,39 @@
+{
+  int prevDepth=0;
+  for (  String event : events) {
+    int depth=event.length() - 1;
+    int type=INTERNAL;
+    if (event.startsWith("R")) {
+      type=REMOTE;
+    }
+ else     if (event.startsWith("A")) {
+      type=ASYNC;
+    }
+ else     if (event.startsWith("E")) {
+      type=END;
+    }
+    if (callStacks.empty() && type == REMOTE) {
+      callStacks.push(new CallStackMock());
+      continue;
+    }
+    if (prevDepth < depth) {
+      push(type);
+    }
+ else {
+      for (int i=depth; i <= prevDepth; i++) {
+        pop();
+      }
+      push(type);
+    }
+    prevDepth=depth;
+  }
+  while (callStacks.size() > 1) {
+    pop();
+  }
+  final CallStackMock callStack=callStacks.pop();
+  while (!callStack.empty()) {
+    callStack.pop();
+  }
+  callStacks.clear();
+  return callStack.close();
+}

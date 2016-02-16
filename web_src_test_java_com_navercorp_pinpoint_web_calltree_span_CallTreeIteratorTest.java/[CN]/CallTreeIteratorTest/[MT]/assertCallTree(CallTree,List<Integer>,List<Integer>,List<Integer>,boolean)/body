@@ -1,0 +1,56 @@
+{
+  Queue<Integer> depths=new LinkedBlockingQueue<>(expectedDepths);
+  Queue<Integer> gaps=new LinkedBlockingQueue<>(expectedGaps);
+  Queue<Integer> execs=new LinkedBlockingQueue<>(expectedExecs);
+  int index=0;
+  CallTreeIterator iterator=callTree.iterator();
+  final StringBuilder buffer=new StringBuilder("\n");
+  while (iterator.hasNext()) {
+    CallTreeNode node=iterator.next();
+    SpanAlign align=node.getValue();
+    if (check && depths != null && !depths.isEmpty()) {
+      final int depth=depths.poll();
+      assertEquals("depth " + index,depth,align.getDepth());
+    }
+    if (check && gaps != null && !gaps.isEmpty()) {
+      final int gap=gaps.poll();
+      assertEquals("gap " + index,gap,align.getGap());
+    }
+    if (check && execs != null && !execs.isEmpty()) {
+      final int exec=execs.poll();
+      assertEquals("exec " + index,exec,align.getExecutionMilliseconds());
+    }
+    for (int i=0; i <= align.getDepth(); i++) {
+      if (align.isSpan()) {
+        buffer.append("R");
+      }
+ else       if (align.isAsync()) {
+        buffer.append("A");
+      }
+ else {
+        buffer.append("#");
+      }
+    }
+    buffer.append(" : depth=");
+    buffer.append(align.getDepth());
+    buffer.append(" : gap=");
+    buffer.append(align.getGap());
+    buffer.append(", exec=");
+    buffer.append(align.getExecutionMilliseconds());
+    buffer.append(", elapsed=");
+    buffer.append(align.getElapsed());
+    buffer.append(", startTime=");
+    buffer.append(align.getStartTime());
+    buffer.append(", lastTime=");
+    buffer.append(align.getLastTime());
+    if (!align.isSpan()) {
+      buffer.append(", nextAsyncId=");
+      buffer.append(align.getSpanEventBo().getNextAsyncId());
+      buffer.append(", asyncId=");
+      buffer.append(align.getSpanEventBo().getAsyncId());
+    }
+    buffer.append("\n");
+    index++;
+  }
+  logger.debug(buffer.toString());
+}

@@ -1,0 +1,17 @@
+{
+  final SpanEventBo spanEvent=new SpanEventBo();
+  final int startElapsed=(int)(currentTime - spanBo.getStartTime());
+  currentTime++;
+  spanEvent.setStartElapsed(startElapsed);
+  spanEvent.setSequence(sequence++);
+  if (this.async) {
+    spanEvent.setAsyncId(asyncId);
+  }
+  checkExtend(index + 1);
+  stack[index++]=spanEvent;
+  if (this.latestStackIndex != this.index) {
+    this.latestStackIndex=this.index;
+    spanEvent.setDepth(this.latestStackIndex);
+  }
+  callTree.add(spanEvent.getDepth(),new SpanAlign(spanBo,spanEvent));
+}
