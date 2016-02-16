@@ -98,6 +98,17 @@
     }
     first=false;
   }
+  if (isSetJvmInfo()) {
+    if (!first)     sb.append(", ");
+    sb.append("jvmInfo:");
+    if (this.jvmInfo == null) {
+      sb.append("null");
+    }
+ else {
+      sb.append(this.jvmInfo);
+    }
+    first=false;
+  }
   sb.append(")");
   return sb.toString();
 }

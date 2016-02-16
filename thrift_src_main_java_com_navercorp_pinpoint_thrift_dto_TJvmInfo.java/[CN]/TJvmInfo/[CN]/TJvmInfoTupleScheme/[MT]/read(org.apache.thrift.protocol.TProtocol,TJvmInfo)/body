@@ -1,0 +1,16 @@
+{
+  TTupleProtocol iprot=(TTupleProtocol)prot;
+  BitSet incoming=iprot.readBitSet(3);
+  if (incoming.get(0)) {
+    struct.version=iprot.readI16();
+    struct.setVersionIsSet(true);
+  }
+  if (incoming.get(1)) {
+    struct.vmVersion=iprot.readString();
+    struct.setVmVersionIsSet(true);
+  }
+  if (incoming.get(2)) {
+    struct.gcType=com.navercorp.pinpoint.thrift.dto.TJvmGcType.findByValue(iprot.readI32());
+    struct.setGcTypeIsSet(true);
+  }
+}

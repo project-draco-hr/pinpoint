@@ -1,0 +1,23 @@
+{
+  TTupleProtocol oprot=(TTupleProtocol)prot;
+  BitSet optionals=new BitSet();
+  if (struct.isSetVersion()) {
+    optionals.set(0);
+  }
+  if (struct.isSetVmVersion()) {
+    optionals.set(1);
+  }
+  if (struct.isSetGcType()) {
+    optionals.set(2);
+  }
+  oprot.writeBitSet(optionals,3);
+  if (struct.isSetVersion()) {
+    oprot.writeI16(struct.version);
+  }
+  if (struct.isSetVmVersion()) {
+    oprot.writeString(struct.vmVersion);
+  }
+  if (struct.isSetGcType()) {
+    oprot.writeI32(struct.gcType.getValue());
+  }
+}
