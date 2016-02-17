@@ -1,0 +1,10 @@
+{
+  Properties properties=new Properties();
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 1 + SpringBeansConfig.SPRING_BEANS_CLASS_PATTERN_POSTFIX,"java.lang.String");
+  ProfilerConfig config=new DefaultProfilerConfig(properties);
+  TargetBeanFilter filter=TargetBeanFilter.of(config);
+  assertTrue(filter.isTarget("Target0",String.class));
+  filter.addTransformed(String.class);
+  assertFalse(filter.isTarget("Target0",String.class));
+  assertFalse(filter.isTarget("Target1",String.class));
+}

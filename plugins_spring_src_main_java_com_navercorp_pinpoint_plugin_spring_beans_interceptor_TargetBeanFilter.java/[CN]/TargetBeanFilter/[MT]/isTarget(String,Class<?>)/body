@@ -2,5 +2,41 @@
   if (transformed.contains(clazz)) {
     return false;
   }
-  return isTarget(beanName) || isTarget(clazz);
+  for (  SpringBeansTarget target : targets) {
+    boolean find=false;
+    if (target.getNamePatterns() != null && !target.getNamePatterns().isEmpty()) {
+      if (isBeanNameTarget(target,beanName)) {
+        find=true;
+      }
+ else {
+        continue;
+      }
+    }
+    if (!find && rejected.contains(clazz)) {
+      continue;
+    }
+    if (target.getClassPatterns() != null && !target.getClassPatterns().isEmpty()) {
+      if (isClassNameTarget(target,clazz)) {
+        find=true;
+      }
+ else {
+        continue;
+      }
+    }
+    if (target.getAnnotations() != null && !target.getAnnotations().isEmpty()) {
+      if (isAnnotationTarget(target,clazz)) {
+        find=true;
+      }
+ else {
+        continue;
+      }
+    }
+    if (find) {
+      return true;
+    }
+  }
+  if (!rejected.contains(clazz)) {
+    this.rejected.put(clazz);
+  }
+  return false;
 }

@@ -1,0 +1,15 @@
+{
+  for (  Annotation a : clazz.getAnnotations()) {
+    if (target.getAnnotations().contains(a.annotationType().getName())) {
+      return true;
+    }
+  }
+  for (  Annotation a : clazz.getAnnotations()) {
+    for (    Annotation ac : a.annotationType().getAnnotations()) {
+      if (target.getAnnotations().contains(ac.annotationType().getName())) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

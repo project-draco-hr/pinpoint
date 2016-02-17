@@ -1,9 +1,4 @@
 {
   SpringBeansConfig config=new SpringBeansConfig(profilerConfig);
-  List<String> targetNamePatternStrings=split(config.getSpringBeansNamePatterns());
-  List<Pattern> beanNamePatterns=compilePattern(targetNamePatternStrings);
-  List<String> targetClassPatternStrings=split(config.getSpringBeansClassPatterns());
-  List<Pattern> beanClassPatterns=compilePattern(targetClassPatternStrings);
-  List<String> targetAnnotationNames=split(config.getSpringBeansAnnotations());
-  return new TargetBeanFilter(beanNamePatterns,beanClassPatterns,targetAnnotationNames);
+  return new TargetBeanFilter(config.getTargets());
 }
