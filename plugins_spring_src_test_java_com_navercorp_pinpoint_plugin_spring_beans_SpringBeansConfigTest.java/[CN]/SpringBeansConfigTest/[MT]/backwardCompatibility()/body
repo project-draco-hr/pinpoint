@@ -1,0 +1,14 @@
+{
+  Properties properties=new Properties();
+  properties.put(SpringBeansConfig.SPRING_BEANS_NAME_PATTERN,"");
+  properties.put(SpringBeansConfig.SPRING_BEANS_CLASS_PATTERN,"com.navercorp.*");
+  properties.put(SpringBeansConfig.SPRING_BEANS_ANNOTATION,"org.springframework.stereotype.Controller, org.springframework.stereotype.Servicem, org.springframework.stereotype.Repository");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 1 + SpringBeansConfig.SPRING_BEANS_NAME_PATTERN_POSTFIX,"Target.*");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 1 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Controller");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 2 + SpringBeansConfig.SPRING_BEANS_CLASS_PATTERN_POSTFIX,"java.lang.String");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 2 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Service");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 3 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Repository");
+  ProfilerConfig config=new DefaultProfilerConfig(properties);
+  SpringBeansConfig springBeansConfig=new SpringBeansConfig(config);
+  assertEquals(5,springBeansConfig.getTargets().size());
+}

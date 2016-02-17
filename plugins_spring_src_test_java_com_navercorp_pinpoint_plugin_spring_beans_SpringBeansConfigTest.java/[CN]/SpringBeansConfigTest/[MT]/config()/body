@@ -1,13 +1,11 @@
 {
   Properties properties=new Properties();
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 1 + SpringBeansConfig.SPRING_BEANS_NAME_PATTERN_POSTFIX,"Target.*");
   properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 1 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Controller");
+  properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 2 + SpringBeansConfig.SPRING_BEANS_CLASS_PATTERN_POSTFIX,"java.lang.String");
   properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 2 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Service");
   properties.put(SpringBeansConfig.SPRING_BEANS_PREFIX + 3 + SpringBeansConfig.SPRING_BEANS_ANNOTATION_POSTFIX,"org.springframework.stereotype.Repository");
   ProfilerConfig config=new DefaultProfilerConfig(properties);
-  TargetBeanFilter filter=TargetBeanFilter.of(config);
-  if (String.class.getClassLoader() != null) {
-    logger.debug("String is not loaded by: {}. Skip test.",String.class.getClassLoader());
-    return;
-  }
-  filter.isTarget("someBean",String.class);
+  SpringBeansConfig springBeansConfig=new SpringBeansConfig(config);
+  assertEquals(3,springBeansConfig.getTargets().size());
 }

@@ -1,5 +1,14 @@
 {
-  this.springBeansNamePatterns=config.readString(SPRING_BEANS_NAME_PATTERN,null);
-  this.springBeansClassPatterns=config.readString(SPRING_BEANS_CLASS_PATTERN,null);
-  this.springBeansAnnotations=config.readString(SPRING_BEANS_ANNOTATION,null);
+  boolean enable=config.readBoolean(ENABLE,true);
+  if (!enable) {
+    if (logger.isInfoEnabled()) {
+      logger.info("Disable spring-beans plugin");
+    }
+    return;
+  }
+  addBackwardCompatibilityTarget(config);
+  addTarget(config);
+  if (logger.isInfoEnabled()) {
+    logger.info("Add spring-beans targets {}",targets);
+  }
 }
