@@ -12,7 +12,6 @@
     return new String(bytes,offset,length,UTF8);
   }
  catch (  UnsupportedEncodingException e) {
-    LOGGER.log(Level.SEVERE,"UTF-8 encoding fail.",e);
-    return null;
+    return new String(bytes,offset,length,UTF8_CHARSET);
   }
 }
