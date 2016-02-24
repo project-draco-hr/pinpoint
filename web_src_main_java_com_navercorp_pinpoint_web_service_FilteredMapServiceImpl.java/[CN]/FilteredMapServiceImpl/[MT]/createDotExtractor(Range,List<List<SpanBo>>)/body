@@ -1,0 +1,13 @@
+{
+  final DotExtractor dotExtractor=new DotExtractor(scanRange,applicationFactory);
+  for (  List<SpanBo> transaction : filterList) {
+    for (    SpanBo span : transaction) {
+      final Application spanApplication=this.applicationFactory.createApplication(span.getApplicationId(),span.getApplicationServiceType());
+      if (!spanApplication.getServiceType().isRecordStatistics() || spanApplication.getServiceType().isRpcClient()) {
+        continue;
+      }
+      dotExtractor.addDot(span);
+    }
+  }
+  return dotExtractor;
+}
