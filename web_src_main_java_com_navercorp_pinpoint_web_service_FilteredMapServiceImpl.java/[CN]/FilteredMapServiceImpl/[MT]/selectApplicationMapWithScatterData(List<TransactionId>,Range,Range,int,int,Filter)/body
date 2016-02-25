@@ -10,8 +10,8 @@
   final List<List<SpanBo>> filterList=selectFilteredSpan(transactionIdList,filter);
   DotExtractor dotExtractor=createDotExtractor(scanRange,filterList);
   ApplicationMap map=createMap(originalRange,scanRange,filterList);
-  ApplicationMapWithScatterScanResult applicationMapWithScatterScanResult=new ApplicationMapWithScatterScanResult(map,dotExtractor.getApplicationScatterScanResult());
+  ApplicationMapWithScatterData applicationMapWithScatterData=new ApplicationMapWithScatterData(map,dotExtractor.getApplicationScatterData(originalRange.getFrom(),originalRange.getTo(),xGroupUnit,yGroupUnit));
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
-  return applicationMapWithScatterScanResult;
+  return applicationMapWithScatterData;
 }

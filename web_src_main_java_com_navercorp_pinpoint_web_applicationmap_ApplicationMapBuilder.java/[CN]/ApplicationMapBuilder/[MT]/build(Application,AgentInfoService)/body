@@ -10,7 +10,7 @@
     }
   }
   if (runningAgents.isEmpty()) {
-    return new ApplicationMap(range,nodeList,emptyLinkList);
+    return new DefaultApplicationMap(range,nodeList,emptyLinkList);
   }
  else {
     ServerBuilder serverBuilder=new ServerBuilder();
@@ -19,6 +19,6 @@
     node.setServerInstanceList(serverInstanceList);
     node.setNodeHistogram(new NodeHistogram(application,range));
     nodeList.addNode(node);
-    return new ApplicationMap(range,nodeList,emptyLinkList);
+    return new DefaultApplicationMap(range,nodeList,emptyLinkList);
   }
 }

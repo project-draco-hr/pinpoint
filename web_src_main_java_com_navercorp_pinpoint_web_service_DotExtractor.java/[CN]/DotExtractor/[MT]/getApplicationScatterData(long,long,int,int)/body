@@ -1,0 +1,11 @@
+{
+  Map<Application,ScatterData> applicationScatterDataMap=new HashMap<>();
+  for (  Map.Entry<Application,List<Dot>> entry : this.dotMap.entrySet()) {
+    Application application=entry.getKey();
+    List<Dot> dotList=entry.getValue();
+    ScatterData scatterData=new ScatterData(from,to,xGroupUnitMillis,yGroupUnitMillis);
+    scatterData.addDot(dotList);
+    applicationScatterDataMap.put(application,scatterData);
+  }
+  return applicationScatterDataMap;
+}
