@@ -1,0 +1,19 @@
+{
+  transformTemplate.transform("com.mysql.jdbc.CallableStatement",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.DatabaseInfoAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.ParsingResultAccessor");
+      target.addField("com.navercorp.pinpoint.bootstrap.plugin.jdbc.BindValueAccessor");
+      int maxBindValueSize=config.getMaxSqlBindValueSize();
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.CallableStatementExecuteQueryInterceptor",va(maxBindValueSize),MySqlConstants.MYSQL_SCOPE);
+      target.addScopedInterceptor("com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.CallableStatementRegisterOutParameterInterceptor",MySqlConstants.MYSQL_SCOPE);
+      if (config.isTraceSqlBindValue()) {
+        final PreparedStatementBindingMethodFilter excludes=PreparedStatementBindingMethodFilter.excludes("setRowId","setNClob","setSQLXML");
+        target.addScopedInterceptor(excludes,"com.navercorp.pinpoint.bootstrap.plugin.jdbc.interceptor.CallableStatementBindVariableInterceptor",MySqlConstants.MYSQL_SCOPE,ExecutionPolicy.BOUNDARY);
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}
