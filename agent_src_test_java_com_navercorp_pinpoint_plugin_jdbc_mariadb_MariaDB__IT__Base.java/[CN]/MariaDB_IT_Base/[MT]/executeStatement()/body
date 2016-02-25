@@ -1,0 +1,25 @@
+{
+  Connection connection=null;
+  try {
+    connection=DriverManager.getConnection(JDBC_URL,"root",null);
+    Statement statement=null;
+    try {
+      statement=connection.createStatement();
+      ResultSet result=null;
+      try {
+        result=statement.executeQuery(STATEMENT_QUERY);
+        result.first();
+        assertEquals(3,result.getInt(1));
+      }
+  finally {
+        closeResultSet(result);
+      }
+    }
+  finally {
+      closeStatement(statement);
+    }
+  }
+  finally {
+    closeConnection(connection);
+  }
+}

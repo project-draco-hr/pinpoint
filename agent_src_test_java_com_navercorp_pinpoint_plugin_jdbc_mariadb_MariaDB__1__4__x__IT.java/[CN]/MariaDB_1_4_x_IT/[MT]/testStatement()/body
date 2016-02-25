@@ -1,0 +1,11 @@
+{
+  super.executeStatement();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Class<?> driverClass=Class.forName("org.mariadb.jdbc.Driver");
+  Method connect=driverClass.getDeclaredMethod("connect",String.class,Properties.class);
+  verifier.verifyTrace(event("MARIADB",connect,null,URL,DATABASE_NAME,cachedArgs(JDBC_URL)));
+  Class<?> mariaDbStatementClass=Class.forName("org.mariadb.jdbc.MariaDbStatement");
+  Method executeQuery=mariaDbStatementClass.getDeclaredMethod("executeQuery",String.class);
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",executeQuery,null,URL,DATABASE_NAME,sql(STATEMENT_NORMALIZED_QUERY,"1")));
+}
