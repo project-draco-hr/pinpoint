@@ -1,0 +1,41 @@
+{
+  final int expectedTotalCount=3;
+  final int expectedMatchingCount=1;
+  final int expectedMatchingId=2;
+  final String outputParamCountName="outputParamCount";
+  Connection conn=null;
+  try {
+    conn=DriverManager.getConnection(JDBC_URL,"root",null);
+    CallableStatement cs=null;
+    try {
+      cs=conn.prepareCall(CALLABLE_STATEMENT_QUERY);
+      cs.setString(1,CALLABLE_STATEMENT_INPUT_PARAM);
+      cs.registerOutParameter(2,CALLABLE_STATMENT_OUTPUT_PARAM_TYPE);
+      ResultSet rs=null;
+      try {
+        rs=cs.executeQuery();
+        int matchingCount=0;
+        while (rs.next()) {
+          ++matchingCount;
+          if (matchingCount > expectedMatchingCount) {
+            fail();
+          }
+          assertEquals(expectedMatchingId,rs.getInt(1));
+          assertEquals(CALLABLE_STATEMENT_INPUT_PARAM,rs.getString(2));
+        }
+        assertEquals(expectedMatchingCount,matchingCount);
+      }
+  finally {
+        closeResultSet(rs);
+      }
+      final int totalCount=cs.getInt(outputParamCountName);
+      assertEquals(expectedTotalCount,totalCount);
+    }
+  finally {
+      closeStatement(cs);
+    }
+  }
+  finally {
+    closeConnection(conn);
+  }
+}
