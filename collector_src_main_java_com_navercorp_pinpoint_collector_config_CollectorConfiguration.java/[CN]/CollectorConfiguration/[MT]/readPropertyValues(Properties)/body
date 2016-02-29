@@ -21,7 +21,12 @@
     this.l4IpList=Collections.emptyList();
   }
  else {
-    this.l4IpList=Arrays.asList(l4Ips);
+    this.l4IpList=new ArrayList<>(l4Ips.length);
+    for (    String l4Ip : l4Ips) {
+      if (!StringUtils.isEmpty(l4Ip)) {
+        this.l4IpList.add(StringUtils.trim(l4Ip));
+      }
+    }
   }
   this.clusterEnable=readBoolean(properties,"cluster.enable");
   this.clusterAddress=readString(properties,"cluster.zookeeper.address","");

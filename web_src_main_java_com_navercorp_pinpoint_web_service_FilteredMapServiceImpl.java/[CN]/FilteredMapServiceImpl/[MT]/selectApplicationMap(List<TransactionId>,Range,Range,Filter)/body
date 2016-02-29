@@ -8,8 +8,10 @@
   StopWatch watch=new StopWatch();
   watch.start();
   final List<List<SpanBo>> filterList=selectFilteredSpan(transactionIdList,filter);
+  DotExtractor dotExtractor=createDotExtractor(scanRange,filterList);
   ApplicationMap map=createMap(originalRange,scanRange,filterList);
+  ApplicationMapWithScatterScanResult applicationMapWithScatterScanResult=new ApplicationMapWithScatterScanResult(map,dotExtractor.getApplicationScatterScanResult());
   watch.stop();
   logger.debug("Select filtered application map elapsed. {}ms",watch.getTotalTimeMillis());
-  return map;
+  return applicationMapWithScatterScanResult;
 }

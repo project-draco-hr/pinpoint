@@ -1,0 +1,21 @@
+{
+  super.executeCallableStatement();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTraceCount(5);
+  Class<?> driverClass=Class.forName("org.mariadb.jdbc.Driver");
+  Method connect=driverClass.getDeclaredMethod("connect",String.class,Properties.class);
+  verifier.verifyTrace(event("MARIADB",connect,null,URL,DATABASE_NAME,cachedArgs(JDBC_URL)));
+  Class<?> mariaDbConnectionClass=Class.forName("org.mariadb.jdbc.MariaDbConnection");
+  Method prepareCall=mariaDbConnectionClass.getDeclaredMethod("prepareCall",String.class);
+  verifier.verifyTrace(event("MARIADB",prepareCall,null,URL,DATABASE_NAME,sql(CALLABLE_STATEMENT_QUERY,null)));
+  Class<?> mariaDbClientCallableStatementClass=Class.forName("org.mariadb.jdbc.MariaDbCallableStatement");
+  Method registerOutParameter=mariaDbClientCallableStatementClass.getDeclaredMethod("registerOutParameter",int.class,int.class);
+  verifier.verifyTrace(event("MARIADB",registerOutParameter,null,URL,DATABASE_NAME,args(2,CALLABLE_STATMENT_OUTPUT_PARAM_TYPE)));
+  Class<?> mariaDbCallableStatementClass=Class.forName("org.mariadb.jdbc.MariaDbCallableStatement");
+  Method callableStatementExecuteQuery=mariaDbCallableStatementClass.getDeclaredMethod("executeQuery");
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",callableStatementExecuteQuery,null,URL,DATABASE_NAME,sql(CALLABLE_STATEMENT_QUERY,null,CALLABLE_STATEMENT_INPUT_PARAM)));
+  Class<?> mariaDbStatementClass=Class.forName("org.mariadb.jdbc.MariaDbStatement");
+  Method statementExecuteQuery=mariaDbStatementClass.getDeclaredMethod("executeQuery",String.class);
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",statementExecuteQuery,null,URL,DATABASE_NAME,sql(CALLABLE_QUERY_META_INFOS_QUERY,PROCEDURE_NAME)));
+}

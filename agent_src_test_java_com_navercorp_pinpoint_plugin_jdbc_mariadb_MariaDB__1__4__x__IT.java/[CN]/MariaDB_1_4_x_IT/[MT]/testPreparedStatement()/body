@@ -1,0 +1,15 @@
+{
+  super.executePreparedStatement();
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  verifier.verifyTraceCount(3);
+  Class<?> driverClass=Class.forName("org.mariadb.jdbc.Driver");
+  Method connect=driverClass.getDeclaredMethod("connect",String.class,Properties.class);
+  verifier.verifyTrace(event("MARIADB",connect,null,URL,DATABASE_NAME,cachedArgs(JDBC_URL)));
+  Class<?> mariaDbConnectionClass=Class.forName("org.mariadb.jdbc.MariaDbConnection");
+  Method prepareStatement=mariaDbConnectionClass.getDeclaredMethod("prepareStatement",String.class);
+  verifier.verifyTrace(event("MARIADB",prepareStatement,null,URL,DATABASE_NAME,sql(PREPARED_STATEMENT_QUERY,null)));
+  Class<?> mariaDbServerPreparedStatementClass=Class.forName("org.mariadb.jdbc.MariaDbServerPreparedStatement");
+  Method executeQuery=mariaDbServerPreparedStatementClass.getDeclaredMethod("executeQuery");
+  verifier.verifyTrace(event("MARIADB_EXECUTE_QUERY",executeQuery,null,URL,DATABASE_NAME,sql(PREPARED_STATEMENT_QUERY,null,"3")));
+}
