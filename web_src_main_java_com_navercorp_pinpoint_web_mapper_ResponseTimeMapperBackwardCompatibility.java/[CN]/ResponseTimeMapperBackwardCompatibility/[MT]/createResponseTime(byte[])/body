@@ -1,8 +1,0 @@
-{
-  final Buffer row=new FixedBuffer(rowKey);
-  String applicationName=row.read2PrefixedString();
-  short serviceTypeCode=row.readShort();
-  final long timestamp=TimeUtils.recoveryTimeMillis(row.readLong());
-  ServiceType serviceType=registry.findServiceType(serviceTypeCode);
-  return new ResponseTime(applicationName,serviceType,timestamp);
-}
