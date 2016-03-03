@@ -1,0 +1,14 @@
+{
+  long timestamp=range.getTo();
+  Set<AgentInfo> agentList=agentInfoService.getAgentsByApplicationNameWithoutStatus(node.getApplication().getName(),timestamp);
+  if (agentList.isEmpty()) {
+    logger.warn("agentInfo not found. applicationName:{}",node.getApplication());
+    return new ServerInstanceList();
+  }
+  logger.debug("add agentInfo. {}, {}",node.getApplication(),agentList);
+  ServerBuilder builder=new ServerBuilder();
+  agentList=filterAgentInfoByResponseData(agentList,timestamp,node,agentInfoService);
+  builder.addAgentInfo(agentList);
+  ServerInstanceList serverInstanceList=builder.build();
+  return serverInstanceList;
+}
