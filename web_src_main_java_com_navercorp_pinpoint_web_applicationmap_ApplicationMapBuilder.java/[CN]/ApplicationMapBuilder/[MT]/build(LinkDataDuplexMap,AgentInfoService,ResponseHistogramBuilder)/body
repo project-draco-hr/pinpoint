@@ -8,7 +8,7 @@
 ;
   NodeHistogramDataSource responseSource=new NodeHistogramDataSource(){
     @Override public NodeHistogram createNodeHistogram(    Application application){
-      final List<ResponseTime> responseHistogram=mapResponseDao.selectResponseTime(application,range);
+      List<ResponseTime> responseHistogram=mapHistogramSummary.getResponseTimeList(application);
       final NodeHistogram nodeHistogram=new NodeHistogram(application,range,responseHistogram);
       return nodeHistogram;
     }

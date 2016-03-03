@@ -5,25 +5,13 @@
   if (logger.isDebugEnabled()) {
     logger.debug("selectResponseTime applicationName:{}, {}",application,range);
   }
-  if (tableExists) {
-    Scan scan=createScan(application,range,HBaseTables.MAP_STATISTICS_SELF_VER2_CF_COUNTER);
-    List<ResponseTime> responseTimeList=hbaseOperations2.findParallel(HBaseTables.MAP_STATISTICS_SELF_VER2,scan,rowKeyDistributorByHashPrefix,responseTimeMapper,MAP_STATISTICS_SELF_VER2_NUM_PARTITIONS);
-    if (logger.isDebugEnabled()) {
-      logger.debug("Self data {}",responseTimeList);
-    }
-    if (!responseTimeList.isEmpty()) {
-      return responseTimeList;
-    }
+  Scan scan=createScan(application,range,HBaseTables.MAP_STATISTICS_SELF_VER2_CF_COUNTER);
+  List<ResponseTime> responseTimeList=hbaseOperations2.findParallel(HBaseTables.MAP_STATISTICS_SELF_VER2,scan,rowKeyDistributorByHashPrefix,responseTimeMapper,MAP_STATISTICS_SELF_VER2_NUM_PARTITIONS);
+  if (logger.isDebugEnabled()) {
+    logger.debug("Self data {}",responseTimeList);
   }
-  if (backwardCompatibility) {
-    Scan scan=createScan(application,range,HBaseTables.MAP_STATISTICS_SELF_CF_COUNTER);
-    List<ResponseTime> responseTimeList=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_SELF,scan,responseTimeMapperBackwardCompatibility);
-    if (logger.isDebugEnabled()) {
-      logger.debug("Self data {}",responseTimeList);
-    }
+  if (!responseTimeList.isEmpty()) {
     return responseTimeList;
   }
- else {
-    return new ArrayList<>();
-  }
+  return new ArrayList<>();
 }

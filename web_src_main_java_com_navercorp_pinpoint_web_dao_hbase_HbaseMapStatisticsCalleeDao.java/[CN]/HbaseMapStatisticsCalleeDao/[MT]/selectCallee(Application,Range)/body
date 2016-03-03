@@ -6,23 +6,12 @@
     throw new NullPointerException("range must not be null");
   }
   final TimeWindow timeWindow=new TimeWindow(range,TimeWindowDownSampler.SAMPLER);
-  if (tableExists) {
-    final Scan scan=createScan(calleeApplication,range,HBaseTables.MAP_STATISTICS_CALLER_VER2_CF_COUNTER);
-    ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<>(mapStatisticsCalleeMapper,new MapStatisticsTimeWindowReducer(timeWindow));
-    LinkDataMap linkDataMap=hbaseOperations2.findParallel(HBaseTables.MAP_STATISTICS_CALLER_VER2,scan,rowKeyDistributorByHashPrefix,resultExtractor,MAP_STATISTICS_CALLER_VER2_NUM_PARTITIONS);
-    logger.debug("Callee data. {}, {}",linkDataMap,range);
-    if (linkDataMap != null && linkDataMap.size() > 0) {
-      return linkDataMap;
-    }
+  final Scan scan=createScan(calleeApplication,range,HBaseTables.MAP_STATISTICS_CALLER_VER2_CF_COUNTER);
+  ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<>(mapStatisticsCalleeMapper,new MapStatisticsTimeWindowReducer(timeWindow));
+  LinkDataMap linkDataMap=hbaseOperations2.findParallel(HBaseTables.MAP_STATISTICS_CALLER_VER2,scan,rowKeyDistributorByHashPrefix,resultExtractor,MAP_STATISTICS_CALLER_VER2_NUM_PARTITIONS);
+  logger.debug("Callee data. {}, {}",linkDataMap,range);
+  if (linkDataMap != null && linkDataMap.size() > 0) {
+    return linkDataMap;
   }
-  if (backwardCompatibility) {
-    final Scan scan=createScan(calleeApplication,range,HBaseTables.MAP_STATISTICS_CALLER_CF_COUNTER);
-    ResultsExtractor<LinkDataMap> resultExtractor=new RowMapReduceResultExtractor<>(mapStatisticsCalleeMapperBackwardCompatibility,new MapStatisticsTimeWindowReducer(timeWindow));
-    LinkDataMap linkDataMap=hbaseOperations2.find(HBaseTables.MAP_STATISTICS_CALLER,scan,resultExtractor);
-    logger.debug("Callee data. {}, {}",linkDataMap,range);
-    return linkDataMap != null ? linkDataMap : new LinkDataMap();
-  }
- else {
-    return new LinkDataMap();
-  }
+  return new LinkDataMap();
 }
