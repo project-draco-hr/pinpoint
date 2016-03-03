@@ -1,7 +1,8 @@
 {
-  AgentInfoPopulator emptyPopulator=new AgentInfoPopulator(){
+  AgentInfoPopulator agentInfoPopulator=new AgentInfoPopulator(){
     @Override public void addAgentInfos(    Node node){
-      node.setServerInstanceList(new ServerInstanceList());
+      ServerInstanceList serverInstanceList=getServerInstanceList(node,agentInfoService);
+      node.setServerInstanceList(serverInstanceList);
     }
   }
 ;
@@ -13,5 +14,5 @@
     }
   }
 ;
-  return this.build(linkDataDuplexMap,emptyPopulator,responseSource);
+  return this.build(linkDataDuplexMap,agentInfoPopulator,responseSource);
 }
