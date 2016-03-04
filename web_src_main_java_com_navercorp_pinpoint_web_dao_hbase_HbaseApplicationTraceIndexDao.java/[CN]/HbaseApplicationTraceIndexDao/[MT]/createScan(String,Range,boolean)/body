@@ -1,0 +1,20 @@
+{
+  Scan scan=new Scan();
+  scan.setCaching(this.scanCacheSize);
+  byte[] bApplicationName=Bytes.toBytes(applicationName);
+  byte[] traceIndexStartKey=SpanUtils.getTraceIndexRowKey(bApplicationName,range.getFrom());
+  byte[] traceIndexEndKey=SpanUtils.getTraceIndexRowKey(bApplicationName,range.getTo());
+  if (scanBackward) {
+    scan.setStartRow(traceIndexEndKey);
+    scan.setStopRow(traceIndexStartKey);
+  }
+ else {
+    scan.setReversed(true);
+    scan.setStartRow(traceIndexStartKey);
+    scan.setStopRow(traceIndexEndKey);
+  }
+  scan.addFamily(HBaseTables.APPLICATION_TRACE_INDEX_CF_TRACE);
+  scan.setId("ApplicationTraceIndexScan");
+  logger.trace("create scan:{}",scan);
+  return scan;
+}
