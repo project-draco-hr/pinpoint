@@ -1,10 +1,13 @@
 {
   final ScatterData scatterData=scatter.selectScatterDataMadeOfDotGroup(applicationName,range,xGroupUnit,yGroupUnit,limit,backwardDirection);
   ModelAndView mv=new ModelAndView();
+  mv.addObject("currentServerTime",new ServerTime().getCurrentServerTime());
   mv.addObject("from",range.getFrom());
   mv.addObject("to",range.getTo());
   mv.addObject("resultFrom",scatterData.getOldestAcceptedTime());
   mv.addObject("resultTo",scatterData.getLatestAcceptedTime());
+  boolean requestComplete=scatterData.getDotSize() < limit;
+  mv.addObject("complete",requestComplete);
   mv.addObject("scatter",scatterData);
   return mv;
 }
