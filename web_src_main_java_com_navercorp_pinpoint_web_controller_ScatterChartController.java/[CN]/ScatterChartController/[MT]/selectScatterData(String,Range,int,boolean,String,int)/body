@@ -7,5 +7,6 @@
  else {
     resultRange=new Range(scatterData.get(scatterData.size() - 1).getAcceptedTime(),range.getTo());
   }
-  return createModelAndView(resultRange,jsonpCallback,scatterData,version);
+  boolean requestComplete=scatterData.size() < limit;
+  return createModelAndView(resultRange,jsonpCallback,scatterData,requestComplete,version);
 }

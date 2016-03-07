@@ -2,6 +2,7 @@
   final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit,backwardDirection);
   final List<TransactionId> traceIdList=limitedScanResult.getScanData();
   logger.trace("submitted transactionId count={}",traceIdList.size());
+  boolean requestComplete=traceIdList.size() < limit;
   SortedSet<TransactionId> traceIdSet=new TreeSet<>(traceIdList);
   logger.debug("unified traceIdSet size={}",traceIdSet.size());
   Filter filter=filterBuilder.build(filterText);
@@ -16,5 +17,5 @@
  else {
     resultRange=new Range(limitedScanResult.getLimitedTime(),range.getTo());
   }
-  return createModelAndView(resultRange,jsonpCallback,scatterData,version);
+  return createModelAndView(resultRange,jsonpCallback,scatterData,requestComplete,version);
 }
