@@ -1,24 +1,13 @@
 {
   final InetSocketAddress actualServerAddress=this.environment.getServerAddress();
-  ExpectedTrace asyncClientInvocationTrace=event("ASYNC","Thrift Asynchronous Client Invocation");
-  Method start=TAsyncMethodCall.class.getDeclaredMethod("start",Selector.class);
-  ExpectedTrace startTrace=event("THRIFT_CLIENT_INTERNAL",start);
-  Method doConnecting=TAsyncMethodCall.class.getDeclaredMethod("doConnecting",SelectionKey.class);
-  ExpectedTrace doConnectingTrace=event("THRIFT_CLIENT_INTERNAL",doConnecting);
-  Method doWritingRequestSize=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestSize");
-  ExpectedTrace doWritingRequestSizeTrace=event("THRIFT_CLIENT_INTERNAL",doWritingRequestSize);
-  Method doWritingRequestBody=TAsyncMethodCall.class.getDeclaredMethod("doWritingRequestBody",SelectionKey.class);
-  ExpectedAnnotation thriftUrl=Expectations.annotation("thrift.url",actualServerAddress.getHostName() + ":" + actualServerAddress.getPort()+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo_call");
-  ExpectedTrace doWritingRequestBodyTrace=event("THRIFT_CLIENT",doWritingRequestBody,null,null,actualServerAddress.getHostName() + ":" + actualServerAddress.getPort(),thriftUrl);
-  Method doReadingResponseSize=TAsyncMethodCall.class.getDeclaredMethod("doReadingResponseSize");
-  ExpectedTrace doReadingResponseSizeTrace=event("THRIFT_CLIENT_INTERNAL",doReadingResponseSize);
-  Method doReadingResponseBody=TAsyncMethodCall.class.getDeclaredMethod("doReadingResponseBody",SelectionKey.class);
-  ExpectedTrace doReadingResponseBodyTrace=event("THRIFT_CLIENT_INTERNAL",doReadingResponseBody);
+  ExpectedTrace asyncInvocationTrace=event("ASYNC","Asynchronous Invocation");
   Method cleanUpAndFireCallback=TAsyncMethodCall.class.getDeclaredMethod("cleanUpAndFireCallback",SelectionKey.class);
   ExpectedTrace cleanUpAndFireCallbackTrace=event("THRIFT_CLIENT_INTERNAL",cleanUpAndFireCallback);
   Method receiveBase=TServiceClient.class.getDeclaredMethod("receiveBase",TBase.class,String.class);
   ExpectedAnnotation thriftResult=Expectations.annotation("thrift.result","echo_result(success:" + expectedMessage + ")");
   ExpectedTrace receiveBaseTrace=event("THRIFT_CLIENT_INTERNAL",receiveBase,thriftResult);
   Method call=TAsyncClientManager.class.getDeclaredMethod("call",TAsyncMethodCall.class);
-  verifier.verifyTrace(async(Expectations.event("THRIFT_CLIENT_INTERNAL",call),asyncClientInvocationTrace,startTrace,doConnectingTrace,doWritingRequestSizeTrace,doWritingRequestBodyTrace,doReadingResponseSizeTrace,doReadingResponseBodyTrace,cleanUpAndFireCallbackTrace,receiveBaseTrace));
+  ExpectedAnnotation thriftUrl=Expectations.annotation("thrift.url",actualServerAddress.getHostName() + ":" + actualServerAddress.getPort()+ "/com/navercorp/pinpoint/plugin/thrift/dto/EchoService/echo_call");
+  ExpectedTrace callTrace=event("THRIFT_CLIENT",call,null,null,actualServerAddress.getHostName() + ":" + actualServerAddress.getPort(),thriftUrl);
+  verifier.verifyTrace(async(callTrace,asyncInvocationTrace,cleanUpAndFireCallbackTrace,receiveBaseTrace));
 }
