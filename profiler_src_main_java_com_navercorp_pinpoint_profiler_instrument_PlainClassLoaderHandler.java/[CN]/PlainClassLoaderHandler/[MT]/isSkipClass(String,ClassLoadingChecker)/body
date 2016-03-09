@@ -1,0 +1,15 @@
+{
+  if (!pluginConfig.getPluginPackageFilter().accept(className)) {
+    if (isDebug) {
+      logger.debug("PluginFilter skip class:{}",className);
+    }
+    return true;
+  }
+  if (!classLoadingChecker.isFirstLoad(className)) {
+    if (isDebug) {
+      logger.debug("skip already loaded class:{}",className);
+    }
+    return true;
+  }
+  return false;
+}
