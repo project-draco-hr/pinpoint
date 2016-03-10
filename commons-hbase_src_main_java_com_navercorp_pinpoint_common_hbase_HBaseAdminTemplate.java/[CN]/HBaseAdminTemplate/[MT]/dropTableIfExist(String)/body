@@ -1,8 +1,9 @@
 {
+  TableName tn=TableName.valueOf(tableName);
   try {
-    if (hBaseAdmin.tableExists(tableName)) {
-      this.hBaseAdmin.disableTable(tableName);
-      this.hBaseAdmin.deleteTable(tableName);
+    if (admin.tableExists(tn)) {
+      this.admin.disableTable(tn);
+      this.admin.deleteTable(tn);
       return true;
     }
     return false;

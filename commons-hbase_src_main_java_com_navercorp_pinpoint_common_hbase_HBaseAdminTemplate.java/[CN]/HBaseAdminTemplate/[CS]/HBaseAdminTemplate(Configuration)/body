@@ -1,14 +1,9 @@
 {
   try {
-    this.hBaseAdmin=new HBaseAdmin(configuration);
+    Connection connection=ConnectionFactory.createConnection(configuration);
+    admin=connection.getAdmin();
   }
- catch (  MasterNotRunningException e) {
-    throw new HbaseSystemException(e);
-  }
-catch (  ZooKeeperConnectionException e) {
-    throw new HbaseSystemException(e);
-  }
-catch (  IOException e) {
+ catch (  Exception e) {
     throw new HbaseSystemException(e);
   }
 }
