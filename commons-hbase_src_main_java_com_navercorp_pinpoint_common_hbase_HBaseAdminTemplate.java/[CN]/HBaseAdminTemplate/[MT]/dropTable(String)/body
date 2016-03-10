@@ -1,7 +1,8 @@
 {
+  TableName tn=TableName.valueOf(tableName);
   try {
-    this.hBaseAdmin.disableTable(tableName);
-    this.hBaseAdmin.deleteTable(tableName);
+    this.admin.disableTable(tn);
+    this.admin.deleteTable(tn);
   }
  catch (  IOException e) {
     throw new HbaseSystemException(e);
