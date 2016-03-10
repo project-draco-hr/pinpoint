@@ -22,7 +22,6 @@
       SpanEventRecorder recorder=trace.traceBlockBegin();
       Object asyncMethodCallObj=args[0];
       final AsyncTraceId asyncTraceId=injectAsyncTraceId(asyncMethodCallObj,trace);
-      recorder.recordServiceType(ThriftConstants.THRIFT_CLIENT_INTERNAL);
       String remoteAddress=getRemoteAddress(asyncMethodCallObj);
       final TraceId nextId=asyncTraceId.getNextTraceId();
       final long nextSpanId=nextId.getSpanId();
@@ -33,8 +32,12 @@
       parentTraceInfo.setParentApplicationName(this.traceContext.getApplicationName());
       parentTraceInfo.setParentApplicationType(this.traceContext.getServerTypeCode());
       parentTraceInfo.setAcceptorHost(remoteAddress);
-      ((AsyncCallRemoteAddressFieldAccessor)asyncMethodCallObj)._$PINPOINT$_setAsyncCallRemoteAddress(remoteAddress);
-      ((AsyncNextSpanIdFieldAccessor)asyncMethodCallObj)._$PINPOINT$_setAsyncNextSpanId(nextSpanId);
+      recorder.recordServiceType(ThriftConstants.THRIFT_CLIENT);
+      recorder.recordNextSpanId(nextSpanId);
+      recorder.recordDestinationId(remoteAddress);
+      String methodUri=ThriftUtils.getAsyncMethodCallName((TAsyncMethodCall<?>)asyncMethodCallObj);
+      String thriftUrl=remoteAddress + "/" + methodUri;
+      recorder.recordAttribute(ThriftConstants.THRIFT_URL,thriftUrl);
     }
     InterceptorScopeInvocation currentTransaction=this.scope.getCurrentInvocation();
     currentTransaction.setAttachment(parentTraceInfo);
