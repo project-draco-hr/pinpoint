@@ -1,0 +1,15 @@
+{
+  ModelAndView mv=null;
+  if (version == 1) {
+    final ScatterData scatterData=scatter.selectScatterData(applicationName,range,xGroupUnit,yGroupUnit,limit,backwardDirection);
+    boolean requestComplete=scatterData.getDotSize() < limit;
+    mv=createScatterDataV1(scatterData,requestComplete);
+  }
+ else {
+    mv=new ModelAndView();
+  }
+  mv.addObject("currentServerTime",new ServerTime().getCurrentServerTime());
+  mv.addObject("from",range.getFrom());
+  mv.addObject("to",range.getTo());
+  return mv;
+}

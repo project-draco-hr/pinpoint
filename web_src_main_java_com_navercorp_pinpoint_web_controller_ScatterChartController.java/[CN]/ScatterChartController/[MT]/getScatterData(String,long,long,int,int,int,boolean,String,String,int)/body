@@ -1,0 +1,23 @@
+{
+  limit=LimitUtils.checkRange(limit);
+  StopWatch watch=new StopWatch();
+  watch.start("getScatterData");
+  final Range range=Range.createUncheckedRange(from,to);
+  logger.debug("fetch scatter data. RANGE={}, X-Group-Unit:{}, Y-Group-Unit:{}, LIMIT={}, BACKWARD_DIRECTION:{}, FILTER:{}",range,xGroupUnit,yGroupUnit,limit,backwardDirection,filterText);
+  ModelAndView mv=null;
+  if (StringUtils.isEmpty(filterText)) {
+    mv=selectScatterData(applicationName,range,xGroupUnit,yGroupUnit,limit,backwardDirection,version);
+  }
+ else {
+    mv=selectFilterScatterData(applicationName,range,xGroupUnit,yGroupUnit,limit,backwardDirection,filterText,version);
+  }
+  if (jsonpCallback == null) {
+    mv.setViewName("jsonView");
+  }
+ else {
+    mv.setViewName("jsonpView");
+  }
+  watch.stop();
+  logger.info("Fetch scatterData time : {}ms",watch.getLastTaskTimeMillis());
+  return mv;
+}
