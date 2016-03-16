@@ -1,0 +1,10 @@
+{
+  Span span=new Span();
+  SpanEvent spanEvent=new SpanEvent(span);
+  TraceContext traceContext=Mockito.mock(TraceContext.class);
+  WrappedSpanEventRecorder recorder=new WrappedSpanEventRecorder(traceContext);
+  recorder.setWrapped(spanEvent);
+  final int API_ID=1000;
+  recorder.recordApiId(API_ID);
+  Assert.assertEquals("API ID",spanEvent.getApiId(),API_ID);
+}
