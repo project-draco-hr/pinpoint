@@ -8,7 +8,7 @@
     callables.add(new Callable<T>(){
       @Override public T call() throws Exception {
         return execute(tableName,new TableCallback<T>(){
-          @Override public T doInTable(          HTableInterface table) throws Throwable {
+          @Override public T doInTable(          Table table) throws Throwable {
             final ResultScanner scanner=table.getScanner(scan);
             try {
               return action.extractData(scanner);

@@ -3,7 +3,8 @@
   Configuration cfg=HBaseConfiguration.create();
   cfg.set("hbase.zookeeper.quorum",properties.getProperty("hbase.client.host"));
   cfg.set("hbase.zookeeper.property.clientPort",properties.getProperty("hbase.client.port"));
-  hbaseConfigurationFactoryBean=new HbaseConfigurationFactoryBean();
-  hbaseConfigurationFactoryBean.setConfiguration(cfg);
-  hbaseConfigurationFactoryBean.afterPropertiesSet();
+  hbaseTemplate2=new HbaseTemplate2();
+  hbaseTemplate2.setConfiguration(cfg);
+  hbaseTemplate2.setTableFactory(new PooledHTableFactory(cfg));
+  hbaseTemplate2.afterPropertiesSet();
 }

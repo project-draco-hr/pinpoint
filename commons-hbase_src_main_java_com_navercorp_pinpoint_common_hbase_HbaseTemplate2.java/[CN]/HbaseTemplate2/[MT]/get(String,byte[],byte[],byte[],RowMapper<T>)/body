@@ -1,6 +1,6 @@
 {
   return execute(tableName,new TableCallback<T>(){
-    @Override public T doInTable(    HTableInterface htable) throws Throwable {
+    @Override public T doInTable(    Table table) throws Throwable {
       Get get=new Get(rowName);
       if (familyName != null) {
         if (qualifier != null) {
@@ -10,7 +10,7 @@
           get.addFamily(familyName);
         }
       }
-      Result result=htable.get(get);
+      Result result=table.get(get);
       return mapper.mapRow(result,0);
     }
   }
