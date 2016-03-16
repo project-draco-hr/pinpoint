@@ -1,14 +1,4 @@
 {
-  boolean useIndexedQualifier=false;
-  byte[] qualifier;
-  if (useIndexedQualifier) {
-    final Buffer columnName=new AutomaticBuffer(16);
-    columnName.put(span.getElapsed());
-    columnName.put(SpanUtils.getVarTransactionId(span));
-    qualifier=columnName.getBuffer();
-  }
- else {
-    qualifier=SpanUtils.getVarTransactionId(span);
-  }
+  byte[] qualifier=SpanUtils.getVarTransactionId(span);
   return qualifier;
 }
