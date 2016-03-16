@@ -2,13 +2,13 @@
   if (isDebug) {
     logger.afterInterceptor(target,args);
   }
-  Trace trace=traceContext.currentTraceObject();
+  final Trace trace=traceContext.currentTraceObject();
   if (trace == null) {
     return;
   }
   try {
     final SpanEventRecorder recorder=trace.currentSpanEventRecorder();
-    recorder.recordApi(new DummyMethodDescriptor(apiId));
+    recorder.recordApiId(apiId);
     recorder.recordException(markError,throwable);
   }
   finally {
