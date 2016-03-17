@@ -1,0 +1,13 @@
+{
+  String protocol=url.getProtocol();
+  String path=url.getPath().replaceAll("\\\\",PATH_SEPARATOR);
+  if (protocol.equals("file")) {
+    return extractNameFromFile(path);
+  }
+ else   if (protocol.equals("jar")) {
+    return extractNameFromJar(path);
+  }
+ else {
+    return "";
+  }
+}

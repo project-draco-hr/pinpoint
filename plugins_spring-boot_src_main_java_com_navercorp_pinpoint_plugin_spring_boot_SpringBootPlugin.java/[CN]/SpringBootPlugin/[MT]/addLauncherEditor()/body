@@ -1,0 +1,13 @@
+{
+  transformTemplate.transform("org.springframework.boot.loader.Launcher",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
+      InstrumentMethod method=target.getDeclaredMethod("launch","java.lang.String[]","java.lang.String","java.lang.ClassLoader");
+      if (method != null) {
+        method.addInterceptor("com.navercorp.pinpoint.plugin.spring.boot.interceptor.LauncherLaunchInterceptor");
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}

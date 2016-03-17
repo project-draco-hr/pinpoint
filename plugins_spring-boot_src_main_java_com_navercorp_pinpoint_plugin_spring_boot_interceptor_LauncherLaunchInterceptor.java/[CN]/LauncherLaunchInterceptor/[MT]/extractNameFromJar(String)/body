@@ -1,0 +1,11 @@
+{
+  String uri=jarUri.substring(0,jarUri.lastIndexOf(JAR_SEPARATOR));
+  int rootJarEndIndex=uri.indexOf(JAR_SEPARATOR);
+  if (rootJarEndIndex < 0) {
+    return extractNameFromFile(uri);
+  }
+  String rootJarFileUri=extractNameFromFile(uri.substring(0,rootJarEndIndex));
+  StringBuilder sb=new StringBuilder(rootJarFileUri);
+  sb.append(uri.substring(rootJarEndIndex));
+  return sb.toString();
+}
