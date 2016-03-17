@@ -7,7 +7,7 @@
   }
   Properties properties=getProperties(args[3]);
   final String hostToConnectTo=properties.getProperty("PGHOST");
-  final Integer portToConnectTo=Integer.valueOf(properties.getProperty("PGPORT"));
+  final Integer portToConnectTo=Integer.valueOf(properties.getProperty("PGPORT",DEFAULT_PORT));
   final String databaseId=properties.getProperty("PGDBNAME");
   DatabaseInfo databaseInfo=null;
   if (hostToConnectTo != null && portToConnectTo != null && databaseId != null) {

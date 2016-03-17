@@ -8,7 +8,7 @@
     span=((SpanEvent)actual).getSpan();
   }
  else {
-    throw new IllegalArgumentException("Unexpected type: " + actual.getClass());
+    throw new IllegalArgumentException("Unexpected type: " + getActual(actual));
   }
   if (span.getLoggingTransactionInfo() != loggingInfo.getCode()) {
     LoggingInfo loggingTransactionInfo=LoggingInfo.searchByCode(span.getLoggingTransactionInfo());
