@@ -3,6 +3,7 @@
     logger.afterInterceptor(target,args,result,throwable);
   }
   String serverInfo=ServerInfo.getServerInfo();
-  this.traceContext.getServerMetaDataHolder().setServerName(serverInfo);
-  this.traceContext.getServerMetaDataHolder().publishServerMetaData();
+  ServerMetaDataHolder holder=this.traceContext.getServerMetaDataHolder();
+  holder.setServerName(serverInfo);
+  holder.notifyListeners();
 }

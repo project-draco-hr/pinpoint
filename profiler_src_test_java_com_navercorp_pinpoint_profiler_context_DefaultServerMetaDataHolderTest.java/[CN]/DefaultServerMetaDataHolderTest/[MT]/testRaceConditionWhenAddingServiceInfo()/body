@@ -16,7 +16,7 @@
         try {
           startLatch.await();
           metaDataContext.addServiceInfo(serviceName,serviceLibs);
-          metaDataContext.publishServerMetaData();
+          metaDataContext.notifyListeners();
         }
  catch (        final Throwable t) {
           exceptions.add(t);

@@ -5,8 +5,9 @@
     return NOT_FOUND;
   }
  else {
+    JarFile executableArchive=null;
     try {
-      JarFile executableArchive=new JarFile(javaCommand);
+      executableArchive=new JarFile(javaCommand);
       return extractMainClassFromArchive(executableArchive);
     }
  catch (    IOException e) {
@@ -15,6 +16,16 @@
 catch (    Exception e) {
       logger.warn("Error retrieving main class from java command : [{}]",javaCommand,e);
       return NOT_FOUND;
+    }
+ finally {
+      if (executableArchive != null) {
+        try {
+          executableArchive.close();
+        }
+ catch (        IOException e) {
+          logger.warn("Error closing jarFile : [{}]",executableArchive.getName(),e);
+        }
+      }
     }
   }
 }
