@@ -7,7 +7,7 @@
     List<URL> urls=getJarUrls(jars);
     classLoader=new URLClassLoader(urls.toArray(new URL[urls.size()]),classLoader);
   }
-  String testId=System.getProperty(PinpointPluginTestConstants.PINPOINT_TEST_ID,"");
+  String testId=System.getProperty(PINPOINT_TEST_ID,"");
   ClassLoader old=Thread.currentThread().getContextClassLoader();
   Thread.currentThread().setContextClassLoader(classLoader);
   Class<?> testClass=classLoader.loadClass(testClassName);
