@@ -1,0 +1,9 @@
+{
+  if (filter.shouldRun(describeChild(each))) {
+    return true;
+  }
+  if (each instanceof PinpointPluginTestRunner) {
+    return ((PinpointPluginTestRunner)each).isAvaiable(filter);
+  }
+  return false;
+}

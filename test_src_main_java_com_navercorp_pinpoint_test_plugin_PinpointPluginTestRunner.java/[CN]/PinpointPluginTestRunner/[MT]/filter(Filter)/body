@@ -1,0 +1,23 @@
+{
+synchronized (childrenLock) {
+    List<FrameworkMethod> children=new ArrayList<FrameworkMethod>(getFilteredChildren());
+    for (Iterator<FrameworkMethod> iter=children.iterator(); iter.hasNext(); ) {
+      FrameworkMethod each=iter.next();
+      if (shouldRun(filter,each)) {
+        try {
+          filter.apply(each);
+        }
+ catch (        NoTestsRemainException e) {
+          iter.remove();
+        }
+      }
+ else {
+        iter.remove();
+      }
+    }
+    filteredChildren=Collections.unmodifiableCollection(children);
+    if (filteredChildren.isEmpty()) {
+      throw new NoTestsRemainException();
+    }
+  }
+}

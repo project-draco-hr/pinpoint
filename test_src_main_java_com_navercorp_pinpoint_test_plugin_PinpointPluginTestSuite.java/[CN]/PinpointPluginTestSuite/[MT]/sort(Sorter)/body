@@ -1,0 +1,10 @@
+{
+synchronized (childrenLock) {
+    for (    Runner each : getFilteredChildren()) {
+      sorter.apply(each);
+    }
+    List<Runner> sortedChildren=new ArrayList<Runner>(getFilteredChildren());
+    Collections.sort(sortedChildren,comparator(sorter));
+    filteredChildren=Collections.unmodifiableCollection(sortedChildren);
+  }
+}

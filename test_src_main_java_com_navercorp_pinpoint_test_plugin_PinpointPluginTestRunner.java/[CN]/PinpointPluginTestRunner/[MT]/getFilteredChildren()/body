@@ -1,0 +1,10 @@
+{
+  if (filteredChildren == null) {
+synchronized (childrenLock) {
+      if (filteredChildren == null) {
+        filteredChildren=Collections.unmodifiableCollection(getChildren());
+      }
+    }
+  }
+  return filteredChildren;
+}
