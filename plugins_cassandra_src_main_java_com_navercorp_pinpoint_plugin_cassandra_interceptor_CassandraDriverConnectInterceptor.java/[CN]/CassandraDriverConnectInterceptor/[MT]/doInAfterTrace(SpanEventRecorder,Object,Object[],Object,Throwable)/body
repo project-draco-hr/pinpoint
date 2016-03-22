@@ -1,0 +1,19 @@
+{
+  if (recordConnection) {
+    DatabaseInfo databaseInfo;
+    if (result instanceof DatabaseInfoAccessor) {
+      databaseInfo=((DatabaseInfoAccessor)result)._$PINPOINT$_getDatabaseInfo();
+    }
+ else {
+      databaseInfo=null;
+    }
+    if (databaseInfo == null) {
+      databaseInfo=UnKnownDatabaseInfo.INSTANCE;
+    }
+    recorder.recordServiceType(databaseInfo.getType());
+    recorder.recordEndPoint(databaseInfo.getMultipleHost());
+    recorder.recordDestinationId(databaseInfo.getDatabaseId());
+  }
+  recorder.recordApi(methodDescriptor);
+  recorder.recordException(throwable);
+}

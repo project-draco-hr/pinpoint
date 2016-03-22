@@ -1,0 +1,43 @@
+{
+  final int testId=99;
+  final String testValue="testValue";
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Session myKeyspaceSession=null;
+  try {
+    myKeyspaceSession=cluster.connect(TEST_KEYSPACE);
+    PreparedStatement preparedStatement=myKeyspaceSession.prepare(CQL_INSERT);
+    BoundStatement boundStatement=new BoundStatement(preparedStatement);
+    boundStatement.bind(testId,testValue);
+    myKeyspaceSession.execute(boundStatement);
+    verifier.printCache();
+    Class<?> clusterClass=Class.forName("com.datastax.driver.core.Cluster");
+    Method connect=clusterClass.getDeclaredMethod("connect",String.class);
+    verifier.verifyTrace(event(CASSANDRA,connect,null,CASSANDRA_ADDRESS,TEST_KEYSPACE));
+    Class<?> sessionClass;
+    try {
+      sessionClass=Class.forName("com.datastax.driver.core.AbstractSession");
+    }
+ catch (    ClassNotFoundException e) {
+      sessionClass=Class.forName("com.datastax.driver.core.SessionManager");
+    }
+    Method prepare=sessionClass.getDeclaredMethod("prepare",String.class);
+    verifier.verifyTrace(event(CASSANDRA,prepare,null,CASSANDRA_ADDRESS,TEST_KEYSPACE,sql(CQL_INSERT,null)));
+    Method execute=sessionClass.getDeclaredMethod("execute",Statement.class);
+    verifier.verifyTrace(event(CASSANDRA_EXECUTE_QUERY,execute,null,CASSANDRA_ADDRESS,TEST_KEYSPACE,sql(CQL_INSERT,null)));
+    final String cqlSelect=String.format("SELECT %s, %s FROM %s WHERE %s = %d",TEST_COL_ID,TEST_COL_VALUE,TEST_TABLE,TEST_COL_ID,testId);
+    verifySelect(myKeyspaceSession.execute(cqlSelect),testId,testValue);
+    verifier.printCache();
+    execute=sessionClass.getDeclaredMethod("execute",String.class);
+    String normalizedSelectSql=SQL_PARSER.normalizedSql(cqlSelect).getNormalizedSql();
+    verifier.verifyTrace(event(CASSANDRA_EXECUTE_QUERY,execute,null,CASSANDRA_ADDRESS,TEST_KEYSPACE,sql(normalizedSelectSql,String.valueOf(testId))));
+    final String cqlDelete=String.format("DELETE FROM %s.%s WHERE %s = ?",TEST_KEYSPACE,TEST_TABLE,TEST_COL_ID);
+    myKeyspaceSession.execute(cqlDelete,testId);
+    verifier.printCache();
+    execute=sessionClass.getDeclaredMethod("execute",String.class,Object[].class);
+    String normalizedDeleteSql=SQL_PARSER.normalizedSql(cqlDelete).getNormalizedSql();
+    verifier.verifyTrace(event(CASSANDRA_EXECUTE_QUERY,execute,null,CASSANDRA_ADDRESS,TEST_KEYSPACE,sql(normalizedDeleteSql,null)));
+  }
+  finally {
+    closeSession(myKeyspaceSession);
+  }
+}

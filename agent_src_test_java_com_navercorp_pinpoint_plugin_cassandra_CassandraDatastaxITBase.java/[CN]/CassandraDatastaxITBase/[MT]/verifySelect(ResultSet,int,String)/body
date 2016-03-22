@@ -1,0 +1,11 @@
+{
+  int resultCount=0;
+  Iterator<Row> iter=rs.iterator();
+  while (iter.hasNext()) {
+    Row row=iter.next();
+    Assert.assertEquals(expectedTestId,row.getInt(0));
+    Assert.assertEquals(expectedTestValue,row.getString(1));
+    ++resultCount;
+  }
+  Assert.assertEquals(1,resultCount);
+}

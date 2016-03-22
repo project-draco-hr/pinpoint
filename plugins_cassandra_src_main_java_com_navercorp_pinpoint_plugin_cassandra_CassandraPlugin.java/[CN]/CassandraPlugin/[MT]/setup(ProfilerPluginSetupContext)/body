@@ -1,0 +1,8 @@
+{
+  CassandraConfig config=new CassandraConfig(context.getConfig());
+  if (config.isCassandra()) {
+    addDefaultPreparedStatementTransformer();
+    addSessionTransformer(config);
+    addClusterTransformer();
+  }
+}

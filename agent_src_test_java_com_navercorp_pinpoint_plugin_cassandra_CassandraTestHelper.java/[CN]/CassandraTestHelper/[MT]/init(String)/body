@@ -1,0 +1,9 @@
+{
+  final String cassandraStorageDir=String.format("%s/data_%s",CASSANDRA_HOME,cassandraVersion);
+  final String cassandraConfigFile=String.format("cassandra/cassandra_%s.yaml",cassandraVersion);
+  System.setProperty("cassandra.storagedir",cassandraStorageDir);
+  System.setProperty("cassandra.config",cassandraConfigFile);
+  prepareEnvironment();
+  EmbeddedCassandraService cassandra=new EmbeddedCassandraService();
+  cassandra.start();
+}
