@@ -2,13 +2,15 @@
   transformTemplate.transform("org.apache.catalina.loader.WebappLoader",new TransformCallback(){
     @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
       InstrumentClass target=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
-      InstrumentMethod startEditor=target.getDeclaredMethod("start");
-      if (startEditor != null) {
-        startEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+      InstrumentMethod startMethod=null;
+      if (target.hasDeclaredMethod("start")) {
+        startMethod=target.getDeclaredMethod("start");
       }
-      InstrumentMethod startInternalEditor=target.getDeclaredMethod("startInternal");
-      if (startInternalEditor != null) {
-        startInternalEditor.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
+ else       if (target.hasDeclaredMethod("startInternal")) {
+        startMethod=target.getDeclaredMethod("startInternal");
+      }
+      if (startMethod != null) {
+        startMethod.addInterceptor("com.navercorp.pinpoint.plugin.tomcat.interceptor.WebappLoaderStartInterceptor");
       }
       return target.toBytecode();
     }

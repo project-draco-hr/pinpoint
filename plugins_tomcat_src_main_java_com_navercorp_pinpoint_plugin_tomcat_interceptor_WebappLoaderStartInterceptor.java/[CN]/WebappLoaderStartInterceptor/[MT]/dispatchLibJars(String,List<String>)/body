@@ -1,3 +1,5 @@
 {
-  this.traceContext.getServerMetaDataHolder().addServiceInfo(contextKey,libJars);
+  ServerMetaDataHolder holder=this.traceContext.getServerMetaDataHolder();
+  holder.addServiceInfo(contextKey,libJars);
+  holder.notifyListeners();
 }

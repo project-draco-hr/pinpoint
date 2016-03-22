@@ -1,0 +1,15 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!validate(target,args)) {
+    return;
+  }
+  String serviceName=createServiceName(target);
+  URLClassLoader classLoader=(URLClassLoader)args[2];
+  URL[] urls=classLoader.getURLs();
+  List<String> loadedJarNames=new ArrayList<String>(extractLibJarNamesFromURLs(urls));
+  ServerMetaDataHolder holder=this.traceContext.getServerMetaDataHolder();
+  holder.addServiceInfo(serviceName,loadedJarNames);
+  holder.notifyListeners();
+}

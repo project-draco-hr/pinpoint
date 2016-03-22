@@ -4,9 +4,18 @@
   }
   List<String> libJarNames=new ArrayList<String>(urls.length);
   for (  URL url : urls) {
-    String libJarName=extractLibJarName(url);
-    if (libJarName.length() > 0) {
-      libJarNames.add(libJarName);
+    try {
+      URI uri=url.toURI();
+      String libJarName=extractLibJarName(uri);
+      if (libJarName.length() > 0) {
+        libJarNames.add(libJarName);
+      }
+    }
+ catch (    URISyntaxException e) {
+      logger.warn("Invalid library url found : [{}]",url,e);
+    }
+catch (    Exception e) {
+      logger.warn("Error extracting library name",e);
     }
   }
   return libJarNames;
