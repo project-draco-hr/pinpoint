@@ -1,0 +1,9 @@
+{
+  Statement statement=childrenInvoker(notifier);
+  if (!areAllChildrenIgnored()) {
+    statement=withBeforeClasses(statement);
+    statement=withAfterClasses(statement);
+    statement=withClassRules(statement);
+  }
+  return statement;
+}

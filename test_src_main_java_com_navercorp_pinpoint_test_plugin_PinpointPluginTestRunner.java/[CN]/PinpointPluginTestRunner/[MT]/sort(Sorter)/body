@@ -1,0 +1,10 @@
+{
+synchronized (childrenLock) {
+    for (    FrameworkMethod each : getFilteredChildren()) {
+      sorter.apply(each);
+    }
+    List<FrameworkMethod> sortedChildren=new ArrayList<FrameworkMethod>(getFilteredChildren());
+    Collections.sort(sortedChildren,comparator(sorter));
+    filteredChildren=Collections.unmodifiableCollection(sortedChildren);
+  }
+}

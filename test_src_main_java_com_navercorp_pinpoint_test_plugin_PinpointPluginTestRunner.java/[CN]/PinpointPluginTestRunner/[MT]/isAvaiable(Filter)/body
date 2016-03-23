@@ -1,0 +1,11 @@
+{
+synchronized (childrenLock) {
+    List<FrameworkMethod> children=new ArrayList<FrameworkMethod>(getFilteredChildren());
+    for (    FrameworkMethod method : children) {
+      if (shouldRun(filter,method)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
