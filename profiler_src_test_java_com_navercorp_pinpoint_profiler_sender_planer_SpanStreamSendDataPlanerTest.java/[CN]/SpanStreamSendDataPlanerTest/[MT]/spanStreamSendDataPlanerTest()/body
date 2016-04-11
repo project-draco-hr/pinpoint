@@ -4,12 +4,12 @@
   HeaderTBaseSerializerFactory headerTBaseSerializerFactory=new HeaderTBaseSerializerFactory();
   List<SpanEvent> originalSpanEventList=createSpanEventList(spanEventSize);
   Span span=createSpan(originalSpanEventList);
-  CompositeSpanStreamData spanData=serializer.serializeSpanStream(headerTBaseSerializerFactory.createSerializer(),span);
+  PartitionedByteBufferLocator partitionedByteBufferLocator=serializer.serializeSpanStream(headerTBaseSerializerFactory.createSerializer(),span);
   SpanStreamSendDataFactory factory=new SpanStreamSendDataFactory(100,50,objectPool);
-  List<TSpanEvent> spanEventList=getSpanEventList(spanData,factory);
-  spanData=serializer.serializeSpanStream(headerTBaseSerializerFactory.createSerializer(),span);
+  List<TSpanEvent> spanEventList=getSpanEventList(partitionedByteBufferLocator,factory);
+  partitionedByteBufferLocator=serializer.serializeSpanStream(headerTBaseSerializerFactory.createSerializer(),span);
   factory=new SpanStreamSendDataFactory(objectPool);
-  List<TSpanEvent> spanEventList2=getSpanEventList(spanData,factory);
+  List<TSpanEvent> spanEventList2=getSpanEventList(partitionedByteBufferLocator,factory);
   Assert.assertEquals(spanEventSize,spanEventList.size());
   Assert.assertEquals(spanEventSize,spanEventList2.size());
 }

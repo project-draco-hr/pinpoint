@@ -3,10 +3,10 @@
     return;
   }
   HeaderTBaseSerializer serializer=serializerPool.getObject();
-  CompositeSpanStreamData compositeSpanStreamData=spanStreamSendDataSerializer.serializeSpanStream(serializer,span);
-  if (compositeSpanStreamData == null) {
+  PartitionedByteBufferLocator partitionedByteBufferLocator=spanStreamSendDataSerializer.serializeSpanStream(serializer,span);
+  if (partitionedByteBufferLocator == null) {
     serializerPool.returnObject(serializer);
     return;
   }
-  doAddAndFlush(compositeSpanStreamData,serializer);
+  doAddAndFlush(partitionedByteBufferLocator,serializer);
 }

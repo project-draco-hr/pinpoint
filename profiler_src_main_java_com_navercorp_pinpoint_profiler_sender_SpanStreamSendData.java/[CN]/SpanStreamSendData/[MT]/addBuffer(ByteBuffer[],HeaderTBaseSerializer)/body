@@ -9,7 +9,7 @@
     usedSerializerList.add(headerTbaseSerializer);
   }
   chunkCount++;
-  ByteBuffer chunkFlagBuffer=encoder.createByteBuffer(SpanStreamConstants.DEFAULT_CHUNK_FLAG_BUFFER_SIZE);
+  ByteBuffer chunkFlagBuffer=ByteBufferUtils.createByteBuffer(SpanStreamConstants.DEFAULT_CHUNK_FLAG_BUFFER_SIZE);
   components[componentsIndex++]=chunkFlagBuffer;
   int usedBufferLength=0;
   for (  ByteBuffer buffer : buffers) {
@@ -19,7 +19,7 @@
     components[componentsIndex++]=buffer;
     usedBufferLength+=buffer.remaining();
   }
-  encoder.putShort(chunkFlagBuffer,(short)(usedBufferLength));
+  ByteBufferUtils.putShort(chunkFlagBuffer,(short)(usedBufferLength));
   chunkFlagBuffer.flip();
   this.availableBufferCapacity=this.availableBufferCapacity - usedBufferLength - SpanStreamConstants.DEFAULT_CHUNK_FLAG_BUFFER_SIZE;
   return true;

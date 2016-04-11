@@ -1,23 +1,23 @@
 {
-  int buffersLength=compositeSpanStreamData.getComponentsBufferCapacity();
-  if (buffersLength < spanStreamSendData.getAvailableBufferCapacity()) {
+  int byteBufferCapacity=partitionedByteBufferLocator.getTotalByteBufferCapacity();
+  if (byteBufferCapacity < spanStreamSendData.getAvailableBufferCapacity()) {
     return FlushMode.NORMAL;
   }
- else   if (buffersLength < spanStreamSendData.getMaxBufferCapacity()) {
+ else   if (byteBufferCapacity < spanStreamSendData.getMaxBufferCapacity()) {
     return FlushMode.FLUSH_FIRST;
   }
  else {
     ByteBuffer spanChunkBuffer=getSpanChunkBuffer();
-    for (int i=0; i < compositeSpanStreamData.getComponentsCount(); i++) {
-      int currentComponentBufferLength=compositeSpanStreamData.getComponentBufferLength(i);
-      if (compositeSpanStreamData.isLastComponentIndex(i)) {
-        if (currentComponentBufferLength > spanStreamSendData.getMaxBufferCapacity()) {
-          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentComponentBufferLength);
+    for (int i=0; i < partitionedByteBufferLocator.getPartitionedCount(); i++) {
+      int currentBufferCapacity=partitionedByteBufferLocator.getByteBufferCapacity(i);
+      if (partitionedByteBufferLocator.isLastPartitionIndex(i)) {
+        if (currentBufferCapacity > spanStreamSendData.getMaxBufferCapacity()) {
+          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentBufferCapacity);
         }
       }
  else {
-        if (currentComponentBufferLength + spanChunkBuffer.remaining() > spanStreamSendData.getMaxBufferCapacity()) {
-          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentComponentBufferLength + ", maxCapacity:"+ spanStreamSendData.getMaxBufferCapacity());
+        if (currentBufferCapacity + spanChunkBuffer.remaining() > spanStreamSendData.getMaxBufferCapacity()) {
+          throw new IllegalStateException("BufferList has over size buffer. buffer length:" + currentBufferCapacity + ", maxCapacity:"+ spanStreamSendData.getMaxBufferCapacity());
         }
       }
     }

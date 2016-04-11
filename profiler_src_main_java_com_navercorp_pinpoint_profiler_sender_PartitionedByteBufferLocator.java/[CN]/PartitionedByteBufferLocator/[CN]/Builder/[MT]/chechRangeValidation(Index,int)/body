@@ -1,0 +1,13 @@
+{
+  int startPosition=index.getStartPosition();
+  int endPosition=index.getEndPosition();
+  if (startPosition < 0) {
+    throw new IllegalArgumentException("startPosition = " + startPosition);
+  }
+  if (startPosition > endPosition) {
+    throw new IllegalArgumentException("startPosition(" + startPosition + ") > endPosition("+ endPosition+ ").");
+  }
+  if (startPosition != partitionedEndPosition) {
+    throw new IllegalArgumentException("support only stream buffer index. startPosition(" + startPosition + ") != partitionedEndPosition("+ partitionedEndPosition+ ").");
+  }
+}

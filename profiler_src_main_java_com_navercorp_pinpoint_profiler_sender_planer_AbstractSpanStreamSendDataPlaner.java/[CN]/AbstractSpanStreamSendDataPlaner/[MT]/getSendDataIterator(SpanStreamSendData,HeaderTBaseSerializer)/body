@@ -8,26 +8,26 @@
     currentSpanStreamSendData.setFlushMode(SpanStreamSendDataMode.WAIT_BUFFER_AND_FLUSH);
     currentSpanStreamSendData=spanStreamSendDataFactory.create();
   }
-  int buffersLength=compositeSpanStreamData.getComponentsBufferCapacity();
-  if (currentSpanStreamSendData.isAvailableBufferCapacity(buffersLength)) {
+  int byteBufferCapacity=partitionedByteBufferLocator.getTotalByteBufferCapacity();
+  if (currentSpanStreamSendData.isAvailableBufferCapacity(byteBufferCapacity)) {
     if (currentSpanStreamSendData.getAvailableGatheringComponentsCount() < 2) {
       currentSpanStreamSendData.setFlushMode();
     }
-    currentSpanStreamSendData.addBuffer(compositeSpanStreamData.getByteBuffer(),serializer);
+    currentSpanStreamSendData.addBuffer(partitionedByteBufferLocator.getByteBuffer(),serializer);
     spanStreamSendDataList.add(currentSpanStreamSendData);
   }
  else {
-    int markStartComponentIndex=0;
-    int markEndComponentIndex=-1;
-    int flushBufferSize=0;
-    for (int i=0; i < compositeSpanStreamData.getComponentsCount(); i++) {
+    int markFromPartitionIndex=0;
+    int markToPartitionIndex=-1;
+    int flushBufferCapacity=0;
+    for (int i=0; i < partitionedByteBufferLocator.getPartitionedCount(); i++) {
       int appendBufferSize=0;
-      if (!compositeSpanStreamData.isLastComponentIndex(i)) {
+      if (!partitionedByteBufferLocator.isLastPartitionIndex(i)) {
         appendBufferSize=getSpanChunkLength();
       }
-      flushBufferSize+=compositeSpanStreamData.getComponentBufferLength(i);
-      if (needFlush(currentSpanStreamSendData,flushBufferSize,appendBufferSize)) {
-        ByteBuffer addBuffer=createByteBuffer(compositeSpanStreamData,markStartComponentIndex,markEndComponentIndex);
+      flushBufferCapacity+=partitionedByteBufferLocator.getByteBufferCapacity(i);
+      if (needFlush(currentSpanStreamSendData,flushBufferCapacity,appendBufferSize)) {
+        ByteBuffer addBuffer=getByteBuffer(partitionedByteBufferLocator,markFromPartitionIndex,markToPartitionIndex);
         if (addBuffer != null) {
           ByteBuffer[] byteBufferArray=new ByteBuffer[2];
           byteBufferArray[0]=addBuffer;
@@ -37,12 +37,12 @@
         currentSpanStreamSendData.setFlushMode();
         spanStreamSendDataList.add(currentSpanStreamSendData);
         currentSpanStreamSendData=spanStreamSendDataFactory.create();
-        markStartComponentIndex=i;
-        flushBufferSize=compositeSpanStreamData.getComponentBufferLength(i);
+        markFromPartitionIndex=i;
+        flushBufferCapacity=partitionedByteBufferLocator.getByteBufferCapacity(i);
       }
-      markEndComponentIndex=i;
-      if (compositeSpanStreamData.isLastComponentIndex(i)) {
-        ByteBuffer addBuffer=createByteBuffer(compositeSpanStreamData,markStartComponentIndex,markEndComponentIndex);
+      markToPartitionIndex=i;
+      if (partitionedByteBufferLocator.isLastPartitionIndex(i)) {
+        ByteBuffer addBuffer=getByteBuffer(partitionedByteBufferLocator,markFromPartitionIndex,markToPartitionIndex);
         currentSpanStreamSendData.addBuffer(addBuffer,serializer);
         spanStreamSendDataList.add(currentSpanStreamSendData);
       }
