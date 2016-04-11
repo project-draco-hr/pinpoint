@@ -1,0 +1,34 @@
+{
+  logger.debug("PartitionedByteBufferLocator {}.",partitionedByteBufferLocator);
+  SpanStreamSendData currentSpanStreamSendData=standbySpanStreamDataSendWorker.getStandbySpanStreamSendData();
+  if (currentSpanStreamSendData == null) {
+    currentSpanStreamSendData=spanStreamSendDataFactory.create();
+  }
+  try {
+    if (!currentSpanStreamSendData.addBuffer(partitionedByteBufferLocator.getByteBuffer())) {
+      SendDataPlaner sendDataPlaner=new SpanChunkStreamSendDataPlaner(partitionedByteBufferLocator,spanStreamSendDataFactory);
+      Iterator<SpanStreamSendData> sendDataIterator=sendDataPlaner.getSendDataIterator(currentSpanStreamSendData,serializer);
+      while (sendDataIterator.hasNext()) {
+        SpanStreamSendData sendData=sendDataIterator.next();
+        if (sendData.getFlushMode() == SpanStreamSendDataMode.FLUSH) {
+          flush(sendData);
+        }
+ else         if (sendData.getFlushMode() == SpanStreamSendDataMode.WAIT_BUFFER) {
+          boolean isAdded=standbySpanStreamDataSendWorker.addStandbySpanStreamData(sendData);
+          if (!isAdded) {
+            flush(sendData);
+          }
+        }
+      }
+    }
+ else {
+      boolean isAdded=standbySpanStreamDataSendWorker.addStandbySpanStreamData(currentSpanStreamSendData);
+      if (!isAdded) {
+        flush(currentSpanStreamSendData);
+      }
+    }
+  }
+ catch (  IOException e) {
+    logger.warn("UDPChannel write fail.",e);
+  }
+}

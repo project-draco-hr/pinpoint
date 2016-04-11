@@ -1,0 +1,14 @@
+{
+  if (partitionIndex < 0) {
+    throw new IllegalArgumentException("partitionIndex = " + partitionIndex);
+  }
+  if (partitionIndex >= getPartitionedCount()) {
+    throw new IllegalArgumentException("partitionIndex(" + partitionIndex + ") >= partitionedCount("+ getPartitionedCount()+ ").");
+  }
+  Index fromIndex=partitionIndexList.get(partitionIndex);
+  Index toIndex=partitionIndexList.get(partitionIndex);
+  int startPosition=fromIndex.getStartPosition();
+  int endPosition=toIndex.getEndPosition();
+  logger.debug("getByteBuffer baseBuffer-length:{}, {}~{}.",baseBuffer.length,startPosition,endPosition);
+  return ByteBuffer.wrap(baseBuffer,fromIndex.getStartPosition(),toIndex.getEndPosition() - fromIndex.getStartPosition());
+}

@@ -1,5 +1,5 @@
 {
-  CompositeSpanStreamData.Builder compositeSpanStreamDataBuilder=new CompositeSpanStreamData.Builder();
+  PartitionedByteBufferLocator.Builder partitionedByteBufferLocatorBuilder=new PartitionedByteBufferLocator.Builder();
   List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
   if (spanEventList != null) {
     for (    TSpanEvent spanEvent : spanEventList) {
@@ -7,7 +7,7 @@
       try {
         byte[] buffer=serializer.continueSerialize(spanEvent);
         int bufferEndIndex=serializer.getInterBufferSize();
-        compositeSpanStreamDataBuilder.addComponentsIndex(bufferStartIndex,bufferEndIndex);
+        partitionedByteBufferLocatorBuilder.addIndex(bufferStartIndex,bufferEndIndex);
       }
  catch (      TException e) {
         logger.warn("Serialize fail. value:{}.",spanEvent,e);
@@ -20,9 +20,9 @@
     int bufferStartIndex=serializer.getInterBufferSize();
     byte[] buffer=serializer.continueSerialize(copiedSpanChunk);
     int bufferEndIndex=serializer.getInterBufferSize();
-    compositeSpanStreamDataBuilder.addComponentsIndex(bufferStartIndex,bufferEndIndex);
-    compositeSpanStreamDataBuilder.setBuffer(buffer);
-    return compositeSpanStreamDataBuilder.build();
+    partitionedByteBufferLocatorBuilder.addIndex(bufferStartIndex,bufferEndIndex);
+    partitionedByteBufferLocatorBuilder.setBuffer(buffer);
+    return partitionedByteBufferLocatorBuilder.build();
   }
  catch (  TException e) {
     logger.warn("Serialize fail. value:{}.",copiedSpanChunk,e);

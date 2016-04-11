@@ -1,0 +1,23 @@
+{
+  int chunkCount=1;
+  int availableBufferCapacity=availableCurrentBufferCapacity;
+  for (int i=0; i < partitionedByteBufferLocator.getPartitionedCount(); i++) {
+    int partitionByteBufferCapacity=partitionedByteBufferLocator.getByteBufferCapacity(i);
+    if (partitionedByteBufferLocator.isLastPartitionIndex(i)) {
+      if (partitionByteBufferCapacity > availableBufferCapacity) {
+        chunkCount++;
+      }
+    }
+ else {
+      if (partitionByteBufferCapacity + getSpanChunkLength() < availableBufferCapacity) {
+        availableBufferCapacity-=partitionByteBufferCapacity;
+      }
+ else {
+        chunkCount++;
+        availableBufferCapacity=spanStreamSendData.getMaxBufferCapacity();
+        availableBufferCapacity-=partitionByteBufferCapacity;
+      }
+    }
+  }
+  return chunkCount;
+}

@@ -1,0 +1,9 @@
+{
+  checkRangeValidation(fromPartitionIndex,toPartitionIndex,getPartitionedCount());
+  Index fromIndex=partitionIndexList.get(fromPartitionIndex);
+  Index toIndex=partitionIndexList.get(toPartitionIndex);
+  int startPosition=fromIndex.getStartPosition();
+  int endPosition=toIndex.getEndPosition();
+  logger.debug("getByteBuffer baseBuffer-length:{}, {}~{}.",baseBuffer.length,startPosition,endPosition);
+  return ByteBuffer.wrap(baseBuffer,fromIndex.getStartPosition(),toIndex.getEndPosition() - fromIndex.getStartPosition());
+}
