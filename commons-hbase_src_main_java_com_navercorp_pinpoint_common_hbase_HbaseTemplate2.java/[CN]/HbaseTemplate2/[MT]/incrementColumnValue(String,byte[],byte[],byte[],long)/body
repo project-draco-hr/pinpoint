@@ -1,7 +1,7 @@
 {
   return execute(tableName,new TableCallback<Long>(){
-    @Override public Long doInTable(    HTableInterface htable) throws Throwable {
-      return htable.incrementColumnValue(rowName,familyName,qualifier,amount);
+    @Override public Long doInTable(    Table table) throws Throwable {
+      return table.incrementColumnValue(rowName,familyName,qualifier,amount);
     }
   }
 );

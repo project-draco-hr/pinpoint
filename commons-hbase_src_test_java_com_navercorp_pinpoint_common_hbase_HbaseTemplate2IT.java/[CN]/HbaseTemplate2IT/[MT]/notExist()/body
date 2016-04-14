@@ -1,17 +1,12 @@
 {
-  HbaseTemplate2 hbaseTemplate2=new HbaseTemplate2();
-  hbaseTemplate2.setConfiguration(hbaseConfigurationFactoryBean.getObject());
-  hbaseTemplate2.afterPropertiesSet();
   try {
-    hbaseTemplate2.put("NOT_EXIST",new byte[0],"familyName".getBytes(),"columnName".getBytes(),new byte[0]);
+    hbaseTemplate2.put("NOT_EXIST",new byte[]{0,0,0},"familyName".getBytes(),"columnName".getBytes(),new byte[]{0,0,0});
     Assert.fail("exceptions");
   }
  catch (  HbaseSystemException e) {
-    if (!(e.getCause().getCause() instanceof TableNotFoundException)) {
+    RetriesExhaustedWithDetailsException exception=(RetriesExhaustedWithDetailsException)(e.getCause());
+    if (!(exception.getCause(0) instanceof TableNotFoundException)) {
       Assert.fail("unexpected exception :" + e.getCause());
     }
-  }
- finally {
-    hbaseTemplate2.destroy();
   }
 }

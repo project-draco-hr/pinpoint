@@ -1,11 +1,11 @@
 {
   return execute(tableName,new TableCallback<List<Result>>(){
-    @Override public List<Result> doInTable(    HTableInterface htable) throws Throwable {
+    @Override public List<Result> doInTable(    Table table) throws Throwable {
       final List<Result> resultList=new ArrayList<>(incrementList.size());
       Exception lastException=null;
       for (      Increment increment : incrementList) {
         try {
-          Result result=htable.increment(increment);
+          Result result=table.increment(increment);
           resultList.add(result);
         }
  catch (        IOException e) {

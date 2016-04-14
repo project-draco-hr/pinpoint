@@ -1,6 +1,6 @@
 {
   execute(tableName,new TableCallback(){
-    @Override public Object doInTable(    HTableInterface htable) throws Throwable {
+    @Override public Object doInTable(    Table table) throws Throwable {
       Put put=new Put(rowName);
       if (familyName != null) {
         if (timestamp == null) {
@@ -10,7 +10,7 @@
           put.addColumn(familyName,qualifier,timestamp,value);
         }
       }
-      htable.put(put);
+      table.put(put);
       return null;
     }
   }
