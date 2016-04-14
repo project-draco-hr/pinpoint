@@ -1,16 +1,8 @@
 {
   execute(tableName,new TableCallback<T>(){
     @Override public T doInTable(    Table table) throws Throwable {
-      Put put=new Put(rowName);
       byte[] bytes=mapper.mapValue(value);
-      if (familyName != null) {
-        if (timestamp == null) {
-          put.add(familyName,qualifier,bytes);
-        }
- else {
-          put.add(familyName,qualifier,timestamp,bytes);
-        }
-      }
+      Put put=createPut(rowName,familyName,timestamp,qualifier,bytes);
       table.put(put);
       return null;
     }
