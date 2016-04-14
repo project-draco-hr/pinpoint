@@ -10,6 +10,9 @@
     addColumn(put,spanEventBo);
   }
   if (!put.isEmpty()) {
-    hbaseTemplate.put(TRACES,put);
+    boolean success=hbaseTemplate.asyncPut(TRACES,put);
+    if (!success) {
+      hbaseTemplate.put(TRACES,put);
+    }
   }
 }

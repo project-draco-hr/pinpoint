@@ -1,0 +1,12 @@
+{
+  Put put=new Put(rowName);
+  if (familyName != null) {
+    if (timestamp == null) {
+      put.addColumn(familyName,qualifier,value);
+    }
+ else {
+      put.addColumn(familyName,qualifier,timestamp,value);
+    }
+  }
+  return put;
+}
