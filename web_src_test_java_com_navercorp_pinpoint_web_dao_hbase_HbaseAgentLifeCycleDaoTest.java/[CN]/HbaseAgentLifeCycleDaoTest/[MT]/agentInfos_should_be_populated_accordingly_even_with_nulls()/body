@@ -3,7 +3,7 @@
   final long expectedTimestamp=1000L;
   final AgentLifeCycleState expectedAgentLifeCycleState=AgentLifeCycleState.RUNNING;
   final AgentLifeCycleBo scannedLifeCycleBo=createAgentLifeCycleBo(expectedAgentId,expectedTimestamp,expectedAgentLifeCycleState);
-  when(this.hbaseOperations2.findParallel(anyString(),anyListOf(Scan.class),any(ResultsExtractor.class))).thenReturn(Arrays.asList(scannedLifeCycleBo,scannedLifeCycleBo));
+  when(this.hbaseOperations2.findParallel(any(TableName.class),anyListOf(Scan.class),any(ResultsExtractor.class))).thenReturn(Arrays.asList(scannedLifeCycleBo,scannedLifeCycleBo));
   AgentInfo nonNullAgentInfo=new AgentInfo();
   nonNullAgentInfo.setAgentId(expectedAgentId);
   nonNullAgentInfo.setStartTimestamp(expectedTimestamp);
