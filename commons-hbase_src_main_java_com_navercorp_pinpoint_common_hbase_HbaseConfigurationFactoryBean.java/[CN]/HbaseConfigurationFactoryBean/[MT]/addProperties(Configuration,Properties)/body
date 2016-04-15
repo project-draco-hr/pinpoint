@@ -1,0 +1,10 @@
+{
+  Assert.notNull(configuration,"A non-null configuration is required");
+  if (properties != null) {
+    Enumeration<?> props=properties.propertyNames();
+    while (props.hasMoreElements()) {
+      String key=props.nextElement().toString();
+      configuration.set(key,properties.getProperty(key));
+    }
+  }
+}
