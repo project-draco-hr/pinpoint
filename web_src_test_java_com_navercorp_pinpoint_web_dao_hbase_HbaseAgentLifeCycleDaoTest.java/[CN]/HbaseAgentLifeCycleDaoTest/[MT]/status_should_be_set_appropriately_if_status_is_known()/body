@@ -3,7 +3,7 @@
   final long expectedTimestamp=1000L;
   final AgentLifeCycleState expectedAgentLifeCycleState=AgentLifeCycleState.RUNNING;
   final AgentLifeCycleBo scannedLifeCycleBo=createAgentLifeCycleBo(expectedAgentId,expectedTimestamp,expectedAgentLifeCycleState);
-  when(this.hbaseOperations2.find(anyString(),any(Scan.class),any(ResultsExtractor.class))).thenReturn(scannedLifeCycleBo);
+  when(this.hbaseOperations2.find(any(TableName.class),any(Scan.class),any(ResultsExtractor.class))).thenReturn(scannedLifeCycleBo);
   AgentStatus agentStatus=this.agentLifeCycleDao.getAgentStatus(expectedAgentId,expectedTimestamp);
   Assert.assertEquals(expectedAgentId,agentStatus.getAgentId());
   Assert.assertEquals(expectedTimestamp,agentStatus.getEventTimestamp());
