@@ -1,6 +1,7 @@
 {
   Assert.notNull(action,"Callback object must not be null");
   Assert.notNull(tableName,"No table specified");
+  assertAccessAvailable();
   Table table=getTable(tableName);
   try {
     T result=action.doInTable(table);

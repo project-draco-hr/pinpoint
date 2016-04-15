@@ -1,0 +1,19 @@
+{
+  StopWatch stopWatch=new StopWatch();
+  stopWatch.start();
+  while (true) {
+    Long currentPutOpsCount=asyncOperation.getCurrentPutOpsCount();
+    logger.warn("count " + currentPutOpsCount);
+    if (currentPutOpsCount == 0L) {
+      return true;
+    }
+    if (stopWatch.stop() > waitTimeout) {
+      return false;
+    }
+    try {
+      Thread.sleep(checkUnitTime);
+    }
+ catch (    InterruptedException e) {
+    }
+  }
+}
