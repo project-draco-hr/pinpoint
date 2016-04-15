@@ -1,13 +1,19 @@
 {
-  logger.info("HbaseTemplate2.destroy()");
-  final ExecutorService executor=this.executor;
-  if (executor != null) {
-    executor.shutdown();
-    try {
-      executor.awaitTermination(2000,TimeUnit.MILLISECONDS);
+  StopWatch stopWatch=new StopWatch();
+  stopWatch.start();
+  if (isClose.compareAndSet(false,true)) {
+    logger.info("HBaseTemplate2.destroy()");
+    final ExecutorService executor=this.executor;
+    if (executor != null) {
+      executor.shutdown();
+      try {
+        executor.awaitTermination(DEFAULT_DESTORY_TIMEOUT,TimeUnit.MILLISECONDS);
+      }
+ catch (      InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
     }
- catch (    InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
+    long remainingTime=Math.max(DEFAULT_DESTORY_TIMEOUT - stopWatch.stop(),100);
+    awaitAsyncPutOpsCleared(remainingTime,50);
   }
 }

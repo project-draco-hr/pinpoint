@@ -1,3 +1,10 @@
 {
-  return asyncOperation.put(tableName,put);
+  assertAccessAvailable();
+  if (asyncOperation.isAvailable()) {
+    return asyncOperation.put(tableName,put);
+  }
+ else {
+    put(tableName,put);
+    return true;
+  }
 }
