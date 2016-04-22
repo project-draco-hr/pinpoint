@@ -1,0 +1,10 @@
+{
+  super(compositeSpanStreamData,spanStreamSendDataFactory);
+  int partitionedCount=compositeSpanStreamData.getPartitionedCount();
+  if (partitionedCount <= 0) {
+    throw new IllegalArgumentException("PartitionedByteBufferLocator.getPartitionedCount()=" + partitionedCount);
+  }
+ else {
+    lastPartitionIndex=partitionedCount - 1;
+  }
+}

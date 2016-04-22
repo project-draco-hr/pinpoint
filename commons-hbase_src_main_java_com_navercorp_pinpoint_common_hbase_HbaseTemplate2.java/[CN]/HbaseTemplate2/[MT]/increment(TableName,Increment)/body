@@ -1,0 +1,9 @@
+{
+  assertAccessAvailable();
+  return execute(tableName,new TableCallback<Result>(){
+    @Override public Result doInTable(    Table table) throws Throwable {
+      return table.increment(increment);
+    }
+  }
+);
+}

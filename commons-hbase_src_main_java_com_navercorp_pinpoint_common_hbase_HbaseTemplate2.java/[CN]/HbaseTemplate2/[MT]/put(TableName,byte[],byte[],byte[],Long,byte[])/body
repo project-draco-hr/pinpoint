@@ -1,0 +1,11 @@
+{
+  assertAccessAvailable();
+  execute(tableName,new TableCallback(){
+    @Override public Object doInTable(    Table table) throws Throwable {
+      Put put=createPut(rowName,familyName,timestamp,qualifier,value);
+      table.put(put);
+      return null;
+    }
+  }
+);
+}

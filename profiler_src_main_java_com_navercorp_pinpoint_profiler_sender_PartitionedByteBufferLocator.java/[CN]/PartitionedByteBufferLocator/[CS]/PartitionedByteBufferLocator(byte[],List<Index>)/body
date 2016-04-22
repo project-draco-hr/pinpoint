@@ -1,0 +1,20 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer may not be null.");
+  }
+  if (partitionIndexList == null || partitionIndexList.isEmpty()) {
+    throw new NullPointerException("buffer may not be null or zero.");
+  }
+  Index firstPartitionIndex=ListUtils.getFirst(partitionIndexList);
+  Index lastPartitionIndex=ListUtils.getLast(partitionIndexList);
+  int partitionedBufferCapacity=lastPartitionIndex.getEndPosition() - firstPartitionIndex.getStartPosition();
+  if (partitionedBufferCapacity > buffer.length) {
+    throw new IllegalArgumentException("partitionedBufferCapacity(" + partitionedBufferCapacity + ") > bufferCapacity("+ buffer.length+ ").");
+  }
+  if (lastPartitionIndex.getEndPosition() > buffer.length) {
+    throw new IllegalArgumentException("lastPartitionEndPosition(" + lastPartitionIndex.getEndPosition() + ") > bufferCapacity("+ buffer.length+ ").");
+  }
+  this.baseBuffer=buffer;
+  this.partitionIndexList=new ArrayList<Index>(partitionIndexList);
+  this.partitionedBufferCapacity=partitionedBufferCapacity;
+}

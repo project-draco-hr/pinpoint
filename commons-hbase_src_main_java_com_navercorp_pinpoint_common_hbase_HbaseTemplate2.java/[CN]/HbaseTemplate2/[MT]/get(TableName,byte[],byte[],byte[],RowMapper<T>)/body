@@ -1,0 +1,19 @@
+{
+  assertAccessAvailable();
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    Table table) throws Throwable {
+      Get get=new Get(rowName);
+      if (familyName != null) {
+        if (qualifier != null) {
+          get.addColumn(familyName,qualifier);
+        }
+ else {
+          get.addFamily(familyName);
+        }
+      }
+      Result result=table.get(get);
+      return mapper.mapRow(result,0);
+    }
+  }
+);
+}

@@ -1,0 +1,24 @@
+{
+  assertAccessAvailable();
+  return execute(tableName,new TableCallback<List<Result>>(){
+    @Override public List<Result> doInTable(    Table table) throws Throwable {
+      final List<Result> resultList=new ArrayList<>(incrementList.size());
+      Exception lastException=null;
+      for (      Increment increment : incrementList) {
+        try {
+          Result result=table.increment(increment);
+          resultList.add(result);
+        }
+ catch (        IOException e) {
+          logger.warn("{} increment error Caused:{}",tableName,e.getMessage(),e);
+          lastException=e;
+        }
+      }
+      if (lastException != null) {
+        throw lastException;
+      }
+      return resultList;
+    }
+  }
+);
+}

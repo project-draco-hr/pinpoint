@@ -1,0 +1,10 @@
+{
+  assertAccessAvailable();
+  execute(tableName,new TableCallback(){
+    @Override public Object doInTable(    Table table) throws Throwable {
+      table.delete(deletes);
+      return null;
+    }
+  }
+);
+}

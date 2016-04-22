@@ -1,0 +1,9 @@
+{
+  assertAccessAvailable();
+  return execute(tableName,new TableCallback<Long>(){
+    @Override public Long doInTable(    Table table) throws Throwable {
+      return table.incrementColumnValue(rowName,familyName,qualifier,amount);
+    }
+  }
+);
+}

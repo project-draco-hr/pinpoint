@@ -1,7 +1,7 @@
 {
-  HTableInterface table=null;
+  Table table=null;
   try {
-    table=HbaseUtils.getHTable(this.tableName,this.configuration,this.charset,this.tableFactory);
+    table=tableFactory.getTable(this.tableName);
     ResultScanner scanner=createResultScanner(table);
     try {
       for (      Result result : scanner) {
@@ -23,6 +23,6 @@
     this.resultQueue.offer(END_RESULT);
   }
  finally {
-    HbaseUtils.releaseTable(this.tableName,table,this.tableFactory);
+    tableFactory.releaseTable(table);
   }
 }

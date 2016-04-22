@@ -1,0 +1,20 @@
+{
+  assertAccessAvailable();
+  return execute(tableName,new TableCallback<T>(){
+    @Override public T doInTable(    Table table) throws Throwable {
+      Get get=new Get(rowName.getBytes(getCharset()));
+      if (familyName != null) {
+        byte[] family=familyName.getBytes(getCharset());
+        if (qualifier != null) {
+          get.addColumn(family,qualifier.getBytes(getCharset()));
+        }
+ else {
+          get.addFamily(family);
+        }
+      }
+      Result result=table.get(get);
+      return mapper.mapRow(result,0);
+    }
+  }
+);
+}

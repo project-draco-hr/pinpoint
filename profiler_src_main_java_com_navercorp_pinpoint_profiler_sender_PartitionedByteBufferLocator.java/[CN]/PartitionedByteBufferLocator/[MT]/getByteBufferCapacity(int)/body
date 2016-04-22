@@ -1,0 +1,9 @@
+{
+  if (partitionIndex < 0) {
+    throw new IllegalArgumentException("partitionIndex = " + partitionIndex);
+  }
+  if (partitionIndex >= getPartitionedCount()) {
+    throw new IllegalArgumentException("partitionIndex(" + partitionIndex + ") >= partitionedCount("+ getPartitionedCount()+ ").");
+  }
+  return partitionIndexList.get(partitionIndex).getCapacity();
+}
