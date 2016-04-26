@@ -1,0 +1,9 @@
+{
+  byte[] receiveData=new byte[65535];
+  DatagramPacket datagramPacket=new DatagramPacket(receiveData,0,receiveData.length);
+  int remainCount=expectReceiveMessageCount;
+  while (remainCount > 0) {
+    remainCount--;
+    receiver.receive(datagramPacket);
+  }
+}

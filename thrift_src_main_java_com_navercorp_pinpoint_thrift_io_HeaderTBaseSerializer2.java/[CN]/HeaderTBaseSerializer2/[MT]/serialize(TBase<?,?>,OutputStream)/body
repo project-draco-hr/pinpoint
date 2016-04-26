@@ -1,0 +1,11 @@
+{
+  tOutputStreamTransport.open(outputStream);
+  try {
+    final Header header=tBaseLocator.headerLookup(base);
+    writeHeader(header);
+    base.write(protocol);
+  }
+  finally {
+    tOutputStreamTransport.close();
+  }
+}

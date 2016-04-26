@@ -1,0 +1,9 @@
+{
+  if (byteBuffer.remaining() >= size) {
+    return;
+  }
+  byteBuffer.limit(byteBuffer.capacity());
+  if (byteBuffer.remaining() < size) {
+    throw new BufferOverflowException("write failed remaining-size:" + byteBuffer.remaining() + ", input-size:"+ size+ ".");
+  }
+}

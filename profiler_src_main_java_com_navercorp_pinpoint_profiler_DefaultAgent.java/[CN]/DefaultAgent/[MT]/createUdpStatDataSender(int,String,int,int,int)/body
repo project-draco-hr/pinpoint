@@ -1,3 +1,4 @@
 {
-  return new UdpDataSender(this.profilerConfig.getCollectorStatServerIp(),port,threadName,writeQueueSize,timeout,sendBufferSize);
+  UdpDataSenderFactory factory=new UdpDataSenderFactory(this.profilerConfig.getCollectorStatServerIp(),port,threadName,writeQueueSize,timeout,sendBufferSize);
+  return factory.create(profilerConfig.getStatDataSenderSocketType());
 }

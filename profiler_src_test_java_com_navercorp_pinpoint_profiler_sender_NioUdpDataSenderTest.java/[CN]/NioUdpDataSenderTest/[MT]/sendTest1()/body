@@ -1,0 +1,14 @@
+{
+  NioUDPDataSender sender=new NioUDPDataSender("localhost",PORT,"test",128,1000,1024 * 64 * 100);
+  int sendMessageCount=10;
+  TAgentInfo agentInfo=new TAgentInfo();
+  for (int i=0; i < 10; i++) {
+    sender.send(agentInfo);
+  }
+  try {
+    waitMessageReceived(sendMessageCount);
+  }
+  finally {
+    sender.stop();
+  }
+}

@@ -1,0 +1,8 @@
+{
+  String random=RandomStringUtils.randomAlphabetic(UdpDataSender.UDP_MAX_PACKET_LENGTH + 100);
+  TAgentInfo agentInfo=new TAgentInfo();
+  agentInfo.setAgentId(random);
+  NioUDPDataSender sender=new NioUDPDataSender("localhost",PORT,"test",128,1000,1024 * 64 * 100);
+  sender.send(agentInfo);
+  waitMessageReceived(1);
+}
