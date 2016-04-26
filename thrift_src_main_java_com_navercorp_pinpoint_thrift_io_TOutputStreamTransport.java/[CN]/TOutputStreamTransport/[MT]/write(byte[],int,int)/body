@@ -1,0 +1,13 @@
+{
+  if (this.outputStream == null) {
+    throw new TTransportException(1,"TOutputStreamTransport is not opend.");
+  }
+ else {
+    try {
+      this.outputStream.write(bytes,index,length);
+    }
+ catch (    IOException var5) {
+      throw new TTransportException(0,var5);
+    }
+  }
+}

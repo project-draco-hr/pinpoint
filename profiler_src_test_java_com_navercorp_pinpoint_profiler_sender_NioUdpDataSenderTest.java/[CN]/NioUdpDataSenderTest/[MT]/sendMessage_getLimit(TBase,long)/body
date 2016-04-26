@@ -1,0 +1,13 @@
+{
+  final AtomicBoolean limitCounter=new AtomicBoolean(false);
+  final CountDownLatch latch=new CountDownLatch(1);
+  NioUDPDataSender sender=new NioUDPDataSender("localhost",PORT,"test",128,1000,1024 * 64 * 100);
+  try {
+    sender.send(tbase);
+    latch.await(waitTimeMillis,TimeUnit.MILLISECONDS);
+  }
+  finally {
+    sender.stop();
+  }
+  return limitCounter.get();
+}

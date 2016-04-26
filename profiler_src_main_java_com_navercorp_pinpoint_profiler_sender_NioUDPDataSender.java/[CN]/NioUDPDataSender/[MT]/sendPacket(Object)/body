@@ -1,0 +1,34 @@
+{
+  if (closed) {
+    throw new PinpointSocketException("NioUDPDataSender already closed.");
+  }
+  if (message instanceof TBase) {
+    byteBufferOutputStream.clear();
+    final TBase dto=(TBase)message;
+    try {
+      serializer.serialize(dto,byteBufferOutputStream);
+    }
+ catch (    TException e) {
+      throw new PinpointSocketException("Serialize " + dto + " failed. Error:"+ e.getMessage(),e);
+    }
+    ByteBuffer byteBuffer=byteBufferOutputStream.getByteBuffer();
+    int bufferSize=byteBuffer.remaining();
+    try {
+      datagramChannel.write(byteBuffer);
+    }
+ catch (    IOException e) {
+      final Thread currentThread=Thread.currentThread();
+      if (currentThread.isInterrupted()) {
+        logger.warn("{} thread interrupted.",currentThread.getName());
+        throw new PinpointSocketException(currentThread.getName() + " thread interrupted.",e);
+      }
+ else {
+        throw new PinpointSocketException("packet send error. size:" + bufferSize + ", "+ dto,e);
+      }
+    }
+  }
+ else {
+    logger.warn("sendPacket fail. invalid type:{}",message != null ? message.getClass() : null);
+    return;
+  }
+}

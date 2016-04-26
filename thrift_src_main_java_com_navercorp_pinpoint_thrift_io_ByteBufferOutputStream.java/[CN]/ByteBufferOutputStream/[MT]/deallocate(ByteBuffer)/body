@@ -1,0 +1,11 @@
+{
+  if (byteBuffer == null) {
+    return;
+  }
+  if (byteBuffer instanceof DirectBuffer) {
+    Cleaner cleaner=((DirectBuffer)byteBuffer).cleaner();
+    if (cleaner != null) {
+      cleaner.clean();
+    }
+  }
+}

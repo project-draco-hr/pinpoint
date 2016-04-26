@@ -1,0 +1,25 @@
+{
+  if (host == null) {
+    throw new NullPointerException("host must not be null");
+  }
+  if (threadName == null) {
+    throw new NullPointerException("threadName must not be null");
+  }
+  if (queueSize <= 0) {
+    throw new IllegalArgumentException("queueSize");
+  }
+  if (timeout <= 0) {
+    throw new IllegalArgumentException("timeout");
+  }
+  if (sendBufferSize <= 0) {
+    throw new IllegalArgumentException("sendBufferSize");
+  }
+  logger.info("NioUDPDataSender initialized. host={}, port={}",host,port);
+  this.datagramChannel=createChannel(host,port,timeout,sendBufferSize);
+  HeaderTBaseSerializerFactory2 serializerFactory=new HeaderTBaseSerializerFactory2();
+  this.serializer=serializerFactory.createSerializer();
+  ByteBufferFactory bufferFactory=ByteBufferFactoryLocator.getFactory(ByteBufferType.DIRECT);
+  ByteBuffer byteBuffer=bufferFactory.getBuffer(UDP_MAX_PACKET_LENGTH);
+  this.byteBufferOutputStream=new ByteBufferOutputStream(byteBuffer);
+  this.executor=createAsyncQueueingExecutor(queueSize,threadName);
+}

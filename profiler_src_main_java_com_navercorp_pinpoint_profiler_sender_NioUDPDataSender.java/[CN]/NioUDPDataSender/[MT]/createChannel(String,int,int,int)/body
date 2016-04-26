@@ -1,0 +1,32 @@
+{
+  DatagramChannel datagramChannel=null;
+  DatagramSocket socket=null;
+  try {
+    datagramChannel=DatagramChannel.open();
+    socket=datagramChannel.socket();
+    socket.setSoTimeout(timeout);
+    socket.setSendBufferSize(sendBufferSize);
+    if (logger.isWarnEnabled()) {
+      final int checkSendBufferSize=socket.getSendBufferSize();
+      if (sendBufferSize != checkSendBufferSize) {
+        logger.warn("DatagramChannel.setSendBufferSize() error. {}!={}",sendBufferSize,checkSendBufferSize);
+      }
+    }
+    InetSocketAddress serverAddress=new InetSocketAddress(host,port);
+    datagramChannel.connect(serverAddress);
+    return datagramChannel;
+  }
+ catch (  IOException e) {
+    if (socket != null) {
+      socket.close();
+    }
+    if (datagramChannel != null) {
+      try {
+        datagramChannel.close();
+      }
+ catch (      IOException ignored) {
+      }
+    }
+    throw new IllegalStateException("DatagramChannel create fail. Cause" + e.getMessage(),e);
+  }
+}
