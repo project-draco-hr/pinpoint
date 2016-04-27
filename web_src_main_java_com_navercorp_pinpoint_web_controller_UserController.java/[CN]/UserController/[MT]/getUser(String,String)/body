@@ -5,11 +5,10 @@
       users.add(userService.selectUserByUserId(userId));
       return users;
     }
- else     if (userName != null) {
-      return userService.selectUserByUserName(userName);
-    }
- else     if (department != null) {
-      return userService.selectUserByDepartment(department);
+ else     if (searchKey != null) {
+      List<User> users=userService.selectUserByUserName(searchKey);
+      users.addAll(userService.selectUserByDepartment(searchKey));
+      return users;
     }
  else {
       return userService.selectUser();
