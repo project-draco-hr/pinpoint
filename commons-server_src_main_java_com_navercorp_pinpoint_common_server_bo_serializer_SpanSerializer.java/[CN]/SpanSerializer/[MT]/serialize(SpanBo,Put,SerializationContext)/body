@@ -1,0 +1,6 @@
+{
+  byte[] columnValue=writeColumnValue(spanBo);
+  byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  put.addColumn(TRACES_CF_SPAN,spanId,acceptedTime,columnValue);
+}

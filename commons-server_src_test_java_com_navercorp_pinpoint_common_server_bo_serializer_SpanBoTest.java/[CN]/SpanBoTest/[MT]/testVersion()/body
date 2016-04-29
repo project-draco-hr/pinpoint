@@ -1,0 +1,15 @@
+{
+  SpanBo spanBo=new SpanBo();
+  checkVersion(spanBo,0);
+  checkVersion(spanBo,254);
+  checkVersion(spanBo,255);
+  try {
+    checkVersion(spanBo,256);
+    Assert.fail();
+  }
+ catch (  Exception ignored) {
+  }
+  byte byteVersion=2;
+  spanBo.setVersion(byteVersion);
+  Assert.assertTrue(spanBo.getRawVersion() == byteVersion);
+}
