@@ -1,0 +1,34 @@
+{
+  final Buffer buffer=new AutomaticBuffer(256);
+  buffer.put(span.getRawVersion());
+  buffer.putPrefixedString(span.getAgentId());
+  buffer.putVar(span.getAgentStartTime());
+  buffer.put(span.getParentSpanId());
+  buffer.putVar(span.getStartTime());
+  buffer.putVar(span.getElapsed());
+  buffer.putPrefixedString(span.getRpc());
+  buffer.putPrefixedString(span.getApplicationId());
+  buffer.put(span.getServiceType());
+  buffer.putPrefixedString(span.getEndPoint());
+  buffer.putPrefixedString(span.getRemoteAddr());
+  buffer.putSVar(span.getApiId());
+  buffer.putSVar(span.getErrCode());
+  if (span.hasException()) {
+    buffer.put(true);
+    buffer.putSVar(span.getExceptionId());
+    buffer.putPrefixedString(span.getExceptionMessage());
+  }
+ else {
+    buffer.put(false);
+  }
+  buffer.put(span.getFlag());
+  if (span.hasApplicationServiceType()) {
+    buffer.put(true);
+    buffer.put(span.getApplicationServiceType());
+  }
+ else {
+    buffer.put(false);
+  }
+  buffer.put(span.getLoggingTransactionInfo());
+  return buffer.getBuffer();
+}

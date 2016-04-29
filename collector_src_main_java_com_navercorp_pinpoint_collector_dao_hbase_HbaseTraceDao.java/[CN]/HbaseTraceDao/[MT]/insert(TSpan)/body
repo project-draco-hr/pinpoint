@@ -2,13 +2,11 @@
   if (span == null) {
     throw new NullPointerException("span must not be null");
   }
-  SpanBo spanBo=new SpanBo(span);
+  final SpanBo spanBo=new SpanBo(span);
   final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
-  Put put=new Put(rowKey);
-  byte[] spanValue=spanBo.writeValue();
-  byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
-  long acceptedTime=acceptedTimeService.getAcceptedTime();
-  put.addColumn(TRACES_CF_SPAN,spanId,acceptedTime,spanValue);
+  final Put put=new Put(rowKey);
+  this.spanSerializer.serialize(spanBo,put,null);
+  final byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
   List<TAnnotation> annotations=span.getAnnotations();
   if (CollectionUtils.isNotEmpty(annotations)) {
     byte[] bytes=writeAnnotation(annotations);
