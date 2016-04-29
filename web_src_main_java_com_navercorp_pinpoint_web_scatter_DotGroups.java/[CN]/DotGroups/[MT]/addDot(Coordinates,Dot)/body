@@ -1,8 +1,9 @@
 {
-  DotGroup dotGroup=dotGroupMap.get(coordinates);
+  Key key=new Key(coordinates,dot.getSimpleExceptionCode());
+  DotGroup dotGroup=dotGroupMap.get(key);
   if (dotGroup == null) {
     dotGroup=new DotGroup(coordinates);
-    dotGroupMap.put(coordinates,dotGroup);
+    dotGroupMap.put(key,dotGroup);
   }
   dotGroup.addDot(dot);
 }
