@@ -1,0 +1,24 @@
+{
+  long from=1000;
+  long to=10000;
+  int xGroupUnit=100;
+  int yGroupUnit=100;
+  ScatterData scatterData=new ScatterData(from,to,xGroupUnit,yGroupUnit);
+  long currentTime=System.currentTimeMillis();
+  TransactionId transactionId1=new TransactionId(transactionAgentId,currentTime,1);
+  TransactionId transactionId2=new TransactionId(transactionAgentId,currentTime,2);
+  long acceptedTime=Math.max(Math.abs(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE)),from);
+  int executionTime=(int)Math.abs(ThreadLocalRandom.current().nextLong(60 * 1000));
+  long acceptedTime2=Math.max(Math.abs(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE)),from);
+  Dot dot1=new Dot(transactionId1,acceptedTime2,executionTime,0,agentId);
+  Dot dot2=new Dot(transactionId2,acceptedTime2,executionTime,1,agentId);
+  scatterData.addDot(dot1);
+  scatterData.addDot(dot2);
+  Map<Long,DotGroups> scatterDataMap=scatterData.getScatterDataMap();
+  Collection<DotGroups> values=scatterDataMap.values();
+  Assert.assertTrue(values.size() == 1);
+  for (  DotGroups dotGroups : values) {
+    Map<Dot,DotGroup> dotGroupLeaders=dotGroups.getDotGroupLeaders();
+    Assert.assertTrue(dotGroupLeaders.keySet().size() == 2);
+  }
+}
