@@ -1,8 +1,8 @@
 {
   List<SpanBo> findList=null;
   for (  SpanBo span : nodeList) {
-    final ServiceType spanServiceType=serviceTypeRegistryService.findServiceType(span.getServiceType());
-    if (findApplicationName.equals(span.getApplicationId()) && includeServiceType(findServiceCode,spanServiceType)) {
+    final ServiceType applicationServiceType=serviceTypeRegistryService.findServiceType(span.getApplicationServiceType());
+    if (findApplicationName.equals(span.getApplicationId()) && includeServiceType(findServiceCode,applicationServiceType)) {
       if (agentFilter.accept(span.getAgentId())) {
         if (findList == null) {
           findList=new ArrayList<>();

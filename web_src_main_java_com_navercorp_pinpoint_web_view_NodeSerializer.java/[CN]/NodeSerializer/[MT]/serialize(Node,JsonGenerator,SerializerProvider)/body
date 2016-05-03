@@ -7,6 +7,7 @@
   final ServiceType serviceType=node.getApplication().getServiceType();
   jgen.writeStringField("serviceTypeCode",Short.toString(serviceType.getCode()));
   jgen.writeBooleanField("isWas",serviceType.isWas());
+  jgen.writeBooleanField("isQueue",serviceType.isQueue());
   writeHistogram(jgen,node);
   if (node.getServiceType().isUnknown()) {
     writeEmptyObject(jgen,"serverList");

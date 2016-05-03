@@ -8,6 +8,12 @@
   if (includeWas(fromServiceDescList) && includeUnknown(toServiceDescList)) {
     return FilterType.WAS_TO_UNKNOWN;
   }
+  if (includeWas(fromServiceDescList) && includeQueue(toServiceDescList)) {
+    return FilterType.WAS_TO_QUEUE;
+  }
+  if (includeQueue(fromServiceDescList) && includeWas(toServiceDescList)) {
+    return FilterType.QUEUE_TO_WAS;
+  }
   if (includeWas(fromServiceDescList)) {
     return FilterType.WAS_TO_BACKEND;
   }

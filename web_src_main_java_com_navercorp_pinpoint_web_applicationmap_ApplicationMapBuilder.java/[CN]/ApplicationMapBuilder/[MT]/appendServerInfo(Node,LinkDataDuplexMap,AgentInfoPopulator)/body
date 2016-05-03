@@ -3,7 +3,10 @@
   if (nodeServiceType.isUnknown()) {
     return;
   }
-  if (nodeServiceType.isTerminal()) {
+  if (nodeServiceType.isWas()) {
+    agentInfoPopulator.addAgentInfos(node);
+  }
+ else   if (nodeServiceType.isTerminal() || nodeServiceType.isQueue()) {
     ServerBuilder builder=new ServerBuilder();
     for (    LinkData linkData : linkDataDuplexMap.getSourceLinkDataList()) {
       Application toApplication=linkData.getToApplication();
@@ -13,9 +16,6 @@
     }
     ServerInstanceList serverInstanceList=builder.build();
     node.setServerInstanceList(serverInstanceList);
-  }
- else   if (nodeServiceType.isWas()) {
-    agentInfoPopulator.addAgentInfos(node);
   }
  else {
     node.setServerInstanceList(new ServerInstanceList());
