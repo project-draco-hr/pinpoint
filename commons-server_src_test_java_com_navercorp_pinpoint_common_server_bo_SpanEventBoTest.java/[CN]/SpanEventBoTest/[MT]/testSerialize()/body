@@ -11,7 +11,10 @@
   spanEventBo.setServiceType(ServiceType.STAND_ALONE.getCode());
   spanEventBo.setSpanId(12);
   spanEventBo.setStartElapsed(100);
-  byte[] bytes=spanEventBo.writeValue();
+  spanEventBo.setNextAsyncId(1000);
+  byte[] deprecatedBytes=spanEventBo.writeValue();
+  byte[] bytes=serializer.writeValue(spanEventBo);
+  Assert.assertArrayEquals(bytes,deprecatedBytes);
   SpanEventBo newSpanEventBo=new SpanEventBo();
   int i=newSpanEventBo.readValue(bytes,0,bytes.length);
   Assert.assertEquals(bytes.length,i);
@@ -25,6 +28,7 @@
   Assert.assertEquals(spanEventBo.getRpc(),newSpanEventBo.getRpc());
   Assert.assertEquals(spanEventBo.getServiceType(),newSpanEventBo.getServiceType());
   Assert.assertEquals(spanEventBo.getStartElapsed(),newSpanEventBo.getStartElapsed());
+  Assert.assertEquals(spanEventBo.getNextAsyncId(),newSpanEventBo.getNextAsyncId());
   spanEventBo.setSpanId(1);
   newSpanEventBo.setSpanId(1);
   Assert.assertEquals(spanEventBo.getSpanId(),newSpanEventBo.getSpanId());

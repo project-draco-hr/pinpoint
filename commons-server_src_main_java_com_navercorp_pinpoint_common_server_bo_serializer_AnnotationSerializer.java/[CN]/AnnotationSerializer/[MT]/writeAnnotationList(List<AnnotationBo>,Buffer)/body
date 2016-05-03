@@ -1,0 +1,11 @@
+{
+  if (annotationList == null) {
+    annotationList=Collections.emptyList();
+  }
+  final int size=annotationList.size();
+  buffer.putVar(size);
+  for (  AnnotationBo annotationBo : annotationList) {
+    writeAnnotation(annotationBo,buffer);
+  }
+  return buffer.getBuffer();
+}
