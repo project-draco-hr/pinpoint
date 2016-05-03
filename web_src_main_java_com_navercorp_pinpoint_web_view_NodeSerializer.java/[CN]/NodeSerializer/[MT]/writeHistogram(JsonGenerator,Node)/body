@@ -1,7 +1,7 @@
 {
   final ServiceType serviceType=node.getServiceType();
   final NodeHistogram nodeHistogram=node.getNodeHistogram();
-  if (serviceType.isWas() || serviceType.isTerminal() || serviceType.isUnknown()|| serviceType.isUser()) {
+  if (serviceType.isWas() || serviceType.isTerminal() || serviceType.isUnknown()|| serviceType.isUser()|| serviceType.isQueue()) {
     Histogram applicationHistogram=nodeHistogram.getApplicationHistogram();
     if (applicationHistogram == null) {
       writeEmptyObject(jgen,"histogram");
@@ -36,7 +36,7 @@
  else {
     jgen.writeBooleanField("hasAlert",false);
   }
-  if (serviceType.isWas() || serviceType.isUser() || serviceType.isTerminal()|| serviceType.isUnknown()) {
+  if (serviceType.isWas() || serviceType.isUser() || serviceType.isTerminal()|| serviceType.isUnknown()|| serviceType.isQueue()) {
     List<ResponseTimeViewModel> applicationTimeSeriesHistogram=nodeHistogram.getApplicationTimeHistogram();
     if (applicationTimeSeriesHistogram == null) {
       writeEmptyArray(jgen,"timeSeriesHistogram");

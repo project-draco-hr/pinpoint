@@ -7,5 +7,11 @@
   final short applicationServiceTypeCode=getApplicationServiceType(span).getCode();
   final String parentApplicationName=span.getParentApplicationName();
   final short parentServiceType=span.getParentApplicationType();
-  hostApplicationMapDao.insert(acceptorHost,spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
+  final ServiceType spanServiceType=registry.findServiceType(span.getServiceType());
+  if (spanServiceType.isQueue()) {
+    hostApplicationMapDao.insert(span.getEndPoint(),spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
+  }
+ else {
+    hostApplicationMapDao.insert(acceptorHost,spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
+  }
 }

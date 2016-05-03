@@ -1,6 +1,6 @@
 {
   final Application toApplication=linkData.getToApplication();
-  if (!toApplication.getServiceType().isRpcClient()) {
+  if (!toApplication.getServiceType().isRpcClient() && !toApplication.getServiceType().isQueue()) {
     return Collections.singletonList(linkData);
   }
   logger.debug("checkRpcCallAccepted(). Find applicationName:{} {}",toApplication,range);
@@ -19,9 +19,14 @@
     }
   }
  else {
-    final Application unknown=new Application(toApplication.getName(),ServiceType.UNKNOWN);
-    final LinkData unknownLinkData=new LinkData(linkData.getFromApplication(),unknown);
-    unknownLinkData.setLinkCallDataMap(linkData.getLinkCallDataMap());
-    return Collections.singletonList(unknownLinkData);
+    if (toApplication.getServiceType().isQueue()) {
+      return Collections.singletonList(linkData);
+    }
+ else {
+      final Application unknown=new Application(toApplication.getName(),ServiceType.UNKNOWN);
+      final LinkData unknownLinkData=new LinkData(linkData.getFromApplication(),unknown);
+      unknownLinkData.setLinkCallDataMap(linkData.getLinkCallDataMap());
+      return Collections.singletonList(unknownLinkData);
+    }
   }
 }

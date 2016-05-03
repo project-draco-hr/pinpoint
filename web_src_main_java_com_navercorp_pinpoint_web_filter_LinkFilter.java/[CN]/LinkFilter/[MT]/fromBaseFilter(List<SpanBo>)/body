@@ -6,7 +6,7 @@
     }
     for (    SpanEventBo event : eventBoList) {
       final ServiceType eventServiceType=serviceTypeRegistryService.findServiceType(event.getServiceType());
-      if (!eventServiceType.isRpcClient()) {
+      if (!eventServiceType.isRpcClient() || !eventServiceType.isQueue()) {
         continue;
       }
       if (!eventServiceType.isRecordStatistics()) {

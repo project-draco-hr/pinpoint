@@ -15,7 +15,7 @@
   ApplicationTimeHistogramBuilder builder=new ApplicationTimeHistogramBuilder(nodeApplication,range);
   ApplicationTimeHistogram applicationTimeHistogram=builder.build(linkCallDataMap.getLinkDataList());
   nodeHistogram.setApplicationTimeHistogram(applicationTimeHistogram);
-  if (nodeApplication.getServiceType().isTerminal()) {
+  if (nodeApplication.getServiceType().isTerminal() || nodeApplication.getServiceType().isQueue()) {
     final Map<String,Histogram> agentHistogramMap=new HashMap<>();
     for (    Link link : toLinkList) {
       LinkCallDataMap sourceLinkCallDataMap=link.getSourceLinkCallDataMap();

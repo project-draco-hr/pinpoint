@@ -28,5 +28,8 @@
   if (buffer.limit() > 0) {
     this.loggingTransactionInfo=buffer.readByte();
   }
+  if (buffer.limit() > 0) {
+    this.acceptorHost=buffer.readPrefixedString();
+  }
   return buffer.getOffset();
 }

@@ -2,5 +2,8 @@
   if (fromNode.getServiceType() == ServiceType.USER) {
     return toNode.getApplication();
   }
+  if (!fromNode.getServiceType().isWas() && fromNode.getServiceType().isQueue()) {
+    return toNode.getApplication();
+  }
   return fromNode.getApplication();
 }
