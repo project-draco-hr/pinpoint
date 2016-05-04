@@ -1,0 +1,8 @@
+{
+  final byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
+  final List<AnnotationBo> annotations=spanBo.getAnnotationBoList();
+  if (CollectionUtils.isNotEmpty(annotations)) {
+    byte[] bytes=writeAnnotationList(annotations);
+    put.addColumn(TRACES_CF_ANNOTATION,spanId,bytes);
+  }
+}

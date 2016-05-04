@@ -6,12 +6,7 @@
   final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
   final Put put=new Put(rowKey);
   this.spanSerializer.serialize(spanBo,put,null);
-  final byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
-  List<TAnnotation> annotations=span.getAnnotations();
-  if (CollectionUtils.isNotEmpty(annotations)) {
-    byte[] bytes=writeAnnotation(annotations);
-    put.addColumn(TRACES_CF_ANNOTATION,spanId,bytes);
-  }
+  this.annotationSerializer.serialize(spanBo,put,null);
   addNestedSpanEvent(put,span);
   boolean success=hbaseTemplate.asyncPut(TRACES,put);
   if (!success) {
