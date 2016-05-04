@@ -3,4 +3,10 @@
   metricRegistry.register("jvm.vm",new JvmAttributeGaugeSet());
   metricRegistry.register("jvm.garbage-collectors",new GarbageCollectorMetricSet());
   metricRegistry.register("jvm.thread-states",new ThreadStatesGaugeSet());
+  if (hBaseAsyncOperationMetrics != null) {
+    Map<String,Metric> metrics=hBaseAsyncOperationMetrics.getMetrics();
+    for (    Map.Entry<String,Metric> metric : metrics.entrySet()) {
+      metricRegistry.register(metric.getKey(),metric.getValue());
+    }
+  }
 }

@@ -1,3 +1,8 @@
 {
-  return hTableMultiplexer.put(tableName,puts);
+  opsCount.addAndGet(puts.size());
+  List<Put> rejectPuts=hTableMultiplexer.put(tableName,puts);
+  if (rejectPuts != null && rejectPuts.size() > 0) {
+    opsRejectCount.addAndGet(rejectPuts.size());
+  }
+  return rejectPuts;
 }

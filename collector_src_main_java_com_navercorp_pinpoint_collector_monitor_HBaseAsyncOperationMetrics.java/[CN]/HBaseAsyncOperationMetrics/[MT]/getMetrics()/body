@@ -1,0 +1,37 @@
+{
+  if (!hBaseAsyncOperation.isAvailable()) {
+    return Collections.emptyMap();
+  }
+  final Map<String,Metric> gauges=new HashMap<>(3);
+  gauges.put(COUNT,new Gauge<Long>(){
+    @Override public Long getValue(){
+      return hBaseAsyncOperation.getOpsCount();
+    }
+  }
+);
+  gauges.put(REJECTED_COUNT,new Gauge<Long>(){
+    @Override public Long getValue(){
+      return hBaseAsyncOperation.getOpsRejectedCount();
+    }
+  }
+);
+  gauges.put(FAILED_COUNT,new Gauge<Long>(){
+    @Override public Long getValue(){
+      return hBaseAsyncOperation.getOpsFailedCount();
+    }
+  }
+);
+  gauges.put(WAITING_COUNT,new Gauge<Long>(){
+    @Override public Long getValue(){
+      return hBaseAsyncOperation.getCurrentOpsCount();
+    }
+  }
+);
+  gauges.put(AVERAGE_LATENCY,new Gauge<Long>(){
+    @Override public Long getValue(){
+      return hBaseAsyncOperation.getOpsAverageLatency();
+    }
+  }
+);
+  return Collections.unmodifiableMap(gauges);
+}
