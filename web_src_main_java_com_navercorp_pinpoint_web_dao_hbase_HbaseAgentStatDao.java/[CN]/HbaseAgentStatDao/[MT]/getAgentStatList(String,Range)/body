@@ -8,13 +8,10 @@
   if (logger.isDebugEnabled()) {
     logger.debug("scanAgentStat : agentId={}, {}",agentId,range);
   }
-  Scan scan=createScan(agentId,range);
-  scan.addFamily(HBaseTables.AGENT_STAT_CF_STATISTICS);
-  List<List<AgentStat>> intermediate=hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,agentStatMapper);
-  int expectedSize=(int)(range.getRange() / 5000);
-  List<AgentStat> merged=new ArrayList<>(expectedSize);
-  for (  List<AgentStat> each : intermediate) {
-    merged.addAll(each);
+  if (range.getRange() < USE_AGGR_THRESHOLD) {
+    return getAgentStatListFromRaw(agentId,range);
   }
-  return merged;
+ else {
+    return getAgentStatListFromAggr(agentId,range);
+  }
 }
