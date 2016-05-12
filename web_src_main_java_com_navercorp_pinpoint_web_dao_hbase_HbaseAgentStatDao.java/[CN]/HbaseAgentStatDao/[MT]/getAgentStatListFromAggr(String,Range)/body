@@ -1,0 +1,34 @@
+{
+  Scan scan=createScan(agentId,range);
+  scan.addFamily(HBaseTables.AGENT_STAT_CF_STATISTICS);
+  List<List<AgentStat>> intermediate=hbaseOperations2.find(HBaseTables.AGENT_STAT_AGGR,scan,rowKeyDistributor,agentStatMapper);
+  List<AgentStat> merged=new ArrayList<>();
+  for (  List<AgentStat> each : intermediate) {
+    merged.addAll(each);
+  }
+  Collections.sort(merged,AgentStats.TIMESTAMP_COMPARATOR);
+  List<Range> missingRanges=new ArrayList<>();
+  long last=range.getFrom();
+  for (  AgentStat stat : merged) {
+    if (last + AGGR_MAX_INTERVAL < stat.getTimestamp()) {
+      Range r=new Range(last,stat.getTimestamp() - stat.getCollectInterval());
+      missingRanges.add(r);
+    }
+    last=stat.getTimestamp();
+  }
+  if (last + AGGR_MAX_INTERVAL < range.getTo()) {
+    Range r=new Range(last,range.getTo());
+    missingRanges.add(r);
+  }
+  for (  Range r : missingRanges) {
+    logger.debug("AgentStatAggr doesn't have range: " + r.prettyToString() + " of "+ agentId);
+    List<AgentStat> list=getAgentStatListFromRaw(agentId,r);
+    if (list.isEmpty()) {
+      logger.debug("AgentStat also doesn't have range: " + r.prettyToString() + " of "+ agentId);
+      continue;
+    }
+    List<AgentStat> aggregated=AgentStats.aggregate(list,AGGR_INTERVAL);
+    merged.addAll(aggregated);
+  }
+  return merged;
+}

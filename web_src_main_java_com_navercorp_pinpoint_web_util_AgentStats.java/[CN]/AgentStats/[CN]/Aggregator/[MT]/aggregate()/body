@@ -1,0 +1,19 @@
+{
+  if (stats.isEmpty()) {
+    return stats;
+  }
+  List<AgentStat> result=new ArrayList<>();
+  AgentStat current=toAggregatedAgentStat(stats.get(0));
+  for (  AgentStat stat : stats.subList(1,stats.size())) {
+    long timestamp=targetTimestamp(stat);
+    if (current.getTimestamp() == timestamp) {
+      current=add(current,stat);
+    }
+ else {
+      result.add(current);
+      current=toAggregatedAgentStat(stat);
+    }
+  }
+  result.add(current);
+  return result;
+}
