@@ -1,0 +1,9 @@
+{
+  final String pathSeparator=".";
+  AntPathMatcher matcher=new AntPathMatcher("test.?bc",pathSeparator);
+  Assert.assertTrue(matcher.isMatched("test.abc"));
+  Assert.assertFalse(matcher.isMatched("test.axx"));
+  Assert.assertFalse(matcher.isMatched(null));
+  Assert.assertFalse(matcher.isMatched(""));
+  Assert.assertFalse(matcher.isMatched("test"));
+}

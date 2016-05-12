@@ -1,0 +1,23 @@
+{
+  recorder.recordServiceType(ActiveMQClientConstants.ACTIVEMQ_CLIENT);
+  ActiveMQSession session=((ActiveMQSessionGetter)target)._$PINPOINT$_getActiveMQSession();
+  ActiveMQConnection connection=session.getConnection();
+  Transport transport=getRootTransport(((TransportGetter)connection)._$PINPOINT$_getTransport());
+  Socket socket=((SocketGetter)transport)._$PINPOINT$_getSocket();
+  SocketAddress localSocketAddress=socket.getLocalSocketAddress();
+  String endPoint=ActiveMQClientUtils.getEndPoint(localSocketAddress);
+  recorder.recordEndPoint(endPoint);
+  SocketAddress remoteSocketAddress=socket.getRemoteSocketAddress();
+  String remoteAddress=ActiveMQClientUtils.getEndPoint(remoteSocketAddress);
+  recorder.recordRemoteAddress(remoteAddress);
+  MessageDispatch md=(MessageDispatch)args[0];
+  ActiveMQMessage message=(ActiveMQMessage)md.getMessage();
+  ActiveMQDestination destination=message.getDestination();
+  recorder.recordRpcName(destination.getQualifiedName());
+  recorder.recordAcceptorHost(destination.getPhysicalName());
+  String parentApplicationName=ActiveMQClientHeader.getParentApplicationName(message,null);
+  if (!recorder.isRoot() && parentApplicationName != null) {
+    short parentApplicationType=ActiveMQClientHeader.getParentApplicationType(message,ServiceType.UNDEFINED.getCode());
+    recorder.recordParentApplication(parentApplicationName,parentApplicationType);
+  }
+}

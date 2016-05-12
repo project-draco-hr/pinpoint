@@ -1,0 +1,24 @@
+{
+  if (!(target instanceof ActiveMQMessageProducer)) {
+    return false;
+  }
+  if (!(target instanceof ActiveMQSessionGetter)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({}).",ActiveMQSessionGetter.class.getName());
+    }
+    return false;
+  }
+  if (!validateTransport(((ActiveMQSessionGetter)target)._$PINPOINT$_getActiveMQSession())) {
+    return false;
+  }
+  if (args == null || args.length < 2) {
+    return false;
+  }
+  if (!(args[0] instanceof ActiveMQDestination)) {
+    return false;
+  }
+  if (!(args[1] instanceof Message)) {
+    return false;
+  }
+  return true;
+}

@@ -1,0 +1,38 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args);
+  }
+  if (!validate(target,args)) {
+    return;
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+    recorder.recordApi(descriptor);
+    if (throwable == null) {
+      ActiveMQDestination destination=(ActiveMQDestination)args[0];
+      recorder.recordAttribute(AnnotationKey.MESSAGE_QUEUE_URI,destination.getQualifiedName());
+      recorder.recordDestinationId(destination.getPhysicalName());
+      ActiveMQSession session=((ActiveMQSessionGetter)target)._$PINPOINT$_getActiveMQSession();
+      ActiveMQConnection connection=session.getConnection();
+      Transport transport=getRootTransport(((TransportGetter)connection)._$PINPOINT$_getTransport());
+      Socket socket=((SocketGetter)transport)._$PINPOINT$_getSocket();
+      SocketAddress remoteSocketAddress=socket.getRemoteSocketAddress();
+      String remoteAddress=ActiveMQClientUtils.getEndPoint(remoteSocketAddress);
+      recorder.recordEndPoint(remoteAddress);
+      recorder.recordAttribute(ActiveMQClientConstants.ACTIVEMQ_BROKER_URL,remoteAddress);
+    }
+ else {
+      recorder.recordException(throwable);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("AFTER error. Cause:{}",t.getMessage(),t);
+  }
+ finally {
+    trace.traceBlockEnd();
+  }
+}

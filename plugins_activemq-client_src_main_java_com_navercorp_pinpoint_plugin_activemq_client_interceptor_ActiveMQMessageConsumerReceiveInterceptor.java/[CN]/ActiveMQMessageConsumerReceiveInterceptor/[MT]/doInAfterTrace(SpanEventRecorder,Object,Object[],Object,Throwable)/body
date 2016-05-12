@@ -1,0 +1,23 @@
+{
+  if (isDebug) {
+    super.logAfterInterceptor(target,args,result,throwable);
+  }
+  recorder.recordServiceType(ActiveMQClientConstants.ACTIVEMQ_CLIENT_INTERNAL);
+  recorder.recordApi(getMethodDescriptor());
+  if (throwable != null) {
+    recorder.recordException(throwable);
+  }
+ else {
+    if (result != null) {
+      StringBuilder sb=new StringBuilder(result.getClass().getSimpleName());
+      try {
+        if (result instanceof ActiveMQTextMessage) {
+          sb.append("{").append(((ActiveMQTextMessage)result).getText()).append("}");
+        }
+      }
+ catch (      JMSException e) {
+      }
+      recorder.recordAttribute(ActiveMQClientConstants.ACTIVEMQ_MESSAGE,sb.toString());
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_CONNECTION_FQCN,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(ActiveMQClientConstants.FIELD_GETTER_TRANSPORT,ActiveMQClientConstants.FIELD_ACTIVEMQ_CONNECTION_TRANSPORT);
+      return target.toBytecode();
+    }
+  }
+);
+}

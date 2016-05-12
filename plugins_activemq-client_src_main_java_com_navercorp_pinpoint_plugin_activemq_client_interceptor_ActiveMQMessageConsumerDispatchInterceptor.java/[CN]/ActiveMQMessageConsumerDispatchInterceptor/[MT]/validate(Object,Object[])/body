@@ -1,0 +1,26 @@
+{
+  if (!(target instanceof ActiveMQMessageConsumer)) {
+    return false;
+  }
+  if (!(target instanceof ActiveMQSessionGetter)) {
+    if (isDebug) {
+      logger.debug("Invalid target object. Need field accessor({}).",ActiveMQSessionGetter.class.getName());
+    }
+    return false;
+  }
+  if (!validateTransport(((ActiveMQSessionGetter)target)._$PINPOINT$_getActiveMQSession())) {
+    return false;
+  }
+  if (args == null || args.length < 1) {
+    return false;
+  }
+  if (!(args[0] instanceof MessageDispatch)) {
+    return false;
+  }
+  MessageDispatch md=(MessageDispatch)args[0];
+  Message message=md.getMessage();
+  if (!(message instanceof ActiveMQMessage)) {
+    return false;
+  }
+  return true;
+}
