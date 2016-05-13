@@ -1,0 +1,7 @@
+{
+  final String messageDispatchChannelFieldName="unconsumedMessages";
+  Class<?> consumerClass=consumer.getClass();
+  Field messageDispatchChannelField=consumerClass.getDeclaredField(messageDispatchChannelFieldName);
+  messageDispatchChannelField.setAccessible(true);
+  return messageDispatchChannelField.get(consumer).getClass();
+}

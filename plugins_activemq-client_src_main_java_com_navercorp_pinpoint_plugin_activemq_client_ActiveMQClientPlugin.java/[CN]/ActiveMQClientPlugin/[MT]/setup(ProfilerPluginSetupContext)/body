@@ -1,0 +1,18 @@
+{
+  ActiveMQClientPluginConfig config=new ActiveMQClientPluginConfig(context.getConfig());
+  if (!config.isTraceActiveMQClient()) {
+    return;
+  }
+  if (config.isTraceActiveMQClientConsumer() || config.isTraceActiveMQClientProducer()) {
+    this.addTransportEditor();
+    this.addConnectionEditor();
+    this.addMessageDispatchChannelEditor();
+    Filter<String> excludeDestinationFilter=config.getExcludeDestinationFilter();
+    if (config.isTraceActiveMQClientProducer()) {
+      this.addProducerEditor(excludeDestinationFilter);
+    }
+    if (config.isTraceActiveMQClientConsumer()) {
+      this.addConsumerEditor(excludeDestinationFilter);
+    }
+  }
+}

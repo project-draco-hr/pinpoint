@@ -1,0 +1,16 @@
+{
+  if (StringUtils.isEmpty(pathSeparator)) {
+    throw new IllegalArgumentException("pathSeparator must not be empty");
+  }
+  if (StringUtils.isEmpty(excludePathFormatString)) {
+    this.excludePathMatchers=Collections.emptyList();
+    return;
+  }
+  final List<String> excludePathFormats=StringUtils.splitAndTrim(excludePathFormatString,formatSeparator);
+  final List<PathMatcher> excludePathMatchers=new ArrayList<PathMatcher>(excludePathFormats.size());
+  for (  String excludePathFormat : excludePathFormats) {
+    final PathMatcher pathMatcher=createPathMatcher(excludePathFormat,pathSeparator);
+    excludePathMatchers.add(pathMatcher);
+  }
+  this.excludePathMatchers=excludePathMatchers;
+}

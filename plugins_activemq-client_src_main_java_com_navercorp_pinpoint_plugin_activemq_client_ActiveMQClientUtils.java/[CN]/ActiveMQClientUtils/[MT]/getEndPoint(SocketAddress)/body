@@ -1,0 +1,11 @@
+{
+  String endPoint=ActiveMQClientConstants.UNKNOWN_ADDRESS;
+  if (socketAddress instanceof InetSocketAddress) {
+    InetSocketAddress inetSocketAddress=(InetSocketAddress)socketAddress;
+    InetAddress remoteAddress=inetSocketAddress.getAddress();
+    if (remoteAddress != null) {
+      endPoint=remoteAddress.getHostAddress() + ":" + inetSocketAddress.getPort();
+    }
+  }
+  return endPoint;
+}

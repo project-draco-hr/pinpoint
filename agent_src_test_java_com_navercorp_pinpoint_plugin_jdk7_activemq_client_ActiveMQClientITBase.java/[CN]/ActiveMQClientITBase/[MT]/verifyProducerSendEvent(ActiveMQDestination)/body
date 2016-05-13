@@ -1,0 +1,7 @@
+{
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  Class<?> messageProducerClass=Class.forName("org.apache.activemq.ActiveMQMessageProducer");
+  Method send=messageProducerClass.getDeclaredMethod("send",Destination.class,Message.class,int.class,int.class,long.class);
+  URI producerBrokerUri=new URI(getProducerBrokerUrl());
+  verifier.verifyDiscreteTrace(event(ACTIVEMQ_CLIENT,send,null,producerBrokerUri.getHost() + ":" + producerBrokerUri.getPort(),destination.getPhysicalName(),annotation("message.queue.url",destination.getQualifiedName()),annotation("activemq.broker.address",producerBrokerUri.getHost() + ":" + producerBrokerUri.getPort())));
+}

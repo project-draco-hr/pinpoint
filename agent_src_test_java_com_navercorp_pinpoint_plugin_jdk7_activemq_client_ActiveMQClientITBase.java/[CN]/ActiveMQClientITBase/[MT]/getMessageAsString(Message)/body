@@ -1,0 +1,7 @@
+{
+  StringBuilder messageStringBuilder=new StringBuilder(message.getClass().getSimpleName());
+  if (message instanceof TextMessage) {
+    messageStringBuilder.append('{').append(((TextMessage)message).getText()).append('}');
+  }
+  return messageStringBuilder.toString();
+}

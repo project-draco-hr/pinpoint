@@ -1,0 +1,7 @@
+{
+  Transport possiblyWrappedTransport=transport;
+  while (possiblyWrappedTransport instanceof TransportFilter) {
+    possiblyWrappedTransport=((TransportFilter)possiblyWrappedTransport).getNext();
+  }
+  return possiblyWrappedTransport;
+}

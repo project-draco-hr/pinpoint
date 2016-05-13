@@ -1,0 +1,20 @@
+{
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Class<?> messageConsumerClass=Class.forName("org.apache.activemq.ActiveMQMessageConsumer");
+  Method receiveWithTimeout=messageConsumerClass.getDeclaredMethod("receive",long.class);
+  URI consumerBrokerUri=new URI(getConsumerBrokerUrl());
+  ExpectedTrace consumerDispatchTrace=root(ACTIVEMQ_CLIENT,"ActiveMQ Consumer Invocation",destination.getQualifiedName(),null,consumerBrokerUri.getHost() + ":" + consumerBrokerUri.getPort());
+  ExpectedTrace consumerReceiveTrace=event(ACTIVEMQ_CLIENT_INTERNAL,receiveWithTimeout,annotation("activemq.message",getMessageAsString(expectedMessage)));
+  Class<?> messageDispatchChannel=getMessageDispatchChannelClass(consumer);
+  if (messageDispatchChannel != null) {
+    Method enqueue=messageDispatchChannel.getDeclaredMethod("enqueue",MessageDispatch.class);
+    Method dequeueWithTimeout=messageDispatchChannel.getDeclaredMethod("dequeue",long.class);
+    verifier.verifyDiscreteTrace(consumerDispatchTrace,event(ACTIVEMQ_CLIENT_INTERNAL,enqueue));
+    verifier.verifyDiscreteTrace(consumerReceiveTrace,event(ACTIVEMQ_CLIENT_INTERNAL,dequeueWithTimeout));
+  }
+ else {
+    verifier.verifyDiscreteTrace(consumerDispatchTrace);
+    verifier.verifyDiscreteTrace(consumerReceiveTrace);
+  }
+}

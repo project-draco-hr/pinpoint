@@ -1,0 +1,20 @@
+{
+  if (session == null) {
+    return false;
+  }
+  ActiveMQConnection connection=session.getConnection();
+  if (!(connection instanceof TransportGetter)) {
+    if (isDebug) {
+      logger.debug("Invalid connection object. Need field accessor({}).",TransportGetter.class.getName());
+    }
+    return false;
+  }
+  Transport transport=getRootTransport(((TransportGetter)connection)._$PINPOINT$_getTransport());
+  if (!(transport instanceof SocketGetter)) {
+    if (isDebug) {
+      logger.debug("Transport not traceable({}).",transport.getClass().getName());
+    }
+    return false;
+  }
+  return true;
+}

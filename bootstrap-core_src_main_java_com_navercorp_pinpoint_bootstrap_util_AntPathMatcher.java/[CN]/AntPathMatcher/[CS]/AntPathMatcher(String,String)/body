@@ -1,0 +1,11 @@
+{
+  if (pattern == null) {
+    throw new NullPointerException("pattern must not be null");
+  }
+  if (pathSeparator == null) {
+    throw new NullPointerException("pathSeparator must not be null");
+  }
+  this.pattern=pattern;
+  this.springAntMatcher=new com.navercorp.pinpoint.bootstrap.util.spring.AntPathMatcher(pathSeparator);
+  preCreatePatternCache();
+}

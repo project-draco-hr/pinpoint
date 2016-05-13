@@ -1,0 +1,13 @@
+{
+  String id=key.id;
+  if (message instanceof ActiveMQMessage) {
+    ActiveMQMessage activeMQMessage=(ActiveMQMessage)message;
+    if (activeMQMessage.isReadOnlyProperties()) {
+      activeMQMessage.setReadOnlyProperties(false);
+      setMessage0(message,id,value);
+      activeMQMessage.setReadOnlyProperties(true);
+      return;
+    }
+  }
+  setMessage0(message,id,value);
+}

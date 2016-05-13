@@ -1,0 +1,23 @@
+{
+  TransformCallback messageDispatchChannelTransformer=new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      if (!target.isInterceptable()) {
+        return null;
+      }
+      final InstrumentMethod enqueue=target.getDeclaredMethod("enqueue","org.apache.activemq.command.MessageDispatch");
+      if (enqueue != null) {
+        enqueue.addInterceptor(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_DISPATCH_CHANNEL_ENQUEUE_INTERCEPTOR_FQCN);
+      }
+      final InstrumentMethod dequeue=target.getDeclaredMethod("dequeue","long");
+      if (dequeue != null) {
+        dequeue.addInterceptor(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_DISPATCH_CHANNEL_DEQUEUE_INTERCEPTOR_FQCN);
+      }
+      return target.toBytecode();
+    }
+  }
+;
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_DISPATCH_CHANNEL_FQCN,messageDispatchChannelTransformer);
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_DISPATCH_CHANNEL_FIFO_FQCN,messageDispatchChannelTransformer);
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_DISPATCH_CHANNEL_SIMPLE_PRIORITY_FQCN,messageDispatchChannelTransformer);
+}

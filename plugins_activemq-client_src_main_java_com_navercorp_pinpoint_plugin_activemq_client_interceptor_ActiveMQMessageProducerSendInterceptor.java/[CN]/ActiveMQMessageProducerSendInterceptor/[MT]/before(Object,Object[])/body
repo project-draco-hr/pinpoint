@@ -1,0 +1,37 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  if (!validate(target,args)) {
+    return;
+  }
+  ActiveMQDestination activeMQDestination=(ActiveMQDestination)args[0];
+  if (filterDestination(activeMQDestination)) {
+    return;
+  }
+  Trace trace=traceContext.currentRawTraceObject();
+  if (trace == null) {
+    return;
+  }
+  Message message=(Message)args[1];
+  try {
+    if (trace.canSampled()) {
+      SpanEventRecorder recorder=trace.traceBlockBegin();
+      recorder.recordServiceType(ActiveMQClientConstants.ACTIVEMQ_CLIENT);
+      TraceId nextId=trace.getTraceId().getNextTraceId();
+      recorder.recordNextSpanId(nextId.getSpanId());
+      ActiveMQClientHeader.setTraceId(message,nextId.getTransactionId());
+      ActiveMQClientHeader.setSpanId(message,nextId.getSpanId());
+      ActiveMQClientHeader.setParentSpanId(message,nextId.getParentSpanId());
+      ActiveMQClientHeader.setFlags(message,nextId.getFlags());
+      ActiveMQClientHeader.setParentApplicationName(message,traceContext.getApplicationName());
+      ActiveMQClientHeader.setParentApplicationType(message,traceContext.getServerTypeCode());
+    }
+ else {
+      ActiveMQClientHeader.setSampled(message,false);
+    }
+  }
+ catch (  Throwable t) {
+    logger.warn("BEFORE. Cause:{}",t.getMessage(),t);
+  }
+}

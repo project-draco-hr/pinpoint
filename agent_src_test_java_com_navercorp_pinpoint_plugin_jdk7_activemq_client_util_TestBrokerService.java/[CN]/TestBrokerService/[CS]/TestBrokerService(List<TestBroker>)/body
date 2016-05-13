@@ -1,0 +1,12 @@
+{
+  if (testBrokers == null) {
+    throw new NullPointerException("testBrokers must not be null");
+  }
+  if (testBrokers.isEmpty()) {
+    throw new IllegalArgumentException("testBrokers must not be empty");
+  }
+  this.testBrokers=new ArrayDeque<TestBroker>(testBrokers);
+  for (  TestBroker testBroker : testBrokers) {
+    this.testBrokerMap.put(testBroker.getBrokerName(),testBroker);
+  }
+}

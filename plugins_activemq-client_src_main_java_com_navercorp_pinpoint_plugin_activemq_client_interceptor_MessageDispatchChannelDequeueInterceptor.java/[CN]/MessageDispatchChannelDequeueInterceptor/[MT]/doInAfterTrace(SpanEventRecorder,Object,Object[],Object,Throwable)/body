@@ -1,0 +1,10 @@
+{
+  if (isDebug) {
+    super.logAfterInterceptor(target,args,result,throwable);
+  }
+  recorder.recordServiceType(ActiveMQClientConstants.ACTIVEMQ_CLIENT_INTERNAL);
+  recorder.recordApi(getMethodDescriptor());
+  if (throwable != null) {
+    recorder.recordException(throwable);
+  }
+}

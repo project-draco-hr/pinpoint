@@ -1,0 +1,15 @@
+{
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_CONSUMER_FQCN,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(ActiveMQClientConstants.FIELD_GETTER_ACTIVEMQ_SESSION,ActiveMQClientConstants.FIELD_ACTIVEMQ_MESSAGE_CONSUMER_SESSION);
+      final InstrumentMethod dispatchMethod=target.getDeclaredMethod("dispatch","org.apache.activemq.command.MessageDispatch");
+      if (dispatchMethod != null) {
+        dispatchMethod.addInterceptor(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_CONSUMER_DISPATCH_INTERCEPTOR_FQCN,va(excludeDestinationFilter));
+      }
+      target.addInterceptor(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_CONSUMER_RECEIVE_INTERCEPTOR_FQCN);
+      return target.toBytecode();
+    }
+  }
+);
+}

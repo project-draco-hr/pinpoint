@@ -1,0 +1,20 @@
+{
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  final long waitIntervalMs=100L;
+  long maxWaitTime=maxWaitMs;
+  if (maxWaitMs < waitIntervalMs) {
+    maxWaitTime=waitIntervalMs;
+  }
+  long startTime=System.currentTimeMillis();
+  while (System.currentTimeMillis() - startTime < maxWaitTime) {
+    try {
+      verifier.verifyTraceCount(expectedTraceCount);
+      return;
+    }
+ catch (    AssertionError e) {
+      Thread.sleep(waitIntervalMs);
+    }
+  }
+  verifier.printCache();
+  verifier.verifyTraceCount(expectedTraceCount);
+}

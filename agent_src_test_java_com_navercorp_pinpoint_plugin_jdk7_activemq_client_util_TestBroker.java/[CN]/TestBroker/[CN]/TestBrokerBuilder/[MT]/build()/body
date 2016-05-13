@@ -1,0 +1,18 @@
+{
+  if (this.connectors.isEmpty()) {
+    this.connectors.add(DEFAULT_BROKER_URL);
+  }
+  BrokerService brokerService=new BrokerService();
+  brokerService.setBrokerName(this.brokerName);
+  brokerService.setPersistent(false);
+  brokerService.setUseJmx(false);
+  Map<String,ActiveMQConnectionFactory> connectionFactories=new HashMap<String,ActiveMQConnectionFactory>();
+  for (  String bindAddress : this.connectors) {
+    TransportConnector connector=brokerService.addConnector(bindAddress);
+    connectionFactories.put(bindAddress,new ActiveMQConnectionFactory(connector.getConnectUri()));
+  }
+  for (  String discoveryAddress : this.networkConnectors) {
+    brokerService.addNetworkConnector(discoveryAddress);
+  }
+  return new TestBroker(this.brokerName,brokerService,connectionFactories);
+}

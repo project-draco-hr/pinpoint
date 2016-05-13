@@ -1,0 +1,11 @@
+{
+  Filter<String> filter=new ExcludePathFilter("/exclude/*");
+  assertNotFiltered(filter,null);
+  assertNotFiltered(filter,"");
+  assertNotFiltered(filter,"/");
+  assertNotFiltered(filter,"a");
+  assertNotFiltered(filter,"/include");
+  assertNotFiltered(filter,"/include/a");
+  assertNotFiltered(filter,"/exclude");
+  assertNotFiltered(filter,"/exclude/a/b");
+}

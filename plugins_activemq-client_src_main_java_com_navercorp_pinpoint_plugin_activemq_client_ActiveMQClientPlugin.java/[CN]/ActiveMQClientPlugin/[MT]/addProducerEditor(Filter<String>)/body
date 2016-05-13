@@ -1,0 +1,21 @@
+{
+  final MethodFilter methodFilter=MethodFilters.chain(MethodFilters.name("send"),MethodFilters.argAt(0,"javax.jms.Destination"),MethodFilters.argAt(1,"javax.jms.Message"));
+  transformTemplate.transform(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_PRODUCER_FQCN,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader loader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(loader,className,classfileBuffer);
+      target.addGetter(ActiveMQClientConstants.FIELD_GETTER_ACTIVEMQ_SESSION,ActiveMQClientConstants.FIELD_ACTIVEMQ_MESSAGE_PRODUCER_SESSION);
+      for (      InstrumentMethod method : target.getDeclaredMethods(methodFilter)) {
+        try {
+          method.addInterceptor(ActiveMQClientConstants.ACTIVEMQ_MESSAGE_PRODUCER_SEND_INTERCEPTOR_FQCN,va(excludeDestinationFilter));
+        }
+ catch (        Exception e) {
+          if (logger.isWarnEnabled()) {
+            logger.warn("Unsupported method " + method,e);
+          }
+        }
+      }
+      return target.toBytecode();
+    }
+  }
+);
+}
