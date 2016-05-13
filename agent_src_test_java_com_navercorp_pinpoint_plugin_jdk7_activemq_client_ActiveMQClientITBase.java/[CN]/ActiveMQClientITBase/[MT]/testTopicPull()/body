@@ -1,0 +1,21 @@
+{
+  final String testTopicName="TestPullTopic";
+  final ActiveMQTopic testTopic=new ActiveMQTopic(testTopicName);
+  final String testMessage="Hello World for Topic!";
+  ActiveMQSession producerSession=ActiveMQClientITHelper.createSession(getProducerBrokerName(),getProducerBrokerUrl());
+  MessageProducer producer=new MessageProducerBuilder(producerSession,testTopic).waitTillStarted().build();
+  final TextMessage expectedTextMessage=producerSession.createTextMessage(testMessage);
+  ActiveMQSession consumer1Session=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  MessageConsumer consumer1=new MessageConsumerBuilder(consumer1Session,testTopic).waitTillStarted().build();
+  ActiveMQSession consumer2Session=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  MessageConsumer consumer2=new MessageConsumerBuilder(consumer2Session,testTopic).waitTillStarted().build();
+  producer.send(expectedTextMessage);
+  Message message1=consumer1.receive(1000L);
+  Message message2=consumer2.receive(1000L);
+  Assert.assertEquals(testMessage,((TextMessage)message1).getText());
+  Assert.assertEquals(testMessage,((TextMessage)message2).getText());
+  awaitAndVerifyTraceCount(9,5000L);
+  verifyProducerSendEvent(testTopic);
+  verifyConsumerPullEvent(testTopic,consumer1,expectedTextMessage);
+  verifyConsumerPullEvent(testTopic,consumer2,expectedTextMessage);
+}

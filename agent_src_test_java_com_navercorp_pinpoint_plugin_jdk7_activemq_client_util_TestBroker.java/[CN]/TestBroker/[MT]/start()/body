@@ -1,0 +1,12 @@
+{
+  this.brokerService.start();
+  for (  Map.Entry<String,ActiveMQConnectionFactory> e : this.connectionFactories.entrySet()) {
+    String connectUri=e.getKey();
+    ActiveMQConnectionFactory connectionFactory=e.getValue();
+    ActiveMQConnection connection=(ActiveMQConnection)connectionFactory.createConnection();
+    connection.setClientID("client_" + connectUri);
+    connection.start();
+    this.connections.put(connectUri,connection);
+  }
+  return true;
+}

@@ -1,0 +1,8 @@
+{
+  for (  Map.Entry<String,ActiveMQConnection> e : this.connections.entrySet()) {
+    ActiveMQConnection connection=e.getValue();
+    connection.close();
+  }
+  this.brokerService.stop();
+  this.brokerService.waitUntilStopped();
+}

@@ -1,0 +1,11 @@
+{
+  try {
+    assertMessage(this.expectedMessage,message);
+  }
+ catch (  Throwable t) {
+    this.throwableHolder.add(t);
+  }
+ finally {
+    this.consumeLatch.countDown();
+  }
+}

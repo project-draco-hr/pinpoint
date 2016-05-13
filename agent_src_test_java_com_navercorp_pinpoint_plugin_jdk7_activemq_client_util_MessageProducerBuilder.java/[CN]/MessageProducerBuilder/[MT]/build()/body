@@ -1,0 +1,27 @@
+{
+  if (waitTillStarted) {
+    ProducerEventSource producerEventSource=new ProducerEventSource(session.getConnection(),destination);
+    final CountDownLatch latch=new CountDownLatch(1);
+    producerEventSource.setProducerListener(new ProducerListener(){
+      @Override public void onProducerEvent(      ProducerEvent event){
+        latch.countDown();
+      }
+    }
+);
+    MessageProducer producer=null;
+    try {
+      producerEventSource.start();
+      producer=this.session.createProducer(this.destination);
+      if (!latch.await(5L,TimeUnit.SECONDS)) {
+        throw new TimeoutException("Timed out waiting for MessageProducer start event.");
+      }
+    }
+  finally {
+      producerEventSource.stop();
+    }
+    return producer;
+  }
+ else {
+    return this.session.createProducer(this.destination);
+  }
+}

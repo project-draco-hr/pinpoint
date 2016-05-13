@@ -1,0 +1,30 @@
+{
+  MessageConsumer consumer=null;
+  if (waitTillStarted) {
+    ConsumerEventSource consumerEventSource=new ConsumerEventSource(session.getConnection(),destination);
+    final CountDownLatch latch=new CountDownLatch(1);
+    consumerEventSource.setConsumerListener(new ConsumerListener(){
+      @Override public void onConsumerEvent(      ConsumerEvent event){
+        latch.countDown();
+      }
+    }
+);
+    try {
+      consumerEventSource.start();
+      consumer=this.session.createConsumer(this.destination);
+      if (!latch.await(5L,TimeUnit.SECONDS)) {
+        throw new TimeoutException("Timed out waiting for MessageConsumer start event.");
+      }
+    }
+  finally {
+      consumerEventSource.stop();
+    }
+  }
+ else {
+    consumer=this.session.createConsumer(this.destination);
+  }
+  if (this.messageListener != null) {
+    consumer.setMessageListener(this.messageListener);
+  }
+  return consumer;
+}

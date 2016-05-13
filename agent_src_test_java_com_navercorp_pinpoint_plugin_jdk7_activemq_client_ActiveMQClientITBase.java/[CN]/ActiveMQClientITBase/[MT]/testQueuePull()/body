@@ -1,0 +1,16 @@
+{
+  final String testQueueName="TestPullQueue";
+  final ActiveMQQueue testQueue=new ActiveMQQueue(testQueueName);
+  final String testMessage="Hello World for Queue!";
+  ActiveMQSession producerSession=ActiveMQClientITHelper.createSession(getProducerBrokerName(),getProducerBrokerUrl());
+  MessageProducer producer=producerSession.createProducer(testQueue);
+  final TextMessage expectedTextMessage=producerSession.createTextMessage(testMessage);
+  ActiveMQSession consumerSession=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  MessageConsumer consumer=consumerSession.createConsumer(testQueue);
+  producer.send(expectedTextMessage);
+  Message message=consumer.receive(1000L);
+  Assert.assertEquals(testMessage,((TextMessage)message).getText());
+  awaitAndVerifyTraceCount(5,5000L);
+  verifyProducerSendEvent(testQueue);
+  verifyConsumerPullEvent(testQueue,consumer,expectedTextMessage);
+}

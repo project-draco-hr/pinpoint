@@ -1,0 +1,19 @@
+{
+  final String testQueueName="TestPushQueue";
+  final ActiveMQQueue testQueue=new ActiveMQQueue(testQueueName);
+  final String testMessage="Hello World for Queue!";
+  final CountDownLatch consumerLatch=new CountDownLatch(1);
+  final Collection<Throwable> consumerThrowables=new CopyOnWriteArrayList<Throwable>();
+  ActiveMQSession producerSession=ActiveMQClientITHelper.createSession(getProducerBrokerName(),getProducerBrokerUrl());
+  MessageProducer producer=producerSession.createProducer(testQueue);
+  final TextMessage expectedTextMessage=producerSession.createTextMessage(testMessage);
+  ActiveMQSession consumerSession=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  MessageConsumer consumer=consumerSession.createConsumer(testQueue);
+  consumer.setMessageListener(new AssertTextMessageListener(consumerLatch,consumerThrowables,expectedTextMessage));
+  producer.send(expectedTextMessage);
+  consumerLatch.await(1L,TimeUnit.SECONDS);
+  assertNoConsumerError(consumerThrowables);
+  awaitAndVerifyTraceCount(2,5000L);
+  verifyProducerSendEvent(testQueue);
+  verifyConsumerPushEvent(testQueue);
+}

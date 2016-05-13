@@ -1,0 +1,21 @@
+{
+  final String testTopicName="TestPushTopic";
+  final ActiveMQTopic testTopic=new ActiveMQTopic(testTopicName);
+  final String testMessage="Hello World for Topic!";
+  final int numMessageConsumers=2;
+  final CountDownLatch consumerConsumeLatch=new CountDownLatch(numMessageConsumers);
+  final Collection<Throwable> consumerThrowables=new CopyOnWriteArrayList<Throwable>();
+  ActiveMQSession producerSession=ActiveMQClientITHelper.createSession(getProducerBrokerName(),getProducerBrokerUrl());
+  MessageProducer producer=new MessageProducerBuilder(producerSession,testTopic).waitTillStarted().build();
+  final TextMessage expectedTextMessage=producerSession.createTextMessage(testMessage);
+  ActiveMQSession consumer1Session=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  new MessageConsumerBuilder(consumer1Session,testTopic).withMessageListener(new AssertTextMessageListener(consumerConsumeLatch,consumerThrowables,expectedTextMessage)).waitTillStarted().build();
+  ActiveMQSession consumer2Session=ActiveMQClientITHelper.createSession(getConsumerBrokerName(),getConsumerBrokerUrl());
+  new MessageConsumerBuilder(consumer2Session,testTopic).withMessageListener(new AssertTextMessageListener(consumerConsumeLatch,consumerThrowables,expectedTextMessage)).waitTillStarted().build();
+  producer.send(expectedTextMessage);
+  consumerConsumeLatch.await(1L,TimeUnit.SECONDS);
+  awaitAndVerifyTraceCount(3,1000L);
+  verifyProducerSendEvent(testTopic);
+  verifyConsumerPushEvent(testTopic);
+  verifyConsumerPushEvent(testTopic);
+}
