@@ -1,11 +1,21 @@
 {
   StopWatch watch=new StopWatch();
   watch.start("agentStatService.selectAgentStatList");
-  TimeWindow timeWindow=new TimeWindow(new Range(from,to),new TimeWindowSlotCentricSampler());
+  Range requestRange=new Range(from,to);
+  boolean useAggregated=requestRange.getRange() > USE_AGGREGATED_THRESHOLD;
+  long interval=useAggregated ? AgentStat.AGGR_SAMPLE_INTERVAL : AgentStat.RAW_SAMPLE_INTERVAL;
+  TimeWindowSlotCentricSampler sampler=new TimeWindowSlotCentricSampler(interval,MAX_RESPONSE_SIZE);
+  TimeWindow timeWindow=new TimeWindow(new Range(from,to),sampler);
   long scanFrom=timeWindow.getWindowRange().getFrom();
   long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
   Range rangeToScan=new Range(scanFrom,scanTo);
-  List<AgentStat> agentStatList=agentStatService.selectAgentStatList(agentId,rangeToScan);
+  List<AgentStat> agentStatList;
+  if (useAggregated) {
+    agentStatList=agentStatService.selectAggregatedAgentStatList(agentId,rangeToScan);
+  }
+ else {
+    agentStatList=agentStatService.selectAgentStatList(agentId,rangeToScan);
+  }
   watch.stop();
   if (logger.isInfoEnabled()) {
     logger.info("getAgentStat(agentId={}, from={}, to={}) : {}ms",agentId,from,to,watch.getLastTaskTimeMillis());

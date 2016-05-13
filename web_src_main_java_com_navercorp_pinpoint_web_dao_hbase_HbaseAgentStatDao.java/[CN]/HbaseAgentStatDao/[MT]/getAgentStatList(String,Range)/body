@@ -8,10 +8,5 @@
   if (logger.isDebugEnabled()) {
     logger.debug("scanAgentStat : agentId={}, {}",agentId,range);
   }
-  if (range.getRange() < USE_AGGR_THRESHOLD) {
-    return getAgentStatListFromRaw(agentId,range);
-  }
- else {
-    return getAgentStatListFromAggr(agentId,range);
-  }
+  return getAgentStatListFromRaw(agentId,range);
 }

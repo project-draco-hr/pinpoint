@@ -5,9 +5,9 @@
   List<AgentStat> result=new ArrayList<>();
   AgentStat current=toAggregatedAgentStat(stats.get(0));
   for (  AgentStat stat : stats.subList(1,stats.size())) {
-    long timestamp=targetTimestamp(stat);
+    long timestamp=toAggregatedTimestamp(stat,interval);
     if (current.getTimestamp() == timestamp) {
-      current=add(current,stat);
+      current=merge(current,stat);
     }
  else {
       result.add(current);
