@@ -1,0 +1,10 @@
+{
+  StringBuilder report=new StringBuilder(32);
+  String hostName=getHostName(hostAddress);
+  report.append(testName).append(":// ").append(hostName).append(LINE_SEPARATOR);
+  for (  InetSocketAddress ipAddress : ipAddressList) {
+    boolean check=check(ipAddress,requestData,expectedResponseData);
+    report.append(createReport(ipAddress,check));
+  }
+  System.out.println(report.toString());
+}

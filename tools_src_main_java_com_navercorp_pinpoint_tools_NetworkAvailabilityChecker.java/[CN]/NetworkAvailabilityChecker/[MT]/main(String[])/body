@@ -4,47 +4,30 @@
     return;
   }
   String configPath=args[0];
-  DataSender udpStatSender=null;
-  DataSender udpSpanSender=null;
-  DataSender tcpSender=null;
-  PinpointClientFactory clientFactory=null;
-  PinpointClient client=null;
+  ProfilerConfig profilerConfig=null;
   try {
-    ProfilerConfig profilerConfig=DefaultProfilerConfig.load(configPath);
-    String collectorStatIp=profilerConfig.getCollectorStatServerIp();
-    int collectorStatPort=profilerConfig.getCollectorStatServerPort();
-    udpStatSender=new UdpDataSender(collectorStatIp,collectorStatPort,"UDP-STAT",10);
-    String collectorSpanIp=profilerConfig.getCollectorSpanServerIp();
-    int collectorSpanPort=profilerConfig.getCollectorSpanServerPort();
-    udpSpanSender=new UdpDataSender(collectorSpanIp,collectorSpanPort,"UDP-SPAN",10);
-    String collectorTcpIp=profilerConfig.getCollectorTcpServerIp();
-    int collectorTcpPort=profilerConfig.getCollectorTcpServerPort();
-    clientFactory=createPinpointClientFactory();
-    client=ClientFactoryUtils.createPinpointClient(collectorTcpIp,collectorTcpPort,clientFactory);
-    tcpSender=new TcpDataSender(client);
-    boolean udpSenderResult=udpStatSender.isNetworkAvailable();
-    boolean udpSpanSenderResult=udpSpanSender.isNetworkAvailable();
-    boolean tcpSenderResult=tcpSender.isNetworkAvailable();
-    StringBuilder buffer=new StringBuilder();
-    buffer.append("\nTEST RESULT\n");
-    write(buffer,"UDP-STAT://",collectorStatIp,collectorStatPort,udpSenderResult);
-    write(buffer,"UDP-SPAN://",collectorSpanIp,collectorSpanPort,udpSpanSenderResult);
-    write(buffer,"TCP://",collectorTcpIp,collectorTcpPort,tcpSenderResult);
-    System.out.println(buffer.toString());
+    profilerConfig=DefaultProfilerConfig.load(configPath);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+    return;
+  }
+  try {
+    checkUDPStat(profilerConfig);
   }
  catch (  Exception e) {
     e.printStackTrace();
   }
- finally {
-    closeDataSender(udpStatSender);
-    closeDataSender(udpSpanSender);
-    closeDataSender(tcpSender);
-    System.out.println("END.");
-    if (client != null) {
-      client.close();
-    }
-    if (clientFactory != null) {
-      clientFactory.release();
-    }
+  try {
+    checkUDPSpan(profilerConfig);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  try {
+    checkTCP(profilerConfig);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
   }
 }

@@ -1,0 +1,18 @@
+{
+  DatagramSocket socket=null;
+  try {
+    socket=createSocket(address);
+    write(socket,requestData);
+    byte[] responseData=read(socket,expectedResponseData.length);
+    return Arrays.equals(expectedResponseData,responseData);
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+ finally {
+    if (socket != null) {
+      socket.close();
+    }
+  }
+  return false;
+}
