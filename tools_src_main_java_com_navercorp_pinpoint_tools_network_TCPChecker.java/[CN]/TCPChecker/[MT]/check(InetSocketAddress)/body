@@ -1,0 +1,16 @@
+{
+  Socket socket=null;
+  try {
+    socket=createSocket(address);
+    return socket.isConnected();
+  }
+ catch (  IOException e) {
+    e.printStackTrace();
+  }
+ finally {
+    if (socket != null) {
+      socket.close();
+    }
+  }
+  return false;
+}

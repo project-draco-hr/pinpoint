@@ -1,0 +1,6 @@
+{
+  HeaderTBaseSerializer serializer=new HeaderTBaseSerializerFactory(false,65535,false).createSerializer();
+  byte[] payload=serializer.serialize(new NetworkAvailabilityCheckPacket());
+  int size=serializer.getInterBufferSize();
+  return Arrays.copyOf(payload,size);
+}
