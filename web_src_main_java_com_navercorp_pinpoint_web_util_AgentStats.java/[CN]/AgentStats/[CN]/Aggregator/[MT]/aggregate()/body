@@ -7,13 +7,14 @@
   for (  AgentStat stat : stats.subList(1,stats.size())) {
     long timestamp=toAggregatedTimestamp(stat,interval);
     if (current.getTimestamp() == timestamp) {
-      current=merge(current,stat);
+      current=merge(current,stat,interval);
     }
  else {
       result.add(current);
       current=toAggregatedAgentStat(stat);
     }
   }
+  current.setCollectInterval(interval);
   result.add(current);
   return result;
 }

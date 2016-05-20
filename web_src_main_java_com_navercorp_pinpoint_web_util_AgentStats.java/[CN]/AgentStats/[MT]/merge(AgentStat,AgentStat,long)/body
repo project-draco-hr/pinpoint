@@ -1,6 +1,7 @@
 {
   AgentStat latest=s1.getTimestamp() > s2.getTimestamp() ? s1 : s2;
-  AgentStat stat=new AgentStat(s1.getAgentId(),s1.getTimestamp());
+  AgentStat stat=new AgentStat(s1.getAgentId(),latest.getTimestamp());
+  stat.setCollectInterval(interval);
   stat.setGcType(latest.getGcType());
   stat.setGcOldCount(latest.getGcOldCount());
   stat.setGcOldTime(latest.getGcOldTime());
