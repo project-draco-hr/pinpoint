@@ -1,9 +1,11 @@
 {
   InterceptorDefinitionFactory interceptorDefinitionFactory=new InterceptorDefinitionFactory();
-  CaptureType before=interceptorDefinitionFactory.createInterceptorDefinition(TestBeforeInterceptor.class).getCaptureType();
-  Assert.assertSame(before,CaptureType.BEFORE);
-  CaptureType after=interceptorDefinitionFactory.createInterceptorDefinition(TestAfterInterceptor.class).getCaptureType();
-  Assert.assertSame(after,CaptureType.AFTER);
-  CaptureType around=interceptorDefinitionFactory.createInterceptorDefinition(TestAroundInterceptor.class).getCaptureType();
-  Assert.assertSame(around,CaptureType.AROUND);
+  final InterceptorDefinition before=interceptorDefinitionFactory.createInterceptorDefinition(TestBeforeInterceptor.class);
+  assertInterceptorType(before,CaptureType.BEFORE,"before",null);
+  final InterceptorDefinition after=interceptorDefinitionFactory.createInterceptorDefinition(TestAfterInterceptor.class);
+  assertInterceptorType(after,CaptureType.AFTER,null,"after");
+  final InterceptorDefinition around=interceptorDefinitionFactory.createInterceptorDefinition(TestAroundInterceptor.class);
+  assertInterceptorType(around,CaptureType.AROUND,"before","after");
+  final InterceptorDefinition ignore=interceptorDefinitionFactory.createInterceptorDefinition(TestIgnoreInterceptor.class);
+  assertInterceptorType(ignore,CaptureType.NON,null,null);
 }

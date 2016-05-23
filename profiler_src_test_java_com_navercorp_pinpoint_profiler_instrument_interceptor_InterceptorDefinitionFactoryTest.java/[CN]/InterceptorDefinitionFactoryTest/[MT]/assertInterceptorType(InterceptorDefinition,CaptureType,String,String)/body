@@ -1,0 +1,17 @@
+{
+  Assert.assertSame("Type",aroundType,aroundType);
+  if (beforeName == null) {
+    Assert.assertNull("before is null",interceptor.getBeforeMethod());
+  }
+ else {
+    Assert.assertNotNull("after is not null",interceptor.getBeforeMethod());
+    Assert.assertEquals("check beforeName",interceptor.getBeforeMethod().getName(),beforeName);
+  }
+  if (afterName == null) {
+    Assert.assertNull("after is null",interceptor.getAfterMethod());
+  }
+ else {
+    Assert.assertNotNull("after is not null",interceptor.getAfterMethod());
+    Assert.assertEquals("check afterName",interceptor.getAfterMethod().getName(),afterName);
+  }
+}
