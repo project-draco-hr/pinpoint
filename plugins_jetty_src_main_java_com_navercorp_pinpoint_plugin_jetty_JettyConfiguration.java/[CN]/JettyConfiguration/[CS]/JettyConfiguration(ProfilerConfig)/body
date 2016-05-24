@@ -1,7 +1,7 @@
 {
   final String jettyExcludeURL=config.readString("profiler.jetty.excludeurl","");
   if (!jettyExcludeURL.isEmpty()) {
-    this.jettyExcludeUrlFilter=new ExcludeUrlFilter(jettyExcludeURL);
+    this.jettyExcludeUrlFilter=new ExcludePathFilter(jettyExcludeURL);
   }
  else {
     this.jettyExcludeUrlFilter=new SkipFilter<String>();

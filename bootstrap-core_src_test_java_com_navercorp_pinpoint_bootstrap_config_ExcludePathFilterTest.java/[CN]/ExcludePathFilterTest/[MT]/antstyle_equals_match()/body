@@ -1,5 +1,5 @@
 {
-  Filter<String> filter=new ExcludeUrlFilter("/monitor/stringEquals,/monitor/antstyle.*");
+  Filter<String> filter=new ExcludePathFilter("/monitor/stringEquals,/monitor/antstyle.*");
   Assert.assertTrue(filter.filter("/monitor/stringEquals"));
   Assert.assertTrue(filter.filter("/monitor/antstyle.html"));
   Assert.assertFalse(filter.filter("/monitor/stringEquals.test"));
