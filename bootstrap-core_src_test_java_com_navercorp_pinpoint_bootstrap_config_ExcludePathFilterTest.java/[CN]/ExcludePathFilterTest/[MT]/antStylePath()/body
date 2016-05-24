@@ -1,5 +1,5 @@
 {
-  Filter<String> filter=new ExcludeUrlFilter("/monitor/l7check.*,/*/l7check.*");
+  Filter<String> filter=new ExcludePathFilter("/monitor/l7check.*,/*/l7check.*");
   Assert.assertTrue(filter.filter("/monitor/l7check.jsp"));
   Assert.assertTrue(filter.filter("/monitor/l7check.html"));
   Assert.assertFalse(filter.filter("/monitor/test.jsp"));
