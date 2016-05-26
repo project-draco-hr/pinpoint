@@ -1,0 +1,25 @@
+{
+  CustomURLClassLoader classLoader=new CustomURLClassLoader(new URL[]{},Thread.currentThread().getContextClassLoader());
+  ClassPool classPool=new ClassPool(true);
+  classPool.appendClassPath(new LoaderClassPath(classLoader));
+  final CtClass ctClass=classPool.get(INVALID_STACK_MAP_FRAME);
+  final CtMethod method=ctClass.getDeclaredMethod("bytecodeVerifyError");
+  method.addLocalVariable("test_localVariable",CtClass.intType);
+  method.insertBefore("{ test_localVariable = 1; }");
+  final byte[] bytecode=ctClass.toBytecode();
+  classLoader.defineClass0(INVALID_STACK_MAP_FRAME,bytecode);
+  try {
+    Class.forName(INVALID_STACK_MAP_FRAME,true,classLoader);
+    Assert.fail("VerifyError");
+  }
+ catch (  java.lang.VerifyError e) {
+    logger.debug("verifyError:{}",e.getMessage(),e);
+  }
+  final ASMBytecodeDisassembler bytecodeDisassembler=new ASMBytecodeDisassembler();
+  final String dumpBytecode=bytecodeDisassembler.dumpBytecode(bytecode);
+  logger.debug("dumpBytecode:{}",dumpBytecode);
+  final String verify=bytecodeDisassembler.dumpVerify(bytecode,classLoader);
+  logger.debug("dumpVerify:{}",verify);
+  final String dumpAsm=bytecodeDisassembler.dumpASM(bytecode);
+  logger.debug("dumpAsm :{}",dumpAsm);
+}

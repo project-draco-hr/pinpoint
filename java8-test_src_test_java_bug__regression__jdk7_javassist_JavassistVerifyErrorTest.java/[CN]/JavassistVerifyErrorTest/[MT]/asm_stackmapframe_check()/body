@@ -1,0 +1,17 @@
+{
+  CustomURLClassLoader classLoader=new CustomURLClassLoader(new URL[]{},Thread.currentThread().getContextClassLoader());
+  final InputStream stream=classLoader.getResourceAsStream(JavaAssistUtils.javaNameToJvmName(INVALID_STACK_MAP_FRAME) + ".class");
+  ClassReader cr=new ClassReader(stream);
+  ClassWriter cw=new ClassWriter(cr,ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+  ClassVisitor cv=new BytecodeVerifyTestClassVisitor(cw);
+  cr.accept(cv,ClassReader.EXPAND_FRAMES | ClassReader.SKIP_DEBUG);
+  byte[] bytecode=cw.toByteArray();
+  classLoader.defineClass0(INVALID_STACK_MAP_FRAME,bytecode);
+  final Class<?> aClass=Class.forName(INVALID_STACK_MAP_FRAME,true,classLoader);
+  Assert.assertSame(aClass.getClassLoader(),classLoader);
+  final ASMBytecodeDisassembler bytecodeDisassembler=new ASMBytecodeDisassembler();
+  final String dumpBytecode=bytecodeDisassembler.dumpBytecode(bytecode);
+  logger.debug("dumpBytecode:{}",dumpBytecode);
+  final String verify=bytecodeDisassembler.dumpVerify(bytecode,classLoader);
+  logger.debug("dumpVerify:{}",verify);
+}

@@ -1,0 +1,11 @@
+{
+  MethodVisitor mv=cv.visitMethod(access,name,desc,signature,exceptions);
+  logger.debug("mv:{}",mv);
+  logger.debug("name:{}",name);
+  logger.debug("desc:{}",desc);
+  logger.debug("signature:{}",signature);
+  if (name.contains("bytecodeVerifyError")) {
+    return new AddIntVariableMethodAdapter(mv,Opcodes.ACC_PUBLIC,name,"()V");
+  }
+  return mv;
+}
