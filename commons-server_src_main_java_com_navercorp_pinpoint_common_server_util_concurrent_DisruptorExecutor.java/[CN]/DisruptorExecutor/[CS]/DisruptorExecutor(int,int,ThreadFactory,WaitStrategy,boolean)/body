@@ -1,0 +1,12 @@
+{
+  if (queueSize < 1) {
+    throw new IllegalArgumentException("bufferSize must not be less than 1");
+  }
+  this.poolSize=poolSize;
+  RingBuffer<RunnableEvent> ringBuffer=createRingBuffer(supportMultiProducer,queueSize,waitStrategy);
+  this.ringBuffer=ringBuffer;
+  WorkerPool<RunnableEvent> workerPool=createWorkerPool(poolSize,ringBuffer);
+  this.workerPool=workerPool;
+  ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
+  workerPool.start(new BasicExecutor(threadFactory));
+}

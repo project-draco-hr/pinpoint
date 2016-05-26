@@ -1,0 +1,11 @@
+{
+  boolean success=ringBuffer.tryPublishEvent(new EventTranslator<RunnableEvent>(){
+    @Override public void translateTo(    RunnableEvent event,    long sequence){
+      event.set(command);
+    }
+  }
+);
+  if (!success) {
+    throw new RejectedExecutionException("Task " + command.toString() + " rejected");
+  }
+}
