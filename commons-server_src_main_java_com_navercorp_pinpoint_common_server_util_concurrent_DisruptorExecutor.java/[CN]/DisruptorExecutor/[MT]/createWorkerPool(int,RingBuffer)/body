@@ -1,0 +1,5 @@
+{
+  RunnableExecuteHandler[] handlers=prepareRunnableExecuteHandler(poolSize);
+  WorkerPool<RunnableEvent> workerPool=new WorkerPool(ringBuffer,ringBuffer.newBarrier(),new FatalExceptionHandler(),handlers);
+  return workerPool;
+}
