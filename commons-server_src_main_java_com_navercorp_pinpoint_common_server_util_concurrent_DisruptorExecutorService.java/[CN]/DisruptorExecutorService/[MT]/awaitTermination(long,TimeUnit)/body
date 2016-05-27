@@ -1,0 +1,9 @@
+{
+  final long timeOutAt=System.currentTimeMillis() + unit.toMillis(timeout);
+  while (hasNotExecutedRunnable()) {
+    if (timeout >= 0 && System.currentTimeMillis() > timeOutAt) {
+      return false;
+    }
+  }
+  return true;
+}

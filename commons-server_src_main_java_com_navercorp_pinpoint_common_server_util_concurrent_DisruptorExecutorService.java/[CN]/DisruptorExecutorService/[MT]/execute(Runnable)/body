@@ -1,0 +1,17 @@
+{
+  if (command == null) {
+    throw new NullPointerException();
+  }
+  if (isShutDowned.get()) {
+    throw new RejectedExecutionException("Task " + command.toString() + " rejected. Caused:already shutDowned.");
+  }
+  boolean success=ringBuffer.tryPublishEvent(new EventTranslator<RunnableEvent>(){
+    @Override public void translateTo(    RunnableEvent event,    long sequence){
+      event.set(command);
+    }
+  }
+);
+  if (!success) {
+    throw new RejectedExecutionException("Task " + command.toString() + " rejected. Caused: queue is overflow.");
+  }
+}

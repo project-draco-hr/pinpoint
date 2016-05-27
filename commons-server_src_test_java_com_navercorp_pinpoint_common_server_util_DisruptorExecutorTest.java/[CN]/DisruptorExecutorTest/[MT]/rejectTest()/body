@@ -1,12 +1,10 @@
 {
   int bufferSize=10;
   int newBufferSize=DisruptorExecutors.nextPowerOfTwo(bufferSize);
+  ExecutorService executor=DisruptorExecutors.newSingleProducerExecutor(2,newBufferSize,threadFactory,new TimeoutBlockingWaitStrategy(100,TimeUnit.MILLISECONDS));
   CountDownLatch latch=new CountDownLatch(1);
-  DisruptorExecutor executor=DisruptorExecutors.newSingleProducerExecutor(2,newBufferSize,threadFactory,new TimeoutBlockingWaitStrategy(100,TimeUnit.MILLISECONDS));
   try {
-    for (int i=0; i < newBufferSize + 1; i++) {
-      executor.execute(new SimpleRunnable(latch));
-    }
+    execute(newBufferSize + 1,executor,latch);
     Assert.fail();
   }
  catch (  Exception e) {
