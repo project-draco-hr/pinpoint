@@ -5,22 +5,13 @@
   if (className == null) {
     throw new NullPointerException("className must not be null");
   }
-  final InputStream is=classLoader.getResourceAsStream(className.replace('.','/') + ".class");
+  final String jvmClassName=JavaAssistUtils.javaNameToJvmName(className);
+  final InputStream is=classLoader.getResourceAsStream(jvmClassName + ".class");
   if (is == null) {
     throw new RuntimeException("No such class file: " + className);
   }
-  ReadableByteChannel channel=Channels.newChannel(is);
-  ByteBuffer buffer;
   try {
-    buffer=ByteBuffer.allocate(is.available());
-    while (channel.read(buffer) >= 0) {
-      if (buffer.remaining() == 0) {
-        buffer.flip();
-        ByteBuffer newBuffer=ByteBuffer.allocate(buffer.capacity() * 2);
-        newBuffer.put(buffer);
-        buffer=newBuffer;
-      }
-    }
+    return readClass(is,false);
   }
  catch (  IOException e) {
     throw new RuntimeException(e);
@@ -28,5 +19,4 @@
  finally {
     close(is);
   }
-  return buffer.array();
 }
