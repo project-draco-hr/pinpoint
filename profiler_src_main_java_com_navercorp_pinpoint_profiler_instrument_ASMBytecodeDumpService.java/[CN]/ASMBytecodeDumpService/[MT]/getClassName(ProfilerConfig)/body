@@ -1,0 +1,11 @@
+{
+  final String classNameList=profilerConfig.readString(DUMP_CLASS_LIST,"");
+  if (classNameList.isEmpty()) {
+    return Collections.emptySet();
+  }
+ else {
+    final List<String> classList=StringUtils.splitAndTrim(classNameList,",");
+    final List<String> jvmClassList=javaNameToJvmName(classList);
+    return new HashSet<String>(jvmClassList);
+  }
+}

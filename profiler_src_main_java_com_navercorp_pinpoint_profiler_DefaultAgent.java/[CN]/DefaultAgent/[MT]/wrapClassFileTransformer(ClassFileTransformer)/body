@@ -1,0 +1,8 @@
+{
+  final boolean enableBytecodeDump=profilerConfig.readBoolean(ASMBytecodeDumpService.ENABLE_BYTECODE_DUMP,ASMBytecodeDumpService.ENABLE_BYTECODE_DUMP_DEFAULT_VALUE);
+  if (enableBytecodeDump) {
+    logger.info("wrapBytecodeDumpTransformer");
+    return BytecodeDumpTransformer.wrap(classFileTransformerDispatcher,profilerConfig);
+  }
+  return classFileTransformerDispatcher;
+}

@@ -1,0 +1,24 @@
+{
+  if (jvmClassName == null) {
+    throw new NullPointerException("jvmClassName must not be null");
+  }
+  if (!filterClassName(jvmClassName)) {
+    return;
+  }
+  if (dumpBytecode) {
+    final String dumpBytecode=this.disassembler.dumpBytecode(bytes);
+    logger.info("{} class:{} bytecode:{}",dumpMessage,jvmClassName,dumpBytecode);
+  }
+  if (dumpVerify) {
+    if (classLoader == null) {
+      logger.debug("classLoader is null, jvmClassName:{}",jvmClassName);
+      classLoader=ClassLoader.getSystemClassLoader();
+    }
+    final String dumpVerify=this.disassembler.dumpVerify(bytes,classLoader);
+    logger.info("{} class:{} verify:{}",dumpMessage,jvmClassName,dumpVerify);
+  }
+  if (dumpASM) {
+    final String dumpASM=this.disassembler.dumpASM(bytes);
+    logger.info("{} class:{} asm:{}",dumpMessage,jvmClassName,dumpASM);
+  }
+}
