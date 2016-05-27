@@ -1,0 +1,16 @@
+{
+  byte[] transformBytes=null;
+  boolean success=false;
+  try {
+    transformBytes=delegate.transform(loader,className,classBeingRedefined,protectionDomain,classfileBuffer);
+    success=true;
+    return transformBytes;
+  }
+  finally {
+    this.bytecodeDumpService.dumpBytecode("original bytecode dump",className,classfileBuffer,loader);
+    final boolean bytecodeChanged=isChanged(classfileBuffer,transformBytes);
+    if (success && bytecodeChanged) {
+      this.bytecodeDumpService.dumpBytecode("transform bytecode dump",className,transformBytes,loader);
+    }
+  }
+}

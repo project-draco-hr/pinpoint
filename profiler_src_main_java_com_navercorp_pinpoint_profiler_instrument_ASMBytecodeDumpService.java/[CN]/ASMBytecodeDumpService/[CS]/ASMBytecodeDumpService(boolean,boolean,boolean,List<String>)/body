@@ -1,0 +1,10 @@
+{
+  if (classNameList == null) {
+    throw new NullPointerException("classNameList must not be null");
+  }
+  this.dumpBytecode=dumpBytecode;
+  this.dumpVerify=dumpVerify;
+  this.dumpASM=dumpASM;
+  List<String> jvmClassNameList=javaNameToJvmName(classNameList);
+  this.dumpJvmClassNameSet=new HashSet<String>(jvmClassNameList);
+}

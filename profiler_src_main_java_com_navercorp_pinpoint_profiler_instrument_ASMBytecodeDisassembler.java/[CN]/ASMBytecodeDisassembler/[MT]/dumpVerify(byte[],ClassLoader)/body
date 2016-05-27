@@ -1,0 +1,13 @@
+{
+  if (bytecode == null) {
+    throw new NullPointerException("bytecode must not be null");
+  }
+  if (classLoader == null) {
+    throw new NullPointerException("classLoader must not be null");
+  }
+  final StringWriter out=new StringWriter();
+  final PrintWriter writer=new PrintWriter(out);
+  final ClassReader cr=new ClassReader(bytecode);
+  CheckClassAdapter.verify(cr,classLoader,true,writer);
+  return out.toString();
+}

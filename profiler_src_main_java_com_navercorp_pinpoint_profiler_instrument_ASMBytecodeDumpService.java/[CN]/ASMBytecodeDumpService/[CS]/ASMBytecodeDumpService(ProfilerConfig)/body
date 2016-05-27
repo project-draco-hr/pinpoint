@@ -1,0 +1,9 @@
+{
+  if (profilerConfig == null) {
+    throw new NullPointerException("profilerConfig must not be null");
+  }
+  this.dumpBytecode=profilerConfig.readBoolean(BYTECODE_DUMP_BYTECODE,BYTECODE_DUMP_BYTECODE_DEFAULT_VALUE);
+  this.dumpVerify=profilerConfig.readBoolean(BYTECODE_DUMP_VERIFY,BYTECODE_DUMP_VERIFY_DEFAULT_VALUE);
+  this.dumpASM=profilerConfig.readBoolean(BYTECODE_DUMP_ASM,BYTECODE_DUMP_ASM_DEFAULT_VALUE);
+  this.dumpJvmClassNameSet=getClassName(profilerConfig);
+}

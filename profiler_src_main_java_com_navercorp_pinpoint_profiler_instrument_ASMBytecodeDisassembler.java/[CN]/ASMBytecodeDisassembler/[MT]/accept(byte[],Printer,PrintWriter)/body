@@ -1,0 +1,6 @@
+{
+  final ClassReader cr=new ClassReader(bytecode);
+  final ClassWriter cw=new ClassWriter(this.cwFlag);
+  final TraceClassVisitor tcv=new TraceClassVisitor(cw,printer,writer);
+  cr.accept(tcv,this.crFlag);
+}

@@ -1,0 +1,8 @@
+{
+  ClassLoader classLoader=ClassLoaderUtils.getDefaultClassLoader();
+  byte[] classFile=BytecodeUtils.getClassFile(classLoader,jvmClassName);
+  bytecodeDumpService.dumpBytecode("testDump","invalidName",classFile,classLoader);
+  Mockito.verify(this.disassembler,times(0)).dumpBytecode(classFile);
+  Mockito.verify(this.disassembler,times(0)).dumpVerify(classFile,classLoader);
+  Mockito.verify(this.disassembler,times(0)).dumpASM(classFile);
+}

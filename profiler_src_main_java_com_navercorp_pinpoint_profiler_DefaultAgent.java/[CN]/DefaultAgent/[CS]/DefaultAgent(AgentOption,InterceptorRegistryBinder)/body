@@ -33,7 +33,8 @@
   pluginContexts=loadPlugins(agentOption);
   this.classFileTransformer=new ClassFileTransformerDispatcher(this,pluginContexts);
   this.dynamicTransformService=new DynamicTransformService(instrumentation,classFileTransformer);
-  instrumentation.addTransformer(this.classFileTransformer,true);
+  ClassFileTransformer wrappedTransformer=wrapClassFileTransformer(classFileTransformer);
+  instrumentation.addTransformer(wrappedTransformer,true);
   String applicationServerTypeString=profilerConfig.getApplicationServerType();
   ServiceType applicationServerType=this.serviceTypeRegistryService.findServiceTypeByName(applicationServerTypeString);
   final ApplicationServerTypeResolver typeResolver=new ApplicationServerTypeResolver(pluginContexts,applicationServerType,profilerConfig.getApplicationTypeDetectOrder());
