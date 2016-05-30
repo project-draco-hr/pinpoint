@@ -1,0 +1,11 @@
+{
+  int bufferSize=10;
+  int newBufferSize=DisruptorExecutors.nextPowerOfTwo(bufferSize);
+  ExecutorService executor=DisruptorExecutors.newSingleProducerExecutor(1,newBufferSize,threadFactory,new TimeoutBlockingWaitStrategy(10000,TimeUnit.MILLISECONDS));
+  CountDownLatch latch=new CountDownLatch(1);
+  execute(newBufferSize,executor,latch);
+  List<Runnable> runnableList=executor.shutdownNow();
+  latch.countDown();
+  Assert.assertEquals(newBufferSize - 1,runnableList.size());
+  Assert.assertTrue(executor.isShutdown());
+}

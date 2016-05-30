@@ -16,9 +16,6 @@
       }
       return;
     }
-    if (debugEnabled) {
-      logger.debug("pool getActiveCount:{}",worker.getActiveCount());
-    }
     try {
       Runnable dispatchTask=wrapDispatchTask(pooledPacket);
       worker.execute(dispatchTask);

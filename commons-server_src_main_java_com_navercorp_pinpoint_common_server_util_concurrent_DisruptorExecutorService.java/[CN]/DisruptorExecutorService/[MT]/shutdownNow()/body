@@ -1,0 +1,25 @@
+{
+  if (isShutDowned.compareAndSet(false,true)) {
+    workerPool.halt();
+    Sequence[] sequence=workerPool.getWorkerSequences();
+    if (sequence == null || sequence.length == 0) {
+      return Collections.emptyList();
+    }
+    long startPosition=sequence[sequence.length - 1].get();
+    long endPosition=ringBuffer.getCursor();
+    if (startPosition >= endPosition) {
+      return Collections.emptyList();
+    }
+    try {
+      List<Runnable> notExecutedRunnableList=new ArrayList((int)(endPosition - startPosition));
+      for (long i=startPosition; i < endPosition; i++) {
+        notExecutedRunnableList.add(ringBuffer.get(i).getValue());
+      }
+      return notExecutedRunnableList;
+    }
+ catch (    Exception e) {
+    }
+    return Collections.emptyList();
+  }
+  return Collections.emptyList();
+}
