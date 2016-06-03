@@ -1,0 +1,10 @@
+{
+  try {
+    Class<CpuLoadMetricSet> cpuLoadMetricSetClass=(Class<CpuLoadMetricSet>)Class.forName(classToLoad);
+    return cpuLoadMetricSetClass.newInstance();
+  }
+ catch (  Exception e) {
+    LOGGER.error("Error creating CpuLoadMetricSet [{}].",classToLoad,e);
+  }
+  return DISABLED_CPU_LOAD_METRIC_SET;
+}
