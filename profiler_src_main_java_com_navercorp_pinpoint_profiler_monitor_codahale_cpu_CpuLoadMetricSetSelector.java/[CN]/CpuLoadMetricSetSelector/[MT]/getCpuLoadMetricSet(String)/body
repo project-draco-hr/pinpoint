@@ -1,0 +1,30 @@
+{
+  String classToLoad=null;
+  JvmType vmType=JvmType.fromVendor(vendorName);
+  if (vmType == JvmType.UNKNOWN) {
+    vmType=JvmUtils.getType();
+  }
+  JvmVersion vmVersion=JvmUtils.getVersion();
+  if (vmType == JvmType.ORACLE) {
+    if (vmVersion.onOrAfter(JvmVersion.JAVA_7)) {
+      classToLoad=ORACLE_CPU_LOAD_METRIC_SET_FQCN;
+    }
+ else     if (vmVersion.onOrAfter(JvmVersion.JAVA_5)) {
+      classToLoad=ORACLE_JDK6_CPU_LOAD_METRIC_SET_FQCN;
+    }
+  }
+ else   if (vmType == JvmType.IBM) {
+    if (vmVersion.onOrAfter(JvmVersion.JAVA_7)) {
+      classToLoad=IBM_CPU_LOAD_METRIC_SET_FQCN;
+    }
+ else     if (vmVersion == JvmVersion.JAVA_6) {
+      classToLoad=IBM_JDK6_CPU_LOAD_METRIC_SET_FQCN;
+    }
+  }
+  if (classToLoad != null) {
+    return createCpuLoadMetricSet(classToLoad);
+  }
+ else {
+    return DISABLED_CPU_LOAD_METRIC_SET;
+  }
+}
