@@ -1,0 +1,15 @@
+{
+  int bitField=0;
+  int position=2;
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),0);
+  bitField=set2Bit(bitField,position,true,false);
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),1);
+  bitField=set2Bit(bitField,position,false,true);
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),2);
+  bitField=set2Bit(bitField,position,true,true);
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),3);
+  bitField=-1;
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),3);
+  bitField=set2Bit(bitField,position,false,false);
+  Assert.assertEquals(BitFieldUtils.get2Bit(bitField,position),0);
+}
