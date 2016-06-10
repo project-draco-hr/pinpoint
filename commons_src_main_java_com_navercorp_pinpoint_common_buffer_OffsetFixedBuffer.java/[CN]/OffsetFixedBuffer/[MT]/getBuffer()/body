@@ -1,6 +1,8 @@
 {
-  final int bufferSize=offset - startOffset;
-  final byte[] copy=new byte[bufferSize];
-  System.arraycopy(buffer,startOffset,copy,0,bufferSize);
-  return copy;
+  if (startOffset == 0 && offset == buffer.length) {
+    return this.buffer;
+  }
+ else {
+    return copyBuffer();
+  }
 }

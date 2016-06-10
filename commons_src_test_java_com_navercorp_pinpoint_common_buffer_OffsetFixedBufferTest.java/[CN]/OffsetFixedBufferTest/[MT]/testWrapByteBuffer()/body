@@ -1,0 +1,8 @@
+{
+  Buffer buffer=new OffsetFixedBuffer(new byte[10],2);
+  buffer.put(1);
+  buffer.put(2);
+  ByteBuffer byteBuffer=buffer.wrapByteBuffer();
+  Assert.assertEquals(1,byteBuffer.getInt());
+  Assert.assertEquals(2,byteBuffer.getInt());
+}
