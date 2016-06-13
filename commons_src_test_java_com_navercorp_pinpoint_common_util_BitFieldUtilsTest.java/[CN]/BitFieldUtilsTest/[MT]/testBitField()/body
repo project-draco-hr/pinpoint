@@ -1,0 +1,10 @@
+{
+  int bitField=0;
+  int position=5;
+  bitField=BitFieldUtils.setBit(bitField,position,true);
+  Assert.assertTrue(BitFieldUtils.testBit(bitField,position));
+  Assert.assertEquals(BitFieldUtils.getBit(bitField,position),1);
+  bitField=-1;
+  bitField=BitFieldUtils.clearBit(bitField,position);
+  Assert.assertEquals(BitFieldUtils.getBit(bitField,position),0);
+}

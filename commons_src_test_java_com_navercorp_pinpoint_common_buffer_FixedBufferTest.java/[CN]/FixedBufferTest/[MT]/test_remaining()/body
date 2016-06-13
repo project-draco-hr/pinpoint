@@ -1,0 +1,16 @@
+{
+  final byte[] bytes=new byte[BytesUtils.INT_BYTE_LENGTH];
+  Buffer buffer=new FixedBuffer(bytes);
+  Assert.assertEquals(buffer.remaining(),4);
+  Assert.assertTrue(buffer.hasRemaining());
+  buffer.put(1234);
+  Assert.assertEquals(buffer.remaining(),0);
+  Assert.assertFalse(buffer.hasRemaining());
+  buffer.setOffset(0);
+  buffer.put((short)12);
+  Assert.assertEquals(buffer.remaining(),2);
+  Assert.assertTrue(buffer.hasRemaining());
+  buffer.put((byte)1);
+  Assert.assertEquals(buffer.remaining(),1);
+  Assert.assertTrue(buffer.hasRemaining());
+}

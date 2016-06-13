@@ -19,16 +19,16 @@
     this.exceptionMessage=buffer.readPrefixedString();
   }
   this.flag=buffer.readShort();
-  if (buffer.limit() > 0) {
+  if (buffer.hasRemaining()) {
     final boolean hasApplicationServiceType=buffer.readBoolean();
     if (hasApplicationServiceType) {
       this.applicationServiceType=buffer.readShort();
     }
   }
-  if (buffer.limit() > 0) {
+  if (buffer.hasRemaining()) {
     this.loggingTransactionInfo=buffer.readByte();
   }
-  if (buffer.limit() > 0) {
+  if (buffer.hasRemaining()) {
     this.acceptorHost=buffer.readPrefixedString();
   }
   return buffer.getOffset();
