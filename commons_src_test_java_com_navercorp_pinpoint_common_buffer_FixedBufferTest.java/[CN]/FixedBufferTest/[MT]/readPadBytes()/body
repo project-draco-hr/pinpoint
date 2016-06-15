@@ -3,7 +3,7 @@
   random.nextBytes(bytes);
   Buffer writeBuffer=new FixedBuffer(32);
   writeBuffer.putPadBytes(bytes,20);
-  writeBuffer.put(255);
+  writeBuffer.putInt(255);
   Buffer readBuffer=new FixedBuffer(writeBuffer.getBuffer());
   byte[] readPadBytes=readBuffer.readPadBytes(20);
   Assert.assertArrayEquals(bytes,Arrays.copyOf(readPadBytes,10));

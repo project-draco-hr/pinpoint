@@ -1,38 +1,3 @@
 {
-  fastpath: {
-    int pos=this.offset;
-    final int bufferSize=this.buffer.length;
-    if (bufferSize == pos) {
-      break fastpath;
-    }
-    final byte[] buffer=this.buffer;
-    int x;
-    if ((x=buffer[pos++]) >= 0) {
-      this.offset=pos;
-      return x;
-    }
- else     if (bufferSize - pos < 9) {
-      break fastpath;
-    }
- else     if ((x^=(buffer[pos++] << 7)) < 0) {
-      x^=(~0 << 7);
-    }
- else     if ((x^=(buffer[pos++] << 14)) >= 0) {
-      x^=(~0 << 7) ^ (~0 << 14);
-    }
- else     if ((x^=(buffer[pos++] << 21)) < 0) {
-      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21);
-    }
- else {
-      int y=buffer[pos++];
-      x^=y << 28;
-      x^=(~0 << 7) ^ (~0 << 14) ^ (~0 << 21)^ (~0 << 28);
-      if (y < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0 && buffer[pos++] < 0) {
-        break fastpath;
-      }
-    }
-    this.offset=pos;
-    return x;
-  }
-  return (int)readVar64SlowPath();
+  return readVInt();
 }

@@ -1,0 +1,14 @@
+{
+  Buffer buffer=new AutomaticBuffer(0);
+  buffer.putVLong(Long.MAX_VALUE);
+  buffer.putVLong(Long.MIN_VALUE);
+  buffer.putVLong(0L);
+  buffer.putVLong(1L);
+  buffer.putVLong(12345L);
+  buffer.setOffset(0);
+  Assert.assertEquals(buffer.readVLong(),Long.MAX_VALUE);
+  Assert.assertEquals(buffer.readVLong(),Long.MIN_VALUE);
+  Assert.assertEquals(buffer.readVLong(),0L);
+  Assert.assertEquals(buffer.readVLong(),1L);
+  Assert.assertEquals(buffer.readVLong(),12345L);
+}

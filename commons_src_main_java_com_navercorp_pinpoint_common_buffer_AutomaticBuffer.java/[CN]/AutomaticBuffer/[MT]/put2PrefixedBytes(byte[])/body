@@ -1,14 +1,14 @@
 {
   if (bytes == null) {
     checkExpand(BytesUtils.SHORT_BYTE_LENGTH);
-    super.put((short)NULL);
+    super.putShort((short)NULL);
   }
  else {
     if (bytes.length > Short.MAX_VALUE) {
       throw new IndexOutOfBoundsException("too large bytes length:" + bytes.length);
     }
     checkExpand(bytes.length + BytesUtils.SHORT_BYTE_LENGTH);
-    super.put((short)bytes.length);
-    super.put(bytes);
+    super.putShort((short)bytes.length);
+    super.putBytes(bytes);
   }
 }

@@ -5,7 +5,7 @@
   final byte[] stringValue2=BytesUtils.toBytes(tIntStringStringValue.getStringValue2());
   final int bufferSize=getBufferSize(stringValue1,stringValue2,4 + 8);
   final Buffer buffer=new AutomaticBuffer(bufferSize);
-  buffer.putSVar(intValue);
+  buffer.putSVInt(intValue);
   buffer.putPrefixedBytes(stringValue1);
   buffer.putPrefixedBytes(stringValue2);
   return buffer.getBuffer();

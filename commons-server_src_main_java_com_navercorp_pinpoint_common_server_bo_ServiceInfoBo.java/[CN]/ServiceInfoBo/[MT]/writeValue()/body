@@ -2,7 +2,7 @@
   final Buffer buffer=new AutomaticBuffer();
   buffer.put2PrefixedString(this.serviceName);
   int numServiceLibs=this.serviceLibs == null ? 0 : this.serviceLibs.size();
-  buffer.putVar(numServiceLibs);
+  buffer.putVInt(numServiceLibs);
   for (int i=0; i < numServiceLibs; ++i) {
     buffer.put2PrefixedString(this.serviceLibs.get(i));
   }

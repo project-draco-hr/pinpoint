@@ -3,8 +3,8 @@
     agentId="";
   }
   final Buffer buffer=new AutomaticBuffer(agentId.length() + BytesUtils.SHORT_BYTE_LENGTH);
-  buffer.put(columnSlotNumber);
+  buffer.putShort(columnSlotNumber);
   final byte[] agentIdBytes=BytesUtils.toBytes(agentId);
-  buffer.put(agentIdBytes);
+  buffer.putBytes(agentIdBytes);
   return buffer.getBuffer();
 }

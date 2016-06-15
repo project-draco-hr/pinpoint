@@ -6,9 +6,9 @@
     destHost="";
   }
   final Buffer buffer=new AutomaticBuffer(BytesUtils.SHORT_BYTE_LENGTH + PinpointConstants.APPLICATION_NAME_MAX_LEN + destHost.length()+ BytesUtils.SHORT_BYTE_LENGTH);
-  buffer.put(serviceType);
-  buffer.put(slotNumber);
+  buffer.putShort(serviceType);
+  buffer.putShort(slotNumber);
   buffer.put2PrefixedString(applicationName);
-  buffer.put(BytesUtils.toBytes(destHost));
+  buffer.putBytes(BytesUtils.toBytes(destHost));
   return buffer.getBuffer();
 }

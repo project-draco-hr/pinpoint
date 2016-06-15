@@ -1,8 +1,8 @@
 {
   Buffer buffer=new AutomaticBuffer(32);
   long l=System.currentTimeMillis();
-  buffer.putSVar(l);
+  buffer.putSVLong(l);
   logger.trace("currentTime size:{}",buffer.getOffset());
   buffer.setOffset(0);
-  Assert.assertEquals(buffer.readSVarLong(),l);
+  Assert.assertEquals(buffer.readSVLong(),l);
 }

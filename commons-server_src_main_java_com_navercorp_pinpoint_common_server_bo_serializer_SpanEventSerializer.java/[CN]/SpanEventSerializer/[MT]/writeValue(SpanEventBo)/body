@@ -1,28 +1,28 @@
 {
   final Buffer buffer=new AutomaticBuffer(512);
-  buffer.put(spanEventBo.getVersion());
+  buffer.putByte(spanEventBo.getVersion());
   buffer.putPrefixedString(spanEventBo.getAgentId());
   buffer.putPrefixedString(spanEventBo.getApplicationId());
-  buffer.putVar(spanEventBo.getAgentStartTime());
-  buffer.putVar(spanEventBo.getStartElapsed());
-  buffer.putVar(spanEventBo.getEndElapsed());
+  buffer.putVLong(spanEventBo.getAgentStartTime());
+  buffer.putVInt(spanEventBo.getStartElapsed());
+  buffer.putVInt(spanEventBo.getEndElapsed());
   buffer.putPrefixedString(spanEventBo.getRpc());
-  buffer.put(spanEventBo.getServiceType());
+  buffer.putShort(spanEventBo.getServiceType());
   buffer.putPrefixedString(spanEventBo.getEndPoint());
   buffer.putPrefixedString(spanEventBo.getDestinationId());
-  buffer.putSVar(spanEventBo.getApiId());
-  buffer.putSVar(spanEventBo.getDepth());
-  buffer.put(spanEventBo.getNextSpanId());
+  buffer.putSVInt(spanEventBo.getApiId());
+  buffer.putSVInt(spanEventBo.getDepth());
+  buffer.putLong(spanEventBo.getNextSpanId());
   if (spanEventBo.hasException()) {
-    buffer.put(true);
-    buffer.putSVar(spanEventBo.getExceptionId());
+    buffer.putBoolean(true);
+    buffer.putSVInt(spanEventBo.getExceptionId());
     buffer.putPrefixedString(spanEventBo.getExceptionMessage());
   }
  else {
-    buffer.put(false);
+    buffer.putBoolean(false);
   }
   final List<AnnotationBo> annotationBoList=spanEventBo.getAnnotationBoList();
   this.annotationSerializer.writeAnnotationList(annotationBoList,buffer);
-  buffer.putSVar(spanEventBo.getNextAsyncId());
+  buffer.putSVInt(spanEventBo.getNextAsyncId());
   return buffer.getBuffer();
 }

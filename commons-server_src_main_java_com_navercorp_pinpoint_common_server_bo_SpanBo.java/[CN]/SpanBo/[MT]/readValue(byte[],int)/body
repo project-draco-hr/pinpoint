@@ -2,20 +2,20 @@
   final Buffer buffer=new OffsetFixedBuffer(bytes,offset);
   this.version=buffer.readByte();
   this.agentId=buffer.readPrefixedString();
-  this.agentStartTime=buffer.readVarLong();
+  this.agentStartTime=buffer.readVLong();
   this.parentSpanId=buffer.readLong();
-  this.startTime=buffer.readVarLong();
-  this.elapsed=buffer.readVarInt();
+  this.startTime=buffer.readVLong();
+  this.elapsed=buffer.readVInt();
   this.rpc=buffer.readPrefixedString();
   this.applicationId=buffer.readPrefixedString();
   this.serviceType=buffer.readShort();
   this.endPoint=buffer.readPrefixedString();
   this.remoteAddr=buffer.readPrefixedString();
-  this.apiId=buffer.readSVarInt();
-  this.errCode=buffer.readSVarInt();
+  this.apiId=buffer.readSVInt();
+  this.errCode=buffer.readSVInt();
   this.hasException=buffer.readBoolean();
   if (hasException) {
-    this.exceptionId=buffer.readSVarInt();
+    this.exceptionId=buffer.readSVInt();
     this.exceptionMessage=buffer.readPrefixedString();
   }
   this.flag=buffer.readShort();

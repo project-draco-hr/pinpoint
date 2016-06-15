@@ -1,27 +1,27 @@
 {
   final Buffer buffer=new AutomaticBuffer(512);
-  buffer.put(version);
+  buffer.putByte(version);
   buffer.putPrefixedString(agentId);
   buffer.putPrefixedString(applicationId);
-  buffer.putVar(agentStartTime);
-  buffer.putVar(startElapsed);
-  buffer.putVar(endElapsed);
+  buffer.putVLong(agentStartTime);
+  buffer.putVInt(startElapsed);
+  buffer.putVInt(endElapsed);
   buffer.putPrefixedString(rpc);
-  buffer.put(serviceType);
+  buffer.putShort(serviceType);
   buffer.putPrefixedString(endPoint);
   buffer.putPrefixedString(destinationId);
-  buffer.putSVar(apiId);
-  buffer.putSVar(depth);
-  buffer.put(nextSpanId);
+  buffer.putSVInt(apiId);
+  buffer.putSVInt(depth);
+  buffer.putLong(nextSpanId);
   if (hasException) {
-    buffer.put(true);
-    buffer.putSVar(exceptionId);
+    buffer.putBoolean(true);
+    buffer.putSVInt(exceptionId);
     buffer.putPrefixedString(exceptionMessage);
   }
  else {
-    buffer.put(false);
+    buffer.putBoolean(false);
   }
   writeAnnotation(buffer);
-  buffer.putSVar(nextAsyncId);
+  buffer.putSVInt(nextAsyncId);
   return buffer.getBuffer();
 }
