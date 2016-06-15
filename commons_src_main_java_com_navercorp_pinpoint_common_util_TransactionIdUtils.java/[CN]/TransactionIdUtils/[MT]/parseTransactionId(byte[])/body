@@ -8,8 +8,8 @@
     throw new IllegalArgumentException("invalid Version");
   }
   final String agentId=buffer.readPrefixedString();
-  final long agentStartTime=buffer.readVarLong();
-  final long transactionSequence=buffer.readVarLong();
+  final long agentStartTime=buffer.readVLong();
+  final long transactionSequence=buffer.readVLong();
   if (agentId == null) {
     return new TransactionId(agentStartTime,transactionSequence);
   }

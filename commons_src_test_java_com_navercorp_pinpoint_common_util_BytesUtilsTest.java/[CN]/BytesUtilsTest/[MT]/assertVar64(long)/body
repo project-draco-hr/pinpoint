@@ -3,7 +3,7 @@
   final byte[] bytes=new byte[computeBufferSize];
   BytesUtils.writeVar64(value,bytes,0);
   final Buffer buffer=new FixedBuffer(bytes);
-  final long varLong=buffer.readVarLong();
+  final long varLong=buffer.readVLong();
   Assert.assertEquals("check value",value,varLong);
   Assert.assertEquals("check buffer size",buffer.getOffset(),computeBufferSize);
   final long varLong_ByteUtils1=BytesUtils.bytesToVar64(buffer.getBuffer(),0);

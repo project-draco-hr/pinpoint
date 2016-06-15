@@ -3,14 +3,14 @@
   Buffer buffer=new FixedBuffer(bytes);
   Assert.assertEquals(buffer.remaining(),4);
   Assert.assertTrue(buffer.hasRemaining());
-  buffer.put(1234);
+  buffer.putInt(1234);
   Assert.assertEquals(buffer.remaining(),0);
   Assert.assertFalse(buffer.hasRemaining());
   buffer.setOffset(0);
-  buffer.put((short)12);
+  buffer.putShort((short)12);
   Assert.assertEquals(buffer.remaining(),2);
   Assert.assertTrue(buffer.hasRemaining());
-  buffer.put((byte)1);
+  buffer.putByte((byte)1);
   Assert.assertEquals(buffer.remaining(),1);
   Assert.assertTrue(buffer.hasRemaining());
 }

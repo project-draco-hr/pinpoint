@@ -1,0 +1,11 @@
+{
+  checkVInt_bufferSize(v,offset,32);
+  if (v >= 0) {
+    final int bufferSize=BytesUtils.computeVar32Size(v);
+    checkVInt_bufferSize(v,offset,bufferSize);
+  }
+ else {
+    final int bufferSize=BytesUtils.computeVar64Size(v);
+    checkVInt_bufferSize(v,offset,bufferSize);
+  }
+}

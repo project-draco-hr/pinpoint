@@ -1,11 +1,11 @@
 {
   if (bytes == null) {
     checkExpand(1);
-    super.putSVar(NULL);
+    super.putSVInt(NULL);
   }
  else {
     checkExpand(bytes.length + BytesUtils.VINT_MAX_SIZE);
-    super.putSVar(bytes.length);
-    super.put(bytes);
+    super.putSVInt(bytes.length);
+    super.putBytes(bytes);
   }
 }

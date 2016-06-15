@@ -4,10 +4,10 @@
   }
   final byte[] applicationNameBytes=BytesUtils.toBytes(applicationName);
   final Buffer buffer=new AutomaticBuffer(2 + applicationNameBytes.length + 2+ 8);
-  buffer.put((short)applicationNameBytes.length);
-  buffer.put(applicationNameBytes);
-  buffer.put(applicationType);
+  buffer.putShort((short)applicationNameBytes.length);
+  buffer.putBytes(applicationNameBytes);
+  buffer.putShort(applicationType);
   long reverseTimeMillis=TimeUtils.reverseTimeMillis(timestamp);
-  buffer.put(reverseTimeMillis);
+  buffer.putLong(reverseTimeMillis);
   return buffer.getBuffer();
 }
