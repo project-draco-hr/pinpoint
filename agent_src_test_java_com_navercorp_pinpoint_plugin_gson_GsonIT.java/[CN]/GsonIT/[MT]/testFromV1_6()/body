@@ -3,6 +3,7 @@
     return;
   }
   final Gson gson=new Gson();
+  final JsonElement jsonElement=getParseElements();
   gson.fromJson(new JsonReader(new StringReader(json)),String.class);
   Method fromJson5=Gson.class.getDeclaredMethod("fromJson",JsonReader.class,Type.class);
   gson.toJson(java,String.class,new JsonWriter(new StringWriter()));
