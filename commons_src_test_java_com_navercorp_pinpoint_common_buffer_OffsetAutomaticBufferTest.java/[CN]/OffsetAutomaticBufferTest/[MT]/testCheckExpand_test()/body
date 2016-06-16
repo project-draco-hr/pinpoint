@@ -1,0 +1,13 @@
+{
+  final int bufferSize=4;
+  Buffer buffer=new OffsetAutomaticBuffer(new byte[bufferSize],0,bufferSize);
+  Assert.assertEquals("remaining",buffer.remaining(),4);
+  buffer.putInt(1);
+  Assert.assertEquals("remaining",buffer.remaining(),0);
+  buffer.putInt(2);
+  int remaining=buffer.remaining();
+  logger.debug("remaining:{}",remaining);
+  ByteBuffer byteBuffer=buffer.wrapByteBuffer();
+  Assert.assertEquals(1,byteBuffer.getInt());
+  Assert.assertEquals(2,byteBuffer.getInt());
+}

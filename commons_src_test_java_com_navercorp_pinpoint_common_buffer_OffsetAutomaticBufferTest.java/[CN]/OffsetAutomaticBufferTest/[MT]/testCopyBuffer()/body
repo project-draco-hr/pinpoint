@@ -1,8 +1,11 @@
 {
+  final int bufferSize=10;
+  byte[] byteArray=new byte[bufferSize];
+  Buffer buffer=new OffsetAutomaticBuffer(byteArray,2,bufferSize - 2);
   final int putValue=10;
-  Buffer buffer=new OffsetAutomaticBuffer(new byte[10],2);
   buffer.putInt(putValue);
   byte[] intBuffer=buffer.copyBuffer();
+  Assert.assertNotSame("deepcopy",intBuffer,byteArray);
   Assert.assertEquals(intBuffer.length,4);
   Buffer read=new FixedBuffer(intBuffer);
   int value=read.readInt();

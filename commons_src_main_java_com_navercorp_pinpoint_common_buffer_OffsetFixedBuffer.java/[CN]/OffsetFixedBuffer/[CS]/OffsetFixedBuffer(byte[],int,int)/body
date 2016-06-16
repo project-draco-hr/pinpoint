@@ -1,0 +1,22 @@
+{
+  if (buffer == null) {
+    throw new NullPointerException("buffer must not be null");
+  }
+  if (startOffset < 0) {
+    throw new IndexOutOfBoundsException("negative startOffset:" + startOffset);
+  }
+  if (length < 0) {
+    throw new IndexOutOfBoundsException("negative length:" + length);
+  }
+  if (startOffset > buffer.length) {
+    throw new IndexOutOfBoundsException("startOffset:" + startOffset + " > buffer.length:"+ buffer.length);
+  }
+  final int endOffset=startOffset + length;
+  if (endOffset > buffer.length) {
+    throw new IndexOutOfBoundsException("too large length buffer.length:" + buffer.length + " endOffset:"+ endOffset);
+  }
+  this.buffer=buffer;
+  this.offset=startOffset;
+  this.startOffset=startOffset;
+  this.endOffset=endOffset;
+}

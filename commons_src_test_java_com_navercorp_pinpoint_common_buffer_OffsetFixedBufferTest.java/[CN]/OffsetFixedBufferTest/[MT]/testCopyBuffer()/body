@@ -1,6 +1,7 @@
 {
+  final int bufferSize=10;
+  Buffer buffer=new OffsetFixedBuffer(new byte[bufferSize],2,bufferSize - 2);
   final int putValue=10;
-  Buffer buffer=new OffsetFixedBuffer(new byte[10],2);
   buffer.putInt(putValue);
   byte[] intBuffer=buffer.copyBuffer();
   Assert.assertEquals(intBuffer.length,4);

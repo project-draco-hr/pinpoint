@@ -9,7 +9,7 @@
   long reverseStartTime=BytesUtils.bytesToLong(originalRow,PinpointConstants.APPLICATION_NAME_MAX_LEN);
   this.lastRowTimestamp=TimeUtils.recoveryTimeMillis(reverseStartTime);
   byte[] qualifier=CellUtil.cloneQualifier(last);
-  this.lastTransactionId=TransactionIdMapper.parseVarTransactionId(qualifier,0);
+  this.lastTransactionId=TransactionIdMapper.parseVarTransactionId(qualifier,0,qualifier.length);
   this.lastTransactionElapsed=BytesUtils.bytesToInt(qualifier,0);
   if (logger.isDebugEnabled()) {
     logger.debug("lastRowTimestamp={}, lastTransactionId={}, lastTransactionElapsed={}",DateUtils.longToDateStr(lastRowTimestamp),lastTransactionId,lastTransactionElapsed);
