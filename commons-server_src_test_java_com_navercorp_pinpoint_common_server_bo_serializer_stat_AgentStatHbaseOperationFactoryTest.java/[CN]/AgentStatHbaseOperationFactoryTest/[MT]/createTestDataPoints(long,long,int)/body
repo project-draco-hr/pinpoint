@@ -1,0 +1,10 @@
+{
+  List<AgentStatDataPoint> dataPoints=new ArrayList<>(count);
+  long timestamp=initialTimestamp;
+  for (int i=0; i < count; ++i) {
+    AgentStatDataPoint dataPoint=createTestDataPoint(timestamp);
+    dataPoints.add(dataPoint);
+    timestamp+=interval;
+  }
+  return dataPoints;
+}

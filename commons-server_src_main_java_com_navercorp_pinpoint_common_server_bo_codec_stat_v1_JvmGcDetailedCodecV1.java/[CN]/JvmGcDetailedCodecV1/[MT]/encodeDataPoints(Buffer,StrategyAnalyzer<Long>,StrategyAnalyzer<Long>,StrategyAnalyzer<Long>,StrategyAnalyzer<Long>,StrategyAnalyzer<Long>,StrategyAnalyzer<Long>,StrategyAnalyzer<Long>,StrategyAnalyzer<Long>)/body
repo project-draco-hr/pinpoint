@@ -1,0 +1,28 @@
+{
+  int header=0;
+  int position=0;
+  header=this.longHeaderCodec.encodeHeader(header,position,gcNewCountStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,gcNewTimeStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,codeCacheUsedStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,newGenUsedStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,oldGenUsedStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,survivorSpaceUsedStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,permGenUsedStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,metaspaceUsedStrategyAnalyzer.getBestStrategy());
+  valueBuffer.putVInt(header);
+  this.codec.encodeValues(valueBuffer,gcNewCountStrategyAnalyzer.getBestStrategy(),gcNewCountStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,gcNewTimeStrategyAnalyzer.getBestStrategy(),gcNewTimeStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,codeCacheUsedStrategyAnalyzer.getBestStrategy(),codeCacheUsedStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,newGenUsedStrategyAnalyzer.getBestStrategy(),newGenUsedStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,oldGenUsedStrategyAnalyzer.getBestStrategy(),oldGenUsedStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,survivorSpaceUsedStrategyAnalyzer.getBestStrategy(),survivorSpaceUsedStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,permGenUsedStrategyAnalyzer.getBestStrategy(),permGenUsedStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,metaspaceUsedStrategyAnalyzer.getBestStrategy(),metaspaceUsedStrategyAnalyzer.getValues());
+}

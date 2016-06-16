@@ -1,0 +1,11 @@
+{
+  long prevTimestamp=timestamps.get(0);
+  long prevDelta=0;
+  for (int i=1; i < timestamps.size(); ++i) {
+    long timestamp=timestamps.get(i);
+    long timestampDelta=timestamp - prevTimestamp;
+    buffer.putVLong(timestampDelta - prevDelta);
+    prevTimestamp=timestamp;
+    prevDelta=timestampDelta;
+  }
+}

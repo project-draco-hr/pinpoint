@@ -1,0 +1,25 @@
+{
+  if (CollectionUtils.isEmpty(jvmGcBos)) {
+    throw new IllegalArgumentException("jvmGcBos must not be empty");
+  }
+  final int numValues=jvmGcBos.size();
+  valueBuffer.putVInt(numValues);
+  List<Long> timestamps=new ArrayList<>(numValues);
+  UnsignedLongEncodingStrategy.Analyzer.Builder heapUsedAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder heapMaxAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder nonHeapUsedAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder nonHeapMaxAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder gcOldCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder gcOldTimeAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  for (  JvmGcBo jvmGcBo : jvmGcBos) {
+    timestamps.add(jvmGcBo.getTimestamp());
+    heapUsedAnalyzerBuilder.addValue(jvmGcBo.getHeapUsed());
+    heapMaxAnalyzerBuilder.addValue(jvmGcBo.getHeapMax());
+    nonHeapUsedAnalyzerBuilder.addValue(jvmGcBo.getNonHeapUsed());
+    nonHeapMaxAnalyzerBuilder.addValue(jvmGcBo.getNonHeapMax());
+    gcOldCountAnalyzerBuilder.addValue(jvmGcBo.getGcOldCount());
+    gcOldTimeAnalyzerBuilder.addValue(jvmGcBo.getGcOldTime());
+  }
+  this.codec.encodeTimestamps(valueBuffer,timestamps);
+  this.encodeDataPoints(valueBuffer,heapUsedAnalyzerBuilder.build(),heapMaxAnalyzerBuilder.build(),nonHeapUsedAnalyzerBuilder.build(),nonHeapMaxAnalyzerBuilder.build(),gcOldCountAnalyzerBuilder.build(),gcOldTimeAnalyzerBuilder.build());
+}

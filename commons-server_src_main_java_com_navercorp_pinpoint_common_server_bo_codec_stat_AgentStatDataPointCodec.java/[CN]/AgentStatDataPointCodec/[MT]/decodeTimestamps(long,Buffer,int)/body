@@ -1,0 +1,14 @@
+{
+  List<Long> timestamps=new ArrayList<>(numValues);
+  timestamps.add(initialTimestamp);
+  long prevTimestamp=initialTimestamp;
+  long prevDelta=0;
+  for (int i=0; i < numValues - 1; ++i) {
+    long timestampDelta=prevDelta + buffer.readVLong();
+    long timestamp=prevTimestamp + timestampDelta;
+    timestamps.add(timestamp);
+    prevTimestamp=timestamp;
+    prevDelta=timestampDelta;
+  }
+  return timestamps;
+}

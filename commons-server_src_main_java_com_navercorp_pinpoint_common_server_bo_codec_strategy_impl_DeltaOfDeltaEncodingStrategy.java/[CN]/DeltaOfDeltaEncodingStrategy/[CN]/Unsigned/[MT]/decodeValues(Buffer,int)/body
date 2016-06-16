@@ -1,0 +1,18 @@
+{
+  if (numValues < 1) {
+    return Collections.emptyList();
+  }
+  List<T> values=new ArrayList<>(numValues);
+  T initialValue=this.bufferHandler.readV(buffer);
+  values.add(initialValue);
+  T previousValue=initialValue;
+  T previousDelta=this.operation.zero();
+  for (int i=0; i < numValues - 1; ++i) {
+    T delta=this.operation.add(previousDelta,this.bufferHandler.readSV(buffer));
+    T value=this.operation.add(previousValue,delta);
+    values.add(value);
+    previousValue=value;
+    previousDelta=delta;
+  }
+  return values;
+}

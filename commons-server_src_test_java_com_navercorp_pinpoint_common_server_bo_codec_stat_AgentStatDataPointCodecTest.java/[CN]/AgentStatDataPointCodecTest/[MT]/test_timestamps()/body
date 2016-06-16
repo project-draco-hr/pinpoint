@@ -1,0 +1,11 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final long intervalMs=5000L;
+  final long randomDelta=10L;
+  final int numValues=(int)(Math.random() * 100) + 1;
+  final List<Long> expectedTimestamps=createTimestamps(initialTimestamp,intervalMs,randomDelta,numValues);
+  final Buffer timestampBuffer=new AutomaticBuffer();
+  codec.encodeTimestamps(timestampBuffer,expectedTimestamps);
+  List<Long> decodedTimestamps=codec.decodeTimestamps(initialTimestamp,new FixedBuffer(timestampBuffer.getBuffer()),numValues);
+  Assert.assertEquals(expectedTimestamps,decodedTimestamps);
+}

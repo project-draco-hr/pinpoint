@@ -1,0 +1,9 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<JvmGcBo> expectedJvmGcBos=TestAgentStatFactory.createJvmGcBos(initialTimestamp);
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.jvmGcCodec.encodeValues(encodedValueBuffer,expectedJvmGcBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<JvmGcBo> actualJvmGcBos=this.jvmGcCodec.decodeValues(valueBuffer,initialTimestamp);
+  Assert.assertEquals(expectedJvmGcBos,actualJvmGcBos);
+}

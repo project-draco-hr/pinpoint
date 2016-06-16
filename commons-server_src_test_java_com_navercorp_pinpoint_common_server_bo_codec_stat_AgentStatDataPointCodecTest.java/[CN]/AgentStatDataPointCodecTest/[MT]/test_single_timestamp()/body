@@ -1,0 +1,8 @@
+{
+  final long givenTimestamp=System.currentTimeMillis();
+  final List<Long> expectedTimestamp=Arrays.asList(givenTimestamp);
+  final Buffer timestampBuffer=new AutomaticBuffer();
+  codec.encodeTimestamps(timestampBuffer,expectedTimestamp);
+  List<Long> decodedTimestamp=codec.decodeTimestamps(givenTimestamp,new FixedBuffer(timestampBuffer.getBuffer()),1);
+  Assert.assertEquals(expectedTimestamp,decodedTimestamp);
+}

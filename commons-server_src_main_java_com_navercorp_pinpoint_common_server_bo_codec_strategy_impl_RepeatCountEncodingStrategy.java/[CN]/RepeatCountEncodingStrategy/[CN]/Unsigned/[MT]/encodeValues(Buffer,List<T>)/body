@@ -1,0 +1,21 @@
+{
+  T previousValue=null;
+  int count=0;
+  for (  T value : values) {
+    if (!value.equals(previousValue)) {
+      if (previousValue != null) {
+        buffer.putVInt(count);
+        this.bufferHandler.putV(buffer,previousValue);
+      }
+      previousValue=value;
+      count=1;
+    }
+ else {
+      count++;
+    }
+  }
+  if (count > 0) {
+    buffer.putVInt(count);
+    this.bufferHandler.putV(buffer,previousValue);
+  }
+}

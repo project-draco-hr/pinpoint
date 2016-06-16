@@ -1,0 +1,9 @@
+{
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  CpuLoadBo cpuLoadBo=(CpuLoadBo)o;
+  if (timestamp != cpuLoadBo.timestamp)   return false;
+  if (Double.compare(cpuLoadBo.jvmCpuLoad,jvmCpuLoad) != 0)   return false;
+  if (Double.compare(cpuLoadBo.systemCpuLoad,systemCpuLoad) != 0)   return false;
+  return agentId != null ? agentId.equals(cpuLoadBo.agentId) : cpuLoadBo.agentId == null;
+}

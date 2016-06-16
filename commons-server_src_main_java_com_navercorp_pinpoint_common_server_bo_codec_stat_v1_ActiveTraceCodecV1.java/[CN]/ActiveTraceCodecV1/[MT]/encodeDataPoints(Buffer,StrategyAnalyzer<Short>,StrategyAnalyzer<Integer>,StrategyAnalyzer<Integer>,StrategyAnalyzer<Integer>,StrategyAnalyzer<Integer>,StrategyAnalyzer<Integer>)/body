@@ -1,0 +1,22 @@
+{
+  int header=0;
+  int position=0;
+  header=this.shortHeaderCodec.encodeHeader(header,position,versionStrategyAnalyzer.getBestStrategy());
+  position+=this.shortHeaderCodec.getHeaderBitSize();
+  header=this.integerHeaderCodec.encodeHeader(header,position,schemaTypeStrategyAnalyzer.getBestStrategy());
+  position+=this.integerHeaderCodec.getHeaderBitSize();
+  header=this.integerHeaderCodec.encodeHeader(header,position,fastTraceCountsStrategyAnalyzer.getBestStrategy());
+  position+=this.integerHeaderCodec.getHeaderBitSize();
+  header=this.integerHeaderCodec.encodeHeader(header,position,normalTraceCountsStrategyAnalyzer.getBestStrategy());
+  position+=this.integerHeaderCodec.getHeaderBitSize();
+  header=this.integerHeaderCodec.encodeHeader(header,position,slowTraceCountsStrategyAnalyzer.getBestStrategy());
+  position+=this.integerHeaderCodec.getHeaderBitSize();
+  header=this.integerHeaderCodec.encodeHeader(header,position,verySlowTraceCountsStrategyAnalyzer.getBestStrategy());
+  valueBuffer.putVInt(header);
+  this.codec.encodeValues(valueBuffer,versionStrategyAnalyzer.getBestStrategy(),versionStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,schemaTypeStrategyAnalyzer.getBestStrategy(),schemaTypeStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,fastTraceCountsStrategyAnalyzer.getBestStrategy(),fastTraceCountsStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,normalTraceCountsStrategyAnalyzer.getBestStrategy(),normalTraceCountsStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,slowTraceCountsStrategyAnalyzer.getBestStrategy(),slowTraceCountsStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,verySlowTraceCountsStrategyAnalyzer.getBestStrategy(),verySlowTraceCountsStrategyAnalyzer.getValues());
+}

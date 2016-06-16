@@ -1,0 +1,13 @@
+{
+  List<T> values=new ArrayList<>(numValues);
+  int totalCount=0;
+  while (totalCount < numValues) {
+    int count=buffer.readVInt();
+    T value=this.bufferHandler.readV(buffer);
+    for (int i=0; i < count; ++i) {
+      values.add(value);
+      totalCount++;
+    }
+  }
+  return values;
+}

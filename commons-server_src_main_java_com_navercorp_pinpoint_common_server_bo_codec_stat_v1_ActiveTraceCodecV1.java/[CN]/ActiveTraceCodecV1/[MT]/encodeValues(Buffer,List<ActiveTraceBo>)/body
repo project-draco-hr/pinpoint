@@ -1,0 +1,26 @@
+{
+  if (CollectionUtils.isEmpty(activeTraceBos)) {
+    throw new IllegalArgumentException("activeTraceBos must not be empty");
+  }
+  final int numValues=activeTraceBos.size();
+  valueBuffer.putVInt(numValues);
+  List<Long> timestamps=new ArrayList<>(numValues);
+  UnsignedShortEncodingStrategy.Analyzer.Builder versionAnalyzerBuilder=new UnsignedShortEncodingStrategy.Analyzer.Builder();
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder schemaTypeAnalyzerBuilder=new UnsignedIntegerEncodingStrategy.Analyzer.Builder();
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder fastTraceCountsAnalyzerBuilder=new UnsignedIntegerEncodingStrategy.Analyzer.Builder();
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder normalTraceCountsAnalyzerBuilder=new UnsignedIntegerEncodingStrategy.Analyzer.Builder();
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder slowTraceCountsAnalyzerBuilder=new UnsignedIntegerEncodingStrategy.Analyzer.Builder();
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder verySlowTraceCountsAnalyzerBuilder=new UnsignedIntegerEncodingStrategy.Analyzer.Builder();
+  for (  ActiveTraceBo activeTraceBo : activeTraceBos) {
+    timestamps.add(activeTraceBo.getTimestamp());
+    versionAnalyzerBuilder.addValue(activeTraceBo.getVersion());
+    schemaTypeAnalyzerBuilder.addValue(activeTraceBo.getHistogramSchemaType());
+    final Map<SlotType,Integer> activeTraceCounts=activeTraceBo.getActiveTraceCounts();
+    fastTraceCountsAnalyzerBuilder.addValue(MapUtils.getIntValue(activeTraceCounts,SlotType.FAST,ActiveTraceBo.UNCOLLECTED_ACTIVE_TRACE_COUNT));
+    normalTraceCountsAnalyzerBuilder.addValue(MapUtils.getIntValue(activeTraceCounts,SlotType.NORMAL,ActiveTraceBo.UNCOLLECTED_ACTIVE_TRACE_COUNT));
+    slowTraceCountsAnalyzerBuilder.addValue(MapUtils.getIntValue(activeTraceCounts,SlotType.SLOW,ActiveTraceBo.UNCOLLECTED_ACTIVE_TRACE_COUNT));
+    verySlowTraceCountsAnalyzerBuilder.addValue(MapUtils.getIntValue(activeTraceCounts,SlotType.VERY_SLOW,ActiveTraceBo.UNCOLLECTED_ACTIVE_TRACE_COUNT));
+  }
+  this.codec.encodeTimestamps(valueBuffer,timestamps);
+  this.encodeDataPoints(valueBuffer,versionAnalyzerBuilder.build(),schemaTypeAnalyzerBuilder.build(),fastTraceCountsAnalyzerBuilder.build(),normalTraceCountsAnalyzerBuilder.build(),slowTraceCountsAnalyzerBuilder.build(),verySlowTraceCountsAnalyzerBuilder.build());
+}

@@ -1,0 +1,11 @@
+{
+  this.byteSizeValue+=SHORT_BYTE_SIZE;
+  if (this.previousValue != value) {
+    this.byteSizeRepeatCount+=BytesUtils.computeVar32Size(this.repeatedValueCount);
+    this.byteSizeRepeatCount+=2;
+    this.repeatedValueCount=1;
+  }
+ else {
+    this.repeatedValueCount++;
+  }
+}

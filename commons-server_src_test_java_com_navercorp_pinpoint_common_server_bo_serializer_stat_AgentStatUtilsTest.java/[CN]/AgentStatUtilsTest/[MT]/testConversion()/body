@@ -1,0 +1,11 @@
+{
+  double originalValue=Math.random();
+  double convertedValue=AgentStatUtils.convertLongToDouble(AgentStatUtils.convertDoubleToLong(originalValue));
+  Assert.assertEquals(originalValue,convertedValue,DECIMAL_COMPARISON_DELTA);
+  originalValue=0;
+  convertedValue=AgentStatUtils.convertLongToDouble(AgentStatUtils.convertDoubleToLong(originalValue));
+  Assert.assertEquals(originalValue,convertedValue,DECIMAL_COMPARISON_DELTA);
+  originalValue=-1 * Math.random();
+  convertedValue=AgentStatUtils.convertLongToDouble(AgentStatUtils.convertDoubleToLong(originalValue));
+  Assert.assertEquals(originalValue,convertedValue,DECIMAL_COMPARISON_DELTA);
+}

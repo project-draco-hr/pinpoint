@@ -1,0 +1,8 @@
+{
+  int result=agentId != null ? agentId.hashCode() : 0;
+  result=31 * result + (int)(timestamp ^ (timestamp >>> 32));
+  result=31 * result + (int)version;
+  result=31 * result + histogramSchemaType;
+  result=31 * result + (activeTraceCounts != null ? activeTraceCounts.hashCode() : 0);
+  return result;
+}

@@ -1,0 +1,14 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<JvmGcDetailedBo> expectedJvmGcDetailedBos=TestAgentStatFactory.createJvmGcDetailedBos(initialTimestamp);
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.jvmGcDetailedCodec.encodeValues(encodedValueBuffer,expectedJvmGcDetailedBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<JvmGcDetailedBo> actualJvmGcDetailedBos=this.jvmGcDetailedCodec.decodeValues(valueBuffer,initialTimestamp);
+  Assert.assertEquals(expectedJvmGcDetailedBos.size(),actualJvmGcDetailedBos.size());
+  for (int i=0; i < expectedJvmGcDetailedBos.size(); ++i) {
+    JvmGcDetailedBo expectedJvmGcDetailedBo=expectedJvmGcDetailedBos.get(i);
+    JvmGcDetailedBo actualJvmGcDetailedBo=actualJvmGcDetailedBos.get(i);
+    verify(expectedJvmGcDetailedBo,actualJvmGcDetailedBo);
+  }
+}

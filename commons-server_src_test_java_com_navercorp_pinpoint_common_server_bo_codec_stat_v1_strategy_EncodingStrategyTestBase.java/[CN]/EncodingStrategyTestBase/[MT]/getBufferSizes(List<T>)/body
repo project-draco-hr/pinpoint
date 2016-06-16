@@ -1,0 +1,11 @@
+{
+  Map<EncodingStrategy<T>,Integer> bufferSizes=new HashMap<>();
+  for (  EncodingStrategy<T> strategy : getEncodingStrategies()) {
+    Buffer encodedBuffer=new AutomaticBuffer();
+    codec.encodeValues(encodedBuffer,strategy,values);
+    int encodedBufferSize=encodedBuffer.getBuffer().length;
+    bufferSizes.put(strategy,encodedBufferSize);
+  }
+  logger.debug("Strategies : {}",bufferSizes);
+  return bufferSizes;
+}

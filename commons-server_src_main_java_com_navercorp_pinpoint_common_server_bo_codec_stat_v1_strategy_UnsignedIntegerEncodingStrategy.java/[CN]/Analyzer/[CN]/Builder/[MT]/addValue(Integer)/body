@@ -1,0 +1,13 @@
+{
+  int delta=value - this.previousValue;
+  if (this.values.isEmpty()) {
+    initializeByteSizes(value);
+  }
+ else {
+    updateByteSizes(value,delta);
+    this.previousDelta=delta;
+  }
+  this.previousValue=value;
+  this.values.add(value);
+  return this;
+}

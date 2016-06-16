@@ -1,0 +1,15 @@
+{
+  final int numDataPoints=100;
+  final long initialTimestamp=AGENT_STAT_TIMESPAN_MS - 1L;
+  final long expectedInitialBaseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+  final List<AgentStatDataPoint> testDataPoints=createTestDataPoints(initialTimestamp,AGENT_STAT_TIMESPAN_MS,numDataPoints);
+  List<Put> puts=this.agentStatHbaseOperationFactory.createPuts(TEST_AGENT_ID,TEST_AGENT_STAT_TYPE,testDataPoints,this.mockSerializer);
+  assertEquals(numDataPoints,puts.size());
+  for (int i=0; i < puts.size(); ++i) {
+    Put put=puts.get(i);
+    assertEquals(TEST_AGENT_ID,this.agentStatHbaseOperationFactory.getAgentId(put.getRow()));
+    assertEquals(TEST_AGENT_STAT_TYPE,this.agentStatHbaseOperationFactory.getAgentStatType(put.getRow()));
+    long expectedBaseTimestamp=expectedInitialBaseTimestamp + (i * AGENT_STAT_TIMESPAN_MS);
+    assertEquals(expectedBaseTimestamp,this.agentStatHbaseOperationFactory.getBaseTimestamp(put.getRow()));
+  }
+}

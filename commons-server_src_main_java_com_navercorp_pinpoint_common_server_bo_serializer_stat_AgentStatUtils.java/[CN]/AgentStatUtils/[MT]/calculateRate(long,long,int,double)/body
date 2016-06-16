@@ -1,0 +1,9 @@
+{
+  if (numDecimals < 0) {
+    throw new IllegalArgumentException("numDecimals must be greater than 0");
+  }
+  if (timeMs < 1) {
+    return defaultRate;
+  }
+  return new BigDecimal(count / (timeMs / 1000D)).setScale(numDecimals,BigDecimal.ROUND_HALF_UP).doubleValue();
+}

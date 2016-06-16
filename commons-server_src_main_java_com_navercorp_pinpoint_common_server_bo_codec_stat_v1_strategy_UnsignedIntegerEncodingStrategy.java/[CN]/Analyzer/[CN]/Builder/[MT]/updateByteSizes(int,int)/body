@@ -1,0 +1,14 @@
+{
+  int expectedNumBytesUsedByValue=expectedBytesVLength(value);
+  this.byteSizeValue+=expectedNumBytesUsedByValue;
+  this.byteSizeDelta+=expectedBytesVLength(value ^ this.previousValue);
+  this.byteSizeDeltaOfDelta+=expectedBytesSVLength(delta - this.previousDelta);
+  if (this.previousValue != value) {
+    this.byteSizeRepeatCount+=expectedBytesVLength(this.repeatedValueCount);
+    this.byteSizeRepeatCount+=expectedNumBytesUsedByValue;
+    this.repeatedValueCount=1;
+  }
+ else {
+    this.repeatedValueCount++;
+  }
+}

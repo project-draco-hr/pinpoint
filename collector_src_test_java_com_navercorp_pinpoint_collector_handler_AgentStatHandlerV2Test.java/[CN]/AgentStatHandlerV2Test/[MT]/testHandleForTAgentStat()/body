@@ -1,0 +1,13 @@
+{
+  final String agentId="agentId";
+  final long startTimestamp=Long.MAX_VALUE;
+  final TAgentStat agentStat=createAgentStat(agentId,startTimestamp);
+  final AgentStatBo mappedAgentStat=new AgentStatBo();
+  when(this.agentStatMapper.map(agentStat)).thenReturn(mappedAgentStat);
+  agentStatHandler.handle(agentStat);
+  verify(jvmGcDao).insert(mappedAgentStat.getAgentId(),mappedAgentStat.getJvmGcBos());
+  verify(jvmGcDetailedDao).insert(mappedAgentStat.getAgentId(),mappedAgentStat.getJvmGcDetailedBos());
+  verify(cpuLoadDao).insert(mappedAgentStat.getAgentId(),mappedAgentStat.getCpuLoadBos());
+  verify(transactionDao).insert(mappedAgentStat.getAgentId(),mappedAgentStat.getTransactionBos());
+  verify(activeTraceDao).insert(mappedAgentStat.getAgentId(),mappedAgentStat.getActiveTraceBos());
+}

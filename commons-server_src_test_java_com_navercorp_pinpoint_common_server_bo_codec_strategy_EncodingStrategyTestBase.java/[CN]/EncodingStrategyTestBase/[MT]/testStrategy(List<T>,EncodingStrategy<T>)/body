@@ -1,0 +1,7 @@
+{
+  Buffer encodeBuffer=new AutomaticBuffer();
+  strategy.encodeValues(encodeBuffer,expectedValues);
+  Buffer decodeBuffer=new FixedBuffer(encodeBuffer.getBuffer());
+  List<T> actualValues=strategy.decodeValues(decodeBuffer,expectedValues.size());
+  Assert.assertEquals(expectedValues,actualValues);
+}

@@ -1,0 +1,20 @@
+{
+  for (int i=0; i < NUM_TEST_RUNS; ++i) {
+    List<Integer> constantValues=TestAgentStatDataPointFactory.INTEGER.createConstantValues(minValue,maxValue);
+    testFor(constantValues);
+    List<Integer> randomValues=TestAgentStatDataPointFactory.INTEGER.createRandomValues(minValue,maxValue);
+    testFor(randomValues);
+    List<Integer> increasingValues1=TestAgentStatDataPointFactory.INTEGER.createIncreasingValues(minValue,maxValue,0,minValue / 10);
+    testFor(increasingValues1);
+    List<Integer> increasingValues2=TestAgentStatDataPointFactory.INTEGER.createIncreasingValues(minValue,maxValue,minValue / 10,maxValue / 10);
+    testFor(increasingValues2);
+    List<Integer> decreasingValues1=TestAgentStatDataPointFactory.INTEGER.createDecreasingValues(minValue,maxValue,0,minValue / 10);
+    testFor(decreasingValues1);
+    List<Integer> decreasingValues2=TestAgentStatDataPointFactory.INTEGER.createDecreasingValues(minValue,maxValue,minValue / 10,maxValue / 10);
+    testFor(decreasingValues2);
+    List<Integer> fluctuatingValues1=TestAgentStatDataPointFactory.INTEGER.createFluctuatingValues(minValue,maxValue,0,minValue / 10);
+    testFor(fluctuatingValues1);
+    List<Integer> fluctuatingValues2=TestAgentStatDataPointFactory.INTEGER.createFluctuatingValues(minValue,maxValue,minValue / 10,maxValue / 10);
+    testFor(fluctuatingValues2);
+  }
+}

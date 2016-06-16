@@ -1,0 +1,11 @@
+{
+  UnsignedIntegerEncodingStrategy.Analyzer.Builder builder=(UnsignedIntegerEncodingStrategy.Analyzer.Builder)analyzerBuilder;
+  int actualValueEncodedSize=bufferSizes.get(UnsignedIntegerEncodingStrategy.NONE);
+  int actualRepeatCountEncodedSize=bufferSizes.get(UnsignedIntegerEncodingStrategy.REPEAT_COUNT);
+  int actualDeltaEncodedSize=bufferSizes.get(UnsignedIntegerEncodingStrategy.DELTA);
+  int actualDeltaOfDeltaEncodedSize=bufferSizes.get(UnsignedIntegerEncodingStrategy.DELTA_OF_DELTA);
+  Assert.assertEquals(actualValueEncodedSize,builder.getByteSizeValue());
+  Assert.assertEquals(actualRepeatCountEncodedSize,builder.getByteSizeRepeatCount());
+  Assert.assertEquals(actualDeltaEncodedSize,builder.getByteSizeDelta());
+  Assert.assertEquals(actualDeltaOfDeltaEncodedSize,builder.getByteSizeDeltaOfDelta());
+}

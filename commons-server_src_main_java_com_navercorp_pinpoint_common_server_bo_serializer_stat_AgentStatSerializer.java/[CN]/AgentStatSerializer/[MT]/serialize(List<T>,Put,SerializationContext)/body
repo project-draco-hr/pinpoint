@@ -1,0 +1,8 @@
+{
+  if (agentStatBos.isEmpty()) {
+    throw new IllegalArgumentException("agentStatBos should not be empty");
+  }
+  ByteBuffer qualifierBuffer=this.encoder.encodeQualifier(agentStatBos);
+  ByteBuffer valueBuffer=this.encoder.encodeValue(agentStatBos);
+  put.addColumn(HBaseTables.AGENT_STAT_CF_STATISTICS,qualifierBuffer,HConstants.LATEST_TIMESTAMP,valueBuffer);
+}

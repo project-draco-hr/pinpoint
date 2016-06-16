@@ -1,0 +1,50 @@
+{
+  if (!tAgentStatBatch.isSetAgentStats()) {
+    return null;
+  }
+  AgentStatBo agentStatBo=new AgentStatBo();
+  final String agentId=tAgentStatBatch.getAgentId();
+  agentStatBo.setAgentId(agentId);
+  List<JvmGcBo> jvmGcBos=new ArrayList<>(tAgentStatBatch.getAgentStatsSize());
+  List<JvmGcDetailedBo> jvmGcDetailedBos=new ArrayList<>(tAgentStatBatch.getAgentStatsSize());
+  List<CpuLoadBo> cpuLoadBos=new ArrayList<>(tAgentStatBatch.getAgentStatsSize());
+  List<TransactionBo> transactionBos=new ArrayList<>(tAgentStatBatch.getAgentStatsSize());
+  List<ActiveTraceBo> activeTraceBos=new ArrayList<>(tAgentStatBatch.getAgentStatsSize());
+  for (  TAgentStat tAgentStat : tAgentStatBatch.getAgentStats()) {
+    final long timestamp=tAgentStat.getTimestamp();
+    if (tAgentStat.isSetGc()) {
+      JvmGcBo jvmGcBo=this.jvmGcBoMapper.map(tAgentStat.getGc());
+      jvmGcBo.setTimestamp(timestamp);
+      jvmGcBos.add(jvmGcBo);
+    }
+    if (tAgentStat.isSetGc()) {
+      if (tAgentStat.getGc().isSetJvmGcDetailed()) {
+        JvmGcDetailedBo jvmGcDetailedBo=this.jvmGcDetailedBoMapper.map(tAgentStat.getGc().getJvmGcDetailed());
+        jvmGcDetailedBo.setTimestamp(timestamp);
+        jvmGcDetailedBos.add(jvmGcDetailedBo);
+      }
+    }
+    if (tAgentStat.isSetCpuLoad()) {
+      CpuLoadBo cpuLoadBo=this.cpuLoadBoMapper.map(tAgentStat.getCpuLoad());
+      cpuLoadBo.setTimestamp(timestamp);
+      cpuLoadBos.add(cpuLoadBo);
+    }
+    if (tAgentStat.isSetTransaction()) {
+      TransactionBo transactionBo=this.transactionBoMapper.map(tAgentStat.getTransaction());
+      transactionBo.setTimestamp(timestamp);
+      transactionBo.setCollectInterval(tAgentStat.getCollectInterval());
+      transactionBos.add(transactionBo);
+    }
+    if (tAgentStat.isSetActiveTrace() && tAgentStat.getActiveTrace().isSetHistogram()) {
+      ActiveTraceBo activeTraceBo=this.activeTraceBoMapper.map(tAgentStat.getActiveTrace());
+      activeTraceBo.setTimestamp(timestamp);
+      activeTraceBos.add(activeTraceBo);
+    }
+  }
+  agentStatBo.setJvmGcBos(jvmGcBos);
+  agentStatBo.setJvmGcDetailedBos(jvmGcDetailedBos);
+  agentStatBo.setCpuLoadBos(cpuLoadBos);
+  agentStatBo.setTransactionBos(transactionBos);
+  agentStatBo.setActiveTraceBos(activeTraceBos);
+  return agentStatBo;
+}

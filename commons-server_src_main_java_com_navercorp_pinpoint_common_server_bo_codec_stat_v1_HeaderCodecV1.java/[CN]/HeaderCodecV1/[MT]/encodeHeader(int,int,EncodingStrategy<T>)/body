@@ -1,0 +1,12 @@
+{
+  int code=strategy.getCode();
+  if (code < 0 || code > 3) {
+    throw new IllegalArgumentException("code out of range (0~3)");
+  }
+  if (position == 0) {
+    return header | code;
+  }
+ else {
+    return header | (code << position);
+  }
+}

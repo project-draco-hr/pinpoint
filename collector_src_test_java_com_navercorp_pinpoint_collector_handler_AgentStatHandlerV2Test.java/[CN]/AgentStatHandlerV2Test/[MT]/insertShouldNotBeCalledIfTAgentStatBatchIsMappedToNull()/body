@@ -1,0 +1,14 @@
+{
+  final int numBatches=6;
+  final String agentId="agentId";
+  final long startTimestamp=Long.MAX_VALUE;
+  final TAgentStatBatch agentStatBatch=createAgentStatBatch(agentId,startTimestamp,numBatches);
+  final AgentStatBo mappedAgentStat=null;
+  when(this.agentStatBatchMapper.map(agentStatBatch)).thenReturn(mappedAgentStat);
+  agentStatHandler.handle(agentStatBatch);
+  verifyZeroInteractions(jvmGcDao);
+  verifyZeroInteractions(jvmGcDetailedDao);
+  verifyZeroInteractions(cpuLoadDao);
+  verifyZeroInteractions(transactionDao);
+  verifyZeroInteractions(activeTraceDao);
+}

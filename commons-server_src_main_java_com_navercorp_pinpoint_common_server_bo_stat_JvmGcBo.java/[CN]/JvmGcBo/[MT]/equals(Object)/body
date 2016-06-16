@@ -1,0 +1,13 @@
+{
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  JvmGcBo jvmGcBo=(JvmGcBo)o;
+  if (timestamp != jvmGcBo.timestamp)   return false;
+  if (heapUsed != jvmGcBo.heapUsed)   return false;
+  if (heapMax != jvmGcBo.heapMax)   return false;
+  if (nonHeapUsed != jvmGcBo.nonHeapUsed)   return false;
+  if (nonHeapMax != jvmGcBo.nonHeapMax)   return false;
+  if (gcOldCount != jvmGcBo.gcOldCount)   return false;
+  if (gcOldTime != jvmGcBo.gcOldTime)   return false;
+  return agentId != null ? agentId.equals(jvmGcBo.agentId) : jvmGcBo.agentId == null;
+}

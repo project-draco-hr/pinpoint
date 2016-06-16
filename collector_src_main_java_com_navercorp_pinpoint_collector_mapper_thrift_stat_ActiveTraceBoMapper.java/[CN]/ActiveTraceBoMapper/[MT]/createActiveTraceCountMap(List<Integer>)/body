@@ -1,0 +1,18 @@
+{
+  if (activeTraceCounts == null || activeTraceCounts.isEmpty()) {
+    return Collections.emptyMap();
+  }
+ else {
+    if (activeTraceCounts.size() != 4) {
+      return Collections.emptyMap();
+    }
+ else {
+      Map<SlotType,Integer> activeTraceCountMap=new HashMap<SlotType,Integer>();
+      activeTraceCountMap.put(SlotType.FAST,activeTraceCounts.get(0));
+      activeTraceCountMap.put(SlotType.NORMAL,activeTraceCounts.get(1));
+      activeTraceCountMap.put(SlotType.SLOW,activeTraceCounts.get(2));
+      activeTraceCountMap.put(SlotType.VERY_SLOW,activeTraceCounts.get(3));
+      return activeTraceCountMap;
+    }
+  }
+}
