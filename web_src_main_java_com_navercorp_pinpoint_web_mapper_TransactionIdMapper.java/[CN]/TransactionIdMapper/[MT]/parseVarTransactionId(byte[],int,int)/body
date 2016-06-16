@@ -2,7 +2,7 @@
   if (bytes == null) {
     throw new NullPointerException("bytes must not be null");
   }
-  final Buffer buffer=new OffsetFixedBuffer(bytes,offset);
+  final Buffer buffer=new OffsetFixedBuffer(bytes,offset,length);
   String agentId=buffer.readPrefixedString();
   long agentStartTime=buffer.readSVLong();
   long transactionSequence=buffer.readVLong();

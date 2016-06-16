@@ -1,0 +1,13 @@
+{
+  final int bufferSize=4;
+  byte[] byteArray=new byte[bufferSize];
+  Buffer buffer=new OffsetAutomaticBuffer(byteArray);
+  final int putValue=10;
+  buffer.putInt(putValue);
+  byte[] intBuffer=buffer.getBuffer();
+  Assert.assertSame("shallowcopy",intBuffer,byteArray);
+  Assert.assertEquals(intBuffer.length,4);
+  Buffer read=new FixedBuffer(intBuffer);
+  int value=read.readInt();
+  Assert.assertEquals(putValue,value);
+}

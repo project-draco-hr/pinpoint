@@ -1,6 +1,5 @@
 {
-  final int endOffset=offset + length;
-  final Buffer buffer=new OffsetFixedBuffer(bytes,offset);
+  final Buffer buffer=new OffsetFixedBuffer(bytes,offset,length);
   this.version=buffer.readByte();
   this.agentId=buffer.readPrefixedString();
   this.applicationId=buffer.readPrefixedString();
@@ -20,7 +19,7 @@
     this.exceptionMessage=buffer.readPrefixedString();
   }
   this.annotationBoList=readAnnotation(buffer);
-  if (buffer.getOffset() < endOffset) {
+  if (buffer.hasRemaining()) {
     nextAsyncId=buffer.readSVInt();
   }
   return buffer.getOffset();

@@ -5,9 +5,10 @@
   Cell[] rawCells=result.rawCells();
   List<TransactionId> traceIdList=new ArrayList<>(rawCells.length);
   for (  Cell cell : rawCells) {
-    byte[] qualifierArray=cell.getQualifierArray();
-    int qualifierOffset=cell.getQualifierOffset();
-    TransactionId traceId=parseVarTransactionId(qualifierArray,qualifierOffset);
+    final byte[] qualifierArray=cell.getQualifierArray();
+    final int qualifierOffset=cell.getQualifierOffset();
+    final int qualifierLength=cell.getQualifierLength();
+    TransactionId traceId=parseVarTransactionId(qualifierArray,qualifierOffset,qualifierLength);
     traceIdList.add(traceId);
     logger.debug("found traceId {}",traceId);
   }

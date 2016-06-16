@@ -1,0 +1,12 @@
+{
+  final byte[] bytes=new byte[BytesUtils.INT_BYTE_LENGTH];
+  Buffer buffer=new AutomaticBuffer(bytes);
+  Assert.assertEquals(buffer.remaining(),4);
+  Assert.assertTrue(buffer.hasRemaining());
+  buffer.putInt(1234);
+  Assert.assertEquals(buffer.remaining(),0);
+  Assert.assertFalse(buffer.hasRemaining());
+  buffer.putShort((short)12);
+  Assert.assertTrue(buffer.remaining() > 0);
+  Assert.assertTrue(buffer.hasRemaining());
+}
