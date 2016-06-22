@@ -1,8 +1,9 @@
 {
-  final byte[] spanId=Bytes.toBytes(spanBo.getSpanId());
+  final ByteBuffer spanId=ByteBuffer.wrap(Bytes.toBytes(spanBo.getSpanId()));
   final List<AnnotationBo> annotations=spanBo.getAnnotationBoList();
   if (CollectionUtils.isNotEmpty(annotations)) {
-    byte[] bytes=writeAnnotationList(annotations);
-    put.addColumn(TRACES_CF_ANNOTATION,spanId,bytes);
+    ByteBuffer bytes=writeAnnotationList(annotations);
+    final long acceptedTime=put.getTimeStamp();
+    put.addColumn(TRACES_CF_ANNOTATION,spanId,acceptedTime,bytes);
   }
 }

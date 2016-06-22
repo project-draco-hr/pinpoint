@@ -1,0 +1,12 @@
+{
+  final int size=buffer.readVInt();
+  if (size == 0) {
+    return new ArrayList<>();
+  }
+  List<AnnotationBo> annotationBoList=new ArrayList<>(size);
+  for (int i=0; i < size; i++) {
+    AnnotationBo annotation=decodeAnnotation(buffer);
+    annotationBoList.add(annotation);
+  }
+  return annotationBoList;
+}

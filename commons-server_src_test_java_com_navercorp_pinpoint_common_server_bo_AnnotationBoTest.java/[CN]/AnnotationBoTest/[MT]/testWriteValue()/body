@@ -15,4 +15,15 @@
   Assert.assertEquals(annotation.getKey(),bo2.getKey());
   Assert.assertEquals(annotation.getValueType(),bo2.getValueType());
   Assert.assertArrayEquals(annotation.getByteValue(),bo2.getByteValue());
+  buffer.setOffset(0);
+  AnnotationBo decodedAnnotation=annotationBoDecoder.decodeAnnotation(buffer);
+  Assert.assertEquals(annotation.getKey(),decodedAnnotation.getKey());
+  Assert.assertEquals(annotation.getValueType(),decodedAnnotation.getValueType());
+  Assert.assertArrayEquals(annotation.getByteValue(),decodedAnnotation.getByteValue());
+  int i=256 << 1;
+  System.out.println(i);
+  i=i << 2;
+  System.out.println(i);
+  i=i << 2;
+  System.out.println(i);
 }

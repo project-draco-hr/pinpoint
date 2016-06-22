@@ -1,0 +1,36 @@
+{
+  final Buffer buffer=new OffsetFixedBuffer(bytes,offset,length);
+  span.setVersion(buffer.readByte());
+  span.setAgentId(buffer.readPrefixedString());
+  span.setAgentStartTime(buffer.readVLong());
+  span.setParentSpanId(buffer.readLong());
+  span.setStartTime(buffer.readVLong());
+  span.setElapsed(buffer.readVInt());
+  span.setRpc(buffer.readPrefixedString());
+  span.setApplicationId(buffer.readPrefixedString());
+  span.setServiceType(buffer.readShort());
+  span.setEndPoint(buffer.readPrefixedString());
+  span.setRemoteAddr(buffer.readPrefixedString());
+  span.setApiId(buffer.readSVInt());
+  span.setErrCode(buffer.readSVInt());
+  final boolean hasException=buffer.readBoolean();
+  if (hasException) {
+    int exceptionId=buffer.readSVInt();
+    String exceptionMessage=buffer.readPrefixedString();
+    span.setExceptionInfo(exceptionId,exceptionMessage);
+  }
+  span.setFlag(buffer.readShort());
+  if (buffer.hasRemaining()) {
+    final boolean hasApplicationServiceType=buffer.readBoolean();
+    if (hasApplicationServiceType) {
+      span.setApplicationServiceType(buffer.readShort());
+    }
+  }
+  if (buffer.hasRemaining()) {
+    span.setLoggingTransactionInfo(buffer.readByte());
+  }
+  if (buffer.hasRemaining()) {
+    span.setAcceptorHost(buffer.readPrefixedString());
+  }
+  return buffer.getOffset();
+}
