@@ -3,8 +3,10 @@
     throw new NullPointerException("span must not be null");
   }
   final SpanBo spanBo=new SpanBo(span);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  spanBo.setCollectorAcceptTime(acceptedTime);
   final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
-  final Put put=new Put(rowKey);
+  final Put put=new Put(rowKey,acceptedTime);
   this.spanSerializer.serialize(spanBo,put,null);
   this.annotationSerializer.serialize(spanBo,put,null);
   addNestedSpanEvent(put,span);

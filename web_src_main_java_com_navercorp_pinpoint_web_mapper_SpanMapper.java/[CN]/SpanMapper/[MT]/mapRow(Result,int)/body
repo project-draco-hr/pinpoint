@@ -16,7 +16,7 @@
       spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
       spanBo.setCollectorAcceptTime(cell.getTimestamp());
       spanBo.setSpanID(Bytes.toLong(cell.getQualifierArray(),cell.getQualifierOffset()));
-      spanBo.readValue(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
+      readSpan(spanBo,cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
       if (logger.isDebugEnabled()) {
         logger.debug("read span :{}",spanBo);
       }
@@ -28,25 +28,22 @@
       spanEventBo.setTraceAgentId(transactionId.getAgentId());
       spanEventBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
       spanEventBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
-      int offset=0;
-      long spanId=Bytes.toLong(cell.getQualifierArray(),cell.getQualifierOffset());
-      offset+=Bytes.SIZEOF_LONG;
-      short sequence=Bytes.toShort(cell.getQualifierArray(),cell.getQualifierOffset() + offset);
+      final Buffer qualifier=new OffsetFixedBuffer(cell.getQualifierArray(),cell.getQualifierOffset(),cell.getQualifierLength());
+      long spanId=qualifier.readLong();
+      short sequence=qualifier.readShort();
       int asyncId=-1;
-      offset+=Bytes.SIZEOF_SHORT;
-      if (cell.getQualifierLength() > offset) {
-        asyncId=Bytes.toInt(cell.getQualifierArray(),cell.getQualifierOffset() + offset);
+      if (qualifier.hasRemaining()) {
+        asyncId=qualifier.readInt();
       }
       short asyncSequence=-1;
-      offset+=Bytes.SIZEOF_INT;
-      if (cell.getQualifierLength() > offset) {
-        asyncSequence=Bytes.toShort(cell.getQualifierArray(),cell.getQualifierOffset() + offset);
+      if (qualifier.hasRemaining()) {
+        asyncSequence=qualifier.readShort();
       }
       spanEventBo.setSpanId(spanId);
       spanEventBo.setSequence(sequence);
       spanEventBo.setAsyncId(asyncId);
       spanEventBo.setAsyncSequence(asyncSequence);
-      spanEventBo.readValue(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
+      readSpanEvent(spanEventBo,cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
       if (logger.isDebugEnabled()) {
         logger.debug("read spanEvent :{}",spanEventBo);
       }
