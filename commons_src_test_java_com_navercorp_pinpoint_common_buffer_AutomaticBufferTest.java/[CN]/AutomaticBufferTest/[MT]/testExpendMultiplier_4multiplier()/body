@@ -1,0 +1,10 @@
+{
+  int bufferSize=4;
+  Buffer buffer=new AutomaticBuffer(bufferSize);
+  buffer.putBytes(new byte[5 * 4]);
+  logger.debug("bufferSize:{} offset:{}",buffer.getInternalBuffer().length,buffer.getOffset());
+  Assert.assertEquals(buffer.getInternalBuffer().length,32);
+  buffer.putBytes(new byte[8 * 4]);
+  logger.debug("bufferSize:{} offset:{}",buffer.getInternalBuffer().length,buffer.getOffset());
+  Assert.assertEquals(buffer.getInternalBuffer().length,64);
+}
