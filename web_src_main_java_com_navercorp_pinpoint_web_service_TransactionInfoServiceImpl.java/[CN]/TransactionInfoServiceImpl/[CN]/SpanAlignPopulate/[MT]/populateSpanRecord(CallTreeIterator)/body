@@ -11,6 +11,16 @@
       throw new IllegalStateException("CallTree corrupted");
     }
     final SpanAlign align=node.getValue();
+    if (metaDataFilter != null && metaDataFilter.filter(align,MetaData.API)) {
+      if (align.isSpan()) {
+        Record record=metaDataFilter.createRecord(node,factory);
+        recordList.add(record);
+      }
+      continue;
+    }
+    if (metaDataFilter != null && metaDataFilter.filter(align,MetaData.PARAM)) {
+      metaDataFilter.replaceAnnotationBo(align,MetaData.PARAM);
+    }
     final String argument=getArgument(align);
     final Record record=factory.get(node,argument);
     recordList.add(record);

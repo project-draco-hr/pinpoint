@@ -33,6 +33,9 @@
         final LinkDataMap targetLinkDataMap=linkDataDuplexMap.getTargetLinkDataMap();
         targetLinkDataMap.addLinkData(parentApplication,span.getAgentId(),spanApplication,span.getAgentId(),timestamp,slotTime,1);
       }
+      if (serverMapDataFilter != null && serverMapDataFilter.filter(spanApplication)) {
+        continue;
+      }
       addNodeFromSpanEvent(span,window,linkDataDuplexMap,transactionSpanMap);
     }
   }

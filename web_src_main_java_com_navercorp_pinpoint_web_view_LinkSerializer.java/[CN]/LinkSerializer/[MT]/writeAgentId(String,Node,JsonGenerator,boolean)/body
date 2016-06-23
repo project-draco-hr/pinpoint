@@ -1,0 +1,18 @@
+{
+  if (node.getServiceType().isWas()) {
+    jgen.writeFieldName(fieldName);
+    jgen.writeStartArray();
+    if (isAuthorized) {
+      ServerInstanceList serverInstanceList=node.getServerInstanceList();
+      if (serverInstanceList != null) {
+        for (        String agentId : serverInstanceList.getAgentIdList()) {
+          jgen.writeObject(agentId);
+        }
+      }
+    }
+ else {
+      jgen.writeString("UNKNOWN_AGENT");
+    }
+    jgen.writeEndArray();
+  }
+}

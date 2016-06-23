@@ -1,0 +1,12 @@
+{
+  AgentResponseTimeViewModelList sourceAgentTimeSeriesHistogram=link.getSourceAgentTimeSeriesHistogram();
+  sourceAgentTimeSeriesHistogram.setFieldName("sourceTimeSeriesHistogram");
+  if (isAuthorized) {
+    jgen.writeObject(sourceAgentTimeSeriesHistogram);
+  }
+ else {
+    jgen.writeFieldName("sourceTimeSeriesHistogram");
+    jgen.writeStartObject();
+    jgen.writeEndObject();
+  }
+}

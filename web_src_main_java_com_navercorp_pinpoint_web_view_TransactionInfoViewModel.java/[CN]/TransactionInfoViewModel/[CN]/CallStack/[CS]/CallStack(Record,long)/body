@@ -25,22 +25,5 @@
   agent=record.getAgent();
   isFocused=record.isFocused();
   hasException=record.getHasException();
-  logButtonName=record.getLogButtonName();
-  if (record.getLogPageUrl() != null && record.getLogPageUrl().length() > 0) {
-    try {
-      URL url=new URL(record.getLogPageUrl());
-      StringBuilder sb=new StringBuilder();
-      sb.append("transactionId=").append(record.getTransactionId());
-      sb.append("&spanId=").append(record.getSpanId());
-      sb.append("&time=").append(record.getBegin());
-      if (url.getQuery() != null) {
-        logPageUrl=record.getLogPageUrl() + "&" + sb.toString();
-      }
- else {
-        logPageUrl=record.getLogPageUrl() + "?" + sb.toString();
-      }
-    }
- catch (    MalformedURLException ignored) {
-    }
-  }
+  isAuthorized=record.isAuthorized();
 }

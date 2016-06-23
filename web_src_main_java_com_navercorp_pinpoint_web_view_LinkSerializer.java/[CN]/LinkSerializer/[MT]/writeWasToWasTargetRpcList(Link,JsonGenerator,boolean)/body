@@ -1,0 +1,18 @@
+{
+  jgen.writeFieldName("filterTargetRpcList");
+  jgen.writeStartArray();
+  if (isAuthorized) {
+    Collection<Application> sourceLinkTargetAgentList=link.getSourceLinkTargetAgentList();
+    for (    Application application : sourceLinkTargetAgentList) {
+      jgen.writeStartObject();
+      jgen.writeStringField("rpc",application.getName());
+      if (check(application)) {
+        jgen.writeNumberField("rpcServiceTypeCode",application.getServiceTypeCode());
+      }
+ else {
+      }
+      jgen.writeEndObject();
+    }
+  }
+  jgen.writeEndArray();
+}

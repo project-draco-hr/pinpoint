@@ -1,0 +1,16 @@
+{
+  jgen.writeFieldName(fieldName);
+  jgen.writeStartObject();
+  Application application=node.getApplication();
+  jgen.writeStringField("applicationName",application.getName());
+  if (isAuthorized) {
+    jgen.writeStringField("serviceType",application.getServiceType().toString());
+    jgen.writeNumberField("serviceTypeCode",application.getServiceTypeCode());
+  }
+ else {
+    jgen.writeStringField("serviceType",ServiceType.UNAUTHORIZED.toString());
+    jgen.writeNumberField("serviceTypeCode",ServiceType.UNAUTHORIZED.getCode());
+  }
+  jgen.writeBooleanField("isWas",application.getServiceType().isWas());
+  jgen.writeEndObject();
+}

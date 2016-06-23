@@ -5,6 +5,11 @@
       if (sqlIdAnnotation == null) {
         return;
       }
+      if (metaDataFilter != null && metaDataFilter.filter(spanAlign,MetaData.SQL)) {
+        AnnotationBo annotationBo=metaDataFilter.createAnnotationBo(spanAlign,MetaData.SQL);
+        annotationBoList.add(annotationBo);
+        return;
+      }
       final AgentKey agentKey=getAgentKey(spanAlign);
       final IntStringStringValue sqlValue=(IntStringStringValue)sqlIdAnnotation.getValue();
       final int hashCode=sqlValue.getIntValue();

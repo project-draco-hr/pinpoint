@@ -8,7 +8,7 @@
   logger.debug("SelectApplicationMap");
   StopWatch watch=new StopWatch("ApplicationMap");
   watch.start("ApplicationMap Hbase Io Fetch(Caller,Callee) Time");
-  LinkSelector linkSelector=new BFSLinkSelector(this.mapStatisticsCallerDao,this.mapStatisticsCalleeDao,hostApplicationMapDao);
+  LinkSelector linkSelector=new BFSLinkSelector(this.mapStatisticsCallerDao,this.mapStatisticsCalleeDao,hostApplicationMapDao,serverMapDataFilter);
   LinkDataDuplexMap linkDataDuplexMap=linkSelector.select(sourceApplication,range,searchOption);
   watch.stop();
   watch.start("ApplicationMap MapBuilding(Response) Time");

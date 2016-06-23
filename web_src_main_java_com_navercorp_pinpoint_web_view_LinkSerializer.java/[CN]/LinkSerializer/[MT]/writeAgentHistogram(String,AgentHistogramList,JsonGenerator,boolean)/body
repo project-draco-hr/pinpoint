@@ -1,0 +1,19 @@
+{
+  jgen.writeFieldName(fieldName);
+  jgen.writeStartObject();
+  if (isAuthorized) {
+    for (    AgentHistogram agentHistogram : agentHistogramList.getAgentHistogramList()) {
+      jgen.writeFieldName(agentHistogram.getId());
+      jgen.writeObject(agentHistogram.getHistogram());
+    }
+  }
+ else {
+    AgentHistogram mergeHistogram=new AgentHistogram(new Application("UNKONWN_AGENT",ServiceType.UNAUTHORIZED));
+    for (    AgentHistogram agentHistogram : agentHistogramList.getAgentHistogramList()) {
+      mergeHistogram.addTimeHistogram(agentHistogram.getTimeHistogram());
+    }
+    jgen.writeFieldName(mergeHistogram.getId());
+    jgen.writeObject(mergeHistogram.getHistogram());
+  }
+  jgen.writeEndObject();
+}

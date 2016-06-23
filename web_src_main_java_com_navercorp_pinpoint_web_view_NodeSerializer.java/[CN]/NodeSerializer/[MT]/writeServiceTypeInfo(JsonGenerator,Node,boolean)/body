@@ -1,0 +1,14 @@
+{
+  if (isAuthorized) {
+    jgen.writeStringField("category",node.getServiceType().toString());
+    jgen.writeStringField("serviceType",node.getServiceType().toString());
+    jgen.writeStringField("serviceTypeCode",Short.toString(node.getServiceType().getCode()));
+  }
+ else {
+    jgen.writeStringField("category",ServiceType.UNAUTHORIZED.toString());
+    jgen.writeStringField("serviceType",ServiceType.UNAUTHORIZED.toString());
+    jgen.writeStringField("serviceTypeCode",Short.toString(ServiceType.UNAUTHORIZED.getCode()));
+  }
+  jgen.writeBooleanField("isWas",node.getServiceType().isWas());
+  jgen.writeBooleanField("isQueue",node.getServiceType().isQueue());
+}
