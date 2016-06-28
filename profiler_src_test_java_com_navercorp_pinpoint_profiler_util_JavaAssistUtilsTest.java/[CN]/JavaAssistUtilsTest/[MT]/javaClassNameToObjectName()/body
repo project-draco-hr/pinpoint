@@ -1,0 +1,32 @@
+{
+  Assert.assertEquals("boolean",JavaAssistUtils.javaClassNameToObjectName(boolean.class.getName()));
+  Assert.assertEquals("byte",JavaAssistUtils.javaClassNameToObjectName(byte.class.getName()));
+  Assert.assertEquals("char",JavaAssistUtils.javaClassNameToObjectName(char.class.getName()));
+  Assert.assertEquals("double",JavaAssistUtils.javaClassNameToObjectName(double.class.getName()));
+  Assert.assertEquals("float",JavaAssistUtils.javaClassNameToObjectName(float.class.getName()));
+  Assert.assertEquals("int",JavaAssistUtils.javaClassNameToObjectName(int.class.getName()));
+  Assert.assertEquals("short",JavaAssistUtils.javaClassNameToObjectName(short.class.getName()));
+  Assert.assertEquals("java.lang.Integer",JavaAssistUtils.javaClassNameToObjectName(Integer.class.getName()));
+  Assert.assertEquals("java.lang.String",JavaAssistUtils.javaClassNameToObjectName(String.class.getName()));
+  Assert.assertEquals("java.util.List",JavaAssistUtils.javaClassNameToObjectName(List.class.getName()));
+  Assert.assertEquals("java.util.ArrayList",JavaAssistUtils.javaClassNameToObjectName(new ArrayList<Integer>().getClass().getName()));
+  Assert.assertEquals("boolean[]",JavaAssistUtils.javaClassNameToObjectName(boolean[].class.getName()));
+  Assert.assertEquals("byte[]",JavaAssistUtils.javaClassNameToObjectName(byte[].class.getName()));
+  Assert.assertEquals("java.lang.String[]",JavaAssistUtils.javaClassNameToObjectName(String[].class.getName()));
+  Assert.assertEquals(this.getClass().getName() + "$1",JavaAssistUtils.javaClassNameToObjectName(new Comparable<Long>(){
+    @Override public int compareTo(    Long o){
+      return 0;
+    }
+  }
+.getClass().getName()));
+class SomeComparable implements Comparable<Long> {
+    @Override public int compareTo(    Long o){
+      return 0;
+    }
+  }
+  SomeComparable inner=new SomeComparable();
+  Assert.assertEquals(this.getClass().getName() + "$1SomeComparable",JavaAssistUtils.javaClassNameToObjectName(inner.getClass().getName()));
+  Assert.assertEquals(this.getClass().getName() + "$1SomeComparable[]",JavaAssistUtils.javaClassNameToObjectName(new SomeComparable[]{inner}.getClass().getName()));
+  Assert.assertEquals("java.util.Map$Entry",JavaAssistUtils.javaClassNameToObjectName(Map.Entry.class.getName()));
+  Assert.assertEquals("java.util.Map$Entry[]",JavaAssistUtils.javaClassNameToObjectName(Map.Entry[].class.getName()));
+}

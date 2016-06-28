@@ -3,7 +3,8 @@
     Class<?> getterType=pluginContext.injectClass(classLoader,getterTypeName);
     GetterDetails getterDetails=new GetterAnalyzer().analyze(getterType);
     CtField field=ctClass.getField(fieldName);
-    if (!field.getType().getName().equals(getterDetails.getFieldType().getName())) {
+    String fieldTypeName=JavaAssistUtils.javaClassNameToObjectName(getterDetails.getFieldType().getName());
+    if (!field.getType().getName().equals(fieldTypeName)) {
       throw new IllegalArgumentException("Return type of the getter is different with the field type. getterMethod: " + getterDetails.getGetter() + ", fieldType: "+ field.getType().getName());
     }
     CtMethod getterMethod=CtNewMethod.getter(getterDetails.getGetter().getName(),field);

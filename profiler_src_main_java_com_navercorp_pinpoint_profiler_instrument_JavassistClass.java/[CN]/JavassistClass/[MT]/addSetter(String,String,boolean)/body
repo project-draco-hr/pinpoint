@@ -3,7 +3,8 @@
     Class<?> setterType=pluginContext.injectClass(classLoader,setterTypeName);
     SetterDetails setterDetails=new SetterAnalyzer().analyze(setterType);
     CtField field=ctClass.getField(fieldName);
-    if (!field.getType().getName().equals(setterDetails.getFieldType().getName())) {
+    String fieldTypeName=JavaAssistUtils.javaClassNameToObjectName(setterDetails.getFieldType().getName());
+    if (!field.getType().getName().equals(fieldTypeName)) {
       throw new IllegalArgumentException("Argument type of the setter is different with the field type. setterMethod: " + setterDetails.getSetter() + ", fieldType: "+ field.getType().getName());
     }
     final int originalModifiers=field.getModifiers();

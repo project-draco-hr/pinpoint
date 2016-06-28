@@ -1,0 +1,44 @@
+{
+  final TestClassLoader loader=getTestClassLoader();
+  final String targetClassName="com.navercorp.pinpoint.profiler.interceptor.bci.TestObject4";
+  loader.addTransformer(targetClassName,new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      try {
+        logger.info("modify cl:{}",classLoader);
+        InstrumentClass testClass=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
+        testClass.addSetter(IntSetter.class.getName(),"intValue");
+        testClass.addSetter(IntArraySetter.class.getName(),"intValues");
+        testClass.addSetter(IntegerArraySetter.class.getName(),"integerValues");
+        return testClass.toBytecode();
+      }
+ catch (      InstrumentException e) {
+        throw new RuntimeException(e.getMessage(),e);
+      }
+    }
+  }
+);
+  loader.initialize();
+  Object testObject=loader.loadClass(targetClassName).newInstance();
+  Class<?> intSetter=loader.loadClass(IntSetter.class.getName());
+  Class<?> intsSetter=loader.loadClass(IntArraySetter.class.getName());
+  Class<?> integersSetter=loader.loadClass(IntegerArraySetter.class.getName());
+  Assert.assertTrue(intSetter.isInstance(testObject));
+  Assert.assertTrue(intsSetter.isInstance(testObject));
+  Assert.assertTrue(integersSetter.isInstance(testObject));
+  int intValue=99;
+  int[] intValues={99,100};
+  Integer[] integerValues={99,100};
+  Method setInt=intSetter.getMethod("_$PINPOINT$_setInt",int.class);
+  setInt.invoke(testObject,intValue);
+  Method getInt=testObject.getClass().getMethod("getIntValue");
+  Assert.assertEquals(intValue,getInt.invoke(testObject));
+  Method setInts=intsSetter.getMethod("_$PINPOINT$_setIntArray",int[].class);
+  setInts.invoke(testObject,intValues);
+  Method getInts=testObject.getClass().getMethod("getIntValues");
+  Assert.assertEquals(intValues,getInts.invoke(testObject));
+  Method setIntegers=integersSetter.getMethod("_$PINPOINT$_setIntegerArray",Integer[].class);
+  Object[] wrappedIntegerValues=new Object[]{integerValues};
+  setIntegers.invoke(testObject,wrappedIntegerValues);
+  Method getIntegers=testObject.getClass().getMethod("getIntegerValues");
+  Assert.assertEquals(integerValues,getIntegers.invoke(testObject));
+}

@@ -8,6 +8,8 @@
         InstrumentClass aClass=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
         aClass.addGetter(StringGetter.class.getName(),"value");
         aClass.addGetter(IntGetter.class.getName(),"intValue");
+        aClass.addGetter(IntArrayGetter.class.getName(),"intValues");
+        aClass.addGetter(IntegerArrayGetter.class.getName(),"integerValues");
         return aClass.toBytecode();
       }
  catch (      InstrumentException e) {
@@ -20,10 +22,16 @@
   Object testObject=loader.loadClass(targetClassName).newInstance();
   Class<?> stringGetter=loader.loadClass(StringGetter.class.getName());
   Class<?> intGetter=loader.loadClass(IntGetter.class.getName());
+  Class<?> intsGetter=loader.loadClass(IntArrayGetter.class.getName());
+  Class<?> integersGetter=loader.loadClass(IntegerArrayGetter.class.getName());
   Assert.assertTrue(stringGetter.isInstance(testObject));
   Assert.assertTrue(intGetter.isInstance(testObject));
+  Assert.assertTrue(intsGetter.isInstance(testObject));
+  Assert.assertTrue(integersGetter.isInstance(testObject));
   String value="hehe";
   int intValue=99;
+  int[] intValues={99,100};
+  Integer[] integerValues={99,100};
   Method method=testObject.getClass().getMethod("setValue",String.class);
   method.invoke(testObject,value);
   Method getString=stringGetter.getMethod("_$PINPOINT$_getString");
@@ -32,4 +40,13 @@
   setIntValue.invoke(testObject,intValue);
   Method getInt=intGetter.getMethod("_$PINPOINT$_getInt");
   Assert.assertEquals(intValue,getInt.invoke(testObject));
+  Method setIntValues=testObject.getClass().getMethod("setIntValues",int[].class);
+  setIntValues.invoke(testObject,intValues);
+  Method getIntValues=intsGetter.getMethod("_$PINPOINT$_getIntArray");
+  Assert.assertEquals(intValues,getIntValues.invoke(testObject));
+  Method setIntegerValues=testObject.getClass().getMethod("setIntegerValues",Integer[].class);
+  Object[] wrappedIntegerValues=new Object[]{integerValues};
+  setIntegerValues.invoke(testObject,wrappedIntegerValues);
+  Method getIntegerValues=integersGetter.getMethod("_$PINPOINT$_getIntegerArray");
+  Assert.assertEquals(integerValues,getIntegerValues.invoke(testObject));
 }
