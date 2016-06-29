@@ -8,6 +8,8 @@
         InstrumentClass aClass=instrumentor.getInstrumentClass(loader,javassistClassName,classfileBuffer);
         aClass.addField(ObjectTraceValue.class.getName());
         aClass.addField(IntTraceValue.class.getName());
+        aClass.addField(IntArrayTraceValue.class.getName());
+        aClass.addField(IntegerArrayTraceValue.class.getName());
         aClass.addField(DatabaseInfoTraceValue.class.getName());
         aClass.addField(BindValueTraceValue.class.getName());
         String methodName="callA";
@@ -38,6 +40,19 @@
   intTraceValue.getMethod("_$PINPOINT$_setTraceInt",int.class).invoke(testObject,1);
   int a=(Integer)intTraceValue.getMethod("_$PINPOINT$_getTraceInt").invoke(testObject);
   Assert.assertEquals(1,a);
+  Class<?> intArrayTraceValue=loader.loadClass(IntArrayTraceValue.class.getName());
+  Assert.assertTrue("IntArrayTraceValue implements fail",intArrayTraceValue.isInstance(testObject));
+  int[] expectedInts={1,2,3};
+  intArrayTraceValue.getMethod("_$PINPOINT$_setTraceIntArray",int[].class).invoke(testObject,expectedInts);
+  int[] ints=(int[])intArrayTraceValue.getMethod("_$PINPOINT$_getTraceIntArray").invoke(testObject);
+  Assert.assertEquals(expectedInts,ints);
+  Class<?> integerArrayTraceValue=loader.loadClass(IntegerArrayTraceValue.class.getName());
+  Assert.assertTrue("IntegerArrayTraceValue implements fail",integerArrayTraceValue.isInstance(testObject));
+  Integer[] expectedIntegers={1,2};
+  Object[] wrappedExpectedIntegers=new Object[]{expectedIntegers};
+  integerArrayTraceValue.getMethod("_$PINPOINT$_setTraceIntegerArray",Integer[].class).invoke(testObject,wrappedExpectedIntegers);
+  Integer[] integers=(Integer[])integerArrayTraceValue.getMethod("_$PINPOINT$_getTraceIntegerArray").invoke(testObject);
+  Assert.assertArrayEquals(expectedIntegers,integers);
   Class<?> databaseTraceValue=loader.loadClass(DatabaseInfoTraceValue.class.getName());
   Assert.assertTrue("DatabaseInfoTraceValue implements fail",databaseTraceValue.isInstance(testObject));
   databaseTraceValue.getMethod("_$PINPOINT$_setTraceDatabaseInfo",DatabaseInfo.class).invoke(testObject,UnKnownDatabaseInfo.INSTANCE);
