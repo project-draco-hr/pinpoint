@@ -1,0 +1,12 @@
+{
+  if (StringUtils.isEmpty(userGroupId) && StringUtils.isEmpty(applicationId)) {
+    Map<String,String> result=new HashMap<>();
+    result.put("errorCode","500");
+    result.put("errorMessage","there is not userGroupId or applicationID to get alarm rule");
+    return result;
+  }
+  if (!StringUtils.isEmpty(userGroupId)) {
+    return alarmService.selectRuleByUserGroupId(userGroupId);
+  }
+  return alarmService.selectRuleByApplicationId(applicationId);
+}
