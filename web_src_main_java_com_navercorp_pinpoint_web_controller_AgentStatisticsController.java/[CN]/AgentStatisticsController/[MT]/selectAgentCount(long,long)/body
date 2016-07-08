@@ -1,0 +1,18 @@
+{
+  Range range=new Range(DateUtils.timestampToMidNight(from),DateUtils.timestampToMidNight(to),true);
+  List<AgentCountStatistics> agentCountStatisticsList=agentStatisticsService.selectAgentCount(range);
+  Collections.sort(agentCountStatisticsList,new Comparator<AgentCountStatistics>(){
+    @Override public int compare(    AgentCountStatistics o1,    AgentCountStatistics o2){
+      o1.getTimestamp();
+      o2.getTimestamp();
+      if (o1.getTimestamp() > o2.getTimestamp()) {
+        return -1;
+      }
+ else {
+        return 1;
+      }
+    }
+  }
+);
+  return agentCountStatisticsList;
+}

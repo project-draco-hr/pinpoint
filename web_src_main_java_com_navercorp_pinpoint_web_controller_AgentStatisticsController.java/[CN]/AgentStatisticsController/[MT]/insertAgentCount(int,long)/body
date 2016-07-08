@@ -1,0 +1,21 @@
+{
+  if (timestamp < 0) {
+    Map<String,String> result=new HashMap<>();
+    result.put("result","FAIL");
+    result.put("message","negative timestamp.");
+    return result;
+  }
+  AgentCountStatistics agentCountStatistics=new AgentCountStatistics(agentCount,DateUtils.timestampToMidNight(timestamp));
+  boolean success=agentStatisticsService.insertAgentCount(agentCountStatistics);
+  if (success) {
+    Map<String,String> result=new HashMap<>();
+    result.put("result","SUCCESS");
+    return result;
+  }
+ else {
+    Map<String,String> result=new HashMap<>();
+    result.put("result","FAIL");
+    result.put("message","insert DAO error.");
+    return result;
+  }
+}

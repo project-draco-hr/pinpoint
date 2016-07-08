@@ -1,0 +1,15 @@
+{
+  if (items.size() == 1) {
+    AgentCountStatistics agentCountStatistics=items.get(0);
+    if (agentCountStatistics == null || agentCountStatistics.getAgentCount() < 0) {
+      throw new JobExecutionException("Bad parameter");
+    }
+    boolean success=agentStatisticsDao.insertAgentCount(agentCountStatistics);
+    if (!success) {
+      throw new JobExecutionException("insert AgentCount failed.");
+    }
+  }
+ else {
+    throw new JobExecutionException("Bad parameter");
+  }
+}
