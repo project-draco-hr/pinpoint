@@ -1,6 +1,9 @@
 {
+  if (startLatch != null) {
+    startLatch.countDown();
+  }
   try {
-    latch.await();
+    endLatch.await();
   }
  catch (  InterruptedException e) {
   }
