@@ -1,0 +1,20 @@
+{
+  if (StringUtils.isEmpty(userGroup.getId())) {
+    Map<String,String> result=new HashMap<>();
+    result.put("errorCode","500");
+    result.put("errorMessage","There is not id of userGroup in params to create user group");
+    return result;
+  }
+  String userGroupNumber=userGroupService.createUserGroup(userGroup);
+  if (webProperties.isOpenSource() == false) {
+    if (initUserGroup(userGroup) == false) {
+      Map<String,String> result=new HashMap<>();
+      result.put("errorCode","500");
+      result.put("errorMessage","There is not userId or fail to create userGroup.");
+      return result;
+    }
+  }
+  Map<String,String> result=new HashMap<>();
+  result.put("number",userGroupNumber);
+  return result;
+}

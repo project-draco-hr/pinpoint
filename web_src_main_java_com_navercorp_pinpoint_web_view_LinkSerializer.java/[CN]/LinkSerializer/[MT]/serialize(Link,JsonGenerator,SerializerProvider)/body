@@ -2,9 +2,9 @@
   final boolean isAuthFromApp=check(link.getFrom().getApplication());
   final boolean isAuthToApp=check(link.getTo().getApplication());
   jgen.writeStartObject();
-  jgen.writeStringField("key",link.getLinkName(isAuthFromApp,isAuthToApp));
-  jgen.writeStringField("from",link.getFrom().getNodeName(isAuthFromApp));
-  jgen.writeStringField("to",link.getTo().getNodeName(isAuthToApp));
+  jgen.writeStringField("key",link.getLinkName());
+  jgen.writeStringField("from",link.getFrom().getNodeName());
+  jgen.writeStringField("to",link.getTo().getNodeName());
   writeAgentId("fromAgent",link.getFrom(),jgen,isAuthFromApp);
   writeAgentId("toAgent",link.getTo(),jgen,isAuthToApp);
   writeSimpleNode("sourceInfo",link.getFrom(),jgen,isAuthFromApp);
