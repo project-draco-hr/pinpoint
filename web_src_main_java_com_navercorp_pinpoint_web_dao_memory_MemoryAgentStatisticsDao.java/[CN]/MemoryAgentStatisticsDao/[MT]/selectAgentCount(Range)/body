@@ -1,0 +1,18 @@
+{
+  Long to=range.getTo();
+  long from=range.getFrom();
+  List<AgentCountStatistics> result=new ArrayList<>();
+  Iterator<Map.Entry<Long,Integer>> iterator=agentCountPerTime.entrySet().iterator();
+  while (iterator.hasNext()) {
+    Map.Entry<Long,Integer> next=iterator.next();
+    Long key=next.getKey();
+    if (key > to) {
+      continue;
+    }
+    if (key < from) {
+      break;
+    }
+    result.add(new AgentCountStatistics(next.getValue(),key));
+  }
+  return result;
+}
