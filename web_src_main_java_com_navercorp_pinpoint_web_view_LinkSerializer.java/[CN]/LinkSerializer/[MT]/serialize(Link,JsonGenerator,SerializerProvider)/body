@@ -1,27 +1,28 @@
 {
-  final boolean isAuthFromApp=check(link.getFrom().getApplication());
-  final boolean isAuthToApp=check(link.getTo().getApplication());
   jgen.writeStartObject();
   jgen.writeStringField("key",link.getLinkName());
   jgen.writeStringField("from",link.getFrom().getNodeName());
   jgen.writeStringField("to",link.getTo().getNodeName());
-  writeAgentId("fromAgent",link.getFrom(),jgen,isAuthFromApp);
-  writeAgentId("toAgent",link.getTo(),jgen,isAuthToApp);
-  writeSimpleNode("sourceInfo",link.getFrom(),jgen,isAuthFromApp);
-  writeSimpleNode("targetInfo",link.getTo(),jgen,isAuthToApp);
-  writeFilterApplicationInfo(link,jgen);
+  writeAgentId("fromAgent",link.getFrom(),jgen);
+  writeAgentId("toAgent",link.getTo(),jgen);
+  writeSimpleNode("sourceInfo",link.getFrom(),jgen);
+  writeSimpleNode("targetInfo",link.getTo(),jgen);
+  Application filterApplication=link.getFilterApplication();
+  jgen.writeStringField("filterApplicationName",filterApplication.getName());
+  jgen.writeNumberField("filterApplicationServiceTypeCode",filterApplication.getServiceTypeCode());
+  jgen.writeStringField("filterApplicationServiceTypeName",filterApplication.getServiceType().getName());
   if (link.isWasToWasLink()) {
-    writeWasToWasTargetRpcList(link,jgen,isAuthToApp);
+    writeWasToWasTargetRpcList(link,jgen);
   }
   Histogram histogram=link.getHistogram();
   jgen.writeNumberField("totalCount",histogram.getTotalCount());
   jgen.writeNumberField("errorCount",histogram.getTotalErrorCount());
   jgen.writeNumberField("slowCount",histogram.getSlowCount());
   jgen.writeObjectField("histogram",histogram);
-  writeAgentHistogram("sourceHistogram",link.getSourceList(),jgen,isAuthFromApp);
-  writeAgentHistogram("targetHistogram",link.getTargetList(),jgen,isAuthToApp);
+  writeAgentHistogram("sourceHistogram",link.getSourceList(),jgen);
+  writeAgentHistogram("targetHistogram",link.getTargetList(),jgen);
   writeTimeSeriesHistogram(link,jgen);
-  writeSourceAgentTimeSeriesHistogram(link,jgen,isAuthFromApp);
+  writeSourceAgentTimeSeriesHistogram(link,jgen);
   jgen.writeBooleanField("hasAlert",link.getLinkAlert());
   jgen.writeEndObject();
 }
