@@ -1,0 +1,20 @@
+{
+  final Buffer buffer=new AutomaticBuffer(128);
+  buffer.putByte(type);
+  buffer.putPrefixedString(applicationId);
+  buffer.putPrefixedString(agentId);
+  buffer.putVLong(agentStartTime);
+  buffer.putLong(spanId);
+  if (firstEvent != null) {
+    buffer.putSVInt(firstEvent.getSequence());
+    final byte bitField=SpanEventQualifierBitField.buildBitField(firstEvent);
+    buffer.putByte(bitField);
+    if (SpanEventQualifierBitField.isSetAsync(bitField)) {
+      buffer.putInt(firstEvent.getAsyncId());
+      buffer.putVInt(firstEvent.getAsyncSequence());
+    }
+  }
+ else {
+  }
+  return buffer.wrapByteBuffer();
+}

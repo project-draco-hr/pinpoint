@@ -30,7 +30,7 @@
   if (spanEvent.isSetNextSpanId()) {
     this.nextSpanId=spanEvent.getNextSpanId();
   }
-  setAnnotationList(spanEvent.getAnnotations());
+  this.annotationBoList=buildAnnotationList(spanEvent.getAnnotations());
   final TIntStringValue exceptionInfo=spanEvent.getExceptionInfo();
   if (exceptionInfo != null) {
     this.hasException=true;

@@ -1,0 +1,35 @@
+{
+  if (spanEventBo == null) {
+    throw new NullPointerException("spanEventBo must not be null");
+  }
+  if (prevSpanEventBo == null) {
+    throw new NullPointerException("prevSpanEventBo must not be null");
+  }
+  final SpanEventBitField bitFiled=buildFirst(spanEventBo);
+  if (spanEventBo.getStartElapsed() == prevSpanEventBo.getStartElapsed()) {
+    bitFiled.setStartElapsedEncodingStrategy(StartElapsedTimeEncodingStrategy.PREV_EQUALS);
+  }
+ else {
+    bitFiled.setStartElapsedEncodingStrategy(StartElapsedTimeEncodingStrategy.PREV_DELTA);
+  }
+  final short sequenceDelta=(short)(spanEventBo.getSequence() - prevSpanEventBo.getSequence());
+  if (sequenceDelta == 1) {
+    bitFiled.setSequenceEncodingStrategy(SequenceEncodingStrategy.PREV_ADD1);
+  }
+ else {
+    bitFiled.setSequenceEncodingStrategy(SequenceEncodingStrategy.PREV_DELTA);
+  }
+  if (spanEventBo.getDepth() == prevSpanEventBo.getDepth()) {
+    bitFiled.setDepthEncodingStrategy(DepthEncodingStrategy.PREV_EQUALS);
+  }
+ else {
+    bitFiled.setDepthEncodingStrategy(DepthEncodingStrategy.RAW);
+  }
+  if (prevSpanEventBo.getServiceType() == spanEventBo.getServiceType()) {
+    bitFiled.setServiceTypeEncodingStrategy(ServiceTypeEncodingStrategy.PREV_EQUALS);
+  }
+ else {
+    bitFiled.setServiceTypeEncodingStrategy(ServiceTypeEncodingStrategy.RAW);
+  }
+  return bitFiled;
+}

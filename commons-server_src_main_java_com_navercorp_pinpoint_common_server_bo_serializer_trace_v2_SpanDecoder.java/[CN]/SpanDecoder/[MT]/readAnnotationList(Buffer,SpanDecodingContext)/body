@@ -1,0 +1,17 @@
+{
+  int annotationListSize=buffer.readVInt();
+  List<AnnotationBo> annotationBoList=new ArrayList<>(annotationListSize);
+  AnnotationBo prev=null;
+  for (int i=0; i < annotationListSize; i++) {
+    AnnotationBo current;
+    if (i == 0) {
+      current=readFirstAnnotationBo(buffer);
+    }
+ else {
+      current=readDeltaAnnotationBo(buffer,prev);
+    }
+    prev=current;
+    annotationBoList.add(current);
+  }
+  return annotationBoList;
+}

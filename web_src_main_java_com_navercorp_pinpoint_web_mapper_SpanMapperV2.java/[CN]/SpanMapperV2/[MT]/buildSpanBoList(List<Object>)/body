@@ -1,0 +1,20 @@
+{
+  LinkedHashMultimap<Long,SpanBo> spanMap=LinkedHashMultimap.create();
+  List<SpanChunkBo> spanChunkList=new ArrayList<>();
+  for (  Object decodedSpan : out) {
+    if (decodedSpan instanceof SpanBo) {
+      SpanBo span=(SpanBo)decodedSpan;
+      spanMap.put(span.getSpanId(),span);
+    }
+ else     if (decodedSpan instanceof SpanChunkBo) {
+      SpanChunkBo spanChunk=(SpanChunkBo)decodedSpan;
+      spanChunkList.add(spanChunk);
+    }
+ else {
+      logger.warn("Unknown span type {}",decodedSpan);
+    }
+  }
+  List<SpanBo> spanBoList=bindSpanChunk(spanMap,spanChunkList);
+  bindAgentInfo(spanBoList);
+  return spanBoList;
+}

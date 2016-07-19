@@ -1,0 +1,14 @@
+{
+  if (transactionIdList == null || transactionIdList.isEmpty()) {
+    return Collections.emptyList();
+  }
+  List<List<TransactionId>> splitTransactionIdList=new ArrayList<>();
+  int index=0;
+  int endIndex=transactionIdList.size();
+  while (index < endIndex) {
+    int subListEndIndex=Math.min(index + maxTransactionIdListSize,endIndex);
+    splitTransactionIdList.add(transactionIdList.subList(index,subListEndIndex));
+    index=subListEndIndex;
+  }
+  return splitTransactionIdList;
+}

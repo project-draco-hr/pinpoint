@@ -1,0 +1,11 @@
+{
+  SpanBo spanBo=new SpanBo();
+  spanBo.setServiceType((short)1000);
+  spanBo.setApplicationServiceType((short)2000);
+  SpanBitFiled spanBitFiled=SpanBitFiled.build(spanBo);
+  Assert.assertEquals(spanBitFiled.getApplicationServiceTypeEncodingStrategy(),SimpleServiceTypeEncodingStrategy.RAW);
+  spanBitFiled.maskAll();
+  Assert.assertEquals(spanBitFiled.getApplicationServiceTypeEncodingStrategy(),SimpleServiceTypeEncodingStrategy.RAW);
+  spanBitFiled.setApplicationServiceTypeEncodingStrategy(SimpleServiceTypeEncodingStrategy.PREV_EQUALS);
+  Assert.assertEquals(spanBitFiled.getApplicationServiceTypeEncodingStrategy(),SimpleServiceTypeEncodingStrategy.PREV_EQUALS);
+}

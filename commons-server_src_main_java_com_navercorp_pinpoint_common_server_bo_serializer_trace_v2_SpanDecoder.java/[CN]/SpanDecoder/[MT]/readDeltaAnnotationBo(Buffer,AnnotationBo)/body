@@ -1,0 +1,11 @@
+{
+  AnnotationBo annotation=new AnnotationBo();
+  final int prevKey=prev.getKey();
+  annotation.setKey(buffer.readSVInt() + prevKey);
+  byte valueType=buffer.readByte();
+  byte[] valueBytes=buffer.readPrefixedBytes();
+  Object value=transcoder.decode(valueType,valueBytes);
+  annotation.setValueType(valueType);
+  annotation.setValue(value);
+  return annotation;
+}

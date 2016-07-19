@@ -1,0 +1,9 @@
+{
+  final byte version=buffer.readByte();
+  if (version != 0) {
+    throw new IllegalStateException("unknown version :" + version);
+  }
+  spanChunk.setVersion(version);
+  List<SpanEventBo> spanEventBoList=readSpanEvent(buffer,firstSpanEvent,decodingContext);
+  spanChunk.addSpanEventBoList(spanEventBoList);
+}

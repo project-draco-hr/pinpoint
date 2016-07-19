@@ -1,0 +1,14 @@
+{
+  for (  SpanBo spanBo : spanBoList) {
+    List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+    sortSpanEvent(spanEventBoList);
+    for (    SpanEventBo spanEventBo : spanEventBoList) {
+      spanEventBo.setAgentId(spanBo.getAgentId());
+      spanEventBo.setApplicationId(spanBo.getApplicationId());
+      spanEventBo.setAgentStartTime(spanBo.getAgentStartTime());
+      spanEventBo.setTraceAgentId(spanBo.getTraceAgentId());
+      spanEventBo.setTraceAgentStartTime(spanBo.getTraceAgentStartTime());
+      spanEventBo.setTraceTransactionSequence(spanBo.getTraceTransactionSequence());
+    }
+  }
+}

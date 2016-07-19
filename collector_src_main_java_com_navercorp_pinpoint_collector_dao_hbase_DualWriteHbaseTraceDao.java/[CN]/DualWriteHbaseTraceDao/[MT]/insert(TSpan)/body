@@ -1,0 +1,16 @@
+{
+  Throwable masterException=null;
+  try {
+    master.insert(span);
+  }
+ catch (  Throwable e) {
+    masterException=e;
+  }
+  try {
+    slave.insert(span);
+  }
+ catch (  Throwable e) {
+    logger.warn("slave insert(TSpan) Error:{}",e.getMessage(),e);
+  }
+  rethrowRuntimeException(masterException);
+}

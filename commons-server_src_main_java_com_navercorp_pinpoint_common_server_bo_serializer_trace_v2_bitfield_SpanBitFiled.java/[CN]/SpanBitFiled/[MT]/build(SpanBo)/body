@@ -1,0 +1,31 @@
+{
+  if (spanBo == null) {
+    throw new NullPointerException("spanBo must not be null");
+  }
+  final SpanBitFiled spanBitFiled=new SpanBitFiled();
+  if (spanBo.getServiceType() == spanBo.getApplicationServiceType()) {
+    spanBitFiled.setApplicationServiceTypeEncodingStrategy(SimpleServiceTypeEncodingStrategy.PREV_EQUALS);
+  }
+ else {
+    spanBitFiled.setApplicationServiceTypeEncodingStrategy(SimpleServiceTypeEncodingStrategy.RAW);
+  }
+  if (spanBo.getParentSpanId() == ROOT_PARENT_SPAN_ID) {
+    spanBitFiled.setRoot(true);
+  }
+  if (spanBo.getErrCode() != 0) {
+    spanBitFiled.setErrorCode(true);
+  }
+  if (spanBo.hasException()) {
+    spanBitFiled.setHasException(true);
+  }
+  if (spanBo.getFlag() != 0) {
+    spanBitFiled.setFlag(true);
+  }
+  if (spanBo.getLoggingTransactionInfo() != LoggingInfo.NOT_LOGGED.getCode()) {
+    spanBitFiled.setLoggingTransactionInfo(true);
+  }
+  if (CollectionUtils.isNotEmpty(spanBo.getAnnotationBoList())) {
+    spanBitFiled.setAnnotation(true);
+  }
+  return spanBitFiled;
+}

@@ -1,0 +1,17 @@
+{
+  if (span == null) {
+    throw new NullPointerException("span must not be null");
+  }
+  final SpanBo spanBo=new SpanBo(span);
+  List<SpanEventBo> spanEventBoList=buildSpanEventList(span);
+  spanBo.addSpanEventBoList(spanEventBoList);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  spanBo.setCollectorAcceptTime(acceptedTime);
+  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(span));
+  final Put put=new Put(rowKey,acceptedTime);
+  this.spanSerializer.serialize(spanBo,put,null);
+  boolean success=hbaseTemplate.asyncPut(TRACE_V2,put);
+  if (!success) {
+    hbaseTemplate.put(TRACE_V2,put);
+  }
+}

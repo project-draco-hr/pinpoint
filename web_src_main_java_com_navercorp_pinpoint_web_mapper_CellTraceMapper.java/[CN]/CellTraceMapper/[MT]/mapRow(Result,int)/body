@@ -1,0 +1,12 @@
+{
+  final T returnValue=this.delegate.mapRow(result,rowNum);
+  if (!result.isEmpty()) {
+    final Cell[] rawCells=result.rawCells();
+    final CellTracker cellTracker=new DefaultCellTracker(delegate.getClass().getSimpleName());
+    for (    Cell cell : rawCells) {
+      cellTracker.trace(cell);
+    }
+    cellTracker.log();
+  }
+  return returnValue;
+}

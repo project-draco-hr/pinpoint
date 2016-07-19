@@ -1,0 +1,11 @@
+{
+  final SpanEventBo firstSpanEvent=new SpanEventBo();
+  final byte bitField=buffer.readByte();
+  if (SpanEventQualifierBitField.isSetAsync(bitField)) {
+    int asyncId=buffer.readInt();
+    int asyncSequence=buffer.readVInt();
+    firstSpanEvent.setAsyncId(asyncId);
+    firstSpanEvent.setAsyncSequence((short)asyncSequence);
+  }
+  return firstSpanEvent;
+}

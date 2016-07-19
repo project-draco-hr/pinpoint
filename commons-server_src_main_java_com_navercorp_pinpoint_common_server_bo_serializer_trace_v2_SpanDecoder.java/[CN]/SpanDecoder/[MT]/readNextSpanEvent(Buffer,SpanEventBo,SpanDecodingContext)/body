@@ -1,0 +1,79 @@
+{
+  final SpanEventBo spanEventBo=new SpanEventBo();
+  final SpanEventBitField bitField=new SpanEventBitField(buffer.readShort());
+switch (bitField.getStartElapsedEncodingStrategy()) {
+case PREV_DELTA:
+    int startTimeDelta=buffer.readVInt();
+  int startTime=startTimeDelta + prev.getStartElapsed();
+spanEventBo.setStartElapsed(startTime);
+break;
+case PREV_EQUALS:
+spanEventBo.setStartElapsed(prev.getStartElapsed());
+break;
+default :
+throw new IllegalStateException("unsupported SequenceEncodingStrategy");
+}
+spanEventBo.setEndElapsed(buffer.readVInt());
+switch (bitField.getSequenceEncodingStrategy()) {
+case PREV_DELTA:
+int sequenceDelta=buffer.readVInt();
+final int sequence=sequenceDelta + prev.getSequence();
+spanEventBo.setSequence((short)sequence);
+break;
+case PREV_ADD1:
+spanEventBo.setSequence((short)(prev.getSequence() + 1));
+break;
+default :
+throw new IllegalStateException("unsupported SequenceEncodingStrategy");
+}
+switch (bitField.getDepthEncodingStrategy()) {
+case RAW:
+spanEventBo.setDepth(buffer.readSVInt());
+break;
+case PREV_EQUALS:
+spanEventBo.setDepth(prev.getDepth());
+break;
+default :
+throw new IllegalStateException("unsupported DepthEncodingStrategy");
+}
+switch (bitField.getServiceTypeEncodingStrategy()) {
+case RAW:
+spanEventBo.setServiceType(buffer.readShort());
+break;
+case PREV_EQUALS:
+spanEventBo.setServiceType(prev.getServiceType());
+break;
+default :
+throw new IllegalStateException("unsupported ServiceTypeEncodingStrategy");
+}
+spanEventBo.setApiId(buffer.readSVInt());
+if (bitField.isSetRpc()) {
+spanEventBo.setRpc(buffer.readPrefixedString());
+}
+if (bitField.isSetEndPoint()) {
+spanEventBo.setEndPoint(buffer.readPrefixedString());
+}
+if (bitField.isSetDestinationId()) {
+spanEventBo.setDestinationId(buffer.readPrefixedString());
+}
+if (bitField.isSetNextSpanId()) {
+spanEventBo.setNextSpanId(buffer.readLong());
+}
+if (bitField.isSetHasException()) {
+int exceptionId=buffer.readSVInt();
+String exceptionMessage=buffer.readPrefixedString();
+spanEventBo.setExceptionInfo(exceptionId,exceptionMessage);
+}
+if (bitField.isSetAnnotation()) {
+List<AnnotationBo> annotationBoList=readAnnotationList(buffer,decodingContext);
+spanEventBo.setAnnotationBoList(annotationBoList);
+}
+if (bitField.isSetNextAsyncId()) {
+spanEventBo.setNextAsyncId(buffer.readSVInt());
+}
+if (bitField.isSetAsyncId()) {
+spanEventBo.setAsyncId(buffer.readInt());
+spanEventBo.setAsyncSequence((short)buffer.readVInt());
+}
+return spanEventBo;
+}

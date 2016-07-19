@@ -1,0 +1,34 @@
+{
+  SpanEventBitField bitField=new SpanEventBitField(buffer.readByte());
+  firstSpanEvent.setStartElapsed(buffer.readVInt());
+  firstSpanEvent.setEndElapsed(buffer.readVInt());
+  firstSpanEvent.setSequence(buffer.readShort());
+  firstSpanEvent.setDepth(buffer.readSVInt());
+  firstSpanEvent.setServiceType(buffer.readShort());
+  if (bitField.isSetRpc()) {
+    firstSpanEvent.setRpc(buffer.readPrefixedString());
+  }
+  if (bitField.isSetEndPoint()) {
+    firstSpanEvent.setEndPoint(buffer.readPrefixedString());
+  }
+  if (bitField.isSetDestinationId()) {
+    firstSpanEvent.setDestinationId(buffer.readPrefixedString());
+  }
+  firstSpanEvent.setApiId(buffer.readSVInt());
+  if (bitField.isSetNextSpanId()) {
+    firstSpanEvent.setNextSpanId(buffer.readLong());
+  }
+  if (bitField.isSetHasException()) {
+    int exceptionId=buffer.readSVInt();
+    String exceptionMessage=buffer.readPrefixedString();
+    firstSpanEvent.setExceptionInfo(exceptionId,exceptionMessage);
+  }
+  if (bitField.isSetAnnotation()) {
+    List<AnnotationBo> annotationBoList=readAnnotationList(buffer,decodingContext);
+    firstSpanEvent.setAnnotationBoList(annotationBoList);
+  }
+  if (bitField.isSetNextAsyncId()) {
+    firstSpanEvent.setNextAsyncId(buffer.readSVInt());
+  }
+  return firstSpanEvent;
+}

@@ -1,0 +1,7 @@
+{
+  final SpanEncodingContext<SpanBo> encodingContext=new SpanEncodingContext<>(spanBo);
+  ByteBuffer qualifier=spanEncoder.encodeSpanQualifier(encodingContext);
+  ByteBuffer columnValue=spanEncoder.encodeSpanColumnValue(encodingContext);
+  long acceptedTime=put.getTimeStamp();
+  put.addColumn(TRACE_V2_CF_SPAN,qualifier,acceptedTime,columnValue);
+}

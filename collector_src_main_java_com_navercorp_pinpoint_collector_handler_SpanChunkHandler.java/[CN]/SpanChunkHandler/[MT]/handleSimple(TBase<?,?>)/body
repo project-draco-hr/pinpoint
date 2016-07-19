@@ -11,7 +11,9 @@
     final ServiceType applicationServiceType=getApplicationServiceType(spanChunk);
     List<TSpanEvent> spanEventList=spanChunk.getSpanEventList();
     if (spanEventList != null) {
-      logger.debug("SpanChunk Size:{}",spanEventList.size());
+      if (logger.isDebugEnabled()) {
+        logger.debug("SpanChunk Size:{}",spanEventList.size());
+      }
       for (      TSpanEvent spanEvent : spanEventList) {
         final ServiceType spanEventType=registry.findServiceType(spanEvent.getServiceType());
         if (!spanEventType.isRecordStatistics()) {

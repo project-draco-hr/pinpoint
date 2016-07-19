@@ -1,0 +1,35 @@
+{
+  if (spanEventBo == null) {
+    throw new NullPointerException("spanEventBo must not be null");
+  }
+  final SpanEventBitField bitFiled=new SpanEventBitField();
+  if (spanEventBo.getRpc() != null) {
+    bitFiled.setRpc(true);
+  }
+  if (spanEventBo.getEndPoint() != null) {
+    bitFiled.setEndPoint(true);
+  }
+  if (spanEventBo.getDestinationId() != null) {
+    bitFiled.setDestinationId(true);
+  }
+  if (spanEventBo.getNextSpanId() != -1) {
+    bitFiled.setNextSpanId(true);
+  }
+  if (spanEventBo.hasException()) {
+    bitFiled.setHasException(true);
+  }
+  final List<AnnotationBo> annotationBoList=spanEventBo.getAnnotationBoList();
+  if (CollectionUtils.isNotEmpty(annotationBoList)) {
+    bitFiled.setAnnotation(true);
+  }
+  if (spanEventBo.getNextAsyncId() != -1) {
+    bitFiled.setNextAsyncId(true);
+  }
+  if (spanEventBo.getAsyncId() == -1 && spanEventBo.getAsyncSequence() == -1) {
+    bitFiled.setAsyncId(false);
+  }
+ else {
+    bitFiled.setAsyncId(true);
+  }
+  return bitFiled;
+}

@@ -1,0 +1,18 @@
+{
+  Throwable masterThrowable=null;
+  List<List<SpanBo>> result=null;
+  try {
+    result=master.selectAllSpans(transactionIdList);
+  }
+ catch (  Throwable th) {
+    masterThrowable=th;
+  }
+  try {
+    slave.selectAllSpans(transactionIdList);
+  }
+ catch (  Throwable th) {
+    logger.debug("slave error :{}",th.getMessage(),th);
+  }
+  rethrowRuntimeException(masterThrowable);
+  return result;
+}

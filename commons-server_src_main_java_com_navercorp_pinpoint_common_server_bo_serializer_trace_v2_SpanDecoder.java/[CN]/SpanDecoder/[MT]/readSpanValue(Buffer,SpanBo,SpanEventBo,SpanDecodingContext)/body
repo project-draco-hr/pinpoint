@@ -1,0 +1,55 @@
+{
+  final byte version=buffer.readByte();
+  if (version != 0) {
+    throw new IllegalStateException("unknown version :" + version);
+  }
+  span.setVersion(version);
+  final SpanBitFiled bitFiled=new SpanBitFiled(buffer.readByte());
+  final short serviceType=buffer.readShort();
+  span.setServiceType(serviceType);
+switch (bitFiled.getApplicationServiceTypeEncodingStrategy()) {
+case PREV_EQUALS:
+    span.setApplicationServiceType(serviceType);
+  break;
+case RAW:
+span.setApplicationServiceType(buffer.readShort());
+break;
+default :
+throw new IllegalStateException("applicationServiceType");
+}
+if (!bitFiled.isRoot()) {
+span.setParentSpanId(buffer.readLong());
+}
+ else {
+span.setParentSpanId(-1);
+}
+final int startTimeDelta=buffer.readVInt();
+final long startTime=startTimeDelta + span.getCollectorAcceptTime();
+span.setStartTime(startTime);
+span.setElapsed(buffer.readVInt());
+span.setRpc(buffer.readPrefixedString());
+span.setEndPoint(buffer.readPrefixedString());
+span.setRemoteAddr(buffer.readPrefixedString());
+span.setApiId(buffer.readSVInt());
+if (bitFiled.isSetErrorCode()) {
+span.setErrCode(buffer.readInt());
+}
+if (bitFiled.isSetHasException()) {
+int exceptionId=buffer.readSVInt();
+String exceptionMessage=buffer.readPrefixedString();
+span.setExceptionInfo(exceptionId,exceptionMessage);
+}
+if (bitFiled.isSetFlag()) {
+span.setFlag(buffer.readShort());
+}
+if (bitFiled.isSetLoggingTransactionInfo()) {
+span.setLoggingTransactionInfo(buffer.readByte());
+}
+span.setAcceptorHost(buffer.readPrefixedString());
+if (bitFiled.isSetAnnotation()) {
+List<AnnotationBo> annotationBoList=readAnnotationList(buffer,decodingContext);
+span.setAnnotationBoList(annotationBoList);
+}
+List<SpanEventBo> spanEventBoList=readSpanEvent(buffer,firstSpanEvent,decodingContext);
+span.addSpanEventBoList(spanEventBoList);
+}

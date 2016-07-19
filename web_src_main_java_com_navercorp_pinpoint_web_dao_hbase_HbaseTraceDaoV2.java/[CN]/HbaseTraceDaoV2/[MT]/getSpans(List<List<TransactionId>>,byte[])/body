@@ -1,0 +1,10 @@
+{
+  if (splitTransactionIdList == null || splitTransactionIdList.isEmpty()) {
+    return Collections.emptyList();
+  }
+  List<List<SpanBo>> spanBoList=new ArrayList<>();
+  for (  List<TransactionId> transactionIdList : splitTransactionIdList) {
+    spanBoList.addAll(getSpans0(transactionIdList,columnFamily));
+  }
+  return spanBoList;
+}

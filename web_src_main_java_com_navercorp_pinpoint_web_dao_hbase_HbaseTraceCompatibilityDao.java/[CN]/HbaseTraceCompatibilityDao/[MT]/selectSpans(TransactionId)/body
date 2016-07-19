@@ -1,0 +1,7 @@
+{
+  List<SpanBo> spanBos=this.master.selectSpans(transactionId);
+  if (CollectionUtils.isNotEmpty(spanBos)) {
+    return spanBos;
+  }
+  return slave.selectSpans(transactionId);
+}

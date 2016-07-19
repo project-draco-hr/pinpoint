@@ -1,0 +1,20 @@
+{
+  if (CollectionUtils.isEmpty(annotationBoList)) {
+    return;
+  }
+  Collections.sort(annotationBoList,ANNOTATION_COMPARATOR);
+  buffer.putVInt(annotationBoList.size());
+  AnnotationBo prev=null;
+  for (int i=0; i < annotationBoList.size(); i++) {
+    final AnnotationBo current=annotationBoList.get(i);
+    if (i == 0) {
+      buffer.putSVInt(current.getKey());
+      buffer.putByte(current.getRawValueType());
+      buffer.putPrefixedBytes(current.getByteValue());
+    }
+ else {
+      writeDeltaAnnotationBo(buffer,prev,current);
+    }
+    prev=current;
+  }
+}

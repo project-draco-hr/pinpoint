@@ -15,7 +15,7 @@
       spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
       spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
       spanBo.setCollectorAcceptTime(cell.getTimestamp());
-      spanBo.setSpanID(Bytes.toLong(cell.getQualifierArray(),cell.getQualifierOffset()));
+      spanBo.setSpanId(Bytes.toLong(cell.getQualifierArray(),cell.getQualifierOffset()));
       readSpan(spanBo,cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
       if (logger.isDebugEnabled()) {
         logger.debug("read span :{}",spanBo);
@@ -51,9 +51,15 @@
     }
   }
   for (  SpanEventBo spanEventBo : spanEventBoList) {
-    SpanBo spanBo=spanMap.get(spanEventBo.getSpanId());
+    final Long spanId=spanEventBo.getSpanId();
+    SpanBo spanBo=spanMap.get(spanId);
     if (spanBo != null) {
       spanBo.addSpanEvent(spanEventBo);
+    }
+ else {
+      if (logger.isInfoEnabled()) {
+        logger.info("Span not exist spanId:{} spanEvent:{}",spanEventBo);
+      }
     }
   }
   if (annotationMapper != null) {

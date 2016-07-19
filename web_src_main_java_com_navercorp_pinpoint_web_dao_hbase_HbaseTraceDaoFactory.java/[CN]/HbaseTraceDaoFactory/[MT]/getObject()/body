@@ -1,0 +1,16 @@
+{
+  logger.info("TraceDao Compatibility {}",mode);
+  if (mode.equalsIgnoreCase("v1")) {
+    return v1;
+  }
+ else   if (mode.equalsIgnoreCase("v2")) {
+    return v2;
+  }
+ else   if (mode.equalsIgnoreCase("compatibilityMode")) {
+    return new HbaseTraceCompatibilityDao(v2,v1);
+  }
+ else   if (mode.equalsIgnoreCase("dualRead")) {
+    return new HbaseDualReadDao(v2,v1);
+  }
+  return v1;
+}

@@ -3,7 +3,7 @@
     throw new NullPointerException("transactionId must not be null");
   }
   final List<SpanBo> spans=traceDao.selectSpanAndAnnotation(transactionId);
-  if (spans == null || spans.isEmpty()) {
+  if (CollectionUtils.isEmpty(spans)) {
     return new SpanResult(SpanAligner2.FAIL_MATCH,new CallTreeIterator(null));
   }
   final SpanResult result=order(spans,selectedSpanHint);
