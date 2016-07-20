@@ -16,7 +16,7 @@
   nextSpanEventBo.setSequence((short)1);
   span.addSpanEvent(nextSpanEventBo);
   SpanEncodingContext<SpanBo> encodingContext=new SpanEncodingContext<>(span);
-  SpanEncoder encoder=new SpanEncoder();
+  SpanEncoder encoder=new SpanEncoderV0();
   ByteBuffer byteBuffer=encoder.encodeSpanColumnValue(encodingContext);
   Buffer buffer=new OffsetFixedBuffer(byteBuffer.array(),byteBuffer.arrayOffset(),byteBuffer.remaining());
   SpanBo readSpan=new SpanBo();

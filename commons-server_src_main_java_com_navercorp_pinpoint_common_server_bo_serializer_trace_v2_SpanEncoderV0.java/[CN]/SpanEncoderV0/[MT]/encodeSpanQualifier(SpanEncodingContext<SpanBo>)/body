@@ -1,0 +1,6 @@
+{
+  final SpanBo spanBo=encodingContext.getValue();
+  final List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+  final SpanEventBo firstEvent=getFirstSpanEvent(spanEventBoList);
+  return encodeQualifier(TYPE_SPAN,spanBo.getApplicationId(),spanBo.getAgentId(),spanBo.getAgentStartTime(),spanBo.getSpanId(),firstEvent);
+}
