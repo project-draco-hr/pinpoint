@@ -1,0 +1,34 @@
+{
+  final SpanEventBitField bitField=SpanEventBitField.buildFirst(spanEventBo);
+  final byte firstSpanBitField1=(byte)bitField.getBitField();
+  buffer.putByte(firstSpanBitField1);
+  buffer.putVInt(spanEventBo.getStartElapsed());
+  buffer.putVInt(spanEventBo.getEndElapsed());
+  buffer.putShort(spanEventBo.getSequence());
+  buffer.putSVInt(spanEventBo.getDepth());
+  buffer.putShort(spanEventBo.getServiceType());
+  if (bitField.isSetRpc()) {
+    buffer.putPrefixedString(spanEventBo.getRpc());
+  }
+  if (bitField.isSetEndPoint()) {
+    buffer.putPrefixedString(spanEventBo.getEndPoint());
+  }
+  if (bitField.isSetDestinationId()) {
+    buffer.putPrefixedString(spanEventBo.getDestinationId());
+  }
+  buffer.putSVInt(spanEventBo.getApiId());
+  if (bitField.isSetNextSpanId()) {
+    buffer.putLong(spanEventBo.getNextSpanId());
+  }
+  if (bitField.isSetHasException()) {
+    buffer.putSVInt(spanEventBo.getExceptionId());
+    buffer.putPrefixedString(spanEventBo.getExceptionMessage());
+  }
+  if (bitField.isSetAnnotation()) {
+    final List<AnnotationBo> annotationBoList=spanEventBo.getAnnotationBoList();
+    writeAnnotationList(buffer,annotationBoList,encodingContext);
+  }
+  if (bitField.isSetNextAsyncId()) {
+    buffer.putSVInt(spanEventBo.getNextAsyncId());
+  }
+}

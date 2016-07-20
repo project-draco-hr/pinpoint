@@ -1,0 +1,18 @@
+{
+  if (CollectionUtils.isEmpty(spanEventBoList)) {
+    buffer.putVInt(0);
+  }
+ else {
+    buffer.putVInt(spanEventBoList.size());
+    SpanEventBo prevSpanEvent=null;
+    for (    SpanEventBo spanEventBo : spanEventBoList) {
+      if (prevSpanEvent == null) {
+        writeFirstSpanEvent(buffer,spanEventBo,encodingContext);
+      }
+ else {
+        writeNextSpanEvent(buffer,spanEventBo,prevSpanEvent,encodingContext);
+      }
+      prevSpanEvent=spanEventBo;
+    }
+  }
+}
