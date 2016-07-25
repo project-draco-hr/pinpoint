@@ -7,7 +7,7 @@
   }
   String userGroupNumber=userGroupService.createUserGroup(userGroup);
   if (webProperties.isOpenSource() == false) {
-    if (initUserGroup(userGroup) == false) {
+    if (initUserGroup(userGroup,userId) == false) {
       Map<String,String> result=new HashMap<>();
       result.put("errorCode","500");
       result.put("errorMessage","There is not userId or fail to create userGroup.");

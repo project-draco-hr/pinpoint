@@ -1,0 +1,8 @@
+{
+  if (StringUtils.isEmpty(userId)) {
+    userGroupService.deleteUserGroup(userGroup);
+    return false;
+  }
+  userGroupService.insertMember(new UserGroupMember(userGroup.getId(),userId));
+  return true;
+}
