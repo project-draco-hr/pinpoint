@@ -4,8 +4,7 @@
   spanChunk.setTraceAgentStartTime(transactionId.getAgentStartTime());
   spanChunk.setTraceTransactionSequence(transactionId.getTransactionSequence());
   spanChunk.setCollectorAcceptTime(decodingContext.getCollectorAcceptedTime());
-  SpanAdaptor spanAdaptor=new SpanChunkBoAdaptor(spanChunk);
-  SpanEventBo firstSpanEvent=readQualifier(spanAdaptor,qualifier);
+  SpanEventBo firstSpanEvent=readQualifier(spanChunk,qualifier);
   readSpanChunkValue(columnValue,spanChunk,firstSpanEvent,decodingContext);
   return spanChunk;
 }

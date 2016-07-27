@@ -2,7 +2,8 @@
   List<SpanBo> rootSpans=new ArrayList<SpanBo>();
   for (  TBase<?,?> span : this.tBaseRecorder) {
     if (span instanceof Span) {
-      rootSpans.add(new SpanBo((Span)span));
+      SpanBo spanBo=spanFactory.buildSpanBo((Span)span);
+      rootSpans.add(spanBo);
     }
   }
   return rootSpans;

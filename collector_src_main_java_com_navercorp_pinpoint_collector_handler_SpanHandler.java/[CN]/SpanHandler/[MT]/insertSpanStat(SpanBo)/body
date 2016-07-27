@@ -1,0 +1,36 @@
+{
+  final ServiceType applicationServiceType=getApplicationServiceType(span);
+  final ServiceType spanServiceType=registry.findServiceType(span.getServiceType());
+  final boolean isError=span.getErrCode() != 0;
+  int bugCheck=0;
+  if (span.getParentSpanId() == -1) {
+    if (spanServiceType.isQueue()) {
+      statisticsHandler.updateCaller(span.getAcceptorHost(),spanServiceType,span.getRemoteAddr(),span.getApplicationId(),applicationServiceType,span.getEndPoint(),span.getElapsed(),isError);
+      statisticsHandler.updateCallee(span.getApplicationId(),applicationServiceType,span.getAcceptorHost(),spanServiceType,span.getAgentId(),span.getElapsed(),isError);
+    }
+ else {
+      statisticsHandler.updateCaller(span.getApplicationId(),ServiceType.USER,span.getAgentId(),span.getApplicationId(),applicationServiceType,span.getAgentId(),span.getElapsed(),isError);
+      statisticsHandler.updateCallee(span.getApplicationId(),applicationServiceType,span.getApplicationId(),ServiceType.USER,span.getAgentId(),span.getElapsed(),isError);
+    }
+    bugCheck++;
+  }
+  if (span.getParentApplicationId() != null) {
+    String parentApplicationName=span.getParentApplicationId();
+    logger.debug("Received parent application name. {}",parentApplicationName);
+    ServiceType parentApplicationType=registry.findServiceType(span.getParentApplicationServiceType());
+    if (spanServiceType.isQueue()) {
+      if (!applicationServiceType.isQueue() && !parentApplicationType.isQueue()) {
+        hostApplicationMapDao.insert(span.getRemoteAddr(),span.getAcceptorHost(),spanServiceType.getCode(),parentApplicationName,parentApplicationType.getCode());
+        statisticsHandler.updateCaller(span.getAcceptorHost(),spanServiceType,span.getRemoteAddr(),span.getApplicationId(),applicationServiceType,span.getEndPoint(),span.getElapsed(),isError);
+        parentApplicationName=span.getAcceptorHost();
+        parentApplicationType=spanServiceType;
+      }
+    }
+    statisticsHandler.updateCallee(span.getApplicationId(),applicationServiceType,parentApplicationName,parentApplicationType,span.getAgentId(),span.getElapsed(),isError);
+    bugCheck++;
+  }
+  statisticsHandler.updateResponseTime(span.getApplicationId(),applicationServiceType,span.getAgentId(),span.getElapsed(),isError);
+  if (bugCheck != 1) {
+    logger.warn("ambiguous span found(bug). span:{}",span);
+  }
+}

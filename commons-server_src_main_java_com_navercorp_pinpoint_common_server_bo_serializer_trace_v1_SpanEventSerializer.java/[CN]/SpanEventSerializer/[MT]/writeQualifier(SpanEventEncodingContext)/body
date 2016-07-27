@@ -1,0 +1,9 @@
+{
+  SpanEventBo spanEventBo=spanEventEncodingContext.getSpanEventBo();
+  final Buffer rowId=new AutomaticBuffer();
+  rowId.putLong(spanEventEncodingContext.getSpanId());
+  rowId.putShort(spanEventBo.getSequence());
+  rowId.putInt(spanEventBo.getAsyncId());
+  rowId.putShort(spanEventBo.getAsyncSequence());
+  return rowId.wrapByteBuffer();
+}

@@ -1,0 +1,9 @@
+{
+  final SpanBo spanBo=newSpanBo(tSpan);
+  List<TSpanEvent> spanEventList=tSpan.getSpanEventList();
+  List<SpanEventBo> spanEventBoList=buildSpanEventBoList(spanBo,spanEventList);
+  spanBo.addSpanEventBoList(spanEventBoList);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  spanBo.setCollectorAcceptTime(acceptedTime);
+  return spanBo;
+}

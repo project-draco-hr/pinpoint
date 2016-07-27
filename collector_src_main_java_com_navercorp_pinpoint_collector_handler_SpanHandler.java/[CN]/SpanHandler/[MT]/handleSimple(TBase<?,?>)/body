@@ -3,15 +3,16 @@
     throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
   }
   try {
-    final TSpan span=(TSpan)tbase;
+    final TSpan tSpan=(TSpan)tbase;
     if (logger.isDebugEnabled()) {
-      logger.debug("Received SPAN={}",span);
+      logger.debug("Received SPAN={}",tSpan);
     }
-    traceDao.insert(span);
-    applicationTraceIndexDao.insert(span);
-    insertAcceptorHost(span);
-    insertSpanStat(span);
-    insertSpanEventStat(span);
+    final SpanBo spanBo=spanFactory.buildSpanBo(tSpan);
+    traceDao.insert(spanBo);
+    applicationTraceIndexDao.insert(tSpan);
+    insertAcceptorHost(spanBo);
+    insertSpanStat(spanBo);
+    insertSpanEventStat(spanBo);
   }
  catch (  Exception e) {
     logger.warn("Span handle error. Caused:{}. Span:{}",e.getMessage(),tbase,e);

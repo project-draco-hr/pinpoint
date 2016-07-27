@@ -1,0 +1,6 @@
+{
+  ByteBuffer rowId=writeQualifier(spanEventEncodingContext);
+  final ByteBuffer value=writeValue(spanEventEncodingContext);
+  final long acceptedTime=put.getTimeStamp();
+  put.addColumn(TRACES_CF_TERMINALSPAN,rowId,acceptedTime,value);
+}

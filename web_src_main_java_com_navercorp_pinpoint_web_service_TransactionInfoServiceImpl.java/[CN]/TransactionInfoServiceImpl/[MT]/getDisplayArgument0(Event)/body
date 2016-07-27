@@ -1,0 +1,17 @@
+{
+  List<AnnotationBo> list=event.getAnnotationBoList();
+  if (list == null) {
+    return null;
+  }
+  final AnnotationKeyMatcher matcher=annotationKeyMatcherService.findAnnotationKeyMatcher(event.getServiceType());
+  if (matcher == null) {
+    return null;
+  }
+  for (  AnnotationBo annotation : list) {
+    int key=annotation.getKey();
+    if (matcher.matches(key)) {
+      return annotation;
+    }
+  }
+  return null;
+}
