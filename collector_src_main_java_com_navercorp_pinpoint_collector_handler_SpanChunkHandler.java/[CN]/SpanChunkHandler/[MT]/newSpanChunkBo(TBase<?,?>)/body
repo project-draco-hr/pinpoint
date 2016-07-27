@@ -1,0 +1,10 @@
+{
+  if (!(tbase instanceof TSpanChunk)) {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ this.getClass().getName());
+  }
+  final TSpanChunk tSpanChunk=(TSpanChunk)tbase;
+  if (logger.isDebugEnabled()) {
+    logger.debug("Received SpanChunk={}",tbase);
+  }
+  return this.spanFactory.buildSpanChunkBo(tSpanChunk);
+}

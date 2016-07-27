@@ -1,0 +1,12 @@
+{
+  if (tAnnotationList == null) {
+    return new ArrayList<>();
+  }
+  List<AnnotationBo> boList=new ArrayList<>(tAnnotationList.size());
+  for (  TAnnotation tAnnotation : tAnnotationList) {
+    final AnnotationBo annotationBo=newAnnotationBo(tAnnotation);
+    boList.add(annotationBo);
+  }
+  Collections.sort(boList,AnnotationComparator.INSTANCE);
+  return boList;
+}

@@ -1,0 +1,16 @@
+{
+  Throwable masterException=null;
+  try {
+    master.insertSpanChunk(spanChunkBo);
+  }
+ catch (  Throwable e) {
+    masterException=e;
+  }
+  try {
+    slave.insertSpanChunk(spanChunkBo);
+  }
+ catch (  Throwable e) {
+    logger.warn("slave insertSpanChunk(TSpanChunk) Error:{}",e.getMessage(),e);
+  }
+  rethrowRuntimeException(masterException);
+}

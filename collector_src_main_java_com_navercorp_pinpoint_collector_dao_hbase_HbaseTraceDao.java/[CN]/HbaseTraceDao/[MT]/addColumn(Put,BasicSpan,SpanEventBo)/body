@@ -1,0 +1,7 @@
+{
+  if (!spanEventFilter.filter(spanEventBo)) {
+    return;
+  }
+  SpanEventEncodingContext spanEventEncodingContext=new SpanEventEncodingContext(basicSpan.getSpanId(),spanEventBo);
+  this.spanEventSerializer.serialize(spanEventEncodingContext,put,null);
+}

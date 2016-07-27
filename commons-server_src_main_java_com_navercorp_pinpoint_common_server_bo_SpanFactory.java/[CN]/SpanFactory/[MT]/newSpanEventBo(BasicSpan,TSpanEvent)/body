@@ -1,0 +1,17 @@
+{
+  if (basicSpan == null) {
+    throw new NullPointerException("basicSpan must not be null");
+  }
+  if (tSpanEvent == null) {
+    throw new NullPointerException("tSpanEvent must not be null");
+  }
+  final SpanEventBo spanEvent=new SpanEventBo();
+  spanEvent.setAgentId(basicSpan.getAgentId());
+  spanEvent.setApplicationId(basicSpan.getApplicationId());
+  spanEvent.setAgentStartTime(basicSpan.getAgentStartTime());
+  spanEvent.setTraceAgentId(basicSpan.getTraceAgentId());
+  spanEvent.setTraceAgentStartTime(basicSpan.getTraceAgentStartTime());
+  spanEvent.setTraceTransactionSequence(basicSpan.getTraceTransactionSequence());
+  bind(spanEvent,tSpanEvent);
+  return spanEvent;
+}

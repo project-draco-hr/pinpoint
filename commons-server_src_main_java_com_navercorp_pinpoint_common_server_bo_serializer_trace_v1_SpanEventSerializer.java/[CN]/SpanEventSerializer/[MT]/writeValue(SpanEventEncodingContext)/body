@@ -1,0 +1,29 @@
+{
+  SpanEventBo spanEventBo=spanEventEncodingContext.getSpanEventBo();
+  final Buffer buffer=new AutomaticBuffer(512);
+  buffer.putByte(spanEventBo.getVersion());
+  buffer.putPrefixedString(spanEventBo.getAgentId());
+  buffer.putPrefixedString(spanEventBo.getApplicationId());
+  buffer.putVLong(spanEventBo.getAgentStartTime());
+  buffer.putVInt(spanEventBo.getStartElapsed());
+  buffer.putVInt(spanEventBo.getEndElapsed());
+  buffer.putPrefixedString(spanEventBo.getRpc());
+  buffer.putShort(spanEventBo.getServiceType());
+  buffer.putPrefixedString(spanEventBo.getEndPoint());
+  buffer.putPrefixedString(spanEventBo.getDestinationId());
+  buffer.putSVInt(spanEventBo.getApiId());
+  buffer.putSVInt(spanEventBo.getDepth());
+  buffer.putLong(spanEventBo.getNextSpanId());
+  if (spanEventBo.hasException()) {
+    buffer.putBoolean(true);
+    buffer.putSVInt(spanEventBo.getExceptionId());
+    buffer.putPrefixedString(spanEventBo.getExceptionMessage());
+  }
+ else {
+    buffer.putBoolean(false);
+  }
+  final List<AnnotationBo> annotationBoList=spanEventBo.getAnnotationBoList();
+  this.annotationSerializer.writeAnnotationList(annotationBoList,buffer);
+  buffer.putSVInt(spanEventBo.getNextAsyncId());
+  return buffer.wrapByteBuffer();
+}

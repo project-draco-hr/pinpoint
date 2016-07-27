@@ -1,0 +1,44 @@
+{
+  final SpanBo spanBo=new SpanBo();
+  spanBo.setAgentId(tSpan.getAgentId());
+  spanBo.setApplicationId(tSpan.getApplicationName());
+  spanBo.setAgentStartTime(tSpan.getAgentStartTime());
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(tSpan.getTransactionId());
+  final String traceAgentId=transactionId.getAgentId();
+  if (traceAgentId == null) {
+    spanBo.setTraceAgentId(spanBo.getAgentId());
+  }
+ else {
+    spanBo.setTraceAgentId(traceAgentId);
+  }
+  spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+  spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  spanBo.setSpanId(tSpan.getSpanId());
+  spanBo.setParentSpanId(tSpan.getParentSpanId());
+  spanBo.setStartTime(tSpan.getStartTime());
+  spanBo.setElapsed(tSpan.getElapsed());
+  spanBo.setRpc(tSpan.getRpc());
+  spanBo.setServiceType(tSpan.getServiceType());
+  spanBo.setEndPoint(tSpan.getEndPoint());
+  spanBo.setFlag(tSpan.getFlag());
+  spanBo.setApiId(tSpan.getApiId());
+  spanBo.setErrCode(tSpan.getErr());
+  spanBo.setAcceptorHost(tSpan.getAcceptorHost());
+  spanBo.setRemoteAddr(tSpan.getRemoteAddr());
+  spanBo.setLoggingTransactionInfo(tSpan.getLoggingTransactionInfo());
+  if (tSpan.isSetApplicationServiceType()) {
+    spanBo.setApplicationServiceType(tSpan.getApplicationServiceType());
+  }
+ else {
+    spanBo.setApplicationServiceType(tSpan.getServiceType());
+  }
+  spanBo.setParentApplicationId(tSpan.getParentApplicationName());
+  spanBo.setParentApplicationServiceType(tSpan.getParentApplicationType());
+  final TIntStringValue exceptionInfo=tSpan.getExceptionInfo();
+  if (exceptionInfo != null) {
+    spanBo.setExceptionInfo(exceptionInfo.getIntValue(),exceptionInfo.getStringValue());
+  }
+  List<AnnotationBo> annotationBoList=buildAnnotationList(tSpan.getAnnotations());
+  spanBo.setAnnotationBoList(annotationBoList);
+  return spanBo;
+}

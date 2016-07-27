@@ -1,0 +1,13 @@
+{
+  if (tAnnotation == null) {
+    throw new NullPointerException("annotation must not be null");
+  }
+  AnnotationBo annotationBo=new AnnotationBo();
+  annotationBo.setKey(tAnnotation.getKey());
+  Object value=transcoder.getMappingValue(tAnnotation);
+  byte typeCode=transcoder.getTypeCode(value);
+  byte[] encodeObject=transcoder.encode(value,typeCode);
+  annotationBo.setValueType(typeCode);
+  annotationBo.setByteValue(encodeObject);
+  return annotationBo;
+}

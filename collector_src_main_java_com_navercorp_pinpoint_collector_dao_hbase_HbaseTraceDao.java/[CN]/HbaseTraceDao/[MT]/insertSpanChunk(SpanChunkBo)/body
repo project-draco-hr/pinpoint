@@ -1,0 +1,18 @@
+{
+  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunkBo));
+  final long acceptedTime=acceptedTimeService.getAcceptedTime();
+  final Put put=new Put(rowKey,acceptedTime);
+  final List<SpanEventBo> spanEventBoList=spanChunkBo.getSpanEventBoList();
+  if (CollectionUtils.isEmpty(spanEventBoList)) {
+    return;
+  }
+  for (  SpanEventBo spanEventBo : spanEventBoList) {
+    addColumn(put,spanChunkBo,spanEventBo);
+  }
+  if (!put.isEmpty()) {
+    boolean success=hbaseTemplate.asyncPut(TRACES,put);
+    if (!success) {
+      hbaseTemplate.put(TRACES,put);
+    }
+  }
+}

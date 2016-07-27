@@ -1,0 +1,18 @@
+{
+  String applicationId=buffer.readPrefixedString();
+  basicSpan.setApplicationId(applicationId);
+  String agentId=buffer.readPrefixedString();
+  basicSpan.setAgentId(agentId);
+  long agentStartTime=buffer.readVLong();
+  basicSpan.setAgentStartTime(agentStartTime);
+  long spanId=buffer.readLong();
+  basicSpan.setSpanId(spanId);
+  int firstSpanEventSequence=buffer.readSVInt();
+  if (firstSpanEventSequence == -1) {
+    logger.info("firstSpanEvent is null. bug!!!!");
+    return null;
+  }
+ else {
+    return readQualifierFirstSpanEvent(buffer);
+  }
+}

@@ -1,0 +1,34 @@
+{
+  if (spanEvent.getTraceAgentId() == null) {
+    spanEvent.setTraceAgentId(spanEvent.getAgentId());
+  }
+  spanEvent.setSequence(tSpanEvent.getSequence());
+  spanEvent.setStartElapsed(tSpanEvent.getStartElapsed());
+  spanEvent.setEndElapsed(tSpanEvent.getEndElapsed());
+  spanEvent.setRpc(tSpanEvent.getRpc());
+  spanEvent.setServiceType(tSpanEvent.getServiceType());
+  spanEvent.setDestinationId(tSpanEvent.getDestinationId());
+  spanEvent.setEndPoint(tSpanEvent.getEndPoint());
+  spanEvent.setApiId(tSpanEvent.getApiId());
+  if (tSpanEvent.isSetDepth()) {
+    spanEvent.setDepth(tSpanEvent.getDepth());
+  }
+  if (tSpanEvent.isSetNextSpanId()) {
+    spanEvent.setNextSpanId(tSpanEvent.getNextSpanId());
+  }
+  List<AnnotationBo> annotationList=buildAnnotationList(tSpanEvent.getAnnotations());
+  spanEvent.setAnnotationBoList(annotationList);
+  final TIntStringValue exceptionInfo=tSpanEvent.getExceptionInfo();
+  if (exceptionInfo != null) {
+    spanEvent.setExceptionInfo(exceptionInfo.getIntValue(),exceptionInfo.getStringValue());
+  }
+  if (tSpanEvent.isSetAsyncId()) {
+    spanEvent.setAsyncId(tSpanEvent.getAsyncId());
+  }
+  if (tSpanEvent.isSetNextAsyncId()) {
+    spanEvent.setNextAsyncId(tSpanEvent.getNextAsyncId());
+  }
+  if (tSpanEvent.isSetAsyncSequence()) {
+    spanEvent.setAsyncSequence(tSpanEvent.getAsyncSequence());
+  }
+}

@@ -3,7 +3,8 @@
   for (  TBase<?,?> span : this.tBaseRecorder) {
     if (span instanceof SpanEvent) {
       SpanEvent spanEvent=(SpanEvent)span;
-      spanEvents.add(new SpanEventBo(spanEvent.getSpan(),spanEvent));
+      SpanEventBo spanEventBo=spanFactory.buildSpanEventBo(spanEvent.getSpan(),spanEvent);
+      spanEvents.add(spanEventBo);
     }
   }
   return spanEvents;

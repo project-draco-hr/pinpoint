@@ -1,0 +1,17 @@
+{
+  final String acceptorHost=span.getAcceptorHost();
+  if (acceptorHost == null) {
+    return;
+  }
+  final String spanApplicationName=span.getApplicationId();
+  final short applicationServiceTypeCode=getApplicationServiceType(span).getCode();
+  final String parentApplicationName=span.getParentApplicationId();
+  final short parentServiceType=span.getParentApplicationServiceType();
+  final ServiceType spanServiceType=registry.findServiceType(span.getServiceType());
+  if (spanServiceType.isQueue()) {
+    hostApplicationMapDao.insert(span.getEndPoint(),spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
+  }
+ else {
+    hostApplicationMapDao.insert(acceptorHost,spanApplicationName,applicationServiceTypeCode,parentApplicationName,parentServiceType);
+  }
+}
