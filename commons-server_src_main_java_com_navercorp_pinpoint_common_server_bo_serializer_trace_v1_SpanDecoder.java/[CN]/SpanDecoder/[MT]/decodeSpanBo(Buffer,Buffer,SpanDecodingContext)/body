@@ -1,0 +1,15 @@
+{
+  TransactionId transactionId=decodingContext.getTransactionId();
+  SpanBo spanBo=new SpanBo();
+  spanBo.setTraceAgentId(transactionId.getAgentId());
+  spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+  spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  long spanId=qualifier.readLong();
+  spanBo.setSpanId(spanId);
+  spanBo.setCollectorAcceptTime(decodingContext.getCollectorAcceptedTime());
+  readSpan(spanBo,valueBuffer);
+  if (logger.isDebugEnabled()) {
+    logger.debug("read span :{}",spanBo);
+  }
+  return spanBo;
+}

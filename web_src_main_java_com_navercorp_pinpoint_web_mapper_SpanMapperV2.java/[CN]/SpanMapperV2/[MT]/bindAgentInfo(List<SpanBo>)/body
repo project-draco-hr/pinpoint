@@ -1,6 +1,7 @@
 {
   for (  SpanBo spanBo : spanBoList) {
     List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+    Collections.sort(spanEventBoList,SpanEventComparator.INSTANCE);
     for (    SpanEventBo spanEventBo : spanEventBoList) {
       spanEventBo.setAgentId(spanBo.getAgentId());
       spanEventBo.setApplicationId(spanBo.getApplicationId());

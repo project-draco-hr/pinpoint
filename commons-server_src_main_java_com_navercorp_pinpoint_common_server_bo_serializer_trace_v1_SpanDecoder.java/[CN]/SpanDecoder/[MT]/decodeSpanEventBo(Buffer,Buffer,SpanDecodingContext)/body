@@ -1,0 +1,26 @@
+{
+  TransactionId transactionId=decodingContext.getTransactionId();
+  SpanEventBo spanEventBo=new SpanEventBo();
+  spanEventBo.setTraceAgentId(transactionId.getAgentId());
+  spanEventBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
+  spanEventBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  long spanId=qualifier.readLong();
+  decodingContext.setSpanId(spanId);
+  short sequence=qualifier.readShort();
+  int asyncId=-1;
+  if (qualifier.hasRemaining()) {
+    asyncId=qualifier.readInt();
+  }
+  short asyncSequence=-1;
+  if (qualifier.hasRemaining()) {
+    asyncSequence=qualifier.readShort();
+  }
+  spanEventBo.setSequence(sequence);
+  spanEventBo.setAsyncId(asyncId);
+  spanEventBo.setAsyncSequence(asyncSequence);
+  readSpanEvent(spanEventBo,valueBuffer);
+  if (logger.isDebugEnabled()) {
+    logger.debug("read spanEvent :{}",spanEventBo);
+  }
+  return spanEventBo;
+}

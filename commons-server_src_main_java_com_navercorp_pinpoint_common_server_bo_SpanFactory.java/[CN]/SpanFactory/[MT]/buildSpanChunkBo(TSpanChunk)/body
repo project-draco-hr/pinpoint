@@ -25,5 +25,7 @@
   List<TSpanEvent> spanEventList=tSpanChunk.getSpanEventList();
   List<SpanEventBo> spanEventBoList=buildSpanEventBoList(spanChunkBo,spanEventList);
   spanChunkBo.addSpanEventBoList(spanEventBoList);
+  long acceptedTime=acceptedTimeService.getAcceptedTime();
+  spanChunkBo.setCollectorAcceptTime(acceptedTime);
   return spanChunkBo;
 }
