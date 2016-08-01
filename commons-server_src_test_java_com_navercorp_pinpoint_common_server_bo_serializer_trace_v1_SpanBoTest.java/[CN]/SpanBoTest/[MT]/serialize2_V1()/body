@@ -10,11 +10,9 @@
   spanBo.setServiceType(ServiceType.STAND_ALONE.getCode());
   spanBo.setApplicationServiceType(ServiceType.UNKNOWN.getCode());
   final ByteBuffer bytes=spanSerializer.writeColumnValue(spanBo);
-  ByteBuffer deprecated=ByteBuffer.wrap(spanBo.writeValue());
-  logger.debug("length:{}",bytes.remaining());
-  Assert.assertEquals(bytes,deprecated);
   SpanBo newSpanBo=new SpanBo();
-  int i=newSpanBo.readValue(bytes.array(),bytes.arrayOffset(),bytes.remaining());
+  Buffer valueBuffer=new OffsetFixedBuffer(bytes.array(),bytes.arrayOffset(),bytes.remaining());
+  int i=spanDecoder.readSpan(newSpanBo,valueBuffer);
   logger.debug("length:{}",i);
   Assert.assertEquals(bytes.limit(),i);
   Assert.assertEquals(spanBo.getServiceType(),spanBo.getServiceType());

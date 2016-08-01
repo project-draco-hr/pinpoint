@@ -5,7 +5,8 @@
   byte[] rowKey=result.getRow();
   final TransactionId transactionId=newTransactionId(rowKey,DISTRIBUTE_HASH_SIZE);
   final Cell[] rawCells=result.rawCells();
-  final List<Object> out=new ArrayList<>(rawCells.length);
+  ListMultimap<Long,SpanBo> spanMap=LinkedListMultimap.create();
+  List<SpanChunkBo> spanChunkList=new ArrayList<>();
   final SpanDecodingContext decodingContext=new SpanDecodingContext();
   decodingContext.setTransactionId(transactionId);
   for (  Cell cell : rawCells) {
@@ -15,7 +16,21 @@
       final Buffer qualifier=new OffsetFixedBuffer(cell.getQualifierArray(),cell.getQualifierOffset(),cell.getQualifierLength());
       final Buffer columnValue=new OffsetFixedBuffer(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
       spanDecoder=resolveDecoder(columnValue);
-      spanDecoder.decode(qualifier,columnValue,decodingContext,out);
+      final Object decodeObject=spanDecoder.decode(qualifier,columnValue,decodingContext);
+      if (decodeObject instanceof SpanBo) {
+        SpanBo spanBo=(SpanBo)decodeObject;
+        if (logger.isDebugEnabled()) {
+          logger.debug("spanBo:{}",spanBo);
+        }
+        spanMap.put(spanBo.getSpanId(),spanBo);
+      }
+ else       if (decodeObject instanceof SpanChunkBo) {
+        SpanChunkBo spanChunkBo=(SpanChunkBo)decodeObject;
+        if (logger.isDebugEnabled()) {
+          logger.debug("spanChunkBo:{}",spanChunkBo);
+        }
+        spanChunkList.add(spanChunkBo);
+      }
     }
  else {
       logger.warn("Unknown ColumnFamily :{}",Bytes.toStringBinary(CellUtil.cloneFamily(cell)));
@@ -23,5 +38,5 @@
     nextCell(spanDecoder,decodingContext);
   }
   decodingContext.finish();
-  return buildSpanBoList(out);
+  return buildSpanBoList(spanMap,spanChunkList);
 }

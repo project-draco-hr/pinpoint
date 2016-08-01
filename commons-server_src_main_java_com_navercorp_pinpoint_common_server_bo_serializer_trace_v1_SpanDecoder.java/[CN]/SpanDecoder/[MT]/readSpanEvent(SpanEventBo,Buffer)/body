@@ -1,0 +1,25 @@
+{
+  spanEvent.setVersion(buffer.readByte());
+  spanEvent.setAgentId(buffer.readPrefixedString());
+  spanEvent.setApplicationId(buffer.readPrefixedString());
+  spanEvent.setAgentStartTime(buffer.readVLong());
+  spanEvent.setStartElapsed(buffer.readVInt());
+  spanEvent.setEndElapsed(buffer.readVInt());
+  spanEvent.setRpc(buffer.readPrefixedString());
+  spanEvent.setServiceType(buffer.readShort());
+  spanEvent.setEndPoint(buffer.readPrefixedString());
+  spanEvent.setDestinationId(buffer.readPrefixedString());
+  spanEvent.setApiId(buffer.readSVInt());
+  spanEvent.setDepth(buffer.readSVInt());
+  spanEvent.setNextSpanId(buffer.readLong());
+  final boolean hasException=buffer.readBoolean();
+  if (hasException) {
+    spanEvent.setExceptionInfo(buffer.readSVInt(),buffer.readPrefixedString());
+  }
+  final List<AnnotationBo> annotationBoList=annotationBoDecoder.decode(buffer);
+  spanEvent.setAnnotationBoList(annotationBoList);
+  if (buffer.hasRemaining()) {
+    spanEvent.setNextAsyncId(buffer.readSVInt());
+  }
+  return buffer.getOffset();
+}
