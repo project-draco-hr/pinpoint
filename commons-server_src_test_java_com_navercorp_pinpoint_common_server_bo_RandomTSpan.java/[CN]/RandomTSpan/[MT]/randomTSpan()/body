@@ -1,0 +1,34 @@
+{
+  final TSpan tSpan=new TSpan();
+  tSpan.setAgentId("agentId");
+  tSpan.setApplicationName("appName");
+  tSpan.setAgentStartTime(System.currentTimeMillis());
+  tSpan.setTransactionId(TransactionIdUtils.formatByteBuffer("agent",System.currentTimeMillis(),RandomUtils.nextLong(0,Long.MAX_VALUE)));
+  tSpan.setSpanId(random.nextLong());
+  tSpan.setParentSpanId(RandomUtils.nextInt(0,100000));
+  tSpan.setStartTime(System.currentTimeMillis() + RandomUtils.nextInt(0,1000));
+  tSpan.setElapsed(RandomUtils.nextInt(0,2000));
+  tSpan.setRpc(RandomStringUtils.random(10));
+  tSpan.setServiceType(randomServerServiceType());
+  tSpan.setEndPoint(RandomStringUtils.random(20));
+  tSpan.setRemoteAddr(RandomStringUtils.random(20));
+  List<TAnnotation> tAnnotationList=randomTAnnotationList();
+  if (CollectionUtils.isNotEmpty(tAnnotationList)) {
+    tSpan.setAnnotations(tAnnotationList);
+  }
+  tSpan.setFlag((short)RandomUtils.nextInt(0,4));
+  tSpan.setErr((short)RandomUtils.nextInt(0,1));
+  tSpan.setParentApplicationName("parentApp");
+  tSpan.setParentApplicationType(randomServerServiceType());
+  tSpan.setAcceptorHost("acceptHost");
+  tSpan.setApiId(RandomUtils.nextInt(0,5000));
+  tSpan.setApplicationServiceType(randomServerServiceType());
+  if (random.nextBoolean()) {
+    TIntStringValue exceptionInfo=new TIntStringValue();
+    exceptionInfo.setIntValue(RandomUtils.nextInt(0,5000));
+    exceptionInfo.setStringValue(RandomStringUtils.random(100));
+    tSpan.setExceptionInfo(exceptionInfo);
+  }
+  tSpan.setLoggingTransactionInfo((byte)RandomUtils.nextInt(0,256));
+  return tSpan;
+}

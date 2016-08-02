@@ -1,0 +1,22 @@
+{
+  Assert.assertEquals(tSpanEvent.getSequence(),spanEventBo.getSequence());
+  Assert.assertEquals(tSpanEvent.getStartElapsed(),spanEventBo.getStartElapsed());
+  Assert.assertEquals(tSpanEvent.getEndElapsed(),spanEventBo.getEndElapsed());
+  Assert.assertEquals(tSpanEvent.getRpc(),spanEventBo.getRpc());
+  Assert.assertEquals(tSpanEvent.getServiceType(),spanEventBo.getServiceType());
+  Assert.assertEquals(tSpanEvent.getEndPoint(),spanEventBo.getEndPoint());
+  assertAnnotation(tSpanEvent.getAnnotations(),spanEventBo.getAnnotationBoList());
+  Assert.assertEquals(tSpanEvent.getDepth(),spanEventBo.getDepth());
+  Assert.assertEquals(tSpanEvent.getNextSpanId(),spanEventBo.getNextSpanId());
+  Assert.assertEquals(tSpanEvent.getDestinationId(),spanEventBo.getDestinationId());
+  Assert.assertEquals(tSpanEvent.getApiId(),spanEventBo.getApiId());
+  boolean hasException=tSpanEvent.getExceptionInfo() != null;
+  Assert.assertEquals(hasException,spanEventBo.hasException());
+  if (hasException) {
+    Assert.assertEquals(tSpanEvent.getExceptionInfo().getIntValue(),spanEventBo.getExceptionId());
+    Assert.assertEquals(tSpanEvent.getExceptionInfo().getStringValue(),spanEventBo.getExceptionMessage());
+  }
+  Assert.assertEquals(tSpanEvent.getAsyncId(),spanEventBo.getAsyncId());
+  Assert.assertEquals(tSpanEvent.getNextAsyncId(),spanEventBo.getNextAsyncId());
+  Assert.assertEquals(tSpanEvent.getAsyncSequence(),spanEventBo.getAsyncSequence());
+}

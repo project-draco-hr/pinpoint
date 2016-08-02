@@ -1,0 +1,15 @@
+{
+  if (CollectionUtils.isEmpty(tAnnotationList) && CollectionUtils.isEmpty(annotationBoList)) {
+    return;
+  }
+  Assert.assertEquals(tAnnotationList.size(),annotationBoList.size());
+  if (tAnnotationList.isEmpty()) {
+    return;
+  }
+  for (int i=0; i < tAnnotationList.size(); i++) {
+    TAnnotation tAnnotation=tAnnotationList.get(i);
+    AnnotationBo annotationBo=annotationBoList.get(i);
+    Assert.assertEquals(tAnnotation.getKey(),annotationBo.getKey());
+    Assert.assertEquals(tAnnotation.getValue().getStringValue(),annotationBo.getValue());
+  }
+}
