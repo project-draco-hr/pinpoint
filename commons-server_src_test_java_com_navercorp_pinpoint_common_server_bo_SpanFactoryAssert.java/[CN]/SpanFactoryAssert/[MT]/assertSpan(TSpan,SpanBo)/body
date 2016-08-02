@@ -1,0 +1,31 @@
+{
+  Assert.assertEquals(tSpan.getAgentId(),spanBo.getAgentId());
+  Assert.assertEquals(tSpan.getApplicationName(),spanBo.getApplicationId());
+  Assert.assertEquals(tSpan.getAgentStartTime(),spanBo.getAgentStartTime());
+  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(spanBo.getTraceAgentId(),spanBo.getTraceAgentStartTime(),spanBo.getTraceTransactionSequence());
+  Assert.assertEquals(ByteBuffer.wrap(tSpan.getTransactionId()),byteBuffer);
+  Assert.assertEquals(tSpan.getSpanId(),spanBo.getSpanId());
+  Assert.assertEquals(tSpan.getParentSpanId(),spanBo.getParentSpanId());
+  Assert.assertEquals(tSpan.getStartTime(),spanBo.getStartTime());
+  Assert.assertEquals(tSpan.getElapsed(),spanBo.getElapsed());
+  Assert.assertEquals(tSpan.getElapsed(),spanBo.getElapsed());
+  Assert.assertEquals(tSpan.getRpc(),spanBo.getRpc());
+  Assert.assertEquals(tSpan.getServiceType(),spanBo.getServiceType());
+  Assert.assertEquals(tSpan.getEndPoint(),spanBo.getEndPoint());
+  Assert.assertEquals(tSpan.getRemoteAddr(),spanBo.getRemoteAddr());
+  assertAnnotation(tSpan.getAnnotations(),spanBo.getAnnotationBoList());
+  Assert.assertEquals(tSpan.getFlag(),spanBo.getFlag());
+  Assert.assertEquals(tSpan.getErr(),spanBo.getErrCode());
+  Assert.assertEquals(tSpan.getParentApplicationName(),spanBo.getParentApplicationId());
+  Assert.assertEquals(tSpan.getParentApplicationType(),spanBo.getParentApplicationServiceType());
+  Assert.assertEquals(tSpan.getAcceptorHost(),spanBo.getAcceptorHost());
+  Assert.assertEquals(tSpan.getApiId(),spanBo.getApiId());
+  Assert.assertEquals(tSpan.getApplicationServiceType(),spanBo.getApplicationServiceType());
+  boolean hasException=tSpan.getExceptionInfo() != null;
+  Assert.assertEquals(hasException,spanBo.hasException());
+  if (hasException) {
+    Assert.assertEquals(tSpan.getExceptionInfo().getIntValue(),spanBo.getExceptionId());
+    Assert.assertEquals(tSpan.getExceptionInfo().getStringValue(),spanBo.getExceptionMessage());
+  }
+  Assert.assertEquals(tSpan.getLoggingTransactionInfo(),spanBo.getLoggingTransactionInfo());
+}

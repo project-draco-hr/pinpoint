@@ -1,27 +1,5 @@
 {
-  final SpanChunkBo spanChunkBo=new SpanChunkBo();
-  spanChunkBo.setAgentId(tSpanChunk.getAgentId());
-  spanChunkBo.setApplicationId(tSpanChunk.getApplicationName());
-  spanChunkBo.setAgentStartTime(tSpanChunk.getAgentStartTime());
-  spanChunkBo.setServiceType(tSpanChunk.getServiceType());
-  if (tSpanChunk.isSetApplicationServiceType()) {
-    spanChunkBo.setApplicationServiceType(tSpanChunk.getApplicationServiceType());
-  }
- else {
-    spanChunkBo.setApplicationServiceType(tSpanChunk.getServiceType());
-  }
-  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(tSpanChunk.getTransactionId());
-  final String traceAgentId=transactionId.getAgentId();
-  if (traceAgentId == null) {
-    spanChunkBo.setTraceAgentId(spanChunkBo.getAgentId());
-  }
- else {
-    spanChunkBo.setTraceAgentId(traceAgentId);
-  }
-  spanChunkBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
-  spanChunkBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
-  spanChunkBo.setSpanId(tSpanChunk.getSpanId());
-  spanChunkBo.setEndPoint(tSpanChunk.getEndPoint());
+  final SpanChunkBo spanChunkBo=newSpanChunkBo(tSpanChunk);
   List<TSpanEvent> spanEventList=tSpanChunk.getSpanEventList();
   List<SpanEventBo> spanEventBoList=buildSpanEventBoList(spanChunkBo,spanEventList);
   spanChunkBo.addSpanEventBoList(spanEventBoList);
