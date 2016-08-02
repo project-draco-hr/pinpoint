@@ -1,6 +1,6 @@
 {
   logger.debug("traceId:{}",traceIdParam);
-  final TransactionId traceId=new TransactionId(traceIdParam);
+  final TransactionId traceId=TransactionIdUtils.parseTransactionId(traceIdParam);
   final SpanResult spanResult=this.spanService.selectSpan(traceId,focusTimestamp);
   final CallTreeIterator callTreeIterator=spanResult.getCallTree();
   ApplicationMap map=filteredMapService.selectApplicationMap(traceId);

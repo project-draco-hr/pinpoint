@@ -1,0 +1,19 @@
+{
+  List<Integer> numbers=new ArrayList<Integer>(10);
+  for (int i=0; i < 10; i++) {
+    numbers.add(i);
+  }
+  Collections.shuffle(numbers);
+  List<TransactionId> list=new ArrayList<TransactionId>();
+  for (int i=0; i < 10; i++) {
+    list.add(new TransactionId("A",1,numbers.get(i)));
+  }
+  logger.debug("{}",list);
+  Collections.sort(list,comparator);
+  int i=0;
+  for (  TransactionId transactionId : list) {
+    Assert.assertEquals(i,transactionId.getTransactionSequence());
+    i++;
+  }
+  logger.debug("{}",list);
+}
