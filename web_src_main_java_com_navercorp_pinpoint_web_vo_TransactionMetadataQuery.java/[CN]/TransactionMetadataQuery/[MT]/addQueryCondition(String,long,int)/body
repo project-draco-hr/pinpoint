@@ -2,7 +2,7 @@
   if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  TransactionId traceId=new TransactionId(transactionId);
+  TransactionId traceId=TransactionIdUtils.parseTransactionId(transactionId);
   QueryCondition condition=new QueryCondition(traceId,collectorAcceptTime,responseTime);
   queryConditionList.add(condition);
 }

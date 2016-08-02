@@ -3,12 +3,11 @@
   final List<TransactionId> traceIdList=limitedScanResult.getScanData();
   logger.trace("submitted transactionId count={}",traceIdList.size());
   boolean requestComplete=traceIdList.size() < limit;
-  SortedSet<TransactionId> traceIdSet=new TreeSet<>(traceIdList);
-  logger.debug("unified traceIdSet size={}",traceIdSet.size());
+  Collections.sort(traceIdList,TransactionIdComparator.INSTANCE);
   Filter filter=filterBuilder.build(filterText);
   ModelAndView mv;
   if (version == 1) {
-    ScatterData scatterData=scatter.selectScatterData(traceIdSet,applicationName,range,xGroupUnit,yGroupUnit,filter);
+    ScatterData scatterData=scatter.selectScatterData(traceIdList,applicationName,range,xGroupUnit,yGroupUnit,filter);
     if (logger.isDebugEnabled()) {
       logger.debug("getScatterData range scan(limited:{}, backwardDirection:{}) from ~ to:{} ~ {}, limited:{}, filterDataSize:{}",limit,backwardDirection,DateUtils.longToDateStr(range.getFrom()),DateUtils.longToDateStr(range.getTo()),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()),traceIdList.size());
     }

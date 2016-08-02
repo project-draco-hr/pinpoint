@@ -2,7 +2,8 @@
   if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  final byte[] transactionIdBytes=rowKeyDistributor.getDistributedKey(transactionId.getBytes());
+  byte[] rowKey=newRowKey(transactionId);
+  final byte[] transactionIdBytes=rowKeyDistributor.getDistributedKey(rowKey);
   Get get=new Get(transactionIdBytes);
   get.addFamily(HBaseTables.TRACES_CF_SPAN);
   get.addFamily(HBaseTables.TRACES_CF_TERMINALSPAN);
