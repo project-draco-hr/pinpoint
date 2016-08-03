@@ -7,9 +7,8 @@
   }
   final List<Get> getList=new ArrayList<>(transactionIdList.size());
   for (  TransactionId transactionId : transactionIdList) {
-    byte[] rowKey=newRowKey(transactionId);
-    final byte[] transactionIdBytes=rowKeyDistributor.getDistributedKey(rowKey);
-    final Get get=new Get(transactionIdBytes);
+    byte[] transactionIdRowKey=rowKeyDecoder.encodeRowKey(transactionId);
+    final Get get=new Get(transactionIdRowKey);
     for (    byte[] hbaseFamily : hBaseFamiliyList) {
       get.addFamily(hbaseFamily);
     }
