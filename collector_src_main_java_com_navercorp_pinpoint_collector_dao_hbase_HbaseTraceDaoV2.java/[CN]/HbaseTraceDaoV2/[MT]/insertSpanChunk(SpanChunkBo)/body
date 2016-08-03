@@ -1,5 +1,5 @@
 {
-  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanChunkBo));
+  final byte[] rowKey=this.rowKeyEncoder.encodeRowKey(spanChunkBo);
   final long acceptedTime=spanChunkBo.getCollectorAcceptTime();
   final Put put=new Put(rowKey,acceptedTime);
   final List<SpanEventBo> spanEventBoList=spanChunkBo.getSpanEventBoList();

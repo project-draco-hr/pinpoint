@@ -3,7 +3,7 @@
     throw new NullPointerException("spanBo must not be null");
   }
   long acceptedTime=spanBo.getCollectorAcceptTime();
-  final byte[] rowKey=getDistributeRowKey(SpanUtils.getTransactionId(spanBo));
+  final byte[] rowKey=this.rowKeyEncoder.encodeRowKey(spanBo);
   final Put put=new Put(rowKey,acceptedTime);
   this.spanSerializer.serialize(spanBo,put,null);
   boolean success=hbaseTemplate.asyncPut(TRACE_V2,put);

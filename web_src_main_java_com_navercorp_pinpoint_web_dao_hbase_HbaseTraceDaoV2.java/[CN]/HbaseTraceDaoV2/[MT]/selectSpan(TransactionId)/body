@@ -2,7 +2,6 @@
   if (transactionId == null) {
     throw new NullPointerException("transactionId must not be null");
   }
-  byte[] rowKey=newRowKey(transactionId);
-  byte[] traceIdBytes=rowKeyDistributor.getDistributedKey(rowKey);
-  return template2.get(HBaseTables.TRACE_V2,traceIdBytes,HBaseTables.TRACE_V2_CF_SPAN,spanMapperV2);
+  byte[] transactionIdRowKey=transactionIdRowKeyEncoder.encodeRowKey(transactionId);
+  return template2.get(HBaseTables.TRACE_V2,transactionIdRowKey,HBaseTables.TRACE_V2_CF_SPAN,spanMapperV2);
 }

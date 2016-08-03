@@ -3,7 +3,7 @@
     return Collections.emptyList();
   }
   byte[] rowKey=result.getRow();
-  final TransactionId transactionId=newTransactionId(rowKey,DISTRIBUTE_HASH_SIZE);
+  final TransactionId transactionId=this.rowKeyDecoder.decodeRowKey(rowKey);
   final Cell[] rawCells=result.rawCells();
   ListMultimap<Long,SpanBo> spanMap=LinkedListMultimap.create();
   List<SpanChunkBo> spanChunkList=new ArrayList<>();
