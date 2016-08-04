@@ -1,4 +1,8 @@
 {
+  if (serverMapDataFilter != null && serverMapDataFilter.filter(webSocketSession,requestMessage)) {
+    closeSession(webSocketSession,serverMapDataFilter.getCloseStatus(requestMessage));
+    return;
+  }
   String command=requestMessage.getCommand();
   if (API_ACTIVE_THREAD_COUNT.equals(command)) {
     String applicationName=MapUtils.getString(requestMessage.getParams(),APPLICATION_NAME_KEY);
