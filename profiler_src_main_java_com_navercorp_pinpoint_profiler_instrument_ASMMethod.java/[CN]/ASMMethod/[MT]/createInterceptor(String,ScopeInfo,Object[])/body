@@ -1,0 +1,6 @@
+{
+  final ClassLoader classLoader=this.declaringClass.getClassLoader();
+  final AnnotatedInterceptorFactory factory=new AnnotatedInterceptorFactory(this.pluginContext,true);
+  final Interceptor interceptor=factory.getInterceptor(classLoader,interceptorClassName,constructorArgs,scopeInfo.getScope(),scopeInfo.getPolicy(),this.declaringClass,this);
+  return interceptor;
+}

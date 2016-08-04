@@ -1,0 +1,11 @@
+{
+  if (declaringClassInternalName == null || methodNode == null) {
+    throw new IllegalArgumentException("declaring class internal name and method annotation must not be null. class=" + declaringClassInternalName + ", methodNode="+ methodNode);
+  }
+  if (methodNode.instructions == null || methodNode.desc == null) {
+    throw new IllegalArgumentException("method annotation's instructions or desc must not be null. class=" + declaringClassInternalName + ", method="+ methodNode.name+ methodNode.desc);
+  }
+  this.declaringClassInternalName=declaringClassInternalName;
+  this.methodNode=methodNode;
+  this.methodVariables=new ASMMethodVariables(declaringClassInternalName,methodNode);
+}

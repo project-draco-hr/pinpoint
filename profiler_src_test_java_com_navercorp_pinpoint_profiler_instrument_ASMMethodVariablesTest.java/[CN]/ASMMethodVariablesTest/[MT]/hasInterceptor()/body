@@ -1,0 +1,13 @@
+{
+  InterceptorRegistryBinder interceptorRegistryBinder=new DefaultInterceptorRegistryBinder();
+  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(new ArgsArrayInterceptor());
+  final InterceptorDefinition interceptorDefinition=new InterceptorDefinitionFactory().createInterceptorDefinition(ArgsArrayInterceptor.class);
+  final ClassNode classNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.ArgsClass");
+  List<MethodNode> methodNodes=classNode.methods;
+  for (  MethodNode methodNode : methodNodes) {
+    ASMMethodNodeAdapter methodNodeAdapter=new ASMMethodNodeAdapter(classNode.name,methodNode);
+    assertEquals(false,methodNodeAdapter.hasInterceptor());
+    methodNodeAdapter.addBeforeInterceptor(interceptorId,interceptorDefinition,-1);
+    assertEquals(true,methodNodeAdapter.hasInterceptor());
+  }
+}

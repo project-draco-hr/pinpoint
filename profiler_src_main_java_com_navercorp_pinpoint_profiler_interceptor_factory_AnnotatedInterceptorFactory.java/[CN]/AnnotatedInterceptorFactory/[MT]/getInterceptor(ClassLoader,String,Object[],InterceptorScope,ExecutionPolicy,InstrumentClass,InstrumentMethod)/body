@@ -13,7 +13,17 @@
   InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(pluginContext.getTraceContext(),scope,target,targetMethod);
   Interceptor interceptor=(Interceptor)factory.createInstance(objectFactory,interceptorArgumentProvider);
   if (scope != null) {
-    interceptor=wrapByScope(interceptor,scope,policy == null ? ExecutionPolicy.BOUNDARY : policy);
+    if (exceptionHandle) {
+      interceptor=wrapByExceptionHandleScope(interceptor,scope,policy == null ? ExecutionPolicy.BOUNDARY : policy);
+    }
+ else {
+      interceptor=wrapByScope(interceptor,scope,policy == null ? ExecutionPolicy.BOUNDARY : policy);
+    }
+  }
+ else {
+    if (exceptionHandle) {
+      interceptor=wrapByExceptionHandle(interceptor);
+    }
   }
   return interceptor;
 }

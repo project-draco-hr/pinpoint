@@ -1,0 +1,34 @@
+{
+  if ((targetClassName == null || name.equals(targetClassName))) {
+    try {
+      ClassNode classNode=ASMClassNodeLoader.get(name.replace('.','/'));
+      if (this.trace) {
+        System.out.println("## original #############################################################");
+        ASMClassWriter cw=new ASMClassWriter(classNode.name,classNode.superName,0,null);
+        TraceClassVisitor tcv=new TraceClassVisitor(cw,new PrintWriter(System.out));
+        classNode.accept(tcv);
+      }
+      if (callbackHandler != null) {
+        callbackHandler.handle(classNode);
+      }
+      ASMClassWriter cw=new ASMClassWriter(classNode.name,classNode.superName,ClassWriter.COMPUTE_FRAMES,null);
+      if (this.trace) {
+        System.out.println("## modified #############################################################");
+        TraceClassVisitor tcv=new TraceClassVisitor(cw,new PrintWriter(System.out));
+        classNode.accept(tcv);
+      }
+ else {
+        classNode.accept(cw);
+      }
+      byte[] bytecode=cw.toByteArray();
+      if (this.verify) {
+        CheckClassAdapter.verify(new ClassReader(bytecode),false,new PrintWriter(System.out));
+      }
+      return super.defineClass(name,bytecode,0,bytecode.length);
+    }
+ catch (    Exception ex) {
+      throw new ClassNotFoundException("Load error: " + ex.toString(),ex);
+    }
+  }
+  return super.loadClass(name);
+}

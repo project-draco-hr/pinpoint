@@ -1,0 +1,9 @@
+{
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.MethodClass";
+  final MethodNode methodNode=ASMClassNodeLoader.get(targetClassName,"publicStaticMethod");
+  ASMMethodNodeAdapter adapter=new ASMMethodNodeAdapter(targetClassName,methodNode);
+  assertEquals(true,adapter.isStatic());
+  assertEquals(false,adapter.isAbstract());
+  assertEquals(false,adapter.isPrivate());
+  assertEquals(false,adapter.isNative());
+}

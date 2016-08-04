@@ -1,0 +1,16 @@
+{
+  if (this.skipCode) {
+    throw new IllegalStateException("not supported operation, skipCode option is true.");
+  }
+  final List<ASMMethodNodeAdapter> methodNodes=new ArrayList<ASMMethodNodeAdapter>();
+  if (this.classNode.methods == null) {
+    return methodNodes;
+  }
+  for (  MethodNode methodNode : this.classNode.methods) {
+    if (methodNode.name == null || methodNode.name.equals("<init>") || methodNode.name.equals("<clinit>")) {
+      continue;
+    }
+    methodNodes.add(new ASMMethodNodeAdapter(getInternalName(),methodNode));
+  }
+  return methodNodes;
+}

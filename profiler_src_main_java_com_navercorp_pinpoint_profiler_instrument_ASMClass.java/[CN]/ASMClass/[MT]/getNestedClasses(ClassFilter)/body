@@ -1,0 +1,10 @@
+{
+  final List<InstrumentClass> nestedClasses=new ArrayList<InstrumentClass>();
+  for (  ASMClassNodeAdapter innerClassNode : this.classNode.getInnerClasses()) {
+    final ASMNestedClass nestedClass=new ASMNestedClass(this.pluginContext,this.interceptorRegistryBinder,this.classLoader,innerClassNode);
+    if (filter.accept(nestedClass)) {
+      nestedClasses.add(nestedClass);
+    }
+  }
+  return nestedClasses;
+}

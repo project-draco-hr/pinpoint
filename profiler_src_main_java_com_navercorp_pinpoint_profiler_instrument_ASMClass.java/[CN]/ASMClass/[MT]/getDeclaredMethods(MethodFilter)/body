@@ -1,0 +1,13 @@
+{
+  if (methodFilter == null) {
+    throw new NullPointerException("methodFilter must not be null");
+  }
+  final List<InstrumentMethod> candidateList=new ArrayList<InstrumentMethod>();
+  for (  ASMMethodNodeAdapter methodNode : this.classNode.getDeclaredMethods()) {
+    final InstrumentMethod method=new ASMMethod(this.pluginContext,this.interceptorRegistryBinder,this,methodNode);
+    if (methodFilter.accept(method)) {
+      candidateList.add(method);
+    }
+  }
+  return candidateList;
+}

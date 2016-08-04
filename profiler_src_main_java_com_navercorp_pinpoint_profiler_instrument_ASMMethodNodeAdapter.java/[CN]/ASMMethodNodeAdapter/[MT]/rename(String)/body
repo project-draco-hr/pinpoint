@@ -1,0 +1,10 @@
+{
+  if (name == null) {
+    throw new IllegalArgumentException("method name must not be null.");
+  }
+  final ASMMethodInsnNodeRemapper remapper=new ASMMethodInsnNodeRemapper();
+  remapper.addFilter(this.declaringClassInternalName.replace('.','/'),this.methodNode.name,this.methodNode.desc);
+  remapper.setName(name);
+  remapMethodInsnNode(remapper);
+  this.methodNode.name=name;
+}

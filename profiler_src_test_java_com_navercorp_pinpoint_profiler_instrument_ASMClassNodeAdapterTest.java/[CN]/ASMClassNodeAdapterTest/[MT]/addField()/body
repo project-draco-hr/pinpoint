@@ -1,0 +1,24 @@
+{
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.BaseClass";
+  final String accessorClassName="com.navercorp.pinpoint.profiler.instrument.mock.BaseAccessor";
+  final ASMClassNodeLoader.TestClassLoader classLoader=ASMClassNodeLoader.getClassLoader();
+  classLoader.setTargetClassName(targetClassName);
+  classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
+    @Override public void handle(    ClassNode classNode){
+      ASMClassNodeAdapter classNodeAdapter=new ASMClassNodeAdapter(null,classNode);
+      classNodeAdapter.addField("_$PINPOINT$_" + accessorClassName.replace('.','_').replace('$','_'),int.class);
+      classNodeAdapter.addInterface(accessorClassName);
+      ASMFieldNodeAdapter fieldNode=classNodeAdapter.getField("_$PINPOINT$_" + accessorClassName.replace('.','_').replace('$','_'),null);
+      classNodeAdapter.addGetterMethod("_$PINPOINT$_getTraceInt",fieldNode);
+      classNodeAdapter.addSetterMethod("_$PINPOINT$_setTraceInt",fieldNode);
+    }
+  }
+);
+  Class<?> clazz=classLoader.loadClass(targetClassName);
+  Object instance=clazz.newInstance();
+  Method setMethod=clazz.getDeclaredMethod("_$PINPOINT$_setTraceInt",int.class);
+  setMethod.invoke(instance,10);
+  Method getMethod=clazz.getDeclaredMethod("_$PINPOINT$_getTraceInt");
+  int result=(Integer)getMethod.invoke(instance);
+  System.out.println(result);
+}

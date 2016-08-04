@@ -1,0 +1,13 @@
+{
+  assertInitializedInterceptorLocalVariables();
+  this.interceptorVarIndex=addLocalVariable("_$PINPOINT$_interceptor","Lcom/navercorp/pinpoint/bootstrap/interceptor/Interceptor;");
+  push(instructions,interceptorId);
+  instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(InterceptorRegistry.class),"getInterceptor","(I)" + Type.getDescriptor(Interceptor.class),false));
+  storeVar(instructions,this.interceptorVarIndex);
+  this.resultVarIndex=addLocalVariable("_$PINPOINT$_result","Ljava/lang/Object;");
+  loadNull(instructions);
+  storeVar(instructions,this.resultVarIndex);
+  this.throwableVarIndex=addLocalVariable("_$PINPOINT$_throwable","Ljava/lang/Throwable;");
+  loadNull(instructions);
+  storeVar(instructions,this.throwableVarIndex);
+}

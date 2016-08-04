@@ -1,0 +1,8 @@
+{
+  ASMClass clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.ArgsClass");
+  List<InstrumentMethod> methods=clazz.getDeclaredMethods();
+  assertNotNull(methods);
+  methods=clazz.getDeclaredMethods(MethodFilters.name("arg"));
+  assertEquals(1,methods.size());
+  assertEquals("arg",methods.get(0).getName());
+}

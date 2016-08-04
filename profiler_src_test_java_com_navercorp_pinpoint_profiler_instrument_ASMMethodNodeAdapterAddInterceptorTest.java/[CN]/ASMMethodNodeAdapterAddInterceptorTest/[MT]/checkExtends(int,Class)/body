@@ -1,0 +1,9 @@
+{
+  addInterceptor(interceptorId,"com.navercorp.pinpoint.profiler.instrument.mock.ConstructorParentClass",interceptorClass);
+  Class clazz=addInterceptor(interceptorId,"com.navercorp.pinpoint.profiler.instrument.mock.ConstructorChildClass",interceptorClass);
+  invokeMethod(clazz,"<init>",interceptorClass,new Class[]{},new Object[]{},null,false);
+  invokeMethod(clazz,"<init>",interceptorClass,new Class[]{String.class},new Object[]{"foo"},null,false);
+  invokeMethod(clazz,"<init>",interceptorClass,new Class[]{String.class,int.class},new Object[]{"foo",1},null,false);
+  invokeMethod(clazz,"<init>",interceptorClass,new Class[]{Object.class},new Object[]{"foo"},null,false);
+  invokeMethod(clazz,"<init>",interceptorClass,new Class[]{int.class},new Object[]{1},null,false);
+}

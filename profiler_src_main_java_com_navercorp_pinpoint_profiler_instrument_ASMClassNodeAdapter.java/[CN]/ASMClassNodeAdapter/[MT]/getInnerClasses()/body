@@ -1,0 +1,17 @@
+{
+  if (this.classNode.innerClasses == null) {
+    return Collections.EMPTY_LIST;
+  }
+  final List<ASMClassNodeAdapter> innerClasses=new ArrayList<ASMClassNodeAdapter>();
+  final List<InnerClassNode> innerClassNodes=this.classNode.innerClasses;
+  for (  InnerClassNode node : innerClassNodes) {
+    if (node.name == null) {
+      continue;
+    }
+    ASMClassNodeAdapter adapter=get(this.classLoader,node.name,true);
+    if (adapter != null) {
+      innerClasses.add(adapter);
+    }
+  }
+  return innerClasses;
+}

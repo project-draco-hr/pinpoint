@@ -1,0 +1,32 @@
+{
+  final ClassLoader defaultClassLoader=Thread.currentThread().getContextClassLoader();
+  final ClassLoader classLoader=new ClassLoader(){
+    @Override public Class<?> loadClass(    String name) throws ClassNotFoundException {
+      if (name.equals(originalName)) {
+        try {
+          final ClassReader cr=new ClassReader(getClass().getResourceAsStream("/" + name.replace('.','/') + ".class"));
+          final ClassNode classNode=new ClassNode();
+          cr.accept(classNode,0);
+          final ASMClassNodeAdapter sourceClassNode=new ASMClassNodeAdapter(defaultClassLoader,classNode);
+          final ASMClassNodeAdapter adviceClassNode=ASMClassNodeAdapter.get(defaultClassLoader,aspectName.replace('.','/'));
+          final ASMAspectWeaver aspectWeaver=new ASMAspectWeaver();
+          aspectWeaver.weaving(sourceClassNode,adviceClassNode);
+          final ClassWriter cw=new ClassWriter(0);
+          classNode.accept(cw);
+          final byte[] bytecode=cw.toByteArray();
+          CheckClassAdapter.verify(new ClassReader(bytecode),false,new PrintWriter(System.out));
+          return super.defineClass(name,bytecode,0,bytecode.length);
+        }
+ catch (        Exception ex) {
+          throw new ClassNotFoundException("Load error: " + ex.toString(),ex);
+        }
+      }
+ else {
+        return super.loadClass(name);
+      }
+    }
+  }
+;
+  Class clazz=classLoader.loadClass(originalName);
+  return clazz.newInstance();
+}

@@ -1,0 +1,6 @@
+{
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NormalClass";
+  final MethodNode methodNode=ASMClassNodeLoader.get(targetClassName,"sum");
+  ASMMethodNodeAdapter adapter=new ASMMethodNodeAdapter(targetClassName,methodNode);
+  assertEquals(44,adapter.getLineNumber());
+}

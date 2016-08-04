@@ -1,0 +1,17 @@
+{
+  ASMClassWriter cw=new ASMClassWriter("","",0,null);
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/util/Iterator","java/lang/Object"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/lang/Object","java/lang/String"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/lang/Object","java/util/List"));
+  assertEquals("java/util/List",cw.getCommonSuperClass("java/util/ArrayList","java/util/List"));
+  assertEquals("java/util/Map",cw.getCommonSuperClass("java/util/HashMap","java/util/Map"));
+  assertEquals("com/navercorp/pinpoint/profiler/instrument/mock/ConstructorParentClass",cw.getCommonSuperClass("com/navercorp/pinpoint/profiler/instrument/mock/ConstructorParentClass","com/navercorp/pinpoint/profiler/instrument/mock/ConstructorChildClass"));
+  assertEquals("java/lang/Exception",cw.getCommonSuperClass("java/io/IOException","java/lang/Exception"));
+  assertEquals("java/lang/Throwable",cw.getCommonSuperClass("java/lang/Throwable","java/lang/Exception"));
+  assertEquals("org/springframework/beans/PropertyValues",cw.getCommonSuperClass("org/springframework/beans/PropertyValues","org/springframework/beans/MutablePropertyValues"));
+  assertEquals("java/net/URLConnection",cw.getCommonSuperClass("java/net/HttpURLConnection","java/net/URLConnection"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/lang/Exception","java/lang/Class"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/lang/String","java/lang/Class"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/lang/IllegalArgumentException","javax/servlet/http/Cookie"));
+  assertEquals("java/lang/Object",cw.getCommonSuperClass("java/net/MalformedURLException","java/net/URL"));
+}

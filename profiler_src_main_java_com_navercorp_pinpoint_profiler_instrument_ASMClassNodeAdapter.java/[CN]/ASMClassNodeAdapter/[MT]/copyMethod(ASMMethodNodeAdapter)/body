@@ -1,0 +1,13 @@
+{
+  if (methodNode == null) {
+    throw new IllegalArgumentException("method annotation must not be null");
+  }
+  final ASMMethodInsnNodeRemapper remapper=new ASMMethodInsnNodeRemapper();
+  remapper.addFilter(methodNode.getDeclaringClassInternalName().replace('.','/'),null,null);
+  remapper.setOwner(this.classNode.name);
+  methodNode.remapMethodInsnNode(remapper);
+  if (this.classNode.methods == null) {
+    this.classNode.methods=new ArrayList<MethodNode>();
+  }
+  this.classNode.methods.add(methodNode.getMethodNode());
+}

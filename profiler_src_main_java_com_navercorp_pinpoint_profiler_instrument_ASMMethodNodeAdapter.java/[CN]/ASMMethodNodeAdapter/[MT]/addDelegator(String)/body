@@ -1,0 +1,16 @@
+{
+  if (superClassInternalName == null) {
+    throw new IllegalArgumentException("super class internal name must not be null.");
+  }
+  final InsnList instructions=this.methodNode.instructions;
+  if (isStatic()) {
+    this.methodVariables.loadArgs(instructions);
+    instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC,superClassInternalName,this.methodNode.name,this.methodNode.desc,false));
+  }
+ else {
+    this.methodVariables.loadVar(instructions,0);
+    this.methodVariables.loadArgs(instructions);
+    instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,superClassInternalName,this.methodNode.name,this.methodNode.desc,false));
+  }
+  this.methodVariables.returnValue(instructions);
+}

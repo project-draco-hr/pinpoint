@@ -1,0 +1,18 @@
+{
+  if (methodName == null) {
+    return null;
+  }
+  final List<MethodNode> declaredMethods=classNode.methods;
+  if (declaredMethods == null) {
+    return null;
+  }
+  for (  MethodNode methodNode : declaredMethods) {
+    if (methodNode.name == null || !methodNode.name.equals(methodName)) {
+      continue;
+    }
+    if (desc == null || (methodNode.desc != null && methodNode.desc.startsWith(desc))) {
+      return new ASMMethodNodeAdapter(getInternalName(),methodNode);
+    }
+  }
+  return null;
+}

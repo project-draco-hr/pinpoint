@@ -1,0 +1,8 @@
+{
+  MethodNode methodNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.ConstructorChildClass","<init>");
+  ASMMethodVariables variables=new ASMMethodVariables("com.navercorp.pinpoint.profiler.instrument.mock.ConstructorChildClass",methodNode);
+  assertEquals(1,variables.getInterceptorParameterCount(new InterceptorDefinitionFactory().createInterceptorDefinition(ArgsArrayInterceptor.class)));
+  assertEquals(4,variables.getInterceptorParameterCount(new InterceptorDefinitionFactory().createInterceptorDefinition(StaticInterceptor.class)));
+  assertEquals(2,variables.getInterceptorParameterCount(new InterceptorDefinitionFactory().createInterceptorDefinition(ApiIdAwareInterceptor.class)));
+  assertEquals(5,variables.getInterceptorParameterCount(new InterceptorDefinitionFactory().createInterceptorDefinition(BasicInterceptor.class)));
+}

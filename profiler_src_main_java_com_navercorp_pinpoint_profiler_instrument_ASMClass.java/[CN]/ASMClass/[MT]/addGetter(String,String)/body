@@ -1,0 +1,20 @@
+{
+  try {
+    final Class<?> getterType=this.pluginContext.injectClass(this.classLoader,getterTypeName);
+    final GetterAnalyzer.GetterDetails getterDetails=new GetterAnalyzer().analyze(getterType);
+    final ASMFieldNodeAdapter fieldNode=this.classNode.getField(fieldName,null);
+    if (fieldNode == null) {
+      throw new IllegalArgumentException("Not found field. name=" + fieldName);
+    }
+    final String fieldTypeName=JavaAssistUtils.javaClassNameToObjectName(getterDetails.getFieldType().getName());
+    if (!fieldNode.getClassName().equals(fieldTypeName)) {
+      throw new IllegalArgumentException("different return type. return=" + fieldTypeName + ", field="+ fieldNode.getClassName());
+    }
+    this.classNode.addGetterMethod(getterDetails.getGetter().getName(),fieldNode);
+    this.classNode.addInterface(getterTypeName);
+    setModified(true);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Failed to add getter: " + getterTypeName,e);
+  }
+}

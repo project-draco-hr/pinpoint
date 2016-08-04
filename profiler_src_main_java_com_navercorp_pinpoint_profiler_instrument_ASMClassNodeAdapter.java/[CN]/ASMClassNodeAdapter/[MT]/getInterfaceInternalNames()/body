@@ -1,0 +1,13 @@
+{
+  final List<String> interfaces=this.classNode.interfaces;
+  if (interfaces == null || interfaces.size() == 0) {
+    return new String[0];
+  }
+  final List<String> list=new ArrayList<String>();
+  for (  String name : interfaces) {
+    if (name != null) {
+      list.add(name.replace('/','.'));
+    }
+  }
+  return list.toArray(new String[list.size()]);
+}

@@ -1,0 +1,17 @@
+{
+  if (getDeclaredMethod(methodName,paramTypes) != null) {
+    throw new InstrumentException(getName() + " already have method(" + methodName+ ").");
+  }
+  final ASMClassNodeAdapter superClassNode=ASMClassNodeAdapter.get(this.classLoader,this.classNode.getSuperClassName());
+  if (superClassNode == null) {
+    throw new NotFoundInstrumentException(getName() + " not found super class(" + this.classNode.getSuperClassName()+ ")");
+  }
+  final String desc=JavaAssistUtils.javaTypeToJvmSignature(paramTypes);
+  final ASMMethodNodeAdapter superMethodNode=superClassNode.getDeclaredMethod(methodName,desc);
+  if (superMethodNode == null) {
+    throw new NotFoundInstrumentException(methodName + desc + " is not found in "+ superClassNode.getInternalName());
+  }
+  final ASMMethodNodeAdapter methodNode=this.classNode.addDelegatorMethod(superMethodNode);
+  setModified(true);
+  return new ASMMethod(this.pluginContext,this.interceptorRegistryBinder,this,methodNode);
+}

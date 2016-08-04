@@ -1,0 +1,46 @@
+{
+  if (this.argumentTypes.length == 0) {
+    return new String[0];
+  }
+  final List<LocalVariableNode> localVariableNodes=this.methodNode.localVariables;
+  int localVariableStartIndex=1;
+  if (isStatic()) {
+    localVariableStartIndex=0;
+  }
+  if (localVariableNodes == null || localVariableNodes.size() <= localVariableStartIndex || (this.argumentTypes.length + localVariableStartIndex) > localVariableNodes.size()) {
+    final String[] names=new String[this.argumentTypes.length];
+    for (int i=0; i < this.argumentTypes.length; i++) {
+      final String className=this.argumentTypes[i].getClassName();
+      if (className != null) {
+        final int findIndex=className.lastIndexOf('.');
+        if (findIndex == -1) {
+          names[i]=className;
+        }
+ else {
+          names[i]=className.substring(findIndex + 1);
+        }
+      }
+ else {
+        names[i]=this.argumentTypes[i].getDescriptor();
+      }
+    }
+    return names;
+  }
+  Collections.sort(localVariableNodes,new Comparator<LocalVariableNode>(){
+    @Override public int compare(    LocalVariableNode o1,    LocalVariableNode o2){
+      return o1.index - o2.index;
+    }
+  }
+);
+  String[] names=new String[this.argumentTypes.length];
+  for (int i=0; i < this.argumentTypes.length; i++) {
+    final String name=localVariableNodes.get(localVariableStartIndex++).name;
+    if (name != null) {
+      names[i]=name;
+    }
+ else {
+      names[i]="";
+    }
+  }
+  return names;
+}

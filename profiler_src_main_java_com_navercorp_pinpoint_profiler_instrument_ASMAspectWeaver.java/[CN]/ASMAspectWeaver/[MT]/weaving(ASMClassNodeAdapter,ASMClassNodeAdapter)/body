@@ -1,0 +1,21 @@
+{
+  if (sourceClassNode == null || adviceClassNode == null) {
+    throw new InstrumentException("source and advice class node must not be null.");
+  }
+  if (logger.isInfoEnabled()) {
+    logger.info("weaving sourceClass={} adviceClass={}",sourceClassNode.getInternalName(),adviceClassNode.getInternalName());
+  }
+  if (!adviceClassNode.hasAnnotation(Aspect.class)) {
+    throw new InstrumentException("@Aspect not found. adviceClass=" + adviceClassNode.getInternalName());
+  }
+  final boolean isSubclass=adviceClassNode.subclassOf(sourceClassNode.getInternalName());
+  if (!isSubclass) {
+    final String superInternalName=adviceClassNode.getSuperClassInternalName();
+    if (superInternalName == null || !superInternalName.equals("java.lang.Object")) {
+      throw new InstrumentException("invalid class hierarchy. source class=" + sourceClassNode.getInternalName() + ", advice class="+ adviceClassNode.getInternalName()+ ", super class="+ superInternalName);
+    }
+  }
+  final MethodNodes methodNodes=findMethodNodes(adviceClassNode);
+  copyUtilMethods(methodNodes,sourceClassNode);
+  copyPointCutMethods(methodNodes,sourceClassNode);
+}

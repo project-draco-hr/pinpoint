@@ -1,0 +1,80 @@
+{
+  ASMClass clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.BaseClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.BaseSetter","b");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setB","boolean"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldIntSetter","i");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setInt","int"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldIntArraySetter","iArray");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setIntArray","int[]"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldObjectSetter","object");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setObject","java.lang.Object"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldObjectArraySetter","objectArray");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setObjectArray","java.lang.Object[]"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldObjectArraysSetter","objectArrays");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setObjectArrays","java.lang.Object[][]"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldEnumSetter","e");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setEnum","java.lang.Enum"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldMapSetter","map");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setMap","java.util.Map"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldStrMapSetter","strMap");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setStrMap","java.util.Map"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldObjectMapSetter","objectMap");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setObjectMap","java.util.Map"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldWildcardMapSetter","wildcardMap");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setWildcardMap","java.util.Map"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldDefaultStrSetter","defaultStr");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setDefaultStr","java.lang.String"));
+  try {
+    clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+    clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldDefaultStaticStrSetter","defaultStaticStr");
+    assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setDefaultStaticStr","java.lang.String"));
+    fail("can't throw exception");
+  }
+ catch (  Exception ignored) {
+  }
+  try {
+    clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+    clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldDefaultFinalStrSetter","defaultFinalStr");
+    assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setDefaultFinalStr","java.lang.String"));
+    fail("can't throw exception");
+  }
+ catch (  Exception ignored) {
+  }
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldPrivateStrSetter","privateStr");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setPrivateStr","java.lang.String"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldProtectedStrSetter","protectedStr");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setProtectedStr","java.lang.String"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldPublicStrSetter","publicStr");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setPublicStr","java.lang.String"));
+  try {
+    clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+    clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldPublicFinalStrSetter","publicFinalStr");
+    assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setPublicFinalStr","java.lang.String"));
+    fail("can't throw exception");
+  }
+ catch (  Exception ignored) {
+  }
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldPublicFinalStrSetter","publicFinalStr",true);
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setPublicFinalStr","java.lang.String"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldVolatileIntSetter","volatileInt");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setVolatileInt","int"));
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  clazz.addSetter("com.navercorp.pinpoint.profiler.instrument.mock.setter.FieldTransientIntSetter","transientInt");
+  assertNotNull(clazz.getDeclaredMethod("_$PINPOINT$_setTransientInt","int"));
+}

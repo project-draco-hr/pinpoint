@@ -1,0 +1,19 @@
+{
+  int nested=0;
+  for (AbstractInsnNode insnNode=this.methodNode.instructions.getFirst(); insnNode != null; insnNode=insnNode.getNext()) {
+    if (insnNode instanceof TypeInsnNode) {
+      if (insnNode.getOpcode() == Opcodes.NEW) {
+        nested++;
+      }
+    }
+ else     if (insnNode instanceof MethodInsnNode) {
+      final MethodInsnNode methodInsnNode=(MethodInsnNode)insnNode;
+      if (methodInsnNode.getOpcode() == Opcodes.INVOKESPECIAL && methodInsnNode.name.equals("<init>")) {
+        if (--nested < 0) {
+          return insnNode.getNext();
+        }
+      }
+    }
+  }
+  return null;
+}

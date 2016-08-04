@@ -1,0 +1,8 @@
+{
+  ASMClass clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.BaseClass");
+  assertTrue(clazz.hasConstructor());
+  clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.ExtendedClass");
+  assertTrue(clazz.hasConstructor());
+  assertTrue(clazz.hasConstructor("java.lang.String"));
+  assertFalse(clazz.hasConstructor("java.lang.String","int","byte"));
+}

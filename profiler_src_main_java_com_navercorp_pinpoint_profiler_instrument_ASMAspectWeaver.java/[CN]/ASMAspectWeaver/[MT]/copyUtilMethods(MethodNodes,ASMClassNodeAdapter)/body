@@ -1,0 +1,8 @@
+{
+  for (  ASMMethodNodeAdapter methodNode : methodNodes.utils) {
+    if (!methodNode.isPrivate()) {
+      throw new InstrumentException("non private UtilMethod unsupported. method=" + methodNode.getLongName());
+    }
+    classNode.copyMethod(methodNode);
+  }
+}

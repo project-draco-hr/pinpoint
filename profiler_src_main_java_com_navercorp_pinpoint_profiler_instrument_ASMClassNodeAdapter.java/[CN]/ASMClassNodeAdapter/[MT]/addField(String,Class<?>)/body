@@ -1,0 +1,12 @@
+{
+  if (fieldName == null || fieldClass == null) {
+    throw new IllegalArgumentException("fieldNode name or fieldNode class must not be null.");
+  }
+  final Type type=Type.getType(fieldClass);
+  final FieldNode fieldNode=new FieldNode(Opcodes.ACC_PRIVATE,fieldName,type.getDescriptor(),null,null);
+  if (this.classNode.fields == null) {
+    this.classNode.fields=new ArrayList<FieldNode>();
+  }
+  this.classNode.fields.add(fieldNode);
+  return new ASMFieldNodeAdapter(fieldNode);
+}

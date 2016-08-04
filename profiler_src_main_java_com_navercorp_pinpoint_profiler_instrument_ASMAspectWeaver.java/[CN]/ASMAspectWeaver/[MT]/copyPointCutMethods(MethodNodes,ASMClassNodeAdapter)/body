@@ -1,0 +1,25 @@
+{
+  final ASMMethodInsnNodeRemapper remapper=new ASMMethodInsnNodeRemapper();
+  for (  ASMMethodNodeAdapter joinPointMethodNode : methodNodes.jointPoints) {
+    remapper.addFilter(null,joinPointMethodNode.getName(),joinPointMethodNode.getDesc());
+  }
+  for (  ASMMethodNodeAdapter pointCutMethodNode : methodNodes.pointCuts) {
+    final ASMMethodNodeAdapter sourceMethodNode=classNode.getDeclaredMethod(pointCutMethodNode.getName(),pointCutMethodNode.getDesc());
+    if (sourceMethodNode == null) {
+      throw new InstrumentException("not found method. " + classNode.getInternalName() + "."+ pointCutMethodNode.getName());
+    }
+    if (!sourceMethodNode.getDesc().equals(pointCutMethodNode.getDesc())) {
+      throw new InstrumentException("Signature miss match. method=" + pointCutMethodNode.getName() + ", source="+ sourceMethodNode.getDesc()+ ", advice="+ pointCutMethodNode.getDesc());
+    }
+    if (logger.isInfoEnabled()) {
+      logger.info("weaving method={}{}",sourceMethodNode.getName(),sourceMethodNode.getDesc());
+    }
+    final String methodName=this.methodNameReplacer.replaceMethodName(sourceMethodNode.getName());
+    sourceMethodNode.rename(methodName);
+    sourceMethodNode.setAccess(sourceMethodNode.getAccess() & -6 | Opcodes.ACC_PRIVATE);
+    classNode.copyMethod(pointCutMethodNode);
+    final ASMMethodNodeAdapter newMethodNode=classNode.getDeclaredMethod(pointCutMethodNode.getName(),pointCutMethodNode.getDesc());
+    remapper.setName(methodName);
+    newMethodNode.remapMethodInsnNode(remapper);
+  }
+}

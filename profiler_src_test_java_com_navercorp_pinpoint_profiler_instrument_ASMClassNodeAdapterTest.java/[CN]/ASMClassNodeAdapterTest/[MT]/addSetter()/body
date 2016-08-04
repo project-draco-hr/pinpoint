@@ -1,0 +1,17 @@
+{
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.BaseClass";
+  final String setterMethodName="_$PINPOINT$_setValue";
+  ASMClassNodeLoader.TestClassLoader classLoader=ASMClassNodeLoader.getClassLoader();
+  classLoader.setTargetClassName(targetClassName);
+  classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
+    @Override public void handle(    ClassNode classNode){
+      ASMClassNodeAdapter adapter=new ASMClassNodeAdapter(null,classNode);
+      ASMFieldNodeAdapter field=adapter.getField("i",null);
+      adapter.addSetterMethod(setterMethodName,field);
+    }
+  }
+);
+  Class clazz=classLoader.loadClass(targetClassName);
+  Method method=clazz.getDeclaredMethod(setterMethodName,int.class);
+  method.invoke(clazz.newInstance(),10);
+}

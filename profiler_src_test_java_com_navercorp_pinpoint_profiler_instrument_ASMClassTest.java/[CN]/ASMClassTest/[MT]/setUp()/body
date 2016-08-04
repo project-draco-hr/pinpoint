@@ -1,0 +1,12 @@
+{
+  reset(traceContext);
+  when(pluginContext.getTraceContext()).thenReturn(traceContext);
+  when(pluginContext.injectClass(any(ClassLoader.class),any(String.class))).thenAnswer(new Answer<Class<?>>(){
+    @Override public Class<?> answer(    InvocationOnMock invocation) throws Throwable {
+      ClassLoader loader=(ClassLoader)invocation.getArguments()[0];
+      String name=(String)invocation.getArguments()[1];
+      return loader.loadClass(name);
+    }
+  }
+);
+}
