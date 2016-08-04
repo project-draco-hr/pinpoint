@@ -1,5 +1,10 @@
 {
   TSpanChunk tSpanChunk=random.randomTSpanChunk();
-  SpanChunkBo spanChunkBo=spanFactory.newSpanChunkBo(tSpanChunk);
+  TSpanEvent tSpanEvent1=random.randomTSpanEvent((short)0);
+  TSpanEvent tSpanEvent2=random.randomTSpanEvent((short)1);
+  TSpanEvent tSpanEvent3=random.randomTSpanEvent((short)5);
+  TSpanEvent tSpanEvent4=random.randomTSpanEvent((short)2);
+  tSpanChunk.setSpanEventList(Lists.newArrayList(tSpanEvent1,tSpanEvent2,tSpanEvent3,tSpanEvent4));
+  SpanChunkBo spanChunkBo=spanFactory.buildSpanChunkBo(tSpanChunk);
   spanFactoryAssert.assertSpanChunk(tSpanChunk,spanChunkBo);
 }

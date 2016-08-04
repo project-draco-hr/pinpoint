@@ -21,6 +21,9 @@
   Assert.assertEquals(tSpan.getAcceptorHost(),spanBo.getAcceptorHost());
   Assert.assertEquals(tSpan.getApiId(),spanBo.getApiId());
   Assert.assertEquals(tSpan.getApplicationServiceType(),spanBo.getApplicationServiceType());
+  List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+  List<TSpanEvent> spanEventList=tSpan.getSpanEventList();
+  assertSpanEventList(spanEventBoList,spanEventList);
   boolean hasException=tSpan.getExceptionInfo() != null;
   Assert.assertEquals(hasException,spanBo.hasException());
   if (hasException) {
