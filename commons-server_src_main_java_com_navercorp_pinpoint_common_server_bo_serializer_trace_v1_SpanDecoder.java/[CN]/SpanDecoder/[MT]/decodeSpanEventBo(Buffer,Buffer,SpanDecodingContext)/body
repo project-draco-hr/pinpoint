@@ -1,9 +1,7 @@
 {
   TransactionId transactionId=decodingContext.getTransactionId();
   SpanEventBo spanEventBo=new SpanEventBo();
-  spanEventBo.setTraceAgentId(transactionId.getAgentId());
-  spanEventBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
-  spanEventBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  spanEventBo.setTransactionId(transactionId);
   long spanId=qualifier.readLong();
   decodingContext.setSpanId(spanId);
   short sequence=qualifier.readShort();

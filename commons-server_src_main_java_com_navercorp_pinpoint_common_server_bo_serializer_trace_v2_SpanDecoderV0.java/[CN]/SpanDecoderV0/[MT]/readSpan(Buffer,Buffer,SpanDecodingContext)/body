@@ -1,9 +1,7 @@
 {
   final SpanBo span=new SpanBo();
   final TransactionId transactionId=decodingContext.getTransactionId();
-  span.setTraceAgentId(transactionId.getAgentId());
-  span.setTraceAgentStartTime(transactionId.getAgentStartTime());
-  span.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  span.setTransactionId(transactionId);
   span.setCollectorAcceptTime(decodingContext.getCollectorAcceptedTime());
   SpanEventBo firstSpanEvent=readQualifier(span,qualifier);
   readSpanValue(columnValue,span,firstSpanEvent,decodingContext);

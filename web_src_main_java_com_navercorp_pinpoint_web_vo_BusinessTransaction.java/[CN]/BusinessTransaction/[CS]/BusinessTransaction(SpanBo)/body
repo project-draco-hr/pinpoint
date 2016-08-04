@@ -5,8 +5,8 @@
   this.rpc=span.getRpc();
   long elapsed=span.getElapsed();
   totalTime=maxTime=minTime=elapsed;
-  String traceIdString=TransactionIdUtils.formatString(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
-  Trace trace=new Trace(traceIdString,elapsed,span.getCollectorAcceptTime(),span.getErrCode());
+  String transactionIdString=TransactionIdUtils.formatString(span.getTransactionId());
+  Trace trace=new Trace(transactionIdString,elapsed,span.getCollectorAcceptTime(),span.getErrCode());
   this.traces.add(trace);
   calls++;
   if (span.getErrCode() > 0) {

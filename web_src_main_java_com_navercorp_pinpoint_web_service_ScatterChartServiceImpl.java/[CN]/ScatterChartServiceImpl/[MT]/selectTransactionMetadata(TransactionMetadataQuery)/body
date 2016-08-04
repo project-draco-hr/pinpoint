@@ -15,7 +15,7 @@
  else {
       for (      SpanBo span : spans) {
         final TransactionMetadataQuery.QueryCondition filterQueryCondition=query.getQueryConditionByIndex(index);
-        final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
+        final TransactionId transactionId=span.getTransactionId();
         final TransactionMetadataQuery.QueryCondition queryConditionKey=new TransactionMetadataQuery.QueryCondition(transactionId,span.getCollectorAcceptTime(),span.getElapsed());
         if (queryConditionKey.equals(filterQueryCondition)) {
           result.add(span);

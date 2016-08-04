@@ -16,7 +16,7 @@
     }
     for (    SpanBo span : trace) {
       if (applicationName.equals(span.getApplicationId())) {
-        final TransactionId transactionId=new TransactionId(span.getTraceAgentId(),span.getTraceAgentStartTime(),span.getTraceTransactionSequence());
+        final TransactionId transactionId=span.getTransactionId();
         final Dot dot=new Dot(transactionId,span.getCollectorAcceptTime(),span.getElapsed(),span.getErrCode(),span.getAgentId());
         scatterData.addDot(dot);
       }

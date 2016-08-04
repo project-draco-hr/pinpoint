@@ -2,6 +2,7 @@
   if (basicSpan == null) {
     throw new NullPointerException("basicSpan must not be null");
   }
-  byte[] rowKey=BytesUtils.stringLongLongToBytes(basicSpan.getTraceAgentId(),AGENT_NAME_MAX_LEN,basicSpan.getTraceAgentStartTime(),basicSpan.getTraceTransactionSequence());
+  TransactionId transactionId=basicSpan.getTransactionId();
+  byte[] rowKey=BytesUtils.stringLongLongToBytes(transactionId.getAgentId(),AGENT_NAME_MAX_LEN,transactionId.getAgentStartTime(),transactionId.getTransactionSequence());
   return wrapDistributedRowKey(rowKey);
 }

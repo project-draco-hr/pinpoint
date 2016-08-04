@@ -28,12 +28,10 @@
   Assert.assertEquals(spanEventBo.getServiceType(),newSpanEventBo.getServiceType());
   Assert.assertEquals(spanEventBo.getStartElapsed(),newSpanEventBo.getStartElapsed());
   Assert.assertEquals(spanEventBo.getNextAsyncId(),newSpanEventBo.getNextAsyncId());
-  spanEventBo.setTraceTransactionSequence(1);
-  newSpanEventBo.setTraceTransactionSequence(1);
-  Assert.assertEquals(spanEventBo.getTraceTransactionSequence(),newSpanEventBo.getTraceTransactionSequence());
-  spanEventBo.setTraceAgentStartTime(3);
-  newSpanEventBo.setTraceAgentStartTime(3);
-  Assert.assertEquals(spanEventBo.getTraceAgentStartTime(),newSpanEventBo.getTraceAgentStartTime());
+  TransactionId transactionId=new TransactionId("test",3,1);
+  spanEventBo.setTransactionId(transactionId);
+  newSpanEventBo.setTransactionId(transactionId);
+  Assert.assertEquals(spanEventBo.getTransactionId(),newSpanEventBo.getTransactionId());
   spanEventBo.setSequence((short)3);
   newSpanEventBo.setSequence((short)3);
   Assert.assertEquals(spanEventBo.getSequence(),newSpanEventBo.getSequence());

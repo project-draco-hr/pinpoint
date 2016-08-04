@@ -2,7 +2,8 @@
   Assert.assertEquals(tSpan.getAgentId(),spanBo.getAgentId());
   Assert.assertEquals(tSpan.getApplicationName(),spanBo.getApplicationId());
   Assert.assertEquals(tSpan.getAgentStartTime(),spanBo.getAgentStartTime());
-  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(spanBo.getTraceAgentId(),spanBo.getTraceAgentStartTime(),spanBo.getTraceTransactionSequence());
+  TransactionId transactionId=spanBo.getTransactionId();
+  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(transactionId.getAgentId(),transactionId.getAgentStartTime(),transactionId.getTransactionSequence());
   Assert.assertEquals(ByteBuffer.wrap(tSpan.getTransactionId()),byteBuffer);
   Assert.assertEquals(tSpan.getSpanId(),spanBo.getSpanId());
   Assert.assertEquals(tSpan.getParentSpanId(),spanBo.getParentSpanId());
