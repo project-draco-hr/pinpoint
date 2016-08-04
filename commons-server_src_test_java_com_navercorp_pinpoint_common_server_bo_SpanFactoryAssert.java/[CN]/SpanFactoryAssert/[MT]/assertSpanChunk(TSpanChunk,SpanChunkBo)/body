@@ -2,10 +2,14 @@
   Assert.assertEquals(tSpanChunk.getAgentId(),spanChunkBo.getAgentId());
   Assert.assertEquals(tSpanChunk.getApplicationName(),spanChunkBo.getApplicationId());
   Assert.assertEquals(tSpanChunk.getAgentStartTime(),spanChunkBo.getAgentStartTime());
-  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(spanChunkBo.getTraceAgentId(),spanChunkBo.getTraceAgentStartTime(),spanChunkBo.getTraceTransactionSequence());
+  TransactionId transactionId=spanChunkBo.getTransactionId();
+  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(transactionId.getAgentId(),transactionId.getAgentStartTime(),transactionId.getTransactionSequence());
   Assert.assertEquals(ByteBuffer.wrap(tSpanChunk.getTransactionId()),byteBuffer);
   Assert.assertEquals(tSpanChunk.getSpanId(),spanChunkBo.getSpanId());
   Assert.assertEquals(tSpanChunk.getServiceType(),spanChunkBo.getServiceType());
   Assert.assertEquals(tSpanChunk.getEndPoint(),spanChunkBo.getEndPoint());
   Assert.assertEquals(tSpanChunk.getApplicationServiceType(),spanChunkBo.getApplicationServiceType());
+  List<SpanEventBo> spanEventBoList=spanChunkBo.getSpanEventBoList();
+  List<TSpanEvent> spanEventList=tSpanChunk.getSpanEventList();
+  assertSpanEventList(spanEventBoList,spanEventList);
 }

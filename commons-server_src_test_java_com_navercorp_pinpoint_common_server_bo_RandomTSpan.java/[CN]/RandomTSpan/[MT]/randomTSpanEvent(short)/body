@@ -1,0 +1,21 @@
+{
+  TSpanEvent tSpanEvent=new TSpanEvent();
+  tSpanEvent.setSequence(sequence);
+  tSpanEvent.setStartElapsed(RandomUtils.nextInt(0,1000));
+  tSpanEvent.setEndElapsed(RandomUtils.nextInt(0,1000));
+  tSpanEvent.setRpc(RandomStringUtils.random(10));
+  tSpanEvent.setServiceType((short)RandomUtils.nextInt(2000,2889));
+  tSpanEvent.setEndPoint(RandomStringUtils.random(10));
+  List<TAnnotation> tAnnotationList=randomTAnnotationList();
+  if (CollectionUtils.isNotEmpty(tAnnotationList)) {
+    tSpanEvent.setAnnotations(tAnnotationList);
+  }
+  tSpanEvent.setDepth(RandomUtils.nextInt(0,256));
+  tSpanEvent.setNextSpanId(random.nextLong());
+  tSpanEvent.setDestinationId(RandomStringUtils.random(20));
+  tSpanEvent.setApiId(RandomUtils.nextInt(0,65535));
+  tSpanEvent.setAsyncId(randomNegative(RandomUtils.nextInt(0,10)));
+  tSpanEvent.setNextAsyncId(random.nextInt());
+  tSpanEvent.setAsyncSequence((short)RandomUtils.nextInt(0,Short.MAX_VALUE));
+  return tSpanEvent;
+}

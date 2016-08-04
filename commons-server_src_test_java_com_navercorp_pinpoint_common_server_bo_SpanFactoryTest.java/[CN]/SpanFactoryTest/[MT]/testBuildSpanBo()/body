@@ -1,0 +1,10 @@
+{
+  TSpan tSpan=random.randomTSpan();
+  TSpanEvent tSpanEvent1=random.randomTSpanEvent((short)0);
+  TSpanEvent tSpanEvent2=random.randomTSpanEvent((short)1);
+  TSpanEvent tSpanEvent3=random.randomTSpanEvent((short)5);
+  TSpanEvent tSpanEvent4=random.randomTSpanEvent((short)2);
+  tSpan.setSpanEventList(Lists.newArrayList(tSpanEvent1,tSpanEvent2,tSpanEvent3,tSpanEvent4));
+  SpanBo spanBo=spanFactory.buildSpanBo(tSpan);
+  spanFactoryAssert.assertSpan(tSpan,spanBo);
+}

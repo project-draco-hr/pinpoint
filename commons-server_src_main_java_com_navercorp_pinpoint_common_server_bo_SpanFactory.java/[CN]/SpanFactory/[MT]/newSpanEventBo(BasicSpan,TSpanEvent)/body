@@ -9,9 +9,8 @@
   spanEvent.setAgentId(basicSpan.getAgentId());
   spanEvent.setApplicationId(basicSpan.getApplicationId());
   spanEvent.setAgentStartTime(basicSpan.getAgentStartTime());
-  spanEvent.setTraceAgentId(basicSpan.getTraceAgentId());
-  spanEvent.setTraceAgentStartTime(basicSpan.getTraceAgentStartTime());
-  spanEvent.setTraceTransactionSequence(basicSpan.getTraceTransactionSequence());
+  TransactionId transactionId=basicSpan.getTransactionId();
+  spanEvent.setTransactionId(transactionId);
   bind(spanEvent,tSpanEvent);
   return spanEvent;
 }

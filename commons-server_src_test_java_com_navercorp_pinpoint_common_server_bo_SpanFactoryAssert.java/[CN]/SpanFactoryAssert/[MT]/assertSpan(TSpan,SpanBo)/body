@@ -2,7 +2,8 @@
   Assert.assertEquals(tSpan.getAgentId(),spanBo.getAgentId());
   Assert.assertEquals(tSpan.getApplicationName(),spanBo.getApplicationId());
   Assert.assertEquals(tSpan.getAgentStartTime(),spanBo.getAgentStartTime());
-  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(spanBo.getTraceAgentId(),spanBo.getTraceAgentStartTime(),spanBo.getTraceTransactionSequence());
+  TransactionId transactionId=spanBo.getTransactionId();
+  ByteBuffer byteBuffer=TransactionIdUtils.formatByteBuffer(transactionId.getAgentId(),transactionId.getAgentStartTime(),transactionId.getTransactionSequence());
   Assert.assertEquals(ByteBuffer.wrap(tSpan.getTransactionId()),byteBuffer);
   Assert.assertEquals(tSpan.getSpanId(),spanBo.getSpanId());
   Assert.assertEquals(tSpan.getParentSpanId(),spanBo.getParentSpanId());
@@ -21,6 +22,9 @@
   Assert.assertEquals(tSpan.getAcceptorHost(),spanBo.getAcceptorHost());
   Assert.assertEquals(tSpan.getApiId(),spanBo.getApiId());
   Assert.assertEquals(tSpan.getApplicationServiceType(),spanBo.getApplicationServiceType());
+  List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+  List<TSpanEvent> spanEventList=tSpan.getSpanEventList();
+  assertSpanEventList(spanEventBoList,spanEventList);
   boolean hasException=tSpan.getExceptionInfo() != null;
   Assert.assertEquals(hasException,spanBo.hasException());
   if (hasException) {

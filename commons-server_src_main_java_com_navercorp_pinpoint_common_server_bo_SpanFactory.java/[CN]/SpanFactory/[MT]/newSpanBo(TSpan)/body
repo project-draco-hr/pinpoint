@@ -3,16 +3,8 @@
   spanBo.setAgentId(tSpan.getAgentId());
   spanBo.setApplicationId(tSpan.getApplicationName());
   spanBo.setAgentStartTime(tSpan.getAgentStartTime());
-  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(tSpan.getTransactionId());
-  final String traceAgentId=transactionId.getAgentId();
-  if (traceAgentId == null) {
-    spanBo.setTraceAgentId(spanBo.getAgentId());
-  }
- else {
-    spanBo.setTraceAgentId(traceAgentId);
-  }
-  spanBo.setTraceAgentStartTime(transactionId.getAgentStartTime());
-  spanBo.setTraceTransactionSequence(transactionId.getTransactionSequence());
+  final TransactionId transactionId=newTransactionId(tSpan.getTransactionId(),spanBo);
+  spanBo.setTransactionId(transactionId);
   spanBo.setSpanId(tSpan.getSpanId());
   spanBo.setParentSpanId(tSpan.getParentSpanId());
   spanBo.setStartTime(tSpan.getStartTime());

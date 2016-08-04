@@ -10,9 +10,9 @@
   final List<SpanBo> rootSpans=getCurrentRootSpans();
   assertEquals(rootSpans.size(),1);
   final SpanBo rootSpan=rootSpans.get(0);
-  assertEquals(rootSpan.getTransactionId(),sourceTransactionId);
-  assertEquals(rootSpan.getTraceAgentId(),sourceAgentId);
-  assertEquals(rootSpan.getTraceAgentStartTime(),sourceAgentStartTime);
-  assertEquals(rootSpan.getTraceTransactionSequence(),sourceTransactionSequence);
+  assertEquals(TransactionIdUtils.formatString(rootSpan.getTransactionId()),sourceTransactionId);
+  assertEquals(rootSpan.getTransactionId().getAgentId(),sourceAgentId);
+  assertEquals(rootSpan.getTransactionId().getAgentStartTime(),sourceAgentStartTime);
+  assertEquals(rootSpan.getTransactionId().getTransactionSequence(),sourceTransactionSequence);
   assertEquals(rootSpan.getParentSpanId(),sourceParentId);
 }

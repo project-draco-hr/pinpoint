@@ -1,0 +1,11 @@
+{
+  TSpan tSpan=new TSpan();
+  tSpan.setAgentId("agentId");
+  byte[] transactionIdBytes=TransactionIdUtils.formatBytes(null,1,2);
+  tSpan.setTransactionId(transactionIdBytes);
+  SpanBo spanBo=spanFactory.newSpanBo(tSpan);
+  TransactionId transactionId=spanBo.getTransactionId();
+  Assert.assertEquals(transactionId.getAgentId(),"agentId");
+  Assert.assertEquals(transactionId.getAgentStartTime(),1);
+  Assert.assertEquals(transactionId.getTransactionSequence(),2);
+}
