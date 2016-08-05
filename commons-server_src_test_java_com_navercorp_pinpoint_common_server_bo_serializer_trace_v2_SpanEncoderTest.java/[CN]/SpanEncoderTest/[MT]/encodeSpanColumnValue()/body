@@ -1,2 +1,14 @@
 {
+  SpanBo spanBo=randomSpan();
+  spanBo.setCollectorAcceptTime(getCollectorAcceptTime());
+  SpanEncodingContext<SpanBo> encodingContext=new SpanEncodingContext<>(spanBo);
+  Buffer qualifier=wrapBuffer(spanEncoder.encodeSpanQualifier(encodingContext));
+  Buffer column=wrapBuffer(spanEncoder.encodeSpanColumnValue(encodingContext));
+  SpanDecodingContext decodingContext=new SpanDecodingContext();
+  decodingContext.setTransactionId(spanBo.getTransactionId());
+  decodingContext.setCollectorAcceptedTime(spanBo.getCollectorAcceptTime());
+  SpanBo decode=(SpanBo)spanDecoder.decode(qualifier,column,decodingContext);
+  logger.debug("span dump \noriginal spanBo:{} \ndecode spanBo:{} ",spanBo,decode);
+  List<String> excludeField=Lists.newArrayList("parentApplicationId","parentApplicationServiceType","annotationBoList");
+  Assert.assertTrue(EqualsBuilder.reflectionEquals(decode,spanBo,excludeField));
 }
