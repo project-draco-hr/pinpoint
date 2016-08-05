@@ -8,8 +8,11 @@
     final AnnotationBo current=annotationBoList.get(i);
     if (i == 0) {
       buffer.putSVInt(current.getKey());
-      buffer.putByte(current.getRawValueType());
-      buffer.putPrefixedBytes(current.getByteValue());
+      Object value=current.getValue();
+      byte valueTypeCode=transcoder.getTypeCode(value);
+      byte[] valueBytes=transcoder.encode(value,valueTypeCode);
+      buffer.putByte(valueTypeCode);
+      buffer.putPrefixedBytes(valueBytes);
     }
  else {
       writeDeltaAnnotationBo(buffer,prev,current);

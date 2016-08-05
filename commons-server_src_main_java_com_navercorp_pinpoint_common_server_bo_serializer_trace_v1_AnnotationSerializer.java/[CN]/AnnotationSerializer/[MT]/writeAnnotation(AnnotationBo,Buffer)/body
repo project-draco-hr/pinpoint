@@ -1,6 +1,9 @@
 {
-  puffer.putByte(annotationBo.getRawVersion());
+  puffer.putByte(VERSION);
   puffer.putSVInt(annotationBo.getKey());
-  puffer.putByte(annotationBo.getRawValueType());
-  puffer.putPrefixedBytes(annotationBo.getByteValue());
+  Object value=annotationBo.getValue();
+  byte typeCode=transcoder.getTypeCode(value);
+  byte[] bytes=transcoder.encode(value,typeCode);
+  puffer.putByte(typeCode);
+  puffer.putPrefixedBytes(bytes);
 }
