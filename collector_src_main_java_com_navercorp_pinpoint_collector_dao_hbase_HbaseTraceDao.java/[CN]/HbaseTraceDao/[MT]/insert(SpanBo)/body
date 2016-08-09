@@ -3,7 +3,8 @@
     throw new NullPointerException("span must not be null");
   }
   long acceptedTime=spanBo.getCollectorAcceptTime();
-  final byte[] rowKey=rowKeyEncoder.encodeRowKey(spanBo);
+  TransactionId transactionId=spanBo.getTransactionId();
+  final byte[] rowKey=rowKeyEncoder.encodeRowKey(transactionId);
   final Put put=new Put(rowKey,acceptedTime);
   this.spanSerializer.serialize(spanBo,put,null);
   this.annotationSerializer.serialize(spanBo,put,null);

@@ -7,7 +7,7 @@
   }
   final List<Get> getList=new ArrayList<>(transactionIdList.size());
   for (  TransactionId transactionId : transactionIdList) {
-    byte[] transactionIdRowKey=transactionIdRowKeyEncoder.encodeRowKey(transactionId);
+    byte[] transactionIdRowKey=rowKeyEncoder.encodeRowKey(transactionId);
     final Get get=new Get(transactionIdRowKey);
     get.addFamily(columnFamily);
     getList.add(get);
