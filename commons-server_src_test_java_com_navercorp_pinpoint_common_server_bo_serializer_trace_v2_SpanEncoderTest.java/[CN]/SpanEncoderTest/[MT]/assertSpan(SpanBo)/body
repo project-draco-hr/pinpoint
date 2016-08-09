@@ -1,5 +1,4 @@
 {
-  SpanBo spanBo=randomSpan();
   spanBo.setCollectorAcceptTime(getCollectorAcceptTime());
   SpanEncodingContext<SpanBo> encodingContext=new SpanEncodingContext<>(spanBo);
   Buffer qualifier=wrapBuffer(spanEncoder.encodeSpanQualifier(encodingContext));
@@ -9,8 +8,13 @@
   decodingContext.setCollectorAcceptedTime(spanBo.getCollectorAcceptTime());
   SpanBo decode=(SpanBo)spanDecoder.decode(qualifier,column,decodingContext);
   logger.debug("span dump \noriginal spanBo:{} \ndecode spanBo:{} ",spanBo,decode);
-  List<String> excludeField=Lists.newArrayList("parentApplicationId","parentApplicationServiceType","annotationBoList");
-  Assert.assertTrue(EqualsBuilder.reflectionEquals(decode,spanBo,excludeField));
+  List<String> notSerializedField=Lists.newArrayList("parentApplicationId","parentApplicationServiceType");
+  List<String> excludeField=Lists.newArrayList("annotationBoList","spanEventBoList");
+  notSerializedField.addAll(excludeField);
+  Assert.assertTrue(EqualsBuilder.reflectionEquals(decode,spanBo,notSerializedField));
   logger.debug("{} {}",spanBo.getAnnotationBoList(),decode.getAnnotationBoList());
   Assert.assertTrue("annotation",EqualsBuilder.reflectionEquals(spanBo.getAnnotationBoList(),decode.getAnnotationBoList()));
+  List<SpanEventBo> spanEventBoList=spanBo.getSpanEventBoList();
+  List<SpanEventBo> decodedSpanEventBoList=decode.getSpanEventBoList();
+  Assert.assertTrue(EqualsBuilder.reflectionEquals(spanEventBoList,decodedSpanEventBoList));
 }
