@@ -1,0 +1,8 @@
+{
+  SpanEventBo prev=new SpanEventBo();
+  SpanEventBo current=new SpanEventBo();
+  prev.setSequence((short)10);
+  current.setSequence((short)11);
+  SpanEventBitField bitField=SpanEventBitField.build(current,prev);
+  Assert.assertEquals(bitField.getSequenceEncodingStrategy(),SequenceEncodingStrategy.PREV_ADD1);
+}

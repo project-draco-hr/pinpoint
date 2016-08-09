@@ -1,0 +1,8 @@
+{
+  SpanEventBo prev=new SpanEventBo();
+  SpanEventBo current=new SpanEventBo();
+  prev.setServiceType((short)2000);
+  current.setServiceType((short)2000);
+  SpanEventBitField bitField=SpanEventBitField.build(current,prev);
+  Assert.assertEquals(bitField.getServiceTypeEncodingStrategy(),ServiceTypeEncodingStrategy.PREV_EQUALS);
+}

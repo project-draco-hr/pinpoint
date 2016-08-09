@@ -1,0 +1,8 @@
+{
+  SpanEventBo prev=new SpanEventBo();
+  SpanEventBo current=new SpanEventBo();
+  prev.setStartElapsed(1234);
+  current.setStartElapsed(1234);
+  SpanEventBitField bitField=SpanEventBitField.build(current,prev);
+  Assert.assertEquals(bitField.getStartElapsedEncodingStrategy(),StartElapsedTimeEncodingStrategy.PREV_EQUALS);
+}
