@@ -1,0 +1,9 @@
+{
+  SpanEventBo spanEventBo=new SpanEventBo();
+  spanEventBo.setAsyncId(1234);
+  spanEventBo.setAsyncSequence((short)1234);
+  SpanEventBitField bitField=SpanEventBitField.buildFirst(spanEventBo);
+  Assert.assertTrue(bitField.isSetAsyncId());
+  bitField.setAsyncId(false);
+  Assert.assertFalse(bitField.isSetAsyncId());
+}
