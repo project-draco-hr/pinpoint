@@ -1,15 +1,15 @@
 {
   final LimitedScanResult<List<TransactionId>> limitedScanResult=flow.selectTraceIdsFromApplicationTraceIndex(applicationName,range,limit,backwardDirection);
-  final List<TransactionId> traceIdList=limitedScanResult.getScanData();
-  logger.trace("submitted transactionId count={}",traceIdList.size());
-  boolean requestComplete=traceIdList.size() < limit;
-  Collections.sort(traceIdList,TransactionIdComparator.INSTANCE);
+  final List<TransactionId> transactionIdList=limitedScanResult.getScanData();
+  logger.trace("submitted transactionId count={}",transactionIdList.size());
+  boolean requestComplete=transactionIdList.size() < limit;
+  Collections.sort(transactionIdList,TransactionIdComparator.INSTANCE);
   Filter filter=filterBuilder.build(filterText);
   ModelAndView mv;
   if (version == 1) {
-    ScatterData scatterData=scatter.selectScatterData(traceIdList,applicationName,range,xGroupUnit,yGroupUnit,filter);
+    ScatterData scatterData=scatter.selectScatterData(transactionIdList,applicationName,range,xGroupUnit,yGroupUnit,filter);
     if (logger.isDebugEnabled()) {
-      logger.debug("getScatterData range scan(limited:{}, backwardDirection:{}) from ~ to:{} ~ {}, limited:{}, filterDataSize:{}",limit,backwardDirection,DateUtils.longToDateStr(range.getFrom()),DateUtils.longToDateStr(range.getTo()),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()),traceIdList.size());
+      logger.debug("getScatterData range scan(limited:{}, backwardDirection:{}) from ~ to:{} ~ {}, limited:{}, filterDataSize:{}",limit,backwardDirection,DateUtils.longToDateStr(range.getFrom()),DateUtils.longToDateStr(range.getTo()),DateUtils.longToDateStr(limitedScanResult.getLimitedTime()),transactionIdList.size());
     }
     mv=createScatterDataV1(scatterData,requestComplete);
   }
