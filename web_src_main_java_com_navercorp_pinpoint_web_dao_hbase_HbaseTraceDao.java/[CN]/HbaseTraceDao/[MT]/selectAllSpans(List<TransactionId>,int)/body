@@ -3,7 +3,8 @@
     return Collections.emptyList();
   }
   List<List<TransactionId>> splitTransactionIdList=partition(transactionIdList,eachPartitionSize);
-  List<byte[]> hBaseFamilyList=new ArrayList<>(1);
+  List<byte[]> hBaseFamilyList=new ArrayList<>(2);
   hBaseFamilyList.add(HBaseTables.TRACES_CF_SPAN);
+  hBaseFamilyList.add(HBaseTables.TRACES_CF_TERMINALSPAN);
   return partitionSelect(splitTransactionIdList,hBaseFamilyList);
 }

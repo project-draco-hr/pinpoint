@@ -1,0 +1,6 @@
+{
+  byte indexPrefix=SpanEncoder.TYPE_SPAN;
+  BinaryPrefixComparator prefixComparator=new BinaryPrefixComparator(new byte[]{indexPrefix});
+  QualifierFilter qualifierPrefixFilter=new QualifierFilter(CompareFilter.CompareOp.EQUAL,prefixComparator);
+  return qualifierPrefixFilter;
+}

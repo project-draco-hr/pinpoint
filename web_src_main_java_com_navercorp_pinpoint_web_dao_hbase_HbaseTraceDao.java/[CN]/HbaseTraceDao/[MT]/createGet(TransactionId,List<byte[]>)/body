@@ -1,0 +1,6 @@
+{
+  byte[] transactionIdRowKey=rowKeyDecoder.encodeRowKey(transactionId);
+  final Get get=new Get(transactionIdRowKey);
+  addFamily(get,hBaseFamilyList);
+  return get;
+}
