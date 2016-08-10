@@ -1,0 +1,16 @@
+{
+  final TransactionMetadataQuery query=new TransactionMetadataQuery();
+  int index=0;
+  while (true) {
+    final String transactionId=requestParam.get(PREFIX_TRANSACTION_ID + index);
+    final String time=requestParam.get(PREFIX_TIME + index);
+    final String responseTime=requestParam.get(PREFIX_RESPONSE_TIME + index);
+    if (transactionId == null || time == null || responseTime == null) {
+      break;
+    }
+    query.addQueryCondition(transactionId,Long.parseLong(time),Integer.parseInt(responseTime));
+    index++;
+  }
+  logger.debug("query:{}",query);
+  return query;
+}

@@ -1,0 +1,10 @@
+{
+  logger.debug("traceId:{}",traceIdParam);
+  final TransactionId transactionId=TransactionIdUtils.parseTransactionId(traceIdParam);
+  final SpanResult spanResult=this.spanService.selectSpan(transactionId,focusTimestamp);
+  final CallTreeIterator callTreeIterator=spanResult.getCallTree();
+  ApplicationMap map=filteredMapService.selectApplicationMap(transactionId);
+  RecordSet recordSet=this.transactionInfoService.createRecordSet(callTreeIterator,focusTimestamp);
+  TransactionInfoViewModel result=new TransactionInfoViewModel(transactionId,map.getNodes(),map.getLinks(),recordSet,spanResult.getCompleteTypeString(),logLinkEnable,logButtonName,logPageUrl,disableButtonMessage);
+  return result;
+}
