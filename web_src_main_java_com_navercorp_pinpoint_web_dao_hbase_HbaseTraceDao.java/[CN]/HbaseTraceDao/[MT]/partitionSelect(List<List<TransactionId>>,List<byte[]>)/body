@@ -1,0 +1,14 @@
+{
+  if (CollectionUtils.isEmpty(splitTransactionIdList)) {
+    return Collections.emptyList();
+  }
+  if (hBaseFamilyList == null) {
+    throw new NullPointerException("hBaseFamilyList may not be null.");
+  }
+  List<List<SpanBo>> spanBoList=new ArrayList<>();
+  for (  List<TransactionId> transactionIdList : splitTransactionIdList) {
+    List<List<SpanBo>> partitionSpanList=select0(transactionIdList,hBaseFamilyList);
+    spanBoList.addAll(partitionSpanList);
+  }
+  return spanBoList;
+}

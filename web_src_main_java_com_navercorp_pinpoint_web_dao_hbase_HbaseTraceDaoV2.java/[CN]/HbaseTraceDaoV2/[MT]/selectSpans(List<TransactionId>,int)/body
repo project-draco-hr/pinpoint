@@ -1,7 +1,7 @@
 {
-  if (transactionIdList == null) {
-    throw new NullPointerException("transactionIdList must not be null");
+  if (CollectionUtils.isEmpty(transactionIdList)) {
+    return Collections.emptyList();
   }
-  List<List<TransactionId>> splitTransactionIdList=splitTransactionIdList(transactionIdList,hBaseGetLimitSize);
-  return getSpans(splitTransactionIdList,HBaseTables.TRACE_V2_CF_SPAN);
+  List<List<TransactionId>> splitTransactionIdList=partition(transactionIdList,eachPartitionSize);
+  return partitionSelect(splitTransactionIdList,HBaseTables.TRACE_V2_CF_SPAN,spanFilter);
 }

@@ -1,0 +1,9 @@
+{
+  byte[] transactionIdRowKey=rowKeyEncoder.encodeRowKey(transactionId);
+  final Get get=new Get(transactionIdRowKey);
+  get.addFamily(columnFamily);
+  if (filter != null) {
+    get.setFilter(filter);
+  }
+  return get;
+}

@@ -1,0 +1,14 @@
+{
+  if (CollectionUtils.isEmpty(partitionTransactionIdList)) {
+    return Collections.emptyList();
+  }
+  if (columnFamily == null) {
+    throw new NullPointerException("columnFamily may not be null.");
+  }
+  List<List<SpanBo>> spanBoList=new ArrayList<>();
+  for (  List<TransactionId> transactionIdList : partitionTransactionIdList) {
+    List<List<SpanBo>> partitionSpanList=select0(transactionIdList,columnFamily,filter);
+    spanBoList.addAll(partitionSpanList);
+  }
+  return spanBoList;
+}

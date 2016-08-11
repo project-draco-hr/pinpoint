@@ -1,0 +1,7 @@
+{
+  if (CollectionUtils.isEmpty(transactionIdList)) {
+    return Collections.emptyList();
+  }
+  List<List<TransactionId>> partitionTransactionIdList=partition(transactionIdList,eachPartitionSize);
+  return partitionSelect(partitionTransactionIdList,HBaseTables.TRACE_V2_CF_SPAN,null);
+}
