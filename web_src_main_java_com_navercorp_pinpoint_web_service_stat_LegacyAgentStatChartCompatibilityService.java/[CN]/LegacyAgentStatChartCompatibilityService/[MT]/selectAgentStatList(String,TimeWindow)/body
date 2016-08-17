@@ -1,0 +1,30 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timeWindow == null) {
+    throw new NullPointerException("timeWindow must not be null");
+  }
+  List<SampledJvmGc> jvmGcs=sampledJvmGcDao.getSampledAgentStatList(agentId,timeWindow);
+  if (CollectionUtils.isNotEmpty(jvmGcs)) {
+    List<SampledCpuLoad> cpuLoads=sampledCpuLoadDao.getSampledAgentStatList(agentId,timeWindow);
+    List<SampledTransaction> transactions=sampledTransactionDao.getSampledAgentStatList(agentId,timeWindow);
+    List<SampledActiveTrace> activeTraces=sampledActiveTraceDao.getSampledAgentStatList(agentId,timeWindow);
+    LegacyAgentStatChartGroup.LegacyAgentStatChartGroupBuilder builder=new LegacyAgentStatChartGroup.LegacyAgentStatChartGroupBuilder(timeWindow);
+    builder.jvmGcs(jvmGcs);
+    builder.cpuLoads(cpuLoads);
+    builder.transactions(transactions);
+    builder.activeTraces(activeTraces);
+    return builder.build();
+  }
+ else {
+    long scanFrom=timeWindow.getWindowRange().getFrom();
+    long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+    Range rangeToScan=new Range(scanFrom,scanTo);
+    List<AgentStat> agentStats=legacyAgentStatDao.getAgentStatList(agentId,rangeToScan);
+    LegacyAgentStatChartGroup chartGroup=new LegacyAgentStatChartGroup(timeWindow);
+    chartGroup.addAgentStats(agentStats);
+    chartGroup.buildCharts();
+    return chartGroup;
+  }
+}

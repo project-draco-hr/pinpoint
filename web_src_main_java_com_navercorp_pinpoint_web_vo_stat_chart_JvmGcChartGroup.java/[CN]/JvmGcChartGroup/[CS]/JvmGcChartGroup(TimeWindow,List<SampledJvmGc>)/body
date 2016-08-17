@@ -1,0 +1,23 @@
+{
+  this.jvmGcCharts=new HashMap<>();
+  List<Point<Long,Long>> heapUseds=new ArrayList<>(sampledJvmGcs.size());
+  List<Point<Long,Long>> heapMaxes=new ArrayList<>(sampledJvmGcs.size());
+  List<Point<Long,Long>> nonHeapUseds=new ArrayList<>(sampledJvmGcs.size());
+  List<Point<Long,Long>> nonHeapMaxes=new ArrayList<>(sampledJvmGcs.size());
+  List<Point<Long,Long>> gcOldCounts=new ArrayList<>(sampledJvmGcs.size());
+  List<Point<Long,Long>> gcOldTimes=new ArrayList<>(sampledJvmGcs.size());
+  for (  SampledJvmGc sampledJvmGc : sampledJvmGcs) {
+    heapUseds.add(sampledJvmGc.getHeapUsed());
+    heapMaxes.add(sampledJvmGc.getHeapMax());
+    nonHeapUseds.add(sampledJvmGc.getNonHeapUsed());
+    nonHeapMaxes.add(sampledJvmGc.getNonHeapMax());
+    gcOldCounts.add(sampledJvmGc.getGcOldCount());
+    gcOldTimes.add(sampledJvmGc.getGcOldTime());
+  }
+  jvmGcCharts.put(JvmGcChartType.JVM_MEMORY_HEAP_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(heapUseds));
+  jvmGcCharts.put(JvmGcChartType.JVM_MEMORY_HEAP_MAX,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(heapMaxes));
+  jvmGcCharts.put(JvmGcChartType.JVM_MEMORY_NON_HEAP_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(nonHeapUseds));
+  jvmGcCharts.put(JvmGcChartType.JVM_MEMORY_NON_HEAP_MAX,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(nonHeapMaxes));
+  jvmGcCharts.put(JvmGcChartType.JVM_GC_OLD_COUNT,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(gcOldCounts));
+  jvmGcCharts.put(JvmGcChartType.JVM_GC_OLD_TIME,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(gcOldTimes));
+}

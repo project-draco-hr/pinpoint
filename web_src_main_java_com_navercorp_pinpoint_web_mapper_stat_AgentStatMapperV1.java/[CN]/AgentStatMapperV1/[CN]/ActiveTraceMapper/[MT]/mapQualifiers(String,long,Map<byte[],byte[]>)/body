@@ -1,0 +1,11 @@
+{
+  ActiveTraceBo activeTraceBo=new ActiveTraceBo();
+  activeTraceBo.setAgentId(agentId);
+  activeTraceBo.setTimestamp(timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_COL_ACTIVE_TRACE_HISTOGRAM)) {
+    ActiveTraceHistogramBo activeTraceHistogramBo=new ActiveTraceHistogramBo(qualifierMap.get(AGENT_STAT_COL_ACTIVE_TRACE_HISTOGRAM));
+    activeTraceBo.setHistogramSchemaType(activeTraceHistogramBo.getHistogramSchemaType());
+    activeTraceBo.setActiveTraceCounts(activeTraceHistogramBo.getActiveTraceCountMap());
+  }
+  return Arrays.asList(activeTraceBo);
+}

@@ -1,0 +1,24 @@
+{
+  List<Long> heapUseds=new ArrayList<>(dataPointsToSample.size());
+  List<Long> heapMaxes=new ArrayList<>(dataPointsToSample.size());
+  List<Long> nonHeapUseds=new ArrayList<>(dataPointsToSample.size());
+  List<Long> nonHeapMaxes=new ArrayList<>(dataPointsToSample.size());
+  List<Long> gcOldCounts=new ArrayList<>(dataPointsToSample.size());
+  List<Long> gcOldTimes=new ArrayList<>(dataPointsToSample.size());
+  for (  JvmGcBo jvmGcBo : dataPointsToSample) {
+    heapUseds.add(jvmGcBo.getHeapUsed());
+    heapMaxes.add(jvmGcBo.getHeapMax());
+    nonHeapUseds.add(jvmGcBo.getNonHeapUsed());
+    nonHeapMaxes.add(jvmGcBo.getNonHeapMax());
+    gcOldCounts.add(jvmGcBo.getGcOldCount());
+    gcOldTimes.add(jvmGcBo.getGcOldTime());
+  }
+  SampledJvmGc sampledJvmGc=new SampledJvmGc();
+  sampledJvmGc.setHeapUsed(createPoint(timestamp,heapUseds));
+  sampledJvmGc.setHeapMax(createPoint(timestamp,heapMaxes));
+  sampledJvmGc.setNonHeapUsed(createPoint(timestamp,nonHeapUseds));
+  sampledJvmGc.setNonHeapMax(createPoint(timestamp,nonHeapMaxes));
+  sampledJvmGc.setGcOldCount(createPoint(timestamp,gcOldCounts));
+  sampledJvmGc.setGcOldTime(createPoint(timestamp,gcOldTimes));
+  return sampledJvmGc;
+}

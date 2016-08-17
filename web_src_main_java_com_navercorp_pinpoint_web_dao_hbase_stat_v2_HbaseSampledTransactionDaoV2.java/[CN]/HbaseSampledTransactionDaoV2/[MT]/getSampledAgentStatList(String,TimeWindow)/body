@@ -1,0 +1,8 @@
+{
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range range=new Range(scanFrom,scanTo);
+  AgentStatMapperV2<TransactionBo> mapper=operations.createRowMapper(transactionDecoder,range);
+  SampledTransactionResultExtractor resultExtractor=new SampledTransactionResultExtractor(timeWindow,mapper);
+  return operations.getSampledAgentStatList(AgentStatType.TRANSACTION,resultExtractor,agentId,range);
+}

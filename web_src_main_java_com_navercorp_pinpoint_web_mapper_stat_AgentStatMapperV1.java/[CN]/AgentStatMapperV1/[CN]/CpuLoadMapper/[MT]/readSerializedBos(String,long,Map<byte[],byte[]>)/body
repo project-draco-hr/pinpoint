@@ -1,0 +1,15 @@
+{
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
+    AgentStatCpuLoadBo.Builder builder=new AgentStatCpuLoadBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_CPU_LOAD));
+    AgentStatCpuLoadBo agentStatCpuLoadBo=builder.build();
+    CpuLoadBo cpuLoadBo=new CpuLoadBo();
+    cpuLoadBo.setAgentId(agentStatCpuLoadBo.getAgentId());
+    cpuLoadBo.setTimestamp(agentStatCpuLoadBo.getTimestamp());
+    cpuLoadBo.setJvmCpuLoad(agentStatCpuLoadBo.getJvmCpuLoad());
+    cpuLoadBo.setSystemCpuLoad(agentStatCpuLoadBo.getSystemCpuLoad());
+    return Arrays.asList(cpuLoadBo);
+  }
+ else {
+    return Collections.emptyList();
+  }
+}

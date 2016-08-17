@@ -1,0 +1,15 @@
+{
+  long timestamp=agentStat.getTimestamp();
+  HistogramSchema schema=agentStat.getHistogramSchema();
+  if (schema != null) {
+    Map<SlotType,Integer> activeTraceCounts=agentStat.getActiveTraceCounts();
+    TitledDataPoint<Long,Integer> fastDataPoint=new TitledDataPoint<>(schema.getFastSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.FAST));
+    this.activeTraceFastChartBuilder.addDataPoint(fastDataPoint);
+    TitledDataPoint<Long,Integer> normalDataPoint=new TitledDataPoint<>(schema.getNormalSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.NORMAL));
+    this.activeTraceNormalChartBuilder.addDataPoint(normalDataPoint);
+    TitledDataPoint<Long,Integer> slowDataPoint=new TitledDataPoint<>(schema.getSlowSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.SLOW));
+    this.activeTraceSlowChartBuilder.addDataPoint(slowDataPoint);
+    TitledDataPoint<Long,Integer> verySlowDataPoint=new TitledDataPoint<>(schema.getVerySlowSlot().getSlotName(),timestamp,activeTraceCounts.get(SlotType.VERY_SLOW));
+    this.activeTraceVerySlowChartBuilder.addDataPoint(verySlowDataPoint);
+  }
+}

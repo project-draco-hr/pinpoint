@@ -1,0 +1,15 @@
+{
+  final int numValues=10;
+  final long initialTimestamp=System.currentTimeMillis();
+  final long finalTimestamp=initialTimestamp + (DEFAULT_TIME_INTERVAL * numValues);
+  final TimeWindow timeWindow=new TimeWindow(new Range(initialTimestamp,finalTimestamp),ONE_TO_ONE_SAMPLER);
+  final List<TestAgentStatDataPoint> dataPoints=createDataPoints(finalTimestamp,DEFAULT_TIME_INTERVAL,numValues);
+  final Map<Long,List<TestAgentStatDataPoint>> expectedDataPointSlotMap=getExpectedDataPointSlotMap(timeWindow,dataPoints);
+  when(this.rowMapper.mapRow(this.result,0)).thenReturn(dataPoints);
+  TestResultExtractor resultExtractor=new TestResultExtractor(timeWindow,this.rowMapper);
+  List<TestSampledAgentStatDataPoint> sampledDataPoints=resultExtractor.extractData(this.resultScanner);
+  for (  TestSampledAgentStatDataPoint sampledDataPoint : sampledDataPoints) {
+    List<TestAgentStatDataPoint> expectedSampledDataPoints=expectedDataPointSlotMap.get(sampledDataPoint.getBaseTimestamp());
+    Assert.assertEquals(expectedSampledDataPoints,sampledDataPoint.getDataPointsToSample());
+  }
+}

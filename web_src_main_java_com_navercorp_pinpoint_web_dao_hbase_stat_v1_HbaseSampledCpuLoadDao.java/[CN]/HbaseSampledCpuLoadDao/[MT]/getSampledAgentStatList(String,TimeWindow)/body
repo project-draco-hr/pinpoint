@@ -1,0 +1,7 @@
+{
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range range=new Range(scanFrom,scanTo);
+  SampledCpuLoadResultExtractor resultExtractor=new SampledCpuLoadResultExtractor(timeWindow,mapper);
+  return operations.getSampledAgentStatList(resultExtractor,agentId,range);
+}

@@ -1,0 +1,27 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final byte[] distributedRowKey=result.getRow();
+  final String agentId=this.hbaseOperationFactory.getAgentId(distributedRowKey);
+  final long baseTimestamp=this.hbaseOperationFactory.getBaseTimestamp(distributedRowKey);
+  List<T> dataPoints=new ArrayList<>();
+  for (  Cell cell : result.rawCells()) {
+    if (CellUtil.matchingFamily(cell,HBaseTables.AGENT_STAT_CF_STATISTICS)) {
+      Buffer qualifierBuffer=new OffsetFixedBuffer(cell.getQualifierArray(),cell.getQualifierOffset(),cell.getQualifierLength());
+      Buffer valueBuffer=new OffsetFixedBuffer(cell.getValueArray(),cell.getValueOffset(),cell.getValueLength());
+      long initialTimestamp=this.decoder.decodeInitialTimestamp(baseTimestamp,qualifierBuffer);
+      List<T> candidates=this.decoder.decodeDataPoints(initialTimestamp,valueBuffer);
+      for (      T candidate : candidates) {
+        candidate.setAgentId(agentId);
+        long timestamp=candidate.getTimestamp();
+        if (this.filter.filter(timestamp)) {
+          continue;
+        }
+        dataPoints.add(candidate);
+      }
+    }
+  }
+  Collections.sort(dataPoints,REVERSE_TIMESTAMP_COMPARATOR);
+  return dataPoints;
+}

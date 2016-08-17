@@ -1,0 +1,11 @@
+{
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  SampledJvmGc that=(SampledJvmGc)o;
+  if (heapUsed != null ? !heapUsed.equals(that.heapUsed) : that.heapUsed != null)   return false;
+  if (heapMax != null ? !heapMax.equals(that.heapMax) : that.heapMax != null)   return false;
+  if (nonHeapUsed != null ? !nonHeapUsed.equals(that.nonHeapUsed) : that.nonHeapUsed != null)   return false;
+  if (nonHeapMax != null ? !nonHeapMax.equals(that.nonHeapMax) : that.nonHeapMax != null)   return false;
+  if (gcOldCount != null ? !gcOldCount.equals(that.gcOldCount) : that.gcOldCount != null)   return false;
+  return gcOldTime != null ? gcOldTime.equals(that.gcOldTime) : that.gcOldTime == null;
+}

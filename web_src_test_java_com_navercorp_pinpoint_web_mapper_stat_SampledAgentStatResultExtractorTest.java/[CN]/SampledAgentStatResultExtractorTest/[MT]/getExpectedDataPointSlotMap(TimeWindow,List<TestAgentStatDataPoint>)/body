@@ -1,0 +1,10 @@
+{
+  Map<Long,List<TestAgentStatDataPoint>> slotMap=new HashMap<>();
+  for (  long timeslotTimestamp : timeWindow) {
+    slotMap.put(timeslotTimestamp,new ArrayList<TestAgentStatDataPoint>());
+  }
+  for (  TestAgentStatDataPoint dataPoint : dataPoints) {
+    slotMap.get(timeWindow.refineTimestamp(dataPoint.getTimestamp())).add(dataPoint);
+  }
+  return slotMap;
+}

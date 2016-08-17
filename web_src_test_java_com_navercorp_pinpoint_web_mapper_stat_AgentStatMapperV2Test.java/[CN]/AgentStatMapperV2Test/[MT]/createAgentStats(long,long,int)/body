@@ -1,0 +1,12 @@
+{
+  List<TestAgentStat> agentStats=new ArrayList<>(batchSize);
+  for (int i=0; i < batchSize; ++i) {
+    long timestamp=initialTimestamp + (interval * i);
+    TestAgentStat agentStat=new TestAgentStat();
+    agentStat.setAgentId(AGENT_ID);
+    agentStat.setTimestamp(timestamp);
+    agentStat.setValue(RANDOM.nextLong());
+    agentStats.add(agentStat);
+  }
+  return agentStats;
+}

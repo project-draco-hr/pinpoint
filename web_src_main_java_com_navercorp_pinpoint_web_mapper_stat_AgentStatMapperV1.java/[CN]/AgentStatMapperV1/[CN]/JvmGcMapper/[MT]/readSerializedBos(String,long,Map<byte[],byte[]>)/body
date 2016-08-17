@@ -1,0 +1,19 @@
+{
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC)) {
+    AgentStatMemoryGcBo.Builder builder=new AgentStatMemoryGcBo.Builder(qualifierMap.get(AGENT_STAT_CF_STATISTICS_MEMORY_GC));
+    AgentStatMemoryGcBo agentStatMemoryGcBo=builder.build();
+    JvmGcBo jvmGcBo=new JvmGcBo();
+    jvmGcBo.setAgentId(agentStatMemoryGcBo.getAgentId());
+    jvmGcBo.setTimestamp(agentStatMemoryGcBo.getTimestamp());
+    jvmGcBo.setGcOldCount(agentStatMemoryGcBo.getJvmGcOldCount());
+    jvmGcBo.setGcOldTime(agentStatMemoryGcBo.getJvmGcOldTime());
+    jvmGcBo.setHeapUsed(agentStatMemoryGcBo.getJvmMemoryHeapUsed());
+    jvmGcBo.setHeapMax(agentStatMemoryGcBo.getJvmMemoryHeapMax());
+    jvmGcBo.setNonHeapUsed(agentStatMemoryGcBo.getJvmMemoryNonHeapUsed());
+    jvmGcBo.setNonHeapMax(agentStatMemoryGcBo.getJvmMemoryNonHeapMax());
+    return Arrays.asList(jvmGcBo);
+  }
+ else {
+    return Collections.emptyList();
+  }
+}

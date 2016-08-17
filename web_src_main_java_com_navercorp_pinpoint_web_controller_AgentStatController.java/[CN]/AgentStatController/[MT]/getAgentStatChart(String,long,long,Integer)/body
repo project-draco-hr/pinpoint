@@ -1,0 +1,12 @@
+{
+  final int minSamplingInterval=5;
+  final long intervalMs=interval < minSamplingInterval ? minSamplingInterval * 1000L : interval * 1000L;
+  TimeWindowSampler sampler=new TimeWindowSampler(){
+    @Override public long getWindowSize(    Range range){
+      return intervalMs;
+    }
+  }
+;
+  TimeWindow timeWindow=new TimeWindow(new Range(from,to),sampler);
+  return this.agentStatChartService.selectAgentChart(agentId,timeWindow);
+}

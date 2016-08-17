@@ -1,16 +1,22 @@
 {
-  agentStatDao=new AgentStatDao(){
-    @Override public List<AgentStat> getAgentStatList(    String agentId,    Range range){
-      List<AgentStat> agentStatList=new LinkedList<AgentStat>();
-      for (int i=0; i < 36; i++) {
-        AgentStat stat=new AgentStat("AGENT_NAME",1L);
-        stat.setJvmCpuUsage(0.6);
-        agentStatList.add(stat);
-      }
-      return agentStatList;
+  jvmGcDao=new AgentStatDao<JvmGcBo>(){
+    @Override public List<JvmGcBo> getAgentStatList(    String agentId,    Range range){
+      return Collections.emptyList();
     }
-    @Override public List<AgentStat> getAggregatedAgentStatList(    String agentId,    Range range){
-      return getAgentStatList(agentId,range);
+    @Override public boolean agentStatExists(    String agentId,    Range range){
+      return false;
+    }
+  }
+;
+  cpuLoadDao=new AgentStatDao<CpuLoadBo>(){
+    public List<CpuLoadBo> getAgentStatList(    String agentId,    Range range){
+      List<CpuLoadBo> cpuLoads=new LinkedList<>();
+      for (int i=0; i < 36; i++) {
+        CpuLoadBo cpuLoad=new CpuLoadBo();
+        cpuLoad.setJvmCpuLoad(0.6);
+        cpuLoads.add(cpuLoad);
+      }
+      return cpuLoads;
     }
     @Override public boolean agentStatExists(    String agentId,    Range range){
       return true;

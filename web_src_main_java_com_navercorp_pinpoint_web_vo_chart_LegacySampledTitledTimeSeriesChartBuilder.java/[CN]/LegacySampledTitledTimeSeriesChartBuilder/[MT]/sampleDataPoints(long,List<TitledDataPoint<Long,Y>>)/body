@@ -1,0 +1,8 @@
+{
+  String title=samples.get(0).getTitle();
+  List<Y> values=new ArrayList<>(samples.size());
+  for (  TitledDataPoint<Long,Y> sample : samples) {
+    values.add(sample.getYVal());
+  }
+  return new TitledPoint<>(title,timestamp,sampleMin(values),sampleMax(values),sampleAvg(values));
+}

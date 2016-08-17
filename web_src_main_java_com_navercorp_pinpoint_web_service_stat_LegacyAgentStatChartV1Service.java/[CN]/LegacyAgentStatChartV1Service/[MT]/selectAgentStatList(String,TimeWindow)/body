@@ -1,0 +1,16 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timeWindow == null) {
+    throw new NullPointerException("timeWindow must not be null");
+  }
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range rangeToScan=new Range(scanFrom,scanTo);
+  List<AgentStat> agentStats=legacyAgentStatDao.getAgentStatList(agentId,rangeToScan);
+  LegacyAgentStatChartGroup chartGroup=new LegacyAgentStatChartGroup(timeWindow);
+  chartGroup.addAgentStats(agentStats);
+  chartGroup.buildCharts();
+  return chartGroup;
+}

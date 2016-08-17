@@ -1,0 +1,7 @@
+{
+  Scan scan=this.operationFactory.createScan(agentId,agentStatType,range.getFrom(),range.getTo());
+  scan.setCaching(scanCacheSize);
+  scan.setId("AgentStat_" + agentStatType);
+  scan.addFamily(HBaseTables.AGENT_STAT_CF_STATISTICS);
+  return scan;
+}

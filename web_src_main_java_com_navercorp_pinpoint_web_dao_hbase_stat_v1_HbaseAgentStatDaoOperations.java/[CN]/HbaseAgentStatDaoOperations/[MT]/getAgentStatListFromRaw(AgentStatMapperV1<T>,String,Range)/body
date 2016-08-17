@@ -1,0 +1,10 @@
+{
+  Scan scan=createScan(agentId,range);
+  List<List<T>> intermediate=hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,mapper);
+  int expectedSize=(int)(range.getRange() / 5000);
+  List<T> merged=new ArrayList<>(expectedSize);
+  for (  List<T> each : intermediate) {
+    merged.addAll(each);
+  }
+  return merged;
+}

@@ -1,0 +1,20 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("checking for stat data existence : agentId={}, {}",agentId,range);
+  }
+  int resultLimit=1;
+  Scan scan=this.createScan(agentStatType,agentId,range,resultLimit);
+  List<List<T>> result=hbaseOperations2.findParallel(HBaseTables.AGENT_STAT_VER2,scan,this.operationFactory.getRowKeyDistributor(),resultLimit,mapper,AGENT_STAT_VER2_NUM_PARTITIONS);
+  if (result.isEmpty()) {
+    return false;
+  }
+ else {
+    return true;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  long timestamp=agentStat.getTimestamp();
+  long interval=agentStat.getCollectInterval();
+  if (interval > 0) {
+    boolean isTransactionCollected=false;
+    long total=0;
+    if (agentStat.getSampledNewCount() != UNCOLLECTED_DATA) {
+      isTransactionCollected=true;
+      double sampledNewTps=calculateTps(agentStat.getSampledNewCount(),interval);
+      this.tpsSampledNewChartBuilder.addDataPoint(new DataPoint<>(timestamp,sampledNewTps));
+      total+=agentStat.getSampledNewCount();
+    }
+    if (agentStat.getSampledContinuationCount() != UNCOLLECTED_DATA) {
+      isTransactionCollected=true;
+      double sampledContinuationTps=calculateTps(agentStat.getSampledContinuationCount(),interval);
+      this.tpsSampledContinuationChartBuilder.addDataPoint(new DataPoint<>(timestamp,sampledContinuationTps));
+      total+=agentStat.getSampledContinuationCount();
+    }
+    if (agentStat.getUnsampledNewCount() != UNCOLLECTED_DATA) {
+      isTransactionCollected=true;
+      double unsampledNewTps=calculateTps(agentStat.getUnsampledNewCount(),interval);
+      this.tpsUnsampledNewChartBuilder.addDataPoint(new DataPoint<>(timestamp,unsampledNewTps));
+      total+=agentStat.getUnsampledNewCount();
+    }
+    if (agentStat.getUnsampledContinuationCount() != UNCOLLECTED_DATA) {
+      isTransactionCollected=true;
+      double unsampledContinuationTps=calculateTps(agentStat.getUnsampledContinuationCount(),interval);
+      this.tpsUnsampledContinuationChartBuilder.addDataPoint(new DataPoint<>(timestamp,unsampledContinuationTps));
+      total+=agentStat.getUnsampledContinuationCount();
+    }
+    if (isTransactionCollected) {
+      double totalTps=calculateTps(total,interval);
+      this.tpsTotalChartBuilder.addDataPoint(new DataPoint<>(timestamp,totalTps));
+    }
+  }
+}

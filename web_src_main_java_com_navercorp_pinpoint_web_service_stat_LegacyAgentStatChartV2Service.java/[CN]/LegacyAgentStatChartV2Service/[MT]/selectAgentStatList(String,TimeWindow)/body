@@ -1,0 +1,18 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timeWindow == null) {
+    throw new NullPointerException("timeWindow must not be null");
+  }
+  List<SampledJvmGc> jvmGcs=sampledJvmGcDao.getSampledAgentStatList(agentId,timeWindow);
+  List<SampledCpuLoad> cpuLoads=sampledCpuLoadDao.getSampledAgentStatList(agentId,timeWindow);
+  List<SampledTransaction> transactions=sampledTransactionDao.getSampledAgentStatList(agentId,timeWindow);
+  List<SampledActiveTrace> activeTraces=sampledActiveTraceDao.getSampledAgentStatList(agentId,timeWindow);
+  LegacyAgentStatChartGroup.LegacyAgentStatChartGroupBuilder builder=new LegacyAgentStatChartGroup.LegacyAgentStatChartGroupBuilder(timeWindow);
+  builder.jvmGcs(jvmGcs);
+  builder.cpuLoads(cpuLoads);
+  builder.transactions(transactions);
+  builder.activeTraces(activeTraces);
+  return builder.build();
+}

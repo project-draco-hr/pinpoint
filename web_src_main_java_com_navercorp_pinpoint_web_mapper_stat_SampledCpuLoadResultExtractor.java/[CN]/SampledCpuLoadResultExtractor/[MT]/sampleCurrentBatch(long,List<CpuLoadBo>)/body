@@ -1,0 +1,12 @@
+{
+  List<Double> jvmCpuLoads=new ArrayList<>(dataPointsToSample.size());
+  List<Double> systemCpuLoads=new ArrayList<>(dataPointsToSample.size());
+  for (  CpuLoadBo cpuLoadBo : dataPointsToSample) {
+    jvmCpuLoads.add(cpuLoadBo.getJvmCpuLoad() * 100);
+    systemCpuLoads.add(cpuLoadBo.getSystemCpuLoad() * 100);
+  }
+  SampledCpuLoad sampledCpuLoad=new SampledCpuLoad();
+  sampledCpuLoad.setJvmCpuLoad(createPoint(timestamp,jvmCpuLoads));
+  sampledCpuLoad.setSystemCpuLoad(createPoint(timestamp,systemCpuLoads));
+  return sampledCpuLoad;
+}
