@@ -1,0 +1,10 @@
+{
+  transformTemplate.transform("org.apache.cxf.frontend.ClientProxy",new TransformCallback(){
+    @Override public byte[] doInTransform(    Instrumentor instrumentor,    ClassLoader classLoader,    String className,    Class<?> classBeingRedefined,    ProtectionDomain protectionDomain,    byte[] classfileBuffer) throws InstrumentException {
+      InstrumentClass target=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
+      target.getDeclaredMethod("invokeSync","java.lang.reflect.Method","org.apache.cxf.service.model.BindingOperationInfo","java.lang.Object[]").addInterceptor("com.navercorp.pinpoint.plugin.cxf.interceptor.CxfClientInvokeSyncMethodInterceptor");
+      return target.toBytecode();
+    }
+  }
+);
+}

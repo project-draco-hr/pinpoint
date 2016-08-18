@@ -1,0 +1,10 @@
+{
+  doReturn(profilerConfig).when(traceContext).getProfilerConfig();
+  doReturn(trace).when(traceContext).currentRawTraceObject();
+  doReturn(false).when(trace).canSampled();
+  Object target=new Object();
+  Object[] args=new Object[]{};
+  CxfClientInvokeSyncMethodInterceptor interceptor=new CxfClientInvokeSyncMethodInterceptor(traceContext,descriptor);
+  interceptor.before(target,args);
+  verify(trace,times(0)).traceBlockBegin();
+}

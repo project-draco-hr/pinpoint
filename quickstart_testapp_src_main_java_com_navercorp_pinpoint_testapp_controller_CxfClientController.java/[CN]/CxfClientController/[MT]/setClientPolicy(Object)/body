@@ -1,0 +1,13 @@
+{
+  Client client=ClientProxy.getClient(obj);
+  if (client != null) {
+    client.getInInterceptors().add(new LoggingInInterceptor());
+    client.getOutInterceptors().add(new LoggingOutInterceptor());
+    HTTPConduit conduit=(HTTPConduit)client.getConduit();
+    HTTPClientPolicy policy=new HTTPClientPolicy();
+    policy.setConnectionTimeout(CONNECTION_TIMEOUT);
+    policy.setReceiveTimeout(RECEIVE_TIMEOUT);
+    policy.setAllowChunking(true);
+    conduit.setClient(policy);
+  }
+}

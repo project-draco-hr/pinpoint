@@ -1,0 +1,10 @@
+{
+  TempConvert tempConvert=new TempConvert();
+  TempConvertSoap tempConvertSoap=tempConvert.getTempConvertSoap12();
+  setClientPolicy(tempConvertSoap);
+  String fahrenheit=tempConvertSoap.celsiusToFahrenheit(celsius);
+  Map<String,String> result=new HashMap<String,String>();
+  result.put("celsius",celsius);
+  result.put("fahrenheit",fahrenheit);
+  return result;
+}

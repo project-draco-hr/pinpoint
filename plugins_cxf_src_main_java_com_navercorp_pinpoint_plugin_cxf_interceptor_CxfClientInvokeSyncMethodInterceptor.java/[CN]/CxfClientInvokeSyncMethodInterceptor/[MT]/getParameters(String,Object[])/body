@@ -1,0 +1,29 @@
+{
+  Object[] orgParams=(args[2] == null) ? null : (Object[])args[2];
+  if (orgParams == null) {
+    return orgParams;
+  }
+  String[] hiddenParams=pluginConfig.getClientHiddenParams();
+  if (hiddenParams == null || hiddenParams.length == 0) {
+    return orgParams;
+  }
+  Object[] params=Arrays.copyOf(orgParams,orgParams.length);
+  for (  String op : hiddenParams) {
+    Matcher matcher=hiddenParamPattern.matcher(op);
+    if (matcher.matches()) {
+      if (operation.equals(matcher.group(1))) {
+        int idx=Integer.valueOf(matcher.group(2));
+        if (idx >= params.length) {
+          continue;
+        }
+        params[idx]="[HIDDEN PARAM]";
+      }
+    }
+ else {
+      if (op.equals(operation)) {
+        return new Object[]{"HIDDEN " + params.length + " PARAM"};
+      }
+    }
+  }
+  return params;
+}
