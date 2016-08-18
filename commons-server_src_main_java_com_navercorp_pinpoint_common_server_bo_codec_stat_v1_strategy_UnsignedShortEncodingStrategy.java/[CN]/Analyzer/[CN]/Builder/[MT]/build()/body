@@ -1,0 +1,16 @@
+{
+  if (this.repeatedValueCount > 0) {
+    this.byteSizeRepeatCount+=BytesUtils.computeVar32Size(this.repeatedValueCount);
+  }
+  EncodingStrategy<Short> bestStrategy;
+  int minimumNumBytesUsed=Collections.min(Arrays.asList(this.byteSizeValue,this.byteSizeRepeatCount));
+  if (this.byteSizeValue == minimumNumBytesUsed) {
+    bestStrategy=NONE;
+  }
+ else {
+    bestStrategy=REPEAT_COUNT;
+  }
+  List<Short> values=new ArrayList<>(this.values);
+  this.values.clear();
+  return new Analyzer(bestStrategy,values);
+}

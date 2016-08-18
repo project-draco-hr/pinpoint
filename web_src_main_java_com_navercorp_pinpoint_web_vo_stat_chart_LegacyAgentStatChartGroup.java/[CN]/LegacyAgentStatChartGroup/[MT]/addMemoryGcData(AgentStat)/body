@@ -1,0 +1,22 @@
+{
+  this.type=agentStat.getGcType();
+  long timestamp=agentStat.getTimestamp();
+  if (agentStat.getHeapUsed() != UNCOLLECTED_DATA) {
+    this.heapUsedChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getHeapUsed()));
+  }
+  if (agentStat.getHeapMax() != UNCOLLECTED_DATA) {
+    this.heapMaxChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getHeapMax()));
+  }
+  if (agentStat.getNonHeapUsed() != UNCOLLECTED_DATA) {
+    this.nonHeapUsedChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getNonHeapUsed()));
+  }
+  if (agentStat.getNonHeapMax() != UNCOLLECTED_DATA) {
+    this.nonHeapMaxChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getNonHeapMax()));
+  }
+  if (agentStat.getGcOldCount() != UNCOLLECTED_DATA) {
+    this.gcOldCountChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getGcOldCount()));
+  }
+  if (agentStat.getGcOldTime() != UNCOLLECTED_DATA) {
+    this.gcOldTimeChartBuilder.addDataPoint(new DataPoint<>(timestamp,agentStat.getGcOldTime()));
+  }
+}

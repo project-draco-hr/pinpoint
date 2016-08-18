@@ -1,0 +1,13 @@
+{
+  logger.info("AgentStatHandler Mode {}",mode);
+  if (mode.equalsIgnoreCase("v1")) {
+    return v1;
+  }
+ else   if (mode.equalsIgnoreCase("v2")) {
+    return v2;
+  }
+ else   if (mode.equalsIgnoreCase("dualWrite")) {
+    return new DualAgentStatHandler(v1,v2);
+  }
+  return v1;
+}

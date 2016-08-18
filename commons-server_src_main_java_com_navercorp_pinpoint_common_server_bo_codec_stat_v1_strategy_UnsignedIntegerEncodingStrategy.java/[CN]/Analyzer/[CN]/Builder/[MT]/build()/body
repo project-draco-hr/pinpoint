@@ -1,0 +1,22 @@
+{
+  if (this.repeatedValueCount > 0) {
+    this.byteSizeRepeatCount+=BytesUtils.computeVar32Size(this.repeatedValueCount);
+  }
+  EncodingStrategy<Integer> bestStrategy;
+  int minimumNumBytesUsed=Collections.min(Arrays.asList(this.byteSizeValue,this.byteSizeDelta,this.byteSizeDeltaOfDelta,this.byteSizeRepeatCount));
+  if (this.byteSizeValue == minimumNumBytesUsed) {
+    bestStrategy=NONE;
+  }
+ else   if (this.byteSizeDelta == minimumNumBytesUsed) {
+    bestStrategy=DELTA;
+  }
+ else   if (this.byteSizeDeltaOfDelta == minimumNumBytesUsed) {
+    bestStrategy=DELTA_OF_DELTA;
+  }
+ else {
+    bestStrategy=REPEAT_COUNT;
+  }
+  List<Integer> values=new ArrayList<>(this.values);
+  this.values.clear();
+  return new Analyzer(bestStrategy,values);
+}

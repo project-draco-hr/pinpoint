@@ -1,0 +1,6 @@
+{
+  int numTestValues=NUM_TEST_VALUES;
+  List<Long> expectedValues=createRandomLongs(numTestValues,true);
+  DeltaOfDeltaEncodingStrategy.Unsigned<Long> strategy=new DeltaOfDeltaEncodingStrategy.Unsigned<>(TypedBufferHandler.LONG_BUFFER_HANDLER,ArithmeticOperation.LONG_OPERATIONS);
+  testStrategy(expectedValues,strategy);
+}

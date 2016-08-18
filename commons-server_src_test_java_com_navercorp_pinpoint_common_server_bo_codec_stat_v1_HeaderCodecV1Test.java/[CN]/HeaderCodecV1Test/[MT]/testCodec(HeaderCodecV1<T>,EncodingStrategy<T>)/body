@@ -1,0 +1,16 @@
+{
+  List<EncodingStrategy<T>> expectedStrategies=randomizeEncodingStrategies(strategies);
+  int header=0;
+  int position=0;
+  for (  EncodingStrategy<T> strategy : expectedStrategies) {
+    header=codec.encodeHeader(header,position,strategy);
+    position+=codec.getHeaderBitSize();
+  }
+  position=0;
+  List<EncodingStrategy<T>> actualStrategies=new ArrayList<>(expectedStrategies.size());
+  for (int i=0; i < expectedStrategies.size(); ++i) {
+    actualStrategies.add(codec.decodeHeader(header,position));
+    position+=codec.getHeaderBitSize();
+  }
+  Assert.assertEquals(expectedStrategies,actualStrategies);
+}

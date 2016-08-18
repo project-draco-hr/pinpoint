@@ -1,0 +1,14 @@
+{
+  List<CpuLoadBo> cpuLoadBos=new ArrayList<>(numValues);
+  List<Long> timestamps=createTimestamps(initialTimestamp,numValues);
+  List<Double> jvmCpuLoads=createRandomPercentageValues(numValues);
+  List<Double> systemCpuLoads=createRandomPercentageValues(numValues);
+  for (int i=0; i < numValues; ++i) {
+    CpuLoadBo cpuLoadBo=new CpuLoadBo();
+    cpuLoadBo.setTimestamp(timestamps.get(i));
+    cpuLoadBo.setJvmCpuLoad(jvmCpuLoads.get(i));
+    cpuLoadBo.setSystemCpuLoad(systemCpuLoads.get(i));
+    cpuLoadBos.add(cpuLoadBo);
+  }
+  return cpuLoadBos;
+}

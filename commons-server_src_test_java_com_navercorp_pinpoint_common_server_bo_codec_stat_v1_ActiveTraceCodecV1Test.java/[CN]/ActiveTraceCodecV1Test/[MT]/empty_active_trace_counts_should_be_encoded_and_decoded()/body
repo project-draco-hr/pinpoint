@@ -1,0 +1,21 @@
+{
+  final int numValues=20;
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<ActiveTraceBo> expectedActiveTraceBos=new ArrayList<>(numValues);
+  for (int i=0; i < numValues; ++i) {
+    ActiveTraceBo emptyActiveTraceBo=new ActiveTraceBo();
+    emptyActiveTraceBo.setTimestamp(initialTimestamp + i);
+    emptyActiveTraceBo.setActiveTraceCounts(Collections.<SlotType,Integer>emptyMap());
+    expectedActiveTraceBos.add(emptyActiveTraceBo);
+  }
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.activeTraceCodec.encodeValues(encodedValueBuffer,expectedActiveTraceBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<ActiveTraceBo> actualActiveTraceBos=this.activeTraceCodec.decodeValues(valueBuffer,initialTimestamp);
+  for (  ActiveTraceBo actualActiveTraceBo : actualActiveTraceBos) {
+    Map<SlotType,Integer> activeTraceCounts=actualActiveTraceBo.getActiveTraceCounts();
+    for (    int activeTraceCount : activeTraceCounts.values()) {
+      Assert.assertEquals(ActiveTraceBo.UNCOLLECTED_ACTIVE_TRACE_COUNT,activeTraceCount);
+    }
+  }
+}

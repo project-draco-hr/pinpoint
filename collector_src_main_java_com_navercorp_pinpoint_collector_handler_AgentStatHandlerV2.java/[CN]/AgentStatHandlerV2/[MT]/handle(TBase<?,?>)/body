@@ -1,0 +1,13 @@
+{
+  if (tbase instanceof TAgentStat) {
+    TAgentStat tAgentStat=(TAgentStat)tbase;
+    this.handleAgentStat(tAgentStat);
+  }
+ else   if (tbase instanceof TAgentStatBatch) {
+    TAgentStatBatch tAgentStatBatch=(TAgentStatBatch)tbase;
+    this.handleAgentStatBatch(tAgentStatBatch);
+  }
+ else {
+    throw new IllegalArgumentException("unexpected tbase:" + tbase + " expected:"+ TAgentStat.class.getName()+ " or "+ TAgentStatBatch.class.getName());
+  }
+}

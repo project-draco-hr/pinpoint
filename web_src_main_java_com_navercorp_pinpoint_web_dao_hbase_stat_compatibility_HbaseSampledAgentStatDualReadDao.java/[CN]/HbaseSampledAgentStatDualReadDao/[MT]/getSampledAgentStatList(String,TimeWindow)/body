@@ -1,0 +1,9 @@
+{
+  List<S> sampledAgentStats=this.master.getSampledAgentStatList(agentId,timeWindow);
+  if (CollectionUtils.isNotEmpty(sampledAgentStats)) {
+    return sampledAgentStats;
+  }
+ else {
+    return this.slave.getSampledAgentStatList(agentId,timeWindow);
+  }
+}

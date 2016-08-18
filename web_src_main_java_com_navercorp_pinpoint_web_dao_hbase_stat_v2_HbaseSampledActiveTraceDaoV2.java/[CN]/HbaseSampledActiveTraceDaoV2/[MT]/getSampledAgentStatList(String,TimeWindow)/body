@@ -1,0 +1,8 @@
+{
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range range=new Range(scanFrom,scanTo);
+  AgentStatMapperV2<ActiveTraceBo> mapper=operations.createRowMapper(activeTraceDecoder,range);
+  SampledActiveTraceResultExtractor resultExtractor=new SampledActiveTraceResultExtractor(timeWindow,mapper);
+  return operations.getSampledAgentStatList(AgentStatType.ACTIVE_TRACE,resultExtractor,agentId,range);
+}

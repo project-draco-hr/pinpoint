@@ -1,0 +1,20 @@
+{
+  HistogramSchema schema=BaseHistogramSchema.getDefaultHistogramSchemaByTypeCode(dataPointsToSample.get(0).getHistogramSchemaType());
+  List<Integer> fastCounts=new ArrayList<>(dataPointsToSample.size());
+  List<Integer> normalCounts=new ArrayList<>(dataPointsToSample.size());
+  List<Integer> slowCounts=new ArrayList<>(dataPointsToSample.size());
+  List<Integer> verySlowCounts=new ArrayList<>(dataPointsToSample.size());
+  for (  ActiveTraceBo activeTraceBo : dataPointsToSample) {
+    Map<SlotType,Integer> activeTraceCounts=activeTraceBo.getActiveTraceCounts();
+    fastCounts.add(activeTraceCounts.get(SlotType.FAST));
+    normalCounts.add(activeTraceCounts.get(SlotType.NORMAL));
+    slowCounts.add(activeTraceCounts.get(SlotType.SLOW));
+    verySlowCounts.add(activeTraceCounts.get(SlotType.VERY_SLOW));
+  }
+  SampledActiveTrace sampledActiveTrace=new SampledActiveTrace();
+  sampledActiveTrace.setFastCounts(createSampledTitledPoint(schema.getFastSlot().getSlotName(),timestamp,fastCounts));
+  sampledActiveTrace.setNormalCounts(createSampledTitledPoint(schema.getNormalSlot().getSlotName(),timestamp,normalCounts));
+  sampledActiveTrace.setSlowCounts(createSampledTitledPoint(schema.getSlowSlot().getSlotName(),timestamp,slowCounts));
+  sampledActiveTrace.setVerySlowCounts(createSampledTitledPoint(schema.getVerySlowSlot().getSlotName(),timestamp,verySlowCounts));
+  return sampledActiveTrace;
+}

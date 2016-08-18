@@ -1,0 +1,10 @@
+{
+  int header=0;
+  int position=0;
+  header=this.longHeaderCodec.encodeHeader(header,position,jvmCpuLoadStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,systemCpuLoadStrategyAnalyzer.getBestStrategy());
+  valueBuffer.putVInt(header);
+  this.codec.encodeValues(valueBuffer,jvmCpuLoadStrategyAnalyzer.getBestStrategy(),jvmCpuLoadStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,systemCpuLoadStrategyAnalyzer.getBestStrategy(),systemCpuLoadStrategyAnalyzer.getValues());
+}

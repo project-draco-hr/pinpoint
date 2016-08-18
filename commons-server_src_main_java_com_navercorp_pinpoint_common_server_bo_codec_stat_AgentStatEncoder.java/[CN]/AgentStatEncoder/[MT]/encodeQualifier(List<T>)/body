@@ -1,0 +1,8 @@
+{
+  long initialTimestamp=agentStatDataPoints.get(0).getTimestamp();
+  long baseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+  Buffer qualifierBuffer=new FixedBuffer(3);
+  long deltaFromBaseTimestamp=initialTimestamp - baseTimestamp;
+  qualifierBuffer.putVLong(deltaFromBaseTimestamp);
+  return qualifierBuffer.wrapByteBuffer();
+}

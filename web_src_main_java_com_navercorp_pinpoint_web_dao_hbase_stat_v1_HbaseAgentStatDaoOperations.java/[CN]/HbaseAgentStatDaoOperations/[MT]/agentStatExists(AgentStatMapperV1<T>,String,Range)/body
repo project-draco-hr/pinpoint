@@ -1,0 +1,15 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("checking for stat data existence : agentId={}, {}",agentId,range);
+  }
+  Scan scan=createScan(agentId,range);
+  scan.setCaching(1);
+  AgentStatDataExistsResultsExtractor<T> extractor=new AgentStatDataExistsResultsExtractor(mapper);
+  return hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,extractor);
+}

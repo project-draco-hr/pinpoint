@@ -1,0 +1,9 @@
+{
+  TActiveTraceHistogram tActiveTraceHistogram=tActiveTrace.getHistogram();
+  Map<SlotType,Integer> activeTraceCounts=createActiveTraceCountMap(tActiveTraceHistogram.getActiveTraceCount());
+  ActiveTraceBo activeTraceBo=new ActiveTraceBo();
+  activeTraceBo.setVersion(tActiveTraceHistogram.getVersion());
+  activeTraceBo.setHistogramSchemaType(tActiveTraceHistogram.getHistogramSchemaType());
+  activeTraceBo.setActiveTraceCounts(activeTraceCounts);
+  return activeTraceBo;
+}

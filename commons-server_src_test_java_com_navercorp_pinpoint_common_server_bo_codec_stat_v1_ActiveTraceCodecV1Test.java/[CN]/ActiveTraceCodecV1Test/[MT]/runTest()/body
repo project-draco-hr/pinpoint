@@ -1,0 +1,9 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<ActiveTraceBo> expectedActiveTraceBos=TestAgentStatFactory.createActiveTraceBos(initialTimestamp);
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.activeTraceCodec.encodeValues(encodedValueBuffer,expectedActiveTraceBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<ActiveTraceBo> actualActiveTraceBos=this.activeTraceCodec.decodeValues(valueBuffer,initialTimestamp);
+  Assert.assertEquals(expectedActiveTraceBos,actualActiveTraceBos);
+}

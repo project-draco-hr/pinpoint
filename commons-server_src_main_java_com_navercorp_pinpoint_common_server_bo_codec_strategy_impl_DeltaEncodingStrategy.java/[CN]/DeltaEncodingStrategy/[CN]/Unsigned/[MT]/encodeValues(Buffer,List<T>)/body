@@ -1,0 +1,13 @@
+{
+  if (values.isEmpty()) {
+    return;
+  }
+  T initialValue=values.get(0);
+  this.bufferHandler.putV(buffer,initialValue);
+  T previousValue=initialValue;
+  for (int i=1; i < values.size(); ++i) {
+    T value=values.get(i);
+    this.bufferHandler.putV(buffer,this.operation.xor(value,previousValue));
+    previousValue=value;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  if (result.isEmpty()) {
+    return Collections.emptyList();
+  }
+  final byte[] rowKey=getOriginalKey(result.getRow());
+  final String agentId=BytesUtils.toString(rowKey,0,AGENT_NAME_MAX_LEN).trim();
+  final long reverseTimestamp=BytesUtils.bytesToLong(rowKey,AGENT_NAME_MAX_LEN);
+  final long timestamp=TimeUtils.recoveryTimeMillis(reverseTimestamp);
+  NavigableMap<byte[],byte[]> qualifierMap=result.getFamilyMap(AGENT_STAT_CF_STATISTICS);
+  if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_V1)) {
+    return readAgentStatThriftDto(agentId,timestamp,qualifierMap.get(AGENT_STAT_CF_STATISTICS_V1));
+  }
+ else   if (qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_MEMORY_GC) || qualifierMap.containsKey(AGENT_STAT_CF_STATISTICS_CPU_LOAD)) {
+    return readSerializedBos(agentId,timestamp,qualifierMap);
+  }
+ else {
+    return mapQualifiers(agentId,timestamp,qualifierMap);
+  }
+}

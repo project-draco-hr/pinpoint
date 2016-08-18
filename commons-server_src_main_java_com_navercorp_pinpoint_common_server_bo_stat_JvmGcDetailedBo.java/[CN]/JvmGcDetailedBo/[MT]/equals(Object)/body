@@ -1,0 +1,15 @@
+{
+  if (this == o)   return true;
+  if (o == null || getClass() != o.getClass())   return false;
+  JvmGcDetailedBo that=(JvmGcDetailedBo)o;
+  if (timestamp != that.timestamp)   return false;
+  if (gcNewCount != that.gcNewCount)   return false;
+  if (gcNewTime != that.gcNewTime)   return false;
+  if (Double.compare(that.codeCacheUsed,codeCacheUsed) != 0)   return false;
+  if (Double.compare(that.newGenUsed,newGenUsed) != 0)   return false;
+  if (Double.compare(that.oldGenUsed,oldGenUsed) != 0)   return false;
+  if (Double.compare(that.survivorSpaceUsed,survivorSpaceUsed) != 0)   return false;
+  if (Double.compare(that.permGenUsed,permGenUsed) != 0)   return false;
+  if (Double.compare(that.metaspaceUsed,metaspaceUsed) != 0)   return false;
+  return agentId != null ? agentId.equals(that.agentId) : that.agentId == null;
+}

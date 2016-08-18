@@ -1,0 +1,15 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (transactionBos == null || transactionBos.isEmpty()) {
+    return;
+  }
+  List<Put> transactionPuts=this.agentStatHbaseOperationFactory.createPuts(agentId,AgentStatType.TRANSACTION,transactionBos,this.transactionSerializer);
+  if (!transactionPuts.isEmpty()) {
+    List<Put> rejectedPuts=this.hbaseTemplate.asyncPut(HBaseTables.AGENT_STAT_VER2,transactionPuts);
+    if (!rejectedPuts.isEmpty()) {
+      this.hbaseTemplate.put(HBaseTables.AGENT_STAT_VER2,rejectedPuts);
+    }
+  }
+}

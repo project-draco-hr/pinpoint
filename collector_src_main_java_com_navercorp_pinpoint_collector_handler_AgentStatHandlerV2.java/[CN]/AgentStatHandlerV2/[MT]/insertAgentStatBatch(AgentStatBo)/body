@@ -1,0 +1,16 @@
+{
+  if (agentStatBo == null) {
+    return;
+  }
+  final String agentId=agentStatBo.getAgentId();
+  try {
+    this.jvmGcDao.insert(agentId,agentStatBo.getJvmGcBos());
+    this.jvmGcDetailedDao.insert(agentId,agentStatBo.getJvmGcDetailedBos());
+    this.cpuLoadDao.insert(agentId,agentStatBo.getCpuLoadBos());
+    this.transactionDao.insert(agentId,agentStatBo.getTransactionBos());
+    this.activeTraceDao.insert(agentId,agentStatBo.getActiveTraceBos());
+  }
+ catch (  Exception e) {
+    logger.warn("Error inserting AgentStatBo. Caused:{}",e.getMessage());
+  }
+}

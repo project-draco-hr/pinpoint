@@ -1,0 +1,9 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<TransactionBo> expectedTransactionBos=TestAgentStatFactory.createTransactionBos(initialTimestamp);
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.transactionCodec.encodeValues(encodedValueBuffer,expectedTransactionBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<TransactionBo> actualTransactionBos=this.transactionCodec.decodeValues(valueBuffer,initialTimestamp);
+  Assert.assertEquals(expectedTransactionBos,actualTransactionBos);
+}

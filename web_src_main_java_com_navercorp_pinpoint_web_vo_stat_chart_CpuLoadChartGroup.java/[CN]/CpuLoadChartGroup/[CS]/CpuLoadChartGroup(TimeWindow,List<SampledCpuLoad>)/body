@@ -1,0 +1,11 @@
+{
+  this.cpuLoadCharts=new HashMap<>();
+  List<Point<Long,Double>> jvmCpuLoads=new ArrayList<>(sampledCpuLoads.size());
+  List<Point<Long,Double>> systemCpuLoads=new ArrayList(sampledCpuLoads.size());
+  for (  SampledCpuLoad sampledCpuLoad : sampledCpuLoads) {
+    jvmCpuLoads.add(sampledCpuLoad.getJvmCpuLoad());
+    systemCpuLoads.add(sampledCpuLoad.getSystemCpuLoad());
+  }
+  this.cpuLoadCharts.put(CpuLoadChartType.CPU_LOAD_JVM,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(jvmCpuLoads));
+  this.cpuLoadCharts.put(CpuLoadChartType.CPU_LOAD_SYSTEM,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(systemCpuLoads));
+}

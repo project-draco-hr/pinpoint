@@ -1,0 +1,11 @@
+{
+  if (timeWindow.getWindowRangeCount() > Integer.MAX_VALUE) {
+    throw new IllegalArgumentException("range yields too many timeslots");
+  }
+  this.timeWindow=timeWindow;
+  int numTimeslots=(int)this.timeWindow.getWindowRangeCount();
+  this.points=new ArrayList<>(numTimeslots);
+  for (  long timestamp : this.timeWindow) {
+    this.points.add(new UncollectedPoint<>(timestamp,uncollectedValue));
+  }
+}

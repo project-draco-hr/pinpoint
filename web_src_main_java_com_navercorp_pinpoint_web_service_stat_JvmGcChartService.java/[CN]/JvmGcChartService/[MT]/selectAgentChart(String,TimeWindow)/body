@@ -1,0 +1,10 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (timeWindow == null) {
+    throw new NullPointerException("timeWindow must not be null");
+  }
+  List<SampledJvmGc> sampledJvmGcs=this.sampledJvmGcDao.getSampledAgentStatList(agentId,timeWindow);
+  return new JvmGcChartGroup(timeWindow,sampledJvmGcs);
+}

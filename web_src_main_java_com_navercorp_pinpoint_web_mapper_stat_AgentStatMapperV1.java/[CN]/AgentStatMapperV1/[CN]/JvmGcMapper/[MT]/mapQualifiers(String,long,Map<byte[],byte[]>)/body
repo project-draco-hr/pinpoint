@@ -1,0 +1,24 @@
+{
+  JvmGcBo jvmGcBo=new JvmGcBo();
+  jvmGcBo.setAgentId(agentId);
+  jvmGcBo.setTimestamp(timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_COL_GC_OLD_COUNT)) {
+    jvmGcBo.setGcOldCount(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_GC_OLD_COUNT)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_GC_OLD_TIME)) {
+    jvmGcBo.setGcOldTime(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_GC_OLD_TIME)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_HEAP_USED)) {
+    jvmGcBo.setHeapUsed(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_HEAP_USED)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_HEAP_MAX)) {
+    jvmGcBo.setHeapMax(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_HEAP_MAX)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_NON_HEAP_USED)) {
+    jvmGcBo.setNonHeapUsed(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_NON_HEAP_USED)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_NON_HEAP_MAX)) {
+    jvmGcBo.setNonHeapMax(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_NON_HEAP_MAX)));
+  }
+  return Arrays.asList(jvmGcBo);
+}

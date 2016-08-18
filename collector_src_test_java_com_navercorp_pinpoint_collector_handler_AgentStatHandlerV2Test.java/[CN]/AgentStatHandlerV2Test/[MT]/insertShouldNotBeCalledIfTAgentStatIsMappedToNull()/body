@@ -1,0 +1,13 @@
+{
+  final String agentId="agentId";
+  final long startTimestamp=Long.MAX_VALUE;
+  final TAgentStat agentStat=createAgentStat(agentId,startTimestamp);
+  final AgentStatBo mappedAgentStat=null;
+  when(this.agentStatMapper.map(agentStat)).thenReturn(mappedAgentStat);
+  agentStatHandler.handle(agentStat);
+  verifyZeroInteractions(jvmGcDao);
+  verifyZeroInteractions(jvmGcDetailedDao);
+  verifyZeroInteractions(cpuLoadDao);
+  verifyZeroInteractions(transactionDao);
+  verifyZeroInteractions(activeTraceDao);
+}

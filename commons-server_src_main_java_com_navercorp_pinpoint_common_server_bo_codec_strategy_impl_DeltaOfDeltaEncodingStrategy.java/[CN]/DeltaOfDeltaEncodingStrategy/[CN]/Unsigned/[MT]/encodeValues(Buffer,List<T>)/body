@@ -1,0 +1,16 @@
+{
+  if (values.isEmpty()) {
+    return;
+  }
+  T initialValue=values.get(0);
+  this.bufferHandler.putV(buffer,initialValue);
+  T previousValue=initialValue;
+  T previousDelta=this.operation.zero();
+  for (int i=1; i < values.size(); ++i) {
+    T value=values.get(i);
+    T delta=this.operation.diff(value,previousValue);
+    this.bufferHandler.putSV(buffer,this.operation.diff(delta,previousDelta));
+    previousValue=value;
+    previousDelta=delta;
+  }
+}

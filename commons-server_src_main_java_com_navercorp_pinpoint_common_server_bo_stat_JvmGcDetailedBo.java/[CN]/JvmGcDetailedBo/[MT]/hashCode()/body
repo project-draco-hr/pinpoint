@@ -1,0 +1,21 @@
+{
+  int result;
+  long temp;
+  result=agentId != null ? agentId.hashCode() : 0;
+  result=31 * result + (int)(timestamp ^ (timestamp >>> 32));
+  result=31 * result + (int)(gcNewCount ^ (gcNewCount >>> 32));
+  result=31 * result + (int)(gcNewTime ^ (gcNewTime >>> 32));
+  temp=Double.doubleToLongBits(codeCacheUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(newGenUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(oldGenUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(survivorSpaceUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(permGenUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(metaspaceUsed);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  return result;
+}

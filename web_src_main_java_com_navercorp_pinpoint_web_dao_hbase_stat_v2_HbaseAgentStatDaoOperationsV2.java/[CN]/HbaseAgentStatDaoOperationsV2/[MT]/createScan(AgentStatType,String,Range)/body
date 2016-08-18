@@ -1,0 +1,13 @@
+{
+  long scanRange=range.getTo() - range.getFrom();
+  long expectedNumRows=((scanRange - 1) / HBaseTables.AGENT_STAT_TIMESPAN_MS) + 1;
+  if (range.getFrom() != AgentStatUtils.getBaseTimestamp(range.getFrom())) {
+    expectedNumRows++;
+  }
+  if (expectedNumRows > MAX_SCAN_CACHE_SIZE) {
+    return this.createScan(agentStatType,agentId,range,MAX_SCAN_CACHE_SIZE);
+  }
+ else {
+    return this.createScan(agentStatType,agentId,range,(int)expectedNumRows);
+  }
+}

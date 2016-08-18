@@ -1,0 +1,11 @@
+{
+  StrategyAnalyzer.StrategyAnalyzerBuilder<T> builder=this.getStrategyAnalyzerBuilder();
+  for (  T testValue : testValues) {
+    builder.addValue(testValue);
+  }
+  final StrategyAnalyzer<T> analyzer=builder.build();
+  logger.debug("Values : {}",analyzer.getValues());
+  Map<EncodingStrategy<T>,Integer> bufferSizes=this.getBufferSizes(testValues);
+  checkBuilder(builder,bufferSizes);
+  checkStrategy(analyzer,getBestEncodingStrategies(bufferSizes));
+}

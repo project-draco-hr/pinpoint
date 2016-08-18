@@ -1,0 +1,12 @@
+{
+  long count=1000;
+  int numDecimals=2;
+  double defaultRate=99;
+  double validDelta=1 / Math.pow(10,numDecimals);
+  long timeMs=0;
+  double rate=AgentStatUtils.calculateRate(count,timeMs,numDecimals,defaultRate);
+  Assert.assertEquals(defaultRate,rate,validDelta);
+  timeMs=-1;
+  rate=AgentStatUtils.calculateRate(count,timeMs,numDecimals,defaultRate);
+  Assert.assertEquals(defaultRate,rate,validDelta);
+}

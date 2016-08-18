@@ -1,0 +1,9 @@
+{
+  List<T> agentStats=this.master.getAgentStatList(agentId,range);
+  if (CollectionUtils.isNotEmpty(agentStats)) {
+    return agentStats;
+  }
+ else {
+    return this.slave.getAgentStatList(agentId,range);
+  }
+}

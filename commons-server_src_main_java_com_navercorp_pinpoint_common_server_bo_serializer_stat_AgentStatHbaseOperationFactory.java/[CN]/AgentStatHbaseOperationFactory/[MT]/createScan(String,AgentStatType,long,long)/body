@@ -1,0 +1,7 @@
+{
+  final AgentStatRowKeyComponent startRowKeyComponent=new AgentStatRowKeyComponent(agentId,agentStatType,AgentStatUtils.getBaseTimestamp(endTimestamp));
+  final AgentStatRowKeyComponent endRowKeyComponenet=new AgentStatRowKeyComponent(agentId,agentStatType,AgentStatUtils.getBaseTimestamp(startTimestamp) - AGENT_STAT_TIMESPAN_MS);
+  byte[] startRowKey=this.rowKeyEncoder.encodeRowKey(startRowKeyComponent);
+  byte[] endRowKey=this.rowKeyEncoder.encodeRowKey(endRowKeyComponenet);
+  return new Scan(startRowKey,endRowKey);
+}

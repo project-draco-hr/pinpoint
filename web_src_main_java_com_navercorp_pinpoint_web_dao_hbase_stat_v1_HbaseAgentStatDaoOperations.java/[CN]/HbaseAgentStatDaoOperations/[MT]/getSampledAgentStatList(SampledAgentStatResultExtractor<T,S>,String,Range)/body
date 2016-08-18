@@ -1,0 +1,13 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (resultExtractor == null) {
+    throw new NullPointerException("sampledResultExtractor must not be null");
+  }
+  Scan scan=createScan(agentId,range);
+  return hbaseOperations2.find(HBaseTables.AGENT_STAT,scan,rowKeyDistributor,resultExtractor);
+}

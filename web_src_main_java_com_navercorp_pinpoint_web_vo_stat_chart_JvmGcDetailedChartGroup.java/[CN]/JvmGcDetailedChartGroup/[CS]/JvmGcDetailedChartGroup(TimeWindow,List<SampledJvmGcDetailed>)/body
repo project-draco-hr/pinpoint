@@ -1,0 +1,29 @@
+{
+  this.jvmGcDetailedCharts=new HashMap<>();
+  List<Point<Long,Long>> gcNewCounts=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Long>> gcNewTimes=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> codeCacheUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> newGenUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> oldGenUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> survivorSpaceUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> permGenUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  List<Point<Long,Double>> metaspaceUseds=new ArrayList<>(sampledJvmGcDetaileds.size());
+  for (  SampledJvmGcDetailed sampledJvmGcDetailed : sampledJvmGcDetaileds) {
+    gcNewCounts.add(sampledJvmGcDetailed.getGcNewCount());
+    gcNewTimes.add(sampledJvmGcDetailed.getGcNewTime());
+    codeCacheUseds.add(sampledJvmGcDetailed.getCodeCacheUsed());
+    newGenUseds.add(sampledJvmGcDetailed.getNewGenUsed());
+    oldGenUseds.add(sampledJvmGcDetailed.getOldGenUsed());
+    survivorSpaceUseds.add(sampledJvmGcDetailed.getSurvivorSpaceUsed());
+    permGenUseds.add(sampledJvmGcDetailed.getPermGenUsed());
+    metaspaceUseds.add(sampledJvmGcDetailed.getMetaspaceUsed());
+  }
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_GC_NEW_COUNT,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(gcNewCounts));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_GC_NEW_TIME,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(gcNewTimes));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_CODE_CACHE_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(codeCacheUseds));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_NEW_GEN_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(newGenUseds));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_OLD_GEN_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(oldGenUseds));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_SURVIVOR_SPACE_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(survivorSpaceUseds));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_PERM_GEN_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(permGenUseds));
+  this.jvmGcDetailedCharts.put(JvmGcDetailedChartType.JVM_DETAILED_METASPACE_USED,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_PERCENTAGE).build(metaspaceUseds));
+}

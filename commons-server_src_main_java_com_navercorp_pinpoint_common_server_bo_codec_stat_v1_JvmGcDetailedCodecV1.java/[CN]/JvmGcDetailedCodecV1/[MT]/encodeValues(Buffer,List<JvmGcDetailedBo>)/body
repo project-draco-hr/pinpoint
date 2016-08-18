@@ -1,0 +1,29 @@
+{
+  if (CollectionUtils.isEmpty(jvmGcDetailedBos)) {
+    throw new IllegalArgumentException("jvmGcDetailedBos must not be empty");
+  }
+  final int numValues=jvmGcDetailedBos.size();
+  valueBuffer.putVInt(numValues);
+  List<Long> timestamps=new ArrayList<>(numValues);
+  UnsignedLongEncodingStrategy.Analyzer.Builder gcNewCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder gcNewTimeAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder codeCacheUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder newGenUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder oldGenUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder survivorSpaceUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder permGenUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder metaspaceUsedStrategyAnalyzer=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  for (  JvmGcDetailedBo jvmGcDetailedBo : jvmGcDetailedBos) {
+    timestamps.add(jvmGcDetailedBo.getTimestamp());
+    gcNewCountAnalyzerBuilder.addValue(jvmGcDetailedBo.getGcNewCount());
+    gcNewTimeAnalyzerBuilder.addValue(jvmGcDetailedBo.getGcNewTime());
+    codeCacheUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getCodeCacheUsed()));
+    newGenUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getNewGenUsed()));
+    oldGenUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getOldGenUsed()));
+    survivorSpaceUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getSurvivorSpaceUsed()));
+    permGenUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getPermGenUsed()));
+    metaspaceUsedStrategyAnalyzer.addValue(AgentStatUtils.convertDoubleToLong(jvmGcDetailedBo.getMetaspaceUsed()));
+  }
+  this.codec.encodeTimestamps(valueBuffer,timestamps);
+  this.encodeDataPoints(valueBuffer,gcNewCountAnalyzerBuilder.build(),gcNewTimeAnalyzerBuilder.build(),codeCacheUsedStrategyAnalyzer.build(),newGenUsedStrategyAnalyzer.build(),oldGenUsedStrategyAnalyzer.build(),survivorSpaceUsedStrategyAnalyzer.build(),permGenUsedStrategyAnalyzer.build(),metaspaceUsedStrategyAnalyzer.build());
+}

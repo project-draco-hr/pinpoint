@@ -1,0 +1,11 @@
+{
+  long timestamp=agentStat.getTimestamp();
+  if (agentStat.getJvmCpuUsage() != UNCOLLECTED_DATA) {
+    double jvmCpuUsage=agentStat.getJvmCpuUsage();
+    this.jvmCpuLoadChartBuilder.addDataPoint(new DataPoint<>(timestamp,jvmCpuUsage * 100));
+  }
+  if (agentStat.getSystemCpuUsage() != UNCOLLECTED_DATA) {
+    double systemCpuUsage=agentStat.getSystemCpuUsage();
+    this.systemCpuLoadChartBuilder.addDataPoint(new DataPoint<>(timestamp,systemCpuUsage * 100));
+  }
+}

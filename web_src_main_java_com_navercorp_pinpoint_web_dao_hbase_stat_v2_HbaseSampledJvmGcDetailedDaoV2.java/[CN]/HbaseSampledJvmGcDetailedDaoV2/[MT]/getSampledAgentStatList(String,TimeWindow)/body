@@ -1,0 +1,8 @@
+{
+  long scanFrom=timeWindow.getWindowRange().getFrom();
+  long scanTo=timeWindow.getWindowRange().getTo() + timeWindow.getWindowSlotSize();
+  Range range=new Range(scanFrom,scanTo);
+  AgentStatMapperV2<JvmGcDetailedBo> mapper=operations.createRowMapper(jvmGcDetailedDecoder,range);
+  SampledJvmGcDetailedResultExtractor resultExtractor=new SampledJvmGcDetailedResultExtractor(timeWindow,mapper);
+  return operations.getSampledAgentStatList(AgentStatType.JVM_GC_DETAILED,resultExtractor,agentId,range);
+}

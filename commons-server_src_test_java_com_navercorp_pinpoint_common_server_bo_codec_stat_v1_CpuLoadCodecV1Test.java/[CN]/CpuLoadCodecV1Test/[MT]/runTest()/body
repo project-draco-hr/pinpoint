@@ -1,0 +1,14 @@
+{
+  final long initialTimestamp=System.currentTimeMillis();
+  final List<CpuLoadBo> expectedCpuLoadBos=TestAgentStatFactory.createCpuLoadBos(initialTimestamp);
+  Buffer encodedValueBuffer=new AutomaticBuffer();
+  this.cpuLoadCodec.encodeValues(encodedValueBuffer,expectedCpuLoadBos);
+  Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
+  List<CpuLoadBo> actualCpuLoadBos=this.cpuLoadCodec.decodeValues(valueBuffer,initialTimestamp);
+  Assert.assertEquals(expectedCpuLoadBos.size(),actualCpuLoadBos.size());
+  for (int i=0; i < expectedCpuLoadBos.size(); ++i) {
+    CpuLoadBo expectedCpuLoadBo=expectedCpuLoadBos.get(i);
+    CpuLoadBo actualCpuLoadBo=actualCpuLoadBos.get(i);
+    verify(expectedCpuLoadBo,actualCpuLoadBo);
+  }
+}

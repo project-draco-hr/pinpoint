@@ -1,0 +1,18 @@
+{
+  Throwable masterException=null;
+  try {
+    master.handle(tbase);
+  }
+ catch (  Throwable t) {
+    masterException=t;
+  }
+  try {
+    slave.handle(tbase);
+  }
+ catch (  Throwable t) {
+    logger.warn("slave handle({}) Error:{}",tbase.getClass().getSimpleName(),t.getMessage(),t);
+  }
+  if (masterException != null) {
+    throw new RuntimeException(masterException);
+  }
+}

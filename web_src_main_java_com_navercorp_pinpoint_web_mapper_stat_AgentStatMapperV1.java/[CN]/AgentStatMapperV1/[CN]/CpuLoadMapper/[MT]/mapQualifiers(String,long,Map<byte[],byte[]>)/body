@@ -1,0 +1,12 @@
+{
+  CpuLoadBo cpuLoadBo=new CpuLoadBo();
+  cpuLoadBo.setAgentId(agentId);
+  cpuLoadBo.setTimestamp(timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_COL_JVM_CPU)) {
+    cpuLoadBo.setJvmCpuLoad(Bytes.toDouble(qualifierMap.get(AGENT_STAT_COL_JVM_CPU)));
+  }
+  if (qualifierMap.containsKey(AGENT_STAT_COL_SYS_CPU)) {
+    cpuLoadBo.setSystemCpuLoad(Bytes.toDouble(qualifierMap.get(AGENT_STAT_COL_SYS_CPU)));
+  }
+  return Arrays.asList(cpuLoadBo);
+}

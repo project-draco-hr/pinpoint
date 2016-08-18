@@ -1,0 +1,15 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (jvmGcBos == null || jvmGcBos.isEmpty()) {
+    return;
+  }
+  List<Put> jvmGcBoPuts=this.agentStatHbaseOperationFactory.createPuts(agentId,AgentStatType.JVM_GC,jvmGcBos,this.jvmGcSerializer);
+  if (!jvmGcBoPuts.isEmpty()) {
+    List<Put> rejectedPuts=this.hbaseTemplate.asyncPut(HBaseTables.AGENT_STAT_VER2,jvmGcBoPuts);
+    if (!rejectedPuts.isEmpty()) {
+      this.hbaseTemplate.put(HBaseTables.AGENT_STAT_VER2,rejectedPuts);
+    }
+  }
+}

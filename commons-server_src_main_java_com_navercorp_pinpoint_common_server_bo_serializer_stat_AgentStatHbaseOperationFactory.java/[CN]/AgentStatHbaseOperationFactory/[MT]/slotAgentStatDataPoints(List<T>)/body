@@ -1,0 +1,14 @@
+{
+  Map<Long,List<T>> timeslots=new TreeMap<>();
+  for (  T agentStatDataPoint : agentStatDataPoints) {
+    long timestamp=agentStatDataPoint.getTimestamp();
+    long timeslot=AgentStatUtils.getBaseTimestamp(timestamp);
+    List<T> slottedDataPoints=timeslots.get(timeslot);
+    if (slottedDataPoints == null) {
+      slottedDataPoints=new ArrayList<>();
+      timeslots.put(timeslot,slottedDataPoints);
+    }
+    slottedDataPoints.add(agentStatDataPoint);
+  }
+  return timeslots;
+}

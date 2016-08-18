@@ -1,0 +1,16 @@
+{
+  int numTimeSlots=(int)this.timeWindow.getWindowRangeCount();
+  List<List<D>> timeSlots=new ArrayList<>(numTimeSlots);
+  for (int i=0; i < numTimeSlots; ++i) {
+    timeSlots.add(new ArrayList<D>());
+  }
+  for (  D dataPoint : dataPoints) {
+    long timestamp=dataPoint.getXVal();
+    int index=this.timeWindow.getWindowIndex(timestamp);
+    if (index >= 0 && index < timeSlots.size()) {
+      List<D> timeSlot=timeSlots.get(index);
+      timeSlot.add(dataPoint);
+    }
+  }
+  return timeSlots;
+}

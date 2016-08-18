@@ -1,0 +1,19 @@
+{
+  int header=0;
+  int position=0;
+  header=this.longHeaderCodec.encodeHeader(header,position,collectIntervalStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,sampledNewCountStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,sampledContinuationCountStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,unsampledNewCountStrategyAnalyzer.getBestStrategy());
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  header=this.longHeaderCodec.encodeHeader(header,position,unsampledContinuationCountStrategyAnalyzer.getBestStrategy());
+  valueBuffer.putVInt(header);
+  this.codec.encodeValues(valueBuffer,collectIntervalStrategyAnalyzer.getBestStrategy(),collectIntervalStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,sampledNewCountStrategyAnalyzer.getBestStrategy(),sampledNewCountStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,sampledContinuationCountStrategyAnalyzer.getBestStrategy(),sampledContinuationCountStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,unsampledNewCountStrategyAnalyzer.getBestStrategy(),unsampledNewCountStrategyAnalyzer.getValues());
+  this.codec.encodeValues(valueBuffer,unsampledContinuationCountStrategyAnalyzer.getBestStrategy(),unsampledContinuationCountStrategyAnalyzer.getValues());
+}

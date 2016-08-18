@@ -1,0 +1,13 @@
+{
+  List<Short> values=new ArrayList<>(numTestValues);
+  for (int i=0; i < numTestValues; ++i) {
+    if (unsigned) {
+      values.add((short)RANDOM.nextInt(Short.MAX_VALUE));
+    }
+ else {
+      boolean positive=RANDOM.nextInt(2) % 2 == 0 ? true : false;
+      values.add((short)(RANDOM.nextInt(Short.MAX_VALUE) * (positive ? 1 : -1)));
+    }
+  }
+  return values;
+}

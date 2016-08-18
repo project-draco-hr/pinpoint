@@ -1,0 +1,15 @@
+{
+  if (numValues < 1) {
+    return Collections.emptyList();
+  }
+  List<T> values=new ArrayList<>(numValues);
+  T initialValue=this.bufferHandler.readV(buffer);
+  values.add(initialValue);
+  T previousValue=initialValue;
+  for (int i=0; i < numValues - 1; ++i) {
+    T value=this.operation.xor(previousValue,this.bufferHandler.readV(buffer));
+    values.add(value);
+    previousValue=value;
+  }
+  return values;
+}

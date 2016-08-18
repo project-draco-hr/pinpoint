@@ -1,0 +1,12 @@
+{
+  if (agentId == null) {
+    throw new NullPointerException("agentId must not be null");
+  }
+  if (range == null) {
+    throw new NullPointerException("range must not be null");
+  }
+  if (logger.isDebugEnabled()) {
+    logger.debug("scanAgentStat : agentId={}, {}",agentId,range);
+  }
+  return getAgentStatListFromRaw(mapper,agentId,range);
+}

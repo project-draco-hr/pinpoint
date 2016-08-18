@@ -1,0 +1,18 @@
+{
+  if (agentStatDataPoints == null || agentStatDataPoints.isEmpty()) {
+    return Collections.emptyList();
+  }
+  Map<Long,List<T>> timeslots=slotAgentStatDataPoints(agentStatDataPoints);
+  List<Put> puts=new ArrayList<>();
+  for (  Map.Entry<Long,List<T>> timeslot : timeslots.entrySet()) {
+    long baseTimestamp=timeslot.getKey();
+    List<T> slottedAgentStatDataPoints=timeslot.getValue();
+    final AgentStatRowKeyComponent rowKeyComponent=new AgentStatRowKeyComponent(agentId,agentStatType,baseTimestamp);
+    byte[] rowKey=this.rowKeyEncoder.encodeRowKey(rowKeyComponent);
+    byte[] distributedRowKey=this.rowKeyDistributor.getDistributedKey(rowKey);
+    Put put=new Put(distributedRowKey);
+    agentStatSerializer.serialize(slottedAgentStatDataPoints,put,null);
+    puts.add(put);
+  }
+  return puts;
+}

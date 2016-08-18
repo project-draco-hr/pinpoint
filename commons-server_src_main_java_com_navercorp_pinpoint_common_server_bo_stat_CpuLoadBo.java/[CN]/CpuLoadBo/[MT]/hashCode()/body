@@ -1,0 +1,11 @@
+{
+  int result;
+  long temp;
+  result=agentId != null ? agentId.hashCode() : 0;
+  result=31 * result + (int)(timestamp ^ (timestamp >>> 32));
+  temp=Double.doubleToLongBits(jvmCpuLoad);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  temp=Double.doubleToLongBits(systemCpuLoad);
+  result=31 * result + (int)(temp ^ (temp >>> 32));
+  return result;
+}

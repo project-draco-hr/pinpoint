@@ -1,19 +1,25 @@
 {
-  agentStatDao=new AgentStatDao(){
-    @Override public List<AgentStat> getAgentStatList(    String agentId,    Range range){
-      List<AgentStat> agentStatList=new LinkedList<AgentStat>();
+  jvmGcDao=new AgentStatDao<JvmGcBo>(){
+    @Override public List<JvmGcBo> getAgentStatList(    String agentId,    Range range){
+      List<JvmGcBo> jvmGcs=new LinkedList<>();
       for (int i=36; i > 0; i--) {
-        AgentStat stat=new AgentStat("AGENT_NAME",1L);
-        stat.setGcOldCount(i);
-        agentStatList.add(stat);
+        JvmGcBo jvmGc=new JvmGcBo();
+        jvmGc.setGcOldCount(i);
+        jvmGcs.add(jvmGc);
       }
-      return agentStatList;
-    }
-    @Override public List<AgentStat> getAggregatedAgentStatList(    String agentId,    Range range){
-      return getAgentStatList(agentId,range);
+      return jvmGcs;
     }
     @Override public boolean agentStatExists(    String agentId,    Range range){
       return true;
+    }
+  }
+;
+  cpuLoadDao=new AgentStatDao<CpuLoadBo>(){
+    @Override public List<CpuLoadBo> getAgentStatList(    String agentId,    Range range){
+      return Collections.emptyList();
+    }
+    @Override public boolean agentStatExists(    String agentId,    Range range){
+      return false;
     }
   }
 ;

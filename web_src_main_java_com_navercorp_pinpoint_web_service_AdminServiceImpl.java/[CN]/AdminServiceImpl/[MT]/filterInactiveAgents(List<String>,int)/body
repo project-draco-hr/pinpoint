@@ -9,7 +9,7 @@
   final long fromTimestamp=cal.getTimeInMillis();
   Range queryRange=new Range(fromTimestamp,toTimestamp);
   for (  String agentId : agentIds) {
-    boolean dataExists=this.agentStatDao.agentStatExists(agentId,queryRange);
+    boolean dataExists=this.jvmGcDao.agentStatExists(agentId,queryRange);
     if (!dataExists) {
       inactiveAgentIds.add(agentId);
     }

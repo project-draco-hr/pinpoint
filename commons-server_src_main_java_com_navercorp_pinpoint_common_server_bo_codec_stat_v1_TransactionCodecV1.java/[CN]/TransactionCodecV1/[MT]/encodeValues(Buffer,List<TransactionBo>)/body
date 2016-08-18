@@ -1,0 +1,23 @@
+{
+  if (CollectionUtils.isEmpty(transactionBos)) {
+    throw new IllegalArgumentException("transactionBos must not be empty");
+  }
+  final int numValues=transactionBos.size();
+  valueBuffer.putVInt(numValues);
+  List<Long> timestamps=new ArrayList<>(numValues);
+  UnsignedLongEncodingStrategy.Analyzer.Builder collectIntervalAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder sampledNewCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder sampledContinuationCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder unsampledNewCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  UnsignedLongEncodingStrategy.Analyzer.Builder unsampledContinuationCountAnalyzerBuilder=new UnsignedLongEncodingStrategy.Analyzer.Builder();
+  for (  TransactionBo transactionBo : transactionBos) {
+    timestamps.add(transactionBo.getTimestamp());
+    collectIntervalAnalyzerBuilder.addValue(transactionBo.getCollectInterval());
+    sampledNewCountAnalyzerBuilder.addValue(transactionBo.getSampledNewCount());
+    sampledContinuationCountAnalyzerBuilder.addValue(transactionBo.getSampledContinuationCount());
+    unsampledNewCountAnalyzerBuilder.addValue(transactionBo.getUnsampledNewCount());
+    unsampledContinuationCountAnalyzerBuilder.addValue(transactionBo.getUnsampledContinuationCount());
+  }
+  this.codec.encodeTimestamps(valueBuffer,timestamps);
+  this.encodeDataPoints(valueBuffer,collectIntervalAnalyzerBuilder.build(),sampledNewCountAnalyzerBuilder.build(),sampledContinuationCountAnalyzerBuilder.build(),unsampledNewCountAnalyzerBuilder.build(),unsampledContinuationCountAnalyzerBuilder.build());
+}

@@ -1,0 +1,17 @@
+{
+  this.activeTraceCharts=new HashMap<>();
+  List<Point<Long,Integer>> fastCounts=new ArrayList<>(sampledActiveTraces.size());
+  List<Point<Long,Integer>> normalCounts=new ArrayList<>(sampledActiveTraces.size());
+  List<Point<Long,Integer>> slowCounts=new ArrayList<>(sampledActiveTraces.size());
+  List<Point<Long,Integer>> verySlowCounts=new ArrayList<>(sampledActiveTraces.size());
+  for (  SampledActiveTrace sampledActiveTrace : sampledActiveTraces) {
+    fastCounts.add(sampledActiveTrace.getFastCounts());
+    normalCounts.add(sampledActiveTrace.getNormalCounts());
+    slowCounts.add(sampledActiveTrace.getSlowCounts());
+    verySlowCounts.add(sampledActiveTrace.getVerySlowCounts());
+  }
+  activeTraceCharts.put(ActiveTraceChartType.ACTIVE_TRACE_FAST,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(fastCounts));
+  activeTraceCharts.put(ActiveTraceChartType.ACTIVE_TRACE_NORMAL,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(normalCounts));
+  activeTraceCharts.put(ActiveTraceChartType.ACTIVE_TRACE_SLOW,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(slowCounts));
+  activeTraceCharts.put(ActiveTraceChartType.ACTIVE_TRACE_VERY_SLOW,new TimeSeriesChartBuilder<>(timeWindow,UNCOLLECTED_VALUE).build(verySlowCounts));
+}

@@ -1,0 +1,11 @@
+{
+  StopWatch watch=new StopWatch();
+  watch.start("agentStatService.selectAgentStatList");
+  TimeWindow timeWindow=new TimeWindow(new Range(from,to),new TimeWindowSlotCentricSampler());
+  LegacyAgentStatChartGroup chartGroup=this.v1Service.selectAgentStatList(agentId,timeWindow);
+  watch.stop();
+  if (logger.isInfoEnabled()) {
+    logger.info("getAgentStatV1(agentId={}, from={}, to={}) : {}ms",agentId,from,to,watch.getLastTaskTimeMillis());
+  }
+  return chartGroup;
+}
