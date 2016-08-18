@@ -1,0 +1,10 @@
+{
+  submitted.mark();
+  try {
+    delegate.execute(new InstrumentedRunnable(runnable));
+  }
+ catch (  RejectedExecutionException ree) {
+    rejected.mark();
+    throw ree;
+  }
+}

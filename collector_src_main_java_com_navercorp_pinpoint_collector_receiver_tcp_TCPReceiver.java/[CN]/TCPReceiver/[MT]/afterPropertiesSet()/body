@@ -1,0 +1,22 @@
+{
+  ExecutorService worker=ExecutorFactory.newFixedThreadPool(configuration.getTcpWorkerThread(),configuration.getTcpWorkerQueueSize(),tcpWorkerThreadFactory);
+  if (configuration.isTcpWorkerMonitor()) {
+    if (metricRegistry == null) {
+      logger.warn("metricRegistry not autowired. Can't enable monitoring.");
+      this.worker=worker;
+    }
+ else {
+      this.worker=new MonitoredExecutorService(worker,metricRegistry,this.getClass().getSimpleName() + "-Worker");
+    }
+  }
+ else {
+    this.worker=worker;
+  }
+  if (clusterService != null && clusterService.isEnable()) {
+    this.serverAcceptor.addStateChangeEventHandler(clusterService.getChannelStateChangeEventHandler());
+  }
+  for (  ServerStateChangeEventHandler channelStateChangeEventHandler : this.channelStateChangeEventHandlers) {
+    serverAcceptor.addStateChangeEventHandler(channelStateChangeEventHandler);
+  }
+  setL4TcpChannel(serverAcceptor,configuration.getL4IpList());
+}

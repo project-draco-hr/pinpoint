@@ -1,9 +1,9 @@
 {
   if (workerType == PinpointExecutorType.DISRUPTOR_EXECUTOR) {
-    PinpointThreadFactory threadFactory=new PinpointThreadFactory(receiverName + "-Worker",true);
+    PinpointThreadFactory threadFactory=new PinpointThreadFactory(receiverName,true);
     return DisruptorExecutors.newMultiProducerExecutor(workerThreadSize,workerThreadQueueSize,threadFactory);
   }
  else {
-    return ExecutorFactory.newFixedThreadPool(workerThreadSize,workerThreadQueueSize,receiverName + "-Worker",true);
+    return ExecutorFactory.newFixedThreadPool(workerThreadSize,workerThreadQueueSize,receiverName,true);
   }
 }

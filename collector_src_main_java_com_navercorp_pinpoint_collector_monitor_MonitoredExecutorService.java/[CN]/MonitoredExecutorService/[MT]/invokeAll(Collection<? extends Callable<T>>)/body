@@ -1,0 +1,11 @@
+{
+  submitted.mark(callables.size());
+  Collection<? extends Callable<T>> instrumented=instrument(callables);
+  try {
+    return delegate.invokeAll(instrumented);
+  }
+ catch (  RejectedExecutionException ree) {
+    rejected.mark(callables.size());
+    throw ree;
+  }
+}

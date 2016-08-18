@@ -6,12 +6,7 @@
     throw new NullPointerException("dispatchHandler must not be null");
   }
   this.dispatchHandler=dispatchHandler;
-  this.bindAddress=configuration.getTcpListenIp();
-  this.port=configuration.getTcpListenPort();
-  this.l4ipList=configuration.getL4IpList();
-  this.worker=ExecutorFactory.newFixedThreadPool(configuration.getTcpWorkerThread(),configuration.getTcpWorkerQueueSize(),tcpWorkerThreadFactory);
+  this.configuration=configuration;
   this.serverAcceptor=serverAcceptor;
-  if (service != null && service.isEnable()) {
-    this.serverAcceptor.addStateChangeEventHandler(service.getChannelStateChangeEventHandler());
-  }
+  this.clusterService=service;
 }

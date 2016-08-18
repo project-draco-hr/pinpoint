@@ -1,0 +1,13 @@
+{
+  dispatchDuration.stop();
+  running.inc();
+  final Timer.Context context=durationTimer.time();
+  try {
+    return callable.call();
+  }
+  finally {
+    context.stop();
+    running.dec();
+    completed.mark();
+  }
+}

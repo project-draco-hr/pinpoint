@@ -1,8 +1,5 @@
 {
-  for (  ServerStateChangeEventHandler channelStateChangeEventHandler : this.channelStateChangeEventHandlers) {
-    serverAcceptor.addStateChangeEventHandler(channelStateChangeEventHandler);
-  }
-  setL4TcpChannel(serverAcceptor);
+  afterPropertiesSet();
   this.serverAcceptor.setMessageListener(new ServerMessageListener(){
     @Override public HandshakeResponseCode handleHandshake(    Map properties){
       if (properties == null) {
@@ -31,5 +28,5 @@
     }
   }
 );
-  this.serverAcceptor.bind(bindAddress,port);
+  this.serverAcceptor.bind(configuration.getTcpListenIp(),configuration.getTcpListenPort());
 }
