@@ -2,6 +2,9 @@
   JvmGcBo jvmGcBo=new JvmGcBo();
   jvmGcBo.setAgentId(agentId);
   jvmGcBo.setTimestamp(timestamp);
+  if (qualifierMap.containsKey(AGENT_STAT_COL_GC_TYPE)) {
+    jvmGcBo.setGcType(JvmGcType.valueOf(Bytes.toString(qualifierMap.get(AGENT_STAT_COL_GC_TYPE))));
+  }
   if (qualifierMap.containsKey(AGENT_STAT_COL_GC_OLD_COUNT)) {
     jvmGcBo.setGcOldCount(Bytes.toLong(qualifierMap.get(AGENT_STAT_COL_GC_OLD_COUNT)));
   }

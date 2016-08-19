@@ -9,5 +9,6 @@
   if (nonHeapMax != jvmGcBo.nonHeapMax)   return false;
   if (gcOldCount != jvmGcBo.gcOldCount)   return false;
   if (gcOldTime != jvmGcBo.gcOldTime)   return false;
-  return agentId != null ? agentId.equals(jvmGcBo.agentId) : jvmGcBo.agentId == null;
+  if (agentId != null ? !agentId.equals(jvmGcBo.agentId) : jvmGcBo.agentId != null)   return false;
+  return gcType == jvmGcBo.gcType;
 }

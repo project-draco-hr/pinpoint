@@ -1,6 +1,7 @@
 {
   int result=agentId != null ? agentId.hashCode() : 0;
   result=31 * result + (int)(timestamp ^ (timestamp >>> 32));
+  result=31 * result + (gcType != null ? gcType.hashCode() : 0);
   result=31 * result + (int)(heapUsed ^ (heapUsed >>> 32));
   result=31 * result + (int)(heapMax ^ (heapMax >>> 32));
   result=31 * result + (int)(nonHeapUsed ^ (nonHeapUsed >>> 32));

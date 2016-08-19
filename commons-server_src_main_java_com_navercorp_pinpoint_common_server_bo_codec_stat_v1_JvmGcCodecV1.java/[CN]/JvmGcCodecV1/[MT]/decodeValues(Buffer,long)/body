@@ -1,4 +1,5 @@
 {
+  final JvmGcType gcType=JvmGcType.getTypeByCode(valueBuffer.readVInt());
   int numValues=valueBuffer.readVInt();
   List<Long> timestamps=this.codec.decodeTimestamps(initialTimestamp,valueBuffer,numValues);
   int header=valueBuffer.readVInt();
@@ -24,6 +25,7 @@
   for (int i=0; i < numValues; ++i) {
     JvmGcBo jvmGcBo=new JvmGcBo();
     jvmGcBo.setTimestamp(timestamps.get(i));
+    jvmGcBo.setGcType(gcType);
     jvmGcBo.setHeapUsed(heapUseds.get(i));
     jvmGcBo.setHeapMax(heapMaxes.get(i));
     jvmGcBo.setNonHeapUsed(nonHeapUseds.get(i));

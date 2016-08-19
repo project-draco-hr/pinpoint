@@ -2,6 +2,8 @@
   if (CollectionUtils.isEmpty(jvmGcBos)) {
     throw new IllegalArgumentException("jvmGcBos must not be empty");
   }
+  final int gcTypeCode=jvmGcBos.get(0).getGcType().getTypeCode();
+  valueBuffer.putVInt(gcTypeCode);
   final int numValues=jvmGcBos.size();
   valueBuffer.putVInt(numValues);
   List<Long> timestamps=new ArrayList<>(numValues);
