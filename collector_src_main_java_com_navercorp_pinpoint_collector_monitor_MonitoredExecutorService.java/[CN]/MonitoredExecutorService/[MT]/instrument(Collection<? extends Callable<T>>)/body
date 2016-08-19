@@ -1,0 +1,7 @@
+{
+  final List<InstrumentedCallable<T>> instrumented=new ArrayList<InstrumentedCallable<T>>(callables.size());
+  for (  Callable<T> callable : callables) {
+    instrumented.add(new InstrumentedCallable<T>(callable));
+  }
+  return instrumented;
+}
