@@ -14,29 +14,34 @@
     final long timestamp=tAgentStat.getTimestamp();
     if (tAgentStat.isSetGc()) {
       JvmGcBo jvmGcBo=this.jvmGcBoMapper.map(tAgentStat.getGc());
+      jvmGcBo.setAgentId(agentId);
       jvmGcBo.setTimestamp(timestamp);
       jvmGcBos.add(jvmGcBo);
     }
     if (tAgentStat.isSetGc()) {
       if (tAgentStat.getGc().isSetJvmGcDetailed()) {
         JvmGcDetailedBo jvmGcDetailedBo=this.jvmGcDetailedBoMapper.map(tAgentStat.getGc().getJvmGcDetailed());
+        jvmGcDetailedBo.setAgentId(agentId);
         jvmGcDetailedBo.setTimestamp(timestamp);
         jvmGcDetailedBos.add(jvmGcDetailedBo);
       }
     }
     if (tAgentStat.isSetCpuLoad()) {
       CpuLoadBo cpuLoadBo=this.cpuLoadBoMapper.map(tAgentStat.getCpuLoad());
+      cpuLoadBo.setAgentId(agentId);
       cpuLoadBo.setTimestamp(timestamp);
       cpuLoadBos.add(cpuLoadBo);
     }
     if (tAgentStat.isSetTransaction()) {
       TransactionBo transactionBo=this.transactionBoMapper.map(tAgentStat.getTransaction());
+      transactionBo.setAgentId(agentId);
       transactionBo.setTimestamp(timestamp);
       transactionBo.setCollectInterval(tAgentStat.getCollectInterval());
       transactionBos.add(transactionBo);
     }
     if (tAgentStat.isSetActiveTrace() && tAgentStat.getActiveTrace().isSetHistogram()) {
       ActiveTraceBo activeTraceBo=this.activeTraceBoMapper.map(tAgentStat.getActiveTrace());
+      activeTraceBo.setAgentId(agentId);
       activeTraceBo.setTimestamp(timestamp);
       activeTraceBos.add(activeTraceBo);
     }
