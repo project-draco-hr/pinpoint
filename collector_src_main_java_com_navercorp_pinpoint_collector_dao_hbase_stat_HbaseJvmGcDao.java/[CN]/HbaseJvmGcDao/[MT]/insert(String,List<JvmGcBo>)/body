@@ -8,7 +8,7 @@
   List<Put> jvmGcBoPuts=this.agentStatHbaseOperationFactory.createPuts(agentId,AgentStatType.JVM_GC,jvmGcBos,this.jvmGcSerializer);
   if (!jvmGcBoPuts.isEmpty()) {
     List<Put> rejectedPuts=this.hbaseTemplate.asyncPut(HBaseTables.AGENT_STAT_VER2,jvmGcBoPuts);
-    if (!rejectedPuts.isEmpty()) {
+    if (CollectionUtils.isNotEmpty(rejectedPuts)) {
       this.hbaseTemplate.put(HBaseTables.AGENT_STAT_VER2,rejectedPuts);
     }
   }

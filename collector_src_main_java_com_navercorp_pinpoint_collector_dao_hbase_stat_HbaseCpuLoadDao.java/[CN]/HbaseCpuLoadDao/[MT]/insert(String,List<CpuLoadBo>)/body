@@ -8,7 +8,7 @@
   List<Put> cpuLoadPuts=this.agentStatHbaseOperationFactory.createPuts(agentId,AgentStatType.CPU_LOAD,cpuLoadBos,this.cpuLoadSerializer);
   if (!cpuLoadPuts.isEmpty()) {
     List<Put> rejectedPuts=this.hbaseTemplate.asyncPut(HBaseTables.AGENT_STAT_VER2,cpuLoadPuts);
-    if (!rejectedPuts.isEmpty()) {
+    if (CollectionUtils.isNotEmpty(rejectedPuts)) {
       this.hbaseTemplate.put(HBaseTables.AGENT_STAT_VER2,rejectedPuts);
     }
   }
