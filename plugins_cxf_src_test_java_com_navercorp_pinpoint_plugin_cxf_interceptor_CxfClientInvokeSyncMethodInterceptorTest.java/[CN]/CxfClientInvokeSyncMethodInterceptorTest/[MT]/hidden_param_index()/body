@@ -1,0 +1,20 @@
+{
+  doReturn(profilerConfig).when(traceContext).getProfilerConfig();
+  String hiddenParams="{http://foo.com/}getFoo:1";
+  doReturn(hiddenParams).when(profilerConfig).readString("profiler.cxf.client.hiddenParams","");
+  doReturn(trace).when(traceContext).currentRawTraceObject();
+  doReturn(true).when(trace).canSampled();
+  doReturn(traceId).when(trace).getTraceId();
+  doReturn(nextId).when(traceId).getNextTraceId();
+  doReturn(recorder).when(trace).traceBlockBegin();
+  Object target=new Object();
+  Object operInfo="[BindingOperationInfo: {http://foo.com/}getFoo]";
+  Object[] arg=new Object[]{"foo","bar"};
+  Object[] args=new Object[]{"",operInfo,arg};
+  CxfClientInvokeSyncMethodInterceptor interceptor=new CxfClientInvokeSyncMethodInterceptor(traceContext,descriptor);
+  interceptor.before(target,args);
+  verify(recorder).recordServiceType(CxfPluginConstants.CXF_CLIENT_SERVICE_TYPE);
+  verify(recorder).recordDestinationId("http://foo.com/");
+  verify(recorder).recordAttribute(CxfPluginConstants.CXF_OPERATION,"{http://foo.com/}getFoo");
+  verify(recorder).recordAttribute(CxfPluginConstants.CXF_ARGS,"[foo, [HIDDEN PARAM]]");
+}
