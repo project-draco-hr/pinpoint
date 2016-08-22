@@ -1,8 +1,10 @@
 {
   Map<ChartType,Chart> charts=new HashMap<>();
-  charts.putAll(new JvmGcChartGroup(this.timeWindow,this.jvmGcs).getCharts());
+  JvmGcChartGroup jvmGcChartGroup=new JvmGcChartGroup(this.timeWindow,this.jvmGcs);
+  String gcType=jvmGcChartGroup.getType();
+  charts.putAll(jvmGcChartGroup.getCharts());
   charts.putAll(new CpuLoadChartGroup(this.timeWindow,this.cpuLoads).getCharts());
   charts.putAll(new TransactionChartGroup(this.timeWindow,this.transactions).getCharts());
   charts.putAll(new ActiveTraceChartGroup(this.timeWindow,this.activeTraces).getCharts());
-  return new LegacyAgentStatChartGroup(charts);
+  return new LegacyAgentStatChartGroup(charts,gcType);
 }
