@@ -1,0 +1,43 @@
+{
+  final String agentId=decodingContext.getAgentId();
+  final long baseTimestamp=decodingContext.getBaseTimestamp();
+  final long timestampDelta=decodingContext.getTimestampDelta();
+  final long initialTimestamp=baseTimestamp + timestampDelta;
+  final JvmGcType gcType=JvmGcType.getTypeByCode(valueBuffer.readVInt());
+  int numValues=valueBuffer.readVInt();
+  List<Long> timestamps=this.codec.decodeTimestamps(initialTimestamp,valueBuffer,numValues);
+  int header=valueBuffer.readVInt();
+  int position=0;
+  EncodingStrategy<Long> heapUsedEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  EncodingStrategy<Long> heapMaxEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  EncodingStrategy<Long> nonHeapUsedEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  EncodingStrategy<Long> nonHeapMaxEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  EncodingStrategy<Long> gcOldCountEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  position+=this.longHeaderCodec.getHeaderBitSize();
+  EncodingStrategy<Long> gcOldTimeEncodingStrategy=this.longHeaderCodec.decodeHeader(header,position);
+  List<Long> heapUseds=this.codec.decodeValues(valueBuffer,heapUsedEncodingStrategy,numValues);
+  List<Long> heapMaxes=this.codec.decodeValues(valueBuffer,heapMaxEncodingStrategy,numValues);
+  List<Long> nonHeapUseds=this.codec.decodeValues(valueBuffer,nonHeapUsedEncodingStrategy,numValues);
+  List<Long> nonHeapMaxes=this.codec.decodeValues(valueBuffer,nonHeapMaxEncodingStrategy,numValues);
+  List<Long> gcOldCounts=this.codec.decodeValues(valueBuffer,gcOldCountEncodingStrategy,numValues);
+  List<Long> gcOldTimes=this.codec.decodeValues(valueBuffer,gcOldTimeEncodingStrategy,numValues);
+  List<JvmGcBo> jvmGcBos=new ArrayList<>(numValues);
+  for (int i=0; i < numValues; ++i) {
+    JvmGcBo jvmGcBo=new JvmGcBo();
+    jvmGcBo.setAgentId(agentId);
+    jvmGcBo.setTimestamp(timestamps.get(i));
+    jvmGcBo.setGcType(gcType);
+    jvmGcBo.setHeapUsed(heapUseds.get(i));
+    jvmGcBo.setHeapMax(heapMaxes.get(i));
+    jvmGcBo.setNonHeapUsed(nonHeapUseds.get(i));
+    jvmGcBo.setNonHeapMax(nonHeapMaxes.get(i));
+    jvmGcBo.setGcOldCount(gcOldCounts.get(i));
+    jvmGcBo.setGcOldTime(gcOldTimes.get(i));
+    jvmGcBos.add(jvmGcBo);
+  }
+  return jvmGcBos;
+}

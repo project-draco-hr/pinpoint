@@ -1,0 +1,12 @@
+{
+  int size=valueBuffer.readInt();
+  List<TestAgentStat> agentStats=new ArrayList<>(size);
+  for (int i=0; i < size; ++i) {
+    TestAgentStat agentStat=new TestAgentStat();
+    agentStat.setAgentId(decodingContext.getAgentId());
+    agentStat.setTimestamp(valueBuffer.readLong());
+    agentStat.setValue(valueBuffer.readLong());
+    agentStats.add(agentStat);
+  }
+  return agentStats;
+}

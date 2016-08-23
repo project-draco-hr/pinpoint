@@ -1,0 +1,19 @@
+{
+  Assert.assertEquals(expectedJvmGcDetailedBos.size(),actualJvmGcDetailedBos.size());
+  for (int i=0; i < expectedJvmGcDetailedBos.size(); ++i) {
+    JvmGcDetailedBo expectedJvmGcDetailedBo=expectedJvmGcDetailedBos.get(i);
+    JvmGcDetailedBo actualJvmGcDetailedBo=actualJvmGcDetailedBos.get(i);
+    Assert.assertEquals("agentId",expectedJvmGcDetailedBo.getAgentId(),actualJvmGcDetailedBo.getAgentId());
+    Assert.assertEquals("timestamp",expectedJvmGcDetailedBo.getTimestamp(),actualJvmGcDetailedBo.getTimestamp());
+    Assert.assertEquals("agentStatType",expectedJvmGcDetailedBo.getAgentStatType(),actualJvmGcDetailedBo.getAgentStatType());
+    Assert.assertEquals("gcNewCount",expectedJvmGcDetailedBo.getGcNewCount(),actualJvmGcDetailedBo.getGcNewCount());
+    Assert.assertEquals("gcNewTime",expectedJvmGcDetailedBo.getGcNewTime(),actualJvmGcDetailedBo.getGcNewTime());
+    Assert.assertEquals("codeCacheUsed",expectedJvmGcDetailedBo.getCodeCacheUsed(),actualJvmGcDetailedBo.getCodeCacheUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("codeCacheUsed",expectedJvmGcDetailedBo.getCodeCacheUsed(),actualJvmGcDetailedBo.getCodeCacheUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("newGenUsed",expectedJvmGcDetailedBo.getNewGenUsed(),actualJvmGcDetailedBo.getNewGenUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("oldGenUsed",expectedJvmGcDetailedBo.getOldGenUsed(),actualJvmGcDetailedBo.getOldGenUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("survivorSpaceUsed",expectedJvmGcDetailedBo.getSurvivorSpaceUsed(),actualJvmGcDetailedBo.getSurvivorSpaceUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("permGenUsed",expectedJvmGcDetailedBo.getPermGenUsed(),actualJvmGcDetailedBo.getPermGenUsed(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("metaspaceUsed",expectedJvmGcDetailedBo.getMetaspaceUsed(),actualJvmGcDetailedBo.getMetaspaceUsed(),DOUBLE_COMPARISON_DELTA);
+  }
+}

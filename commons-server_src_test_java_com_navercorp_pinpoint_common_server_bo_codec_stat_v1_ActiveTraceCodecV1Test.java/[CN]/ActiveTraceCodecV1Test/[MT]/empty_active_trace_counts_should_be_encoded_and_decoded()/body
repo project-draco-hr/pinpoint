@@ -1,17 +1,24 @@
 {
   final int numValues=20;
   final long initialTimestamp=System.currentTimeMillis();
+  final long baseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+  final long timestampDelta=initialTimestamp - baseTimestamp;
   final List<ActiveTraceBo> expectedActiveTraceBos=new ArrayList<>(numValues);
   for (int i=0; i < numValues; ++i) {
     ActiveTraceBo emptyActiveTraceBo=new ActiveTraceBo();
+    emptyActiveTraceBo.setAgentId(AGENT_ID);
     emptyActiveTraceBo.setTimestamp(initialTimestamp + i);
     emptyActiveTraceBo.setActiveTraceCounts(Collections.<SlotType,Integer>emptyMap());
     expectedActiveTraceBos.add(emptyActiveTraceBo);
   }
   Buffer encodedValueBuffer=new AutomaticBuffer();
   this.activeTraceCodec.encodeValues(encodedValueBuffer,expectedActiveTraceBos);
+  AgentStatDecodingContext decodingContext=new AgentStatDecodingContext();
+  decodingContext.setAgentId(AGENT_ID);
+  decodingContext.setBaseTimestamp(baseTimestamp);
+  decodingContext.setTimestampDelta(timestampDelta);
   Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
-  List<ActiveTraceBo> actualActiveTraceBos=this.activeTraceCodec.decodeValues(valueBuffer,initialTimestamp);
+  List<ActiveTraceBo> actualActiveTraceBos=this.activeTraceCodec.decodeValues(valueBuffer,decodingContext);
   for (  ActiveTraceBo actualActiveTraceBo : actualActiveTraceBos) {
     Map<SlotType,Integer> activeTraceCounts=actualActiveTraceBo.getActiveTraceCounts();
     for (    int activeTraceCount : activeTraceCounts.values()) {

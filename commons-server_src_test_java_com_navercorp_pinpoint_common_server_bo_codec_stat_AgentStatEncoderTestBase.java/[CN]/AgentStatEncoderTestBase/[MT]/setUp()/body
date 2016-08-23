@@ -1,0 +1,8 @@
+{
+  this.encoders=new ArrayList<>(codecs.size());
+  for (  AgentStatCodec<T> codec : codecs) {
+    AgentStatEncoder<T> encoder=new AgentStatEncoder<>(codec);
+    encoders.add(encoder);
+  }
+  this.decoder=new AgentStatDecoder<>(codecs);
+}

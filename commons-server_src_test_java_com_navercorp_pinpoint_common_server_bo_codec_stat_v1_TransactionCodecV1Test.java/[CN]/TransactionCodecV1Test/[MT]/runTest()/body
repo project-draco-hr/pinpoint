@@ -1,9 +1,15 @@
 {
   final long initialTimestamp=System.currentTimeMillis();
-  final List<TransactionBo> expectedTransactionBos=TestAgentStatFactory.createTransactionBos(initialTimestamp);
+  final long baseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+  final long timestampDelta=initialTimestamp - baseTimestamp;
+  final List<TransactionBo> expectedTransactionBos=TestAgentStatFactory.createTransactionBos(AGENT_ID,initialTimestamp);
   Buffer encodedValueBuffer=new AutomaticBuffer();
   this.transactionCodec.encodeValues(encodedValueBuffer,expectedTransactionBos);
+  AgentStatDecodingContext decodingContext=new AgentStatDecodingContext();
+  decodingContext.setAgentId(AGENT_ID);
+  decodingContext.setBaseTimestamp(baseTimestamp);
+  decodingContext.setTimestampDelta(timestampDelta);
   Buffer valueBuffer=new FixedBuffer(encodedValueBuffer.getBuffer());
-  List<TransactionBo> actualTransactionBos=this.transactionCodec.decodeValues(valueBuffer,initialTimestamp);
+  List<TransactionBo> actualTransactionBos=this.transactionCodec.decodeValues(valueBuffer,decodingContext);
   Assert.assertEquals(expectedTransactionBos,actualTransactionBos);
 }
