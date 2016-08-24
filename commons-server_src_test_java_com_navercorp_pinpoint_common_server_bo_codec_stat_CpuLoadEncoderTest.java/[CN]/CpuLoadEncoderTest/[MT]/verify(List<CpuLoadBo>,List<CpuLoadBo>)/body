@@ -1,0 +1,12 @@
+{
+  Assert.assertEquals(expectedCpuLoadBos.size(),actualCpuLoadBos.size());
+  for (int i=0; i < expectedCpuLoadBos.size(); ++i) {
+    CpuLoadBo expectedCpuLoadBo=expectedCpuLoadBos.get(i);
+    CpuLoadBo actualCpuLoadBo=actualCpuLoadBos.get(i);
+    Assert.assertEquals("agentId",expectedCpuLoadBo.getAgentId(),actualCpuLoadBo.getAgentId());
+    Assert.assertEquals("timestamp",expectedCpuLoadBo.getTimestamp(),actualCpuLoadBo.getTimestamp());
+    Assert.assertEquals("agentStatType",expectedCpuLoadBo.getAgentStatType(),actualCpuLoadBo.getAgentStatType());
+    Assert.assertEquals("jvmCpuLoad",expectedCpuLoadBo.getJvmCpuLoad(),actualCpuLoadBo.getJvmCpuLoad(),DOUBLE_COMPARISON_DELTA);
+    Assert.assertEquals("systemCpuLoad",expectedCpuLoadBo.getSystemCpuLoad(),actualCpuLoadBo.getSystemCpuLoad(),DOUBLE_COMPARISON_DELTA);
+  }
+}

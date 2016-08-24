@@ -1,0 +1,9 @@
+{
+  if (code < 0) {
+    throw new IllegalArgumentException("code must be positive");
+  }
+  int fromIndex=this.position;
+  int toIndex=this.position + code;
+  this.headerBitSet.set(fromIndex,toIndex);
+  this.position=toIndex + 1;
+}

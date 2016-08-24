@@ -1,8 +1,0 @@
-{
-  final long expectedInitialTimestamp=System.currentTimeMillis();
-  final long baseTimestamp=AgentStatUtils.getBaseTimestamp(expectedInitialTimestamp);
-  final List<AgentStatDataPoint> givenDataPoint=createAgentStatDataPoints(expectedInitialTimestamp);
-  ByteBuffer qualifierBuffer=this.encoder.encodeQualifier(givenDataPoint);
-  long actualInitialTimestamp=this.decoder.decodeInitialTimestamp(baseTimestamp,new FixedBuffer(qualifierBuffer.array()));
-  Assert.assertEquals(expectedInitialTimestamp,actualInitialTimestamp);
-}

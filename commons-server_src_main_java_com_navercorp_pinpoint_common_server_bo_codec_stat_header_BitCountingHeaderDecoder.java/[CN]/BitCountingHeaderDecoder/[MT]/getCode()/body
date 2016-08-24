@@ -1,0 +1,7 @@
+{
+  int fromIndex=this.position;
+  int toIndex=this.headerBitSet.nextClearBit(this.position);
+  int numBitsSet=this.headerBitSet.get(fromIndex,toIndex).cardinality();
+  this.position=toIndex + 1;
+  return numBitsSet;
+}

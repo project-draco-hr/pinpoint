@@ -1,0 +1,23 @@
+{
+  final int numZeroes=RANDOM.nextInt(20) + 1;
+  final int numRandomCodes=RANDOM.nextInt(20) + 1;
+  final int numTotalCodes=numZeroes + numRandomCodes;
+  List<Integer> givenCodes=new ArrayList<>(numTotalCodes);
+  for (int i=0; i < numZeroes; ++i) {
+    givenCodes.add(0);
+  }
+  for (int i=0; i < numRandomCodes; ++i) {
+    givenCodes.add(RANDOM.nextInt(5));
+  }
+  BitCountingHeaderEncoder encoder=new BitCountingHeaderEncoder();
+  for (  int expectedCode : givenCodes) {
+    encoder.addCode(expectedCode);
+  }
+  final byte[] header=encoder.getHeader();
+  BitCountingHeaderDecoder decoder=new BitCountingHeaderDecoder(header);
+  List<Integer> decodedCodes=new ArrayList<>(numTotalCodes);
+  for (int i=0; i < numTotalCodes; ++i) {
+    decodedCodes.add(decoder.getCode());
+  }
+  Assert.assertEquals(givenCodes,decodedCodes);
+}

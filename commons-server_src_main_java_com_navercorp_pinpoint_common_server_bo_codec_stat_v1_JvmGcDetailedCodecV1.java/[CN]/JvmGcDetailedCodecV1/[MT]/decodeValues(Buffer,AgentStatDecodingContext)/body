@@ -1,0 +1,42 @@
+{
+  final String agentId=decodingContext.getAgentId();
+  final long baseTimestamp=decodingContext.getBaseTimestamp();
+  final long timestampDelta=decodingContext.getTimestampDelta();
+  final long initialTimestamp=baseTimestamp + timestampDelta;
+  int numValues=valueBuffer.readVInt();
+  List<Long> timestamps=this.codec.decodeTimestamps(initialTimestamp,valueBuffer,numValues);
+  final byte[] header=valueBuffer.readPrefixedBytes();
+  AgentStatHeaderDecoder headerDecoder=new BitCountingHeaderDecoder(header);
+  EncodingStrategy<Long> gcNewCountEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> gcNewTimeEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> codeCacheUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> newGenUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> oldGenUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> survivorSpaceUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> permGenUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> metaspaceUsedEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  List<Long> gcNewCounts=this.codec.decodeValues(valueBuffer,gcNewCountEncodingStrategy,numValues);
+  List<Long> gcNewTimes=this.codec.decodeValues(valueBuffer,gcNewTimeEncodingStrategy,numValues);
+  List<Long> codeCacheUseds=this.codec.decodeValues(valueBuffer,codeCacheUsedEncodingStrategy,numValues);
+  List<Long> newGenUseds=this.codec.decodeValues(valueBuffer,newGenUsedEncodingStrategy,numValues);
+  List<Long> oldGenUseds=this.codec.decodeValues(valueBuffer,oldGenUsedEncodingStrategy,numValues);
+  List<Long> survivorSpaceUseds=this.codec.decodeValues(valueBuffer,survivorSpaceUsedEncodingStrategy,numValues);
+  List<Long> permGenUseds=this.codec.decodeValues(valueBuffer,permGenUsedEncodingStrategy,numValues);
+  List<Long> metaspaceUseds=this.codec.decodeValues(valueBuffer,metaspaceUsedEncodingStrategy,numValues);
+  List<JvmGcDetailedBo> jvmGcDetailedBos=new ArrayList<>(numValues);
+  for (int i=0; i < numValues; ++i) {
+    JvmGcDetailedBo jvmGcDetailedBo=new JvmGcDetailedBo();
+    jvmGcDetailedBo.setAgentId(agentId);
+    jvmGcDetailedBo.setTimestamp(timestamps.get(i));
+    jvmGcDetailedBo.setGcNewCount(gcNewCounts.get(i));
+    jvmGcDetailedBo.setGcNewTime(gcNewTimes.get(i));
+    jvmGcDetailedBo.setCodeCacheUsed(AgentStatUtils.convertLongToDouble(codeCacheUseds.get(i)));
+    jvmGcDetailedBo.setNewGenUsed(AgentStatUtils.convertLongToDouble(newGenUseds.get(i)));
+    jvmGcDetailedBo.setOldGenUsed(AgentStatUtils.convertLongToDouble(oldGenUseds.get(i)));
+    jvmGcDetailedBo.setSurvivorSpaceUsed(AgentStatUtils.convertLongToDouble(survivorSpaceUseds.get(i)));
+    jvmGcDetailedBo.setPermGenUsed(AgentStatUtils.convertLongToDouble(permGenUseds.get(i)));
+    jvmGcDetailedBo.setMetaspaceUsed(AgentStatUtils.convertLongToDouble(metaspaceUseds.get(i)));
+    jvmGcDetailedBos.add(jvmGcDetailedBo);
+  }
+  return jvmGcDetailedBos;
+}

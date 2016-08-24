@@ -1,9 +1,0 @@
-{
-  byte version=valueBuffer.readByte();
-  for (  AgentStatCodec<T> codec : this.codecs) {
-    if (version == codec.getVersion()) {
-      return codec.decodeValues(valueBuffer,initialTimestamp);
-    }
-  }
-  throw new IllegalArgumentException("Unknown version : " + version);
-}

@@ -1,8 +1,11 @@
 {
-  if (agentStatBos.isEmpty()) {
+  if (CollectionUtils.isEmpty(agentStatBos)) {
     throw new IllegalArgumentException("agentStatBos should not be empty");
   }
-  ByteBuffer qualifierBuffer=this.encoder.encodeQualifier(agentStatBos);
+  long initialTimestamp=agentStatBos.get(0).getTimestamp();
+  long baseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+  long timestampDelta=initialTimestamp - baseTimestamp;
+  ByteBuffer qualifierBuffer=this.encoder.encodeQualifier(timestampDelta);
   ByteBuffer valueBuffer=this.encoder.encodeValue(agentStatBos);
   put.addColumn(HBaseTables.AGENT_STAT_CF_STATISTICS,qualifierBuffer,HConstants.LATEST_TIMESTAMP,valueBuffer);
 }

@@ -1,0 +1,38 @@
+{
+  final String agentId=decodingContext.getAgentId();
+  final long baseTimestamp=decodingContext.getBaseTimestamp();
+  final long timestampDelta=decodingContext.getTimestampDelta();
+  final long initialTimestamp=baseTimestamp + timestampDelta;
+  int numValues=valueBuffer.readVInt();
+  List<Long> timestamps=this.codec.decodeTimestamps(initialTimestamp,valueBuffer,numValues);
+  final byte[] header=valueBuffer.readPrefixedBytes();
+  AgentStatHeaderDecoder headerDecoder=new BitCountingHeaderDecoder(header);
+  EncodingStrategy<Short> versionEncodingStrategy=UnsignedShortEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Integer> schemaTypeEncodingStrategy=UnsignedIntegerEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Integer> fastTraceCountsEncodingStrategy=UnsignedIntegerEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Integer> normalTraceCountsEncodingStrategy=UnsignedIntegerEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Integer> slowTraceCountsEncodingStrategy=UnsignedIntegerEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Integer> verySlowTraceCountsEncodingStrategy=UnsignedIntegerEncodingStrategy.getFromCode(headerDecoder.getCode());
+  List<Short> versions=this.codec.decodeValues(valueBuffer,versionEncodingStrategy,numValues);
+  List<Integer> schemaTypes=this.codec.decodeValues(valueBuffer,schemaTypeEncodingStrategy,numValues);
+  List<Integer> fastTraceCounts=this.codec.decodeValues(valueBuffer,fastTraceCountsEncodingStrategy,numValues);
+  List<Integer> normalTraceCounts=this.codec.decodeValues(valueBuffer,normalTraceCountsEncodingStrategy,numValues);
+  List<Integer> slowTraceCounts=this.codec.decodeValues(valueBuffer,slowTraceCountsEncodingStrategy,numValues);
+  List<Integer> verySlowTraceCounts=this.codec.decodeValues(valueBuffer,verySlowTraceCountsEncodingStrategy,numValues);
+  List<ActiveTraceBo> activeTraceBos=new ArrayList<>(numValues);
+  for (int i=0; i < numValues; ++i) {
+    ActiveTraceBo activeTraceBo=new ActiveTraceBo();
+    activeTraceBo.setAgentId(agentId);
+    activeTraceBo.setTimestamp(timestamps.get(i));
+    activeTraceBo.setVersion(versions.get(i));
+    activeTraceBo.setHistogramSchemaType(schemaTypes.get(i));
+    Map<SlotType,Integer> activeTraceCounts=new HashMap<>();
+    activeTraceCounts.put(SlotType.FAST,fastTraceCounts.get(i));
+    activeTraceCounts.put(SlotType.NORMAL,normalTraceCounts.get(i));
+    activeTraceCounts.put(SlotType.SLOW,slowTraceCounts.get(i));
+    activeTraceCounts.put(SlotType.VERY_SLOW,verySlowTraceCounts.get(i));
+    activeTraceBo.setActiveTraceCounts(activeTraceCounts);
+    activeTraceBos.add(activeTraceBo);
+  }
+  return activeTraceBos;
+}

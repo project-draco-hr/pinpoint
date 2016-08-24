@@ -1,0 +1,18 @@
+{
+  long initialTimestamp=System.currentTimeMillis();
+  int numStats=RANDOM.nextInt(20) + 1;
+  List<T> expectedAgentStats=this.createAgentStats(AGENT_ID,initialTimestamp,numStats);
+  for (  AgentStatEncoder<T> encoder : this.encoders) {
+    long baseTimestamp=AgentStatUtils.getBaseTimestamp(initialTimestamp);
+    long timestampDelta=initialTimestamp - baseTimestamp;
+    ByteBuffer qualifierBuffer=encoder.encodeQualifier(timestampDelta);
+    ByteBuffer valueBuffer=encoder.encodeValue(expectedAgentStats);
+    Buffer encodedQualifierBuffer=new FixedBuffer(qualifierBuffer.array());
+    Buffer encodedValueBuffer=new FixedBuffer(valueBuffer.array());
+    AgentStatDecodingContext context=new AgentStatDecodingContext();
+    context.setAgentId(AGENT_ID);
+    context.setBaseTimestamp(baseTimestamp);
+    List<T> decodedAgentStats=decode(encodedQualifierBuffer,encodedValueBuffer,context);
+    verify(expectedAgentStats,decodedAgentStats);
+  }
+}

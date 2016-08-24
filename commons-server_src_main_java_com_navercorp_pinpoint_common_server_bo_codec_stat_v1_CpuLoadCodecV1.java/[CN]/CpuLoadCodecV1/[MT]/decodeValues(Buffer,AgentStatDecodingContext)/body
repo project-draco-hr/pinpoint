@@ -1,0 +1,24 @@
+{
+  final String agentId=decodingContext.getAgentId();
+  final long baseTimestamp=decodingContext.getBaseTimestamp();
+  final long timestampDelta=decodingContext.getTimestampDelta();
+  final long initialTimestamp=baseTimestamp + timestampDelta;
+  int numValues=valueBuffer.readVInt();
+  List<Long> timestamps=this.codec.decodeTimestamps(initialTimestamp,valueBuffer,numValues);
+  final byte[] header=valueBuffer.readPrefixedBytes();
+  AgentStatHeaderDecoder headerDecoder=new BitCountingHeaderDecoder(header);
+  EncodingStrategy<Long> jvmCpuLoadEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  EncodingStrategy<Long> systemCpuLoadEncodingStrategy=UnsignedLongEncodingStrategy.getFromCode(headerDecoder.getCode());
+  List<Long> jvmCpuLoads=this.codec.decodeValues(valueBuffer,jvmCpuLoadEncodingStrategy,numValues);
+  List<Long> systemCpuLoads=this.codec.decodeValues(valueBuffer,systemCpuLoadEncodingStrategy,numValues);
+  List<CpuLoadBo> cpuLoadBos=new ArrayList<>(numValues);
+  for (int i=0; i < numValues; ++i) {
+    CpuLoadBo cpuLoadBo=new CpuLoadBo();
+    cpuLoadBo.setAgentId(agentId);
+    cpuLoadBo.setTimestamp(timestamps.get(i));
+    cpuLoadBo.setJvmCpuLoad(AgentStatUtils.convertLongToDouble(jvmCpuLoads.get(i)));
+    cpuLoadBo.setSystemCpuLoad(AgentStatUtils.convertLongToDouble(systemCpuLoads.get(i)));
+    cpuLoadBos.add(cpuLoadBo);
+  }
+  return cpuLoadBos;
+}
