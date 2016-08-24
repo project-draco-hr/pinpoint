@@ -5,9 +5,6 @@
   if (enableCollectorMetric) {
     this.worker=new MonitoredExecutorService(worker,metricRegistry,receiverName + "-Worker");
   }
- else {
-    this.worker=worker;
-  }
   final int packetPoolSize=getPacketPoolSize(workerThreadSize,workerThreadQueueSize);
   this.datagramPacketPool=new DefaultObjectPool<>(new DatagramPacketFactory(),packetPoolSize);
   this.io=(ThreadPoolExecutor)Executors.newCachedThreadPool(new PinpointThreadFactory(receiverName + "-Io",true));
