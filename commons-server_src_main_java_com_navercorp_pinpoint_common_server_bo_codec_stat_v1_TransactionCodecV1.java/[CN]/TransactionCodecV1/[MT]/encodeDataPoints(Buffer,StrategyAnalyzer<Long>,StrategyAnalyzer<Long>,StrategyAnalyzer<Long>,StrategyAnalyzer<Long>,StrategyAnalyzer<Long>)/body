@@ -1,16 +1,12 @@
 {
-  int header=0;
-  int position=0;
-  header=this.longHeaderCodec.encodeHeader(header,position,collectIntervalStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,sampledNewCountStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,sampledContinuationCountStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,unsampledNewCountStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,unsampledContinuationCountStrategyAnalyzer.getBestStrategy());
-  valueBuffer.putVInt(header);
+  AgentStatHeaderEncoder headerEncoder=new BitCountingHeaderEncoder();
+  headerEncoder.addCode(collectIntervalStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(sampledNewCountStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(sampledContinuationCountStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(unsampledNewCountStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(unsampledContinuationCountStrategyAnalyzer.getBestStrategy().getCode());
+  final byte[] header=headerEncoder.getHeader();
+  valueBuffer.putPrefixedBytes(header);
   this.codec.encodeValues(valueBuffer,collectIntervalStrategyAnalyzer.getBestStrategy(),collectIntervalStrategyAnalyzer.getValues());
   this.codec.encodeValues(valueBuffer,sampledNewCountStrategyAnalyzer.getBestStrategy(),sampledNewCountStrategyAnalyzer.getValues());
   this.codec.encodeValues(valueBuffer,sampledContinuationCountStrategyAnalyzer.getBestStrategy(),sampledContinuationCountStrategyAnalyzer.getValues());

@@ -1,18 +1,13 @@
 {
-  int header=0;
-  int position=0;
-  header=this.longHeaderCodec.encodeHeader(header,position,heapUsedStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,heapMaxStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,nonHeapUsedStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,nonHeapMaxStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,gcOldCountStrategyAnalyzer.getBestStrategy());
-  position+=this.longHeaderCodec.getHeaderBitSize();
-  header=this.longHeaderCodec.encodeHeader(header,position,gcOldTimeStrategyAnalyzer.getBestStrategy());
-  valueBuffer.putVInt(header);
+  AgentStatHeaderEncoder headerEncoder=new BitCountingHeaderEncoder();
+  headerEncoder.addCode(heapUsedStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(heapMaxStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(nonHeapUsedStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(nonHeapMaxStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(gcOldCountStrategyAnalyzer.getBestStrategy().getCode());
+  headerEncoder.addCode(gcOldTimeStrategyAnalyzer.getBestStrategy().getCode());
+  final byte[] header=headerEncoder.getHeader();
+  valueBuffer.putPrefixedBytes(header);
   this.codec.encodeValues(valueBuffer,heapUsedStrategyAnalyzer.getBestStrategy(),heapUsedStrategyAnalyzer.getValues());
   this.codec.encodeValues(valueBuffer,heapMaxStrategyAnalyzer.getBestStrategy(),heapMaxStrategyAnalyzer.getValues());
   this.codec.encodeValues(valueBuffer,nonHeapUsedStrategyAnalyzer.getBestStrategy(),nonHeapUsedStrategyAnalyzer.getValues());
