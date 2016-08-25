@@ -4,11 +4,11 @@
   }
   RecordSet recordSet=new RecordSet();
   final List<SpanAlign> spanAlignList=callTreeIterator.values();
-  SpanBo focusTimeSpanBo=findFocusTimeSpanBo(spanAlignList,focusTimestamp);
-  if (focusTimeSpanBo != null) {
-    recordSet.setAgentId(focusTimeSpanBo.getAgentId());
-    recordSet.setApplicationId(focusTimeSpanBo.getApplicationId());
-    final String applicationName=getRpcArgument(focusTimeSpanBo);
+  SpanAlign viewPointSpanAlign=findViewPoint(spanAlignList,focusTimestamp);
+  if (viewPointSpanAlign != null) {
+    recordSet.setAgentId(viewPointSpanAlign.getAgentId());
+    recordSet.setApplicationId(viewPointSpanAlign.getApplicationId());
+    final String applicationName=getRpcArgument(viewPointSpanAlign);
     recordSet.setApplicationName(applicationName);
   }
   long startTime=getStartTime(spanAlignList);
@@ -19,9 +19,9 @@
   final SpanAlignPopulate spanAlignPopulate=new SpanAlignPopulate();
   List<Record> recordList=spanAlignPopulate.populateSpanRecord(callTreeIterator);
   logger.debug("RecordList:{}",recordList);
-  if (focusTimeSpanBo != null) {
-    long beginTimeStamp=focusTimeSpanBo.getStartTime();
-    markFocusRecord(recordList,focusTimeSpanBo);
+  if (viewPointSpanAlign != null) {
+    long beginTimeStamp=viewPointSpanAlign.getStartTime();
+    markFocusRecord(recordList,viewPointSpanAlign);
     recordSet.setBeginTimestamp(beginTimeStamp);
   }
   recordSet.setRecordList(recordList);

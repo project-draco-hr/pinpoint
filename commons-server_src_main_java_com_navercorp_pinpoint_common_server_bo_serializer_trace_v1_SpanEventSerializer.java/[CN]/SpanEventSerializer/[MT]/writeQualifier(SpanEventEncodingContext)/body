@@ -1,7 +1,8 @@
 {
   SpanEventBo spanEventBo=spanEventEncodingContext.getSpanEventBo();
+  BasicSpan basicSpan=spanEventEncodingContext.getBasicSpan();
   final Buffer rowId=new AutomaticBuffer();
-  rowId.putLong(spanEventEncodingContext.getSpanId());
+  rowId.putLong(basicSpan.getSpanId());
   rowId.putShort(spanEventBo.getSequence());
   rowId.putInt(spanEventBo.getAsyncId());
   rowId.putShort(spanEventBo.getAsyncSequence());

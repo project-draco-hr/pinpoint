@@ -5,7 +5,7 @@
   byte[] rowKey=result.getRow();
   final TransactionId transactionId=this.rowKeyDecoder.decodeRowKey(rowKey);
   final Cell[] rawCells=result.rawCells();
-  ListMultimap<Long,SpanBo> spanMap=LinkedListMultimap.create();
+  ListMultimap<AgentKey,SpanBo> spanMap=LinkedListMultimap.create();
   List<SpanChunkBo> spanChunkList=new ArrayList<>();
   final SpanDecodingContext decodingContext=new SpanDecodingContext();
   decodingContext.setTransactionId(transactionId);
@@ -22,7 +22,8 @@
         if (logger.isDebugEnabled()) {
           logger.debug("spanBo:{}",spanBo);
         }
-        spanMap.put(spanBo.getSpanId(),spanBo);
+        AgentKey agentKey=newAgentKey(spanBo);
+        spanMap.put(agentKey,spanBo);
       }
  else       if (decodeObject instanceof SpanChunkBo) {
         SpanChunkBo spanChunkBo=(SpanChunkBo)decodeObject;

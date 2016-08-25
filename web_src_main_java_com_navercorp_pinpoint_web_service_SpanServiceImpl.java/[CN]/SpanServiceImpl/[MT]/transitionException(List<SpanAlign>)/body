@@ -1,20 +1,8 @@
 {
   for (  SpanAlign spanAlign : spanAlignList) {
-    if (spanAlign.isSpan()) {
-      final SpanBo spanBo=spanAlign.getSpanBo();
-      if (spanBo.hasException()) {
-        StringMetaDataBo stringMetaData=selectStringMetaData(spanBo.getAgentId(),spanBo.getExceptionId(),spanBo.getAgentStartTime());
-        spanBo.setExceptionClass(stringMetaData.getStringValue());
-      }
-    }
- else {
-      final SpanEventBo spanEventBo=spanAlign.getSpanEventBo();
-      if (spanEventBo.hasException()) {
-        StringMetaDataBo stringMetaData=selectStringMetaData(spanEventBo.getAgentId(),spanEventBo.getExceptionId(),spanEventBo.getAgentStartTime());
-        if (stringMetaData != null) {
-          spanEventBo.setExceptionClass(stringMetaData.getStringValue());
-        }
-      }
+    if (spanAlign.hasException()) {
+      StringMetaDataBo stringMetaData=selectStringMetaData(spanAlign.getAgentId(),spanAlign.getExceptionId(),spanAlign.getAgentStartTime());
+      spanAlign.setExceptionClass(stringMetaData.getStringValue());
     }
   }
 }

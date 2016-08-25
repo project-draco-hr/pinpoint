@@ -10,16 +10,15 @@
         annotationBoList.add(annotationBo);
         return;
       }
-      final AgentKey agentKey=getAgentKey(spanAlign);
       final IntStringStringValue sqlValue=(IntStringStringValue)sqlIdAnnotation.getValue();
-      final int hashCode=sqlValue.getIntValue();
+      final int sqlId=sqlValue.getIntValue();
       final String sqlParam=sqlValue.getStringValue1();
-      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(agentKey.getAgentId(),agentKey.getAgentStartTime(),hashCode);
+      final List<SqlMetaDataBo> sqlMetaDataList=sqlMetaDataDao.getSqlMetaData(spanAlign.getAgentId(),spanAlign.getAgentStartTime(),sqlId);
       final int size=sqlMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
         api.setKey(AnnotationKey.SQL.getCode());
-        api.setValue("SQL-ID not found hashCode:" + hashCode);
+        api.setValue("SQL-ID not found sqlId:" + sqlId);
         annotationBoList.add(api);
       }
  else       if (size == 1) {
@@ -54,7 +53,7 @@
  else {
         AnnotationBo api=new AnnotationBo();
         api.setKey(AnnotationKey.SQL.getCode());
-        api.setValue(collisionSqlHashCodeMessage(hashCode,sqlMetaDataList));
+        api.setValue(collisionSqlIdCodeMessage(sqlId,sqlMetaDataList));
         annotationBoList.add(api);
       }
       final String bindValue=sqlValue.getStringValue2();

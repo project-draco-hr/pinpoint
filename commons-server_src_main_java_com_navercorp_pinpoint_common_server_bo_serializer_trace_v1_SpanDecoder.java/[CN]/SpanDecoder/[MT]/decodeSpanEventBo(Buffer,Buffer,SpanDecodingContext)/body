@@ -1,7 +1,5 @@
 {
-  TransactionId transactionId=decodingContext.getTransactionId();
   SpanEventBo spanEventBo=new SpanEventBo();
-  spanEventBo.setTransactionId(transactionId);
   long spanId=qualifier.readLong();
   decodingContext.setSpanId(spanId);
   short sequence=qualifier.readShort();
@@ -16,7 +14,7 @@
   spanEventBo.setSequence(sequence);
   spanEventBo.setAsyncId(asyncId);
   spanEventBo.setAsyncSequence(asyncSequence);
-  readSpanEvent(spanEventBo,valueBuffer);
+  readSpanEvent(spanEventBo,valueBuffer,decodingContext);
   if (logger.isDebugEnabled()) {
     logger.debug("read spanEvent :{}",spanEventBo);
   }
