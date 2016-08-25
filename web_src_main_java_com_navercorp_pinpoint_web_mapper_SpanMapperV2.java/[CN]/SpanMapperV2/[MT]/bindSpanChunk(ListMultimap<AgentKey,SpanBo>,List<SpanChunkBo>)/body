@@ -1,0 +1,28 @@
+{
+  for (  SpanChunkBo spanChunkBo : spanChunkList) {
+    AgentKey agentKey=newAgentKey(spanChunkBo);
+    List<SpanBo> matchedSpanBoList=spanMap.get(agentKey);
+    if (matchedSpanBoList != null) {
+      final int spanIdCollisionSize=matchedSpanBoList.size();
+      if (spanIdCollisionSize > 1) {
+        logger.warn("spanIdCollision {}",matchedSpanBoList);
+      }
+      int agentLevelCollisionCount=0;
+      for (      SpanBo spanBo : matchedSpanBoList) {
+        if (StringUtils.equals(spanBo.getAgentId(),spanChunkBo.getAgentId())) {
+          spanBo.addSpanEventBoList(spanChunkBo.getSpanEventBoList());
+          agentLevelCollisionCount++;
+        }
+      }
+      if (agentLevelCollisionCount > 1) {
+        logger.warn("agentLevelCollision {}",matchedSpanBoList);
+      }
+    }
+ else {
+      if (logger.isInfoEnabled()) {
+        logger.info("Span not exist spanId:{} spanChunk:{}",agentKey,spanChunkBo);
+      }
+    }
+  }
+  return Lists.newArrayList(spanMap.values());
+}

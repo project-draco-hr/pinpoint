@@ -1,7 +1,6 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      final AgentKey key=getAgentKey(spanAlign);
       List<AnnotationBo> cachedStringAnnotation=findCachedStringAnnotation(annotationBoList);
       if (cachedStringAnnotation.isEmpty()) {
         return;
@@ -9,10 +8,10 @@
       for (      AnnotationBo annotationBo : cachedStringAnnotation) {
         final int cachedArgsKey=annotationBo.getKey();
         int stringMetaDataId=(Integer)annotationBo.getValue();
-        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(key.getAgentId(),key.getAgentStartTime(),stringMetaDataId);
+        List<StringMetaDataBo> stringMetaList=stringMetaDataDao.getStringMetaData(spanAlign.getAgentId(),spanAlign.getAgentStartTime(),stringMetaDataId);
         int size=stringMetaList.size();
         if (size == 0) {
-          logger.warn("StringMetaData not Found {}/{}/{}",key.getAgentId(),stringMetaDataId,key.getAgentStartTime());
+          logger.warn("StringMetaData not Found {}/{}/{}",spanAlign.getAgentId(),stringMetaDataId,spanAlign.getAgentStartTime());
           AnnotationBo api=new AnnotationBo();
           api.setKey(AnnotationKey.ERROR_API_METADATA_NOT_FOUND.getCode());
           api.setValue("CACHED-STRING-ID not found. stringId:" + cachedArgsKey);

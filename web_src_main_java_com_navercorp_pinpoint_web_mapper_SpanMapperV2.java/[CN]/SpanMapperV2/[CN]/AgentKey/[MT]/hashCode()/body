@@ -1,0 +1,7 @@
+{
+  int result=(int)(spanId ^ (spanId >>> 32));
+  result=31 * result + applicationId.hashCode();
+  result=31 * result + agentId.hashCode();
+  result=31 * result + (int)(agentStartTime ^ (agentStartTime >>> 32));
+  return result;
+}

@@ -1,10 +1,11 @@
 {
   SpanEventBo spanEventBo=spanEventEncodingContext.getSpanEventBo();
+  BasicSpan basicSpan=spanEventEncodingContext.getBasicSpan();
   final Buffer buffer=new AutomaticBuffer(512);
   buffer.putByte(spanEventBo.getVersion());
-  buffer.putPrefixedString(spanEventBo.getAgentId());
-  buffer.putPrefixedString(spanEventBo.getApplicationId());
-  buffer.putVLong(spanEventBo.getAgentStartTime());
+  buffer.putPrefixedString(basicSpan.getAgentId());
+  buffer.putPrefixedString(basicSpan.getApplicationId());
+  buffer.putVLong(basicSpan.getAgentStartTime());
   buffer.putVInt(spanEventBo.getStartElapsed());
   buffer.putVInt(spanEventBo.getEndElapsed());
   buffer.putPrefixedString(spanEventBo.getRpc());

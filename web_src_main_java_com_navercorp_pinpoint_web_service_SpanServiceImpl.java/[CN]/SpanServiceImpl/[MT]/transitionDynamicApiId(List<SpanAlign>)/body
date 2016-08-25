@@ -1,9 +1,8 @@
 {
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
-      final AgentKey key=getAgentKey(spanAlign);
-      final int apiId=getApiId(spanAlign);
-      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(key.getAgentId(),key.getAgentStartTime(),apiId);
+      final int apiId=spanAlign.getApiId();
+      List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(spanAlign.getAgentId(),spanAlign.getAgentStartTime(),apiId);
       int size=apiMetaDataList.size();
       if (size == 0) {
         AnnotationBo api=new AnnotationBo();
