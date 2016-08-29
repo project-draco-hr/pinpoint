@@ -4,8 +4,8 @@
   final ASMClass declaringClass=mock(ASMClass.class);
   when(declaringClass.getName()).thenReturn(targetClassName);
   ASMClassNodeLoader.TestClassLoader classLoader=ASMClassNodeLoader.getClassLoader();
-  classLoader.setTrace(true);
-  classLoader.setVerify(true);
+  classLoader.setTrace(false);
+  classLoader.setVerify(false);
   classLoader.setTargetClassName(targetClassName);
   classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
     @Override public void handle(    ClassNode classNode){
