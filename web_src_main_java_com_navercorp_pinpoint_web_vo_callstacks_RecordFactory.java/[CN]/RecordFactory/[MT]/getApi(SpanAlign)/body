@@ -1,24 +1,28 @@
 {
-  final Api api=new Api();
   final AnnotationBo annotation=AnnotationUtils.findAnnotationBo(align.getAnnotationBoList(),AnnotationKey.API_METADATA);
   if (annotation != null) {
+    final Api api=new Api();
     final ApiMetaDataBo apiMetaData=(ApiMetaDataBo)annotation.getValue();
-    api.title=api.description=getApiInfo(apiMetaData);
-    if (apiMetaData.getType() == 0) {
+    String apiInfo=getApiInfo(apiMetaData);
+    api.setTitle(apiInfo);
+    api.setDescription(apiInfo);
+    if (apiMetaData.getMethodTypeEnum() == MethodTypeEnum.DEFAULT) {
       try {
         ApiDescription apiDescription=apiDescriptionParser.parse(api.description);
-        api.title=apiDescription.getSimpleMethodDescription();
-        api.className=apiDescription.getSimpleClassName();
+        api.setTitle(apiDescription.getSimpleMethodDescription());
+        api.setClassName(apiDescription.getSimpleClassName());
       }
  catch (      Exception e) {
-        logger.warn("Failed to api parse. {}",api.description,e);
+        logger.debug("Failed to api parse. {}",api.description,e);
       }
     }
-    api.type=apiMetaData.getType();
+    api.setMethodTypeEnum(apiMetaData.getMethodTypeEnum());
+    return api;
   }
  else {
+    final Api api=new Api();
     AnnotationKey apiMetaDataError=getApiMetaDataError(align.getAnnotationBoList());
-    api.title=apiMetaDataError.getName();
+    api.setTitle(apiMetaDataError.getName());
+    return api;
   }
-  return api;
 }
