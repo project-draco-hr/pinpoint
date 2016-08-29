@@ -2,6 +2,20 @@
   this.transitionAnnotation(spans,new AnnotationReplacementCallback(){
     @Override public void replacement(    SpanAlign spanAlign,    List<AnnotationBo> annotationBoList){
       final int apiId=spanAlign.getApiId();
+      if (apiId == 0) {
+        String apiString=AnnotationUtils.findApiAnnotation(annotationBoList);
+        if (apiString != null) {
+          ApiMetaDataBo apiMetaDataBo=new ApiMetaDataBo(spanAlign.getAgentId(),spanAlign.getStartTime(),apiId);
+          apiMetaDataBo.setApiInfo(apiString);
+          apiMetaDataBo.setLineNumber(-1);
+          apiMetaDataBo.setMethodTypeEnum(MethodTypeEnum.DEFAULT);
+          AnnotationBo apiAnnotation=new AnnotationBo();
+          apiAnnotation.setKey(AnnotationKey.API_METADATA.getCode());
+          apiAnnotation.setValue(apiMetaDataBo);
+          annotationBoList.add(apiAnnotation);
+          return;
+        }
+      }
       List<ApiMetaDataBo> apiMetaDataList=apiMetaDataDao.getApiMetaData(spanAlign.getAgentId(),spanAlign.getAgentStartTime(),apiId);
       int size=apiMetaDataList.size();
       if (size == 0) {
@@ -16,7 +30,7 @@
         apiMetaData.setKey(AnnotationKey.API_METADATA.getCode());
         apiMetaData.setValue(apiMetaDataBo);
         annotationBoList.add(apiMetaData);
-        if (apiMetaDataBo.getType() == 0) {
+        if (apiMetaDataBo.getMethodTypeEnum() == MethodTypeEnum.DEFAULT) {
           AnnotationBo apiAnnotation=new AnnotationBo();
           apiAnnotation.setKey(AnnotationKey.API.getCode());
           String apiInfo=getApiInfo(apiMetaDataBo);

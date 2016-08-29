@@ -18,13 +18,13 @@
     Buffer buffer=new FixedBuffer(value);
     String apiInfo=buffer.readPrefixedString();
     int lineNumber=buffer.readInt();
-    int type=0;
+    MethodTypeEnum methodTypeEnum=MethodTypeEnum.DEFAULT;
     if (buffer.hasRemaining()) {
-      type=buffer.readInt();
+      methodTypeEnum=MethodTypeEnum.valueOf(buffer.readInt());
     }
     apiMetaDataBo.setApiInfo(apiInfo);
     apiMetaDataBo.setLineNumber(lineNumber);
-    apiMetaDataBo.setType(type);
+    apiMetaDataBo.setMethodTypeEnum(methodTypeEnum);
     apiMetaDataList.add(apiMetaDataBo);
     if (logger.isDebugEnabled()) {
       logger.debug("read apiAnnotation:{}",apiMetaDataBo);
