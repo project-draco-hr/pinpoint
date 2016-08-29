@@ -1,0 +1,9 @@
+{
+  if (interfaceInternalName == null) {
+    throw new IllegalArgumentException("interface internal name must not be null.");
+  }
+  if (this.classNode.interfaces == null) {
+    this.classNode.interfaces=new ArrayList<String>();
+  }
+  this.classNode.interfaces.add(interfaceInternalName.replace('.','/'));
+}

@@ -1,0 +1,15 @@
+{
+  final MethodNodes methodNodes=new MethodNodes();
+  for (  ASMMethodNodeAdapter methodNode : adviceClassNode.getDeclaredMethods()) {
+    if (methodNode.hasAnnotation(PointCut.class)) {
+      methodNodes.pointCuts.add(methodNode);
+      continue;
+    }
+    if (methodNode.hasAnnotation(JointPoint.class)) {
+      methodNodes.jointPoints.add(methodNode);
+      continue;
+    }
+    methodNodes.utils.add(methodNode);
+  }
+  return methodNodes;
+}

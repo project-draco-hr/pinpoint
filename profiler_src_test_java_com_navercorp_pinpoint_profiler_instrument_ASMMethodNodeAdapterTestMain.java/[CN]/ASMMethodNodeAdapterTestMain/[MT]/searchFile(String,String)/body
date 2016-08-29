@@ -1,0 +1,12 @@
+{
+  File file=new File(path);
+  if (file.isDirectory()) {
+    for (    String name : file.list()) {
+      searchFile(classPath,file.getPath() + File.separator + name);
+    }
+  }
+ else   if (path.endsWith(".class")) {
+    final String className=path.substring(classPath.length() + 1,path.length() - 6);
+    addInterceptor(className.replace(File.separatorChar,'/'));
+  }
+}

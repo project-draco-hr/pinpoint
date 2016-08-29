@@ -1,0 +1,23 @@
+{
+  final String filterTypeName=annotation.type();
+  Asserts.notNull(filterTypeName,"type of @TargetFilter");
+  final TraceContext traceContext=this.pluginContext.getTraceContext();
+  final InterceptorArgumentProvider interceptorArgumentProvider=new InterceptorArgumentProvider(traceContext,this);
+  final AutoBindingObjectFactory filterFactory=new AutoBindingObjectFactory(this.pluginContext,this.classLoader,interceptorArgumentProvider);
+  final ObjectFactory objectFactory=ObjectFactory.byConstructor(filterTypeName,(Object[])annotation.constructorArguments());
+  final MethodFilter filter=(MethodFilter)filterFactory.createInstance(objectFactory);
+  boolean singleton=annotation.singleton();
+  int interceptorId=-1;
+  for (  InstrumentMethod m : getDeclaredMethods(filter)) {
+    if (singleton && interceptorId != -1) {
+      m.addInterceptor(interceptorId);
+    }
+ else {
+      interceptorId=((ASMMethod)m).addInterceptorInternal(interceptorClassName,constructorArgs,scope,executionPolicy);
+    }
+  }
+  if (interceptorId == -1) {
+    logger.warn("No methods are intercepted. target: " + this.classNode.getInternalName(),", interceptor: " + interceptorClassName + ", methodFilter: "+ filterTypeName);
+  }
+  return interceptorId;
+}

@@ -1,0 +1,10 @@
+{
+  final int majorVersion=this.classNode.version & 0xFFFF;
+  int flags=ClassWriter.COMPUTE_FRAMES;
+  if (majorVersion <= 49) {
+    flags=ClassWriter.COMPUTE_MAXS;
+  }
+  final ClassWriter classWriter=new ASMClassWriter(this.classNode.name,this.classNode.superName,flags,this.classLoader);
+  this.classNode.accept(classWriter);
+  return classWriter.toByteArray();
+}

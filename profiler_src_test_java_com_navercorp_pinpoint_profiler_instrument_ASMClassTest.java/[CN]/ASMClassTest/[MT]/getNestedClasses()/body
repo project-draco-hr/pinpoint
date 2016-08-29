@@ -1,0 +1,18 @@
+{
+  ASMClass clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.NestedClass");
+  String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NestedClass$StaticNested";
+  assertEquals(1,clazz.getNestedClasses(ClassFilters.name(targetClassName)).size());
+  assertEquals(targetClassName,clazz.getNestedClasses(ClassFilters.name(targetClassName)).get(0).getName());
+  targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NestedClass$InstanceInner";
+  assertEquals(1,clazz.getNestedClasses(ClassFilters.name(targetClassName)).size());
+  assertEquals(targetClassName,clazz.getNestedClasses(ClassFilters.name(targetClassName)).get(0).getName());
+  targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NestedClass$1LocalInner";
+  assertEquals(1,clazz.getNestedClasses(ClassFilters.name(targetClassName)).size());
+  assertEquals(targetClassName,clazz.getNestedClasses(ClassFilters.name(targetClassName)).get(0).getName());
+  targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NestedClass$1";
+  assertEquals(1,clazz.getNestedClasses(ClassFilters.name(targetClassName)).size());
+  assertEquals(targetClassName,clazz.getNestedClasses(ClassFilters.name(targetClassName)).get(0).getName());
+  assertEquals(2,clazz.getNestedClasses(ClassFilters.enclosingMethod("annonymousInnerClass")).size());
+  assertEquals(2,clazz.getNestedClasses(ClassFilters.interfaze("java.util.concurrent.Callable")).size());
+  assertEquals(1,clazz.getNestedClasses(ClassFilters.chain(ClassFilters.enclosingMethod("annonymousInnerClass"),ClassFilters.interfaze("java.util.concurrent.Callable"))).size());
+}

@@ -1,0 +1,7 @@
+{
+  ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+  ClassReader cr=new ClassReader(classLoader.getResourceAsStream(classInternalName.replace('.','/') + ".class"));
+  ClassNode classNode=new ClassNode();
+  cr.accept(classNode,ClassReader.EXPAND_FRAMES);
+  return classNode;
+}

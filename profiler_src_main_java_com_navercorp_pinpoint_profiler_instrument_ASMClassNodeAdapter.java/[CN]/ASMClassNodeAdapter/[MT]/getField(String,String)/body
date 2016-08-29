@@ -1,0 +1,36 @@
+{
+  if (fieldName == null || this.classNode.fields == null) {
+    return null;
+  }
+  final List<FieldNode> fields=this.classNode.fields;
+  for (  FieldNode fieldNode : fields) {
+    if ((fieldNode.name != null && fieldNode.name.equals(fieldName)) && (fieldDesc == null || (fieldNode.desc != null && fieldNode.desc.equals(fieldDesc)))) {
+      return new ASMFieldNodeAdapter(fieldNode);
+    }
+  }
+  final List<String> interfaces=this.classNode.interfaces;
+  if (interfaces != null && interfaces.size() > 0) {
+    for (    String interfaceClassName : interfaces) {
+      if (interfaceClassName == null) {
+        continue;
+      }
+      final ASMClassNodeAdapter classNodeAdapter=ASMClassNodeAdapter.get(this.classLoader,interfaceClassName,true);
+      if (classNodeAdapter != null) {
+        final ASMFieldNodeAdapter fieldNode=classNodeAdapter.getField(fieldName,fieldDesc);
+        if (fieldNode != null) {
+          return fieldNode;
+        }
+      }
+    }
+  }
+  if (this.classNode.superName != null) {
+    final ASMClassNodeAdapter classNodeAdapter=ASMClassNodeAdapter.get(this.classLoader,this.classNode.superName,true);
+    if (classNodeAdapter != null) {
+      final ASMFieldNodeAdapter fieldNode=classNodeAdapter.getField(fieldName,fieldDesc);
+      if (fieldNode != null) {
+        return fieldNode;
+      }
+    }
+  }
+  return null;
+}

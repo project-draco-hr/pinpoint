@@ -1,0 +1,19 @@
+{
+  ASMClass clazz=getClass("com.navercorp.pinpoint.profiler.instrument.mock.ExtendedClass");
+  clazz.addDelegatorMethod("base");
+  assertNotNull(clazz.getDeclaredMethod("base"));
+  try {
+    clazz.addDelegatorMethod("extended");
+    fail("skip throw exception.");
+  }
+ catch (  Exception ignored) {
+  }
+  try {
+    clazz.addDelegatorMethod("notExist");
+    fail("skip throw exception.");
+  }
+ catch (  Exception ignored) {
+  }
+  clazz.addDelegatorMethod("getInstance");
+  assertNotNull(clazz.getDeclaredMethod("getInstance"));
+}

@@ -1,0 +1,7 @@
+{
+  final String className="com.navercorp.pinpoint.profiler.instrument.mock.SampleClass";
+  ClassNode classNode=ASMClassNodeLoader.get(className.replace('.','/'));
+  ASMClassWriter cw=new ASMClassWriter(classNode.name,classNode.superName,0,null);
+  TraceClassVisitor tcv=new TraceClassVisitor(cw,new PrintWriter(System.out));
+  classNode.accept(tcv);
+}

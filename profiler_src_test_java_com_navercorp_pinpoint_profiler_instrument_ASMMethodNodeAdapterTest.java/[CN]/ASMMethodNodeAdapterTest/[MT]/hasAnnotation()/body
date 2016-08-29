@@ -1,0 +1,7 @@
+{
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.AnnotationClass";
+  final MethodNode methodNode=ASMClassNodeLoader.get(targetClassName,"pointCut");
+  ASMMethodNodeAdapter adapter=new ASMMethodNodeAdapter(targetClassName,methodNode);
+  assertEquals(true,adapter.hasAnnotation(PointCut.class));
+  assertEquals(false,adapter.hasAnnotation(JointPoint.class));
+}

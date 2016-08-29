@@ -1,0 +1,16 @@
+{
+  final InterceptorScopeInvocation transaction=scope.getCurrentInvocation();
+  if (transaction.tryEnter(policy)) {
+    try {
+      interceptor.before(target,args);
+    }
+ catch (    Throwable t) {
+      InterceptorInvokerHelper.handleException(t);
+    }
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryBefore() returns false: interceptorScopeTransaction: {}, executionPoint: {}. Skip interceptor {}",transaction,policy,interceptor.getClass());
+    }
+  }
+}

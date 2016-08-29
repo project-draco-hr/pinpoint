@@ -1,0 +1,19 @@
+{
+  final InterceptorScopeInvocation transaction=scope.getCurrentInvocation();
+  if (transaction.canLeave(policy)) {
+    try {
+      this.interceptor.after(target,result,throwable);
+    }
+ catch (    Throwable t) {
+      InterceptorInvokerHelper.handleException(t);
+    }
+ finally {
+      transaction.leave(policy);
+    }
+  }
+ else {
+    if (debugEnabled) {
+      logger.debug("tryAfter() returns false: interceptorScopeTransaction: {}, executionPoint: {}. Skip interceptor {}",transaction,policy,interceptor.getClass());
+    }
+  }
+}

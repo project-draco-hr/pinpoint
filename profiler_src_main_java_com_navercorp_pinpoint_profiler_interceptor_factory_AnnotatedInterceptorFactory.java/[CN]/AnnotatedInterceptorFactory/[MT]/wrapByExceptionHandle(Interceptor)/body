@@ -1,0 +1,30 @@
+{
+  if (interceptor instanceof AroundInterceptor) {
+    return new ExceptionHandleAroundInterceptor((AroundInterceptor)interceptor);
+  }
+ else   if (interceptor instanceof StaticAroundInterceptor) {
+    return new ExceptionHandleStaticAroundInterceptor((StaticAroundInterceptor)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor5) {
+    return new ExceptionHandleAroundInterceptor5((AroundInterceptor5)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor4) {
+    return new ExceptionHandleAroundInterceptor4((AroundInterceptor4)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor3) {
+    return new ExceptionHandleAroundInterceptor3((AroundInterceptor3)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor2) {
+    return new ExceptionHandleAroundInterceptor2((AroundInterceptor2)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor1) {
+    return new ExceptionHandleAroundInterceptor1((AroundInterceptor1)interceptor);
+  }
+ else   if (interceptor instanceof AroundInterceptor0) {
+    return new ExceptionHandleAroundInterceptor0((AroundInterceptor0)interceptor);
+  }
+ else   if (interceptor instanceof ApiIdAwareAroundInterceptor) {
+    return new ExceptionHandleApiIdAwareAroundInterceptor((ApiIdAwareAroundInterceptor)interceptor);
+  }
+  throw new IllegalArgumentException("Unexpected interceptor type: " + interceptor.getClass());
+}

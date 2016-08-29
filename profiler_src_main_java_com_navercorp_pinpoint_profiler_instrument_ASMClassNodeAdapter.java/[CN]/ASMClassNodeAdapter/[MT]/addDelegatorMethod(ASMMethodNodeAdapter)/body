@@ -1,0 +1,16 @@
+{
+  if (superMethodNode == null) {
+    throw new IllegalArgumentException("super method annotation must not be null.");
+  }
+  String[] exceptions=null;
+  if (superMethodNode.getExceptions() != null) {
+    exceptions=superMethodNode.getExceptions().toArray(new String[superMethodNode.getExceptions().size()]);
+  }
+  final ASMMethodNodeAdapter methodNode=new ASMMethodNodeAdapter(getInternalName(),new MethodNode(superMethodNode.getAccess(),superMethodNode.getName(),superMethodNode.getDesc(),superMethodNode.getSignature(),exceptions));
+  methodNode.addDelegator(superMethodNode.getDeclaringClassInternalName());
+  if (this.classNode.methods == null) {
+    this.classNode.methods=new ArrayList<MethodNode>();
+  }
+  this.classNode.methods.add(methodNode.getMethodNode());
+  return methodNode;
+}

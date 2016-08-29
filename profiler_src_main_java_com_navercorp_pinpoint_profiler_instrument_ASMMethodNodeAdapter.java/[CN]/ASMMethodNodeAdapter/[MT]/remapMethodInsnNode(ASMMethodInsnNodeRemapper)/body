@@ -1,0 +1,10 @@
+{
+  AbstractInsnNode insnNode=this.methodNode.instructions.getFirst();
+  while (insnNode != null) {
+    if (insnNode instanceof MethodInsnNode) {
+      final MethodInsnNode methodInsnNode=(MethodInsnNode)insnNode;
+      remapper.mapping(methodInsnNode);
+    }
+    insnNode=insnNode.getNext();
+  }
+}

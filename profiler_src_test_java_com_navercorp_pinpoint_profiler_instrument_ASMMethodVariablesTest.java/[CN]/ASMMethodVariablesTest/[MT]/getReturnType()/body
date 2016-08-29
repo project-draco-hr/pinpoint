@@ -1,0 +1,8 @@
+{
+  final ClassNode classNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.ReturnClass");
+  List<MethodNode> methodNodes=classNode.methods;
+  for (  MethodNode methodNode : methodNodes) {
+    ASMMethodNodeAdapter methodNodeAdapter=new ASMMethodNodeAdapter(classNode.name,methodNode);
+    assertNotNull(methodNodeAdapter.getReturnType());
+  }
+}

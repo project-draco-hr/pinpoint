@@ -1,0 +1,39 @@
+{
+  if (className == null) {
+    throw new IllegalArgumentException("class name must not be null.");
+  }
+  ClassLoader aClassLoader=classLoader;
+  if (aClassLoader == null) {
+    aClassLoader=ClassLoader.getSystemClassLoader();
+  }
+  if (aClassLoader == null) {
+    return null;
+  }
+  InputStream in=null;
+  try {
+    in=aClassLoader.getResourceAsStream(className + ".class");
+    if (in != null) {
+      final ClassReader classReader=new ClassReader(in);
+      final ClassNode classNode=new ClassNode();
+      if (skipCode) {
+        classReader.accept(classNode,ClassReader.SKIP_CODE);
+      }
+ else {
+        classReader.accept(classNode,0);
+      }
+      return new ASMClassNodeAdapter(classLoader,classNode,skipCode);
+    }
+  }
+ catch (  IOException ignored) {
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ignored) {
+      }
+    }
+  }
+  return null;
+}

@@ -1,0 +1,8 @@
+{
+  final String desc=JavaAssistUtils.javaTypeToJvmSignature(parameterTypes);
+  final ASMMethodNodeAdapter methodNode=this.classNode.getDeclaredMethod(name,desc);
+  if (methodNode == null) {
+    return null;
+  }
+  return new ASMMethod(this.pluginContext,this.interceptorRegistryBinder,this,methodNode);
+}

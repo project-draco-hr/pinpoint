@@ -1,0 +1,40 @@
+{
+  assertInitializedInterceptorLocalVariables();
+  loadVar(instructions,this.interceptorVarIndex);
+  instructions.add(new TypeInsnNode(Opcodes.CHECKCAST,Type.getInternalName(interceptorDefinition.getInterceptorBaseClass())));
+  loadThis(instructions);
+  final InterceptorType interceptorType=interceptorDefinition.getInterceptorType();
+  if (interceptorType == InterceptorType.ARRAY_ARGS) {
+    loadVar(instructions,this.argsVarIndex);
+  }
+ else   if (interceptorType == InterceptorType.STATIC) {
+    loadVar(instructions,this.classNameVarIndex);
+    loadVar(instructions,this.methodNameVarIndex);
+    loadVar(instructions,this.parameterDescriptionVarIndex);
+    loadVar(instructions,this.argsVarIndex);
+  }
+ else   if (interceptorType == InterceptorType.API_ID_AWARE) {
+    loadInt(instructions,this.apiIdVarIndex);
+    loadVar(instructions,this.argsVarIndex);
+  }
+ else   if (interceptorType == InterceptorType.BASIC) {
+    int interceptorMethodParameterCount=getInterceptorParameterCount(interceptorDefinition);
+    int argumentCount=Math.min(this.argumentTypes.length,interceptorMethodParameterCount);
+    int i=1;
+    for (; i <= argumentCount; i++) {
+      if (i == 1)       loadVar(instructions,this.arg0VarIndex);
+ else       if (i == 2)       loadVar(instructions,this.arg1VarIndex);
+ else       if (i == 3)       loadVar(instructions,this.arg2VarIndex);
+ else       if (i == 4)       loadVar(instructions,this.arg3VarIndex);
+ else       if (i == 5)       loadVar(instructions,this.arg4VarIndex);
+ else       loadNull(instructions);
+    }
+    for (; i <= interceptorMethodParameterCount; i++) {
+      loadNull(instructions);
+    }
+  }
+  if (after) {
+    loadVar(instructions,this.resultVarIndex);
+    loadVar(instructions,this.throwableVarIndex);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  final ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+  ASMClassNodeAdapter adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/BaseClass");
+  assertNotNull(adapter);
+  adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/NotExistClass");
+  assertNull(adapter);
+  adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/BaseClass",true);
+  try {
+    adapter.getDeclaredMethods();
+    fail("can't throw IllegalStateException");
+  }
+ catch (  Exception ignored) {
+  }
+  try {
+    adapter.getDeclaredMethod("base","()");
+    fail("can't throw IllegalStateException");
+  }
+ catch (  Exception ignored) {
+  }
+}

@@ -1,0 +1,14 @@
+{
+  final String classpath=System.getProperty("java.class.path");
+  final String[] paths=classpath.split(";");
+  for (  String path : paths) {
+    if (path.endsWith(".jar")) {
+    }
+ else {
+      File file=new File(path);
+      if (file.isDirectory()) {
+        searchFile(path,path);
+      }
+    }
+  }
+}

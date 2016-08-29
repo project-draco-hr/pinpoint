@@ -1,0 +1,28 @@
+{
+  final int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(new ArgsArrayInterceptor());
+  final String targetClassName="com.navercorp.pinpoint.profiler.instrument.mock.NormalClass";
+  final ASMClass declaringClass=mock(ASMClass.class);
+  when(declaringClass.getName()).thenReturn(targetClassName);
+  ASMClassNodeLoader.TestClassLoader classLoader=ASMClassNodeLoader.getClassLoader();
+  classLoader.setTrace(true);
+  classLoader.setVerify(true);
+  classLoader.setTargetClassName(targetClassName);
+  classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
+    @Override public void handle(    ClassNode classNode){
+      List<MethodNode> methodNodes=classNode.methods;
+      for (      MethodNode methodNode : methodNodes) {
+        ASMMethod method=new ASMMethod(pluginContext,interceptorRegistryBinder,declaringClass,methodNode);
+        try {
+          method.addInterceptor(interceptorId);
+        }
+ catch (        InstrumentException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+);
+  Class clazz=classLoader.loadClass(targetClassName);
+  Method method=clazz.getDeclaredMethod("sum",int.class);
+  assertEquals(55,method.invoke(clazz.newInstance(),10));
+}

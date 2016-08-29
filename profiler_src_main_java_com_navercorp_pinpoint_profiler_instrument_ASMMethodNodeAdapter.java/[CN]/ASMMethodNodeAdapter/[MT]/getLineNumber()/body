@@ -1,0 +1,10 @@
+{
+  AbstractInsnNode node=this.methodNode.instructions.getFirst();
+  while (node != null) {
+    if (node.getType() == AbstractInsnNode.LINE) {
+      return ((LineNumberNode)node).line;
+    }
+    node=node.getNext();
+  }
+  return 0;
+}

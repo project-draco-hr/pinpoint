@@ -1,0 +1,28 @@
+{
+  ClassLoader aClassLoader=classLoader;
+  if (aClassLoader == null) {
+    aClassLoader=ClassLoader.getSystemClassLoader();
+  }
+  if (aClassLoader == null) {
+    return null;
+  }
+  InputStream in=null;
+  try {
+    in=aClassLoader.getResourceAsStream(className + ".class");
+    if (in != null) {
+      return new ClassReader(in);
+    }
+  }
+ catch (  IOException ignored) {
+  }
+ finally {
+    if (in != null) {
+      try {
+        in.close();
+      }
+ catch (      IOException ignored) {
+      }
+    }
+  }
+  return null;
+}

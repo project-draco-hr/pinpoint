@@ -1,0 +1,27 @@
+{
+  ClassReader classInfo=classReader;
+  while (classInfo != null) {
+    final String[] interfaceNames=classInfo.getInterfaces();
+    for (    String name : interfaceNames) {
+      if (name != null && name.equals(interfaceName)) {
+        return true;
+      }
+    }
+    for (    String name : interfaceNames) {
+      if (name != null) {
+        final ClassReader interfaceInfo=getClassReader(name);
+        if (interfaceInfo != null) {
+          if (isImplements(interfaceName,interfaceInfo)) {
+            return true;
+          }
+        }
+      }
+    }
+    final String superClassName=classInfo.getSuperName();
+    if (superClassName == null || superClassName.equals(OBJECT)) {
+      break;
+    }
+    classInfo=getClassReader(superClassName);
+  }
+  return false;
+}

@@ -1,0 +1,56 @@
+{
+  if (this.initializedInterceptorLocalVariables) {
+    return false;
+  }
+  this.initializedInterceptorLocalVariables=true;
+  if (isConstructor()) {
+    this.enterInsnNode=findInitConstructorInstruction();
+  }
+ else {
+    this.enterInsnNode=methodNode.instructions.getFirst();
+  }
+  if (this.enterInsnNode == null) {
+    throw new IllegalStateException("not found enter code. " + declaringClassInternalName + "."+ methodNode.name+ methodNode.desc);
+  }
+  this.exitInsnNode=methodNode.instructions.getLast();
+  this.methodNode.instructions.insertBefore(this.enterInsnNode,this.interceptorVariableStartLabelNode);
+  this.methodNode.instructions.insert(this.exitInsnNode,this.interceptorVariableEndLabelNode);
+  initInterceptorVar(instructions,interceptorId);
+  final InterceptorType interceptorType=interceptorDefinition.getInterceptorType();
+  if (interceptorType == InterceptorType.ARRAY_ARGS) {
+    initArgsVar(instructions);
+  }
+ else   if (interceptorType == InterceptorType.STATIC) {
+    initClassNameVar(instructions);
+    initMethodNameVar(instructions);
+    initParameterDescriptionVar(instructions);
+    initArgsVar(instructions);
+  }
+ else   if (interceptorType == InterceptorType.API_ID_AWARE) {
+    initApiIdVar(apiId,instructions);
+    initArgsVar(instructions);
+  }
+ else   if (interceptorType == InterceptorType.BASIC) {
+    int interceptorMethodParameterCount=getInterceptorParameterCount(interceptorDefinition);
+    final int methodParameterCount=this.argumentTypes.length;
+    final int argumentCount=Math.min(methodParameterCount,interceptorMethodParameterCount);
+    for (int i=1; i <= argumentCount; i++) {
+      if (i == 1) {
+        initArg0Var(instructions);
+      }
+ else       if (i == 2) {
+        initArg1Var(instructions);
+      }
+ else       if (i == 3) {
+        initArg2Var(instructions);
+      }
+ else       if (i == 4) {
+        initArg3Var(instructions);
+      }
+ else       if (i == 5) {
+        initArg4Var(instructions);
+      }
+    }
+  }
+  return true;
+}

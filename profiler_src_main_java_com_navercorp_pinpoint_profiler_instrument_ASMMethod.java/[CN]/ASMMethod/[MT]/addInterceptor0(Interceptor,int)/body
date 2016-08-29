@@ -1,0 +1,38 @@
+{
+  if (interceptor == null) {
+    throw new NullPointerException("interceptor must not be null");
+  }
+  final InterceptorDefinition interceptorDefinition=this.interceptorDefinitionFactory.createInterceptorDefinition(interceptor.getClass());
+  final Class<?> interceptorClass=interceptorDefinition.getInterceptorClass();
+  final CaptureType captureType=interceptorDefinition.getCaptureType();
+  if (this.methodNode.hasInterceptor()) {
+    logger.warn("Skip adding interceptor. 'already intercepted method' class={}, interceptor={}",this.declaringClass.getName(),interceptorClass.getName());
+    return;
+  }
+  if (this.methodNode.isAbstract() || this.methodNode.isNative()) {
+    logger.warn("Skip adding interceptor. 'abstract or native method' class={}, interceptor={}",this.declaringClass.getName(),interceptorClass.getName());
+    return;
+  }
+  int apiId=-1;
+  if (interceptorDefinition.getInterceptorType() == InterceptorType.API_ID_AWARE) {
+    apiId=this.pluginContext.getTraceContext().cacheApi(this.descriptor);
+  }
+  if (isBeforeInterceptor(captureType) && interceptorDefinition.getBeforeMethod() != null) {
+    this.methodNode.addBeforeInterceptor(interceptorId,interceptorDefinition,apiId);
+    this.declaringClass.setModified(true);
+  }
+ else {
+    if (isDebug) {
+      logger.debug("Skip adding before interceptorDefinition because the interceptorDefinition doesn't have before method: {}",interceptorClass.getName());
+    }
+  }
+  if (isAfterInterceptor(captureType) && interceptorDefinition.getAfterMethod() != null) {
+    this.methodNode.addAfterInterceptor(interceptorId,interceptorDefinition,apiId);
+    this.declaringClass.setModified(true);
+  }
+ else {
+    if (isDebug) {
+      logger.debug("Skip adding after interceptor because the interceptor doesn't have after method: {}",interceptorClass.getName());
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  MethodNode methodNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.ConstructorChildClass","<init>");
+  ASMMethodVariables variables=new ASMMethodVariables("com.navercorp.pinpoint.profiler.instrument.mock.ConstructorChildClass",methodNode);
+  assertNull(variables.getEnterInsnNode());
+  assertNull(variables.getEnterInsnNode());
+  InterceptorRegistryBinder interceptorRegistryBinder=new DefaultInterceptorRegistryBinder();
+  int interceptorId=interceptorRegistryBinder.getInterceptorRegistryAdaptor().addInterceptor(new ArgsArrayInterceptor());
+  final InterceptorDefinition interceptorDefinition=new InterceptorDefinitionFactory().createInterceptorDefinition(ArgsArrayInterceptor.class);
+  InsnList instructions=new InsnList();
+  boolean first=variables.initInterceptorLocalVariables(instructions,interceptorId,interceptorDefinition,-1);
+  assertEquals(true,first);
+  assertNotNull(variables.getEnterInsnNode());
+  assertNotNull(variables.getEnterInsnNode());
+}

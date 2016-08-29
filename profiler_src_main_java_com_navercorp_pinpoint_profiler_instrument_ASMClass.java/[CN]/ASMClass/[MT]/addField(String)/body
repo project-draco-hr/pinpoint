@@ -1,0 +1,15 @@
+{
+  try {
+    final Class<?> accessorType=this.pluginContext.injectClass(this.classLoader,accessorTypeName);
+    final AccessorAnalyzer accessorAnalyzer=new AccessorAnalyzer();
+    final AccessorAnalyzer.AccessorDetails accessorDetails=accessorAnalyzer.analyze(accessorType);
+    final ASMFieldNodeAdapter fieldNode=this.classNode.addField(FIELD_PREFIX + accessorTypeName.replace('.','_').replace('$','_'),accessorDetails.getFieldType());
+    this.classNode.addInterface(accessorTypeName);
+    this.classNode.addGetterMethod(accessorDetails.getGetter().getName(),fieldNode);
+    this.classNode.addSetterMethod(accessorDetails.getSetter().getName(),fieldNode);
+    setModified(true);
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Failed to add field with accessor [" + accessorTypeName + "]. Cause:"+ e.getMessage(),e);
+  }
+}

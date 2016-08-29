@@ -26,7 +26,13 @@
   this.profilerConfig=agentOption.getProfilerConfig();
   this.instrumentation=agentOption.getInstrumentation();
   this.agentOption=agentOption;
-  this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
+  if (this.profilerConfig.isProfileInstrumentASM()) {
+    logger.info("ASM class pool.");
+    this.classPool=new ASMClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
+  }
+ else {
+    this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
+  }
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
   }

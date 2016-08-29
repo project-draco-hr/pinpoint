@@ -1,0 +1,5 @@
+{
+  this.methodVariables.loadInterceptorLocalVariables(instructions,interceptorDefinition,true);
+  final String description=Type.getMethodDescriptor(interceptorDefinition.getAfterMethod());
+  instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE,Type.getInternalName(interceptorDefinition.getInterceptorBaseClass()),"after",description,true));
+}

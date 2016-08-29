@@ -1,0 +1,12 @@
+{
+  if (hasDeclaredMethod(methodName,desc)) {
+    return true;
+  }
+  if (this.classNode.superName != null) {
+    final ASMClassNodeAdapter classNode=ASMClassNodeAdapter.get(this.classLoader,this.classNode.superName,true);
+    if (classNode != null) {
+      return classNode.hasMethod(methodName,desc);
+    }
+  }
+  return false;
+}

@@ -1,0 +1,20 @@
+{
+  if (superInternalName == null) {
+    return false;
+  }
+  if (superInternalName.equals("java.lang.Object")) {
+    return true;
+  }
+  ASMClassNodeAdapter classNode=this;
+  while (classNode != null) {
+    if (superInternalName.equals(classNode.getInternalName())) {
+      return true;
+    }
+    final String superClassName=classNode.getSuperClassName();
+    if (superClassName == null || superClassName.equals("java/lang/Object")) {
+      return false;
+    }
+    classNode=ASMClassNodeAdapter.get(this.classLoader,superClassName,true);
+  }
+  return false;
+}

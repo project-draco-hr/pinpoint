@@ -1,0 +1,16 @@
+{
+  if (this.argumentTypes.length == 0) {
+    loadNull(instructions);
+    return;
+  }
+  push(instructions,this.argumentTypes.length);
+  newArray(instructions,OBJECT_TYPE);
+  for (int i=0; i < this.argumentTypes.length; i++) {
+    Type type=this.argumentTypes[i];
+    dup(instructions);
+    push(instructions,i);
+    loadArg(instructions,this.argumentTypes,i);
+    box(instructions,type);
+    arrayStore(instructions,OBJECT_TYPE);
+  }
+}

@@ -1,0 +1,12 @@
+{
+  if (adviceClassInternalName == null) {
+    throw new NotFoundInstrumentException("advice class internal name must not be null");
+  }
+  final ASMClassNodeAdapter adviceClassNode=ASMClassNodeAdapter.get(this.classLoader,adviceClassInternalName.replace('.','/'));
+  if (adviceClassNode == null) {
+    throw new NotFoundInstrumentException(adviceClassInternalName + " not found.");
+  }
+  final ASMAspectWeaver aspectWeaver=new ASMAspectWeaver();
+  aspectWeaver.weaving(this.classNode,adviceClassNode);
+  setModified(true);
+}

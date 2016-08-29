@@ -1,0 +1,7 @@
+{
+  if (annotationClass == null) {
+    return false;
+  }
+  final String desc=Type.getDescriptor(annotationClass);
+  return hasAnnotation(desc,this.methodNode.invisibleAnnotations) || hasAnnotation(desc,this.methodNode.visibleAnnotations);
+}

@@ -1,0 +1,6 @@
+{
+  MethodNode methodNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.AbstractClass","<init>");
+  ASMMethodVariables variables=new ASMMethodVariables("com.navercorp.pinpoint.profiler.instrument.mock.AbstractClass",methodNode);
+  AbstractInsnNode instruction=variables.findInitConstructorInstruction();
+  assertEquals(7,methodNode.instructions.indexOf(instruction));
+}

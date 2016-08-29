@@ -1,0 +1,23 @@
+{
+  initInterceptorLocalVariables(interceptorId,interceptorDefinition,apiId);
+  final ASMTryCatch tryCatch=new ASMTryCatch(this.methodNode);
+  this.methodNode.instructions.insertBefore(this.methodVariables.getEnterInsnNode(),tryCatch.getStartLabelNode());
+  this.methodNode.instructions.insert(this.methodVariables.getExitInsnNode(),tryCatch.getEndLabelNode());
+  AbstractInsnNode insnNode=this.methodNode.instructions.getFirst();
+  while (insnNode != null) {
+    final int opcode=insnNode.getOpcode();
+    if (this.methodVariables.isReturnCode(opcode)) {
+      final InsnList instructions=new InsnList();
+      this.methodVariables.storeResultVar(instructions,opcode);
+      invokeAfterInterceptor(instructions,interceptorDefinition,false);
+      this.methodNode.instructions.insertBefore(insnNode,instructions);
+    }
+    insnNode=insnNode.getNext();
+  }
+  InsnList instructions=new InsnList();
+  this.methodVariables.storeThrowableVar(instructions);
+  invokeAfterInterceptor(instructions,interceptorDefinition,true);
+  this.methodVariables.loadInterceptorThrowVar(instructions);
+  this.methodNode.instructions.insert(tryCatch.getEndLabelNode(),instructions);
+  tryCatch.sort();
+}

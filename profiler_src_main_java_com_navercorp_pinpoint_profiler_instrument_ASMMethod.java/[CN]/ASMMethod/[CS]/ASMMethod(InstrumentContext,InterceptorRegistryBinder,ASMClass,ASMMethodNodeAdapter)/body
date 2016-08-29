@@ -1,0 +1,11 @@
+{
+  this.pluginContext=pluginContext;
+  this.interceptorRegistryBinder=interceptorRegistryBinder;
+  this.declaringClass=declaringClass;
+  this.methodNode=methodNode;
+  final String[] parameterVariableNames=this.methodNode.getParameterNames();
+  final int lineNumber=this.methodNode.getLineNumber();
+  final DefaultMethodDescriptor descriptor=new DefaultMethodDescriptor(declaringClass.getName(),methodNode.getName(),getParameterTypes(),parameterVariableNames);
+  descriptor.setLineNumber(lineNumber);
+  this.descriptor=descriptor;
+}

@@ -1,0 +1,22 @@
+{
+  assertInitializedInterceptorLocalVariables();
+  if (opcode == Opcodes.RETURN) {
+    loadNull(instructions);
+  }
+ else   if (opcode == Opcodes.ARETURN) {
+    dup(instructions);
+  }
+ else {
+    if (opcode == Opcodes.LRETURN || opcode == Opcodes.DRETURN) {
+      dup2(instructions);
+    }
+ else {
+      dup(instructions);
+    }
+    final Type type=Type.getReturnType(this.methodNode.desc);
+    box(instructions,type);
+  }
+  storeVar(instructions,this.resultVarIndex);
+  loadNull(instructions);
+  storeVar(instructions,this.throwableVarIndex);
+}

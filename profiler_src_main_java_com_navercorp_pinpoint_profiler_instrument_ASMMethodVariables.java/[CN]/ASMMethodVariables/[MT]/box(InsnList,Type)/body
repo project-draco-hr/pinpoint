@@ -1,0 +1,22 @@
+{
+  if (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
+    return;
+  }
+  if (type == Type.VOID_TYPE) {
+    instructions.add(new InsnNode(Opcodes.ACONST_NULL));
+  }
+ else {
+    Type boxed=getBoxedType(type);
+    newInstance(instructions,boxed);
+    if (type.getSize() == 2) {
+      dupX2(instructions);
+      dupX2(instructions);
+      pop(instructions);
+    }
+ else {
+      dupX1(instructions);
+      swap(instructions);
+    }
+    invokeConstructor(instructions,boxed,new Method("<init>",Type.VOID_TYPE,new Type[]{type}));
+  }
+}

@@ -1,0 +1,30 @@
+{
+  final InterceptorDefinition interceptorDefinition=new InterceptorDefinitionFactory().createInterceptorDefinition(interceptorClass);
+  try {
+    classLoader.setTrace(true);
+    classLoader.setVerify(false);
+    classLoader.setTargetClassName(targetClassName);
+    classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
+      @Override public void handle(      ClassNode classNode){
+        List<MethodNode> methodNodes=classNode.methods;
+        for (        MethodNode methodNode : methodNodes) {
+          if (methodNode.name.equals("<clinit>")) {
+            continue;
+          }
+          ASMMethodNodeAdapter methodNodeAdapter=new ASMMethodNodeAdapter(classNode.name.replace('/','.'),methodNode);
+          if (methodNodeAdapter.isAbstract() || methodNodeAdapter.isNative()) {
+            continue;
+          }
+          methodNodeAdapter.addBeforeInterceptor(interceptorId,interceptorDefinition,99);
+          methodNodeAdapter.addAfterInterceptor(interceptorId,interceptorDefinition,99);
+        }
+      }
+    }
+);
+    return classLoader.loadClass(targetClassName);
+  }
+ catch (  Exception e) {
+    e.printStackTrace();
+  }
+  return null;
+}

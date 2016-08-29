@@ -1,0 +1,43 @@
+{
+  try {
+    final Class<?> setterType=this.pluginContext.injectClass(this.classLoader,setterTypeName);
+    final SetterAnalyzer.SetterDetails setterDetails=new SetterAnalyzer().analyze(setterType);
+    final ASMFieldNodeAdapter fieldNode=this.classNode.getField(fieldName,null);
+    if (fieldNode == null) {
+      throw new IllegalArgumentException("Not found field. name=" + fieldName);
+    }
+    final String fieldTypeName=JavaAssistUtils.javaClassNameToObjectName(setterDetails.getFieldType().getName());
+    if (!fieldNode.getClassName().equals(fieldTypeName)) {
+      throw new IllegalArgumentException("Argument type of the setter is different with the field type. setterMethod: " + fieldTypeName + ", fieldType: "+ fieldNode.getClassName());
+    }
+    if (fieldNode.isStatic()) {
+      throw new IllegalArgumentException("Cannot add setter to static fields. setterMethod: " + setterDetails.getSetter().getName() + ", fieldName: "+ fieldName);
+    }
+    final int original=fieldNode.getAccess();
+    boolean finalRemoved=false;
+    if (fieldNode.isFinal()) {
+      if (!removeFinal) {
+        throw new IllegalArgumentException("Cannot add setter to final field. setterMethod: " + setterDetails.getSetter().getName() + ", fieldName: "+ fieldName);
+      }
+ else {
+        final int removed=original & ~Opcodes.ACC_FINAL;
+        fieldNode.setAccess(removed);
+        finalRemoved=true;
+      }
+    }
+    try {
+      this.classNode.addSetterMethod(setterDetails.getSetter().getName(),fieldNode);
+      this.classNode.addInterface(setterTypeName);
+      setModified(true);
+    }
+ catch (    Exception e) {
+      if (finalRemoved) {
+        fieldNode.setAccess(original);
+      }
+      throw e;
+    }
+  }
+ catch (  Exception e) {
+    throw new InstrumentException("Failed to add setter: " + setterTypeName,e);
+  }
+}

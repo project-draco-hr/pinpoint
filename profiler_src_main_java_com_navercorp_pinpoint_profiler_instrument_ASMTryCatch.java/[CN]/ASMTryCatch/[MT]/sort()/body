@@ -1,0 +1,19 @@
+{
+  if (this.methodNode.tryCatchBlocks == null) {
+    return;
+  }
+  Collections.sort(this.methodNode.tryCatchBlocks,new Comparator<TryCatchBlockNode>(){
+    @Override public int compare(    TryCatchBlockNode o1,    TryCatchBlockNode o2){
+      return blockLength(o1) - blockLength(o2);
+    }
+    private int blockLength(    TryCatchBlockNode block){
+      final int startidx=methodNode.instructions.indexOf(block.start);
+      final int endidx=methodNode.instructions.indexOf(block.end);
+      return endidx - startidx;
+    }
+  }
+);
+  for (int i=0; i < this.methodNode.tryCatchBlocks.size(); ++i) {
+    this.methodNode.tryCatchBlocks.get(i).updateIndex(i);
+  }
+}

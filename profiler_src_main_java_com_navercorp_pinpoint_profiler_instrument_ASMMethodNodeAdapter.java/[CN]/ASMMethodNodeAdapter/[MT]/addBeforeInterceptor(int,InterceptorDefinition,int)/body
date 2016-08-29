@@ -1,0 +1,8 @@
+{
+  initInterceptorLocalVariables(interceptorId,interceptorDefinition,apiId);
+  final InsnList instructions=new InsnList();
+  this.methodVariables.loadInterceptorLocalVariables(instructions,interceptorDefinition,false);
+  final String description=Type.getMethodDescriptor(interceptorDefinition.getBeforeMethod());
+  instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE,Type.getInternalName(interceptorDefinition.getInterceptorBaseClass()),"before",description,true));
+  this.methodNode.instructions.insertBefore(this.methodVariables.getEnterInsnNode(),instructions);
+}

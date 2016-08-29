@@ -1,0 +1,10 @@
+{
+  ClassNode classNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.FieldClass");
+  List<FieldNode> fieldNodes=classNode.fields;
+  for (  FieldNode fieldNode : fieldNodes) {
+    ASMFieldNodeAdapter adapter=new ASMFieldNodeAdapter(fieldNode);
+    assertNotNull(adapter.getName());
+    assertNotNull(adapter.getClassName());
+    assertNotNull(adapter.getDesc());
+  }
+}

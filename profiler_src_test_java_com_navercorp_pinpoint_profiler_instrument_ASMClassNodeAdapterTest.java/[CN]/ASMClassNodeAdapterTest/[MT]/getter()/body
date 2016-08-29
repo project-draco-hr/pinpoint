@@ -1,0 +1,32 @@
+{
+  final ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+  ASMClassNodeAdapter adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/ExtendedClass");
+  assertEquals("com/navercorp/pinpoint/profiler/instrument/mock/ExtendedClass",adapter.getName());
+  assertEquals("com.navercorp.pinpoint.profiler.instrument.mock.ExtendedClass",adapter.getInternalName());
+  assertEquals("com/navercorp/pinpoint/profiler/instrument/mock/BaseClass",adapter.getSuperClassName());
+  assertEquals("com.navercorp.pinpoint.profiler.instrument.mock.BaseClass",adapter.getSuperClassInternalName());
+  assertEquals(false,adapter.isInterface());
+  assertEquals(false,adapter.isAnnotation());
+  assertEquals(0,adapter.getInterfaceInternalNames().length);
+  List<ASMMethodNodeAdapter> methods=adapter.getDeclaredMethods();
+  assertEquals(1,methods.size());
+  ASMMethodNodeAdapter method=adapter.getDeclaredMethod("extended","()");
+  assertEquals("extended",method.getName());
+  method=adapter.getDeclaredMethod("notExist","()");
+  assertNull(method);
+  ASMFieldNodeAdapter field=adapter.getField("e",null);
+  assertEquals("e",field.getName());
+  field=adapter.getField("e","Ljava/lang/String;");
+  assertEquals("e",field.getName());
+  assertEquals("Ljava/lang/String;",field.getDesc());
+  field=adapter.getField("notExist",null);
+  assertNull(field);
+  adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/BaseInterface");
+  assertEquals(true,adapter.isInterface());
+  adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/profiler/instrument/mock/BaseImplementClass");
+  String[] interfaceNames=adapter.getInterfaceInternalNames();
+  assertEquals(1,interfaceNames.length);
+  assertEquals("com.navercorp.pinpoint.profiler.instrument.mock.BaseInterface",interfaceNames[0]);
+  adapter=ASMClassNodeAdapter.get(classLoader,"com/navercorp/pinpoint/bootstrap/instrument/aspect/Aspect");
+  assertEquals(true,adapter.isAnnotation());
+}

@@ -1,0 +1,12 @@
+{
+  if (isConstructor()) {
+    int index=this.declaringClassInternalName.lastIndexOf('.');
+    if (index < 0) {
+      return this.declaringClassInternalName;
+    }
+ else {
+      return this.declaringClassInternalName.substring(index + 1);
+    }
+  }
+  return this.methodNode.name;
+}

@@ -1,0 +1,20 @@
+{
+  final ClassNode superClassNode=ASMClassNodeLoader.get(superClassName);
+  List<MethodNode> methodNodes=superClassNode.methods;
+  final MethodNode methodNode=findMethodNode(methodName,methodNodes);
+  classLoader.setTargetClassName(targetClassName);
+  classLoader.setCallbackHandler(new ASMClassNodeLoader.CallbackHandler(){
+    @Override public void handle(    final ClassNode classNode){
+      String[] exceptions=null;
+      if (methodNode.exceptions != null) {
+        exceptions=methodNode.exceptions.toArray(new String[methodNode.exceptions.size()]);
+      }
+      final MethodNode newMethodNode=new MethodNode(methodNode.access,methodNode.name,methodNode.desc,methodNode.signature,exceptions);
+      final ASMMethodNodeAdapter methodNodeAdapter=new ASMMethodNodeAdapter(targetClassName,newMethodNode);
+      methodNodeAdapter.addDelegator(superClassName.replace('.','/'));
+      classNode.methods.add(newMethodNode);
+    }
+  }
+);
+  return classLoader.loadClass(targetClassName);
+}

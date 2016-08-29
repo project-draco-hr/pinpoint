@@ -1,0 +1,10 @@
+{
+  final ClassNode classNode=ASMClassNodeLoader.get("com.navercorp.pinpoint.profiler.instrument.mock.ArgsClass");
+  List<MethodNode> methodNodes=classNode.methods;
+  for (  MethodNode methodNode : methodNodes) {
+    ASMMethodNodeAdapter methodNodeAdapter=new ASMMethodNodeAdapter(classNode.name,methodNode);
+    String[] types=methodNodeAdapter.getParameterTypes();
+    String[] names=methodNodeAdapter.getParameterNames();
+    assertEquals(methodNode.name,types.length,names.length);
+  }
+}
