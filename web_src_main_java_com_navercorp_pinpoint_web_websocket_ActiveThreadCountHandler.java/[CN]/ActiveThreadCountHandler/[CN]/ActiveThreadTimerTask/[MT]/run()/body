@@ -4,7 +4,7 @@
     Collection<PinpointWebSocketResponseAggregator> values=aggregatorRepository.values();
     for (    final PinpointWebSocketResponseAggregator aggregator : values) {
       try {
-        aggregator.flush(webSocketflushExecutor);
+        aggregator.flush(webSocketFlushExecutor);
       }
  catch (      Exception e) {
         logger.warn("failed while flushing ActiveThreadCount to aggregator. applicationName:{}, error:{}",aggregator.getApplicationName(),e.getMessage(),e);
