@@ -20,4 +20,18 @@
   }
   logger.info("load pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar :" + bootStrapCoreJar);
   instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreJarFile);
+  final String bootStrapCoreOptionalJar=classPathResolver.getBootStrapCoreOptionalJar();
+  if (bootStrapCoreOptionalJar == null) {
+    logger.info("pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar not found");
+  }
+ else {
+    JarFile bootStrapCoreOptionalJarFile=getBootStrapCoreOptionalJarFile(bootStrapCoreOptionalJar);
+    if (bootStrapCoreOptionalJarFile == null) {
+      logger.info("pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar not found");
+    }
+ else {
+      logger.info("load pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar : " + bootStrapCoreOptionalJar);
+      instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreOptionalJarFile);
+    }
+  }
 }
