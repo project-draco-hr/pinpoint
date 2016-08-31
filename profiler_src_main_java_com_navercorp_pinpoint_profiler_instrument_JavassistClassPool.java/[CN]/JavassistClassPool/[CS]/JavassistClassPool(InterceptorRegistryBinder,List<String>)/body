@@ -5,8 +5,10 @@
   this.childClassPool=new IsolateMultipleClassPool(classPoolEventListener,new IsolateMultipleClassPool.ClassPoolHandler(){
     @Override public void handleClassPool(    NamedClassPool systemClassPool){
       try {
-        if (bootStrapJar != null) {
-          systemClassPool.appendClassPath(bootStrapJar);
+        if (bootStrapJars != null) {
+          for (          String bootStrapJar : bootStrapJars) {
+            systemClassPool.appendClassPath(bootStrapJar);
+          }
         }
       }
  catch (      NotFoundException ex) {

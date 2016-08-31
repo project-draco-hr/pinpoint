@@ -23,6 +23,11 @@
   if (agentDirUri != null) {
     jarURLList.add(agentDirUri);
   }
+  jarURLList.add(toURI(new File(getPinpointCommonsJar())));
   jarURLList.add(toURI(new File(getBootStrapCoreJar())));
+  String bootstrapCoreOptionalJar=getBootStrapCoreOptionalJar();
+  if (bootstrapCoreOptionalJar != null) {
+    jarURLList.add(toURI(new File(bootstrapCoreOptionalJar)));
+  }
   return jarURLList;
 }

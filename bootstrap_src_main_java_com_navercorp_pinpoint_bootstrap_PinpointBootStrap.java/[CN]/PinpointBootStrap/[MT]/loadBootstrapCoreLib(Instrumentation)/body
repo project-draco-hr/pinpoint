@@ -6,26 +6,40 @@
     logPinpointAgentLoadFail();
     return;
   }
+  final String pinpointCommonsJar=classPathResolver.getPinpointCommonsJar();
+  if (pinpointCommonsJar == null) {
+    logger.warn("pinpoint-commons-x.x.x(-SNAPSHOT).jar not found");
+    logPinpointAgentLoadFail();
+    return;
+  }
+  JarFile pinpointCommonsJarFile=getJarFile(pinpointCommonsJar);
+  if (pinpointCommonsJarFile == null) {
+    logger.warn("pinpoint-commons-x.x.x(-SNAPSHOT).jar not found");
+    logPinpointAgentLoadFail();
+    return;
+  }
+  logger.info("load pinpoint-commons-x.x.x(-SNAPSHOT).jar : " + pinpointCommonsJar);
+  instrumentation.appendToBootstrapClassLoaderSearch(pinpointCommonsJarFile);
   final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
   if (bootStrapCoreJar == null) {
     logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }
-  JarFile bootStrapCoreJarFile=getBootStrapJarFile(bootStrapCoreJar);
+  JarFile bootStrapCoreJarFile=getJarFile(bootStrapCoreJar);
   if (bootStrapCoreJarFile == null) {
     logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }
-  logger.info("load pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar :" + bootStrapCoreJar);
+  logger.info("load pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar : " + bootStrapCoreJar);
   instrumentation.appendToBootstrapClassLoaderSearch(bootStrapCoreJarFile);
   final String bootStrapCoreOptionalJar=classPathResolver.getBootStrapCoreOptionalJar();
   if (bootStrapCoreOptionalJar == null) {
     logger.info("pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar not found");
   }
  else {
-    JarFile bootStrapCoreOptionalJarFile=getBootStrapCoreOptionalJarFile(bootStrapCoreOptionalJar);
+    JarFile bootStrapCoreOptionalJarFile=getJarFile(bootStrapCoreOptionalJar);
     if (bootStrapCoreOptionalJarFile == null) {
       logger.info("pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar not found");
     }

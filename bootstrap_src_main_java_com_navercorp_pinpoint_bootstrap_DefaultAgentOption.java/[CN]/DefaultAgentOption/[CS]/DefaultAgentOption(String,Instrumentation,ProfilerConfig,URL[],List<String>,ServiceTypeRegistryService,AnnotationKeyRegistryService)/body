@@ -18,7 +18,12 @@
   this.instrumentation=instrumentation;
   this.profilerConfig=profilerConfig;
   this.pluginJars=pluginJars;
-  this.bootStrapJarCorePath=bootStrapJarCorePath;
+  if (bootstrapJarPaths == null) {
+    this.bootstrapJarPaths=Collections.emptyList();
+  }
+ else {
+    this.bootstrapJarPaths=bootstrapJarPaths;
+  }
   this.serviceTypeRegistryService=serviceTypeRegistryService;
   this.annotationKeyRegistryService=annotationKeyRegistryService;
 }

@@ -1,7 +1,9 @@
 {
   final ClassPool pool=new ClassPool();
-  final String bootstrapCoreJarPath=pluginConfig.getBootstrapCoreJarPath();
-  pool.appendClassPath(bootstrapCoreJarPath);
+  final List<String> bootstrapJarPaths=pluginConfig.getBootstrapJarPaths();
+  for (  String bootstrapJarPath : bootstrapJarPaths) {
+    pool.appendClassPath(bootstrapJarPath);
+  }
   final LoaderClassPath loaderClassPath=new LoaderClassPath(classLoader);
   pool.appendClassPath(loaderClassPath);
   final String pluginJarFileName=pluginConfig.getPluginJarFile().getName();
