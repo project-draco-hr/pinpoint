@@ -1,0 +1,11 @@
+{
+  commonLogger.debug("info test");
+  commonLogger.info("info test 1");
+  assertMessage(getOut(),"info test 1");
+  commonLogger.info("info test 2");
+  assertMessage(getOut(),"info test 2");
+  commonLogger.warn("warn test");
+  assertMessage(getError(),"warn test");
+  commonLogger.warn("warn test error",new Exception("testException"));
+  assertMessage(getError(),"warn test");
+}

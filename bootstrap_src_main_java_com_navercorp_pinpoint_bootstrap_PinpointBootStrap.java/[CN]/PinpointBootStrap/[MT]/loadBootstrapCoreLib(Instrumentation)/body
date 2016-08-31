@@ -2,19 +2,19 @@
   final ClassPathResolver classPathResolver=new ClassPathResolver();
   boolean agentJarNotFound=classPathResolver.findAgentJar();
   if (!agentJarNotFound) {
-    logger.severe("pinpoint-bootstrap-x.x.x(-SNAPSHOT).jar Fnot found.");
+    logger.warn("pinpoint-bootstrap-x.x.x(-SNAPSHOT).jar not found.");
     logPinpointAgentLoadFail();
     return;
   }
   final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
   if (bootStrapCoreJar == null) {
-    logger.severe("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
+    logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }
   JarFile bootStrapCoreJarFile=getBootStrapJarFile(bootStrapCoreJar);
   if (bootStrapCoreJarFile == null) {
-    logger.severe("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
+    logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }

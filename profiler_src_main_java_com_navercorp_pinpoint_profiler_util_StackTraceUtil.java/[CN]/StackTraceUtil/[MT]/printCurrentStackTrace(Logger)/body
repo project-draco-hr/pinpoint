@@ -1,10 +1,10 @@
 {
-  if (!logger.isLoggable(Level.INFO)) {
+  if (!logger.isInfoEnabled()) {
     return;
   }
   StackTraceElement[] stackList=Thread.currentThread().getStackTrace();
   int length=stackList.length;
   for (int loop=2; loop < length; loop++) {
-    logger.info("***" + stackList[loop].toString());
+    logger.info("***{}",stackList[loop].toString());
   }
 }

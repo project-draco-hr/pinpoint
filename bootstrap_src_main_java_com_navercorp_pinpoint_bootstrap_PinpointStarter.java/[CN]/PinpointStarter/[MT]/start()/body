@@ -2,13 +2,13 @@
   final ClassPathResolver classPathResolver=new ClassPathResolver();
   boolean agentJarNotFound=classPathResolver.findAgentJar();
   if (!agentJarNotFound) {
-    logger.severe("pinpoint-bootstrap-x.x.x(-SNAPSHOT).jar Fnot found.");
+    logger.warn("pinpoint-bootstrap-x.x.x(-SNAPSHOT).jar Fnot found.");
     logPinpointAgentLoadFail();
     return;
   }
   final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
   if (bootStrapCoreJar == null) {
-    logger.severe("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
+    logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }
@@ -22,9 +22,10 @@
     return;
   }
   URL[] pluginJars=classPathResolver.resolvePlugins();
-  TraceMetadataLoaderService typeLoaderService=new DefaultTraceMetadataLoaderService(pluginJars);
-  ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService(typeLoaderService);
-  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
+  CommonLoggerFactory loggerFactory=StdoutCommonLoggerFactory.INSTANCE;
+  TraceMetadataLoaderService typeLoaderService=new DefaultTraceMetadataLoaderService(pluginJars,loggerFactory);
+  ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService(typeLoaderService,loggerFactory);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService,loggerFactory);
   String configPath=getConfigPath(classPathResolver);
   if (configPath == null) {
     logPinpointAgentLoadFail();
@@ -46,7 +47,7 @@
     logger.info("pinpoint agent started normally.");
   }
  catch (  Exception e) {
-    logger.log(Level.SEVERE,ProductInfo.NAME + " start failed. Error:" + e.getMessage(),e);
+    logger.warn(ProductInfo.NAME + " start failed. Error:" + e.getMessage(),e);
     logPinpointAgentLoadFail();
   }
 }

@@ -1,5 +1,5 @@
 {
   List<TraceMetadataProvider> providers=Arrays.<TraceMetadataProvider>asList(new TestProvider(DUPLICATED_CODE_WITH_DEFAULT_TYPE,TEST_KEYS));
-  TraceMetadataLoaderService loaderService=new DefaultTraceMetadataLoaderService(providers);
-  ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService(loaderService);
+  TraceMetadataLoaderService loaderService=new DefaultTraceMetadataLoaderService(providers,loggerFactory);
+  ServiceTypeRegistryService serviceTypeRegistryService=new DefaultServiceTypeRegistryService(loaderService,loggerFactory);
 }

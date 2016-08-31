@@ -18,7 +18,8 @@
     return ERROR_HOST_NAME;
   }
  catch (  SocketException e) {
-    Logger.getLogger(NetworkUtils.class.getClass().getName()).warning(e.getMessage());
+    CommonLogger logger=getLogger();
+    logger.warn(e.getMessage());
     return ERROR_HOST_NAME;
   }
 }

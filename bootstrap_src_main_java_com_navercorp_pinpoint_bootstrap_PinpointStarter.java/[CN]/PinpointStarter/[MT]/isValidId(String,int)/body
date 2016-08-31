@@ -2,19 +2,19 @@
   logger.info("check -D" + propertyName);
   String value=systemProperty.getProperty(propertyName);
   if (value == null) {
-    logger.severe("-D" + propertyName + " is null. value:null");
+    logger.warn("-D" + propertyName + " is null. value:null");
     return false;
   }
   value=value.trim();
   if (value.isEmpty()) {
-    logger.severe("-D" + propertyName + " is empty. value:''");
+    logger.warn("-D" + propertyName + " is empty. value:''");
     return false;
   }
   if (!IdValidateUtils.validateId(value,maxSize)) {
-    logger.severe("invalid Id. " + propertyName + " can only contain [a-zA-Z0-9], '.', '-', '_'. maxLength:"+ maxSize+ " value:"+ value);
+    logger.warn("invalid Id. " + propertyName + " can only contain [a-zA-Z0-9], '.', '-', '_'. maxLength:"+ maxSize+ " value:"+ value);
     return false;
   }
-  if (logger.isLoggable(Level.INFO)) {
+  if (logger.isInfoEnabled()) {
     logger.info("check success. -D" + propertyName + ":"+ value+ " length:"+ getLength(value));
   }
   return true;
