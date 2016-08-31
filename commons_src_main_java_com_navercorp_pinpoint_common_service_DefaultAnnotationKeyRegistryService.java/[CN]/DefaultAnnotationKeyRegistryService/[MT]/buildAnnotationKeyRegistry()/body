@@ -3,14 +3,14 @@
   StaticFieldLookUp<AnnotationKey> staticFieldLookUp=new StaticFieldLookUp<AnnotationKey>(AnnotationKey.class,AnnotationKey.class);
   List<AnnotationKey> lookup=staticFieldLookUp.lookup();
   for (  AnnotationKey serviceType : lookup) {
-    if (logger.isLoggable(Level.INFO)) {
+    if (logger.isInfoEnabled()) {
       logger.info("add Default AnnotationKey:" + serviceType);
     }
     builder.addAnnotationKey(serviceType);
   }
   final List<AnnotationKey> types=typeLoaderService.getAnnotationKeys();
   for (  AnnotationKey type : types) {
-    if (logger.isLoggable(Level.INFO)) {
+    if (logger.isInfoEnabled()) {
       logger.info("add Plugin AnnotationKey:" + type);
     }
     builder.addAnnotationKey(type);

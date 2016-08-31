@@ -1,11 +1,11 @@
 {
   final File file=new File(getAgentPluginPath());
   if (!file.exists()) {
-    logger.warning(file + " not found");
+    logger.warn(file + " not found");
     return new URL[0];
   }
   if (!file.isDirectory()) {
-    logger.warning(file + " is not a directory");
+    logger.warn(file + " is not a directory");
     return new URL[0];
   }
   final File[] jars=file.listFiles(new FilenameFilter(){

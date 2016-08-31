@@ -1,7 +1,7 @@
 {
   List<TraceMetadataProvider> typeProviders=Arrays.<TraceMetadataProvider>asList(new TestProvider(TEST_TYPES,TEST_KEYS));
-  TraceMetadataLoaderService typeLoaderService=new DefaultTraceMetadataLoaderService(typeProviders);
-  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
+  TraceMetadataLoaderService typeLoaderService=new DefaultTraceMetadataLoaderService(typeProviders,loggerFactory);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService,loggerFactory);
   StaticFieldLookUp<AnnotationKey> lookUp=new StaticFieldLookUp<AnnotationKey>(AnnotationKey.class,AnnotationKey.class);
   verifyAnnotationKeys(lookUp.lookup(),annotationKeyRegistryService);
   verifyAnnotationKeys(Arrays.asList(TEST_KEYS),annotationKeyRegistryService);

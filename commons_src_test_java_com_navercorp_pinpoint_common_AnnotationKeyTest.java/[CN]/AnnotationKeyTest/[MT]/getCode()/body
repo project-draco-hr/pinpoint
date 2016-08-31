@@ -1,6 +1,6 @@
 {
   TraceMetadataLoaderService typeLoaderService=new DefaultTraceMetadataLoaderService();
-  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService);
+  AnnotationKeyRegistryService annotationKeyRegistryService=new DefaultAnnotationKeyRegistryService(typeLoaderService,StdoutCommonLoggerFactory.INSTANCE);
   AnnotationKey annotationKey=annotationKeyRegistryService.findAnnotationKey(AnnotationKey.API.getCode());
   Assert.assertEquals(annotationKey,AnnotationKey.API);
 }

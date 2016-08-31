@@ -3,14 +3,14 @@
   StaticFieldLookUp<ServiceType> staticFieldLookUp=new StaticFieldLookUp<ServiceType>(ServiceType.class,ServiceType.class);
   List<ServiceType> lookup=staticFieldLookUp.lookup();
   for (  ServiceType serviceType : lookup) {
-    if (logger.isLoggable(Level.INFO)) {
+    if (logger.isInfoEnabled()) {
       logger.info("add Default ServiceType:" + serviceType);
     }
     builder.addServiceType(serviceType);
   }
   final List<ServiceTypeInfo> types=loadType();
   for (  ServiceTypeInfo type : types) {
-    if (logger.isLoggable(Level.INFO)) {
+    if (logger.isInfoEnabled()) {
       logger.info("add Plugin ServiceType:" + type.getServiceType());
     }
     builder.addServiceType(type.getServiceType());

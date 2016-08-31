@@ -25,8 +25,8 @@
       if (propVal != null) {
         propVal=parseStringValue(propVal,placeholderResolver,visitedPlaceholders);
         buf.replace(startIndex,endIndex + this.placeholderSuffix.length(),propVal);
-        if (logger.isLoggable(Level.FINE)) {
-          logger.fine("Resolved placeholder '" + placeholder + "'");
+        if (logger.isTraceEnabled()) {
+          logger.trace("Resolved placeholder '" + placeholder + "'");
         }
         startIndex=buf.indexOf(this.placeholderPrefix,startIndex + propVal.length());
       }
