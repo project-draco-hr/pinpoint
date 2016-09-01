@@ -5,7 +5,11 @@
   }
  else   if (jvmVersion.onOrAfter(JvmVersion.JAVA_7)) {
     try {
-      final Class<? extends ThreadLocalRandomFactory> threadLocalRandomFactoryClass=(Class<? extends ThreadLocalRandomFactory>)Class.forName(DEFAULT_THREAD_LOCAL_RANDOM_FACTORY,true,null);
+      ClassLoader classLoader=ThreadLocalRandomUtils.class.getClassLoader();
+      if (classLoader == null) {
+        classLoader=ClassLoader.getSystemClassLoader();
+      }
+      final Class<? extends ThreadLocalRandomFactory> threadLocalRandomFactoryClass=(Class<? extends ThreadLocalRandomFactory>)Class.forName(DEFAULT_THREAD_LOCAL_RANDOM_FACTORY,true,classLoader);
       return threadLocalRandomFactoryClass.newInstance();
     }
  catch (    ClassNotFoundException e) {
