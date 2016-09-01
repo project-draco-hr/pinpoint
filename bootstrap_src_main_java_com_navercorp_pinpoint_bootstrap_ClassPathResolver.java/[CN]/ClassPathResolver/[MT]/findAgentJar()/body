@@ -9,6 +9,8 @@
     return false;
   }
   this.agentDirPath=parseAgentDirPath(agentJarFullPath);
-  this.bootStrapCoreJar=findBootStrapCore();
+  this.pinpointCommonsJar=findFromBootDir("pinpoint-commons",agentCommonsPattern);
+  this.bootStrapCoreJar=findFromBootDir("bootStrapCore",agentCorePattern);
+  this.bootStrapCoreOptionalJar=findFromBootDir("bootStrapCoreOptional",agentCoreOptionalPattern);
   return true;
 }

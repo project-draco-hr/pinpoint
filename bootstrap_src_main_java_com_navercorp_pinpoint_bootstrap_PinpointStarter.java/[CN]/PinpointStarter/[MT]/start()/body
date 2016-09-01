@@ -6,13 +6,27 @@
     logPinpointAgentLoadFail();
     return;
   }
+  final String pinpointCommonsJar=classPathResolver.getPinpointCommonsJar();
+  if (pinpointCommonsJar == null) {
+    logger.warn("pinpoint-commons-x.x.x(-SNAPSHOT).jar not found");
+    logPinpointAgentLoadFail();
+    return;
+  }
+  this.bootstrapJars.add(pinpointCommonsJar);
   final String bootStrapCoreJar=classPathResolver.getBootStrapCoreJar();
   if (bootStrapCoreJar == null) {
     logger.warn("pinpoint-bootstrap-core-x.x.x(-SNAPSHOT).jar not found");
     logPinpointAgentLoadFail();
     return;
   }
-  this.bootStrapCore=bootStrapCoreJar;
+  this.bootstrapJars.add(bootStrapCoreJar);
+  final String bootStrapCoreOptionalJar=classPathResolver.getBootStrapCoreOptionalJar();
+  if (bootStrapCoreOptionalJar == null) {
+    logger.info("pinpoint-bootstrap-core-optional-x.x.x(-SNAPSHOT).jar not found");
+  }
+ else {
+    this.bootstrapJars.add(bootStrapCoreOptionalJar);
+  }
   if (!isValidId("pinpoint.agentId",PinpointConstants.AGENT_NAME_MAX_LEN)) {
     logPinpointAgentLoadFail();
     return;
@@ -40,7 +54,7 @@
     String bootClass=argMap.containsKey("bootClass") ? argMap.get("bootClass") : BOOT_CLASS;
     agentClassLoader.setBootClass(bootClass);
     logger.info("pinpoint agent [" + bootClass + "] starting...");
-    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,bootStrapCore,serviceTypeRegistryService,annotationKeyRegistryService);
+    AgentOption option=createAgentOption(agentArgs,instrumentation,profilerConfig,pluginJars,bootstrapJars,serviceTypeRegistryService,annotationKeyRegistryService);
     Agent pinpointAgent=agentClassLoader.boot(option);
     pinpointAgent.start();
     registerShutdownHook(pinpointAgent);

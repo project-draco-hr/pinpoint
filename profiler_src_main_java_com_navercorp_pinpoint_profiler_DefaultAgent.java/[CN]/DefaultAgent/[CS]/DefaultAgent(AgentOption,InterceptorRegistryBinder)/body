@@ -28,10 +28,10 @@
   this.agentOption=agentOption;
   if (this.profilerConfig.isProfileInstrumentASM()) {
     logger.info("ASM class pool.");
-    this.classPool=new ASMClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
+    this.classPool=new ASMClassPool(interceptorRegistryBinder,agentOption.getBootstrapJarPaths());
   }
  else {
-    this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootStrapCoreJarPath());
+    this.classPool=new JavassistClassPool(interceptorRegistryBinder,agentOption.getBootstrapJarPaths());
   }
   if (logger.isInfoEnabled()) {
     logger.info("DefaultAgent classLoader:{}",this.getClass().getClassLoader());
