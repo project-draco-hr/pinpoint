@@ -1,0 +1,7 @@
+{
+  ClassLoader classLoader=ClassLoaderUtils.getDefaultClassLoader();
+  byte[] classFile=BytecodeUtils.getClassFile(classLoader,"java/lang/String");
+  ASMBytecodeDisassembler bytecodeDisassembler=new ASMBytecodeDisassembler();
+  String result=bytecodeDisassembler.dumpVerify(classFile,classLoader);
+  assertNotNull(result);
+}
