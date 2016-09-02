@@ -1,0 +1,12 @@
+{
+  LoggerHolder loggerHolder=new LoggerHolder("test",Level.WARNING);
+  Logger test=loggerHolder.getLogger();
+  test.log(Level.WARNING,"warnMessage");
+  String out=loggerHolder.getError();
+  Assert.assertThat(out,containsString("[WARNING](test) warnMessage"));
+  test.info("infoTest");
+  Assert.assertEquals(loggerHolder.getOut(),"");
+  test.warning("warningTest");
+  Assert.assertThat(loggerHolder.getError(),containsString("warningTest"));
+  Assert.assertThat(loggerHolder.getOut(),is(""));
+}

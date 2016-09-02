@@ -1,0 +1,16 @@
+{
+  long timeoutMicros=max(unit.toMicros(timeout),0);
+  checkPermits(permits);
+  long microsToWait;
+synchronized (mutex()) {
+    long nowMicros=stopwatch.readMicros();
+    if (!canAcquire(nowMicros,timeoutMicros)) {
+      return false;
+    }
+ else {
+      microsToWait=reserveAndGetWaitLength(permits,nowMicros);
+    }
+  }
+  stopwatch.sleepMicrosUninterruptibly(microsToWait);
+  return true;
+}

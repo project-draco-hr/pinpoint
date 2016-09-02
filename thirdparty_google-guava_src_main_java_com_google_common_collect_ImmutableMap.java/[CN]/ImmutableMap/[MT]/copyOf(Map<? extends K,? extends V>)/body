@@ -1,0 +1,13 @@
+{
+  if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
+    @SuppressWarnings("unchecked") ImmutableMap<K,V> kvMap=(ImmutableMap<K,V>)map;
+    if (!kvMap.isPartialView()) {
+      return kvMap;
+    }
+  }
+ else   if (map instanceof EnumMap) {
+    @SuppressWarnings("unchecked") ImmutableMap<K,V> kvMap=(ImmutableMap<K,V>)copyOfEnumMap((EnumMap<?,?>)map);
+    return kvMap;
+  }
+  return copyOf(map.entrySet());
+}

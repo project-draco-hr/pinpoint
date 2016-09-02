@@ -1,0 +1,9 @@
+{
+  if (modCount != expectedModCount) {
+    throw new ConcurrentModificationException();
+  }
+  checkRemove(toRemove != null);
+  delete(toRemove);
+  expectedModCount=modCount;
+  toRemove=null;
+}

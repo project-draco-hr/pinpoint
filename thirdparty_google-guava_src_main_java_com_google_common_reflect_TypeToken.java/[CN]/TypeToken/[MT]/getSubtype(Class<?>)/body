@@ -1,0 +1,13 @@
+{
+  checkArgument(!(runtimeType instanceof TypeVariable),"Cannot get subtype of type variable <%s>",this);
+  if (runtimeType instanceof WildcardType) {
+    return getSubtypeFromLowerBounds(subclass,((WildcardType)runtimeType).getLowerBounds());
+  }
+  if (isArray()) {
+    return getArraySubtype(subclass);
+  }
+  checkArgument(getRawType().isAssignableFrom(subclass),"%s isn't a subclass of %s",subclass,this);
+  Type resolvedTypeArgs=resolveTypeArgsForSubclass(subclass);
+  @SuppressWarnings("unchecked") TypeToken<? extends T> subtype=(TypeToken<? extends T>)of(replaceTypeVariablesWithWildcard(resolvedTypeArgs,subclass));
+  return subtype;
+}

@@ -1,0 +1,8 @@
+{
+synchronized (lock) {
+    int numRunning=--runningTasks;
+    if (numRunning == 0) {
+      lock.notifyAll();
+    }
+  }
+}

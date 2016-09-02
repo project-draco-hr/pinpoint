@@ -1,0 +1,8 @@
+{
+  return new TransformedIterator<Entry<K,Collection<V>>,Entry<K,Collection<V>>>(entries.iterator()){
+    @Override Entry<K,Collection<V>> transform(    Entry<K,Collection<V>> from){
+      return constrainedAsMapEntry(from,constraint);
+    }
+  }
+;
+}

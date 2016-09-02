@@ -1,0 +1,15 @@
+{
+  boolean sameComparator=false;
+  if (map instanceof SortedMap) {
+    SortedMap<?,?> sortedMap=(SortedMap<?,?>)map;
+    Comparator<?> comparator2=sortedMap.comparator();
+    sameComparator=(comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);
+  }
+  if (sameComparator && (map instanceof ImmutableSortedMap)) {
+    @SuppressWarnings("unchecked") ImmutableSortedMap<K,V> kvMap=(ImmutableSortedMap<K,V>)map;
+    if (!kvMap.isPartialView()) {
+      return kvMap;
+    }
+  }
+  return fromEntries(comparator,sameComparator,map.entrySet());
+}

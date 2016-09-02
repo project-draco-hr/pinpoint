@@ -1,0 +1,9 @@
+{
+  ServiceManagerState state=this.state.get();
+  if (state != null) {
+    if (!(service instanceof NoOpService)) {
+      logger.log(Level.FINE,"Service {0} has terminated. Previous state was: {1}",new Object[]{service,from});
+    }
+    state.transitionService(service,from,TERMINATED);
+  }
+}

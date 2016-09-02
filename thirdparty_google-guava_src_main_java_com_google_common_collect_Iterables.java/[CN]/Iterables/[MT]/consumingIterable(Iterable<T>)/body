@@ -1,0 +1,23 @@
+{
+  if (iterable instanceof Queue) {
+    return new FluentIterable<T>(){
+      @Override public Iterator<T> iterator(){
+        return new ConsumingQueueIterator<T>((Queue<T>)iterable);
+      }
+      @Override public String toString(){
+        return "Iterables.consumingIterable(...)";
+      }
+    }
+;
+  }
+  checkNotNull(iterable);
+  return new FluentIterable<T>(){
+    @Override public Iterator<T> iterator(){
+      return Iterators.consumingIterator(iterable.iterator());
+    }
+    @Override public String toString(){
+      return "Iterables.consumingIterable(...)";
+    }
+  }
+;
+}

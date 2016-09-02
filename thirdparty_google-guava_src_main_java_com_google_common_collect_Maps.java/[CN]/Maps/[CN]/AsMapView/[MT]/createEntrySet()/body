@@ -1,0 +1,11 @@
+{
+@WeakOuter class EntrySetImpl extends EntrySet<K,V> {
+    @Override Map<K,V> map(){
+      return AsMapView.this;
+    }
+    @Override public Iterator<Entry<K,V>> iterator(){
+      return asMapEntryIterator(backingSet(),function);
+    }
+  }
+  return new EntrySetImpl();
+}

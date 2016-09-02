@@ -1,0 +1,12 @@
+{
+  ImmutableSortedMap<K,V> result=descendingMap;
+  if (result == null) {
+    if (isEmpty()) {
+      return result=emptyMap(Ordering.from(comparator()).reverse());
+    }
+ else {
+      return result=new ImmutableSortedMap<K,V>((RegularImmutableSortedSet<K>)keySet.descendingSet(),valueList.reverse(),this);
+    }
+  }
+  return result;
+}
