@@ -1,0 +1,8 @@
+{
+synchronized (lock) {
+    shutdown=true;
+    if (runningTasks == 0) {
+      lock.notifyAll();
+    }
+  }
+}

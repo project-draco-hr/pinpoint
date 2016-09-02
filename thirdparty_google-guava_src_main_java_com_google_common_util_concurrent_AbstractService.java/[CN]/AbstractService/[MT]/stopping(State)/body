@@ -1,0 +1,11 @@
+{
+  if (from == State.STARTING) {
+    STOPPING_FROM_STARTING_CALLBACK.enqueueOn(listeners);
+  }
+ else   if (from == State.RUNNING) {
+    STOPPING_FROM_RUNNING_CALLBACK.enqueueOn(listeners);
+  }
+ else {
+    throw new AssertionError();
+  }
+}

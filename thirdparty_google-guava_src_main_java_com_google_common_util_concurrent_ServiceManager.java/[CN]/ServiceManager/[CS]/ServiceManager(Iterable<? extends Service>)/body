@@ -1,0 +1,15 @@
+{
+  ImmutableList<Service> copy=ImmutableList.copyOf(services);
+  if (copy.isEmpty()) {
+    logger.log(Level.WARNING,"ServiceManager configured with no services.  Is your application configured properly?",new EmptyServiceManagerWarning());
+    copy=ImmutableList.<Service>of(new NoOpService());
+  }
+  this.state=new ServiceManagerState(copy);
+  this.services=copy;
+  WeakReference<ServiceManagerState> stateReference=new WeakReference<ServiceManagerState>(state);
+  for (  Service service : copy) {
+    service.addListener(new ServiceListener(service,stateReference),directExecutor());
+    checkArgument(service.state() == NEW,"Can only manage NEW services, %s",service);
+  }
+  this.state.markReady();
+}

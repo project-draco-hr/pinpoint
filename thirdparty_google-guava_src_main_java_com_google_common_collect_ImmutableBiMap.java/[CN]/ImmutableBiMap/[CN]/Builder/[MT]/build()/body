@@ -1,0 +1,17 @@
+{
+switch (size) {
+case 0:
+    return of();
+case 1:
+  return of(entries[0].getKey(),entries[0].getValue());
+default :
+if (valueComparator != null) {
+  if (entriesUsed) {
+    entries=ObjectArrays.arraysCopyOf(entries,size);
+  }
+  Arrays.sort(entries,0,size,Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+}
+entriesUsed=size == entries.length;
+return RegularImmutableBiMap.fromEntryArray(size,entries);
+}
+}

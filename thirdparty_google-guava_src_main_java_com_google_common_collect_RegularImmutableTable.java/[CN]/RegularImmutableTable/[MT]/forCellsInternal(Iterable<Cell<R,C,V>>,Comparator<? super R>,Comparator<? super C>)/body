@@ -1,0 +1,12 @@
+{
+  Set<R> rowSpaceBuilder=new LinkedHashSet<R>();
+  Set<C> columnSpaceBuilder=new LinkedHashSet<C>();
+  ImmutableList<Cell<R,C,V>> cellList=ImmutableList.copyOf(cells);
+  for (  Cell<R,C,V> cell : cells) {
+    rowSpaceBuilder.add(cell.getRowKey());
+    columnSpaceBuilder.add(cell.getColumnKey());
+  }
+  ImmutableSet<R> rowSpace=(rowComparator == null) ? ImmutableSet.copyOf(rowSpaceBuilder) : ImmutableSet.copyOf(Ordering.from(rowComparator).immutableSortedCopy(rowSpaceBuilder));
+  ImmutableSet<C> columnSpace=(columnComparator == null) ? ImmutableSet.copyOf(columnSpaceBuilder) : ImmutableSet.copyOf(Ordering.from(columnComparator).immutableSortedCopy(columnSpaceBuilder));
+  return (cellList.size() > (((long)rowSpace.size() * columnSpace.size()) / 2)) ? new DenseImmutableTable<R,C,V>(cellList,rowSpace,columnSpace) : new SparseImmutableTable<R,C,V>(cellList,rowSpace,columnSpace);
+}

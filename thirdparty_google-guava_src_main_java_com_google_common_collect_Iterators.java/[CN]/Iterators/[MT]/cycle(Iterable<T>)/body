@@ -1,0 +1,22 @@
+{
+  checkNotNull(iterable);
+  return new Iterator<T>(){
+    Iterator<T> iterator=emptyModifiableIterator();
+    @Override public boolean hasNext(){
+      return iterator.hasNext() || iterable.iterator().hasNext();
+    }
+    @Override public T next(){
+      if (!iterator.hasNext()) {
+        iterator=iterable.iterator();
+        if (!iterator.hasNext()) {
+          throw new NoSuchElementException();
+        }
+      }
+      return iterator.next();
+    }
+    @Override public void remove(){
+      iterator.remove();
+    }
+  }
+;
+}

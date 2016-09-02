@@ -1,0 +1,9 @@
+{
+  Iterator<Subscriber> eventSubscribers=subscribers.getSubscribers(event);
+  if (eventSubscribers.hasNext()) {
+    dispatcher.dispatch(event,eventSubscribers);
+  }
+ else   if (!(event instanceof DeadEvent)) {
+    post(new DeadEvent(this,event));
+  }
+}

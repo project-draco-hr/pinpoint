@@ -1,0 +1,13 @@
+{
+  if (monitor.enterWhenUninterruptibly(isStopped,timeout,unit)) {
+    try {
+      checkCurrentState(TERMINATED);
+    }
+  finally {
+      monitor.leave();
+    }
+  }
+ else {
+    throw new TimeoutException("Timed out waiting for " + this + " to reach a terminal state. "+ "Current state: "+ state());
+  }
+}

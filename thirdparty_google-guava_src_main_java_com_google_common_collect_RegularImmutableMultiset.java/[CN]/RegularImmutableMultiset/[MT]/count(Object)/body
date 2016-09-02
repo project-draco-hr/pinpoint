@@ -1,0 +1,14 @@
+{
+  Multisets.ImmutableEntry<E>[] hashTable=this.hashTable;
+  if (element == null || hashTable == null) {
+    return 0;
+  }
+  int hash=Hashing.smearedHash(element);
+  int mask=hashTable.length - 1;
+  for (Multisets.ImmutableEntry<E> entry=hashTable[hash & mask]; entry != null; entry=entry.nextInBucket()) {
+    if (Objects.equal(element,entry.getElement())) {
+      return entry.getCount();
+    }
+  }
+  return 0;
+}

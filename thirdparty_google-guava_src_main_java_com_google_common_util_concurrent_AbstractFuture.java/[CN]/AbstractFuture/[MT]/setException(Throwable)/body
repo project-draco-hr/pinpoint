@@ -1,0 +1,8 @@
+{
+  Object valueToSet=new Failure(checkNotNull(throwable));
+  if (ATOMIC_HELPER.casValue(this,null,valueToSet)) {
+    complete();
+    return true;
+  }
+  return false;
+}

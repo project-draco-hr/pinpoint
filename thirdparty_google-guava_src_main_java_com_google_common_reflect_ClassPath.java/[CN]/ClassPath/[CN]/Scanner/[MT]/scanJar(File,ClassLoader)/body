@@ -1,0 +1,22 @@
+{
+  JarFile jarFile;
+  try {
+    jarFile=new JarFile(file);
+  }
+ catch (  IOException e) {
+    return;
+  }
+  try {
+    for (    File path : getClassPathFromManifest(file,jarFile.getManifest())) {
+      scan(path,classloader);
+    }
+    scanJarFile(classloader,jarFile);
+  }
+  finally {
+    try {
+      jarFile.close();
+    }
+ catch (    IOException ignored) {
+    }
+  }
+}

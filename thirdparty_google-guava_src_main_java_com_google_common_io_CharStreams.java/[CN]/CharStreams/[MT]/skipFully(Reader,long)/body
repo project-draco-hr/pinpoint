@@ -1,0 +1,10 @@
+{
+  checkNotNull(reader);
+  while (n > 0) {
+    long amt=reader.skip(n);
+    if (amt == 0) {
+      throw new EOFException();
+    }
+    n-=amt;
+  }
+}

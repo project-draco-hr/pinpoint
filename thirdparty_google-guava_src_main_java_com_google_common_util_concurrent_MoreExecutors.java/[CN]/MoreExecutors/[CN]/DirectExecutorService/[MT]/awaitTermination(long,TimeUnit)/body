@@ -1,0 +1,18 @@
+{
+  long nanos=unit.toNanos(timeout);
+synchronized (lock) {
+    for (; ; ) {
+      if (shutdown && runningTasks == 0) {
+        return true;
+      }
+ else       if (nanos <= 0) {
+        return false;
+      }
+ else {
+        long now=System.nanoTime();
+        TimeUnit.NANOSECONDS.timedWait(lock,nanos);
+        nanos-=System.nanoTime() - now;
+      }
+    }
+  }
+}

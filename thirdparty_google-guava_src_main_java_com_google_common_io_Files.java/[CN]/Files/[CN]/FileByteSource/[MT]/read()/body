@@ -1,0 +1,13 @@
+{
+  Closer closer=Closer.create();
+  try {
+    FileInputStream in=closer.register(openStream());
+    return readFile(in,in.getChannel().size());
+  }
+ catch (  Throwable e) {
+    throw closer.rethrow(e);
+  }
+ finally {
+    closer.close();
+  }
+}

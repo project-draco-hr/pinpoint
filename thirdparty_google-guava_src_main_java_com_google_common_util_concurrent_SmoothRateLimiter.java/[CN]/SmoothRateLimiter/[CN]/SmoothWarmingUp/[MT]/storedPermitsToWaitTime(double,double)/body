@@ -1,0 +1,11 @@
+{
+  double availablePermitsAboveThreshold=storedPermits - thresholdPermits;
+  long micros=0;
+  if (availablePermitsAboveThreshold > 0.0) {
+    double permitsAboveThresholdToTake=min(availablePermitsAboveThreshold,permitsToTake);
+    micros=(long)(permitsAboveThresholdToTake * (permitsToTime(availablePermitsAboveThreshold) + permitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake)) / 2.0);
+    permitsToTake-=permitsAboveThresholdToTake;
+  }
+  micros+=(stableIntervalMicros * permitsToTake);
+  return micros;
+}

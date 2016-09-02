@@ -1,0 +1,11 @@
+{
+  if (!file.exists()) {
+    return;
+  }
+  if (file.isDirectory()) {
+    scanDirectory(classloader,file);
+  }
+ else {
+    scanJar(file,classloader);
+  }
+}

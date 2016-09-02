@@ -1,0 +1,9 @@
+{
+  if (object == this) {
+    return true;
+  }
+  if (object instanceof ImmutableEnumSet) {
+    object=((ImmutableEnumSet<?>)object).delegate;
+  }
+  return delegate.equals(object);
+}

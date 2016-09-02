@@ -1,0 +1,6 @@
+{
+  stream.defaultReadObject();
+  int distinctElements=Serialization.readCount(stream);
+  setBackingMap(Maps.<E,Count>newHashMap());
+  Serialization.populateMultiset(this,stream,distinctElements);
+}

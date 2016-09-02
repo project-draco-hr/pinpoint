@@ -1,0 +1,9 @@
+{
+  ServiceManagerState state=this.state.get();
+  if (state != null) {
+    if (!(service instanceof NoOpService)) {
+      logger.log(Level.SEVERE,"Service " + service + " has failed in the "+ from+ " state.",failure);
+    }
+    state.transitionService(service,from,FAILED);
+  }
+}
