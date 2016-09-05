@@ -1,0 +1,15 @@
+{
+  if (isDebug) {
+    logger.beforeInterceptor(target,args);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  SpanEventRecorder recorder=trace.traceBlockBegin();
+  recorder.recordServiceType(HystrixPluginConstants.HYSTRIX_SERVICE_TYPE);
+  recorder.recordApi(descriptor);
+  AsyncTraceId asyncTraceId=trace.getAsyncTraceId();
+  recorder.recordNextAsyncId(asyncTraceId.getAsyncId());
+  ((AsyncTraceIdAccessor)target)._$PINPOINT$_setAsyncTraceId(asyncTraceId);
+}

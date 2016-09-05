@@ -1,0 +1,25 @@
+{
+  Object cmd=null;
+  try {
+    Field field=target.getClass().getDeclaredField("this$0");
+    if (field != null) {
+      field.setAccessible(true);
+      cmd=field.get(target);
+      if (isDebug) {
+        logger.debug("got outclass name is {}",cmd.getClass().getName());
+      }
+      return cmd;
+    }
+  }
+ catch (  NoSuchFieldException e) {
+    if (isDebug) {
+      logger.debug("got NoSuchFieldException exception for outer class this$0 does not exist");
+    }
+  }
+catch (  IllegalAccessException e) {
+    if (isDebug) {
+      logger.debug("got IllegalAccessException exception when access outer class this$0");
+    }
+  }
+  return cmd;
+}

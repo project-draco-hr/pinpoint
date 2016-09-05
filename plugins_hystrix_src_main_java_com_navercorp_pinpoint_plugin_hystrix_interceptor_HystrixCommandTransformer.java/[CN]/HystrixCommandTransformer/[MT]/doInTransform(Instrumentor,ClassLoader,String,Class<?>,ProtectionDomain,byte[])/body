@@ -1,0 +1,13 @@
+{
+  InstrumentClass target=instrumentor.getInstrumentClass(classLoader,className,classfileBuffer);
+  target.addField("com.navercorp.pinpoint.bootstrap.async.AsyncTraceIdAccessor");
+  InstrumentMethod queue=target.getDeclaredMethod("queue");
+  if (queue != null) {
+    queue.addInterceptor("com.navercorp.pinpoint.plugin.hystrix.interceptor.HystrixCommandQueueInterceptor");
+  }
+  InstrumentMethod executeCommand=target.getDeclaredMethod("executeCommand");
+  if (executeCommand != null) {
+    executeCommand.addInterceptor("com.navercorp.pinpoint.plugin.hystrix.interceptor.HystrixCommandExecuteCommandInterceptor");
+  }
+  return target.toBytecode();
+}

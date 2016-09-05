@@ -1,0 +1,18 @@
+{
+  if (isDebug) {
+    logger.afterInterceptor(target,args,result,throwable);
+  }
+  Trace trace=traceContext.currentTraceObject();
+  if (trace == null) {
+    return;
+  }
+  try {
+    if (throwable != null) {
+      SpanEventRecorder recorder=trace.currentSpanEventRecorder();
+      recorder.recordException(throwable);
+    }
+  }
+  finally {
+    trace.traceBlockEnd();
+  }
+}

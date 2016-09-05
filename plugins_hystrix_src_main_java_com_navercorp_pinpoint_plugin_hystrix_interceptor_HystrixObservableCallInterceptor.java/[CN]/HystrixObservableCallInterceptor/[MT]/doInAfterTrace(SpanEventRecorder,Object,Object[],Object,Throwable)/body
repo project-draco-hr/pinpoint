@@ -1,0 +1,10 @@
+{
+  if (isDebug) {
+    logger.debug("doInAfterTrace()");
+  }
+  recorder.recordServiceType(HystrixPluginConstants.HYSTRIX_SERVICE_TYPE);
+  recorder.recordApi(methodDescriptor);
+  recorder.recordException(throwable);
+  target=getRealTarget(target);
+  if (target != null)   recorder.recordAttribute(HystrixPluginConstants.HYSTRIX_SUBCLASS_ANNOTATION_KEY,target.getClass().getSimpleName());
+}

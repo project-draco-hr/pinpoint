@@ -1,0 +1,13 @@
+{
+  String name="Pinpoint";
+  SayHelloCommand cmd=new SayHelloCommand(name);
+  Future<String> future=cmd.queue();
+  String result=future.get(100,TimeUnit.MILLISECONDS);
+  Assert.assertEquals("Hello Pinpoint!",result);
+  PluginTestVerifier verifier=PluginTestVerifierHolder.getInstance();
+  verifier.printCache();
+  Method queue=HystrixCommand.class.getMethod("queue");
+  Method executeCmd=HystrixCommand.class.getDeclaredMethod("executeCommand");
+  verifier.verifyTrace(Expectations.async(Expectations.event("HYSTRIX_COMMAND",queue),Expectations.event("ASYNC","Asynchronous Invocation"),Expectations.event("HYSTRIX_COMMAND",executeCmd,expectedAnnotation)));
+  verifier.verifyTraceCount(0);
+}
