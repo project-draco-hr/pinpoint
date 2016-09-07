@@ -1,0 +1,15 @@
+{
+  final T sample=createSample();
+  final List<T> samples=Arrays.asList(sample);
+  final T expectedMin=sample;
+  final T expectedMax=sample;
+  final double expectedMean=sample.doubleValue();
+  T min=sampler.sampleMin(samples);
+  T max=sampler.sampleMax(samples);
+  double avg=sampler.sampleAvg(samples);
+  double roundedAvg=sampler.sampleAvg(samples,NUM_DECIMALS_FOR_ROUNDED_AVG);
+  assertEquals(expectedMin,min);
+  assertEquals(expectedMax,max);
+  Assert.assertEquals(expectedMean,avg,DOUBLE_COMPARISON_DELTA);
+  Assert.assertEquals(expectedMean,roundedAvg,NUM_DECIMALS_FOR_ROUNDED_AVG);
+}

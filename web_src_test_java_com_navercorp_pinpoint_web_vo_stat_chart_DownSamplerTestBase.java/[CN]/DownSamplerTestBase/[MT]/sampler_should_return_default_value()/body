@@ -1,0 +1,11 @@
+{
+  final List<T> samples=Collections.emptyList();
+  T min=sampler.sampleMin(samples);
+  T max=sampler.sampleMax(samples);
+  double avg=sampler.sampleAvg(samples);
+  double roundedAvg=sampler.sampleAvg(samples,NUM_DECIMALS_FOR_ROUNDED_AVG);
+  Assert.assertEquals(DEFAULT_VALUE,min.intValue());
+  Assert.assertEquals(DEFAULT_VALUE,max.intValue());
+  Assert.assertEquals(DEFAULT_VALUE,avg,DOUBLE_COMPARISON_DELTA);
+  Assert.assertEquals(DEFAULT_VALUE,roundedAvg,NUM_DECIMALS_FOR_ROUNDED_AVG);
+}
