@@ -2,11 +2,11 @@
   if (CollectionUtils.isEmpty(values)) {
     return this.defaultValue;
   }
-  double avg=0;
-  int cnt=1;
-  for (  double value : values) {
-    avg+=(value - avg) / cnt;
-    ++cnt;
+  double avg=getAvg(values);
+  if (this.numDecimals == null) {
+    return avg;
   }
-  return roundToScale(avg);
+ else {
+    return roundToScale(avg,this.numDecimals);
+  }
 }

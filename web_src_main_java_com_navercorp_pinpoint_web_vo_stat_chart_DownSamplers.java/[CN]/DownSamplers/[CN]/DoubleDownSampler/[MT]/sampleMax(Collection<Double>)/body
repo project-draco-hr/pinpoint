@@ -2,5 +2,11 @@
   if (CollectionUtils.isEmpty(values)) {
     return this.defaultValue;
   }
-  return roundToScale(Collections.max(values));
+  double max=Collections.max(values);
+  if (this.numDecimals == null) {
+    return max;
+  }
+ else {
+    return roundToScale(max,this.numDecimals);
+  }
 }

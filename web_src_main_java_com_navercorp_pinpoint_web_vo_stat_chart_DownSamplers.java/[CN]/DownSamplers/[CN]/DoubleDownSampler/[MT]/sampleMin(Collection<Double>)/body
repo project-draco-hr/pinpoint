@@ -2,5 +2,11 @@
   if (CollectionUtils.isEmpty(values)) {
     return this.defaultValue;
   }
-  return roundToScale(Collections.min(values));
+  double min=Collections.min(values);
+  if (this.numDecimals == null) {
+    return min;
+  }
+ else {
+    return roundToScale(min,this.numDecimals);
+  }
 }
