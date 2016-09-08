@@ -1,0 +1,23 @@
+{
+  if (receiverName != null) {
+    this.logger=LoggerFactory.getLogger(receiverName);
+  }
+ else {
+    this.logger=LoggerFactory.getLogger(this.getClass());
+  }
+  if (packetHandlerFactory == null) {
+    throw new NullPointerException("packetHandlerFactory must not be null");
+  }
+  if (bindAddress == null) {
+    throw new NullPointerException("bindAddress must not be null");
+  }
+  if (workerOption == null) {
+    throw new NullPointerException("workerOption must not be null");
+  }
+  this.receiverName=receiverName;
+  this.bindAddress=bindAddress;
+  this.port=port;
+  this.socket=createSocket(receiverBufferSize);
+  this.packetHandlerFactory=packetHandlerFactory;
+  this.workerOption=workerOption;
+}

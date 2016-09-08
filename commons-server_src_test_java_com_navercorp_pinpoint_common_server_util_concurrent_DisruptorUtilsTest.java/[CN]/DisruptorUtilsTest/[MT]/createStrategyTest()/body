@@ -1,0 +1,16 @@
+{
+  WaitStrategy strategy=DisruptorUtils.createStrategy(null);
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.DEFAULT.create(-1L).getClass());
+  strategy=DisruptorUtils.createStrategy("sleep");
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.SLEEP.create(-1L).getClass());
+  strategy=DisruptorUtils.createStrategy("Block");
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.BLOCK.create(-1L).getClass());
+  strategy=DisruptorUtils.createStrategy("lite_Block");
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.LITE_BLOCK.create(-1L).getClass());
+  strategy=DisruptorUtils.createStrategy("TIMEOUT_Block",100L);
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.TIMEOUT_BLOCK.create(100L).getClass());
+  strategy=DisruptorUtils.createStrategy("YIELD",-1L);
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.YIELD.create(1L).getClass());
+  strategy=DisruptorUtils.createStrategy("BUSY_SPIN",-1L);
+  Assert.assertEquals(strategy.getClass(),DisruptorStrategyType.BUSY_SPIN.create(1L).getClass());
+}

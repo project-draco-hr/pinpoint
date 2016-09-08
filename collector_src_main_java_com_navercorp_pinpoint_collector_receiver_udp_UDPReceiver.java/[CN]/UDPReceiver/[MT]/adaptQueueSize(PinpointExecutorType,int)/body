@@ -1,8 +1,0 @@
-{
-  if (workerType == PinpointExecutorType.DISRUPTOR_EXECUTOR) {
-    int adaptedQueueSize=DisruptorExecutors.nextPowerOfTwo(workerThreadQueueSize);
-    logger.info("queueSize changed {} -> {}(DisruptorExecutor only support power of 2).",workerThreadQueueSize,adaptedQueueSize);
-    return adaptedQueueSize;
-  }
-  return workerThreadQueueSize;
-}

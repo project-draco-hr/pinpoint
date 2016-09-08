@@ -1,6 +1,6 @@
 {
   int bufferSize=10;
-  int newBufferSize=DisruptorExecutors.nextPowerOfTwo(bufferSize);
+  int newBufferSize=DisruptorUtils.nextPowerOfTwo(bufferSize);
   ExecutorService executor=DisruptorExecutors.newSingleProducerExecutor(1,newBufferSize,threadFactory,new TimeoutBlockingWaitStrategy(10000,TimeUnit.MILLISECONDS));
   CountDownLatch latch=new CountDownLatch(1);
   execute(newBufferSize,executor,latch);

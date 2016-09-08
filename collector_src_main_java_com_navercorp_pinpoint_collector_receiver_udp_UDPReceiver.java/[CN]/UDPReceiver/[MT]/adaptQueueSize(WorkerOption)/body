@@ -1,0 +1,9 @@
+{
+  int workerThreadQueueSize=workerOption.getWorkerThreadQueueSize();
+  if (workerOption.isEnableDisruptorWorker()) {
+    int adaptedQueueSize=DisruptorUtils.nextPowerOfTwo(workerThreadQueueSize);
+    logger.info("queueSize changed {} -> {}(DisruptorExecutor only support power of 2).",workerThreadQueueSize,adaptedQueueSize);
+    return adaptedQueueSize;
+  }
+  return workerThreadQueueSize;
+}

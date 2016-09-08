@@ -1,0 +1,12 @@
+{
+  int workerThreadSize=workerOption.getWorkerThreadSize();
+  int workerThreadQueueSize=adaptQueueSize(workerOption);
+  if (workerOption.isEnableDisruptorWorker()) {
+    PinpointThreadFactory threadFactory=new PinpointThreadFactory(receiverName,true);
+    WaitStrategy waitStrategy=DisruptorUtils.createStrategy(workerOption.getDisruptorStrategyType(),workerOption.getDisruptorStrategyTimeout());
+    return DisruptorExecutors.newMultiProducerExecutor(workerThreadSize,workerThreadQueueSize,threadFactory,waitStrategy);
+  }
+ else {
+    return ExecutorFactory.newFixedThreadPool(workerThreadSize,workerThreadQueueSize,receiverName,true);
+  }
+}

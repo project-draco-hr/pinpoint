@@ -1,0 +1,13 @@
+{
+  int workerThreadSize=1;
+  int workerThreadQueueSize=10;
+  boolean collectMetric=true;
+  WorkerOption workerOption=new WorkerOption(workerThreadSize,workerThreadQueueSize,collectMetric);
+  workerOption.getDisruptorStrategyType();
+  Assert.assertEquals(workerThreadSize,workerOption.getWorkerThreadSize());
+  Assert.assertEquals(workerThreadQueueSize,workerOption.getWorkerThreadQueueSize());
+  Assert.assertEquals(DEFAULT_DISRUPTOR_ENABLE,workerOption.isEnableDisruptorWorker());
+  Assert.assertEquals(DEFAULT_DISRUPTOR_STRETEGY_TYPE,workerOption.getDisruptorStrategyType());
+  Assert.assertEquals(DEFAULT_DISRUPTOR_STRETEGY_TIMEOUT,workerOption.getDisruptorStrategyTimeout());
+  Assert.assertEquals(collectMetric,workerOption.isEnableCollectMetric());
+}

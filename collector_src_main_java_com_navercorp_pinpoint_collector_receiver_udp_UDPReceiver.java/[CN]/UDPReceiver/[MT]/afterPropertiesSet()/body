@@ -1,11 +1,11 @@
 {
   Assert.notNull(metricRegistry,"metricRegistry must not be null");
   Assert.notNull(packetHandlerFactory,"packetHandlerFactory must not be null");
-  this.worker=createWorker(workerType,workerThreadSize,workerThreadQueueSize,receiverName + "-Worker");
-  if (enableCollectorMetric) {
+  this.worker=createWorker(workerOption,receiverName + "-Worker");
+  if (workerOption.isEnableCollectMetric()) {
     this.worker=new MonitoredExecutorService(worker,metricRegistry,receiverName + "-Worker");
   }
-  final int packetPoolSize=getPacketPoolSize(workerThreadSize,workerThreadQueueSize);
+  final int packetPoolSize=getPacketPoolSize(workerOption);
   this.datagramPacketPool=new DefaultObjectPool<>(new DatagramPacketFactory(),packetPoolSize);
   this.io=(ThreadPoolExecutor)Executors.newCachedThreadPool(new PinpointThreadFactory(receiverName + "-Io",true));
 }
