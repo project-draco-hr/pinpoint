@@ -2,8 +2,8 @@
   if (this == o)   return true;
   if (o == null || getClass() != o.getClass())   return false;
   Point<?,?> point=(Point<?,?>)o;
-  if (Double.compare(point.avgYVal,avgYVal) != 0)   return false;
   if (xVal != null ? !xVal.equals(point.xVal) : point.xVal != null)   return false;
   if (minYVal != null ? !minYVal.equals(point.minYVal) : point.minYVal != null)   return false;
-  return maxYVal != null ? maxYVal.equals(point.maxYVal) : point.maxYVal == null;
+  if (maxYVal != null ? !maxYVal.equals(point.maxYVal) : point.maxYVal != null)   return false;
+  return avgYVal != null ? avgYVal.equals(point.avgYVal) : point.avgYVal == null;
 }
