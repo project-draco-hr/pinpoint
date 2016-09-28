@@ -14,7 +14,8 @@
   InterceptorScopeInvocation currentTransaction=this.scope.getCurrentInvocation();
   currentTransaction.setAttachment(clientCallContext);
   Object iprot=args[1];
-  if (validateInputProtocol(iprot)) {
-    ((ServerMarkerFlagFieldAccessor)iprot)._$PINPOINT$_setServerMarkerFlag(true);
+  Object rootInputProtocol=getRootInputProtocol(iprot);
+  if (validateInputProtocol(rootInputProtocol)) {
+    ((ServerMarkerFlagFieldAccessor)rootInputProtocol)._$PINPOINT$_setServerMarkerFlag(true);
   }
 }
